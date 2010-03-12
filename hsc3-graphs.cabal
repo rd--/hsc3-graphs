@@ -220,6 +220,10 @@ Executable         hsc3-noise-burst-sweep
  main-is:          src/noise-burst-sweep.lhs
  build-depends:    base, hsc3==0.8
 
+Executable         hsc3-non-real-time
+ main-is:          src/non-real-time.hs
+ build-depends:    base, hosc==0.8, hsc3==0.8, process
+
 Executable         hsc3-one-line
  main-is:          src/one-line.lhs
  build-depends:    base, hsc3==0.8
