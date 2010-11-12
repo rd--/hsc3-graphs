@@ -18,7 +18,7 @@ aleatoric quartet (jmcc)
 >                           ; n0 <- lfNoise0 kr r0
 >                           ; let { m = n0 * 7 + base_mn + r1
 >                                 ; m' = lag (roundE m 1) 0.2 }
->                             in return (midiCPS m) } }
+>                             in return (midiCPS m') } }
 >       ; mk_s = do { f <- fmap recip mk_f
 >                   ; r <- rand (-1) 1
 >                   ; x <- do { n0 <- pinkNoise ar
