@@ -10,7 +10,7 @@ Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
 Homepage:          http://slavepianos.org/rd/?t=hsc3-graphs
-Tested-With:       GHC == 6.10.3
+Tested-With:       GHC == 6.12.1
 Build-Type:        Simple
 Cabal-Version:     >= 1.6
 
@@ -143,6 +143,10 @@ Executable         hsc3-fwalk
 Executable         hsc3-half-life
  main-is:          src/half-life.lhs
  build-depends:    base==4.*, hsc3==0.9
+
+Executable         hsc3-hansm
+ main-is:          src/hansm.hs
+ build-depends:    base==4.*, hosc==0.9, hsc3==0.9
 
 Executable         hsc3-harmonic-swimming
  main-is:          src/harmonic-swimming.lhs
