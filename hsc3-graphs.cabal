@@ -68,6 +68,10 @@ Executable         hsc3-crotale
  main-is:          src/crotale.lhs
  build-depends:    base==4.*, hsc3==0.9
 
+Executable         hsc3-crotale-sine
+ main-is:          src/crotale-sine.lhs
+ build-depends:    base==4.*, hsc3==0.9
+
 Executable         hsc3-cut-outs
  main-is:          src/cut-outs.lhs
  build-depends:    base==4.*, hsc3==0.9
