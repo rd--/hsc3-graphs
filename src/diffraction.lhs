@@ -2,10 +2,13 @@ diffraction (rd)
 
 > import Control.Monad
 > import Sound.SC3.Monadic
+> import qualified Sound.SC3.ID as I
 
 > main =
->   let { p = let { x = mouseX kr 0.001 0.02 Exponential 0.1
->                 ; y = mouseY kr 120 400 Exponential 0.1 }
+>   let { p = let { x = linLin (I.lfNoise0 'a' KR 1) (-1) 1 0.001 0.02 
+>              {- ; x = mouseX kr 0.001 0.02 Exponential 0.1 -}
+>                 ; y = linLin (I.lfNoise0 'b' KR 1) (-1) 1 120 400
+>              {- ; y = mouseY kr 120 400 Exponential 0.1 -} }
 >             in do { f <- fmap (* mce2 32 64) (lfNoise0 kr 4)
 >                   ; w <- fmap (* x) (lfNoise0 kr 32)
 >                   ; z <- fmap (* 0.1) (lfNoise0 kr 2)
@@ -15,8 +18,10 @@ diffraction (rd)
 >       ; q = do { n <- lfNoise0 kr 128
 >                ; s <- p
 >                ; return (combN s 0.2 (n * 0.1 + 0.1) 3) }
->       ; r = let { x = mouseX kr 0.75 1.25 Exponential 0.1
->                 ; y = mouseY kr 0.25 1 Exponential 0.1
+>       ; r = let { x = linLin (I.lfNoise0 'c' KR 1) (-1) 1 0.75 1.25
+>              {- ; x = mouseX kr 0.75 1.25 Exponential 0.1 -}
+>                 ; y = linLin (I.lfNoise0 'c' KR 1) (-1) 1 0.25 1
+>              {- ; y = mouseY kr 0.25 1 Exponential 0.1 -}
 >                 ; f _ = do { fr <- fmap (* x) (rand 50 59)
 >                            ; am <- fmap (* y) (rand 0.04 0.16)
 >                            ; return (sinOsc ar fr 0 * am) } }

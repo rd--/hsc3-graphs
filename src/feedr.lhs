@@ -2,6 +2,7 @@ feedr (rd)
 warning: input/output feedback loop
 
 > import Sound.SC3.Monadic
+> import qualified Sound.SC3.ID as I
 
 > main =
 >   let { delayWr b i = recordBuf b 0 1 0 1 Loop 0 DoNothing i
@@ -11,7 +12,8 @@ warning: input/output feedback loop
 >                      ; g <- sequence (replicate n (rand 0.4 1.0))
 >                      ; f <- sequence (replicate n (rand 0.9 0.95))
 >                      ; let { d = zipWith (\p q -> tap 2 10 p * q) t g
->                            ; x = mouseX kr 0.02 1.0 Exponential 0.1
+>                         {- ; x = mouseX kr 0.02 1.0 Exponential 0.1 -}
+>                            ; x = linLin (I.lfNoise0 'a' KR 1) (-1) 1 0.02 1
 >                            ; s = clip2 (leakDC (hpf (sum d) 20) 0.995) 1
 >                            ; i = soundIn (mce2 0 1)
 >                            ; r = i + sum (map (* x) (zipWith (*) d f)) }

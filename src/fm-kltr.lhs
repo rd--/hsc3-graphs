@@ -12,7 +12,7 @@ fm-kltr (rd)
 >                ; r3 <- rand 0.975 1.025
 >                ; r4 <- rand 0.75 1.25
 >                ; let { o = control ir "out" 0
->                      ; t = control kr "trig" 0 {- unused -}
+>                   {- ; t = control kr "trig" 0 {- unused -} -}
 >                      ; a = control kr "amp" 0.1
 >                      ; d = control kr "dur" 0.1
 >                      ; f = control kr "freq" 400.0
@@ -45,5 +45,5 @@ fm-kltr (rd)
 >              ; fm fd 53 ff a d i
 >              ; pauseThread t } }
 >   in withSC3 (\fd -> do { u <- gr
->                         ; async fd (d_recv (synthdef "fm" u))
+>                         ; _ <- async fd (d_recv (synthdef "fm" u))
 >                         ; sequence (replicate 32 (nd fd)) })

@@ -1,11 +1,14 @@
 cut-outs (rd)
 
 > import Sound.SC3.Monadic
+> import qualified Sound.SC3.ID as I
 
 > main =
 >   let { t = impulse ar 22 0 * (sinOsc kr 0.5 0 + 1)
->       ; x = mouseX kr 0.005 0.12 Exponential 0.1
->       ; y = mouseY kr 0.01 0.52 Exponential 0.1 
+>       ; x = linLin (I.lfNoise0 'a' KR 1) (-1) 1 0.005 0.012
+>    {- ; x = mouseX kr 0.005 0.12 Exponential 0.1 -}
+>       ; y = linLin (I.lfNoise0 'b' KR 1) (-1) 1 0.01 0.52
+>    {- ; y = mouseY kr 0.01 0.52 Exponential 0.1 -}
 >       ; n = do { n1 <- lfNoise0 kr 2
 >                ; n2 <- coinGate (0.05 + n1 + y * 0.4 + t * 0.5) (t * 0.5)
 >                ; n3 <- tExpRand (mce2 500 900) 1600 t

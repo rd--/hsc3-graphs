@@ -2,11 +2,14 @@ k-ppr (rd)
 
 > import Control.Monad
 > import Sound.SC3.Monadic
+> import qualified Sound.SC3.ID as I
 
 > main =
 >   let { wrp i l r = linLin i (-1) 1 l r
->       ; x = mouseX kr 0.05 0.35 Linear 0.1
->       ; y = mouseY kr 0.15 0.75 Linear 0.1
+>       ; x = linLin (I.lfNoise0 'a' KR 1) (-1) 1 0.05 0.35
+>    {- ; x = mouseX kr 0.05 0.35 Linear 0.1 -}
+>       ; y = linLin (I.lfNoise0 'b' KR 1) (-1) 1 0.15 0.75
+>    {- ; y = mouseY kr 0.15 0.75 Linear 0.1 -}
 >       ; ti = lfTri kr x 0
 >       ; tf = wrp ti 100 200
 >       ; t = impulse ar tf 0

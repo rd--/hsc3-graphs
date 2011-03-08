@@ -2,6 +2,7 @@ dial history (jrhb)
 
 > import Data.List
 > import Sound.SC3.Monadic
+> import qualified Sound.SC3.ID as I
 
 > main =
 >   let { mfv = [[697, 770, 852, 941], [1209, 1336, 1477, 1633]]
@@ -18,7 +19,8 @@ dial history (jrhb)
 >         ; d <- lfdNoise3 kr 0.5
 >         ; let { tr = trig (tDuty kr rate 0 DoNothing q 1) 0.09
 >               ; pat = latch tr tr
->               ; x = mouseX kr 0 1 Linear 0.2
+>               ; x = linLin (I.lfNoise0 'a' KR 1) (-1) 1 0 1
+>            {- ; x = mouseX kr 0 1 Linear 0.2 -}
 >               ; h = hasher (pat * x)
 >               ; which = trunc (range h 0 (constant (length numbers))) 1
 >               ; both = select which (mce_r numbers)

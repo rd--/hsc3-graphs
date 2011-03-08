@@ -50,5 +50,5 @@ e-lamell (rd)
 >                                   ; return (mk_s_new f n d a l) }
 >                         ; send fd (Bundle now [p, q]) 
 >                         ; pauseThread 0.1 } }
->   in withSC3 (\fd -> do { sendSynth fd "blip" =<< e_lamell
+>   in withSC3 (\fd -> do { _ <- sendSynth fd "blip" =<< e_lamell
 >                         ; replicateM_ 64 (pattern fd) })
