@@ -2,7 +2,7 @@ demanding studies (jmcc)
 
 > import Sound.SC3.ID
 
-> main =
+> demanding_studies =
 >   let { s1 = drand 'a' dinf (mce [72, 75, 79, 82])
 >       ; s2 = drand 'b' 1 (mce [82, 84, 86])
 >       ; s3 = dseq 'c' dinf (mce [72, 75, 79, s2])
@@ -13,7 +13,9 @@ demanding studies (jmcc)
 >       ; o1 = sinOsc ar (f + mce2 0 0.7) 0
 >       ; o2 = saw ar (f + mce2 0 0.7) * 0.3
 >       ; o3 = cubed (distort (log (distort (o1 + o2)))) }
->   in audition (out 0 (o3 * 0.1))
+>   in o3 * 0.1
+
+> main = audition (out 0 demanding_studies)
 
 { var s1 = Drand.new([72, 75, 79, 82], inf)
 ; var s2 = Drand.new([82, 84, 86], 1)

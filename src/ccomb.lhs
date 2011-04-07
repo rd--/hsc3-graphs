@@ -2,7 +2,7 @@ ccomb (rd)
 
 > import Sound.SC3.Monadic
 
-> main =
+> ccomb =
 >   let { rng l r i = linLin i (-1) 1 l r
 >       ; lwr = 48
 >       ; flwr = midiCPS lwr
@@ -10,10 +10,13 @@ ccomb (rd)
 >                      ; e <- fmap (decay2 t 0.01) (tRand 0.05 0.75 t)
 >                      ; x <- fmap (* e) (whiteNoise ar)
 >                      ; m <- lfNoise2 kr 0.1
->                      ; let f = lag (midiCPS n) 0.25
->                        in return (combC x (recip flwr) (recip f) (rng 1 8 m)) } }
+>                      ; let { f = lag (midiCPS n) 0.25
+>                            ; m' = rng 1 8 m }
+>                        in return (combC x (recip flwr) (recip f) m') } }
 >   in do { t <- dust kr (mce2 0.75 0.35)
->         ; audition . (out 0) . (* 0.1) . sum =<< sequence (replicate 12 (spart t)) }
+>         ; return . (* 0.1) . sum =<< sequence (replicate 12 (spart t)) }
+
+> main = audition . out 0 =<< ccomb
 
 { var lwr = 48
 ; var flwr = lwr.midicps

@@ -2,11 +2,13 @@ sprinkler-m (jmcc)
 
 > import Sound.SC3.Monadic
 
-> main =
+> sprinkler_m =
 >   do { n <- whiteNoise ar
 >      ; let { f = lfPulse kr 0.09 0 0.16 * 10 + 7
 >            ; t = lfPulse kr f 0 0.25 * 0.1 }
->        in audition (out 0 (bpz2 (n * t))) }
+>        in return (bpz2 (n * t)) }
+
+> main = audition . out 0 =<< sprinkler_m
 
 { var f = LFPulse.kr(0.09, 0, 0.16, 10, 7)
 ; var t = LFPulse.kr(f, 0, 0.25, 0.1)

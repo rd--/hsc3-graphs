@@ -2,7 +2,7 @@ birds (jmcc)
 
 > import Sound.SC3.Monadic
 
-> main =
+> birds =
 >   let { node = do { r1 <- rand 94.0 102.0
 >                   ; r2 <- rand (-1.5) 1.5
 >                   ; r3 <- rand 0.0 1.0
@@ -23,6 +23,8 @@ birds (jmcc)
 >       ; chainM n f = composeM (replicate n f) }
 >   in do { d <- return . sum =<< sequence (replicate 6 node)
 >         ; w <- chainM 12 apf d
->         ; audition (out 0 (d * 0.7 + w * 0.3)) }
+>         ; return (d * 0.7 + w * 0.3) }
+
+> main = audition . out 0 =<< birds
 
 http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html

@@ -2,7 +2,7 @@ eggcrate (rd)
 
 > import Sound.SC3.Monadic
 
-> main =
+> eggcrate_u =
 >   let { cosu = cos . (* pi) 
 >       ; sinu = sin . (* pi)
 >       ; eggcrate u v = cosu u * sinu v
@@ -12,7 +12,9 @@ eggcrate (rd)
 >         ; [f0, f1] <- sequence (replicate 2 (tChoose t p))
 >         ; let { f = linLin (eggcrate x y) (-1) 1 f0 f1
 >               ; a = linLin x (-1) 1 0 0.1 }
->           in audition (out 0 (pan2 (mix (sinOsc ar f 0)) y a)) }
+>           in return (pan2 (mix (sinOsc ar f 0)) y a) }
+
+> main = audition . out 0 =<< eggcrate_u
 
 { var eggcrate = { arg u, v
                  ; (u * pi).cos * (v * pi).sin }
