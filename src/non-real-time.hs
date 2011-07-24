@@ -29,10 +29,14 @@ perform s = do
 render :: [OSC] -> IO ()
 render s = do
   writeNRT "/tmp/nrt.score" s
-  system "scsynth -N /tmp/nrt.score _ /tmp/nrt.wav 44100 WAVE float"
+  _ <- system "scsynth -N /tmp/nrt.score _ /tmp/nrt.wav 44100 WAVE float"
   return ()
 
 main :: IO ()
 main = do
   render score
   perform score
+
+{-
+perform score
+-}
