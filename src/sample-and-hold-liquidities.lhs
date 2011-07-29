@@ -1,12 +1,14 @@
 sample and hold liquidities (jmcc)
 
 > import Sound.SC3.ID
+> import Mice
 
+> main :: IO ()
 > main =
->   let { r = mouseX kr 1 200 Exponential 0.1
+>   let { r = mouseX' kr 1 200 Exponential 0.1
 >       ; t = recip r
 >       ; c = impulse kr r 0.4
->       ; cf = mouseY kr 100 8000 Exponential 0.1
+>       ; cf = mouseY' kr 100 8000 Exponential 0.1
 >       ; f = latch (whiteNoise 'α' kr * cf * 0.5 + cf) c
 >       ; p = latch (whiteNoise 'β' kr) c
 >       ; i = pan2 (sinOsc ar f 0 * decay2 c (t * 0.1) (t * 0.9)) p 1 }

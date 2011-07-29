@@ -1,8 +1,8 @@
 tgb (rd)
 
 > import Sound.SC3.Monadic
-> import System.Random
 
+> main :: IO ()
 > main =
 >   let { mkls bp t = envGen kr 1 1 0 1 RemoveSynth (envCoord bp t 1 EnvLin)
 >       ; pm_t l r d t = let { le = mkls l d
@@ -29,5 +29,6 @@ tgb (rd)
 >                             ; let cs' = cs * (bufDur kr b)
 >                               in return (tGrains 2 t b rt cs' du pn am 2) } }
 >       ; fn = "/home/rohan/audio/text.snd" }
->   in withSC3 (\fd -> do { async fd (b_allocRead 10 fn 0 0)
->                         ; play fd . (out 0) =<< gb 10 12 })
+>   in withSC3 (\fd -> do { _ <- async fd (b_allocRead 10 fn 0 0)
+>                         ; _ <- play fd . (out 0) =<< gb 10 12
+>                         ; return () })

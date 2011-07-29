@@ -2,6 +2,7 @@ oscillator cluster (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { ln a b d = line kr a b d RemoveSynth
 >       ; rln r a b d = fmap (\n -> ln (a + n) b d) (rand 0 r)

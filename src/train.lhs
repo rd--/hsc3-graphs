@@ -2,10 +2,11 @@ train (th.list at gmail.com)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { time = 24
 >       ; steam n1 n2 = let { piston = lfSaw AR (xLine AR 1 7 time DoNothing) 0
->                           ; air = lpf (n1 * piston + n2 * piston) 5000 
+>                           ; air = lpf (n1 * piston + n2 * piston) 5000
 >                           ; e = envGen AR 1 1 0 1 DoNothing (envSine time 9) }
 >                       in bpf air 600 (1 + e)
 >       ; whistle n3 = let { f = [800, 600, 1200, 990]

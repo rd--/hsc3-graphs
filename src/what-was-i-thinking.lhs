@@ -2,6 +2,7 @@ what was i thinking? (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   do { n0 <- lfNoise1 kr 0.2
 >      ; n1 <- lfNoise1 kr 0.157

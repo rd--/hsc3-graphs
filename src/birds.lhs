@@ -2,6 +2,7 @@ birds (jmcc)
 
 > import Sound.SC3.Monadic
 
+> birds :: IO UGen
 > birds =
 >   let { node = do { r1 <- rand 94.0 102.0
 >                   ; r2 <- rand (-1.5) 1.5
@@ -25,6 +26,7 @@ birds (jmcc)
 >         ; w <- chainM 12 apf d
 >         ; return (d * 0.7 + w * 0.3) }
 
+> main :: IO ()
 > main = audition . out 0 =<< birds
 
 http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html

@@ -2,6 +2,7 @@ chrd (rd)
 
 > import Sound.SC3.Monadic
 
+> chrd :: IO UGen
 > chrd = do { r0 <- rand 0.05 0.5
 >           ; [r1, r2] <- sequence (replicate 2 (rand (-1) 1))
 >           ; r3 <- rand 0.15 0.35
@@ -16,8 +17,10 @@ chrd (rd)
 >                 ; o = fSinOsc ar f 0 }
 >             in return (mix (pan2 o p e)) }
 
+> chrd9 :: IO UGen
 > chrd9 = return . mix =<< clone 9 chrd
 
+> main :: IO ()
 > main = audition . out 0 =<< chrd9
 
 { var chrd = { var r0 = Rand.new(0.05, 0.5)

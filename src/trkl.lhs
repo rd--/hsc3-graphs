@@ -2,6 +2,7 @@ trkl (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let trkl d ul fu dy la fy =
 >           let { tf = xLine kr 1 ul d RemoveSynth
@@ -10,8 +11,8 @@ trkl (rd)
 >           in do { r0 <- rand (-1) 1
 >                 ; r1 <- rand (-1) 1
 >                 ; r2 <- tRand 0.05 1.0 t
->                 ; r3 <- tExpRand 0.0 0.25 st 
->                 ; fh <- tRand 1.75 2.25 t 
+>                 ; r3 <- tExpRand 0.0 0.25 st
+>                 ; fh <- tRand 1.75 2.25 t
 >                 ; let { a = dbAmp (line kr 12 la d RemoveSynth)
 >                       ; f = xLine kr fu 900 d RemoveSynth
 >                       ; p = line kr r0 r1 d RemoveSynth

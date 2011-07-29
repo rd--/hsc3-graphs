@@ -2,6 +2,7 @@ bottle (sc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   do { freq <- rand 220 880
 >      ; wn <- whiteNoise ar

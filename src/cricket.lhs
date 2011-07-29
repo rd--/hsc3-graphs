@@ -2,6 +2,7 @@ cricket (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   do { r1 <- clone 2 (rand 10 13)
 >      ; r2 <- clone 2 (rand 10 13)

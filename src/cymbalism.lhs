@@ -2,6 +2,7 @@ cymbalism (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let p = replicate 15
 >   in do { f1 <- rand 500 2500

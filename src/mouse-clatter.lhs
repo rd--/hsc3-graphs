@@ -1,10 +1,12 @@
 mouse clatter (rd)
 
 > import Sound.SC3.Monadic
+> import Mice
 
+> main :: IO ()
 > main =
->   let { x = mouseX kr 100 12000 Linear 0.1
->       ; y = mouseY kr 0.01 0.15 Linear 0.1 }
+>   let { x = mouseX' kr 100 12000 Linear 0.1
+>       ; y = mouseY' kr 0.01 0.15 Linear 0.1 }
 >   in do { n1 <- lfNoise0 kr (mce [3, 3.25])
 >         ; let { t = impulse kr (n1 * 16 + 18) 0
 >               ; s = do { n2 <- tRand 0.005 y t
@@ -16,8 +18,9 @@ mouse clatter (rd)
 >                               in return (bpf (n3 * e) n4 n5)
 >                        ; n7 <- pv_RandComb (fft' 10 o) n6 t
 >                        ; return (o * 0.05 + ifft' n7) } }
->           in withSC3 (\fd -> do { async fd (b_alloc 10 2048 1)
->                                 ; play fd . out 0 =<< s }) }
+>           in withSC3 (\fd -> do { _ <- async fd (b_alloc 10 2048 1)
+>                                 ; _ <- play fd . out 0 =<< s
+>                                 ; return () }) }
 
 s.sendMsg('b_alloc', 10, 2048, 1);
 

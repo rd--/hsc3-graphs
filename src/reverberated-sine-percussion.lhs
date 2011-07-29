@@ -2,6 +2,7 @@ reverberated sine percussion (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { d = 6
 >       ; c = 5

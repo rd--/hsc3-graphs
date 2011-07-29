@@ -2,6 +2,7 @@ wind metals (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let n = 6
 >   in do { base <- expRand 60 4000

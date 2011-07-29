@@ -1,11 +1,13 @@
 aleatoric quartet (jmcc)
 
 > import Sound.SC3.Monadic
+> import Mice
 
-> main = 
+> main :: IO ()
+> main =
 >   let { base_mn = control KR "note" 66
 >       ; amp = control KR "ampl" 0.07
->       ; density = mouseX kr 0.01 1 Linear 0.1
+>       ; density = mouseX' kr 0.01 1 Linear 0.1
 >       ; dmul = recip density * 0.5 * amp
 >       ; dadd = amp - dmul
 >       ; (>=>) f g = \x ->   f x >>= g

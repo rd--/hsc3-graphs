@@ -2,6 +2,7 @@ three-cpsw (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   do { t <- dust kr (mce2 12 18)
 >      ; f0 <- tRand 1 64 t

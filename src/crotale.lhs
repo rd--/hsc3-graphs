@@ -2,6 +2,7 @@ crotale (rd)
 
 > import Sound.SC3.ID
 
+> main :: IO ()
 > main =
 >     let { crotale = ( [ 35.45676040649414
 >                       , 128.59849548339844

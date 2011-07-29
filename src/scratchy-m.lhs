@@ -2,6 +2,7 @@ scratchy-m (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   do { n <- clone 2 (brownNoise ar)
 >      ; let f = max (n * 0.5 - 0.49) 0 * 20

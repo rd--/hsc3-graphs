@@ -2,8 +2,9 @@ f-lets (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
->   let { f_let t g j n f = 
+>   let { f_let t g j n f =
 >         let pd = pulseDivider t j 0
 >         in do { r0 <- tiRand (mce2 2 1) n pd
 >               ; r1 <- tRand 0.01 0.04 pd

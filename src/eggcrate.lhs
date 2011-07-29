@@ -1,20 +1,41 @@
 eggcrate (rd)
 
-> import Sound.SC3.Monadic
+> import Sound.SC3
+> import qualified Sound.SC3.Monadic as M
+> import qualified Sound.SC3.ID as I
 
-> eggcrate_u =
->   let { cosu = cos . (* pi) 
+> eggcrate_mu :: IO UGen
+> eggcrate_mu =
+>   let { cosu = cos . (* pi)
 >       ; sinu = sin . (* pi)
 >       ; eggcrate u v = cosu u * sinu v
 >       ; p = mce [64, 72, 96, 128, 256, 6400, 7200, 8400, 9600] }
->   in do { [x, y] <- sequence (replicate 2 (brownNoise kr))
->         ; t <- dust kr 2.4
->         ; [f0, f1] <- sequence (replicate 2 (tChoose t p))
+>   in do { [x, y] <- sequence (replicate 2 (M.brownNoise kr))
+>         ; t <- M.dust kr 2.4
+>         ; [f0, f1] <- sequence (replicate 2 (M.tChoose t p))
 >         ; let { f = linLin (eggcrate x y) (-1) 1 f0 f1
 >               ; a = linLin x (-1) 1 0 0.1 }
 >           in return (pan2 (mix (sinOsc ar f 0)) y a) }
 
-> main = audition . out 0 =<< eggcrate_u
+audition . out 0 =<< eggcrate_mu
+
+> eggcrate_iu :: UGen
+> eggcrate_iu =
+>   let { cosu = cos . (* pi)
+>       ; sinu = sin . (* pi)
+>       ; eggcrate u v = cosu u * sinu v
+>       ; p = mce [64, 72, 96, 128, 256, 6400, 7200, 8400, 9600]
+>       ; [x,y] = map (\z -> I.brownNoise z kr) "ab"
+>       ; t = I.dust 'c' kr 2.4
+>       ; [f0,f1] = map (\z -> I.tChoose z t p) "de"
+>       ; f = linLin (eggcrate x y) (-1) 1 f0 f1
+>       ; a = linLin x (-1) 1 0 0.1 }
+>  in pan2 (mix (sinOsc ar f 0)) y a
+
+audition (out 0 eggcrate_iu)
+
+> main :: IO ()
+> main = audition . out 0 =<< eggcrate_mu
 
 { var eggcrate = { arg u, v
                  ; (u * pi).cos * (v * pi).sin }

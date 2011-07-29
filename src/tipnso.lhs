@@ -1,11 +1,11 @@
 tipnso (rd)
 
 > import Sound.SC3.Monadic
-> import qualified Sound.SC3.ID as I
+> import Mice
 
+> main :: IO ()
 > main =
->   let { x = linLin (I.lfNoise0 'a' KR 3) (-1) 1 1 32
->    {- ; x = mouseX kr 1 32 Linear 0.1 -}
+>   let { x = mouseX' kr 1 32 Linear 0.1
 >       ; t = impulse ar x 0 }
 >   in do { n1 <- tiRand 16 72 t
 >         ; n2 <- tiRand 0 1 t

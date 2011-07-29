@@ -3,6 +3,7 @@ pulsing bottles (jmcc)
 > import Control.Monad
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { r = do { n <- whiteNoise ar
 >                ; r0 <- rand 4 14

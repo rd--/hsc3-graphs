@@ -4,6 +4,7 @@ bowed string (jmcc)
 > import Sound.SC3.Monadic
 > import System.Random
 
+> main :: IO ()
 > main =
 >     let { rrand l r = getStdRandom (randomR (l, r))
 >         ; choose l = fmap (l !!) (rrand 0 (length l - 1))

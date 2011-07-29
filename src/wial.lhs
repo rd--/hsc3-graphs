@@ -2,6 +2,7 @@ wial (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { pls c d f = let { t = pulseDivider c d 0
 >                         ; e = decay2 t 0.05 0.75

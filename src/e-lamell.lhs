@@ -5,11 +5,12 @@ e-lamell (rd)
 > import Sound.SC3.Monadic
 > import System.Random
 
+> main :: IO ()
 > main =
 >   let { now = NTPi 1
 >       ; rrand l r = getStdRandom (randomR (l, r))
 >       ; exp_rrand a b = do { n <- rrand 0 1
->                            ; let r = b / a 
+>                            ; let r = b / a
 >                              in return ((r ** n) * a) }
 >       ; choose l = return . (l !!) =<< rrand 0 (length l - 1)
 >       ; sendSynth fd n u = async fd (d_recv (synthdef n u))
@@ -48,7 +49,7 @@ e-lamell (rd)
 >                                   ; a <- choose [0, 0.25, 0.5, 1]
 >                                   ; l <- rrand (-1) 1
 >                                   ; return (mk_s_new f n d a l) }
->                         ; send fd (Bundle now [p, q]) 
+>                         ; send fd (Bundle now [p, q])
 >                         ; pauseThread 0.1 } }
 >   in withSC3 (\fd -> do { _ <- sendSynth fd "blip" =<< e_lamell
 >                         ; replicateM_ 64 (pattern fd) })

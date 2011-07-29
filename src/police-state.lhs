@@ -2,6 +2,7 @@ police state (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let node = do { r0 <- rand 0.02 0.12
 >                 ; r1 <- rand 0 (pi*2)

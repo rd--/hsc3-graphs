@@ -3,6 +3,7 @@ pattern buffer (rd)
 > import Sound.SC3.Monadic
 > import System.Random
 
+> main :: IO ()
 > main =
 >   let { nf = 2 * 48000
 >       ; c = 24
@@ -22,6 +23,7 @@ pattern buffer (rd)
 >               ; f = midiCPS (tseq r1)
 >               ; l = tseq r2
 >               ; o = [sinOsc ar f 0, saw ar f] !! r3 }
->           in withSC3 (\fd -> do { async fd (b_alloc 10 (nf * 2) 1)
->                                 ; sequence (replicate c (rs fd))
->                                 ; play fd (out 0 (pan2 o l e)) }) }
+>           in withSC3 (\fd -> do { _ <- async fd (b_alloc 10 (nf * 2) 1)
+>                                 ; sequence_ (replicate c (rs fd))
+>                                 ; _ <- play fd (out 0 (pan2 o l e))
+>                                 ; return () }) }

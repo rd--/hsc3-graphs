@@ -2,6 +2,7 @@ implosion (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { mkls bp t = let e = envCoord bp t 1 EnvLin
 >                     in envGen kr 1 1 0 1 RemoveSynth e

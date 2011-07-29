@@ -1,7 +1,9 @@
 snare-909 (jmcc)
 
 > import Sound.SC3.Monadic
+> import Mice
 
+> main :: IO ()
 > main =
 >   let { snr tr n v =
 >         let { e a b = envGen ar tr 1 0 1 DoNothing (envPerc a b)
@@ -16,8 +18,8 @@ snare-909 (jmcc)
 >             ; m1 = t1 * e1 * 0.25 + t2 * e2 * 0.25
 >             ; m2 = x1 * e3 * 0.20 + x2 * e4 * 0.20 }
 >         in m1 + m2
->       ; x = mouseX kr 1 4 Linear 0.2
->       ; y = mouseY kr 0.25 0.75 Exponential 0.2
+>       ; x = mouseX' kr 1 4 Linear 0.2
+>       ; y = mouseY' kr 0.25 0.75 Exponential 0.2
 >       ; t = impulse kr (3 * x) 0 }
 >   in do { n <- whiteNoise ar
 >         ; v <- tRand 0.25 1.0 t

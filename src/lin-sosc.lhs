@@ -3,13 +3,14 @@ lin-sosc (rd)
 > import Control.Concurrent
 > import Control.Monad
 > import Sound.OpenSoundControl
-> import Sound.SC3.ID
+> import Sound.SC3
 > import System.Random
+> import Mice
 
+> main :: IO ()
 > main =
 >   let { n' = 1024
->       ; x = linLin (lfNoise0 'a' KR 1) (-1) 1 0.001 1
->    {- ; x = mouseX KR 0.001 1.0 Linear 0.1 -}
+>       ; x = mouseX' KR 0.001 1.0 Linear 0.1
 >       ; tblM b = playBuf 1 b (x * bufRateScale KR b) 0 0 Loop DoNothing
 >       ; tblC b c = playBuf 1 b (in' 1 KR c * bufRateScale KR b) 0 0 Loop DoNothing
 >       ; o = sinOsc AR (tblM 0) 0 * tblM 1 
@@ -56,4 +57,5 @@ lin-sosc (rd)
 >   in do { _ <- withSC3 (\fd -> do { _ <- async fd (b_alloc 0 (floor n') 1)
 >                                   ; _ <- async fd (b_alloc 1 (floor n') 1)
 >                                   ; play fd (out 0 co) })
->         ; forkIO (withSC3 (\fd -> replicateM_ 128 (update fd))) }
+>         ; _ <- forkIO (withSC3 (\fd -> replicateM_ 128 (update fd)))
+>         ; return () }

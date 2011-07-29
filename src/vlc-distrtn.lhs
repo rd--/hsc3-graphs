@@ -5,6 +5,7 @@ caution - audio feedback graph
 > import Sound.SC3.Monadic
 > import System.Random
 
+> main :: IO ()
 > main =
 >   let { rrand l r = getStdRandom (randomR (l, r))
 >       ; choose l = return . (l !!) =<< rrand 0 (length l - 1)
@@ -126,8 +127,8 @@ caution - audio feedback graph
 >                                    ,("detune", d)
 >                                    ,("fall", fl)])
 >              ; pauseThread =<< choose [0.25, 0.5, 0.75, 1.5] } }
->   in withSC3 (\fd -> do { async fd (b_alloc 0 (length vlc * 2) 1)
+>   in withSC3 (\fd -> do { _ <- async fd (b_alloc 0 (length vlc * 2) 1)
 >                         ; send fd (b_setn1 0 0 (concatMap prep vlc))
->                         ; async fd . d_recv . synthdef "plyr48" =<< plyr 48
+>                         ; _ <- async fd . d_recv . synthdef "plyr48" =<< plyr 48
 >                         ; send fd (s_new "plyr48" 1002 AddToTail 1 [])
->                         ; sequence (replicate 32 (pattern fd)) })
+>                         ; sequence_ (replicate 32 (pattern fd)) })

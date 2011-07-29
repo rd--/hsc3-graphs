@@ -2,6 +2,7 @@ half-life (jrhb)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { t_half = 3.92
 >       ; n_atoms = 1e+5

@@ -2,8 +2,9 @@ red frik (f0)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
->   let red tr n = 
+>   let red tr n =
 >         do { r1 <- tRand 0.3 3 tr
 >            ; r2 <- tRand 0.3 5 tr
 >            ; r3 <- tRand 0 0.5 tr

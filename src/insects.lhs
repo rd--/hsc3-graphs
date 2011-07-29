@@ -2,6 +2,7 @@ insects (sam pluta)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let insect = do { r1 <- rand 2000 3000
 >                   ; r2 <- rand 0.05 0.1

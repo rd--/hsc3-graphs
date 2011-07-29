@@ -2,6 +2,7 @@ drummer (thor magnusson)
 
 > import Sound.SC3.ID
 
+> main :: IO ()
 > main =
 >   let { n = whiteNoise 'α' AR
 >       ; tempo = 4

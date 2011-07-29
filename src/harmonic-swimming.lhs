@@ -2,11 +2,12 @@ harmonic swimming (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { a = 0.02
 >       ; f = 50
 >       ; p = 20
->       ; l = line kr 0 (- a) 60 DoNothing 
+>       ; l = line kr 0 (- a) 60 DoNothing
 >       ; o h = do { r <- clone 2 (rand 2 8)
 >                  ; n <- lfNoise1 kr r
 >                  ; let e = max 0 (n * a + l)

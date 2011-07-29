@@ -4,6 +4,7 @@ default (jmcc)
 > import Sound.OpenSoundControl
 > import System.Random
 
+> main :: IO ()
 > main =
 >   let { def = do { r0 <- rand (-0.4) 0.0
 >                  ; r1 <- rand 0.0 0.4
@@ -31,6 +32,6 @@ default (jmcc)
 >                          ; send fd (n_set nid [("gate", 0)])
 >                          ; pauseThread 0.075 } }
 >   in withSC3 (\fd -> do { u <- def
->                         ; async fd (d_recv (synthdef "default" (out 0 u)))
+>                         ; _ <- async fd (d_recv (synthdef "default" (out 0 u)))
 >                         ; reset fd
 >                         ; mapM_ (tone fd) [1024..1036] })

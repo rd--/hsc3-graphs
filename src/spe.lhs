@@ -2,6 +2,7 @@ spe (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { (>=>) f g = \x -> f x >>= g
 >       ; chain n f = foldl (>=>) return (replicate n f)

@@ -4,6 +4,7 @@ fm-kltr (rd)
 > import Sound.SC3.Monadic
 > import System.Random
 
+> main :: IO ()
 > main =
 >   let { rrand l r = getStdRandom (randomR (l, r))
 >       ; gr =
@@ -46,4 +47,4 @@ fm-kltr (rd)
 >              ; pauseThread t } }
 >   in withSC3 (\fd -> do { u <- gr
 >                         ; _ <- async fd (d_recv (synthdef "fm" u))
->                         ; sequence (replicate 32 (nd fd)) })
+>                         ; sequence_ (replicate 32 (nd fd)) })

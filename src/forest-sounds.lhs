@@ -2,6 +2,7 @@ forest sounds (paul jones)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let insects = do { n1 <- brownNoise ar
 >                    ; n2 <- lfNoise2 kr 50

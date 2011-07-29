@@ -5,6 +5,7 @@ nharm (rd)
 > import Sound.SC3.Monadic
 > import System.Random
 
+> main :: IO ()
 > main =
 >   let { nharm n f = map ((* f) . fromIntegral) [1..n]
 >       ; rrand l r = getStdRandom (randomR (l, r))
@@ -22,5 +23,6 @@ nharm (rd)
 >       ; ply :: Int -> (Double, Double) -> UGen -> Int -> IO ()
 >       ; ply n (l,r) m u = replicateM_ n (do { threadPause =<< rrand l r
 >                                             ; audition . out 0 =<< klg m u }) }
->   in do { forkIO (ply 32 (0.25, 0.75) 92 24)
->         ; forkIO (ply 8 (1.25, 1.75) 12 54) }
+>   in do { _ <- forkIO (ply 32 (0.25, 0.75) 92 24)
+>         ; _ <- forkIO (ply 8 (1.25, 1.75) 12 54)
+>         ; return () }

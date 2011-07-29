@@ -2,6 +2,7 @@ synthetic piano (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let p = do { n <- iRand 36 90
 >              ; f <- rand 0.1 0.5

@@ -2,6 +2,7 @@ scratchy (jmcc)
 
 > import Sound.SC3.ID
 
+> main :: IO ()
 > main =
 >   let { f m = brownNoise m ar * 0.5 - 0.49
 >       ; n = mce2 (f 'α') (f 'β') }

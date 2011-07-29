@@ -4,6 +4,7 @@ adso (rd)
 > import Sound.SC3
 > import System.Random
 
+> main :: IO ()
 > main =
 >   let { rrand l r = getStdRandom (randomR (l, r))
 >       ; rrand_l j l r = sequence (replicate j (rrand l r))
@@ -28,7 +29,7 @@ adso (rd)
 >                                   ; rn 5 1 24
 >                                   ; rn 6 0.05 2.4 }
 >                           ; pauseThread t } }
->   in withSC3 (\fd ->   do { mapM_ (\i ->   async fd (b_alloc i n 1)) [0..6]
->                         ; play fd adso
+>   in withSC3 (\fd -> do { mapM_ (\i -> async fd (b_alloc i n 1)) [0..6]
+>                         ; _ <- play fd adso
 >                         ; mapM_ (pattern fd) =<< rrand_l 32 0.025 0.75
 >                         ; reset fd })

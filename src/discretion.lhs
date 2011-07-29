@@ -2,6 +2,7 @@ discretion (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { mkls bp t = envGen kr 1 1 0 1 RemoveSynth (envCoord bp t 1 EnvLin)
 >       ; part = do { f1 <- clone 2 (rand 50 55)

@@ -2,6 +2,7 @@ hh-808 (ryan at wabdo.com)
 
 > import Sound.SC3
 
+> main :: IO ()
 > main =
 >   let { time = 250
 >       ; freqs = [205.35, 304.41, 369.64, 522.71, 540.54, 812.21]

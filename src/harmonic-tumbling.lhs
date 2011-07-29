@@ -2,6 +2,7 @@ harmonic tumbling (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { f = 80
 >       ; p = 10

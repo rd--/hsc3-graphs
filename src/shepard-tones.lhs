@@ -2,16 +2,17 @@ shepard tones (alberto de campo)
 
 > import Sound.SC3
 
+> main :: IO ()
 > main =
->   let { indxs n l r = let i = (r - l) / n 
+>   let { indxs n l r = let i = (r - l) / n
 >                       in [l, l + i .. r - i]
->       ; hanningWindow n = 
+>       ; hanningWindow n =
 >             let { lp = pi * (-0.5)
->                 ; rp = lp + 2 * pi 
+>                 ; rp = lp + 2 * pi
 >                 ; hf i = sin i * 0.5 + 0.5 }
 >             in map hf (indxs n lp rp)
 >       ; square x = x * x
->       ; ampTable = map square (hanningWindow 1024) 
+>       ; ampTable = map square (hanningWindow 1024)
 >       ; amp_f i = (0.5 ** i) * 20000
 >       ; freqTable = map amp_f (indxs 1024 0 10)
 >       ; ratescale = 1024 / 44100 / 10
@@ -21,8 +22,8 @@ shepard tones (alberto de campo)
 >       ; freqs = bufRdC 1 ar 1 phases Loop
 >       ; amps = bufRdC 1 ar 2 phases Loop
 >       ; tone = mix (sinOsc ar freqs 0 * amps) * 0.1 }
->   in withSC3 (\fd -> do { async fd (b_alloc 1 1024 1)
->                         ; async fd (b_alloc 2 1024 1)
+>   in withSC3 (\fd -> do { _ <- async fd (b_alloc 1 1024 1)
+>                         ; _ <- async fd (b_alloc 2 1024 1)
 >                         ; send fd (b_setn1 1 0 freqTable)
 >                         ; send fd (b_setn1 2 0 ampTable)
 >                         ; audition (out 0 tone) })
@@ -38,5 +39,5 @@ shepard tones (alberto de campo)
 ; var phases = (0..9) * 0.1 * 1024 + ph
 ; var freqs = BufRd.ar(1, b1.bufnum, phases)
 ; var amps = BufRd.ar(1, b2.bufnum, phases)
-; var tone = Mix.ar(SinOsc.ar(freqs) * amps) * 0.1 
+; var tone = Mix.ar(SinOsc.ar(freqs) * amps) * 0.1
 ; Out.ar(0, tone)}.play

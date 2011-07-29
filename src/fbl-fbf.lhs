@@ -2,6 +2,7 @@ fbl-fbf (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { fbl l i d g = let { a0 = l + mce i
 >                           ; a1 = delayL a0 (maximum d) (mce d) }

@@ -12,7 +12,6 @@ offset_id :: Enum a => Int -> a -> Int
 offset_id n e = n + fromEnum e
 
 -- mce...........................
--- dr multiplier.................
 microhelix :: UGen
 microhelix =
     let rp = replicate
@@ -45,9 +44,10 @@ microhelix =
                 e = envGen AR (abs t) 1 0 1 DoNothing d
 	    in o * e * 0.25
         snd1' =
-            let d = env [0, 1, 0.6, 0] [0.0001, 0.4, 0.01] [EnvNum (-4)] 0 0
-                e = envGen AR (ctrigs * lfNoise0 'm' AR 8) 1 0 1 DoNothing d
-	    in pan2 (snd1 * e) (tRand 'n' (-1) 1 ctrigs) 1
+            let t = mceChannel 0 ctrigs
+                d = env [0, 1, 0.6, 0] [0.0001, 0.4, 0.01] [EnvNum (-4)] 0 0
+                e = envGen AR (t * lfNoise0 'm' AR 8) 1 0 1 DoNothing d
+	    in pan2 (snd1 * e) (tRand 'n' (-1) 1 t) 1
     in limiter (midEQ (clicks + snd1' + hiNoise + bass) 14000 0.7 8) 1 0.01
 
 main :: IO ()

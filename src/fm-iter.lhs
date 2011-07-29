@@ -2,6 +2,7 @@ fm-iter (rd)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { t0 = impulse ar (recip 0.30) 0
 >       ; t1 = tDelay t0 0.15

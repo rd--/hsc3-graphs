@@ -2,6 +2,7 @@ record scratcher (josh parmenter)
 
 > import Sound.SC3
 
+> main :: IO ()
 > main =
 >   let { dup a = mce2 a a
 >       ; fn = "/home/rohan/audio/metal.wav"
@@ -12,8 +13,9 @@ record scratcher (josh parmenter)
 >       ; bdx = mouseButton kr 1 0 0.3 + dx
 >       ; bdxr = bdx * bufRateScale kr 0
 >       ; scr = playBuf 1 0 bdxr 0 0 Loop DoNothing }
->   in withSC3 (\fd -> do { async fd (b_allocRead 0 fn 0 0)
->                         ; play fd (out 0 (dup (scr * e))) })
+>   in withSC3 (\fd -> do { _ <- async fd (b_allocRead 0 fn 0 0)
+>                         ; _ <- play fd (out 0 (dup (scr * e)))
+>                         ; return () })
 
 { var fn = "/home/rohan/audio/metal.wav"
 ; var b = 0

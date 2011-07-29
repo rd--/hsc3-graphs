@@ -4,6 +4,7 @@ warning: input/output feedback loop
 > import Sound.SC3.Monadic
 > import qualified Sound.SC3.ID as I
 
+> main :: IO ()
 > main =
 >   let { delayWr b i = recordBuf b 0 1 0 1 Loop 0 DoNothing i
 >       ; tap nc b dt = playBuf nc b 1 0 (dt * (- sampleRate)) Loop DoNothing

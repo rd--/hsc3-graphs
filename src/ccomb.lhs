@@ -2,6 +2,7 @@ ccomb (rd)
 
 > import Sound.SC3.Monadic
 
+> ccomb :: IO UGen
 > ccomb =
 >   let { rng l r i = linLin i (-1) 1 l r
 >       ; lwr = 48
@@ -16,6 +17,7 @@ ccomb (rd)
 >   in do { t <- dust kr (mce2 0.75 0.35)
 >         ; return . (* 0.1) . sum =<< sequence (replicate 12 (spart t)) }
 
+> main :: IO ()
 > main = audition . out 0 =<< ccomb
 
 { var lwr = 48

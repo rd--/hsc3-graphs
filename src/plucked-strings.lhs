@@ -2,6 +2,7 @@ plucked strings (jmcc)
 
 > import Sound.SC3.Monadic
 
+> main :: IO ()
 > main =
 >   let { s = do { n0 <- pinkNoise ar
 >                ; r1 <- rand (-1) 1

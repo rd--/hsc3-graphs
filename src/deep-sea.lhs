@@ -2,6 +2,7 @@ deep sea (jrhb)
 
 > import Sound.SC3.ID
 
+> main :: IO ()
 > main =
 >   let { range s l r = let m = (r - l) * 0.5 in mulAdd s m (m + l)
 >       ; amp = 1

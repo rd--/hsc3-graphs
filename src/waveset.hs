@@ -1,6 +1,5 @@
 {- A simple waveset synthesiser (rd) -}
 
-import Control.Monad
 import qualified Data.Array as A {- array -}
 import Data.List
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
@@ -127,8 +126,9 @@ rchoose n w =
 --   analysis, generate & play scores.
 run_waveset :: Transport t => t -> String -> IO ()
 run_waveset fd fn = do
-  async fd (d_recv (synthdef "waveset" waveset))
-  async fd (b_allocRead 10 fn 0 0)
+  _ <- async fd (d_recv (synthdef "waveset" waveset))
+  _ <-
+      async fd (b_allocRead 10 fn 0 0)
   (hdr, cs) <- F.read fn
   let nc = F.channelCount hdr
       nf = F.frameCount hdr
