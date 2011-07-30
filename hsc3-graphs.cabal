@@ -40,6 +40,10 @@ Executable         hsc3-bit-reduction
  main-is:          src/bit-reduction.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-black-atlantic-currents
+ main-is:          src/black-atlantic-currents.hs
+ build-depends:    base==4.*, hsc3==0.10, primes, random, random-shuffle
+
 Executable         hsc3-bottle
  main-is:          src/bottle.lhs
  build-depends:    base==4.*, hsc3==0.10
@@ -206,6 +210,10 @@ Executable         hsc3-lin-sosc
 
 Executable         hsc3-lucier
  main-is:          src/lucier.hs
+ build-depends:    base==4.*, hsc3==0.10
+
+Executable         hsc3-microhelix
+ main-is:          src/microhelix.hs
  build-depends:    base==4.*, hsc3==0.10
 
 Executable         hsc3-modal-space

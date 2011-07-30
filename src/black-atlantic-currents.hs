@@ -2,8 +2,8 @@
 
 import Data.Numbers.Primes {- primes -}
 import Sound.SC3.ID {- hsc3 -}
-import System.Random
-import System.Random.Shuffle {- shuffle -}
+import System.Random {- random -}
+import System.Random.Shuffle {- random-shuffle -}
 
 nth_prime :: Integral a => Int -> a
 nth_prime j = primes !! j
@@ -100,3 +100,6 @@ audition (out 0 bac'')
 audition (out 0 bac''')
 audition (out 0 bac'''')
 -}
+
+main :: IO ()
+main = audition (out 0 bac)
