@@ -1,7 +1,6 @@
 snare-909 (jmcc)
 
 > import Sound.SC3.Monadic
-> import Mice
 
 > main :: IO ()
 > main =

@@ -1,7 +1,6 @@
 noise burst sweep (jmcc)
 
 > import Sound.SC3.Monadic
-> import Mice
 
 > main :: IO ()
 > main =

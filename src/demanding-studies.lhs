@@ -1,7 +1,6 @@
 demanding studies (jmcc)
 
 > import Sound.SC3.ID
-> import Mice
 
 > demanding_studies :: UGen
 > demanding_studies =

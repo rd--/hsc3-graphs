@@ -5,7 +5,6 @@ lin-sosc (rd)
 > import Sound.OpenSoundControl
 > import Sound.SC3
 > import System.Random
-> import Mice
 
 > main :: IO ()
 > main =

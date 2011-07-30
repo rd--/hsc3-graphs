@@ -1,7 +1,6 @@
 karplus strong (alex mclean)
 
 > import Sound.SC3.Monadic
-> import Mice
 
 > main :: IO ()
 > main =

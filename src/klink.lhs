@@ -1,7 +1,6 @@
 klink (rd)
 
 > import Sound.SC3.Monadic
-> import Mice
 
 > main :: IO ()
 > main =

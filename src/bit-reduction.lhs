@@ -1,7 +1,6 @@
 bit reduction (adc)
 
 > import Sound.SC3.Monadic
-> import Mice
 
 > sample_rate_decrease :: IO ()
 > sample_rate_decrease =

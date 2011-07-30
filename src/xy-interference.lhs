@@ -1,7 +1,6 @@
 xy-interference (rd)
 
 > import Sound.SC3.ID
-> import Mice
 
 > main :: IO ()
 > main =

@@ -1,7 +1,6 @@
 strummable guitar (jmcc)
 
 > import Sound.SC3.ID
-> import Mice
 
 > main :: IO ()
 > main =

@@ -3,7 +3,6 @@ ghci -e main tgrn.lhs
 C-cC-l C-cC-m
 
 > import Sound.SC3.ID
-> import Mice
 
 > tgrn b =
 >   let { trate = mouseY' kr 2 120 Exponential 0.1

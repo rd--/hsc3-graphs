@@ -1,7 +1,6 @@
 modal space (jmcc)
 
 > import Sound.SC3.Monadic
-> import Mice
 
 > main =
 >   let { b = 0

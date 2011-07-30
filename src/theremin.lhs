@@ -1,7 +1,6 @@
 theremin (jmcc)
 
 > import Sound.SC3
-> import Mice
 
 > main :: IO ()
 > main =
