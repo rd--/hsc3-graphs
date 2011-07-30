@@ -16,6 +16,10 @@ Cabal-Version:     >= 1.8
 
 Data-files:        README
 
+Executable         hsc3-acid-otophilia
+ main-is:          src/acid-otophilia.hs
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, random
+
 Executable         hsc3-adso
  main-is:          src/adso.lhs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10, random
