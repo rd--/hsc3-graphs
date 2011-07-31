@@ -1,6 +1,6 @@
 -- after goeyvaerts, nick collins 2007
 
-import Data.IORef
+import Control.Concurrent.MVar
 import qualified Data.Map as M {- containers -}
 import Sound.OpenSoundControl {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
@@ -30,25 +30,17 @@ r_chain g f =
     let (r,g') = f g
     in r : r_chain g' f
 
--- | modify value at ioref and return value
-ioref_modify :: IORef a -> (a -> (a,b)) -> IO b
-ioref_modify r f = do
-  e <- readIORef r
-  let (e',k) = f e
-  writeIORef r e'
-  return k
-
 -- | an action that steps through a stored sequence
-l_step :: IORef [a] -> IO a
+l_step :: MVar [a] -> IO a
 l_step r =
     let f [] = undefined
         f (x:xs) = (xs,x)
-    in ioref_modify r f
+    in modifyMVar r (return . f)
 
 -- | generate a stepper action from a list
 l_stepper :: [a] -> IO (IO a)
 l_stepper l = do
-  r <- newIORef (cycle l)
+  r <- newMVar (cycle l)
   return (l_step r)
 
 {-
