@@ -27,7 +27,7 @@ Executable         hsc3-adso
 Executable         hsc3-after-goeyvaerts
  main-is:          src/after-goeyvaerts.hs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10,
-                   cmath, containers, random
+                   containers, random
 
 Executable         hsc3-aleatoric-quartet
  main-is:          src/aleatoric-quartet.lhs

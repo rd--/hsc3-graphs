@@ -1,12 +1,11 @@
 -- after goeyvaerts, nick collins 2007
 
 import Data.IORef
-import qualified Data.Map as M
-import qualified Foreign.C.Math.Double as C {- cmath -}
+import qualified Data.Map as M {- containers -}
 import Sound.OpenSoundControl {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import qualified Sound.SC3.Lang.Collection.SequenceableCollection as L {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Math.SimpleNumber as L
+import qualified Sound.SC3.Lang.Collection.SequenceableCollection as L
+import qualified Sound.SC3.Lang.Math.SimpleNumber as L {- hsc3-lang -}
 import System.Random {- random -}
 
 nd :: UGen
@@ -49,53 +48,101 @@ ioref_st r f = do
   return i
 
 -- an action that steps through a sequence
-row_st :: IORef [a] -> IO a
-row_st r =
+l_step :: IORef [a] -> IO a
+l_step r =
     let f [] = undefined
         f (x:xs) = (x,xs)
     in ioref_st r f
 
+l_stepper :: [a] -> IO (IO a)
+l_stepper l = do
+  r <- newIORef (cycle l)
+  return (l_step r)
+
 {-
-r <- newIORef (cycle [1..5])
-ioref_st r (\(x:xs) -> (x,xs))
-row_st r
+a <- l_stepper [1..5]
+sequence (replicate 10 a)
 -}
 
 type R = Double
-data AG = AG {degree :: Int
-             ,note_row :: [Int]
-             ,amp_row :: IORef [R]
-             ,sus_row :: IORef [R]
-             ,pan_row :: IORef [R]
-             ,ioi_row :: IORef [R]
-             ,ioi_mult :: R
-             ,base_note :: Int
-             ,octaves :: Int
+data AG = AG {note_row :: [Int]
+             ,amp_row :: IO R
+             ,sus_row :: IO R
+             ,pan_row :: IO R
+             ,ioi_row :: IO R
+             ,ioi_mult_seq :: IO R
+             ,base_note_seq :: IO Int
+             ,octaves_seq :: IO Int
              ,selections :: M.Map Int Int
              ,probabilites :: M.Map Int R}
 
-init_selections :: (Ord k, Num k, Num a, Enum k) => k -> M.Map k a
-init_selections n = M.fromList (map (\i -> (i,0)) [0..n-1])
+selections' :: M.Map Int Int
+selections' = M.fromList (map (\i -> (i,0)) [0..11])
 
-ag :: Int -> IO AG
-ag n = do
-  let n' = fromIntegral n
-      mk = newIORef . cycle
-  a <- mk (L.scramble' 'b' (map (dbAmp . negate) [1,3 .. 36]))
-  s <- mk (L.scramble' 'c' (map ((/ exp 1) . exp . (/ 37)) [1 .. 37]))
-  p <- mk (L.scramble' 'd' (map ((+ (-1)) . (* 2) . (/ 31)) [1 .. 31]))
-  i <- mk (map (n' **) (L.scramble' 'e' (map (/ n') [1..n'])))
-  return (AG {degree = n
-             ,note_row = L.scramble' 'a' [0 .. n - 1]
+note_row' :: Enum e => e -> [Int]
+note_row' e = L.scramble' e [0 .. 11]
+
+amp_row' :: Enum e => e -> [R]
+amp_row' e = L.scramble' e (map (dbAmp . negate) [1,3 .. 36])
+
+sus_row' :: Enum e => e -> [R]
+sus_row' e = L.scramble' e (map ((/ exp 1) . exp . (/ 37)) [1 .. 37])
+
+pan_row' :: Enum e => e -> [R]
+pan_row' e = L.scramble' e (map ((+ (-1)) . (* 2) . (/ 31)) [1 .. 31])
+
+ioi_row' :: Enum e => e -> [R]
+ioi_row' e = map (12 **) (L.scramble' e (map (/ 12) [1..12]))
+
+type SEL a b = (a,StdGen) -> (b,StdGen)
+
+mk_sel_seq :: Enum e => e -> SEL a Bool -> SEL a a -> SEL a a -> a -> [a]
+mk_sel_seq e s a b j =
+    let step i g =
+            let (r,g') = s (i,g)
+            in if r then a (i,g') else b (i,g')
+    in j : r_chain (mkStdGen (fromEnum e)) (step j)
+
+ioi_mult_seq' :: Enum e => e -> R -> [R]
+ioi_mult_seq' e =
+    let s = uncurry L.coin'
+        a = L.choose' [0.01,0.025,0.05,0.1,0.2] . snd
+    in mk_sel_seq e s a id
+
+octaves_seq' :: Enum e => e -> [Int]
+octaves_seq' e =
+    let s = coin' 0.02 . snd
+        a = L.rrand' 2 5 . snd
+    in mk_sel_seq e s a id 4
+
+base_note_seq' :: Enum e => e -> [Int]
+base_note_seq' e =
+    let s = coin' 0.01 . snd
+        a = L.rrand' 35 47 . snd
+    in mk_sel_seq e s a id 36
+
+probabilites' :: M.Map Int R
+probabilites' = M.fromList (map (\x -> (x,1)) [0..11])
+
+ag :: IO AG
+ag = do
+  a <- l_stepper (amp_row' 'a')
+  s <- l_stepper (sus_row' 'b')
+  p <- l_stepper (pan_row' 'c')
+  i <- l_stepper (ioi_row' 'd')
+  m <- l_stepper (ioi_mult_seq' 'e' 0.1)
+  o <- l_stepper (octaves_seq' 'f')
+  b <- l_stepper (base_note_seq' 'g')
+  return (AG {note_row = note_row' 'i'
              ,amp_row = a
              ,sus_row = s
              ,pan_row = p
              ,ioi_row = i
-             ,ioi_mult = 0.1
-             ,base_note = 36
-             ,octaves = 4
-             ,selections = init_selections n
-             ,probabilites = M.fromList (map (\x -> (x,1)) [0..n-1]) })
+             ,ioi_mult_seq = m
+             ,base_note_seq = b
+             ,octaves_seq = o
+             ,selections = selections'
+             ,probabilites = probabilites' })
 
 ifM :: Monad m => m Bool -> m b -> m b -> m b
 ifM i j k = do
@@ -105,64 +152,74 @@ ifM i j k = do
 coin :: R -> IO Bool
 coin = L.coin
 
+coin' :: (RandomGen g) => R -> g -> (Bool,g)
+coin' = L.coin'
+
 wchoose :: [a] -> [R] -> IO a
 wchoose = L.wchoose
 
-fmod :: Int -> Int -> R
-fmod i j = fromIntegral i `C.fmod` fromIntegral j
+mrec :: Monad m => (a -> m a) -> a -> m a
+mrec f i = do
+  j <- f i
+  mrec f j
 
-mrec :: Monad m => Int -> (a -> m a) -> a -> m a
-mrec n f i =
+mrec_n :: Monad m => Int -> (a -> m a) -> a -> m a
+mrec_n n f i =
     if n == 0
     then return i
     else do j <- f i
-            mrec (n - 1) f j
+            mrec_n (n - 1) f j
 
-ag_note :: M.Map Int Int -> Int -> AG -> Int -> Int
-ag_note s' z r b = ((s' M.! z) `mod` octaves r) * 12 + b + z
+ag_note :: M.Map Int Int -> Int -> Int -> Int -> Int
+ag_note s' z o b = ((s' M.! z) `mod` o) * 12 + b + z
+
+r_chain :: t -> (t -> (a,t)) -> [a]
+r_chain g f =
+    let (r,g') = f g
+    in r : r_chain g' f
 
 ag_step :: Transport t => t -> AG -> IO AG
 ag_step fd r = do
-  i <- ifM (coin (ioi_mult r)) (L.choose [0.01,0.025,0.05,0.1,0.2]) (return (ioi_mult r))
-  s <- ifM (coin 0.03) (return (init_selections (degree r))) (return (selections r))
-  o <- ifM (coin 0.02) (L.rrand 2 5) (return (octaves r))
-  b <- ifM (coin 0.01) (L.rrand 35 47) (return (base_note r))
-  let p = M.map (\x -> if x < 0.9999 then x + 0.1 else x) (probabilites r)
-  n <- wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
   let act (p',s') = do
         z <- wchoose (note_row r) (L.normalizeSum (map snd (M.toList p')))
-        let mn = ag_note s' z r b
+        o <- octaves_seq r
+        b <- base_note_seq r
+        let mn = ag_note s' z o b
             mn' = fromIntegral mn
-        a <- row_st (amp_row r)
-        su <- row_st (sus_row r)
-        pn <- row_st (pan_row r)
+        a <- amp_row r
+        su <- sus_row r
+        pn <- pan_row r
         send fd (nd_msg (midiCPS mn') a su pn)
         return (M.insert z 0.1 p',M.adjust (+ 1) z s')
-  (p',s') <- mrec n act (p,s)
-  dt <- row_st (ioi_row r)
+      p = M.map (\x -> if x < 0.9999 then x + 0.1 else x) (probabilites r)
+  s <- ifM (coin 0.03) (return selections') (return (selections r))
+  n <- wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
+  (p',s') <- mrec_n n act (p,s)
+  dt <- ioi_row r
+  i <- ioi_mult_seq r
   pauseThread (dt * i)
-  return (r {ioi_mult = i
-            ,selections = s'
-            ,octaves = o
-            ,base_note = b
-            ,probabilites = p'})
+  return (r {probabilites = p',selections = s'})
 
-ag_run :: Transport t => t -> Int -> Int -> IO ()
-ag_run fd n i = do
-  r <- ag n
+ag_run :: Transport t => t -> Maybe Int -> IO ()
+ag_run fd i = do
+  r <- ag
   ag_init fd
-  _ <- mrec i (ag_step fd) r
+  _ <- case i of
+         Just n -> mrec_n n (ag_step fd) r
+         Nothing -> mrec (ag_step fd) r
   return ()
 
 main :: IO ()
 main = do
   i <- randomRIO (256,512)
-  withSC3 (\fd -> ag_run fd 12 i >> pauseThread 5 >> reset fd)
+  withSC3 (\fd -> ag_run fd (Just i) >> pauseThread 9 >> reset fd)
 
 {-
 withSC3 ag_init
 withSC3 (\fd -> send fd (nd_msg 660 0.45 0.65 0))
-r <- ag 12
+r <- ag
 withSC3 (\fd -> ag_step fd r)
-withSC3 (\fd -> ag_run fd 12 32)
+withSC3 (\fd -> ag_run fd (Just 32))
+withSC3 (\fd -> ag_run fd Nothing)
+withSC3 reset
 -}
