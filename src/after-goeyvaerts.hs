@@ -58,17 +58,21 @@ mk_sel_seq e s a b j =
             in if r then a (i,g') else b (i,g')
     in j : r_chain (mkStdGen (fromEnum e)) (step j)
 
+-- | monadic if
 ifM :: Monad m => m Bool -> m b -> m b -> m b
 ifM i j k = do
   i' <- i
   if i' then j else k
 
+-- | coin at R
 coin :: R -> IO Bool
 coin = L.coin
 
+-- | coin' at R
 coin' :: (RandomGen g) => R -> g -> (Bool,g)
 coin' = L.coin'
 
+-- | wchoose at R
 wchoose :: [a] -> [R] -> IO a
 wchoose = L.wchoose
 
@@ -116,7 +120,7 @@ data AG = AG {note_row :: [Int]
              ,base_note_seq :: IO Int
              ,octaves_seq :: IO Int
              ,selections :: M.Map Int Int
-             ,probabilites :: M.Map Int R}
+             ,probabilities :: M.Map Int R}
 
 selections' :: M.Map Int Int
 selections' = M.fromList (map (\i -> (i,0)) [0..11])
@@ -154,8 +158,8 @@ base_note_seq' e =
         a = L.rrand' 35 47 . snd
     in mk_sel_seq e s a id 36
 
-probabilites' :: M.Map Int R
-probabilites' = M.fromList (map (\x -> (x,1)) [0..11])
+probabilities' :: M.Map Int R
+probabilities' = M.fromList (map (\x -> (x,1)) [0..11])
 
 ag :: IO AG
 ag = do
@@ -166,7 +170,7 @@ ag = do
   m <- l_stepper (ioi_mult_seq' 'e' 0.1)
   o <- l_stepper (octaves_seq' 'f')
   b <- l_stepper (base_note_seq' 'g')
-  return (AG {note_row = note_row' 'i'
+  return (AG {note_row = note_row' 'h'
              ,amp_row = a
              ,sus_row = s
              ,pan_row = p
@@ -175,7 +179,7 @@ ag = do
              ,base_note_seq = b
              ,octaves_seq = o
              ,selections = selections'
-             ,probabilites = probabilites' })
+             ,probabilities = probabilities' })
 
 ag_note :: M.Map Int Int -> Int -> Int -> Int -> Int
 ag_note s' z o b = ((s' M.! z) `mod` o) * 12 + b + z
@@ -193,14 +197,14 @@ ag_step fd r = do
         pn <- pan_row r
         send fd (nd_msg (midiCPS mn') a su pn)
         return (M.insert z 0.1 p',M.adjust (+ 1) z s')
-      p = M.map (\x -> if x < 0.9999 then x + 0.1 else x) (probabilites r)
+      p = M.map (\x -> if x < 0.9999 then x + 0.1 else x) (probabilities r)
   s <- ifM (coin 0.03) (return selections') (return (selections r))
   n <- wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
   (p',s') <- mrec_n n act (p,s)
   dt <- ioi_row r
   i <- ioi_mult_seq r
   pauseThread (dt * i)
-  return (r {probabilites = p',selections = s'})
+  return (r {probabilities = p',selections = s'})
 
 ag_run :: Transport t => t -> Maybe Int -> IO ()
 ag_run fd i = do
