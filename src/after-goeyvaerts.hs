@@ -8,6 +8,80 @@ import qualified Sound.SC3.Lang.Collection.SequenceableCollection as L
 import qualified Sound.SC3.Lang.Math.SimpleNumber as L {- hsc3-lang -}
 import System.Random {- random -}
 
+-- * SCHEMA
+
+-- | infinite monadic recursion
+mrec :: Monad m => (a -> m a) -> a -> m a
+mrec f i = do
+  j <- f i
+  mrec f j
+
+-- | monadic recursion with counter
+mrec_n :: Monad m => Int -> (a -> m a) -> a -> m a
+mrec_n n f i =
+    if n == 0
+    then return i
+    else do j <- f i
+            mrec_n (n - 1) f j
+
+-- | recursion function useful for random processes (g = random state)
+r_chain :: g -> (g -> (a,g)) -> [a]
+r_chain g f =
+    let (r,g') = f g
+    in r : r_chain g' f
+
+-- | modify value at ioref and return value
+ioref_modify :: IORef a -> (a -> (a,b)) -> IO b
+ioref_modify r f = do
+  e <- readIORef r
+  let (e',k) = f e
+  writeIORef r e'
+  return k
+
+-- | an action that steps through a stored sequence
+l_step :: IORef [a] -> IO a
+l_step r =
+    let f [] = undefined
+        f (x:xs) = (xs,x)
+    in ioref_modify r f
+
+-- | generate a stepper action from a list
+l_stepper :: [a] -> IO (IO a)
+l_stepper l = do
+  r <- newIORef (cycle l)
+  return (l_step r)
+
+{-
+a <- l_stepper [1..5]
+sequence (replicate 10 a)
+-}
+
+type SEL a b = (a,StdGen) -> (b,StdGen)
+
+-- | a recursion schema where s chooses between a and b at each step
+mk_sel_seq :: Enum e => e -> SEL a Bool -> SEL a a -> SEL a a -> a -> [a]
+mk_sel_seq e s a b j =
+    let step i g =
+            let (r,g') = s (i,g)
+            in if r then a (i,g') else b (i,g')
+    in j : r_chain (mkStdGen (fromEnum e)) (step j)
+
+ifM :: Monad m => m Bool -> m b -> m b -> m b
+ifM i j k = do
+  i' <- i
+  if i' then j else k
+
+coin :: R -> IO Bool
+coin = L.coin
+
+coin' :: (RandomGen g) => R -> g -> (Bool,g)
+coin' = L.coin'
+
+wchoose :: [a] -> [R] -> IO a
+wchoose = L.wchoose
+
+-- * AFTER GOEYVAERTS
+
 nd :: UGen
 nd =
     let freq = control KR "freq" 440
@@ -40,30 +114,6 @@ nd_msg f a s p =
     let nd_arg = [("freq",f),("amp",a),("sustain",s),("pan",p)]
     in s_new "nd" (-1) AddToHead 1 nd_arg
 
-ioref_st :: IORef a -> (a -> (b, a)) -> IO b
-ioref_st r f = do
-  e <- readIORef r
-  let (i,j) = f e
-  writeIORef r j
-  return i
-
--- an action that steps through a sequence
-l_step :: IORef [a] -> IO a
-l_step r =
-    let f [] = undefined
-        f (x:xs) = (x,xs)
-    in ioref_st r f
-
-l_stepper :: [a] -> IO (IO a)
-l_stepper l = do
-  r <- newIORef (cycle l)
-  return (l_step r)
-
-{-
-a <- l_stepper [1..5]
-sequence (replicate 10 a)
--}
-
 type R = Double
 data AG = AG {note_row :: [Int]
              ,amp_row :: IO R
@@ -93,15 +143,6 @@ pan_row' e = L.scramble' e (map ((+ (-1)) . (* 2) . (/ 31)) [1 .. 31])
 
 ioi_row' :: Enum e => e -> [R]
 ioi_row' e = map (12 **) (L.scramble' e (map (/ 12) [1..12]))
-
-type SEL a b = (a,StdGen) -> (b,StdGen)
-
-mk_sel_seq :: Enum e => e -> SEL a Bool -> SEL a a -> SEL a a -> a -> [a]
-mk_sel_seq e s a b j =
-    let step i g =
-            let (r,g') = s (i,g)
-            in if r then a (i,g') else b (i,g')
-    in j : r_chain (mkStdGen (fromEnum e)) (step j)
 
 ioi_mult_seq' :: Enum e => e -> R -> [R]
 ioi_mult_seq' e =
@@ -144,39 +185,8 @@ ag = do
              ,selections = selections'
              ,probabilites = probabilites' })
 
-ifM :: Monad m => m Bool -> m b -> m b -> m b
-ifM i j k = do
-  i' <- i
-  if i' then j else k
-
-coin :: R -> IO Bool
-coin = L.coin
-
-coin' :: (RandomGen g) => R -> g -> (Bool,g)
-coin' = L.coin'
-
-wchoose :: [a] -> [R] -> IO a
-wchoose = L.wchoose
-
-mrec :: Monad m => (a -> m a) -> a -> m a
-mrec f i = do
-  j <- f i
-  mrec f j
-
-mrec_n :: Monad m => Int -> (a -> m a) -> a -> m a
-mrec_n n f i =
-    if n == 0
-    then return i
-    else do j <- f i
-            mrec_n (n - 1) f j
-
 ag_note :: M.Map Int Int -> Int -> Int -> Int -> Int
 ag_note s' z o b = ((s' M.! z) `mod` o) * 12 + b + z
-
-r_chain :: t -> (t -> (a,t)) -> [a]
-r_chain g f =
-    let (r,g') = f g
-    in r : r_chain g' f
 
 ag_step :: Transport t => t -> AG -> IO AG
 ag_step fd r = do
