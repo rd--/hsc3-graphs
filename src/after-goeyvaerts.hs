@@ -1,4 +1,4 @@
--- after goeyvaerts, nick collins 2007
+-- after goeyvaerts, nick collins, 2007
 
 import Control.Concurrent.MVar
 import qualified Data.Map as M {- containers -}
@@ -12,17 +12,14 @@ import System.Random {- random -}
 
 -- | infinite monadic recursion
 mrec :: Monad m => (a -> m a) -> a -> m a
-mrec f i = do
-  j <- f i
-  mrec f j
+mrec f i = f i >>= mrec f
 
 -- | monadic recursion with counter
 mrec_n :: Monad m => Int -> (a -> m a) -> a -> m a
 mrec_n n f i =
     if n == 0
     then return i
-    else do j <- f i
-            mrec_n (n - 1) f j
+    else f i >>= mrec_n (n - 1) f
 
 -- | recursion function useful for random processes (g = random state)
 r_chain :: g -> (g -> (a,g)) -> [a]
@@ -43,6 +40,9 @@ l_stepper l = do
   r <- newMVar (cycle l)
   return (l_step r)
 
+l_stepper_scramble :: [a] -> IO (IO a)
+l_stepper_scramble l = L.scramble l >>= l_stepper
+
 {-
 a <- l_stepper [1..5]
 sequence (replicate 10 a)
@@ -57,6 +57,13 @@ mk_sel_seq e s a b j =
             let (r,g') = s (i,g)
             in if r then a (i,g') else b (i,g')
     in j : r_chain (mkStdGen (fromEnum e)) (step j)
+
+-- | variant where s is a (coin' c) and a is (rrand'c r)
+mk_sel_seq_c_rng :: (Enum e,Random a) => e -> R -> (a,a) -> a -> [a]
+mk_sel_seq_c_rng e c r i =
+    let s = coin' c . snd
+        a = rrand'c r . snd
+    in mk_sel_seq e s a id i
 
 -- | monadic if
 ifM :: Monad m => m Bool -> m b -> m b -> m b
@@ -75,6 +82,17 @@ coin' = L.coin'
 -- | wchoose at R
 wchoose :: [a] -> [R] -> IO a
 wchoose = L.wchoose
+
+-- | rrand' with duple range
+rrand'c :: (RandomGen g,Random n) => (n,n) -> g -> (n,g)
+rrand'c = uncurry L.rrand'
+
+-- | set precision
+set_prec :: Int -> Double -> Double
+set_prec n x =
+    let n' = 10 ^ n
+        x' = round (x * n') :: Integer
+    in fromIntegral x' / n'
 
 -- * AFTER GOEYVAERTS
 
@@ -125,52 +143,70 @@ data AG = AG {note_row :: [Int]
 selections' :: M.Map Int Int
 selections' = M.fromList (map (\i -> (i,0)) [0..11])
 
-note_row' :: Enum e => e -> [Int]
-note_row' e = L.scramble' e [0 .. 11]
+selections_incr :: Int -> M.Map Int Int -> M.Map Int Int
+selections_incr z = M.adjust (+ 1) z
 
-amp_row' :: Enum e => e -> [R]
-amp_row' e = L.scramble' e (map (dbAmp . negate) [1,3 .. 36])
+selections_step :: M.Map Int Int -> IO (M.Map Int Int)
+selections_step s = ifM (coin 0.03) (return selections') (return s)
 
-sus_row' :: Enum e => e -> [R]
-sus_row' e = L.scramble' e (map ((/ exp 1) . exp . (/ 37)) [1 .. 37])
+note_set :: [Int]
+note_set = [0 .. 11]
 
-pan_row' :: Enum e => e -> [R]
-pan_row' e = L.scramble' e (map ((+ (-1)) . (* 2) . (/ 31)) [1 .. 31])
+note_step :: [Int] -> M.Map k R -> IO Int
+note_step n p = wchoose n (L.normalizeSum (M.elems p))
 
-ioi_row' :: Enum e => e -> [R]
-ioi_row' e = map (12 **) (L.scramble' e (map (/ 12) [1..12]))
+amp_set :: [R]
+amp_set = map (dbAmp . negate) [1,3 .. 36]
+
+sus_set :: [R]
+sus_set = map ((/ exp 1) . exp . (/ 37)) [1 .. 37]
+
+pan_set :: [R]
+pan_set = map ((+ (-1)) . (* 2) . (/ 31)) [1 .. 31]
+
+ioi_set :: [R]
+ioi_set = map ((12 **) . (/ 12)) [1..12]
+
+ioi_mult_set :: [R]
+ioi_mult_set = [0.01,0.025,0.05,0.1,0.2]
 
 ioi_mult_seq' :: Enum e => e -> R -> [R]
 ioi_mult_seq' e =
     let s = uncurry L.coin'
-        a = L.choose' [0.01,0.025,0.05,0.1,0.2] . snd
+        a = L.choose' ioi_mult_set . snd
     in mk_sel_seq e s a id
 
+octaves_rng :: (Int,Int)
+octaves_rng = (2,5)
+
 octaves_seq' :: Enum e => e -> [Int]
-octaves_seq' e =
-    let s = coin' 0.02 . snd
-        a = L.rrand' 2 5 . snd
-    in mk_sel_seq e s a id 4
+octaves_seq' e = mk_sel_seq_c_rng e 0.02 octaves_rng 4
+
+base_note_rng :: (Int,Int)
+base_note_rng = (35,47)
 
 base_note_seq' :: Enum e => e -> [Int]
-base_note_seq' e =
-    let s = coin' 0.01 . snd
-        a = L.rrand' 35 47 . snd
-    in mk_sel_seq e s a id 36
+base_note_seq' e = mk_sel_seq_c_rng e 0.01 base_note_rng 36
 
 probabilities' :: M.Map Int R
 probabilities' = M.fromList (map (\x -> (x,1)) [0..11])
 
+probabilities_incr :: M.Map k R -> M.Map k R
+probabilities_incr = M.map (\x -> if x < 0.9999 then x + 0.1 else x)
+
+probabilities_decr :: Int -> M.Map Int R -> M.Map Int R
+probabilities_decr z = M.insert z 0.1
+
 ag :: IO AG
 ag = do
-  a <- l_stepper (amp_row' 'a')
-  s <- l_stepper (sus_row' 'b')
-  p <- l_stepper (pan_row' 'c')
-  i <- l_stepper (ioi_row' 'd')
+  a <- l_stepper_scramble amp_set
+  s <- l_stepper_scramble sus_set
+  p <- l_stepper_scramble pan_set
+  i <- l_stepper_scramble ioi_set
   m <- l_stepper (ioi_mult_seq' 'e' 0.1)
   o <- l_stepper (octaves_seq' 'f')
   b <- l_stepper (base_note_seq' 'g')
-  return (AG {note_row = note_row' 'h'
+  return (AG {note_row = L.scramble' 'h' note_set
              ,amp_row = a
              ,sus_row = s
              ,pan_row = p
@@ -179,28 +215,29 @@ ag = do
              ,base_note_seq = b
              ,octaves_seq = o
              ,selections = selections'
-             ,probabilities = probabilities' })
+             ,probabilities = probabilities'})
 
 ag_note :: M.Map Int Int -> Int -> Int -> Int -> Int
 ag_note s' z o b = ((s' M.! z) `mod` o) * 12 + b + z
 
 ag_step :: Transport t => t -> AG -> IO AG
 ag_step fd r = do
-  let act (p',s') = do
-        z <- wchoose (note_row r) (L.normalizeSum (map snd (M.toList p')))
+  let act (p,s) = do
+        z <- note_step (note_row r) p
         o <- octaves_seq r
         b <- base_note_seq r
-        let mn = ag_note s' z o b
-            mn' = fromIntegral mn
+        let mn = ag_note s z o b
         a <- amp_row r
         su <- sus_row r
         pn <- pan_row r
-        send fd (nd_msg (midiCPS mn') a su pn)
-        return (M.insert z 0.1 p',M.adjust (+ 1) z s')
-      p = M.map (\x -> if x < 0.9999 then x + 0.1 else x) (probabilities r)
-  s <- ifM (coin 0.03) (return selections') (return (selections r))
-  n <- wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
-  (p',s') <- mrec_n n act (p,s)
+        send fd (nd_msg (midiCPS (fromIntegral mn)) a su pn)
+        print ('p',map (set_prec 2) (M.elems p))
+        print ('s',M.elems s)
+        return (probabilities_decr z p,selections_incr z s)
+  (p',s') <- do let p = probabilities_incr (probabilities r)
+                s <- selections_step (selections r)
+                n <- wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
+                mrec_n n act (p,s)
   dt <- ioi_row r
   i <- ioi_mult_seq r
   pauseThread (dt * i)
