@@ -129,6 +129,8 @@ nd_msg f a s p =
     in s_new "nd" (-1) AddToHead 1 nd_arg
 
 type R = Double
+type P = M.Map Int R
+type S = M.Map Int Int
 data AG = AG {note_row :: [Int]
              ,amp_row :: IO R
              ,sus_row :: IO R
@@ -137,23 +139,40 @@ data AG = AG {note_row :: [Int]
              ,ioi_mult_seq :: IO R
              ,base_note_seq :: IO Int
              ,octaves_seq :: IO Int
-             ,selections :: M.Map Int Int
-             ,probabilities :: M.Map Int R}
+             ,selections :: S
+             ,probabilities :: P}
 
-selections' :: M.Map Int Int
+selections' :: S
 selections' = M.fromList (map (\i -> (i,0)) [0..11])
 
-selections_incr :: Int -> M.Map Int Int -> M.Map Int Int
+selections_incr :: Int -> S -> S
 selections_incr z = M.adjust (+ 1) z
 
-selections_step :: M.Map Int Int -> IO (M.Map Int Int)
+selections_step :: S -> IO S
 selections_step s = ifM (coin 0.03) (return selections') (return s)
 
 note_set :: [Int]
 note_set = [0 .. 11]
 
-note_step :: [Int] -> M.Map k R -> IO Int
-note_step n p = wchoose n (L.normalizeSum (M.elems p))
+note_step' :: RandomGen g => [Int] -> P -> g -> (Int,g)
+note_step' n p = L.wchoose' n (L.normalizeSum (M.elems p))
+
+note_step :: [Int] -> P -> IO Int
+note_step n = getStdRandom . note_step' n
+
+chord' :: RandomGen g => P -> S -> Int -> [Int] -> g -> (([P],[S],[Int]),g)
+chord' p_ s_ =
+    let go (pl,sl,zl) p s n nr g =
+            if n == 0
+            then ((reverse pl,reverse sl,reverse zl),g)
+            else let (z,g') = note_step' nr p g
+                     p' = probabilities_decr z p
+                     s' = selections_incr z s
+                 in go (p':pl,s':sl,z:zl) p' s' (n - 1) nr g'
+    in go ([p_],[s_],[]) p_ s_
+
+chord :: P -> S -> Int -> [Int] -> IO ([P],[S],[Int])
+chord p s n = getStdRandom . chord' p s n
 
 amp_set :: [R]
 amp_set = map (dbAmp . negate) [1,3 .. 36]
@@ -188,13 +207,13 @@ base_note_rng = (35,47)
 base_note_seq' :: Enum e => e -> [Int]
 base_note_seq' e = mk_sel_seq_c_rng e 0.01 base_note_rng 36
 
-probabilities' :: M.Map Int R
+probabilities' :: P
 probabilities' = M.fromList (map (\x -> (x,1)) [0..11])
 
-probabilities_incr :: M.Map k R -> M.Map k R
+probabilities_incr :: P -> P
 probabilities_incr = M.map (\x -> if x < 0.9999 then x + 0.1 else x)
 
-probabilities_decr :: Int -> M.Map Int R -> M.Map Int R
+probabilities_decr :: Int -> P -> P
 probabilities_decr z = M.insert z 0.1
 
 ag :: IO AG
@@ -206,7 +225,8 @@ ag = do
   m <- l_stepper (ioi_mult_seq' 'e' 0.1)
   o <- l_stepper (octaves_seq' 'f')
   b <- l_stepper (base_note_seq' 'g')
-  return (AG {note_row = L.scramble' 'h' note_set
+  n <- L.scramble note_set
+  return (AG {note_row = n
              ,amp_row = a
              ,sus_row = s
              ,pan_row = p
@@ -217,27 +237,27 @@ ag = do
              ,selections = selections'
              ,probabilities = probabilities'})
 
-ag_note :: M.Map Int Int -> Int -> Int -> Int -> Int
+ag_note :: S -> Int -> Int -> Int -> Int
 ag_note s' z o b = ((s' M.! z) `mod` o) * 12 + b + z
 
 ag_step :: Transport t => t -> AG -> IO AG
 ag_step fd r = do
-  let act (p,s) = do
-        z <- note_step (note_row r) p
+  let act (p,s,z) = do
         o <- octaves_seq r
         b <- base_note_seq r
         let mn = ag_note s z o b
         a <- amp_row r
         su <- sus_row r
         pn <- pan_row r
-        send fd (nd_msg (midiCPS (fromIntegral mn)) a su pn)
         print ('p',map (set_prec 2) (M.elems p))
         print ('s',M.elems s)
-        return (probabilities_decr z p,selections_incr z s)
+        send fd (nd_msg (midiCPS (fromIntegral mn)) a su pn)
   (p',s') <- do let p = probabilities_incr (probabilities r)
                 s <- selections_step (selections r)
                 n <- wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
-                mrec_n n act (p,s)
+                (p',s',c) <- chord p s n (note_row r)
+                mapM_ act (zip3 p' s' c)
+                return (last p',last s')
   dt <- ioi_row r
   i <- ioi_mult_seq r
   pauseThread (dt * i)
