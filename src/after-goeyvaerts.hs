@@ -1,6 +1,8 @@
 -- after goeyvaerts, nick collins, 2007
 
 import Control.Concurrent.MVar
+import Data.List
+import Data.List.Split
 import qualified Data.Map as M {- containers -}
 import Sound.OpenSoundControl {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
@@ -22,10 +24,15 @@ mrec_n n f i =
     else f i >>= mrec_n (n - 1) f
 
 -- | recursion function useful for random processes (g = random state)
-r_chain :: g -> (g -> (a,g)) -> [a]
-r_chain g f =
+r_chain :: (g -> (a,g)) -> g -> [a]
+r_chain f g =
     let (r,g') = f g
-    in r : r_chain g' f
+    in r : r_chain f g'
+
+r_chain_fb :: ((a,g) -> (a,g)) -> a -> g -> [a]
+r_chain_fb f r_ g_ =
+    let go (r,g) = let (r',g') = f (r,g) in r' : go (r',g')
+    in r_ : go (r_,g_)
 
 -- | an action that steps through a stored sequence
 l_step :: MVar [a] -> IO a
@@ -48,22 +55,22 @@ a <- l_stepper [1..5]
 sequence (replicate 10 a)
 -}
 
-type SEL a b = (a,StdGen) -> (b,StdGen)
+type SEL a b g = (a,g) -> (b,g)
 
 -- | a recursion schema where s chooses between a and b at each step
-mk_sel_seq :: Enum e => e -> SEL a Bool -> SEL a a -> SEL a a -> a -> [a]
-mk_sel_seq e s a b j =
-    let step i g =
+sel_seq :: RandomGen g => SEL a Bool g->SEL a a g->SEL a a g->a->g->[a]
+sel_seq s a b j =
+    let step (i,g) =
             let (r,g') = s (i,g)
             in if r then a (i,g') else b (i,g')
-    in j : r_chain (mkStdGen (fromEnum e)) (step j)
+    in r_chain_fb step j
 
 -- | variant where s is a (coin' c) and a is (rrand'c r)
-mk_sel_seq_c_rng :: (Enum e,Random a) => e -> R -> (a,a) -> a -> [a]
-mk_sel_seq_c_rng e c r i =
+sel_seq_c_rng :: (RandomGen g,Random a) => R -> (a,a) -> a -> g -> [a]
+sel_seq_c_rng c r i g =
     let s = coin' c . snd
         a = rrand'c r . snd
-    in mk_sel_seq e s a id i
+    in sel_seq s a id i g
 
 -- | monadic if
 ifM :: Monad m => m Bool -> m b -> m b -> m b
@@ -82,6 +89,9 @@ coin' = L.coin'
 -- | wchoose at R
 wchoose :: [a] -> [R] -> IO a
 wchoose = L.wchoose
+
+wchoose' :: RandomGen g => [a] -> [R] -> g -> (a,g)
+wchoose' l w = L.wchoose' l w
 
 -- | rrand' with duple range
 rrand'c :: (RandomGen g,Random n) => (n,n) -> g -> (n,g)
@@ -148,6 +158,11 @@ selections' = M.fromList (map (\i -> (i,0)) [0..11])
 selections_incr :: Int -> S -> S
 selections_incr z = M.adjust (+ 1) z
 
+selections_step' :: RandomGen g => S -> g -> (S,g)
+selections_step' s g =
+    let (r,g') = coin' 0.03 g
+    in (if r then selections' else s,g')
+
 selections_step :: S -> IO S
 selections_step s = ifM (coin 0.03) (return selections') (return s)
 
@@ -159,6 +174,12 @@ note_step' n p = L.wchoose' n (L.normalizeSum (M.elems p))
 
 note_step :: [Int] -> P -> IO Int
 note_step n = getStdRandom . note_step' n
+
+chord_n' :: RandomGen g => g -> [Int]
+chord_n' = r_chain (wchoose' [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025])
+
+chord_n :: IO [Int]
+chord_n = newStdGen >>= return.chord_n'
 
 chord' :: RandomGen g => P -> S -> Int -> [Int] -> g -> (([P],[S],[Int]),g)
 chord' p_ s_ =
@@ -189,23 +210,25 @@ ioi_set = map ((12 **) . (/ 12)) [1..12]
 ioi_mult_set :: [R]
 ioi_mult_set = [0.01,0.025,0.05,0.1,0.2]
 
-ioi_mult_seq' :: Enum e => e -> R -> [R]
-ioi_mult_seq' e =
+ioi_mult_seq' :: RandomGen g => R -> g -> [R]
+ioi_mult_seq' i g =
     let s = uncurry L.coin'
         a = L.choose' ioi_mult_set . snd
-    in mk_sel_seq e s a id
+    in sel_seq s a id i g
+
+--ioi_mult_seq_ = getStdRandom . ioi_mult_seq
 
 octaves_rng :: (Int,Int)
 octaves_rng = (2,5)
 
-octaves_seq' :: Enum e => e -> [Int]
-octaves_seq' e = mk_sel_seq_c_rng e 0.02 octaves_rng 4
+octaves_seq' :: RandomGen g => g -> [Int]
+octaves_seq' = sel_seq_c_rng 0.02 octaves_rng 4
 
 base_note_rng :: (Int,Int)
 base_note_rng = (35,47)
 
-base_note_seq' :: Enum e => e -> [Int]
-base_note_seq' e = mk_sel_seq_c_rng e 0.01 base_note_rng 36
+base_note_seq' :: RandomGen g => g -> [Int]
+base_note_seq' = sel_seq_c_rng 0.01 base_note_rng 36
 
 probabilities' :: P
 probabilities' = M.fromList (map (\x -> (x,1)) [0..11])
@@ -222,9 +245,10 @@ ag = do
   s <- l_stepper_scramble sus_set
   p <- l_stepper_scramble pan_set
   i <- l_stepper_scramble ioi_set
-  m <- l_stepper (ioi_mult_seq' 'e' 0.1)
-  o <- l_stepper (octaves_seq' 'f')
-  b <- l_stepper (base_note_seq' 'g')
+  g <- newStdGen
+  m <- l_stepper (ioi_mult_seq' 0.1 g)
+  o <- l_stepper (octaves_seq' g)
+  b <- l_stepper (base_note_seq' g)
   n <- L.scramble note_set
   return (AG {note_row = n
              ,amp_row = a
@@ -240,18 +264,68 @@ ag = do
 ag_note :: S -> Int -> Int -> Int -> Int
 ag_note s' z o b = ((s' M.! z) `mod` o) * 12 + b + z
 
+-- o,b,a,su,pn,i,im are lists
+-- p,s,z are nested lists
+ag_psz' :: RandomGen g => [Int] -> [Int] -> P -> S -> g -> [([P],[S],[Int])]
+ag_psz' nr cn p s g =
+    let (n:ns) = cn
+        ((p',s',c),g') = chord' p s n nr g
+        p'' = probabilities_incr (last p')
+        (s'',g'') = selections_step' (last s') g'
+    in (p',s',c) : ag_psz' nr ns p'' s'' g''
+
+ag_psz :: [Int] -> [Int] -> P -> S -> IO [([P], [S], [Int])]
+ag_psz nr cn p s = do
+  g <- newStdGen
+  return (ag_psz' nr cn p s g)
+
+{-
+let g = mkStdGen 0
+let cn = chord_n' g
+let t3_3 (_,_,x) = x
+take 12$ map t3_3$ ag_psz note_set cn probabilities' selections' g
+-}
+
+scramble_c :: [t] -> IO [t]
+scramble_c x = L.scramble x >>= return.cycle
+
+type Score = ([([Int],[Int],[R],[R],[R],([P],[S],[Int]))],[R],[R])
+
+ag_score :: IO Score
+ag_score = do
+  a <- scramble_c amp_set
+  su <- scramble_c sus_set
+  pn <- scramble_c pan_set
+  i <- scramble_c ioi_set
+  g <- newStdGen
+  let m = ioi_mult_seq' 0.1 g
+      o = octaves_seq' g
+      b = base_note_seq' g
+  nr <- L.scramble note_set
+  cn <- chord_n
+  let gr = splitPlaces (map (+ 1) cn)
+  psz <- ag_psz nr cn probabilities' selections'
+  return (zip6 (gr o) (gr b) (gr a) (gr su) (gr pn) psz,i,m)
+
+---ag_run_score (a,s,p,o,b,psz,i,m) =
+
+ag_run_note :: Transport t => t->Int->Int->R->R->R->(P,S,Int)->IO()
+ag_run_note fd o b a su pn (p,s,z) = do
+  let mn = ag_note s z o b
+  print ('o',o,'b',b)
+  print ('p',map (set_prec 2) (M.elems p))
+  print ('s',M.elems s)
+  send fd (nd_msg (midiCPS (fromIntegral mn)) a su pn)
+
 ag_step :: Transport t => t -> AG -> IO AG
 ag_step fd r = do
   let act (p,s,z) = do
         o <- octaves_seq r
         b <- base_note_seq r
-        let mn = ag_note s z o b
         a <- amp_row r
         su <- sus_row r
         pn <- pan_row r
-        print ('p',map (set_prec 2) (M.elems p))
-        print ('s',M.elems s)
-        send fd (nd_msg (midiCPS (fromIntegral mn)) a su pn)
+        ag_run_note fd o b a su pn (p,s,z)
   (p',s') <- do let p = probabilities_incr (probabilities r)
                 s <- selections_step (selections r)
                 n <- wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
