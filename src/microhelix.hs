@@ -33,7 +33,7 @@ microhelix =
             let n = whiteNoise 'i' AR
                 e = decay2 (ctrigs * (lfNoise1 'j' AR 8 * 0.5 + 0.5)) 0.02 0.1 * 0.05
             in bpf (n * e) (tRand 'k' 12000 15000 ctrigs) 0.9
-	trigMod = roundE (lfNoise0 'l' AR 8) 1
+	trigMod = roundTo (lfNoise0 'l' AR 8) 1
 	bass =
             let t = mceChannel 0 ctrigs * trigMod
                 ph = sweep t (2 * pi * mce2 52.8 740) + (pi/3)

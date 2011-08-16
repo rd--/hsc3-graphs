@@ -24,7 +24,7 @@ bit reduction (adc)
 >            ; sr = mouseX' kr 1000 (sampleRate * 0.1) Exponential 0.2
 >            ; bit_sz = mouseY' kr 1 24 Exponential 0.2
 >            ; down_sample = latch src (impulse ar sr 0)
->            ; bit_redux = roundE down_sample (0.5 ** bit_sz) }
+>            ; bit_redux = roundTo down_sample (0.5 ** bit_sz) }
 >        in audition (out 0 (mce2 down_sample bit_redux)) }
 
 { var f = LFNoise2.kr(8)

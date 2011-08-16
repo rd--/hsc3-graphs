@@ -18,7 +18,7 @@ aleatoric quartet (jmcc)
 >                     in do { r1 <- rand (-30) 30
 >                           ; n0 <- lfNoise0 kr r0
 >                           ; let { m = n0 * 7 + base_mn + r1
->                                 ; m' = lag (roundE m 1) 0.2 }
+>                                 ; m' = lag (roundTo m 1) 0.2 }
 >                             in return (midiCPS m') } }
 >       ; mk_s = do { f <- fmap recip mk_f
 >                   ; r <- rand (-1) 1

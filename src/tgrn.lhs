@@ -10,7 +10,7 @@ C-cC-l C-cC-m
 >       ; clk = impulse ar trate 0
 >       ; pos = mouseX' kr 0 (bufDur kr b) Linear 0.1
 >       ; pan = whiteNoise 'α' kr * 0.6
->       ; n = roundE (whiteNoise 'β' kr * 3) 1
+>       ; n = roundTo (whiteNoise 'β' kr * 3) 1
 >       ; rate = shiftLeft 1.2 n }
 >   in tGrains 2 clk b rate pos dur pan 0.25 2
 
