@@ -2,7 +2,6 @@
 
 import Sound.OpenSoundControl {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Collection.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.List {- hsc3-lang -}
 
 spe3_mridangam :: UGen
@@ -48,16 +47,14 @@ p =
 	  ,1.5,0.0,0.2,0.5,0.0,0.2,0.9
 	  ,1.5,0.0,0.2,0.5,0.0,0.2] 3
     -- sam
-    ,pseq [5] 1
-    ,pseq [0.0] inf]
+    ,pseq [5] 1]
 
 act :: Transport t => t -> IO ()
 act fd = do
   play fd spe3_drone
   _ <- async fd (d_recv (synthdef "mridangam" spe3_mridangam))
   send fd (s_new "mridangam" 100 AddToTail 1 [])
-  let p' :: (P_type,Int,P (Event Double))
-      p' = (P_nset,100,pbind ([("t_amp",pseq p 1),("dur",1/8)]))
+  let p' = pbind' "n_set" (repeat 100) ([("t_amp",pseq p 1),("dur",1/8)])
   play fd p'
 
 main :: IO ()
