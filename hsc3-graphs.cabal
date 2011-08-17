@@ -225,6 +225,10 @@ Executable         hsc3-microhelix
  main-is:          src/microhelix.hs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-mridangam
+ main-is:          src/mridangam.hs
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-modal-space
  main-is:          src/modal-space.lhs
  build-depends:    base==4.*, hsc3==0.10
