@@ -27,5 +27,4 @@ notes =
 main :: IO ()
 main = do
   i <- spe3_allpass6
-  let p = pbind [("midinote",notes),("dur",0.13)]
-  withSC3 (\fd -> play fd (i,p))
+  audition (i,pbind [("midinote",notes),("dur",0.13)])
