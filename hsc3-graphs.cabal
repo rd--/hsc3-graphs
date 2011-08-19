@@ -117,6 +117,10 @@ Executable         hsc3-discretion
  main-is:          src/discretion.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-doppler
+ main-is:          src/doppler.hs
+ build-depends:    base==4.*, hsc3==0.10, hosc==0.10
+
 Executable         hsc3-drummer
  main-is:          src/drummer.lhs
  build-depends:    base==4.*, hsc3==0.10
