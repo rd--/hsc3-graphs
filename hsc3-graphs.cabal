@@ -193,6 +193,10 @@ Executable         hsc3-insects
  main-is:          src/insects.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-kabelscahden
+ main-is:          src/kabelscahden.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-karplus-strong
  main-is:          src/karplus-strong.lhs
  build-depends:    base==4.*, hsc3==0.10
