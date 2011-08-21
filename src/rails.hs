@@ -1,6 +1,7 @@
 -- rails (jmcc)
 
 import Sound.SC3.ID
+import Sound.SC3.Lang.Events.OverlapTexture
 
 rand2 :: ID a => a -> UGen -> UGen
 rand2 e n = rand e (-n) n
@@ -18,10 +19,10 @@ rails =
         a = replicate n 1
         t = mapr n (\i -> 0.2 + rand i 0 1) -- ring times
         k = klank (resonz e f 0.2) 1 0 1 (klankSpec r a t)
-    in out 0 (pan2 k l 1)
+    in pan2 k l 1
 
 main :: IO ()
-main = audition rails
+main = overlapTextureU (2,3,4,maxBound) rails
 
 {-
 ({var n = 20;
