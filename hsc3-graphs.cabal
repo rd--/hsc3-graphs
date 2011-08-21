@@ -289,6 +289,10 @@ Executable         hsc3-pulsing-bottles
  main-is:          src/pulsing-bottles.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-rails
+ main-is:          src/rails.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-record-scratcher
  main-is:          src/record-scratcher.lhs
  build-depends:    base==4.*, hsc3==0.10
