@@ -1,8 +1,8 @@
 -- overlap-add (jmcc, rd)
 
-import Control.Concurrent
 import Sound.SC3.ID
 import Sound.SC3.Lang.Events.OverlapTexture
+import Sound.SC3.Lang.Pattern.List
 
 sine :: UGen
 sine =
@@ -19,6 +19,5 @@ noise =
 
 main :: IO ()
 main = do
-  _ <- forkIO (overlapTextureU (4,4,2,maxBound) sine)
-  _ <- forkIO (overlapTextureU (4,4,2,maxBound) noise)
-  return ()
+  audition (ppar [overlapTextureU' (4,4,6,maxBound) sine
+                 ,overlapTextureU' (4,4,6,maxBound) noise])
