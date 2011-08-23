@@ -8,10 +8,11 @@ randz e n = rand e 0 n
 
 uplink :: UGen
 uplink =
-    let p0 = lfPulse KR (randz 'a' 20) 0 (randz 'b' 1)
-	p1 = lfPulse KR (randz 'c' 4) 0 (randz 'd' 1) * randz 'e' 8000 + randz 'f' 2000
-        p2 = lfPulse KR (randz 'g' 20) 0 (randz 'h' 1)
-        p3 = lfPulse KR (randz 'i' 4) 0 (randz 'j' 1) * randz 'k' 8000 + randz 'l'  2000
+    let r = randz
+        p0 = lfPulse KR (r 'a' 20) 0 (r 'b' 1)
+	p1 = lfPulse KR (r 'c' 4) 0 (r 'd' 1) * r 'e' 8000 + r 'f' 2000
+        p2 = lfPulse KR (r 'g' 20) 0 (r 'h' 1)
+        p3 = lfPulse KR (r 'i' 4) 0 (r 'j' 1) * r 'k' 8000 + r 'l'  2000
         f = p0 * p1 + p2 * p3
     in pan2 (lfPulse AR f 0 0.5 * 0.04) (rand 'm' (-0.8) 0.8) 1
 
