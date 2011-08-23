@@ -45,6 +45,10 @@ Executable         hsc3-analog-bubbles
  main-is:          src/analog-bubbles.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-arpeggio
+ main-is:          src/arpeggio.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-babbling-brook
  main-is:          src/babbling-brook.lhs
  build-depends:    base==4.*, hsc3==0.10
