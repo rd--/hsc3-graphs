@@ -6,11 +6,11 @@ k-ppr (rd)
 > main :: IO ()
 > main =
 >   let { wrp i l r = linLin i (-1) 1 l r
->       ; x = mouseX' kr 0.05 0.35 Linear 0.1
->       ; y = mouseY' kr 0.15 0.75 Linear 0.1
->       ; ti = lfTri kr x 0
+>       ; x = mouseX' KR 0.05 0.35 Linear 0.1
+>       ; y = mouseY' KR 0.15 0.75 Linear 0.1
+>       ; ti = lfTri KR x 0
 >       ; tf = wrp ti 100 200
->       ; t = impulse ar tf 0
+>       ; t = impulse AR tf 0
 >       ; stream lf rf ld rd g = 
 >           do { r1 <- rand 9 18
 >              ; let t' = pulseDivider t r1 0

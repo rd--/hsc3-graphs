@@ -4,12 +4,12 @@ mouse clatter (rd)
 
 > main :: IO ()
 > main =
->   let { x = mouseX' kr 100 12000 Linear 0.1
->       ; y = mouseY' kr 0.01 0.15 Linear 0.1 }
->   in do { n1 <- lfNoise0 kr (mce [3, 3.25])
->         ; let { t = impulse kr (n1 * 16 + 18) 0
+>   let { x = mouseX' KR 100 12000 Linear 0.1
+>       ; y = mouseY' KR 0.01 0.15 Linear 0.1 }
+>   in do { n1 <- lfNoise0 KR (mce [3, 3.25])
+>         ; let { t = impulse KR (n1 * 16 + 18) 0
 >               ; s = do { n2 <- tRand 0.005 y t
->                        ; n3 <- whiteNoise ar
+>                        ; n3 <- whiteNoise AR
 >                        ; n4 <- tRand 10 x t
 >                        ; n5 <- tRand 0 1 t
 >                        ; n6 <- tExpRand 0.15 1 t
@@ -38,12 +38,12 @@ s.sendMsg('b_alloc', 10, 2048, 1);
 ; var s = (o * 0.05) + IFFT(n7)
 ; Out.ar(0, s) }.play
 
-(let* ((x (MouseX kr 100 12000 0 0.1))
-       (y (MouseY kr 0.01 0.15 0 0.1))
-       (n1 (LFNoise0 kr (mce2 3 3.25)))
-       (t (Impulse kr (MulAdd n1 16 18) 0))
+(let* ((x (MouseX KR 100 12000 0 0.1))
+       (y (MouseY KR 0.01 0.15 0 0.1))
+       (n1 (LFNoise0 KR (mce2 3 3.25)))
+       (t (Impulse KR (MulAdd n1 16 18) 0))
        (n2 (TRand 0.005 y t))
-       (n3 (WhiteNoise ar))
+       (n3 (WhiteNoise AR))
        (n4 (TRand 10 x t))
        (n5 (TRand 0.0 1.0 t))
        (n6 (TExpRand 0.15 1.0 t))

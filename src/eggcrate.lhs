@@ -10,12 +10,12 @@ eggcrate (rd)
 >       ; sinu = sin . (* pi)
 >       ; eggcrate u v = cosu u * sinu v
 >       ; p = mce [64, 72, 96, 128, 256, 6400, 7200, 8400, 9600] }
->   in do { [x, y] <- sequence (replicate 2 (M.brownNoise kr))
->         ; t <- M.dust kr 2.4
+>   in do { [x, y] <- sequence (replicate 2 (M.brownNoise KR))
+>         ; t <- M.dust KR 2.4
 >         ; [f0, f1] <- sequence (replicate 2 (M.tChoose t p))
 >         ; let { f = linLin (eggcrate x y) (-1) 1 f0 f1
 >               ; a = linLin x (-1) 1 0 0.1 }
->           in return (pan2 (mix (sinOsc ar f 0)) y a) }
+>           in return (pan2 (mix (sinOsc AR f 0)) y a) }
 
 audition . out 0 =<< eggcrate_mu
 
@@ -25,12 +25,12 @@ audition . out 0 =<< eggcrate_mu
 >       ; sinu = sin . (* pi)
 >       ; eggcrate u v = cosu u * sinu v
 >       ; p = mce [64, 72, 96, 128, 256, 6400, 7200, 8400, 9600]
->       ; [x,y] = map (\z -> I.brownNoise z kr) "ab"
->       ; t = I.dust 'c' kr 2.4
+>       ; [x,y] = map (\z -> I.brownNoise z KR) "ab"
+>       ; t = I.dust 'c' KR 2.4
 >       ; [f0,f1] = map (\z -> I.tChoose z t p) "de"
 >       ; f = linLin (eggcrate x y) (-1) 1 f0 f1
 >       ; a = linLin x (-1) 1 0 0.1 }
->  in pan2 (mix (sinOsc ar f 0)) y a
+>  in pan2 (mix (sinOsc AR f 0)) y a
 
 audition (out 0 eggcrate_iu)
 

@@ -16,15 +16,15 @@ sosc-lp (rd)
 >                       ; send fd (b_setn1 11 0 b) }
 >       ; d_env t = decay2 t 0.002 2.5
 >       ; idx t = stepper t 0 0 15 1 0
->       ; f1 t = let { l = (bufRdL 1 kr 10 (idx t) Loop - 24)
->                    ; r = (bufRdL 1 kr 11 (idx t) Loop - 24) }
+>       ; f1 t = let { l = (bufRdL 1 KR 10 (idx t) Loop - 24)
+>                    ; r = (bufRdL 1 KR 11 (idx t) Loop - 24) }
 >                in midiCPS (mce2 l r)
 >       ; f2 t n = f1 t + n * 1.2
->       ; o1 t = sinOsc ar (f1 t) 0 * d_env t
->       ; o2 t n = sinOsc ar (f2 t n) 0 * d_env t
+>       ; o1 t = sinOsc AR (f1 t) 0 * d_env t
+>       ; o2 t n = sinOsc AR (f2 t n) 0 * d_env t
 >       ; sosc_lp t n = out 0 ((o1 t + o2 t n) * 0.2) }
->   in do { clk <- dustR kr 0.2 0.9
->         ; n <- lfNoise0 kr (mce2 1 3)
+>   in do { clk <- dustR KR 0.2 0.9
+>         ; n <- lfNoise0 KR (mce2 1 3)
 >         ; audition (sosc_lp clk n) }
 
 > resetter :: IO ()

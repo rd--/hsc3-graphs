@@ -11,9 +11,9 @@ cymbalism (jmcc)
 >                      ; rt <- sequence (p (rand 1 5))
 >                      ; return (klankSpec f (p 1) rt) }
 >           in do { z <- clone 2 y
->                 ; n <- fmap (* 0.03) (whiteNoise ar)
+>                 ; n <- fmap (* 0.03) (whiteNoise AR)
 >                 ; tf <- rand 0.5 3.5
->                 ; let { t = impulse ar tf 0
+>                 ; let { t = impulse AR tf 0
 >                       ; s = decay t 0.004 * n
 >                       ; k = klank s 1 0 1 (mceTranspose z) }
 >                   in audition (out 0 k) } }

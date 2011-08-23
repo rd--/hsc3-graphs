@@ -23,10 +23,10 @@ klg n =
         l = lrand n 'b' 0.01 0.02
         p = rand 'c' (-1.0) 1.0
         a = 0.5
-        e = envGen kr 1 0.9 0 1 RemoveSynth (envSine d a)
+        e = envGen KR 1 0.9 0 1 RemoveSynth (envSine d a)
         nh = nharm n f
         s = klangSpec nh l (replicate n 0.0)
-    in out 0 (pan2 (klang ar 1 0 s) p e)
+    in out 0 (pan2 (klang AR 1 0 s) p e)
 
 type Range = (Double,Double)
 

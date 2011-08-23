@@ -86,14 +86,14 @@ caution - audio feedback graph
 >               , (-67.32140, -2.79905)
 >               , (-68.22010, -2.33831) ]
 >       ; partial b i freq detune fall n =
->           do { n0 <- lfNoise1 kr 1
+>           do { n0 <- lfNoise1 KR 1
 >              ; n1 <- rand 0.75 1.25
 >              ; let { m = n * 2
->                    ; ampl = bufRdN 1 kr b m NoLoop
+>                    ; ampl = bufRdN 1 KR b m NoLoop
 >                    ; f = freq * (n + 1) * (n0 * detune + 1) }
 >                in return (ringz i f (fall * n1) * ampl) }
 >       ; plyr n =
->           let { ctl j k = control kr j k
+>           let { ctl j k = control KR j k
 >               ; buf = ctl "buf" 0
 >               ; iamp = ctl "iamp" 0.1
 >               ; ampl = ctl "ampl" 0.1

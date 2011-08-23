@@ -33,6 +33,14 @@ Executable         hsc3-aleatoric-quartet
  main-is:          src/aleatoric-quartet.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-alien-froggies
+ main-is:          src/alien-froggies.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
+Executable         hsc3-alien-meadow
+ main-is:          src/alien-meadow.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-analog-bubbles
  main-is:          src/analog-bubbles.lhs
  build-depends:    base==4.*, hsc3==0.10
@@ -93,13 +101,17 @@ Executable         hsc3-cymbalism
  main-is:          src/cymbalism.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-cymbalism-accelerando
+ main-is:          src/cymbalism-accelerando.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-deep-sea
  main-is:          src/deep-sea.lhs
  build-depends:    base==4.*, hsc3==0.10, random
 
 Executable         hsc3-default
- main-is:          src/default.lhs
- build-depends:    base==4.*, hosc==0.10, hsc3==0.10, random
+ main-is:          src/default.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-demanding-studies
  main-is:          src/demanding-studies.lhs
@@ -253,6 +265,10 @@ Executable         hsc3-nharm
  main-is:          src/nharm.lhs
  build-depends:    base==4.*, hsc3==0.10, random
 
+Executable         hsc3-nharm-p
+ main-is:          src/nharm-p.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-noise-burst-sweep
  main-is:          src/noise-burst-sweep.lhs
  build-depends:    base==4.*, hsc3==0.10
@@ -270,8 +286,8 @@ Executable         hsc3-oscillator-cluster
  build-depends:    base==4.*, hsc3==0.10
 
 Executable         hsc3-overlap-add
- main-is:          src/overlap-add.lhs
- build-depends:    base==4.*, hosc==0.10, hsc3==0.10
+ main-is:          src/overlap-add.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-pattern-buffer
  main-is:          src/pattern-buffer.lhs
@@ -291,7 +307,7 @@ Executable         hsc3-pulsing-bottles
 
 Executable         hsc3-rails
  main-is:          src/rails.hs
- build-depends:    base==4.*, hsc3==0.10
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-record-scratcher
  main-is:          src/record-scratcher.lhs
@@ -412,6 +428,10 @@ Executable         hsc3-tipnso
 Executable         hsc3-train
  main-is:          src/train.lhs
  build-depends:    base==4.*, hsc3==0.10
+
+Executable         hsc3-tremulate
+ main-is:          src/tremulate.hs
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-trkl
  main-is:          src/trkl.lhs

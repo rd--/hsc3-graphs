@@ -53,8 +53,7 @@ act :: Transport t => t -> IO ()
 act fd = do
   play fd spe3_drone
   _ <- async fd (d_recv spe3_mridangam)
-  send fd (s_new "mridangam" 100 AddToTail 1 [])
-  let p' = pbind' "n_set" (repeat 100) ([("t_amp",pseq p 1),("dur",1/8)])
+  let p' = pmono_d spe3_mridangam 100 [("t_amp",pseq p 1),("dur",1/8)]
   play fd p'
 
 main :: IO ()

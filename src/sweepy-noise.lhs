@@ -4,10 +4,10 @@ sweepy noise (jmcc)
 
 > main :: IO ()
 > main =
->   do { n <- clone 2 (whiteNoise ar)
->      ; let { lfoDepth = mouseY' kr 200 8000 Exponential 0.1
->            ; lfoRate = mouseX' kr 4 60 Exponential 0.1
->            ; freq = lfSaw kr lfoRate 0 * lfoDepth + (lfoDepth * 1.2)
+>   do { n <- clone 2 (whiteNoise AR)
+>      ; let { lfoDepth = mouseY' KR 200 8000 Exponential 0.1
+>            ; lfoRate = mouseX' KR 4 60 Exponential 0.1
+>            ; freq = lfSaw KR lfoRate 0 * lfoDepth + (lfoDepth * 1.2)
 >            ; filtered = rlpf (n * 0.03) freq 0.1 }
 >        in audition (out 0 (combN filtered 0.3 0.3 2 + filtered)) }
 

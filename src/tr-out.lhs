@@ -5,14 +5,14 @@ tr-out (rd)
 > main :: IO ()
 > main =
 >   let node n = do
->         { t <- dust kr 1.6
+>         { t <- dust KR 1.6
 >         ; r1 <- tRand 0 6 t
 >         ; r2 <- tRand 0 6 t
 >         ; r3 <- tRand 0 6 t
->         ; let { f = midiCPS (bufRdN 1 kr 0 r1 NoLoop)
->               ; p = bufRdN 1 kr 1 r2 NoLoop
->               ; a = bufRdN 1 kr 2 r3 NoLoop }
->                     in return ( pan2 (sinOsc ar f 0) p a
+>         ; let { f = midiCPS (bufRdN 1 KR 0 r1 NoLoop)
+>               ; p = bufRdN 1 KR 1 r2 NoLoop
+>               ; a = bufRdN 1 KR 2 r3 NoLoop }
+>                     in return ( pan2 (sinOsc AR f 0) p a
 >                               , sendTrig t n (f / 660) ) }
 >       act fd = do
 >         { _ <- async fd (b_alloc 0 6 1)

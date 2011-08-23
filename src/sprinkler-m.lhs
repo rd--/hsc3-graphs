@@ -4,9 +4,9 @@ sprinkler-m (jmcc)
 
 > sprinkler_m :: IO UGen
 > sprinkler_m =
->   do { n <- whiteNoise ar
->      ; let { f = lfPulse kr 0.09 0 0.16 * 10 + 7
->            ; t = lfPulse kr f 0 0.25 * 0.1 }
+>   do { n <- whiteNoise AR
+>      ; let { f = lfPulse KR 0.09 0 0.16 * 10 + 7
+>            ; t = lfPulse KR f 0 0.25 * 0.1 }
 >        in return (bpz2 (n * t)) }
 
 > main :: IO ()

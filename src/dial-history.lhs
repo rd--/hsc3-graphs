@@ -14,17 +14,17 @@ dial history (jrhb)
 >         ; b <- dbrown n 0.1 0.2 0.01
 >         ; rate <- dseq dinf (mce2 w b)
 >         ; q <- dseq dinf (mce [1..10])
->         ; g1 <- grayNoise ar
->         ; g2 <- grayNoise ar
->         ; d <- lfdNoise3 kr 0.5
->         ; let { tr = trig (tDuty kr rate 0 DoNothing q 1) 0.09
+>         ; g1 <- grayNoise AR
+>         ; g2 <- grayNoise AR
+>         ; d <- lfdNoise3 KR 0.5
+>         ; let { tr = trig (tDuty KR rate 0 DoNothing q 1) 0.09
 >               ; pat = latch tr tr
->               ; x = mouseX' kr 0 1 Linear 0.2
+>               ; x = mouseX' KR 0 1 Linear 0.2
 >               ; h = hasher (pat * x)
 >               ; which = trunc (range h 0 (constant (length numbers))) 1
 >               ; both = select which (mce_r numbers)
 >               ; dial = select both (mce_r (transpose mfv))
->               ; sig = sinOsc ar dial 0 * 0.05 * tr
+>               ; sig = sinOsc AR dial 0 * 0.05 * tr
 >               ; dsig = delayN sig 0.2 (range d 0 0.01)
 >               ; hiss = g1 * 0.01 + hpf (g2 * 0.02) 3000 }
 >           in audition (out 0 (dsig + hiss)) }
@@ -46,8 +46,8 @@ dial history (jrhb)
 ; var sig = SinOsc.ar(dial, 0) * 0.05 * trig
 ; var d = LFDNoise3.kr(0.5)
 ; var dsig = DelayC.ar(sig, 0.2, d.range(0, 0.01))
-; var g1 = GrayNoise.ar
-; var g2 = GrayNoise.ar
+; var g1 = GrayNoise.AR
+; var g2 = GrayNoise.AR
 ; var z = Silent.ar(1)
 ; var hiss = g1 * 0.01 + HPF.ar(g2 * 0.02, 3000)
 ; Out.ar(0, [z, dsig + hiss]) }.play

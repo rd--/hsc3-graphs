@@ -4,13 +4,13 @@ sample and hold liquidities (jmcc)
 
 > main :: IO ()
 > main =
->   let { r = mouseX' kr 1 200 Exponential 0.1
+>   let { r = mouseX' KR 1 200 Exponential 0.1
 >       ; t = recip r
->       ; c = impulse kr r 0.4
->       ; cf = mouseY' kr 100 8000 Exponential 0.1
->       ; f = latch (whiteNoise 'α' kr * cf * 0.5 + cf) c
->       ; p = latch (whiteNoise 'β' kr) c
->       ; i = pan2 (sinOsc ar f 0 * decay2 c (t * 0.1) (t * 0.9)) p 1 }
+>       ; c = impulse KR r 0.4
+>       ; cf = mouseY' KR 100 8000 Exponential 0.1
+>       ; f = latch (whiteNoise 'α' KR * cf * 0.5 + cf) c
+>       ; p = latch (whiteNoise 'β' KR) c
+>       ; i = pan2 (sinOsc AR f 0 * decay2 c (t * 0.1) (t * 0.9)) p 1 }
 >   in audition (out 0 (combN i 0.3 0.3 2))
 
 { var r = MouseX.kr(1, 200, 'exponential', 0.1)

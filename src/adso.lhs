@@ -10,12 +10,12 @@ adso (rd)
 >       ; rrand_l j l r = sequence (replicate j (rrand l r))
 >       ; n = 24
 >       ; adso = let { get b j = let k = mce [0 .. constant j - 1]
->                                in bufRdN 1 kr b k NoLoop
->                    ; m = sinOsc kr (get 3 n) 0
+>                                in bufRdN 1 KR b k NoLoop
+>                    ; m = sinOsc KR (get 3 n) 0
 >                    ; f = midiCPS (get 0 n) * (m * get 4 n + 1)
 >                    ; l = get 2 n
 >                    ; g = get 1 n }
->                in out 0 (mix (pan2 (sinOsc ar f 0) l g))
+>                in out 0 (mix (pan2 (sinOsc AR f 0) l g))
 >       ; pattern fd t = do { z <- do { l <- rrand 22 48
 >                                     ; r <- rrand 54 122
 >                                     ; sequence (replicate n (rrand l r)) }

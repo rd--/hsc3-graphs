@@ -7,11 +7,11 @@ harmonic swimming (jmcc)
 >   let { a = 0.02
 >       ; f = 50
 >       ; p = 20
->       ; l = line kr 0 (- a) 60 DoNothing
+>       ; l = line KR 0 (- a) 60 DoNothing
 >       ; o h = do { r <- clone 2 (rand 2 8)
->                  ; n <- lfNoise1 kr r
+>                  ; n <- lfNoise1 KR r
 >                  ; let e = max 0 (n * a + l)
->                    in return (fSinOsc ar (f * (h + 1)) 0 * e) } }
+>                    in return (fSinOsc AR (f * (h + 1)) 0 * e) } }
 >   in audition . out 0 . sum =<< mapM o [0..p]
 
 { var a = 0.02

@@ -4,7 +4,7 @@ scratchy-m (jmcc)
 
 > main :: IO ()
 > main =
->   do { n <- clone 2 (brownNoise ar)
+>   do { n <- clone 2 (brownNoise AR)
 >      ; let f = max (n * 0.5 - 0.49) 0 * 20
 >        in audition (out 0 (rhpf f 5000 1)) }
 

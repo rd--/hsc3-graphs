@@ -11,11 +11,11 @@ red frik (f0)
 >            ; r4 <- tRand 0.49 0.56 tr
 >            ; r5 <- tRand 0.3 0.6 tr
 >            ; r6 <- tRand 0.3 0.5 tr
->            ; let { o1 = fSinOsc kr r2 0 * r3 + r4
->                  ; o2 = fSinOsc kr o1 r5 * r6 }
+>            ; let { o1 = fSinOsc KR r2 0 * r3 + r4
+>                  ; o2 = fSinOsc KR o1 r5 * r6 }
 >              in return (rhpf n r1 o2) }
->     in do { n <- clone 2 (brownNoise ar)
->           ; let tr = impulse kr 0.1 0
+>     in do { n <- clone 2 (brownNoise AR)
+>           ; let tr = impulse KR 0.1 0
 >             in audition . out 0 =<< red tr n }
 
 { var red = { arg tr, n

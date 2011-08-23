@@ -5,7 +5,7 @@ implosion (rd)
 > main :: IO ()
 > main =
 >   let { mkls bp t = let e = envCoord bp t 1 EnvLin
->                     in envGen kr 1 1 0 1 RemoveSynth e
+>                     in envGen KR 1 1 0 1 RemoveSynth e
 >       ; mkrmp l r t = mkls [(0, l), (1, r)] t
 >       ; wrp i l r = linLin i (-1) 1 l r
 >       ; pmr_n rt l0 l1 r0 r1 d = let { le = mkrmp l0 r0 d
@@ -17,7 +17,7 @@ implosion (rd)
 >         ; d  <- rand 7.5 13.5
 >         ; f0 <- rand 10990 16220
 >         ; f1 <- rand  9440 19550
->         ; f <- pmr_n ar 440 f0 f1 f1 d
->         ; l <- pmr_n kr n0 n1 0 0 d
->         ; a <- pmr_n kr 0.1 0.6 0 0 d
->         ; audition (out 0 (pan2 (saw ar f) l a)) }
+>         ; f <- pmr_n AR 440 f0 f1 f1 d
+>         ; l <- pmr_n KR n0 n1 0 0 d
+>         ; a <- pmr_n KR 0.1 0.6 0 0 d
+>         ; audition (out 0 (pan2 (saw AR f) l a)) }

@@ -12,21 +12,21 @@ fm-kltr (rd)
 >                ; r2 <- rand 0.5 1.5
 >                ; r3 <- rand 0.975 1.025
 >                ; r4 <- rand 0.75 1.25
->                ; let { o = control ir "out" 0
->                   {- ; t = control kr "trig" 0 {- unused -} -}
->                      ; a = control kr "amp" 0.1
->                      ; d = control kr "dur" 0.1
->                      ; f = control kr "freq" 400.0
->                      ; i = control kr "index" 40.0
->                      ; p = control kr "pan" 0.0
->                      ; f2 = control kr "freq2" 600
+>                ; let { o = control IR "out" 0
+>                   {- ; t = control KR "trig" 0 {- unused -} -}
+>                      ; a = control KR "amp" 0.1
+>                      ; d = control KR "dur" 0.1
+>                      ; f = control KR "freq" 400.0
+>                      ; i = control KR "index" 40.0
+>                      ; p = control KR "pan" 0.0
+>                      ; f2 = control KR "freq2" 600
 >                      ; ep = envPerc 0.01 d
->                      ; e = envGen ar 1 a 0 1 RemoveSynth ep
->                      ; so = sinOsc ar (xLine kr f (f * r1) d DoNothing) 0
->                      ; xl = xLine kr f2 (f2 * r3) d DoNothing
->                      ; m = so * line kr i (f * r2) d DoNothing + xl
->                      ; l = line kr p (p * r4) d DoNothing }
->                  in return (out o (pan2 (sinOsc ar m 0) l e)) }
+>                      ; e = envGen AR 1 a 0 1 RemoveSynth ep
+>                      ; so = sinOsc AR (xLine KR f (f * r1) d DoNothing) 0
+>                      ; xl = xLine KR f2 (f2 * r3) d DoNothing
+>                      ; m = so * line KR i (f * r2) d DoNothing + xl
+>                      ; l = line KR p (p * r4) d DoNothing }
+>                  in return (out o (pan2 (sinOsc AR m 0) l e)) }
 >       ; fm fd f ff a d i =
 >           do { r1 <- rrand (-1) 1
 >              ; r2 <- rrand (-1) 1

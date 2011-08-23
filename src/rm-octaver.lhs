@@ -8,4 +8,4 @@ rm-octaver (andrea valle, miller puckette)
 >       ; i = soundIn 0
 >       ; p = defaultPitch i
 >       ; f = mceChannel 0 p }
->   in audition (out 0 (sinOsc ar (f * 0.5) 0 * i + i))
+>   in audition (out 0 (sinOsc AR (f * 0.5) 0 * i + i))

@@ -10,13 +10,13 @@ deep sea (jrhb)
 >       ; variation = 0.9
 >       ; n = rand 'α' 7 46
 >       ; dt1 = 25.0 + rand 'β' (-1.7) 1.7
->       ; dt2 = (dt1 + lfNoise2 'γ' kr 2) * variation * 0.001
+>       ; dt2 = (dt1 + lfNoise2 'γ' KR 2) * variation * 0.001
 >       ; f = 901 + rand 'δ' 0 65
->       ; t = impulse ar (recip dt2) 0 * 100
+>       ; t = impulse AR (recip dt2) 0 * 100
 >       ; count = pulseCount t 0
 >       ; mul = count <* n
 >       ; u1 = bpf (mul * t) f 1 * 0.1
->       ; f2 = f * ((count `modE` range (lfNoise1 'ε' kr 1) 2 20) + 1)
+>       ; f2 = f * ((count `modE` range (lfNoise1 'ε' KR 1) 2 20) + 1)
 >       ; u2 = bpf u1 f2 1 * 0.2 }
 >   in audition (mrg [ detectSilence u2 0.0001 0.2 RemoveSynth
 >                    , out 0 (pan2 u2 pan (amp * 10)) ])

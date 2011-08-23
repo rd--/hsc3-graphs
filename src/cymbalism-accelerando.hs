@@ -16,7 +16,7 @@ cymbalism_accellerando =
       z = mce2 (y 'a') (y 'A')
       w = whiteNoise 'α' AR * 0.02
       tf = xLine KR (linRand 'β' 0.5 4.5 0) (rand 'γ' 0.5 35.5) 12 DoNothing
-      t = impulse ar tf 0
+      t = impulse AR tf 0
       s = decay t 0.004 * w
   in klank s 1 0 1 (mceTranspose z)
 

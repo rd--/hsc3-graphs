@@ -4,8 +4,8 @@ babbling brook (jmcc)
 
 > babbling_brook :: IO UGen
 > babbling_brook =
->   let b f m a g = do { n1 <- brownNoise ar
->                      ; n2 <- brownNoise ar
+>   let b f m a g = do { n1 <- brownNoise AR
+>                      ; n2 <- brownNoise AR
 >                      ; let { n3 = lpf n2 f * m + a
 >                            ; n4 = onePole n1 0.99 }
 >                        in return (rhpf n4 n3 0.03 * g) }

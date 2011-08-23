@@ -15,8 +15,8 @@ would otherwise be loaded.)
 > main =
 >   let { n = 122
 >       ; c = envCoord [(0,0), (0.15, 1), (6, 0)] 1 1 EnvLin
->       ; e = envGen kr 1 1 0 1 RemoveSynth c
->       ; f o = sinOsc ar (440 + constant o) 0 * 0.001
+>       ; e = envGen KR 1 1 0 1 RemoveSynth c
+>       ; f o = sinOsc AR (440 + constant o) 0 * 0.001
 >       ; s = mixFill n f }
 >   in audition (out 0 (s * e))
 

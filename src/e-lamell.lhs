@@ -14,17 +14,17 @@ e-lamell (rd)
 >                              in return ((r ** n) * a) }
 >       ; choose l = return . (l !!) =<< rrand 0 (length l - 1)
 >       ; sendSynth fd n u = async fd (d_recv (synthdef n u))
->       ; e_lamell = let { ctl s v = control kr s v
+>       ; e_lamell = let { ctl s v = control KR s v
 >                        ; f = ctl "f" 440
 >                        ; n = ctl "n" 12
 >                        ; d = ctl "d" 0.1
 >                        ; l = ctl "l" 0
 >                        ; a = ctl "a" 1 }
 >                    in do { t <- tChoose 1 (mce2 1 32)
->                          ; let { h = line ar n t d DoNothing
->                                ; s = blip ar f h
+>                          ; let { h = line AR n t d DoNothing
+>                                ; s = blip AR f h
 >                                ; e_d = envPerc 0.005 d
->                                ; e = envGen ar 1 a 0 1 RemoveSynth e_d }
+>                                ; e = envGen AR 1 a 0 1 RemoveSynth e_d }
 >                            in return (out 0 (pan2 s l e)) }
 >       ; r_note o p = do { oe <- choose o
 >                         ; pe <- choose p

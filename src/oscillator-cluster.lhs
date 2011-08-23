@@ -4,15 +4,15 @@ oscillator cluster (rd)
 
 > main :: IO ()
 > main =
->   let { ln a b d = line kr a b d RemoveSynth
+>   let { ln a b d = line KR a b d RemoveSynth
 >       ; rln r a b d = fmap (\n -> ln (a + n) b d) (rand 0 r)
 >       ; prt d a cf = do { r1 <- rand cf (cf + 2)
 >                         ; r2 <- rln 1 5 0.01 d
 >                         ; r3 <- rln 10 20 0 d
 >                         ; r4 <- rand 0.1 0.2
->                         ; let { f = mce2 cf r1 + sinOsc kr r2 0 * r3
->                               ; o = fSinOsc ar f 0
->                               ; e = decay2 (impulse ar 0 0) r4 d * a }
+>                         ; let { f = mce2 cf r1 + sinOsc KR r2 0 * r3
+>                               ; o = fSinOsc AR f 0
+>                               ; e = decay2 (impulse AR 0 0) r4 d * a }
 >                          in return (o * e) }
 >       ; np = 12
 >       ; fp = sequence (replicate np (rand 220 660)) }

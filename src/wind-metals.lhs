@@ -7,9 +7,9 @@ wind metals (jmcc)
 >   let n = 6
 >   in do { base <- expRand 60 4000
 >         ; range <- rand 500 8000
->         ; n0 <- clone 2 (brownNoise ar)
+>         ; n0 <- clone 2 (brownNoise AR)
 >         ; r0 <- expRand 0.125 0.5
->         ; n1 <- lfNoise1 kr r0
+>         ; n1 <- lfNoise1 KR r0
 >         ; f <- sequence (replicate n (rand base (base + range)))
 >         ; dt <- sequence (replicate n (rand 0.1 2))
 >         ; let { exc = n0 * 0.007 * max 0 (n1 * 0.75 + 0.25)
