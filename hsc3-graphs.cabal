@@ -405,6 +405,14 @@ Executable         hsc3-sidereal-time
  main-is:          src/sidereal-time.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
+Executable         hsc3-slow-beating-harmonic-sines
+ main-is:          src/slow-beating-harmonic-sines.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, MonadRandom
+
+Executable         hsc3-slow-beating-sines
+ main-is:          src/slow-beating-sines.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, MonadRandom
+
 Executable         hsc3-snare-909
  main-is:          src/snare-909.lhs
  build-depends:    base==4.*, hsc3==0.10
