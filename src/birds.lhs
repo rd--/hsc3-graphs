@@ -14,7 +14,7 @@ birds (jmcc)
 >                   ; r8 <- rand (-1.0) 1.0
 >                   ; let { f = r1 + lag (lfSaw AR (7 + r2) r3 * r4) 0.1
 >                         ; a = lfPulse KR (1.0 / r6) r7 0.16 * 0.05
->                         ; b = sinOsc AR (midiCPS f) r5 * a } 
+>                         ; b = sinOsc AR (midiCPS f) r5 * a }
 >                     in return (rotate2 b (silent 1) r8) }
 >       ; apf i = do { r1 <- rand 0.0 0.06
 >                    ; r2 <- rand 0.7 2.0

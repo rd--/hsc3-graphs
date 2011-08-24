@@ -293,6 +293,10 @@ Executable         hsc3-noise-burst-sweep
  main-is:          src/noise-burst-sweep.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-noise-modulated-sines
+ main-is:          src/noise-modulated-sines.hs
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-non-real-time
  main-is:          src/non-real-time.hs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10, process
