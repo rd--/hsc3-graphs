@@ -1,6 +1,5 @@
 -- choip (jmcc)
 
-import Sound.OpenSoundControl
 import Sound.SC3.ID
 import Sound.SC3.Lang.Events.OverlapTexture
 
@@ -22,21 +21,13 @@ choip =
         l = line KR (r2 'e' 1) (r2 'f' 1) t DoNothing
     in pan2 (decay2 (i * xl 'g' 'h' 0.01 0.5 t) 0.01 0.2 * a) l 1
 
-apr :: Synthdef
-apr =
-    let i = in' 2 AR 0
-        f x = allpassN x 0.1 (mce2 (rand 'a' 0 0.05) (rand 'b' 0 0.05)) 4
-    in synthdef "apr" (replaceOut 0 (chain 4 f i))
-
-act :: Transport t => t -> IO ()
-act fd = do
-  _ <- async fd (d_recv apr)
-  send fd (g_new [(2,AddToTail,0)])
-  send fd (s_new "apr" (-1) AddToTail 2 [])
-  play fd (overlapTextureU' (10,1,8,maxBound) choip)
+choip_pp :: UGen -> UGen
+choip_pp i =
+    let f x = allpassN x 0.1 (mce2 (rand 'a' 0 0.05) (rand 'b' 0 0.05)) 4
+    in chain 4 f i
 
 main :: IO ()
-main = withSC3 act
+main = overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp
 
 {-
 var t = 12;

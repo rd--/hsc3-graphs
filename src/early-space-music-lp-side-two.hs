@@ -1,6 +1,5 @@
 -- early space music LP, side 2 (jmcc)
 
-import Sound.OpenSoundControl
 import Sound.SC3.ID
 import qualified Sound.SC3.Lang.Collection.SequenceableCollection as C
 import Sound.SC3.Lang.Events.OverlapTexture
@@ -59,26 +58,20 @@ m7 =
             in mce2 (y 'a') (y 'A')
         f = xLine KR (expRand 'α' 40 300) (expRand 'β' 40 300) 12 DoNothing
         t = lfPulse AR f 0 (rand 'γ' 0.1 0.9) * 0.002 * max 0 (lfNoise2 'δ' KR (rand 'ε' 0 8))
-    in distort (klank t 1 0 1 (mceTranspose z)) * 0.1
+    in distort (klank t 1 0 1 (mceTranspose z)) * 0.3
 
-espmlps2 :: R.RandomGen g => g -> (UGen, g)
-espmlps2 g = C.choose' (map (* 0.3) [m1,m2,m3,m4,m6,m7]) g
+esmlp2 :: R.RandomGen g => g -> (UGen, g)
+esmlp2 g = C.choose' (map (* 0.3) [m1,m2,m3,m4,m6,m7]) g
 
-cmb :: Synthdef
-cmb =
-    let i = in' 2 AR 0
-        f e = combN i 0.3 (mce2 (rand e 0.1 0.3) (rand e 0.12 0.32)) 8
-    in synthdef "cmb" (replaceOut 0 (mixFill 5 f * 0.3))
-
-act :: Transport t => t -> IO ()
-act fd = do
-  _ <- async fd (d_recv cmb)
-  send fd (g_new [(2,AddToTail,0)])
-  send fd (s_new "cmb" (-1) AddToTail 2 [])
-  play fd (overlapTextureS' (2,4,6,maxBound) espmlps2 (R.mkStdGen 0))
+esmlp2_pp :: UGen -> UGen
+esmlp2_pp i =
+    let f e = combN i 0.3 (mce2 (rand e 0.1 0.3) (rand e 0.12 0.32)) 8
+    in mixFill 5 f * 0.3
 
 main :: IO ()
-main = withSC3 act
+main = do
+  let g = R.mkStdGen 0
+  overlapTextureS_pp (2,4,6,maxBound) esmlp2 g 2 esmlp2_pp
 
 {-
 audition (out 0 (m6 * 0.5))

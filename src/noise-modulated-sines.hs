@@ -1,6 +1,5 @@
 -- noise modulated sines (jmcc)
 
-import Sound.OpenSoundControl
 import Sound.SC3.ID
 import Sound.SC3.Lang.Events.OverlapTexture
 
@@ -11,17 +10,8 @@ nms =
         a = lfNoise2 'b' KR (f * mce2 0.15 0.16) * 0.1
     in o * a
 
-cmb :: Synthdef
-cmb =
-    let i = in' 2 AR 0
-    in synthdef "cmb" (replaceOut 0 (combN i 0.3 0.3 4 + mceReverse i))
-
-act :: Transport t => t -> IO ()
-act fd = do
-  _ <- async fd (d_recv cmb)
-  send fd (g_new [(2,AddToTail,0)])
-  send fd (s_new "cmb" (-1) AddToTail 2 [])
-  play fd (overlapTextureU' (4,4,4,maxBound) nms)
+nms_pp :: (UGen -> UGen)
+nms_pp i = combN i 0.3 0.3 4 + mceReverse i
 
 main :: IO ()
-main = withSC3 act
+main = overlapTextureU_pp (4,4,4,maxBound) nms 2 nms_pp
