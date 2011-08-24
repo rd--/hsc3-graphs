@@ -525,6 +525,10 @@ Executable         hsc3-what-was-i-thinking
  main-is:          src/what-was-i-thinking.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-why-supercollider
+ main-is:          src/why-supercollider.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-wial
  main-is:          src/wial.lhs
  build-depends:    base==4.*, hsc3==0.10
