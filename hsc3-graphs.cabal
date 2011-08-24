@@ -81,6 +81,10 @@ Executable         hsc3-chain-saw
  main-is:          src/chain-saw.lhs
  build-depends:    base==4.*, hsc3==0.10, random
 
+Executable         hsc3-choip
+ main-is:          src/choip.hs
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-chrd
  main-is:          src/chrd.lhs
  build-depends:    base==4.*, hsc3==0.10
