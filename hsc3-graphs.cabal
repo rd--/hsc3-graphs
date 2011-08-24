@@ -157,6 +157,10 @@ Executable         hsc3-drummer
  main-is:          src/drummer.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-early-space-music-lp-side-two
+ main-is:          src/early-space-music-lp-side-two.hs
+ build-depends:    base==4.*,hosc==0.10,hsc3==0.10,hsc3-lang==0.10,random
+
 Executable         hsc3-eggcrate
  main-is:          src/eggcrate.lhs
  build-depends:    base==4.*, hsc3==0.10
