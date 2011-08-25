@@ -1,3 +1,4 @@
+-- black atlantic currents (jr)
 -- http://www.listarc.bham.ac.uk/lists/sc-users/msg08240.html
 
 import Data.Numbers.Primes {- primes -}

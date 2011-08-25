@@ -89,6 +89,10 @@ Executable         hsc3-chrd
  main-is:          src/chrd.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-chrd-t
+ main-is:          src/chrd-t.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, MonadRandom
+
 Executable         hsc3-comb-delay-sweeps
  main-is:          src/comb-delay-sweeps.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, random
