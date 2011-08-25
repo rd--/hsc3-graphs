@@ -165,6 +165,10 @@ Executable         hsc3-eggcrate
  main-is:          src/eggcrate.lhs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-ellipse-based-synthesis
+ main-is:          src/ellipse-based-synthesis.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-e-lamell
  main-is:          src/e-lamell.lhs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10, random
