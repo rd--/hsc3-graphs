@@ -329,6 +329,10 @@ Executable         hsc3-pattern-buffer
  main-is:          src/pattern-buffer.lhs
  build-depends:    base==4.*, hsc3==0.10, random
 
+Executable         hsc3-pebble-beach
+ main-is:          src/pebble-beach.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-plucked-strings
  main-is:          src/plucked-strings.lhs
  build-depends:    base==4.*, hsc3==0.10
