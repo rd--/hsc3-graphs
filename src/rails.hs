@@ -1,7 +1,7 @@
 -- rails (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Events.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture
 
 rand2 :: ID a => a -> UGen -> UGen
 rand2 e n = rand e (-n) n

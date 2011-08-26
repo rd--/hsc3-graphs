@@ -1,7 +1,7 @@
 -- sidereal time (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Events.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture
 
 enumFromN :: Enum a => a -> Int -> [Int]
 enumFromN e i = let j = fromEnum e in [j .. j + i]

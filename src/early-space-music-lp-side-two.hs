@@ -1,8 +1,8 @@
 -- early space music LP, side 2 (jmcc)
 
 import Sound.SC3.ID
-import qualified Sound.SC3.Lang.Collection.SequenceableCollection as C
-import Sound.SC3.Lang.Events.OverlapTexture
+import qualified Sound.SC3.Lang.Random.Gen as R
+import Sound.SC3.Lang.Control.OverlapTexture
 import qualified System.Random as R
 
 m1 :: UGen
@@ -61,7 +61,7 @@ m7 =
     in distort (klank t 1 0 1 (mceTranspose z)) * 0.3
 
 esmlp2 :: R.RandomGen g => g -> (UGen, g)
-esmlp2 g = C.choose' (map (* 0.3) [m1,m2,m3,m4,m6,m7]) g
+esmlp2 g = R.choose (map (* 0.3) [m1,m2,m3,m4,m6,m7]) g
 
 esmlp2_pp :: UGen -> UGen
 esmlp2_pp i =

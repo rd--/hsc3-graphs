@@ -1,7 +1,7 @@
 -- pond life (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Events.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture
 
 pond_life :: UGen
 pond_life =

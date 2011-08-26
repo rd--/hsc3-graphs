@@ -1,7 +1,7 @@
 -- alien froggies (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Events.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture
 
 alien_froggies :: UGen -> (UGen,UGen)
 alien_froggies r =

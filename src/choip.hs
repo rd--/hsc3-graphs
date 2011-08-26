@@ -1,7 +1,7 @@
 -- choip (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Events.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture
 
 chain :: Int -> (t -> t) -> t -> t
 chain j f x = if j == 0 then x else chain (j - 1) f (f x)

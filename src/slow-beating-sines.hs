@@ -3,8 +3,8 @@
 import Control.Monad
 import Control.Monad.Random
 import Sound.SC3
-import Sound.SC3.Lang.Events.OverlapTexture
-import Sound.SC3.Lang.Math.Random
+import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.Lang.Random.Monad
 
 r_freq :: (RandomGen g) => Int -> Rand g [Double]
 r_freq i = do

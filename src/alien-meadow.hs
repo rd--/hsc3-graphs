@@ -1,7 +1,7 @@
 -- alien meadow (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Events.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture
 
 alien_meadow :: UGen
 alien_meadow =

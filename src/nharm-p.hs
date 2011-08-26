@@ -1,8 +1,8 @@
 -- nharm-p (rd)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Collection.Event
-import Sound.SC3.Lang.Pattern.List
+import Sound.SC3.Lang.Control.Event
+import Sound.SC3.Lang.Pattern.ID
 
 nharm :: Num n => Int -> n -> [n]
 nharm n f = map ((* f) . fromIntegral) [1..n]

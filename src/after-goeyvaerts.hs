@@ -6,8 +6,8 @@ import Data.List.Split
 import qualified Data.Map as M {- containers -}
 import Sound.OpenSoundControl {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import qualified Sound.SC3.Lang.Collection.SequenceableCollection as L
-import qualified Sound.SC3.Lang.Math.SimpleNumber as L {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Random.Gen as R
 import System.Random {- random -}
 
 -- * SCHEMA
@@ -48,7 +48,7 @@ l_stepper l = do
   return (l_step r)
 
 l_stepper_scramble :: [a] -> IO (IO a)
-l_stepper_scramble l = L.scramble l >>= l_stepper
+l_stepper_scramble l = scrambleIO l >>= l_stepper
 
 {-
 a <- l_stepper [1..5]
@@ -68,8 +68,8 @@ sel_seq s a b j =
 -- | variant where s is a (coin' c) and a is (rrand'c r)
 sel_seq_c_rng :: (RandomGen g,Random a) => R -> (a,a) -> a -> g -> [a]
 sel_seq_c_rng c r i g =
-    let s = coin' c . snd
-        a = rrand'c r . snd
+    let s = coin c . snd
+        a = rrandc r . snd
     in sel_seq s a id i g
 
 -- | monadic if
@@ -79,23 +79,26 @@ ifM i j k = do
   if i' then j else k
 
 -- | coin at R
-coin :: R -> IO Bool
-coin = L.coin
+coin :: (RandomGen g) => R -> g -> (Bool,g)
+coin = R.coin
 
--- | coin' at R
-coin' :: (RandomGen g) => R -> g -> (Bool,g)
-coin' = L.coin'
+-- | coin at R
+coinIO :: R -> IO Bool
+coinIO = getStdRandom . coin
+
+wchoose :: RandomGen g => [a] -> [R] -> g -> (a,g)
+wchoose l w = R.wchoose l w
 
 -- | wchoose at R
-wchoose :: [a] -> [R] -> IO a
-wchoose = L.wchoose
+wchooseIO :: [a] -> [R] -> IO a
+wchooseIO l= getStdRandom . wchoose l
 
-wchoose' :: RandomGen g => [a] -> [R] -> g -> (a,g)
-wchoose' l w = L.wchoose' l w
+-- | rrand with duple range
+rrandc :: (RandomGen g,Random n) => (n,n) -> g -> (n,g)
+rrandc = uncurry R.rrand
 
--- | rrand' with duple range
-rrand'c :: (RandomGen g,Random n) => (n,n) -> g -> (n,g)
-rrand'c = uncurry L.rrand'
+scrambleIO :: [t] -> IO [t]
+scrambleIO = getStdRandom . R.scramble
 
 -- | set precision
 set_prec :: Int -> Double -> Double
@@ -160,23 +163,23 @@ selections_incr z = M.adjust (+ 1) z
 
 selections_step' :: RandomGen g => S -> g -> (S,g)
 selections_step' s g =
-    let (r,g') = coin' 0.03 g
+    let (r,g') = coin 0.03 g
     in (if r then selections' else s,g')
 
 selections_step :: S -> IO S
-selections_step s = ifM (coin 0.03) (return selections') (return s)
+selections_step s = ifM (coinIO 0.03) (return selections') (return s)
 
 note_set :: [Int]
 note_set = [0 .. 11]
 
 note_step' :: RandomGen g => [Int] -> P -> g -> (Int,g)
-note_step' n p = L.wchoose' n (L.normalizeSum (M.elems p))
+note_step' n p = R.wchoose n (C.normalizeSum (M.elems p))
 
 note_step :: [Int] -> P -> IO Int
 note_step n = getStdRandom . note_step' n
 
 chord_n' :: RandomGen g => g -> [Int]
-chord_n' = r_chain (wchoose' [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025])
+chord_n' = r_chain (wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025])
 
 chord_n :: IO [Int]
 chord_n = newStdGen >>= return.chord_n'
@@ -212,8 +215,8 @@ ioi_mult_set = [0.01,0.025,0.05,0.1,0.2]
 
 ioi_mult_seq' :: RandomGen g => R -> g -> [R]
 ioi_mult_seq' i g =
-    let s = uncurry L.coin'
-        a = L.choose' ioi_mult_set . snd
+    let s = uncurry coin
+        a = R.choose ioi_mult_set . snd
     in sel_seq s a id i g
 
 --ioi_mult_seq_ = getStdRandom . ioi_mult_seq
@@ -249,7 +252,7 @@ ag = do
   m <- l_stepper (ioi_mult_seq' 0.1 g)
   o <- l_stepper (octaves_seq' g)
   b <- l_stepper (base_note_seq' g)
-  n <- L.scramble note_set
+  n <- scrambleIO note_set
   return (AG {note_row = n
              ,amp_row = a
              ,sus_row = s
@@ -287,7 +290,7 @@ take 12$ map t3_3$ ag_psz note_set cn probabilities' selections' g
 -}
 
 scramble_c :: [t] -> IO [t]
-scramble_c x = L.scramble x >>= return.cycle
+scramble_c x = scrambleIO x >>= return.cycle
 
 type Score = ([([Int],[Int],[R],[R],[R],([P],[S],[Int]))],[R],[R])
 
@@ -301,7 +304,7 @@ ag_score = do
   let m = ioi_mult_seq' 0.1 g
       o = octaves_seq' g
       b = base_note_seq' g
-  nr <- L.scramble note_set
+  nr <- scrambleIO note_set
   cn <- chord_n
   let gr = splitPlaces (map (+ 1) cn)
   psz <- ag_psz nr cn probabilities' selections'
@@ -328,7 +331,7 @@ ag_step fd r = do
         ag_run_note fd o b a su pn (p,s,z)
   (p',s') <- do let p = probabilities_incr (probabilities r)
                 s <- selections_step (selections r)
-                n <- wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
+                n <- wchooseIO [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025]
                 (p',s',c) <- chord p s n (note_row r)
                 mapM_ act (zip3 p' s' c)
                 return (last p',last s')

@@ -1,7 +1,7 @@
 -- default (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Pattern.List
+import Sound.SC3.Lang.Pattern.ID
 
 defaultInstrument :: Synthdef
 defaultInstrument =

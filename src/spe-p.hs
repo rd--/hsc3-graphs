@@ -1,7 +1,7 @@
 -- spe-p (jmcc)
 
 import Sound.SC3.Monadic {- hsc3 -}
-import Sound.SC3.Lang.Pattern.List {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 spe3_allpass6 :: IO Synthdef
 spe3_allpass6 = do

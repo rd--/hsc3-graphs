@@ -2,7 +2,7 @@
 
 import Sound.OpenSoundControl {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.List {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 spe3_mridangam :: Synthdef
 spe3_mridangam =

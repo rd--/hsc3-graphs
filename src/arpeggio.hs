@@ -3,8 +3,8 @@
 
 import Control.Monad
 import Sound.SC3
-import Sound.SC3.Lang.Collection.Event
-import Sound.SC3.Lang.Pattern.List
+import Sound.SC3.Lang.Control.Event
+import Sound.SC3.Lang.Pattern.ID
 
 analogarpeggio :: Synthdef
 analogarpeggio =

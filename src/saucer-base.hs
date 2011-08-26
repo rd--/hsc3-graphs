@@ -1,7 +1,7 @@
 -- saucer base (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Events.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture
 
 saucer_base :: UGen
 saucer_base =

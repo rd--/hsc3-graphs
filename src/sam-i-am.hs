@@ -5,9 +5,9 @@ import Control.Monad.Random
 import Data.List
 import Data.Maybe
 import Sound.SC3
-import Sound.SC3.Lang.Collection.Event
-import Sound.SC3.Lang.Math.Random
-import Sound.SC3.Lang.Pattern.List
+import Sound.SC3.Lang.Control.Event
+import Sound.SC3.Lang.Random.Monad
+import Sound.SC3.Lang.Pattern.ID
 
 text :: [String]
 text =
