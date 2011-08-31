@@ -32,11 +32,10 @@ m4 =
     let f = midiCPS (rand 'a' 24 96)
 	r = xLine KR (expRand 'b' 0.1 20) (expRand 'c' 0.1 20) 25.6 DoNothing
         a = lfPulse KR (expRand 'd' 0.2 1.2) 0 (rand 'e' 0.1 0.2)
-        o i = let i' = fromIntegral i
-                  e = max 0 (sinOsc KR (r * rand i 0.9 1.1) (rand i 0 (2 * pi)) * 0.1 - 0.05)
-                  s = fSinOsc AR (f * i' + f) 0 * e * (1 / (i' + 1))
+        o i = let e = max 0 (sinOsc KR (r * rand 'f' 0.9 1.1) (rand 'g' 0 (2 * pi)) * 0.1 - 0.05)
+                  s = fSinOsc AR (f * i + f) 0 * e * (1 / (i + 1))
               in pan2 s (rand i (-1) 1) 1
-    in mixFill 12 o * a
+    in mix (uprotect 'a' (map o [0..11])) * a
 
 m6 :: UGen
 m6 =
@@ -52,10 +51,10 @@ enumFromN e i = let j = fromEnum e in [j .. j + i]
 m7 :: UGen
 m7 =
     let p = 15
-        z = let y n = let fr = map (\e -> expRand e 100 6000) (enumFromN n p)
-                          rt = map (\e -> rand e 2 6) (enumFromN n p)
-                      in klankSpec fr (replicate p 1) rt
-            in mce2 (y 'a') (y 'A')
+        z = let y = let fr = map (\e -> expRand e 100 6000) (enumFromN 'a' p)
+                        rt = map (\e -> rand e 2 6) (enumFromN 'a' p)
+                    in klankSpec fr (replicate p 1) rt
+            in upar 'a' 2 y
         f = xLine KR (expRand 'α' 40 300) (expRand 'β' 40 300) 12 DoNothing
         t = lfPulse AR f 0 (rand 'γ' 0.1 0.9) * 0.002 * max 0 (lfNoise2 'δ' KR (rand 'ε' 0 8))
     in distort (klank t 1 0 1 (mceTranspose z)) * 0.3
@@ -65,8 +64,8 @@ esmlp2 g = R.choose (map (* 0.3) [m1,m2,m3,m4,m6,m7]) g
 
 esmlp2_pp :: UGen -> UGen
 esmlp2_pp i =
-    let f e = combN i 0.3 (mce2 (rand e 0.1 0.3) (rand e 0.12 0.32)) 8
-    in mixFill 5 f * 0.3
+    let c = combN i 0.3 (mce2 (rand 'a' 0.1 0.3) (rand 'a' 0.12 0.32)) 8
+    in mix (upar 'a' 5 c) * 0.3
 
 main :: IO ()
 main = do
@@ -75,4 +74,5 @@ main = do
 
 {-
 audition (out 0 (m6 * 0.5))
+Sound.SC3.UGen.Dot.draw m7
 -}

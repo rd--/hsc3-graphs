@@ -3,17 +3,13 @@
 
 import Sound.SC3.ID
 
-chain :: Int -> (t -> t) -> t -> t
-chain j f x = if j < 1 then x else chain (j - 1) f (f x)
-
 nv_tw_1 :: UGen
 nv_tw_1 =
-    let a = dup (pinkNoise 'a' AR)
-        nd (z,i) =
-            let f = linExp (lfNoise1 i KR (rand i 0 0.05)) (-1) 1 40 15000
-                z' = bBandStop z f (expRand i 0.1 2)
-            in (z',succ i)
-    in lpf (fst (chain 50 nd (a,'a'))) 1e5
+    let a = udup 2 (pinkNoise 'a' AR)
+        nd z =
+            let f = linExp (lfNoise1 'a' KR (rand 'a' 0 0.05)) (-1) 1 40 15000
+            in bBandStop z f (expRand 'a' 0.1 2)
+    in lpf (useq 'a' 50 nd a) 1e5
 
 main :: IO ()
 main = audition (out 0 nv_tw_1)

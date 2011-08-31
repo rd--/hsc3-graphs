@@ -3,9 +3,6 @@
 import Sound.SC3.ID
 import Sound.SC3.Lang.Control.OverlapTexture
 
-chain :: Int -> (t -> t) -> t -> t
-chain j f x = if j == 0 then x else chain (j - 1) f (f x)
-
 xl :: ID a => a -> a -> UGen -> UGen -> UGen -> UGen
 xl e0 e1 l r t = xLine KR (expRand e0 l r) (expRand e1 l r) t DoNothing
 
@@ -22,9 +19,9 @@ choip =
     in pan2 (decay2 (i * xl 'g' 'h' 0.01 0.5 t) 0.01 0.2 * a) l 1
 
 choip_pp :: UGen -> UGen
-choip_pp i =
-    let f x = allpassN x 0.1 (mce2 (rand 'a' 0 0.05) (rand 'b' 0 0.05)) 4
-    in chain 4 f i
+choip_pp =
+    let f x = allpassN x 0.1 (udup 2 (rand 'a' 0 0.05)) 4
+    in useq 'a' 4 f
 
 main :: IO ()
 main = overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp

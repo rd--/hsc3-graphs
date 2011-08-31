@@ -33,17 +33,19 @@ c = Constant . fromIntegral
 
 bac :: UGen
 bac =
-  let x = out xn (mceReverse (sinOsc AR (60 * 2) (i yn * n lfdNoise3 1 "ab")))
-      y = out yn (sinOsc AR (50 * 2) (i xn * n lfdNoise3 0.3 "cd" * 4))
+  let x = let ph = i yn * upar 'a' 2 (lfdNoise3 'a' KR 1)
+          in out xn (mceReverse (sinOsc AR (60 * 2) ph))
+      y = let ph = i xn * upar 'a' 2 (lfdNoise3 'a' KR 0.3) * 4
+          in out yn (sinOsc AR (50 * 2) ph)
   in mrg [inFeedback 2 xn,y,x]
 
 bac' :: UGen
 bac' =
   let x = let f = c (nth_prime 23)
-              ph = i yn * n lfdNoise3 (sqrt 2) "ab"
+              ph = i yn * upar 'a' 2 (lfdNoise3 'a' KR (sqrt 2))
           in out xn (mceReverse (sinOsc AR f ph))
       y = let f = c (chain 3 nth_prime 1)
-              ph = i xn * n lfdNoise3 (sqrt pi) "cd" * pi
+              ph = i xn * upar 'a' 2 (lfdNoise3 'a' KR (sqrt pi)) * pi
           in out yn (tanh (sinOsc AR f ph))
   in mrg [inFeedback 2 xn,y,x]
 
