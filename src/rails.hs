@@ -6,23 +6,25 @@ import Sound.SC3.Lang.Control.OverlapTexture
 rand2 :: ID a => a -> UGen -> UGen
 rand2 e n = rand e (-n) n
 
-mapr :: Int -> (Char -> b) -> [b]
-mapr n f = map f (take n ['a'..])
-
 rails :: UGen
 rails =
     let n = 20 -- resonant modes
         e = dust 'a' AR 100 * 0.04 -- excitation
         f = xLine KR 3000 300 8 DoNothing -- sweep filter down
         l = line KR (rand2 'b' 1) (rand2 'c' 1) 8 DoNothing -- sweep pan
-        r = mapr n (\i -> 200 + linRand i 0 3000 0) -- resonant frequencies
+        r = upar' 'a' n (200 + linRand 'd' 0 3000 0) -- resonant frequencies
         a = replicate n 1
-        t = mapr n (\i -> 0.2 + rand i 0 1) -- ring times
+        t = upar' 'b' n (0.2 + rand 'e' 0 1) -- ring times
         k = klank (resonz e f 0.2) 1 0 1 (klankSpec r a t)
     in pan2 k l 1
 
 main :: IO ()
 main = overlapTextureU (2,3,4,maxBound) rails
+
+{-
+audition (out 0 rails)
+Sound.SC3.UGen.Dot.draw rps
+-}
 
 {-
 ({var n = 20;
