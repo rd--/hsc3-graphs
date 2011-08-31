@@ -1,25 +1,23 @@
 klink (rd)
 
-> import Sound.SC3.Monadic
+> import Sound.SC3.ID
 
 > main :: IO ()
 > main =
->   do { n1 <- lfNoise0 KR (mce2 0.5 1.5)
->      ; let { o = sinOsc KR n1 0
->            ; f = mce2 2 3
->            ; a = abs (slope o) * f
->            ; t = impulse AR a 0
->            ; i = decay2 t 0.01 0.1
->            ; x = mouseX' KR 960 3620 Exponential 0.2
->            ; y = mouseY' KR 0.5 2.0 Linear 0.2 }
->        in do { n2 <- tRand x 3940 t
->              ; n3 <- tRand 0.005 0.275 t
->              ; audition (out 0 (ringz i n2 (n3 * y))) } }
+>   let n1 = lfNoise0 'a' KR (mce2 0.5 1.5)
+>       o = sinOsc KR n1 0
+>       a = abs (slope o) * mce2 2 3
+>       t = impulse AR a 0
+>       i = decay2 t 0.01 0.1
+>       x = mouseX' KR 960 3620 Exponential 0.2
+>       y = mouseY' KR 0.5 2.0 Linear 0.2
+>       n2 = tRand 'a' x 3940 t
+>       n3 = tRand 'a' 0.005 0.275 t
+>   in audition (out 0 (ringz i n2 (n3 * y)))
 
 { var n1 = LFNoise0.kr([0.5, 1.5])
 ; var o = SinOsc.kr(n1, 0)
-; var f = [2, 3]
-; var a = Slope.kr(o).abs * f
+; var a = Slope.kr(o).abs * [2,3]
 ; var t = Impulse.ar(a, 0)
 ; var i = Decay2.ar(t, 0.01, 0.1)
 ; var x = MouseX.kr(960, 3620, 'exponential', 0.2)

@@ -10,9 +10,9 @@ lin-sosc (rd)
 > main =
 >   let { n' = 1024
 >       ; x = mouseX' KR 0.001 1.0 Linear 0.1
->       ; tblM b = playBuf 1 b (x * bufRateScale KR b) 0 0 Loop DoNothing
->       ; tblC b c = playBuf 1 b (in' 1 KR c * bufRateScale KR b) 0 0 Loop DoNothing
->       ; o = sinOsc AR (tblM 0) 0 * tblM 1 
+>       ; tblM b = playBuf 1 AR b (x * bufRateScale KR b) 0 0 Loop DoNothing
+>       ; tblC b c = playBuf 1 AR b (in' 1 KR c * bufRateScale KR b) 0 0 Loop DoNothing
+>       ; o = sinOsc AR (tblM 0) 0 * tblM 1
 >       ; co = clip2 (pan2 o (tblC 1 0) 0.025) 0.25
 >       ; rrand (a, b) = getStdRandom (randomR (a,b))
 >       ; choose l = fmap (l !!) (rrand (0, length l - 1))
@@ -24,7 +24,7 @@ lin-sosc (rd)
 >       ; xlineTo n l r = geom n l ((r / l) ** (1.0 / n))
 >       ; twoPi = pi * 2.0
 >       ; srng l r e = let m = (l - r ) / 2
->                      in m + l + (e * m) 
+>                      in m + l + (e * m)
 >       ; freq = [ lineTo n' 440.0 444.0
 >                , lineTo n' 40.0 16000.0
 >                , xlineTo n' 40.0 16000.0

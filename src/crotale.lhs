@@ -158,7 +158,7 @@ crotale (rd)
 >         ; ps = mce [-12, -5, 0, 2, 4, 5, 7, 12]
 >         ; n = pinkNoise 'a' AR
 >         ; t = dust 'a' KR 3
->         ; fs = select (tiRand 'a' 0 7 t) ps
+>         ; fs = select (tIRand 'a' 0 7 t) ps
 >         ; g = tRand 'a' 0 1 t
 >         ; fo = tRand 'b' 0 1 t
 >         ; ds = tRand 'c' 2 7 t

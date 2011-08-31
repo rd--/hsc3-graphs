@@ -6,7 +6,7 @@ f-lets (rd)
 > main =
 >   let { f_let t g j n f =
 >         let pd = pulseDivider t j 0
->         in do { r0 <- tiRand (mce2 2 1) n pd
+>         in do { r0 <- tIRand (mce2 2 1) n pd
 >               ; r1 <- tRand 0.01 0.04 pd
 >               ; r2 <- tRand 0.05 0.10 pd
 >               ; return (formlet pd (f * r0) r1 r2 * g) }

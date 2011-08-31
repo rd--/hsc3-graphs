@@ -11,7 +11,7 @@ pattern buffer (rd)
 >                  in select (lfSaw KR 0.5 0 * n + n) (mce l)
 >       ; rrand l r = getStdRandom (randomR (l, r))
 >       ; p = phasor AR 0 (bufRateScale KR 10) 0 (bufFrames KR 10) 0
->       ; t = bufRdC 1 AR 10 p Loop 
+>       ; t = bufRdC 1 AR 10 p Loop
 >       ; rs h = do { r0 <- rrand 0 nf
 >                   ; r1 <- rrand 0.0 1.0
 >                   ; send h (b_set1 10 r0 r1) } }

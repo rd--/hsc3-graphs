@@ -15,7 +15,7 @@ fwalk (rd)
 >       ; a = map (\b -> b_alloc b 20 1) [0, 1]
 >       ; s = map (\(b, d) -> b_setn1 b 0 d) [(0, n), (1, m)]
 >       ; fwalk r = do { t <- dust KR 3
->                      ; r1 <- tiRand 0 6 t
+>                      ; r1 <- tIRand 0 6 t
 >                      ; r2 <- tRand (-0.0001) 0.0001 t
 >                      ; let { f = bufRdL 1 KR (mce2 0 1) r1 NoLoop
 >                            ; f' = f + r2

@@ -28,14 +28,14 @@ pebble_beach' :: ID a => a -> UGen
 pebble_beach' j =
     let bg' = let am = range 0 1 (lag (lfNoise0 'a' KR 34) 1.4)
               in brownNoise 'a' AR * 0.06 * am
-        bg = bg' + mix (uprotect j (map bg_f [0..19])) * 0.6
+        bg = bg' + sum (uprotect j (map bg_f [0..19])) * 0.6
         tf = range 0.122 0.24 (sinOsc KR 0.17 0)
         df = exprange 1 700 (lfTri KR tf 0) * exprange 1 0.2 (lfTri KR tf 0)
         fg = mix (upar j 50 (fg_f df tf)) * 0.2
     in (bg + fg) * line KR 0 1 1.2 DoNothing
 
 pebble_beach :: UGen
-pebble_beach = mce2 (pebble_beach' 'a') (pebble_beach' 'α')
+pebble_beach = mce2 (pebble_beach' 'a') (pebble_beach' 'b')
 
 main :: IO ()
 main = audition (out 0 pebble_beach)
