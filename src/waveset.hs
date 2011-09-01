@@ -17,11 +17,11 @@ latency = 0.15
 -- | Add t to timestamp.
 offset :: Double -> OSC -> OSC
 offset t (Bundle (UTCr t0) m) = Bundle (UTCr (t + t0)) m
-offset _ _ = undefined
+offset _ _ = error "offset:non-bundle"
 
 -- | Play non-empty set of osc bundles.
 play_set :: Transport t => t -> [OSC] -> IO ()
-play_set _ [] = undefined
+play_set _ [] = error "play_set:empty"
 play_set fd (x:xs) = do
   let (Bundle (UTCr t) _) = x
   pauseThreadUntil (t - latency)
@@ -151,5 +151,5 @@ main = do
     _ -> error "audio file?"
 
 {--
-withSC3 (\fd -> run_waveset fd "/home/rohan/audio/text.snd")
+withSC3 (\fd -> run_waveset fd "/home/rohan/data/audio/pf-c5.snd")
 --}

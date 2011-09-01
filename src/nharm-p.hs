@@ -7,21 +7,12 @@ import Sound.SC3.Lang.Pattern.ID
 nharm :: Num n => Int -> n -> [n]
 nharm n f = map ((* f) . fromIntegral) [1..n]
 
-nsucc :: Enum e => Int -> e -> [e]
-nsucc =
-    let f 0 _ = []
-        f n e = e : f (n - 1) (succ e)
-    in f
-
-lrand :: (ID a, Enum a) => Int -> a -> UGen -> UGen -> [UGen]
-lrand n i l r = map (\j -> rand j l r) (nsucc n i)
-
 klg :: Int -> UGen
 klg n =
     let f = control KR "freq" 440
         d = rand 'a' 9 12
-        l = lrand n 'b' 0.01 0.02
-        p = rand 'c' (-1.0) 1.0
+        l = upar' 'a' n (rand 'a' 0.01 0.02)
+        p = rand 'a' (-1.0) 1.0
         a = 0.5
         e = envGen KR 1 0.9 0 1 RemoveSynth (envSine d a)
         nh = nharm n f
