@@ -16,6 +16,6 @@ C-cC-l C-cC-m
 
 > main :: IO ()
 > main =
->   let fn = "/home/rohan/audio/text.snd"
+>   let fn = "/home/rohan/data/audio/pf-c5.snd"
 >   in withSC3 (\fd -> do { async fd (b_allocRead 10 fn 0 0)
 >                         ; audition (out 0 (tgrn 10)) })

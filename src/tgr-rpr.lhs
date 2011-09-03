@@ -5,7 +5,7 @@ tgr-rpr (rd)
 > import System.Random
 
 > main =
->   let { sf = "/home/rohan/audio/text.snd"
+>   let { sf = "/home/rohan/data/audio/pf-c5.aif"
 >       ; preset = [ 0.01, 0.02
 >                  , 0.95, 1.05
 >                  , 0.02, 0.06
