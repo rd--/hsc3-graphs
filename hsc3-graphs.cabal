@@ -16,6 +16,7 @@ Cabal-Version:     >= 1.8
 
 Data-files:        README
                    src/*.scd
+                   src/*.scm
 
 Executable         hsc3-acid-otophilia
  main-is:          src/acid-otophilia.hs
@@ -65,6 +66,10 @@ Executable         hsc3-bit-reduction
 Executable         hsc3-black-atlantic-currents
  main-is:          src/black-atlantic-currents.hs
  build-depends:    base==4.*, hsc3==0.10, primes, random, random-shuffle
+
+Executable         hsc3-bohlen-pierce-140
+ main-is:          src/bohlen-pierce-140.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-bottle
  main-is:          src/bottle-m.hs
@@ -122,6 +127,10 @@ Executable         hsc3-cymbalism-accelerando
  main-is:          src/cymbalism-accelerando.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
+Executable         hsc3-dark-sea-horns
+ main-is:          src/dark-sea-horns.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-data-space
  main-is:          src/data-space.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
@@ -154,6 +163,10 @@ Executable         hsc3-discretion
  main-is:          src/discretion.hs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-discretion-m
+ main-is:          src/discretion-m.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-doppler
  main-is:          src/doppler.hs
  build-depends:    base==4.*, hsc3==0.10, hosc==0.10
@@ -170,13 +183,21 @@ Executable         hsc3-eggcrate
  main-is:          src/eggcrate.hs
  build-depends:    base==4.*, hsc3==0.10
 
-Executable         hsc3-ellipse-based-synthesis
- main-is:          src/ellipse-based-synthesis.hs
+Executable         hsc3-eggcrate-m
+ main-is:          src/eggcrate-m.hs
  build-depends:    base==4.*, hsc3==0.10
 
 Executable         hsc3-e-lamell
  main-is:          src/e-lamell.hs
- build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10, random
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
+
+Executable         hsc3-e-lamell-p
+ main-is:          src/e-lamell-p.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
+Executable         hsc3-ellipse-based-synthesis
+ main-is:          src/ellipse-based-synthesis.hs
+ build-depends:    base==4.*, hsc3==0.10
 
 Executable         hsc3-fbl-fbf
  main-is:          src/fbl-fbf.hs
@@ -198,6 +219,10 @@ Executable         hsc3-fm-kltr
  main-is:          src/fm-kltr.hs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10, random
 
+Executable         hsc3-fm-kltr-p
+ main-is:          src/fm-kltr-p.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-forest-sounds
  main-is:          src/forest-sounds.hs
  build-depends:    base==4.*, hsc3==0.10
@@ -218,6 +243,10 @@ Executable         hsc3-harmonic-swimming
  main-is:          src/harmonic-swimming.hs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-harmonic-swimming-m
+ main-is:          src/harmonic-swimming-m.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-harmonic-tumbling
  main-is:          src/harmonic-tumbling.hs
  build-depends:    base==4.*, hsc3==0.10
@@ -225,6 +254,10 @@ Executable         hsc3-harmonic-tumbling
 Executable         hsc3-h-chatter
  main-is:          src/h-chatter.hs
  build-depends:    base==4.*, hsc3==0.10
+
+Executable         hsc3-hell-is-busy
+ main-is:          src/hell-is-busy.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-hh-808
  main-is:          src/hh-808.hs
@@ -252,6 +285,10 @@ Executable         hsc3-klink
 
 Executable         hsc3-k-ppr
  main-is:          src/k-ppr.hs
+ build-depends:    base==4.*, hsc3==0.10
+
+Executable         hsc3-k-ppr-m
+ main-is:          src/k-ppr-m.hs
  build-depends:    base==4.*, hsc3==0.10
 
 Executable         hsc3-lfo-modulation
@@ -314,6 +351,18 @@ Executable         hsc3-non-real-time
  main-is:          src/non-real-time.hs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10, process
 
+Executable         hsc3-nv-tw-1
+ main-is:          src/nv-tw-1.hs
+ build-depends:    base==4.*, hsc3==0.10
+
+Executable         hsc3-nv-tw-41
+ main-is:          src/nv-tw-41.hs
+ build-depends:    base==4.*, hsc3==0.10
+
+Executable         hsc3-nv-tw-54
+ main-is:          src/nv-tw-54.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-one-line
  main-is:          src/one-line.hs
  build-depends:    base==4.*, hsc3==0.10
@@ -346,12 +395,24 @@ Executable         hsc3-pulsing-bottles
  main-is:          src/pulsing-bottles.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
+Executable         hsc3-pulsing-bottles-m
+ main-is:          src/pulsing-bottles-m.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-rails
  main-is:          src/rails.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
+Executable         hsc3-rain-thunder
+ main-is:          src/rain-thunder.hs
+ build-depends:    base==4.*, hsc3==0.10
+
 Executable         hsc3-random-panning-sines
  main-is:          src/random-panning-sines.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
+Executable         hsc3-random-panning-sines-m
+ main-is:          src/random-panning-sines-m.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-random-pulsations
@@ -386,6 +447,10 @@ Executable         hsc3-reverberated-sine-percussion
 -- main-is:          src/rm-octaver.hs
 -- build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-sam-i-am
+ main-is:          src/sam-i-am.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, MonadRandom
+
 Executable         hsc3-sample-and-hold-liquidities
  main-is:          src/sample-and-hold-liquidities.hs
  build-depends:    base==4.*, hsc3==0.10
@@ -412,6 +477,10 @@ Executable         hsc3-scratchy-m
 
 Executable         hsc3-scritto
  main-is:          src/scritto.hs
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10
+
+Executable         hsc3-scritto-m
+ main-is:          src/scritto-m.hs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10
 
 Executable         hsc3-shepard-tones
@@ -476,7 +545,11 @@ Executable         hsc3-synthetic-piano
 
 Executable         hsc3-tank
  main-is:          src/tank.hs
- build-depends:    base==4.*, hosc==0.10, hsc3==0.10
+ build-depends:    base==4.*, hsc3==0.10
+
+Executable         hsc3-tank-m
+ main-is:          src/tank-m.hs
+ build-depends:    base==4.*, hsc3==0.10
 
 Executable         hsc3-tgb
  main-is:          src/tgb.hs
@@ -512,7 +585,11 @@ Executable         hsc3-train
 
 Executable         hsc3-tremulate
  main-is:          src/tremulate.hs
- build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
+Executable         hsc3-tremulate-m
+ main-is:          src/tremulate-m.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 --Executable         hsc3-trkl
 -- main-is:          src/trkl.hs
