@@ -18,7 +18,7 @@ k_ppr =
           in ringz (decay2 t' 0.01 0.5) r2 (r3 * y) * g
       s1 = stream 'a' 3140 6240 0.050 0.005 0.15
       s2 = stream 'a' 0400 9000 0.005 0.005 0.15
-  in upar 'a' 2 s1 + upar 'b' 2 s2
+  in uclone 'a' 2 s1 + uclone 'b' 2 s2
 
 main :: IO ()
 main = audition (out 0 k_ppr)

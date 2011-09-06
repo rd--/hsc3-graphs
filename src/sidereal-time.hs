@@ -9,7 +9,7 @@ sidereal_time =
       z = let y = let fr = udup' p (expRand 'a' 100 6000)
                       rt = udup' p (rand 'a' 2 6)
                   in klankSpec fr (replicate p 1) rt
-          in upar 'a' 2 y
+          in uclone 'a' 2 y
       f = xLine KR (expRand 'α' 40 300) (expRand 'β' 40 300) 12 DoNothing
       t = let e = lfNoise2 'γ' KR (rand 'δ' 0 8)
           in lfPulse AR f 0 (rand 'ε' 0.1 0.9) * 0.002 * max 0 e

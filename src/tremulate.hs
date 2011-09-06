@@ -7,9 +7,9 @@ tremulate :: UGen
 tremulate =
     let f = rand 'a' 500 900
         o = fSinOsc AR (f * mce [1,1.2,1.5,1.8]) 0
-        r = rand 'b' 30 90
-        a = max 0 (upar 'c' 4 (lfNoise2 'c' KR (ufix r)) * 0.1)
-        l = udup 4 (rand 'g' (-1) 1)
+        r = uprotect 'a' (rand 'a' 30 90)
+        a = max 0 (uclone 'a' 4 (lfNoise2 'a' KR r) * 0.1)
+        l = udup 4 (rand 'a' (-1) 1)
     in mix (pan2 o l a)
 
 tremulate_pp :: UGen -> UGen

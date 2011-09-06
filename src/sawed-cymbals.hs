@@ -10,7 +10,7 @@ sawed_cymbals =
                 f = udup' 15 (rand 'a' f1 (f1 + f2))
                 rt = udup' 15 (rand 'a' 2 6)
           in klankSpec f (replicate 15 1) rt
-        z = upar 'a' 2 y
+        z = uclone 'a' 2 y
         fS = xLine KR (rand 'α' 0 600) (rand 'β' 0 600) 12 DoNothing
     in klank (lfSaw AR fS 0 * 0.0005) 1 0 1 (mceTranspose z)
 

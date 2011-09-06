@@ -40,7 +40,7 @@ tank_f i =
 
 tank :: UGen
 tank =
-  let s = bang + mix (upar 'a' 8 pling)
+  let s = bang + mix (uclone 'a' 8 pling)
   in tank_f (useq 'a' 4 r_allpass s)
 
 main :: IO ()

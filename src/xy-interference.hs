@@ -10,7 +10,7 @@ xy_interference =
                a = sinOsc AR (x + n) 0
                b = sinOsc AR y 0
            in a * b
-  in mix (upar 'a' 3 nd)
+  in mix (uclone 'a' 3 nd)
 
 main :: IO ()
 main = audition (out 0 xy_interference)

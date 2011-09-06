@@ -31,7 +31,7 @@ pebble_beach' j =
         bg = bg' + sum (uprotect j (map bg_f [0..19])) * 0.6
         tf = range 0.122 0.24 (sinOsc KR 0.17 0)
         df = exprange 1 700 (lfTri KR tf 0) * exprange 1 0.2 (lfTri KR tf 0)
-        fg = mix (upar j 50 (fg_f df tf)) * 0.2
+        fg = mix (uclone j 50 (fg_f df tf)) * 0.2
     in (bg + fg) * line KR 0 1 1.2 DoNothing
 
 pebble_beach :: UGen

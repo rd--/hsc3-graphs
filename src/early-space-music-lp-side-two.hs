@@ -54,7 +54,7 @@ m7 =
         z = let y = let fr = map (\e -> expRand e 100 6000) (enumFromN 'a' p)
                         rt = map (\e -> rand e 2 6) (enumFromN 'a' p)
                     in klankSpec fr (replicate p 1) rt
-            in upar 'a' 2 y
+            in uclone 'a' 2 y
         f = xLine KR (expRand 'α' 40 300) (expRand 'β' 40 300) 12 DoNothing
         t = lfPulse AR f 0 (rand 'γ' 0.1 0.9) * 0.002 * max 0 (lfNoise2 'δ' KR (rand 'ε' 0 8))
     in distort (klank t 1 0 1 (mceTranspose z)) * 0.3
@@ -65,7 +65,7 @@ esmlp2 g = R.choose (map (* 0.3) [m1,m2,m3,m4,m6,m7]) g
 esmlp2_pp :: UGen -> UGen
 esmlp2_pp i =
     let c = combN i 0.3 (mce2 (rand 'a' 0.1 0.3) (rand 'a' 0.12 0.32)) 8
-    in mix (upar 'a' 5 c) * 0.3
+    in mix (uclone 'a' 5 c) * 0.3
 
 main :: IO ()
 main = do

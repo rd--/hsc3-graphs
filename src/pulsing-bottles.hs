@@ -13,7 +13,7 @@ pulsing_bottles =
         s = let f = rand 'b' 0.1 0.5
                 p = rand 'b' 0 (pi * 2)
              in sinOsc KR f p
-    in sum (zipWith3 pan2 (upar' 'a' 6 r) (upar' 'b' 6 s) (repeat 1))
+    in sum (zipWith3 pan2 (uclone' 'a' 6 r) (uclone' 'b' 6 s) (repeat 1))
 
 main :: IO ()
 main = overlapTextureU (4,4,4,maxBound) pulsing_bottles

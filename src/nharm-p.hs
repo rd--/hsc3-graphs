@@ -11,7 +11,7 @@ klg :: Int -> UGen
 klg n =
     let f = control KR "freq" 440
         d = rand 'a' 9 12
-        l = upar' 'a' n (rand 'a' 0.01 0.02)
+        l = uclone' 'a' n (rand 'a' 0.01 0.02)
         p = rand 'a' (-1.0) 1.0
         a = 0.5
         e = envGen KR 1 0.9 0 1 RemoveSynth (envSine d a)

@@ -13,7 +13,7 @@ discretion =
                  f_ = mkls [(0,f1),(0.33,f2),(1,f3)] t
                  a_ = mkls [(0,0),(0.33,a),(1,0)] t
              in (saw AR f_ * a_)
-  in mix (upar 'a' 8 part)
+  in mix (uclone 'a' 8 part)
 
 main :: IO ()
 main = audition (out 0 discretion)
