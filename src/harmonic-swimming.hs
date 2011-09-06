@@ -12,7 +12,7 @@ harmonic_swimming =
                 n = lfNoise1 'a' KR r
                 e = max 0 (n * a + l)
             in fSinOsc AR (f * (h + 1)) 0 * e
-  in sum (uprotect 'a' (map o [0..p]))
+  in sum (uprotect' 'a' (map o [0..p]))
 
 main :: IO ()
 main = audition (out 0 harmonic_swimming)

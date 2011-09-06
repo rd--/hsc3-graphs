@@ -35,7 +35,7 @@ m4 =
         o i = let e = max 0 (sinOsc KR (r * rand 'f' 0.9 1.1) (rand 'g' 0 (2 * pi)) * 0.1 - 0.05)
                   s = fSinOsc AR (f * i + f) 0 * e * (1 / (i + 1))
               in pan2 s (rand i (-1) 1) 1
-    in sum (uprotect 'a' (map o [0..11])) * a
+    in sum (uprotect' 'a' (map o [0..11])) * a
 
 m6 :: UGen
 m6 =

@@ -447,6 +447,10 @@ Executable         hsc3-reverberated-sine-percussion
 -- main-is:          src/rm-octaver.hs
 -- build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-rzblp
+ main-is:          src/rzblp.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-unsafe==0.10
+
 Executable         hsc3-sam-i-am
  main-is:          src/sam-i-am.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, MonadRandom
@@ -595,6 +599,10 @@ Executable         hsc3-tremulate-m
 -- main-is:          src/trkl.hs
 -- build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-trmlo
+ main-is:          src/trmlo.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-unsafe==0.10, hsc3-lang==0.10
+
 Executable         hsc3-tr-out
  main-is:          src/tr-out.hs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10
@@ -606,6 +614,10 @@ Executable         hsc3-tsort
 Executable         hsc3-uplink
  main-is:          src/uplink.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
+Executable         hsc3-voscil
+ main-is:          src/voscil.hs
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-unsafe==0.10, random
 
 --Executable         hsc3-vlc-distrtn
 -- main-is:          src/vlc-distrtn.hs
