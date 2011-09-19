@@ -103,6 +103,10 @@ Executable         hsc3-comb-delay-sweeps
  main-is:          src/comb-delay-sweeps.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, random
 
+Executable         hsc3-coolant
+ main-is:          src/coolant.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-contamination-zone
  main-is:          src/contamination-zone.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
