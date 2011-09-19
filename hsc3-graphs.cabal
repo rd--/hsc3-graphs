@@ -99,6 +99,10 @@ Executable         hsc3-chrd-t
  main-is:          src/chrd-t.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, MonadRandom
 
+Executable         hsc3-clustered-sines
+ main-is:          src/clustered-sines.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-comb-delay-sweeps
  main-is:          src/comb-delay-sweeps.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, random
@@ -454,6 +458,10 @@ Executable         hsc3-resonant-dust
 Executable         hsc3-reverberated-sine-percussion
  main-is:          src/reverberated-sine-percussion.hs
  build-depends:    base==4.*, hsc3==0.10
+
+Executable         hsc3-ring-modulated-klank
+ main-is:          src/ring-modulated-klank.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 --Executable         hsc3-rm-octaver
 -- main-is:          src/rm-octaver.hs
