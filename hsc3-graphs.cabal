@@ -501,11 +501,11 @@ Executable         hsc3-scratchy-m
 
 Executable         hsc3-scritto
  main-is:          src/scritto.hs
- build-depends:    base==4.*, hosc==0.10, hsc3==0.10
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-scritto-m
  main-is:          src/scritto-m.hs
- build-depends:    base==4.*, hosc==0.10, hsc3==0.10
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
 Executable         hsc3-shepard-tones
  main-is:          src/shepard-tones.hs
