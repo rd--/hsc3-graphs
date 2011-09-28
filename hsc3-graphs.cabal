@@ -643,6 +643,10 @@ Executable         hsc3-voscil
  main-is:          src/voscil.hs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-unsafe==0.10, random
 
+Executable         hsc3-vla-addtn
+ main-is:          src/vla-addtn.hs
+ build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
+
 --Executable         hsc3-vlc-distrtn
 -- main-is:          src/vlc-distrtn.hs
 -- build-depends:    base==4.*, hosc==0.10, hsc3==0.10, random
