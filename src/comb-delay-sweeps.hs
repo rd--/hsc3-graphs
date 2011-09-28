@@ -10,8 +10,8 @@ wander :: ST -> ST
 wander (s,e,g) =
     let (s',g') = randomR (-7,8) g
         (e',g'') = randomR (-7,8) g'
-    in (fold' 50 120 (s + s')
-       ,fold' 50 120 (e + e')
+    in (foldToRange 50 120 (s + s')
+       ,foldToRange 50 120 (e + e')
        ,g'')
 
 cds :: ST -> (UGen,ST)

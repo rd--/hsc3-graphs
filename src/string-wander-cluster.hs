@@ -9,7 +9,7 @@ type ST = (Double,StdGen)
 wander :: ST -> ST
 wander (n,g) =
     let (n',g') = randomR (-7,8) g
-    in (fold' 50 120 (n + n'),g')
+    in (foldToRange 50 120 (n + n'),g')
 
 swc :: ST -> (UGen,ST)
 swc st =
