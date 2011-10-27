@@ -215,6 +215,10 @@ Executable         hsc3-fbl-fbf
  main-is:          src/fbl-fbf.hs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-fb-090531
+ main-is:          src/fb-090531.hs
+ build-depends:    base==4.*, hsc3==0.10, hosc==0.10
+
 --Executable         hsc3-feedr
 -- main-is:          src/feedr.hs
 -- build-depends:    base==4.*, hsc3==0.10
