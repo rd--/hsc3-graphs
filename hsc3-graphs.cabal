@@ -87,6 +87,10 @@ Executable         hsc3-ccomb
  main-is:          src/ccomb.hs
  build-depends:    base==4.*, hsc3==0.10
 
+Executable         hsc3-cds-070701
+ main-is:          src/cds-070701.hs
+ build-depends:    base==4.*, hsc3==0.10, hosc==0.10
+
 Executable         hsc3-chain-saw
  main-is:          src/chain-saw.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, random
