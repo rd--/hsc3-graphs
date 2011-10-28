@@ -79,6 +79,10 @@ Executable         hsc3-bowed-string
  main-is:          src/bowed-string-m.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10, random
 
+Executable         hsc3-bs-070705
+ main-is:          src/bs-070705.hs
+ build-depends:    base==4.*, hsc3==0.10, hosc==0.10, random
+
 Executable         hsc3-ccomb
  main-is:          src/ccomb.hs
  build-depends:    base==4.*, hsc3==0.10
