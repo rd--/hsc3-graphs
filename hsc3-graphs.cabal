@@ -335,6 +335,10 @@ Executable         hsc3-lin-sosc
  main-is:          src/lin-sosc.hs
  build-depends:    base==4.*, hosc==0.10, hsc3==0.10, hsc3-lang==0.10
 
+Executable         hsc3-lso-061101
+ main-is:          src/lso-061101.hs
+ build-depends:    base==4.*, hls, hosc==0.10, hps, hsc3==0.10, random
+
 Executable         hsc3-lucier
  main-is:          src/lucier.hs
  build-depends:    base==4.*, hsc3==0.10
