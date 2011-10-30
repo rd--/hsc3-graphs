@@ -43,6 +43,10 @@ Executable         hsc3-alien-meadow
  main-is:          src/alien-meadow.hs
  build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
 
+Executable         hsc3-ambient1
+ main-is:          src/ambient1.hs
+ build-depends:    base==4.*, hsc3==0.10, hsc3-lang==0.10
+
 Executable         hsc3-analog-bubbles
  main-is:          src/analog-bubbles.hs
  build-depends:    base==4.*, hsc3==0.10
