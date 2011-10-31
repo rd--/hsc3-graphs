@@ -229,7 +229,7 @@ Executable         hsc3-fbl-fbf
 
 Executable         hsc3-fb-090531
  main-is:          src/fb-090531.hs
- build-depends:    base==4.*, hsc3==0.10, hosc==0.10
+ build-depends:    base==4.*, hsc3==0.10, hosc==0.10, random
 
 --Executable         hsc3-feedr
 -- main-is:          src/feedr.hs
@@ -341,7 +341,7 @@ Executable         hsc3-lin-sosc
 
 Executable         hsc3-lso-061101
  main-is:          src/lso-061101.hs
- build-depends:    base==4.*, hls, hosc==0.10, hps, hsc3==0.10, random
+ build-depends:    base==4.*, directory, filepath, hls, hosc==0.10, hps, hsc3==0.10, hsc3-sf, random
 
 Executable         hsc3-lucier
  main-is:          src/lucier.hs

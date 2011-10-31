@@ -7,8 +7,8 @@ import qualified LSystem.Systems as L
 import qualified LSystem.Turtle as L
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
 import Sound.SC3.Monadic {- hsc3 -}
-import System.Directory
-import qualified System.FilePath as P
+import System.Directory {- directory -}
+import qualified System.FilePath as P {- filepath -}
 import System.Random {- random -}
 
 -- | Normalise to lie in (0,1).

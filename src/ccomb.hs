@@ -4,7 +4,7 @@ import Sound.SC3.Monadic
 
 ccomb :: (Functor m,UId m) => m UGen
 ccomb = do
-  let rng l = linLin i (-1) 1
+  let rng l r i = linLin i (-1) 1 l r
       lwr = 48
       flwr = midiCPS lwr
       spart t = do n <- fmap (rng lwr 72.0) (lfNoise2 KR 0.1)

@@ -1,9 +1,9 @@
 -- fb-090531 (rd)
 
-import Sound.OpenSoundControl
-import Sound.SC3
+import Sound.OpenSoundControl {- hosc -}
+import Sound.SC3 {- hsc3 -}
 import Control.Monad
-import System.Random
+import System.Random {- random -}
 
 fb_090531 :: UGen
 fb_090531 =
