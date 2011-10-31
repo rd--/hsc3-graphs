@@ -9,7 +9,7 @@ tgb b d = do
       pm_t l r du t = let le = mkls l du
                           re = mkls r du
                       in tRand le re t
-      wrp i l r = linLin i (-1) 1 l r
+      wrp i = linLin i (-1) 1
       pm_n rt l du = do let le = mkls l du
                             re = mkls l du
                         n <- whiteNoise rt
@@ -27,14 +27,14 @@ tgb b d = do
              ,[(0,0),(1,1)])
   am <- pm_f ([(0,0.25),(0.5,0.55),(1,0.15)]
              ,[(0,0.5),(0.5,0.75),(1,0.25)])
-  let cs' = cs * (bufDur KR b)
+  let cs' = cs * bufDur KR b
   return (tGrains 2 t b rt cs' du pn am 2)
 
 act :: Transport t => t -> IO ()
 act fd = do
   let fn = "/home/rohan/data/audio/pf-c5.aif"
   _ <- async fd (b_allocRead 10 fn 0 0)
-  play fd . (out 0) =<< tgb 10 12
+  play fd . out 0 =<< tgb 10 12
 
 main :: IO ()
 main = withSC3 act

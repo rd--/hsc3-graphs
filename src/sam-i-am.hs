@@ -49,5 +49,5 @@ main :: IO ()
 main = do
   g <- getStdGen
   let t = b g
-      ae = mapMaybe (\w -> lookup w t >>= return . event) (concat x)
+      ae = mapMaybe (\w -> fmap event (lookup w t)) (concat x)
   audition (sam,pseq (map return ae) 1)

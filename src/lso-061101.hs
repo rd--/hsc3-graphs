@@ -85,8 +85,8 @@ oi :: IO UGen
 oi = do
   let rrand l r = getStdRandom (randomR (l, r))
       choose l = rrand 0 (length l - 1) >>= return . (l !!)
-      rng i l r = linLin i (-1) 1 l r
-      exprng i l r = linExp i (-1) 1 l r
+      rng i = linLin i (-1) 1
+      exprng i = linExp i (-1) 1
   c <- choose [0.25, 0.55, 0.75, 1.25]
   let t = impulse KR c 0
   b <- tIRand 0 12 t

@@ -13,7 +13,7 @@ coinIf n a b = do
   return (if r then a else b)
 
 exprange :: UGen -> UGen -> UGen -> UGen
-exprange s l r = linExp s (-1) 1 l r
+exprange s = linExp s (-1) 1
 
 chain :: Monad m => Int -> (b -> m b) -> b -> m b
 chain n fn = foldr (<=<) return (replicate n fn)

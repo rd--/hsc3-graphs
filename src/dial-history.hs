@@ -4,12 +4,12 @@ import Data.List
 import Sound.SC3.Monadic
 
 rng :: UGen -> UGen -> UGen -> UGen
-rng s l r = linLin s 0 1 l r
+rng s = linLin s 0 1
 
 dial_history :: UId m => m UGen
 dial_history = do
   let mfv = [[697,770,852,941],[1209,1336,1477,1633]]
-      numbers = [[3,1]] ++ [[a,b] | a <- [0..2],b <- [0..2]]
+      numbers = [3,1] : [[a,b] | a <- [0..2],b <- [0..2]]
       mce_r = mce . map mce
   n <- dwhite dinf 7 12
   w <- dwhite 1 2 7

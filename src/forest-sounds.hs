@@ -11,8 +11,7 @@ insects = do
   return (bpf n1 o 0.001 * 10)
 
 forest_sounds :: UId m => m UGen
-forest_sounds = do
-  clone 2 insects
+forest_sounds = clone 2 insects
 
 main :: IO ()
 main = audition . (out 0) =<< forest_sounds

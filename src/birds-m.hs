@@ -3,6 +3,12 @@
 
 import Sound.SC3.Monadic
 
+composeM :: Monad m => [a -> m a] -> a -> m a
+composeM fs i = foldr (=<<) (return i) fs
+
+chainM :: Monad m => Int -> (a -> m a) -> a -> m a
+chainM n f = composeM (replicate n f)
+
 birds :: UId m => m UGen
 birds = do
   let node = do r1 <- rand 94.0 102.0
@@ -20,9 +26,6 @@ birds = do
       apf i = do r1 <- rand 0.0 0.06
                  r2 <- rand 0.7 2.0
                  return (allpassL i 0.07 r1 r2)
-      composeM [] i = return i
-      composeM (f:fs) i = f =<< composeM fs i
-      chainM n f = composeM (replicate n f)
   d <- return . sum =<< sequence (replicate 6 node)
   w <- chainM 12 apf d
   return (d * 0.7 + w * 0.3)

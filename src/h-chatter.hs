@@ -4,7 +4,7 @@ import Control.Monad
 import Sound.SC3.Monadic
 
 wrp :: UGen -> UGen -> UGen -> UGen
-wrp i l r = linLin i (-1) 1 l r
+wrp i = linLin i (-1) 1
 
 h_chatter :: UId m => m UGen
 h_chatter = do

@@ -7,7 +7,7 @@ import System.Random {- random -}
 
 voscil :: Real a => a -> UGen
 voscil b =
-  let lfn r = lfNoise0 KR r
+  let lfn = lfNoise0 KR
       hb = (constant b - 1) / 2
       rt = 6
       f = 600

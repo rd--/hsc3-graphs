@@ -5,7 +5,7 @@ import Sound.SC3.Monadic
 plucked_strings :: UId m => m UGen
 plucked_strings = do
   let dt = do r0 <- rand 60 90
-              return (1 / (midiCPS (floorE r0)))
+              return (1 / midiCPS (floorE r0))
       i = do r0 <- rand 2 2.2
              n0 <- dust AR 0.5
              r1 <- rand 0.05 0.15

@@ -59,7 +59,7 @@ lin_data n =
             ,xlineTo n 0.1 1.0
             ,map sin (lineTo n 0.0 twoPi)
             ,map cos (lineTo n 0.0 twoPi)
-            ,map (* 0.001) (map tan (lineTo n 0 twoPi))]
+            ,map ((* 0.001) . tan) (lineTo n 0 twoPi)]
         l = [0.005,0.0075,0.01,0.025,0.05,0.075
             ,0.1,0.25,0.5,0.75
             ,0.8,0.85,1.0,1.005]
@@ -78,7 +78,7 @@ update (f,a,l,t) fd = do
   pauseThread t'
 
 do_update :: Double -> IO ()
-do_update n = withSC3 (\fd -> replicateM_ 128 (update (lin_data n) fd))
+do_update n = withSC3 (replicateM_ 128 . update (lin_data n))
 
 run :: Transport t => t -> IO ()
 run fd = do

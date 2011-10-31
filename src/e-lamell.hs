@@ -7,7 +7,7 @@ import qualified Sound.SC3.Lang.Random.IO as R
 
 e_lamell :: UGen
 e_lamell =
-    let ctl nm v = control KR nm v
+    let ctl = control KR
         f = ctl "f" 440
         n = ctl "n" 12
         d = ctl "d" 0.1

@@ -6,7 +6,7 @@ import Sound.SC3.Lang.Pattern.ID
 
 e_lamell :: UGen
 e_lamell =
-    let ctl nm v = control KR nm v
+    let ctl = control KR
         f = ctl "freq" 440
         a = ctl "amp" 1
         d = ctl "d" 0.1

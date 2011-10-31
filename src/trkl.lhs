@@ -25,4 +25,4 @@ trkl (rd)
 >         ; dy <- rand 0.005 0.175
 >         ; la <- rand (-60) (-25)
 >         ; fy <- rand 0.015 0.125
->         ; audition . (out 0) =<< trkl d ul fu dy la fy }
+>         ; audition . out 0 =<< trkl d ul fu dy la fy }

@@ -13,7 +13,7 @@ dark_sea_horns =
     in mrg2 o (localOut o)
 
 main :: IO ()
-main = audition (out 0 (dark_sea_horns))
+main = audition (out 0 dark_sea_horns)
 
 {-
 Sound.SC3.UGen.Dot.draw dark_sea_horns
