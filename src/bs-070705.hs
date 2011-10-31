@@ -26,7 +26,7 @@ odd_even = reverse . bubble_p (<) . reverse . bubble_p (>)
 alloc_data :: Int -> IO ()
 alloc_data n = do
   let alloc fd m b = async fd (b_alloc b m 1)
-  withSC3 (\fd -> do mapM_ (alloc fd n) [10, 11, 12])
+  withSC3 (\fd -> mapM_ (alloc fd n) [10, 11, 12])
 
 -- | Simple synthesis renderer, r is the impulse frequency (trigger rate).
 play_data :: UGen -> IO ()

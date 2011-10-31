@@ -20,7 +20,7 @@ f_lets = do
                     ,f_let t 0.25 2 9 (mce2 (200 + r0) (400 + r1))
                     ,f_let t 0.05 4 5 (mce2 25 50)
                     ,f_let t 0.15 4 5 (mce2 (25 + r2) (50 + r3))
-                    ,let lr = fmap (* (latch r4 t))
+                    ,let lr = fmap (* latch r4 t)
                      in lr (f_let t 0.5 1 16 (mce2 300 600))]
       tr = impulse AR 24 0
   n <- lfNoise0 KR 2

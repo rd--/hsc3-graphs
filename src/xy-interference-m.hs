@@ -13,4 +13,4 @@ xy_interference = do
   return.sum =<< sequence (replicate 3 nd)
 
 main :: IO ()
-main = audition . (out 0) =<< xy_interference
+main = audition . out 0 =<< xy_interference

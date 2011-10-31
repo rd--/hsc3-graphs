@@ -12,19 +12,12 @@ graph =
 
 score :: [OSC]
 score =
-    let at t m = Bundle (NTPr t) m
+    let at t = Bundle (NTPr t)
         mk_instr = d_recv (synthdef "test" graph)
         mk_group = g_new [(1, AddToTail, 0)]
         mk_node t f = at t [s_new "test" (-1) AddToTail 1 [("freq", f)]]
         notes = take 128 (zipWith mk_node [1.0, 1.05 ..] [330, 350 ..])
     in at 0.0 [mk_instr, mk_group] : notes
-
-perform :: [OSC] -> IO ()
-perform s = do
-  let f i fd x = do let (Bundle (NTPr t) x') = x
-                    pauseThreadUntil (i + t)
-                    send fd (Bundle immediately x')
-  withSC3 (\fd -> utcr >>= \i -> mapM_ (f i fd) s)
 
 render :: [OSC] -> IO ()
 render s = do

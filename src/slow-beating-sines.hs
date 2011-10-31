@@ -12,10 +12,10 @@ r_freq i = do
   return (map midiCPS' n)
 
 r_harmonics :: (RandomGen g) => Double -> Int -> Double -> Rand g [Double]
-r_harmonics d m f = nrand2 m d >>= return . map (+ f)
+r_harmonics d m f = fmap (map (+ f)) (nrand2 m d)
 
 r_harmonics' :: (RandomGen g) => Double -> Int -> Double -> Rand g [Double]
-r_harmonics' d m f = nrand2 (m - 1) d >>= return . (f :)  . map (+ f)
+r_harmonics' d m f = fmap ((f :)  . map (+ f)) (nrand2 (m - 1) d)
 
 r_phase :: (RandomGen g) => Int -> Rand g [Double]
 r_phase m = nrrand m 0 (2 * pi)
@@ -37,5 +37,5 @@ sbs n d m = do
 
 main :: IO ()
 main = do
-  g_ <- getStdGen
-  overlapTextureS (4,4,3,maxBound) (\g -> runRand (sbs 20 0.4 3) g) g_
+  g <- getStdGen
+  overlapTextureS (4,4,3,maxBound) (runRand (sbs 20 0.4 3)) g

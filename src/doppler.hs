@@ -7,7 +7,7 @@ import Sound.SC3
 doppler :: (UGen,UGen) -> UGen -> UGen
 doppler (x,y) s =
     let d = hypot x y
-        a = 40 / (squared d)
+        a = 40 / squared d
         maxd = 110
     in delayL s (maxd / 344) (d / 344) * a
 

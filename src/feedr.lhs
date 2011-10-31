@@ -6,8 +6,8 @@ warning: input/output feedback loop
 
 > main :: IO ()
 > main =
->   let { delayWr b i = recordBuf b 0 1 0 1 Loop 0 DoNothing i
->       ; tap nc b dt = playBuf nc b 1 0 (dt * (- sampleRate)) Loop DoNothing
+>   let { delayWr b = recordBuf AR b 0 1 0 1 Loop 0 DoNothing
+>       ; tap nc b dt = playBuf nc AR b 1 0 (dt * (- sampleRate)) Loop DoNothing
 >       ; dl = 6
 >       ; feedr n = do { t <- sequence (replicate n (rand 0.0 (constant dl)))
 >                      ; g <- sequence (replicate n (rand 0.4 1.0))

@@ -22,7 +22,7 @@ scritto_i bx =
                 b = blip AR (midiCPS n2) n3
             in (decay2 p 0.01 n1 * b * 12)
         voice = mix . v_filter_b
-    in out 0 (mce (map voice (map ble (zip ['a','b'] [1,2]))))
+    in out 0 (mce (map (voice . ble) (zip "ab" [1,2])))
 
 s_alloc :: Transport t => t -> (V.Fdata Double,Int) -> IO ()
 s_alloc fd (s,b) = do

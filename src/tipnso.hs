@@ -12,7 +12,7 @@ tipnso =
       e = decay2 t 0.01 (mce2 0.1 0.15)
       f = midiCPS (n1 + 36 + (12 * n2))
       s = sinOsc AR f 0 * e
-      b = bpf (n3 * e) (36 + midiCPS n1) (175 / (midiCPS n1))
+      b = bpf (n3 * e) (36 + midiCPS n1) (175 / midiCPS n1)
   in (s + b) * mce2 0.15 0.1
 
 main :: IO ()

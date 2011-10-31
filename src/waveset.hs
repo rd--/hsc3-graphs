@@ -25,14 +25,14 @@ play_set _ [] = error "play_set:empty"
 play_set fd (x:xs) = do
   let (Bundle (UTCr t) _) = x
   pauseThreadUntil (t - latency)
-  mapM_ (\e -> send fd e) (x:xs)
+  mapM_ (send fd) (x:xs)
 
 -- | Play grouped score.
 play_sets :: Transport t => t -> [[OSC]] -> IO ()
 play_sets _ [] = return ()
 play_sets fd s = do
   t <- utcr
-  mapM_ (play_set fd) (map (\g -> map (offset t) g) s)
+  mapM_ (play_set fd . map (offset t)) s
 
 -- | Split l into chunks of at most n elements.
 form_sets :: Int -> [a] -> [[a]]
@@ -147,7 +147,7 @@ main :: IO ()
 main = do
   a <- getArgs
   case a of
-    [fn] -> withSC3 (\fd -> run_waveset fd fn)
+    [fn] -> withSC3 (`run_waveset` fn)
     _ -> error "audio file?"
 
 {--

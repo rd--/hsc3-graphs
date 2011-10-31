@@ -9,7 +9,7 @@ strummable_guitar =
                     t = abs (hpz1 (x >* (0.25 + constant i * 0.1)))
                     e = decay t 0.05
                     n = pinkNoise i AR * e
-                    dt = 1 / (midiCPS (scale !! i))
+                    dt = 1 / midiCPS (scale !! i)
                     s = combL n dt dt 4
                 in pan2 s (constant i * 0.2 - 0.5) 1
         strs = mixFill (length scale) str

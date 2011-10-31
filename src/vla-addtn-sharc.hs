@@ -48,7 +48,7 @@ vla_plyr n =
         fa = control KR "fall" 0.5
         l = control KR "loc" 0.0
         dt = control KR "dt" 0.001
-        s = foldl1 (+) (map (vla_partial f rs fa dt) [0 .. n - 1])
+        s = sum (map (vla_partial f rs fa dt) [0 .. n - 1])
         e = detectSilence s 0.001 0.2 RemoveSynth
     in mrg2 (pan2 s l a) e
 

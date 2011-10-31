@@ -4,7 +4,7 @@ import Sound.SC3.ID
 import Sound.SC3.Lang.Control.OverlapTexture
 
 randz :: ID a => a -> UGen -> UGen
-randz e n = rand e 0 n
+randz e = rand e 0
 
 data_space :: UGen
 data_space =

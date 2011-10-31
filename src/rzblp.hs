@@ -7,7 +7,7 @@ rzblp :: UGen
 rzblp =
   let wrp i l r = let m = (r - l) / 2
                   in i * m + l + m
-      lfn f l r = wrp (lfNoise0 KR f) l r
+      lfn f = wrp (lfNoise0 KR f)
       hpb q = mixFill 2 (\_ -> let f = lfn q 1330 1395
                                    a = lfn q 0.001 0.007
                                in blip AR f 24 * a)

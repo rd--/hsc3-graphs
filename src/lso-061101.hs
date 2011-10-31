@@ -16,7 +16,7 @@ import System.Random {- random -}
 -- > normalise [1,4,2,5] == [0.2,0.8,0.4,1]
 normalise :: (Fractional a,Ord a) => [a] -> [a]
 normalise s =
-    let n = 1 / (maximum (map abs s))
+    let n = 1 / maximum (map abs s)
     in map (* n) s
 
 -- | 'L.render' rule.
@@ -84,7 +84,7 @@ lsys_load d = do
 oi :: IO UGen
 oi = do
   let rrand l r = getStdRandom (randomR (l, r))
-      choose l = rrand 0 (length l - 1) >>= return . (l !!)
+      choose l = fmap (l !!) (rrand 0 (length l - 1))
       rng i = linLin i (-1) 1
       exprng i = linExp i (-1) 1
   c <- choose [0.25, 0.55, 0.75, 1.25]

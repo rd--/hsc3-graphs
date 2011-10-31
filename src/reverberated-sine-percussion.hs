@@ -12,7 +12,7 @@ reverberated_sine_percussion = do
               return (resonz (n * 50) (200 + r) 0.003)
       x_ i = do r <- clone 2 (rand 0 0.05)
                 return (allpassN i 0.05 r 1)
-      (>=>) f g = \x -> f x >>= g
+      (>=>) f g x = f x >>= g
       chain n f = foldl (>=>) return (replicate n f)
   s <- fmap sum (sequence (replicate d s_))
   y <- do let z = delayN s 0.048 0.48

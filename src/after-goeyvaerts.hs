@@ -82,12 +82,13 @@ ifM i j k = do
 coin :: (RandomGen g) => R -> g -> (Bool,g)
 coin = R.coin
 
--- | coin at R
+-- | 'coin' at R
 coinIO :: R -> IO Bool
 coinIO = getStdRandom . coin
 
+-- | 'R.wchoose' at 'R'
 wchoose :: RandomGen g => [a] -> [R] -> g -> (a,g)
-wchoose l w = R.wchoose l w
+wchoose = R.wchoose
 
 -- | wchoose at R
 wchooseIO :: [a] -> [R] -> IO a
@@ -159,7 +160,7 @@ selections' :: S
 selections' = M.fromList (map (\i -> (i,0)) [0..11])
 
 selections_incr :: Int -> S -> S
-selections_incr z = M.adjust (+ 1) z
+selections_incr = M.adjust (+ 1)
 
 selections_step' :: RandomGen g => S -> g -> (S,g)
 selections_step' s g =
@@ -182,7 +183,7 @@ chord_n' :: RandomGen g => g -> [Int]
 chord_n' = r_chain (wchoose [1,2,3,4,5] [0.5,0.35,0.1,0.025,0.025])
 
 chord_n :: IO [Int]
-chord_n = newStdGen >>= return.chord_n'
+chord_n = fmap chord_n' newStdGen
 
 chord' :: RandomGen g => P -> S -> Int -> [Int] -> g -> (([P],[S],[Int]),g)
 chord' p_ s_ =
@@ -253,16 +254,16 @@ ag = do
   o <- l_stepper (octaves_seq' g)
   b <- l_stepper (base_note_seq' g)
   n <- scrambleIO note_set
-  return (AG {note_row = n
-             ,amp_row = a
-             ,sus_row = s
-             ,pan_row = p
-             ,ioi_row = i
-             ,ioi_mult_seq = m
-             ,base_note_seq = b
-             ,octaves_seq = o
-             ,selections = selections'
-             ,probabilities = probabilities'})
+  return AG {note_row = n
+            ,amp_row = a
+            ,sus_row = s
+            ,pan_row = p
+            ,ioi_row = i
+            ,ioi_mult_seq = m
+            ,base_note_seq = b
+            ,octaves_seq = o
+            ,selections = selections'
+            ,probabilities = probabilities'}
 
 ag_note :: S -> Int -> Int -> Int -> Int
 ag_note s' z o b = ((s' M.! z) `mod` o) * 12 + b + z
@@ -290,7 +291,7 @@ take 12$ map t3_3$ ag_psz note_set cn probabilities' selections' g
 -}
 
 scramble_c :: [t] -> IO [t]
-scramble_c x = scrambleIO x >>= return.cycle
+scramble_c x = fmap cycle (scrambleIO x)
 
 type Score = ([([Int],[Int],[R],[R],[R],([P],[S],[Int]))],[R],[R])
 

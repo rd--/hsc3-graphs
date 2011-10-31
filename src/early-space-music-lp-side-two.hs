@@ -16,7 +16,7 @@ m1 =
 m2 :: UGen
 m2 =
     let a0 = rand 'a' 40 240
-	a1 = a0 + (rand 'b' (-1) 1)
+	a1 = a0 + rand 'b' (-1) 1
 	a = mce2 a0 a1
 	b = expRand 'c' 50 2400
 	c = mce2 (a0 + rand 'd' (-1) 1) (a1 + rand 'e' (-1) 1)
@@ -60,7 +60,7 @@ m7 =
     in distort (klank t 1 0 1 (mceTranspose z)) * 0.3
 
 esmlp2 :: R.RandomGen g => g -> (UGen, g)
-esmlp2 g = R.choose (map (* 0.3) [m1,m2,m3,m4,m6,m7]) g
+esmlp2 = R.choose (map (* 0.3) [m1,m2,m3,m4,m6,m7])
 
 esmlp2_pp :: UGen -> UGen
 esmlp2_pp i =

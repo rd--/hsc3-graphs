@@ -13,7 +13,7 @@ hh_808 =
       f = [\a -> ((a ==* 6.0) * 0.6) +
                  ((a ==* 2.0) * 0.2) +
                  ((a ==* 1.0) * 0.9)
-          ,\a -> (a * pulseEnv) + ((mix (lfPulse AR (mce fr) 0 0.55)) * 0.9)
+          ,\a -> (a * pulseEnv) + (mix (lfPulse AR (mce fr) 0 0.55)) * 0.9
           ,\a -> rlpf a 7000 0.6
           ,\a -> rhpf a 6800 1.5
           ,\a -> rhpf a 6800 1.5

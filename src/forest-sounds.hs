@@ -14,4 +14,4 @@ forest_sounds :: UId m => m UGen
 forest_sounds = clone 2 insects
 
 main :: IO ()
-main = audition . (out 0) =<< forest_sounds
+main = audition . out 0 =<< forest_sounds

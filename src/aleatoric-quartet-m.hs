@@ -9,7 +9,7 @@ aleatoric_quartet = do
       density = mouseX' KR 0.01 1 Linear 0.1
       dmul = recip density * 0.5 * amp
       dadd = amp - dmul
-      (>=>) f g = \x ->   f x >>= g
+      (>=>) f g x = f x >>= g
       chain n f = foldl (>=>) return (replicate n f)
       rapf i = do r <- clone 2 (rand 0 0.05)
                   return (allpassN i 0.05 r 1)

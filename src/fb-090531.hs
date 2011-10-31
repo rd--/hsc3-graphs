@@ -7,7 +7,7 @@ import System.Random
 
 fb_090531 :: UGen
 fb_090531 =
-    let k_in n l r = linLin (in' 1 KR n) (-1) 1 l r
+    let k_in n = linLin (in' 1 KR n) (-1) 1
         p = localIn 1 AR
         bt = recip controlRate
         ig_f = k_in 0 1 20
@@ -21,7 +21,7 @@ fb_090531 =
 
 -- | Constant reset.
 c_reset :: Transport t => Double -> t -> IO ()
-c_reset n fd = send fd (c_setn [(0,(replicate 4 n))])
+c_reset n fd = send fd (c_setn [(0,replicate 4 n)])
 
 -- | Random reset.
 r_reset :: Transport t => t -> IO ()

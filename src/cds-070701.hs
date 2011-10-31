@@ -45,15 +45,13 @@ fetch t n =
 
 -- | Linearize in time (ie. /t/ is in equal steps).
 rescale :: D -> Int -> D
-rescale t n =
-    let f i = fetch t i
-    in map f [0,1 / fromIntegral n .. 1]
+rescale t n = map (fetch t) [0,1 / fromIntegral n .. 1]
 
 -- | Allocate data buffers for linearized envelopes.
 alloc_data :: Int -> IO ()
 alloc_data n = do
   let alloc fd b = async fd (b_alloc b n 1)
-  withSC3 (\fd -> do mapM_ (alloc fd) [10,11,12,13])
+  withSC3 (\fd -> mapM_ (alloc fd) [10,11,12,13])
 
 -- | Data can be loaded while nodes are running, ie. edited online.
 load_data :: Int -> (D,D,D,D) -> IO ()

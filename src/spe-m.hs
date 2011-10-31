@@ -23,4 +23,4 @@ spe = do
   chain 4 rapf =<< src
 
 main :: IO ()
-main = audition . (out 0) =<< spe
+main = audition . out 0 =<< spe

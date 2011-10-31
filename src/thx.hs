@@ -35,7 +35,7 @@ mk_node t4 f0 f1 l =
 thx :: UGen
 thx =
     let t4 = 7.9365079365
-        s = foldl1 (+) (zipWith3 (mk_node t4) f0 f1 l)
+        s = sum (zipWith3 (mk_node t4) f0 f1 l)
         n = 30
         l = take n (randomRs (-1.0,1.0) (mkStdGen 1))
         f = [29,87.5,116,175,233,350,524,880,1048,1760]

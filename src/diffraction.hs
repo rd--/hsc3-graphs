@@ -25,4 +25,4 @@ diffraction = do
   return.sum =<< sequence [p, q, r]
 
 main :: IO ()
-main = audition . (out 0) =<< diffraction
+main = audition . out 0 =<< diffraction

@@ -13,7 +13,7 @@ discretion = do
                     f_ = mkls [(0,f1),(0.33,f2),(1,f3)] t
                     a_ = mkls [(0,0),(0.33,a),(1,0)] t
                 return (saw AR f_ * a_)
-  clone 8 part >>= return.mix
+  fmap mix (clone 8 part)
 
 main :: IO ()
 main = audition . out 0 =<< discretion

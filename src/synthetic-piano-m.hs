@@ -12,7 +12,7 @@ synthetic_piano = do
       e = decay2 s 0.008 0.04
       c i = do n0 <- lfNoise2 AR 3000
                let o = [-0.05,0,0.04] !! i
-                   dt = 1 / (midiCPS (n + o))
+                   dt = 1 / midiCPS (n + o)
                return (combL (n0 * e) dt dt 6)
       l = ((n - 36) / 27) - 1
   c_ <- mixFillM 3 c

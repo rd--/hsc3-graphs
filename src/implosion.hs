@@ -8,10 +8,10 @@ mkls bp t =
     in envGen KR 1 1 0 1 RemoveSynth e
 
 mkrmp :: UGen -> UGen -> UGen -> UGen
-mkrmp l r t = mkls [(0,l),(1,r)] t
+mkrmp l r = mkls [(0,l),(1,r)]
 
 wrp :: UGen -> UGen -> UGen -> UGen
-wrp i l r = linLin i (-1) 1 l r
+wrp i = linLin i (-1) 1
 
 pmr_n :: UId m => Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> m UGen
 pmr_n rt l0 l1 r0 r1 d = do

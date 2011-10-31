@@ -12,14 +12,14 @@ dustR r lo hi = do
   return (tDuty r d 0 DoNothing (abs n2) 1)
 
 rpr :: UId m => UGen -> UGen -> m UGen
-rpr n t = tRand (in' 1 KR n) (in' 1 KR (n + 1)) t
+rpr n = tRand (in' 1 KR n) (in' 1 KR (n + 1))
 
 tgr_rpr :: (Functor m,UId m) => m UGen
 tgr_rpr = do
   clk <- dustR AR (in' 1 KR 0) (in' 1 KR 1)
   rat <- rpr 2 clk
   dur <- rpr 4 clk
-  pos <- fmap (* (bufDur KR 10)) (rpr 8 clk)
+  pos <- fmap (* bufDur KR 10) (rpr 8 clk)
   pan <- rpr 10 clk
   amp <- rpr 6 clk
   return (tGrains 2 clk 10 rat pos dur pan amp 2)
@@ -47,7 +47,7 @@ rSet =
 
 edit :: Transport t => t -> IO ()
 edit fd = do
-  s <- mapM (\(l,r) -> rrand l r) rSet
+  s <- mapM (uncurry rrand) rSet
   send fd (c_setn [(0,s)])
   pauseThread 0.35
 
