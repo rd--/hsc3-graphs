@@ -1,9 +1,9 @@
 -- early space music LP, side 2 (jmcc)
 
 import Sound.SC3.ID
-import qualified Sound.SC3.Lang.Random.Gen as R
+import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
 import Sound.SC3.Lang.Control.OverlapTexture
-import qualified System.Random as R
+import qualified System.Random as R {- random -}
 
 m1 :: UGen
 m1 =

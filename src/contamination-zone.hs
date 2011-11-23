@@ -1,7 +1,7 @@
 -- contamination zone (jmcc)
 
 import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 cz :: UGen
 cz =
