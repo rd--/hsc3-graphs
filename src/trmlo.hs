@@ -1,4 +1,4 @@
--- trmlo (rd)
+-- trmlo
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}

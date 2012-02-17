@@ -1,12 +1,12 @@
 -- nv-tw-54 (nv)
 -- http://sccode.org/1-V
 
-import Sound.SC3
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 fF :: Double -> Double -> Double
 fF i f =
-    let n = (((2 * i) `modE` 6 + 1) + ffloor f) / (i `modE` 5 + 1)
+    let n = (((2 * i) `modE` 6 + 1) + floorE f) / (i `modE` 5 + 1)
     in (f + log2 n) `modE` 2
 
 fS :: [Double]

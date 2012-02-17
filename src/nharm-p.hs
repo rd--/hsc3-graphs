@@ -1,7 +1,7 @@
--- nharm-p (rd)
+-- nharm-p
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.Event
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
 
 nharm :: Num n => Int -> n -> [n]
@@ -21,8 +21,8 @@ klg n =
 
 type Range = (Double,Double)
 
-{- Note that the dur key is used only to schedule the nodes. Both it
-and the gate message are ignored by the UGen graph, which manages
+{- Note that the dur key is used only to schedule the nodes. Both it,
+and any gate message, are ignored by the UGen graph, which manages
 duration internally.  -}
 
 pN :: Int -> Range -> Range -> P Event
@@ -30,7 +30,7 @@ pN n (m0,m1) (d0,d1) =
     let i = synthdef ("klg" ++ show n) (klg n)
         p = pbind [("midinote",pwhite 'a' m0 m1 inf)
                   ,("dur",pwhite 'b' d0 d1 inf)]
-    in pinstr_d (return i) p
+    in pinstr_d (return (i,False)) p
 
 main :: IO ()
 main = audition (pmerge (pN 24 (90,92) (0.25,0.75))

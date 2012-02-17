@@ -1,9 +1,8 @@
--- vla-adttn (rd)
+-- vla-adttn
 
---import Sound.Analysis.SHARC
-import Sound.OpenSoundControl
-import Sound.SC3.ID
-import Sound.SC3.Lang.Pattern.ID
+import Sound.OpenSoundControl {- hosc -}
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 type R = Double
 type R2 = (R,R)

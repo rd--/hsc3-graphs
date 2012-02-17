@@ -2,8 +2,8 @@
 -- http://www.listarc.bham.ac.uk/lists/sc-users/msg07473.html
 
 import Control.Monad
-import Sound.SC3
-import Sound.SC3.Lang.Control.Event
+import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
 
 analogarpeggio :: Synthdef

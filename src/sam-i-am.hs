@@ -1,11 +1,11 @@
 -- sam i am (jr)
 -- http://www.listarc.bham.ac.uk/lists/sc-users/msg00280.html
 
-import Control.Monad.Random
+import Control.Monad.Random {- monad-random -}
 import Data.List
 import Data.Maybe
-import Sound.SC3
-import Sound.SC3.Lang.Control.Event
+import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Random.Monad
 import Sound.SC3.Lang.Pattern.ID
 

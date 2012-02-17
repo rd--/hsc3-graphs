@@ -1,8 +1,8 @@
 -- bohlen-pierce-140 (jj)
 -- http://sccode.org/1-W
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 bp140u :: UGen
 bp140u =

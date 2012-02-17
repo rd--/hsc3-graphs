@@ -1,7 +1,7 @@
--- crotale-sine (rd)
+-- crotale-sine
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 crotale_sine :: UGen
 crotale_sine =

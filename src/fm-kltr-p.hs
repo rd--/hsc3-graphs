@@ -1,7 +1,7 @@
--- fm-kltr-p (rd)
+-- fm-kltr-p
 
-import Sound.SC3.Lang.Pattern.ID
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 fm_kltr :: UGen
 fm_kltr =
@@ -22,11 +22,11 @@ fm_kltr =
       xl = xLine KR f2 (f2 * r3) dt DoNothing
       m = so * line KR i (f * r2) dt DoNothing + xl
       l = line KR p (p * r4) dt DoNothing
-  in pan2 (sinOsc AR m 0) l e
+  in out o (pan2 (sinOsc AR m 0) l e)
 
 main :: IO ()
 main = do
-  let s = synthdef "fm_kltr" (out 0 fm_kltr)
+  let s = synthdef "fm_kltr" fm_kltr
       p = pbind [("freq",fmap midiCPS 53)
                 ,("freq2",fmap midiCPS (pwhitei 'a' 48 96 inf +
                                         pwhite 'b' (-1) 1 inf))

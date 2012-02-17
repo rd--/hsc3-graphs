@@ -1,7 +1,7 @@
 -- overlap-add (jmcc, rd)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
 
 sine :: UGen

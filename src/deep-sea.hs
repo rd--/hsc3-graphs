@@ -1,7 +1,7 @@
 -- deep sea (jrhb)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 rng :: UGen -> UGen -> UGen -> UGen
 rng s l r =

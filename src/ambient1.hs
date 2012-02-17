@@ -59,13 +59,13 @@ audition bass_u
 -}
 
 pulse_i :: Instrument
-pulse_i = InstrumentDef (synthdef "pulse" pulse_u)
+pulse_i = InstrumentDef (synthdef "pulse" pulse_u) False
 
 drone_i :: Instrument
-drone_i = InstrumentDef (synthdef "drone" drone_u)
+drone_i = InstrumentDef (synthdef "drone" drone_u) False
 
 bass_i :: Instrument
-bass_i = InstrumentDef (synthdef "bass" bass_u)
+bass_i = InstrumentDef (synthdef "bass" bass_u) False
 
 dur_p :: Fractional a => P a
 dur_p = prand 'β' [3,0.7,1,0.5] inf
