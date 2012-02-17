@@ -2,7 +2,7 @@
 
 import Control.Concurrent.MVar
 import Data.List
-import Data.List.Split
+import Data.List.Split {- split -}
 import qualified Data.Map as M {- containers -}
 import Sound.OpenSoundControl {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
@@ -119,11 +119,11 @@ nd =
         s = let p = mix (lfPar AR (freq * mce [0.999,1.001]) 0 * amp)
                 l = [10000,2000,4000,1000]
                 t = [0.005,rand 'a' 0.009 0.05,0.005]
-                d = env l t (replicate 3 EnvLin) 0 0
+                d = Envelope l t (replicate 3 EnvLin) Nothing Nothing
             in lpf (distort p) (envGen KR 1 1 0 1 DoNothing d)
         e = let l = [0,1,0.4,0.7,0]
                 t = [rand 'b' 0.001 0.005,0.005,0.005,sustain]
-                d = env l t (replicate 4 EnvLin) 0 0
+                d = Envelope l t (replicate 4 EnvLin) Nothing Nothing
             in envGen KR 1 1 0 1 RemoveSynth d
     in out 0 (pan2 (s * e) pan 1)
 

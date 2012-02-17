@@ -17,7 +17,7 @@ mk_env :: R -> R -> R -> R -> R -> R -> R -> EnvCurve -> UGen
 mk_env z0 t0 z1 t1 t2 z2 t3 c =
     let z = map constant [z0,z1,z1,z2,z2]
         t = map constant [t0,t1,t2,t3]
-        e = env z t [c,c,c] (-1.0) (-1.0)
+        e = Envelope z t [c,c,c] Nothing Nothing
     in envGen KR 1 1 0 1 RemoveSynth e
 
 mk_node :: R -> R -> R -> UGen -> UGen

@@ -16,8 +16,10 @@ latency = 0.15
 
 -- | Add t to timestamp.
 offset :: Double -> OSC -> OSC
-offset t (Bundle (UTCr t0) m) = Bundle (UTCr (t + t0)) m
-offset _ _ = error "offset:non-bundle"
+offset t o =
+    case o of
+      Bundle (UTCr t0) m -> Bundle (UTCr (t + t0)) m
+      _ -> error "offset:non-bundle"
 
 -- | Play non-empty set of osc bundles.
 play_set :: Transport t => t -> [OSC] -> IO ()
@@ -91,7 +93,7 @@ waveset =
         a = k "amp" 0.2
         rs = bufRateScale KR b * r
         ph = phasor AR 0 rs 0 (e - s) 0 + s
-        e_data = env [a, a, 0] [d, 0] [EnvLin] (-1) (-1)
+        e_data = Envelope [a, a, 0] [d, 0] [EnvLin] Nothing Nothing
         e_ugen = envGen AR 1 1 0 1 RemoveSynth e_data
     in offsetOut o (bufRdL 1 AR b ph Loop * e_ugen)
 

@@ -2,7 +2,7 @@
 -- http://sccode.org/1-u
 -- requires 'scsynth -u 57110 -m 32768'
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 exprange :: UGen -> UGen -> UGen -> UGen
 exprange l r i = linExp i (-1) 1 l r
@@ -17,9 +17,9 @@ bg_f k =
 fg_f :: UGen -> UGen -> UGen
 fg_f df tf =
     let d = dust 'a' AR (df * rand 'a' 0.8 1.2) * 50
-	l = exprange 800 900 (sinOsc KR 2.2 0)
-	r = exprange 2600 2900 (sinOsc KR 5.228 0)
-	z = resonz d (tRand 'a' l r d) (tRand 'a' 0.03 0.08 d)
+        l = exprange 800 900 (sinOsc KR 2.2 0)
+        r = exprange 2600 2900 (sinOsc KR 5.228 0)
+        z = resonz d (tRand 'a' l r d) (tRand 'a' 0.03 0.08 d)
         t = lagUD (range 2 0.5 (saw KR tf)) 0.6 2.8
         o = z * t
     in o + combL o 0.8 (rand 'a' 0.2 0.8) (iChoose 'a' (mce2 (-4) 4))

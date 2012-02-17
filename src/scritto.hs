@@ -1,9 +1,9 @@
 -- scritto (rd)
 
 import Control.Monad
-import Sound.OpenSoundControl
-import Sound.SC3.ID
-import qualified Sound.SC3.Lang.Data.Vowel as V
+import Sound.OpenSoundControl {- hosc -}
+import Sound.SC3.ID {- hsc3 -}
+import qualified Sound.SC3.Lang.Data.Vowel as V {- hsc3-lang -}
 
 scritto_i :: UGen -> UGen
 scritto_i bx =

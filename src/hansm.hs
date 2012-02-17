@@ -3,8 +3,8 @@ http://www.fredrikolofsson.com/f0blog/?q=node/457
 http://obiwannabe.co.uk/tutorials/html/tutorial_birds.html
 -}
 
-import Sound.OpenSoundControl
-import Sound.SC3
+import Sound.OpenSoundControl {- hosc -}
+import Sound.SC3 {- hsc3 -}
 
 type T3 a = (a,a,a)
 type Bird_Call_Param a = (T3 a,T3 a,T3 a,T3 a,T3 a)
@@ -17,16 +17,16 @@ bird_call ((freq,atk,dcy)
           ,(amod2,atka2,dcya2)) =
     let mk_env a aT dT g lS md =
             let x = EnvNum (-4)
-                c = env [0,a,0] [aT,dT] [x,x] (-1) (-1)
+                c = Envelope [0,a,0] [aT,dT] [x,x] Nothing Nothing
             in envGen AR g lS 0 1 md c
-	e = mk_env 0.5 atk dcy 1 1 RemoveSynth
-	freq1 = mk_env fmod1 atkf1 dcyf1 1 3000 DoNothing
-	freq2 = mk_env fmod2 atkf2 dcyf2 1 3000 DoNothing
-	amp1 = mk_env amod1 atka1 dcya1 1 1 DoNothing
-	amp2 = mk_env amod2 atka2 dcya2 1 1 DoNothing
-	fmod = sinOsc AR freq1 0 * amp1 + 1
-	amod = 1 - sinOsc AR freq2 0 * amp2
-	z = sinOsc AR ((freq * 7000 + 300) * fmod) 0 * amod
+        e = mk_env 0.5 atk dcy 1 1 RemoveSynth
+        freq1 = mk_env fmod1 atkf1 dcyf1 1 3000 DoNothing
+        freq2 = mk_env fmod2 atkf2 dcyf2 1 3000 DoNothing
+        amp1 = mk_env amod1 atka1 dcya1 1 1 DoNothing
+        amp2 = mk_env amod2 atka2 dcya2 1 1 DoNothing
+        fmodc = sinOsc AR freq1 0 * amp1 + 1
+        amod = 1 - sinOsc AR freq2 0 * amp2
+        z = sinOsc AR ((freq * 7000 + 300) * fmodc) 0 * amod
     in audition (out 0 (pan2 z 0 e))
 
 triple_tailed_tree_troubler :: (Fractional a) => Bird_Call_Param a
@@ -105,4 +105,3 @@ main = do
            ,common_muckoink]
       fn x = bird_call x >> pauseThread 1.25
   mapM_ fn xs
-

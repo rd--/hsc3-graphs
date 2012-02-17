@@ -1,6 +1,6 @@
 -- early space music LP, side 2 (jmcc)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
 import Sound.SC3.Lang.Control.OverlapTexture
 import qualified System.Random as R {- random -}
@@ -8,18 +8,18 @@ import qualified System.Random as R {- random -}
 m1 :: UGen
 m1 =
     let a = rand 'a' 0 20
-	b = rand 'b' 0 5000
-	c = rand 'c' 0 20
-	p = rand 'd' (-1) 1
+        b = rand 'b' 0 5000
+        c = rand 'c' 0 20
+        p = rand 'd' (-1) 1
     in pan2 (sinOsc AR (sinOsc AR a 0 * 0.1 * b + b) 0 * sinOsc KR c 0 * 0.08 + 0.08) p 1
 
 m2 :: UGen
 m2 =
     let a0 = rand 'a' 40 240
-	a1 = a0 + rand 'b' (-1) 1
-	a = mce2 a0 a1
-	b = expRand 'c' 50 2400
-	c = mce2 (a0 + rand 'd' (-1) 1) (a1 + rand 'e' (-1) 1)
+        a1 = a0 + rand 'b' (-1) 1
+        a = mce2 a0 a1
+        b = expRand 'c' 50 2400
+        c = mce2 (a0 + rand 'd' (-1) 1) (a1 + rand 'e' (-1) 1)
     in sinOsc AR (sinOsc AR a 0 * rand 'f' 0 1 * b + b) 0 * sinOsc KR c 0 * 0.025 + 0.025
 
 m3 :: UGen
@@ -30,7 +30,7 @@ m3 =
 m4 :: UGen
 m4 =
     let f = midiCPS (rand 'a' 24 96)
-	r = xLine KR (expRand 'b' 0.1 20) (expRand 'c' 0.1 20) 25.6 DoNothing
+        r = xLine KR (expRand 'b' 0.1 20) (expRand 'c' 0.1 20) 25.6 DoNothing
         a = lfPulse KR (expRand 'd' 0.2 1.2) 0 (rand 'e' 0.1 0.2)
         o i = let e = max 0 (sinOsc KR (r * rand 'f' 0.9 1.1) (rand 'g' 0 (2 * pi)) * 0.1 - 0.05)
                   s = fSinOsc AR (f * i + f) 0 * e * (1 / (i + 1))
@@ -42,7 +42,7 @@ m6 =
     let f = midiCPS (lfNoise1 'a' KR (rand 'b' 0 0.3) * 60 + 70)
         a0 = lfNoise2 'c' AR (f * rand 'd' 0 0.5)
         a1 = max 0 (lfNoise1 'e' KR (rand 'f' 0 8) * sinOsc KR (rand 'g' 0 40) 0 * 0.1)
-	z = sinOsc AR f 0 * a0 * a1
+        z = sinOsc AR f 0 * a0 * a1
     in pan2 z (lfNoise1 'h' KR (rand 'i' 0 5)) 1
 
 enumFromN :: Enum a => a -> Int -> [Int]

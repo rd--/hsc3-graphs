@@ -6,7 +6,7 @@ import Sound.SC3
 record_scratcher :: UGen
 record_scratcher =
   let dup a = mce2 a a
-      d = env [0, 1, 0] [0.1, 0.1] [EnvSin] 1 0
+      d = Envelope [0, 1, 0] [0.1, 0.1] [EnvSin] (Just 1) (Just 0)
       e = envGen KR 1 0.5 0 1 RemoveSynth d
       x = mouseX' KR (-10) 10 Linear 0.2
       dx = x - delayN x 0.1 0.1

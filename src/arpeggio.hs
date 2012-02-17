@@ -19,7 +19,7 @@ analogarpeggio =
         e = let d = envADSR 0.01 0.3 0.5 1 1 (EnvNum (-4)) 0
             in envGen AR g 1 0 1 RemoveSynth d
         i = mix (saw AR (f * mce [0.497,0.999,1.0,2.03]))
-	s = bLowPass i (c * f) r * 0.25
+        s = bLowPass i (c * f) r * 0.25
     in synthdef "analogarpeggio" (out o (pan2 (e * s * a) p 0.25))
 
 {-

@@ -23,11 +23,11 @@ pulse_u =
         a = k "amp" 0.1
         aT = k "attackTime" 0.01
         dT = k "delayTime" 10
-	e = envGen KR 1 1 0 1 RemoveSynth (envPerc aT 10)
-	z = sinOsc AR f 0 * 0.7
-	o = let l = sinOsc KR 3 0
+        e = envGen KR 1 1 0 1 RemoveSynth (envPerc aT 10)
+        z = sinOsc AR f 0 * 0.7
+        o = let l = sinOsc KR 3 0
             in pan2 (toggleFF (tDelay z dT) * sinOsc AR f 0) l 0.6
-	s = clip2 ((pan2 z (sinOsc KR 5 pi) 0.7 + o) * e) 1
+        s = clip2 ((pan2 z (sinOsc KR 5 pi) 0.7 + o) * e) 1
     in out 0 (freeVerb s 0.7 1.0 0.4 * a)
 
 drone_u :: UGen
@@ -37,10 +37,10 @@ drone_u =
         a = k "amp" 0.1
         ph = k "phase" 0
         e = envGen KR 1 1 0 1 RemoveSynth (envSine 10 1)
-	s = chain0 [\_ -> lfPulse AR f 0 0.15
+        s = chain0 [\_ -> lfPulse AR f 0 0.15
                    ,\o -> rlpf o (sinOsc KR 0.3 0 * 200 + 1500) 0.1
                    ,\o -> freeVerb o 0.5 0.5 0.5 * e
-	           ,\o -> pan2 o (sinOsc KR (1/10) ph) a]
+                   ,\o -> pan2 o (sinOsc KR (1/10) ph) a]
     in out 0 s
 
 bass_u :: UGen
@@ -48,8 +48,8 @@ bass_u =
     let k = control KR
         f = k "freq" 96
         a = k "amp" 0.1
-	e = envGen KR 1 1 0 1 RemoveSynth (envPerc' 0.5 1 1 (EnvLin,EnvLin))
-	s = sinOsc AR f 0 * a * e
+        e = envGen KR 1 1 0 1 RemoveSynth (envPerc' 0.5 1 1 (EnvLin,EnvLin))
+        s = sinOsc AR f 0 * a * e
     in out 0 (pan2 s 0 1)
 
 {-
@@ -75,7 +75,7 @@ pulse_p = pbind [("dur",dur_p * 10)
                 ,("midinote",prand 'α' [59,72,76,79,81,88,90] inf)
                 ,("amp",pwhite 'β' 0.2 0.27 inf)
                 ,("attackTime",pwhite 'γ' 0 7 inf)
-		,("delayTime",0.02)]
+                ,("delayTime",0.02)]
 
 drone_p :: P Event
 drone_p = pbind [("dur",dur_p)

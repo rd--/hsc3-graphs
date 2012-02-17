@@ -11,8 +11,8 @@ import System.Random {- random -}
 mk_ec :: [UGen] -> [EnvCurve]
 mk_ec = map EnvNum
 
-mk_env :: [UGen] -> [UGen] -> [UGen] -> [UGen]
-mk_env l t c = env l t (mk_ec c) 0 0
+mk_env :: [UGen] -> [UGen] -> [UGen] -> Envelope UGen
+mk_env l t c = Envelope l t (mk_ec c) Nothing Nothing
 
 kick :: Synthdef
 kick =
@@ -21,7 +21,7 @@ kick =
                in envGen AR 1 1 0 1 RemoveSynth d
         env1 = let d = mk_env [110,59,29] [0.005,0.29] [-4,-5]
                in midiCPS (envGen AR 1 1 0 1 DoNothing d)
-	s = let p = lfPulse AR env1 0 0.5 - 0.5
+        s = let p = lfPulse AR env1 0 0.5 - 0.5
                 q = p + mce2 (whiteNoise 'a' AR) (whiteNoise 'b' AR)
                 r = lpf q (env1 * 1.5) * env0
             in clip2 (r + sinOsc AR env1 0.5 * env0 * 1.2) 1
@@ -37,15 +37,15 @@ snare =
                in midiCPS (envGen AR 1 1 0 1 DoNothing d)
         env2 = let d = mk_env [1,0.4,0] [0.05,0.13] [-2,-2]
                in envGen AR 1 1 0 1 RemoveSynth d
-	oscs = let p = lfPulse AR env1 0 0.5 - 0.5
+        oscs = let p = lfPulse AR env1 0 0.5 - 0.5
                    q = lfPulse AR (env1 * 1.6) 0 0.5 * 0.5 - 0.25
                    r = lpf (p + q) (env1 * 1.2) * env0
                in r + sinOsc AR env1 0.8 * env0
-	noise = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'b' AR) * 0.2
+        noise = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'b' AR) * 0.2
                     q = hpf p 200 * 2
                     r = bpf q 6900 0.6 * 3 + p
-	        in r * env2
-	s = clip2 (oscs + noise) 1 * amp
+                in r * env2
+        s = clip2 (oscs + noise) 1 * amp
     in synthdef "snare" (out bus s)
 
 clap :: Synthdef
@@ -58,14 +58,14 @@ clap =
                in envGen AR 1 1 0 1 DoNothing d
         env2 = let d = mk_env [0,1,0] [0.02,0.3] [0,-4]
                in envGen AR 1 1 0 1 RemoveSynth d
-	noise1 = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'a' AR) * env1
+        noise1 = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'a' AR) * env1
                      q = hpf p 600
                  in bpf q 2000 3
-	noise2 = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'a' AR) * env2
+        noise2 = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'a' AR) * env2
                      q = hpf p 1000
                  in bpf q 1200 0.7 * 0.7
-	s = let p = noise1 + noise2
-	    in softClip (p * 2) * amp
+        s = let p = noise1 + noise2
+            in softClip (p * 2) * amp
     in synthdef "clap" (out bus s)
 
 hat :: Synthdef
@@ -77,7 +77,7 @@ hat =
         env2 = let d = mk_env [0,1.0,0.05,0] [0.002,0.05,0.03] [0,-4,-4]
                in envGen AR 1 1 0 1 RemoveSynth d
         (r0:r1:r2:_) = randomRs (-4.0,4.0) (mkStdGen 5)
-	oscs1 = let n1 = 5
+        oscs1 = let n1 = 5
                     f i = let f0 = midiCPS (linLin i 0 (n1-1) 42 75 + r0)
                               f1 = midiCPS (linLin i 0 (n1-1) 78 80 + r1)
                           in sinOsc AR f0 (sinOsc AR f1 0 * 12) * (1/n1)
@@ -99,22 +99,22 @@ acid =
         gate' = control KR "gate" 1
         pitch' = control KR "pitch" 50
         amp = control KR "amp" 0.3
-	pitch'' = lag pitch' 0.12 * (1 - trig gate' 0.001) * gate'
-        env1 = let d = env [0,1,0,0] [0.001,2,0.04] (mk_ec [0,-4,-4]) 2 0
+        pitch'' = lag pitch' 0.12 * (1 - trig gate' 0.001) * gate'
+        env1 = let d = Envelope [0,1,0,0] [0.001,2,0.04] (mk_ec [0,-4,-4]) (Just 2) (Just 0)
                in envGen AR gate' amp 0 1 DoNothing d
         env2 = let d = envADSR 0.001 0.8 0 0.8 70 (EnvNum (-4)) 0
                in envGen AR gate' 1 0 1 DoNothing d
-	s = let p = lfPulse AR (midiCPS pitch'') 0.0 0.51 * 2 - 1
+        s = let p = lfPulse AR (midiCPS pitch'') 0.0 0.51 * 2 - 1
                 q = rlpf p (midiCPS (pitch'' + env2)) 0.3
-	    in q * env1
+            in q * env1
     in synthdef "acid" (out bus (mce2 s s))
 
 fx :: Synthdef
 fx =
     let bus = control KR "outBus" 0
         gate' = control KR "gate" 0
-	i = in' 2 AR bus
-        e = let d = env [0.02,0.3,0.02] [0.4,0.01] (mk_ec [3,-4]) 1 0
+        i = in' 2 AR bus
+        e = let d = Envelope [0.02,0.3,0.02] [0.4,0.01] (mk_ec [3,-4]) (Just 1) (Just 0)
             in envGen KR (1 - trig gate' 0.01) 1 0 1 DoNothing d
         r = let MCE [i0,i1] = i
             in freeVerb2 (bpf i0 3500 1.5) (bpf i1 3500 1.5) 1 0.95 0.15 * e
