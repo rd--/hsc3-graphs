@@ -371,6 +371,10 @@ Executable         hsc3-mouse-clatter
  main-is:          src/mouse-clatter-m.hs
  build-depends:    base==4.*, hosc==0.12.*, hsc3==0.12.*
 
+Executable         hsc3-music-box
+ main-is:          src/music-box.hs
+ build-depends:    base==4.*, hosc==0.12.*, hsc3==0.12.*, hsc3-lang==0.12.*
+
 Executable         hsc3-nharm
  main-is:          src/nharm.hs
  build-depends:    base==4.*, hosc==0.12.*, hsc3==0.12.*, random
