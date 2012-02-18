@@ -323,6 +323,10 @@ Executable         hsc3-k-ppr-m
  main-is:          src/k-ppr-m.hs
  build-depends:    base==4.*, hsc3==0.12.*
 
+Executable         hsc3-laser-bubble
+ main-is:          src/laser-bubble.hs
+ build-depends:    base==4.*, hsc3==0.12.*
+
 Executable         hsc3-lfo-modulation
  main-is:          src/lfo-modulation.hs
  build-depends:    base==4.*, hsc3==0.12.*
