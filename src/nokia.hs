@@ -1,0 +1,52 @@
+-- http://tai-studio.org/index.php/2012/02/alarm-clock-sound/
+-- partial...
+
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
+import Sound.SC3.Lang.Control.Instrument
+import Sound.SC3.Lang.Pattern.ID
+
+grain :: UGen
+grain =
+    let o = control KR "out" 0
+        freq' = control KR "freq" 100
+        attack = control KR "attack" 0
+        decay' = control KR "decay" 1
+        sustain' = control KR "sustain" 0.1
+        distort' = control KR "distort" 0
+        fTime = control KR "fTime" 0.1
+        fFac = control KR "fFac" 1.2
+        amp' = control KR "amp" 1
+        delay = control KR "delay" 0
+        startFreq = fFac * freq'
+        endFreq = freq'
+        aEnv = let e = envPerc attack decay'
+               in envGen AR 1 amp' 0 sustain' RemoveSynth e
+        fEnv = let e = Envelope [startFreq,endFreq] [fTime] [] Nothing Nothing
+               in envGen AR 1 1 0 1 DoNothing e
+        src = wrap2 (sinOsc AR fEnv 1 * (1 + distort')) 1
+    in offsetOut o (delayN (src * mce2 aEnv aEnv) 0.1 delay)
+
+pattern :: Enum e => (P Value, e) -> P Event
+pattern (f,z) =
+  pbind [("freq",f * pwhite z 0.99 1 inf * prand z [4,1,2,3,4,8] inf)
+        ,("dur",pseq [pseq [10,0.1,10] 1
+                     ,pseq [0.1] 6
+                     ,pseq [1,pseq [0.1] 6,1] inf] 1)
+        ,("fTime",0.0125)
+        ,("fFac",5)
+        ,("sustain",0.1)
+        ,("attack",0.0005)
+        ,("decay",2)
+        ,("amp",0.1)
+        ,("delay",pwhite z 0.001 0.01 inf)]
+
+grain_ip :: P Instrument
+grain_ip =
+    let s = synthdef "grain" grain
+    in pcons (InstrumentDef s False) (prepeat (InstrumentName "grain" False))
+
+main :: IO ()
+main =
+    let f = concat (replicate 12 [1200, 800, 600, 200])
+    in audition (pinstr grain_ip (ppar (map pattern (zip f ['a'..]))))
