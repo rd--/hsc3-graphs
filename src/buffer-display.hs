@@ -37,47 +37,47 @@ pt_rotate a (x,y) =
     in ((x * c) - (y * s),(y * c) + (x * s))
 
 render_line :: BD -> [R] -> R -> C.Render ()
-render_line bd s n = do
+render_line bd d n = do
   let a = amplitude bd
   rotate_about (theta bd) (n/2) (n/2)
   C.translate 0 (n/2)
   let f (x,y) = let y' = (y * n * a)
                 in if x == 0 then C.moveTo x y' else C.lineTo x y'
-  mapM_ f (zip [0..] s)
+  mapM_ f (zip [0..] d)
   C.stroke
 
 render_warp :: BD -> [R] -> R -> C.Render ()
-render_warp bd s n = do
+render_warp bd d n = do
   let a = amplitude bd
   rotate_about (theta bd) (n/2) (n/2)
   C.translate (n/2) (n/2)
   let f (x,y) = let (x',y') = pt_rotate (y * 2 * pi) (x * a,y * a)
                 in if x == 0 then C.moveTo x' y' else C.lineTo x' y'
-  mapM_ f (zip [0..] s)
+  mapM_ f (zip [0..] d)
   C.stroke
 
 render_flower :: BD -> [R] -> R -> C.Render ()
-render_flower bd s n = do
-  let s0 = s !! 0
+render_flower bd d n = do
+  let d0 = d !! 0
   C.translate (n/2) (n/2)
-  C.moveTo (s0*s0) 0
+  C.moveTo (d0 * d0) 0
   let f (x,y) = let a = ((x `M.fmod` n) / n) * 2 * pi + theta bd
                     (x',y') = pt_rotate a (y * y,x * y)
                 in C.lineTo x' y'
-  mapM_ f (zip [0..] s)
+  mapM_ f (zip [0..] d)
   C.stroke
 
 render_bd :: BD -> [R] -> C.Render BD
-render_bd bd s = do
+render_bd bd d = do
   let n = fromIntegral (buffer_sz bd)
   C.rectangle 0 0 n n
   C.setSourceRGBA 0 0 0 (trails bd)
   C.fill
   C.setSourceRGBA 0 1 0 1
   case version bd of
-    BD_Line -> render_line bd s n
-    BD_Warp -> render_warp bd s n
-    BD_Flower -> render_flower bd s n
+    BD_Line -> render_line bd d n
+    BD_Warp -> render_warp bd d n
+    BD_Flower -> render_flower bd d n
   return bd
 
 unf :: Datum -> R
@@ -98,12 +98,14 @@ read_b bd = do
     Message "/b_setn" (_:Int 0:Int _:xs) -> return (map unf xs)
     _ -> return []
 
-update :: G.DrawingArea -> IORef BD -> IO Bool
-update c r = do
+update :: G.DrawingArea -> C.Surface -> IORef BD -> IO Bool
+update c s r = do
   w <- G.widgetGetDrawWindow c
   bd <- readIORef r
-  s <- read_b bd
-  _ <- G.renderWithDrawable w (render_bd bd s)
+  d <- read_b bd
+  _ <- C.renderWith s (render_bd bd d)
+  C.surfaceFlush s
+  _ <- G.renderWithDrawable w (C.setSourceSurface s 0 0 >> C.paint)
   writeIORef r (bd {theta = theta bd + speed bd
                    ,cnt = cnt bd + 1})
   return True
@@ -125,17 +127,22 @@ keypress w r e = do
 
 bd_run :: BD -> IO (IORef BD)
 bd_run bd = do
+  r <- newIORef bd
+  let n = buffer_sz bd
+      n' = fromIntegral n
+  s <- C.createImageSurface C.FormatARGB32 n n
+  C.renderWith s (do C.rectangle 0 0 n' n'
+                     C.setSourceRGBA 0 0 0 1
+                     C.fill)
   _ <- G.initGUI
   w <- G.windowNew
   c <- G.drawingAreaNew
-  r <- newIORef bd
-  let n = buffer_sz bd
   _ <- S.async (sc3 bd) (S.b_alloc (buffer bd) n 1)
   G.windowSetResizable w False
   G.widgetSetSizeRequest w n n
   _ <- G.onKeyPress w (keypress w r)
   _ <- G.onDestroy w G.mainQuit
-  _ <- G.onExpose c (const (update c r))
+  _ <- G.onExpose c (const (update c s r))
   _ <- G.timeoutAdd (G.widgetQueueDraw w >> return True) 15
   G.set w [G.containerChild G.:= c]
   G.widgetShowAll w
@@ -164,7 +171,7 @@ let {v = varSaw AR (mouseX KR 1 1000 Linear 0.2) 0 0.5
 in audition (mrg [o,r])
 
 fd <- sc3_fd
-bd_run (BD fd 0 10 512 0 1 0 0.5 BD_Line)
+bd_run (BD fd 0 10 512 0 0.1 0 0.5 BD_Line)
 bd_run (BD fd 0 10 512 0 1 0 0.5 BD_Warp)
 bd_run (BD fd 0 10 512 0 1 0 0.5 BD_Flower)
 -}
