@@ -563,6 +563,10 @@ Executable         hsc3-sidereal-time
  main-is:          src/sidereal-time.hs
  build-depends:    base==4.*, hsc3==0.12.*, hsc3-lang==0.12.*
 
+Executable         hsc3-sinusdeklinationen
+ main-is:          src/sinusdeklinationen.hs
+ build-depends:    base==4.*, hsc3==0.12.*, hsc3-lang==0.12.*, split
+
 Executable         hsc3-slow-beating-harmonic-sines
  main-is:          src/slow-beating-harmonic-sines.hs
  build-depends:    base==4.*, hsc3==0.12.*, hsc3-lang==0.12.*, MonadRandom
