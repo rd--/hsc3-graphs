@@ -1,9 +1,9 @@
 -- e-lamell (rd)
 
 import Control.Monad
-import Sound.OpenSoundControl
-import Sound.SC3.ID
-import qualified Sound.SC3.Lang.Random.IO as R
+import Sound.OpenSoundControl {- hosc -}
+import Sound.SC3.ID {- hsc3 -}
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 e_lamell :: UGen
 e_lamell =
@@ -13,7 +13,7 @@ e_lamell =
         d = ctl "d" 0.1
         l = ctl "l" 0
         a = ctl "a" 1
-        t = iChoose 'a' (mce2 1 32)
+        t = choose 'a' [1,32]
         h = line AR n t d DoNothing
         s = blip AR f h
         e_d = envPerc 0.005 d

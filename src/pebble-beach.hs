@@ -22,7 +22,7 @@ fg_f df tf =
         z = resonz d (tRand 'a' l r d) (tRand 'a' 0.03 0.08 d)
         t = lagUD (range 2 0.5 (saw KR tf)) 0.6 2.8
         o = z * t
-    in o + combL o 0.8 (rand 'a' 0.2 0.8) (iChoose 'a' (mce2 (-4) 4))
+    in o + combL o 0.8 (rand 'a' 0.2 0.8) (choose 'a' [-4,4])
 
 pebble_beach' :: ID a => a -> UGen
 pebble_beach' j =

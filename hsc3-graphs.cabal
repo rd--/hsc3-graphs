@@ -18,6 +18,14 @@ Data-files:        README
                    src/*.scd
                    src/*.scm
 
+Executable         hsc3-1-1Ni
+ main-is:          src/1-1Ni.hs
+ build-depends:    base==4.*, hosc==0.12.*, hsc3==0.12.*
+
+Executable         hsc3-1-Td
+ main-is:          src/1-Td.hs
+ build-depends:    base==4.*, hosc==0.12.*, hsc3==0.12.*, hsc3-lang==0.12.*, sc3-rdu==0.12.*
+
 Executable         hsc3-acid-otophilia
  main-is:          src/acid-otophilia.hs
  build-depends:    base==4.*, hosc==0.12.*, hsc3==0.12.*, random

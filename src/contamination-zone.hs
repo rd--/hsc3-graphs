@@ -1,6 +1,6 @@
 -- contamination zone (jmcc)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 cz :: UGen
@@ -12,7 +12,7 @@ cz =
         k = let sp = klankSpec (udup' 4 (rand 'a' 50 2000))
                                [1,1,1,1]
                                (udup' 4 (rand 'a' 0.2 4))
-            in abs (klank p 1 0 1 sp) * iChoose 'a' (mce [-1,1])
+            in abs (klank p 1 0 1 sp) * choose 'a' [-1,1]
         r = rlpf k s 0.1
         a = lfPulse KR (linRand 'a' 0 150 0) 0 (rand 'a' 0.2 0.4)
     in pan2 r (lfNoise1 'a' KR (rand 'a' 0 1)) a
