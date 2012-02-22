@@ -11,4 +11,5 @@ clean:
 
 dep:
 	echo -n "GRAPHS=" > Makefile.graphs
-	ls *.hs | sed -e s/\.hs//g | xargs echo >> Makefile.graphs
+	ls *.hs | sed -r -e 's/(.*)\.hs/ \1\\/g' \
+		>> Makefile.graphs
