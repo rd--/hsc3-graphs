@@ -431,6 +431,14 @@ Executable         hsc3-pebble-beach
  main-is:          src/pebble-beach.hs
  build-depends:    base==4.*, hsc3==0.12.*
 
+Executable         hsc3-pkt-26
+ main-is:          src/pkt-26.hs
+ build-depends:    base==4.*, hsc3==0.12.*
+
+Executable         hsc3-pkt-28
+ main-is:          src/pkt-28.hs
+ build-depends:    base==4.*, hsc3==0.12.*
+
 Executable         hsc3-plucked-strings
  main-is:          src/plucked-strings.hs
  build-depends:    base==4.*, hsc3==0.12.*
