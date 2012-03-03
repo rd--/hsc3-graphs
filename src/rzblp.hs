@@ -8,7 +8,9 @@ wrp i l r =
     in i * m + l + m
 
 lfn :: ID a => a -> UGen -> UGen -> UGen -> UGen
-lfn z f l r = wrp (lfNoise0 (idHash z + idHash l + idHash r) KR f) l r
+lfn z f l r =
+    let z' = z `joinID` l `joinID` r
+    in wrp (lfNoise0 z' KR f) l r
 
 hpb :: (ID a) => a -> UGen -> UGen
 hpb z q =

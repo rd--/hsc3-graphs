@@ -75,6 +75,10 @@ Executable         hsc3-bit-reduction
  main-is:          src/bit-reduction.hs
  build-depends:    base==4.*, hsc3==0.12.*
 
+Executable         hsc3-bitwise
+ main-is:          src/bitwise.hs
+ build-depends:    base==4.*, hsc3==0.12.*
+
 Executable         hsc3-black-atlantic-currents
  main-is:          src/black-atlantic-currents.hs
  build-depends:    base==4.*, hsc3==0.12.*, primes, random, random-shuffle
