@@ -28,8 +28,4 @@ render s = do
 main :: IO ()
 main = do
   render score
-  perform score
-
-{-
-perform score
--}
+  withSC3 (\fd -> perform fd score)

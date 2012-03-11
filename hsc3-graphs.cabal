@@ -263,6 +263,10 @@ Executable         hsc3-fm-kltr-p
  main-is:          src/fm-kltr-p.hs
  build-depends:    base==4.*, hsc3==0.12.*, hsc3-lang==0.12.*
 
+Executable         hsc3-for-ann
+ main-is:          src/for-ann.hs
+ build-depends:    base==4.*, hosc==0.12.*, hsc3==0.12.*
+
 Executable         hsc3-forest-sounds
  main-is:          src/forest-sounds.hs
  build-depends:    base==4.*, hsc3==0.12.*

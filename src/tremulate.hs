@@ -2,14 +2,15 @@
 
 import Sound.SC3.ID
 import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 tremulate :: UGen
 tremulate =
     let f = rand 'a' 500 900
         o = fSinOsc AR (f * mce [1,1.2,1.5,1.8]) 0
-        r = uprotect 'a' (rand 'a' 30 90)
-        a = max 0 (uclone 'a' 4 (lfNoise2 'a' KR r) * 0.1)
-        l = udup 4 (rand 'a' (-1) 1)
+        r = randN 4 'a' 30 90
+        a = max 0 (lfNoise2 'a' KR r) * 0.1
+        l = randN 4 'a' (-1) 1
     in mix (pan2 o l a)
 
 tremulate_pp :: UGen -> UGen

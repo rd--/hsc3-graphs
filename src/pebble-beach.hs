@@ -37,5 +37,6 @@ pebble_beach' j =
 pebble_beach :: UGen
 pebble_beach = mce2 (pebble_beach' 'a') (pebble_beach' 'b')
 
+-- # UGens == 1994
 main :: IO ()
 main = audition (out 0 pebble_beach)
