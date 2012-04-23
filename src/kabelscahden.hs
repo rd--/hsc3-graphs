@@ -1,18 +1,23 @@
--- Kabelscahden
--- Alberto de Campo and Julian Rohrhuber, 3/2003
-
+-- Alberto de Campo & Julian Rohrhuber, March 2003
 import Sound.SC3.ID
 
-kabelscahden :: UGen
-kabelscahden =
-    let t = dust 'a' KR (7 ** lfNoise1 'b' KR 0.3)
-        h' = toggleFF (coinGate 'd' 0.4 t)
-        h = h' * rlpf (lfPulse AR 50 0 0.5 + (lfNoise1 'e' KR 2 * 0.5 - 0.5)) 6000 0.15
-        n = trig t (tRand 'f' 0 0.01 (coinGate 'g' 0.4 t)) * whiteNoise 'h' AR
-        m = trig t (tRand 'i' 0 0.01 (coinGate 'j' 0.4 t)) * brownNoise 'k' AR
-        k' = trig t (lfNoise1 'l' KR (mce2 4 4.2) * 0.1 + 0.11)
-        k = k' * lfClipNoise 'm' AR (lfNoise0 'n' KR 7 * 30 + 40)
-    in out 0 (distort (leakDC ((h + n + m + k) * 10) 0.995))
+kabelScahden :: UGen
+kabelScahden =
+    let freq = 50
+        sustain = 1
+        amp = 0.5
+        hum = let t = dust 'a' KR (7 ** lfNoise1 'a' KR 0.3)
+                  h = toggleFF (coinGate 'b' 0.4 t) * rlpf (lfPulse AR freq 0 0.5 + (lfNoise1 'b' KR 2 * 0.5 - 0.5)) 6000 0.15
+                  n = trig t (tRand 'c' 0 0.01 (coinGate 'c' 0.4 t)) * whiteNoise 'c' AR
+                  m = trig t (tRand 'd' 0 0.01 (coinGate 'd' 0.4 t)) * brownNoise 'd' AR
+                  k = trig t (lfNoise1 'e' KR (mce2 4 4.2) * 0.1 + 0.11) * lfClipNoise 'e' AR (lfNoise0 'e' KR 7 * 30 + 40)
+              in distort (leakDC ((h + n + m + k) * 10) 0.995)
+        e = envGen KR 1 1 0 1 RemoveSynth (Envelope [amp,amp,0] [sustain,0] [] Nothing Nothing)
+    in out 0 (clip2 hum 1 * e * 0.25)
 
 main :: IO ()
-main = audition kabelscahden
+main = audition kabelScahden
+
+-- Local Variables:
+-- truncate-lines:t
+-- End:
