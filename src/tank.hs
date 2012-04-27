@@ -2,6 +2,7 @@
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
 
 import Sound.SC3.ID
+import Sound.SC3.UGen.External.RDU
 
 pling :: UGen
 pling =
@@ -20,13 +21,13 @@ bang =
 
 r_allpass :: UGen -> UGen
 r_allpass i =
-    let r = udup 2 (rand 'c' 0.005 0.02)
+    let r = randN 2 'c' 0.005 0.02
     in allpassN i 0.03 r 1
 
 tank_f :: UGen -> UGen
 tank_f i =
-    let r1 = udup 2 (rand 'd' 0.01 0.05)
-        r2 = udup 2 (rand 'd' 0.03 0.15)
+    let r1 = randN 2 'd' 0.01 0.05
+        r2 = randN 2 'd' 0.03 0.15
         l0 = localIn 2 AR * 0.98
         l1 = onePole l0 0.33
         (l1l,l1r) = mce2c l1

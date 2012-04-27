@@ -1,14 +1,15 @@
 -- ring modulated klank (jmcc)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 rmk :: UGen
 rmk =
     let p = 8
-        k = let sp = klankSpec (udup' p (rand 'a' 100 10000))
-                               (replicate p 1)
-                               (udup' p (rand 'a' 0.2 1))
+        k = let sp = klankSpec_mce (randN p 'a' 100 10000)
+                                   (mce (replicate p 1))
+                                   (randN p 'a' 0.2 1)
             in klank (dust 'a' AR 20 * 0.02) 1 0 1 sp
         f = lfNoise2 'a' KR (rand 'a' 0.1 0.4) * 200 + rand 'a' 350 400
     in pan2 (sinOsc AR f 0 * k) (rand 'a' (-1) 1) 1

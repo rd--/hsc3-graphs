@@ -6,8 +6,8 @@ import Sound.SC3.Lang.Control.OverlapTexture
 sidereal_time :: UGen
 sidereal_time =
   let p = 15
-      z = let y = let fr = udup' p (expRand 'a' 100 6000)
-                      rt = udup' p (rand 'a' 2 6)
+      z = let y = let fr = uclone' 'a' p (expRand 'a' 100 6000)
+                      rt = uclone' 'a' p (rand 'a' 2 6)
                   in klankSpec fr (replicate p 1) rt
           in uclone 'a' 2 y
       f = xLine KR (expRand 'α' 40 300) (expRand 'β' 40 300) 12 DoNothing

@@ -23,10 +23,10 @@ e_lamell =
 now :: Time
 now = NTPi 1
 
-sendSynth :: Transport t => t -> String -> UGen -> IO OSC
+sendSynth :: Transport t => t -> String -> UGen -> IO Message
 sendSynth fd n u = async fd (d_recv (synthdef n u))
 
-mk_s_new :: Double -> Double -> Double -> Double -> Double -> OSC
+mk_s_new :: Double -> Double -> Double -> Double -> Double -> Message
 mk_s_new f n d a l =
     let p = [("f",f)
             ,("n",n)

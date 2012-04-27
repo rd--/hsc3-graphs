@@ -132,12 +132,12 @@ fx = replaceOut 0 (freeVerb (in' 2 AR 0) 0.33 1.5 0.5)
 
 ag_init :: Transport t => t -> IO ()
 ag_init fd = do
-  _ <- async fd (Bundle immediately [d_recv (synthdef "nd" nd)
-                                    ,d_recv (synthdef "fx" fx)])
+  _ <- async fd (d_recv (synthdef "nd" nd))
+  _ <- async fd (d_recv (synthdef "fx" fx))
   send fd (s_new "fx" (-1) AddToHead 1 [])
   return ()
 
-nd_msg :: Double -> Double -> Double -> Double -> OSC
+nd_msg :: Double -> Double -> Double -> Double -> Message
 nd_msg f a s p =
     let nd_arg = [("freq",f),("amp",a),("sustain",s),("pan",p)]
     in s_new "nd" (-1) AddToHead 1 nd_arg

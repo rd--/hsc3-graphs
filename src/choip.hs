@@ -1,6 +1,7 @@
 -- choip (jmcc)
 
 import Sound.SC3.ID
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 import Sound.SC3.Lang.Control.OverlapTexture
 
 xl :: ID a => a -> a -> UGen -> UGen -> UGen -> UGen
@@ -20,7 +21,7 @@ choip =
 
 choip_pp :: UGen -> UGen
 choip_pp =
-    let f x = allpassN x 0.1 (udup 2 (rand 'a' 0 0.05)) 4
+    let f x = allpassN x 0.1 (randN 2 'a' 0 0.05) 4
     in useq 'a' 4 f
 
 main :: IO ()

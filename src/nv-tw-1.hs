@@ -5,7 +5,7 @@ import Sound.SC3.ID
 
 nv_tw_1 :: UGen
 nv_tw_1 =
-    let a = udup 2 (pinkNoise 'a' AR)
+    let a = uclone 'a' 2 (pinkNoise 'a' AR)
         nd z =
             let n = lfNoise1 'a' KR (rand 'a' 0 0.05)
                 f = linExp n (-1) 1 40 15000

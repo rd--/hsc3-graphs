@@ -8,7 +8,7 @@ cs =
     let n = 80
         f1 = rand 'a' 100 1100
         f2 = 4 * f1
-        sp = let y = (udup' n (f1 + rand 'a' 0 f2))
+        sp = let y = uclone' 'a' n (f1 + rand 'a' 0 f2)
              in klangSpec y (map (f1 /) y) (replicate n 0)
     in uclone 'a' 2 (klang AR 1 0 sp * (0.3 / fromIntegral n))
 

@@ -29,12 +29,12 @@ for_ann z =
         a = envGen AR 1 1 0 1 RemoveSynth a_e
     in synthdef "for-ann" (out 0 (pan2 (sinOsc AR f 0 * a) 0 1))
 
-score :: Double -> [OSC]
+score :: Double -> NRT
 score z =
     let at t = Bundle (NTPr t)
         i = [d_recv (for_ann z),g_new [(1,AddToTail,0)]]
         s t = at t [s_new "for-ann" (-1) AddToTail 1 []]
-    in at 0 i : map s [0,2.8 .. 669.2]
+    in NRT (at 0 i : map s [0,2.8 .. 669.2])
 
 main :: IO ()
-main = withSC3 (\fd -> performOSC fd (score (sixth "just")))
+main = audition (score (sixth "just"))

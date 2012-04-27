@@ -1,4 +1,4 @@
-{- A simple waveset synthesiser (rd) -}
+-- A simple waveset synthesiser (rd)
 
 import qualified Data.Array as A {- array -}
 import Data.List
@@ -15,14 +15,14 @@ latency :: Double
 latency = 0.15
 
 -- | Add t to timestamp.
-offset :: Double -> OSC -> OSC
-offset t o =
-    case o of
+offset :: Double -> Bundle -> Bundle
+offset t b =
+    case b of
       Bundle (UTCr t0) m -> Bundle (UTCr (t + t0)) m
-      _ -> error "offset:non-bundle"
+      _ -> error "offset:non-UTCr bundle"
 
 -- | Play non-empty set of osc bundles.
-play_set :: Transport t => t -> [OSC] -> IO ()
+play_set :: Transport t => t -> [Bundle] -> IO ()
 play_set _ [] = error "play_set:empty"
 play_set fd (x:xs) = do
   let (Bundle (UTCr t) _) = x
@@ -30,7 +30,7 @@ play_set fd (x:xs) = do
   mapM_ (send fd) (x:xs)
 
 -- | Play grouped score.
-play_sets :: Transport t => t -> [[OSC]] -> IO ()
+play_sets :: Transport t => t -> [[Bundle]] -> IO ()
 play_sets _ [] = return ()
 play_sets fd s = do
   t <- utcr
@@ -44,7 +44,7 @@ form_sets n l =
     in a : form_sets n b
 
 -- | Play score, send in sets on indicated cardinality.
-play_score :: Transport t => Int -> t -> [OSC] -> IO ()
+play_score :: Transport t => Int -> t -> [Bundle] -> IO ()
 play_score n fd s = play_sets fd (form_sets n s)
 
 -- * Waveset analysis
@@ -100,7 +100,7 @@ waveset =
 -- * Waveset synthesizer
 
 -- | Construct s_new message for synthesiser.
-mk_msg :: Double -> Double -> Double -> Double -> OSC
+mk_msg :: Double -> Double -> Double -> Double -> Message
 mk_msg b sf ef d =
     let a = [("bufnum", b), ("start", sf), ("end", ef), ("dur", d)]
     in s_new "waveset" (-1) AddToTail 1 a
@@ -110,7 +110,7 @@ dur_ord :: (Num t, Ord t) => (t, t) -> (t, t) -> Ordering
 dur_ord (s0, e0) (s1, e1) = compare (e0 - s0) (e1 - s1)
 
 -- | Generate score from waveset data.
-mk_score :: Double -> [Double] -> [(Double, Double)] -> [OSC]
+mk_score :: Double -> [Double] -> [(Double, Double)] -> [Bundle]
 mk_score sr repeats w =
     let durations = zipWith (\(s, e) r -> (e - s) * r / sr) w repeats
         start_times = scanl (+) 0 durations
@@ -129,8 +129,7 @@ rchoose n w =
 run_waveset :: Transport t => t -> String -> IO ()
 run_waveset fd fn = do
   _ <- async fd (d_recv (synthdef "waveset" waveset))
-  _ <-
-      async fd (b_allocRead 10 fn 0 0)
+  _ <- async fd (b_allocRead 10 fn 0 0)
   (hdr, cs) <- F.read fn
   let nc = F.channelCount hdr
       nf = F.frameCount hdr

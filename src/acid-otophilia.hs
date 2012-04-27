@@ -149,7 +149,7 @@ dr_seq =
              ,[1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]]]
     in map transpose s
 
-dr_msg :: Int -> (Int,Int) -> Maybe OSC
+dr_msg :: Int -> (Int,Int) -> Maybe Message
 dr_msg fx_id (i,x) =
     let m nm pr = Just (s_new nm (-1) AddToHead 1 pr)
         x' = fromIntegral x
@@ -162,7 +162,7 @@ dr_msg fx_id (i,x) =
          4 -> Just (n_set fx_id [("gate",x')])
          _ -> error "dr_seq_msg"
 
-dr_seq_msg :: Int -> Double -> D -> OSC
+dr_seq_msg :: Int -> Double -> D -> Bundle
 dr_seq_msg fx_id t =
     Bundle (UTCr t) .
     mapMaybe (dr_msg fx_id) .
@@ -184,7 +184,7 @@ b_form xs =
          [b1,b2,b3] -> (b1,i b2,i b3)
          _ -> error "b_form"
 
-b_seq_msg :: Int -> Double -> Double -> B -> [OSC]
+b_seq_msg :: Int -> Double -> Double -> B -> [Bundle]
 b_seq_msg acid_id dt t (b0,b1,b2) =
     let on = let p = n_set acid_id [("pitch",b2)]
                  m = if b0 == 1
@@ -200,7 +200,7 @@ b_seq_msg acid_id dt t (b0,b1,b2) =
 ao_init :: Transport t => t -> IO (Int,Int)
 ao_init fd = do
   let i = [kick,snare,clap,hat,acid,fx]
-  _ <- async fd (Bundle immediately (map d_recv i))
+  mapM_ (async fd) (map d_recv i)
   let acid_id = 10
       fx_id = 11
   send fd (s_new "acid" acid_id AddToHead 1 [("gate",0)])
