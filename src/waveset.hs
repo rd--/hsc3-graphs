@@ -27,7 +27,7 @@ play_set _ [] = error "play_set:empty"
 play_set fd (x:xs) = do
   let (Bundle (UTCr t) _) = x
   pauseThreadUntil (t - latency)
-  mapM_ (send fd) (x:xs)
+  mapM_ (sendBundle fd) (x:xs)
 
 -- | Play grouped score.
 play_sets :: Transport t => t -> [[Bundle]] -> IO ()

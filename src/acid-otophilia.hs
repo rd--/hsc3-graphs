@@ -162,8 +162,8 @@ dr_msg fx_id (i,x) =
          4 -> Just (n_set fx_id [("gate",x')])
          _ -> error "dr_seq_msg"
 
-dr_seq_msg :: Int -> Double -> D -> Bundle
-dr_seq_msg fx_id t =
+dr_seq_bundle :: Int -> Double -> D -> Bundle
+dr_seq_bundle fx_id t =
     Bundle (UTCr t) .
     mapMaybe (dr_msg fx_id) .
     zip [0..]
@@ -184,8 +184,8 @@ b_form xs =
          [b1,b2,b3] -> (b1,i b2,i b3)
          _ -> error "b_form"
 
-b_seq_msg :: Int -> Double -> Double -> B -> [Bundle]
-b_seq_msg acid_id dt t (b0,b1,b2) =
+b_seq_bundle :: Int -> Double -> Double -> B -> [Bundle]
+b_seq_bundle acid_id dt t (b0,b1,b2) =
     let on = let p = n_set acid_id [("pitch",b2)]
                  m = if b0 == 1
                      then [p,n_set acid_id [("gate",1)]]
@@ -203,8 +203,8 @@ ao_init fd = do
   mapM_ (async fd) (map d_recv i)
   let acid_id = 10
       fx_id = 11
-  send fd (s_new "acid" acid_id AddToHead 1 [("gate",0)])
-  send fd (s_new "fx" fx_id AddToTail 1 [])
+  sendMessage fd (s_new "acid" acid_id AddToHead 1 [("gate",0)])
+  sendMessage fd (s_new "fx" fx_id AddToTail 1 [])
   return (acid_id,fx_id)
 
 dt_seq :: Double -> [Double]
@@ -220,8 +220,8 @@ ao_run_seq fd (acid_id,fx_id) d_sq b_sq = do
   let dt_seq' = dt_seq 130
       t_seq = scanl1 (+) (init_t : dt_seq')
       act (t,dt,d,b) =
-          do send fd (dr_seq_msg fx_id t d)
-             mapM_ (send fd) (b_seq_msg acid_id dt t b)
+          do sendBundle fd (dr_seq_bundle fx_id t d)
+             mapM_ (sendBundle fd) (b_seq_bundle acid_id dt t b)
              pauseThreadUntil t
   mapM_ act (zip4 t_seq dt_seq' d_sq b_sq)
 

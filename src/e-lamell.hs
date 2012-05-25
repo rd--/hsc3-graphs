@@ -54,7 +54,7 @@ pattern fd = do
           a <- R.choose [0,0.25,0.5,1]
           l <- R.rrand (-1) 1
           return (mk_s_new f n d a l)
-  send fd (Bundle now [p,q])
+  sendBundle fd (Bundle now [p,q])
   pauseThread 0.1
 
 run :: Transport t => t -> IO ()
