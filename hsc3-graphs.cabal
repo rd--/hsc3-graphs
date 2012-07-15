@@ -247,9 +247,9 @@ Executable         hsc3-fb-090531
  main-is:          src/fb-090531.hs
  build-depends:    base, hsc3, hosc, random
 
---Executable         hsc3-feedr
--- main-is:          src/feedr.hs
--- build-depends:    base, hsc3
+Executable         hsc3-feedr
+ main-is:          src/feedr.hs
+ build-depends:    base, hsc3
 
 Executable         hsc3-f-lets
  main-is:          src/f-lets.hs
@@ -523,9 +523,9 @@ Executable         hsc3-ring-modulated-klank
  main-is:          src/ring-modulated-klank.hs
  build-depends:    base, hsc3, hsc3-lang, sc3-rdu
 
---Executable         hsc3-rm-octaver
--- main-is:          src/rm-octaver.hs
--- build-depends:    base, hsc3
+Executable         hsc3-rm-octaver
+ main-is:          src/rm-octaver.hs
+ build-depends:    base, hsc3
 
 Executable         hsc3-rzblp
  main-is:          src/rzblp.hs
@@ -715,9 +715,9 @@ Executable         hsc3-vla-addtn-sharc
  main-is:          src/vla-addtn-sharc.hs
  build-depends:    base, hosc, hsc3, hsc3-lang, hsharc
 
---Executable         hsc3-vlc-distrtn
--- main-is:          src/vlc-distrtn.hs
--- build-depends:    base, hosc, hsc3, random
+Executable         hsc3-vlc-distrtn
+ main-is:          src/vlc-distrtn.hs
+ build-depends:    base, hosc, hsc3, random
 
 Executable         hsc3-waveset
  main-is:          src/waveset.hs
