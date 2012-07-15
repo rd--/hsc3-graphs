@@ -2,6 +2,7 @@
 -- http://sccode.org/1-j#c51
 
 import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.Protect
 import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 dark_sea_horns :: UGen

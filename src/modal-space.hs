@@ -1,11 +1,12 @@
 -- modal space (jmcc)
 
-import Sound.OpenSoundControl
-import Sound.SC3.ID
+import Sound.OpenSoundControl {- hosc -}
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.Protect
 
 ms :: UGen -> UGen -> UGen
 ms n r =
-    let x = mouseX' KR 0 15 Linear 0.1
+    let x = mouseX KR 0 15 Linear 0.1
         k = degreeToKey 0 x 12
         o = sinOsc AR (midiCPS (r + k + n * 0.04)) 0 * 0.1
         t = lfPulse AR (midiCPS (mce2 48 55)) 0.15 0.5
@@ -16,7 +17,7 @@ ms n r =
 
 modal_space :: UGen
 modal_space =
-    let n = uclone 'a' 2 (lfNoise1 'a' KR 3)
+    let n = uclone 'α' 2 (lfNoise1 'α' KR 3)
     in (ms n 48 + ms n 72) * 0.25
 
 run :: Transport t => t -> IO ()

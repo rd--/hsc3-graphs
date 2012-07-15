@@ -1,33 +1,34 @@
 -- tank (jmcc)
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
 
-import Sound.SC3.ID
-import Sound.SC3.UGen.External.RDU
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.Protect
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
-pling :: UGen
-pling =
-    let d = dust 'a' AR 0.2
-        f = expRand 'a' 300 2200
-        p = rand 'a' (-1) 1
+pling :: ID a => a -> UGen
+pling e =
+    let d = dust e AR 0.2
+        f = expRand e 300 2200
+        p = rand e (-1) 1
         s1 = cubed (fSinOsc AR f 0)
         s2 = decay2 d 0.1 0.5 * 0.1 * s1
     in pan2 s2 p 1
 
-bang :: UGen
-bang =
-    let d = dust 'b' AR 0.01
-        n = brownNoise 'b' AR
+bang :: ID a => a -> UGen
+bang e =
+    let d = dust e AR 0.01
+        n = brownNoise e AR
     in pan2 (decay2 d 0.04 0.3 * n) 0 1
 
-r_allpass :: UGen -> UGen
-r_allpass i =
-    let r = randN 2 'c' 0.005 0.02
+r_allpass :: ID z => z -> UGen -> UGen
+r_allpass e i =
+    let r = randN 2 e 0.005 0.02
     in allpassN i 0.03 r 1
 
-tank_f :: UGen -> UGen
-tank_f i =
-    let r1 = randN 2 'd' 0.01 0.05
-        r2 = randN 2 'd' 0.03 0.15
+tank_f :: ID z => z -> UGen -> UGen
+tank_f e i =
+    let r1 = randN 2 e 0.01 0.05
+        r2 = randN 2 e 0.03 0.15
         l0 = localIn 2 AR * 0.98
         l1 = onePole l0 0.33
         (l1l,l1r) = mce2c l1
@@ -41,8 +42,8 @@ tank_f i =
 
 tank :: UGen
 tank =
-  let s = bang + mix (uclone 'a' 8 pling)
-  in tank_f (useq 'a' 4 r_allpass s)
+  let s = bang 'α' + mix (uclone 'β' 8 (pling 'β'))
+  in tank_f 'γ' (useq 'δ' 4 (r_allpass 'δ') s)
 
 main :: IO ()
 main = audition (out 0 tank)

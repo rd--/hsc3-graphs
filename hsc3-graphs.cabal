@@ -143,8 +143,8 @@ Executable         hsc3-contamination-zone
  main-is:          src/contamination-zone.hs
  build-depends:    base, hsc3, hsc3-lang, sc3-rdu
 
-Executable         hsc3-cricket
- main-is:          src/cricket.hs
+Executable         hsc3-cricket-m
+ main-is:          src/cricket-m.hs
  build-depends:    base, hsc3, hsc3-lang
 
 Executable         hsc3-crotale
@@ -159,8 +159,8 @@ Executable         hsc3-cut-outs
  main-is:          src/cut-outs.hs
  build-depends:    base, hsc3
 
-Executable         hsc3-cymbalism
- main-is:          src/cymbalism.hs
+Executable         hsc3-cymbalism-m
+ main-is:          src/cymbalism-m.hs
  build-depends:    base, hsc3, hsc3-lang
 
 Executable         hsc3-cymbalism-accelerando

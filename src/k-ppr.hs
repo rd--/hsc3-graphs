@@ -1,12 +1,13 @@
 -- k-ppr (rd)
 
 import Sound.SC3.ID
+import Sound.SC3.UGen.Protect
 
 k_ppr :: UGen
 k_ppr =
   let wrp i = linLin i (-1) 1
-      x = mouseX' KR 0.05 0.35 Linear 0.1
-      y = mouseY' KR 0.15 0.75 Linear 0.1
+      x = mouseX KR 0.05 0.35 Linear 0.1
+      y = mouseY KR 0.15 0.75 Linear 0.1
       ti = lfTri KR x 0
       tf = wrp ti 100 200
       t = impulse AR tf 0

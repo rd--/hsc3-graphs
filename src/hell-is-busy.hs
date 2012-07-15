@@ -1,7 +1,7 @@
 -- hell is busy (jmcc)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.ID {- hcs3 -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 hib :: UGen
 hib =

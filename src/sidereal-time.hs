@@ -1,15 +1,16 @@
 -- sidereal time (jmcc)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.Protect
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 sidereal_time :: UGen
 sidereal_time =
   let p = 15
-      z = let y = let fr = uclone' 'a' p (expRand 'a' 100 6000)
-                      rt = uclone' 'a' p (rand 'a' 2 6)
+      z = let y = let fr = uclone' 'α' p (expRand 'α' 100 6000)
+                      rt = uclone' 'α' p (rand 'α' 2 6)
                   in klankSpec fr (replicate p 1) rt
-          in uclone 'a' 2 y
+          in uclone 'α' 2 y
       f = xLine KR (expRand 'α' 40 300) (expRand 'β' 40 300) 12 DoNothing
       t = let e = lfNoise2 'γ' KR (rand 'δ' 0 8)
           in lfPulse AR f 0 (rand 'ε' 0.1 0.9) * 0.002 * max 0 e

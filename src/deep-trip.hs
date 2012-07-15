@@ -1,7 +1,8 @@
 -- deep trip (jmcc)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 deep_trip :: UGen
 deep_trip =
@@ -11,8 +12,8 @@ deep_trip =
         a = lfNoise2 'e' AR (f * rand 'f' 0 0.5) * a'
         z = sinOsc AR f 0 * a
         s = pan2 z (lfNoise1 'g' KR (rand 'h' 0 5)) 1
-        c0 = combN s 0.5 (mce [rand 'i' 0.3 0.5,rand 'j' 0.3 0.5]) 20
-        c1 = combN s 0.5 (mce [rand 'k' 0.3 0.5,rand 'l' 0.3 0.5]) 20
+        c0 = combN s 0.5 (randN 2 'i' 0.3 0.5) 20
+        c1 = combN s 0.5 (randN 2 'j' 0.3 0.5) 20
         in s + c0 + c1
 
 main :: IO ()

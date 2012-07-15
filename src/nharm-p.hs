@@ -1,6 +1,7 @@
 -- nharm-p
 
 import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
 
@@ -10,9 +11,9 @@ nharm n f = map ((* f) . fromIntegral) [1..n]
 klg :: Int -> UGen
 klg n =
     let f = control KR "freq" 440
-        d = rand 'a' 9 12
-        l = uclone' 'a' n (rand 'a' 0.01 0.02)
-        p = rand 'a' (-1.0) 1.0
+        d = rand 'α' 9 12
+        l = mceChannels (randN n 'α' 0.01 0.02)
+        p = rand 'α' (-1.0) 1.0
         a = 0.5
         e = envGen KR 1 0.9 0 1 RemoveSynth (envSine d a)
         nh = nharm n f
@@ -28,8 +29,8 @@ duration internally.  -}
 pN :: Int -> Range -> Range -> P Event
 pN n (m0,m1) (d0,d1) =
     let i = synthdef ("klg" ++ show n) (klg n)
-        p = pbind [("midinote",pwhite 'a' m0 m1 inf)
-                  ,("dur",pwhite 'b' d0 d1 inf)]
+        p = pbind [("midinote",pwhite 'α' m0 m1 inf)
+                  ,("dur",pwhite 'β' d0 d1 inf)]
     in pinstr_d (return (i,False)) p
 
 main :: IO ()

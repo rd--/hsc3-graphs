@@ -1,7 +1,7 @@
 -- string wander-cluster (jmcc)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import System.Random
 
 type ST = (Double,StdGen)

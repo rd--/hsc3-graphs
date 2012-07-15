@@ -1,7 +1,7 @@
 -- cymbalism (jmcc)
 
-import Sound.SC3.Lang.Control.OverlapTexture
-import Sound.SC3.Monadic
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+import Sound.SC3.Monadic {- hsc3 -}
 
 cymbalism :: (Functor m,UId m) => m UGen
 cymbalism = do

@@ -2,6 +2,7 @@
 -- http://sccode.org/1-V
 
 import Sound.SC3.ID
+import Sound.SC3.UGen.Protect
 
 nv_tw_1 :: UGen
 nv_tw_1 =

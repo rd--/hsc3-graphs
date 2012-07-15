@@ -1,16 +1,17 @@
 -- clustered sines (jmcc)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.Protect
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 cs :: UGen
 cs =
     let n = 80
-        f1 = rand 'a' 100 1100
+        f1 = rand 'α' 100 1100
         f2 = 4 * f1
-        sp = let y = uclone' 'a' n (f1 + rand 'a' 0 f2)
+        sp = let y = uclone' 'α' n (f1 + rand 'α' 0 f2)
              in klangSpec y (map (f1 /) y) (replicate n 0)
-    in uclone 'a' 2 (klang AR 1 0 sp * (0.3 / fromIntegral n))
+    in uclone 'α' 2 (klang AR 1 0 sp * (0.3 / fromIntegral n))
 
 main :: IO ()
 main = xfadeTextureU (4,4,maxBound) cs

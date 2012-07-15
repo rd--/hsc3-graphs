@@ -1,8 +1,9 @@
 -- choip (jmcc)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.Protect
 import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 xl :: ID a => a -> a -> UGen -> UGen -> UGen -> UGen
 xl e0 e1 l r t = xLine KR (expRand e0 l r) (expRand e1 l r) t DoNothing

@@ -3,6 +3,7 @@
 
 import Data.Numbers.Primes {- primes -}
 import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.Protect
 import System.Random {- random -}
 import System.Random.Shuffle {- random-shuffle -}
 
@@ -38,6 +39,9 @@ bac =
       y = let ph = i xn * uclone 'a' 2 (lfdNoise3 'a' KR 0.3) * 4
           in out yn (sinOsc AR (50 * 2) ph)
   in mrg [inFeedback 2 xn,y,x]
+
+main :: IO ()
+main = audition (out 0 bac)
 
 bac' :: UGen
 bac' =
@@ -103,6 +107,3 @@ audition (out 0 bac'')
 audition (out 0 bac''')
 audition (out 0 bac'''')
 -}
-
-main :: IO ()
-main = audition (out 0 bac)
