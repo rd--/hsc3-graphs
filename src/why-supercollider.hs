@@ -19,5 +19,7 @@ main :: IO ()
 main = audition why_supercollider
 
 {-
-Sound.SC3.UGen.Dot.draw why_supercollider
+import Sound.SC3.UGen.Dot
+draw why_supercollider
+draw_svg why_supercollider
 -}

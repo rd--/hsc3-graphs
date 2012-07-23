@@ -24,5 +24,5 @@ main = overlapTextureU (2,3,4,maxBound) rails
 
 {-
 audition (out 0 rails)
-Sound.SC3.UGen.Dot.draw rps
+Sound.SC3.UGen.Dot.draw rails
 -}

@@ -28,5 +28,5 @@ main :: IO ()
 main = overlapTextureS (4/3,4/3,9,maxBound) cds (60,61,mkStdGen 3567824)
 
 {-
-Sound.SC3.UGen.Dot.draw cds
+Sound.SC3.UGen.Dot.draw (fst (cds (60,61,mkStdGen 3567824)))
 -}
