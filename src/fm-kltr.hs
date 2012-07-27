@@ -1,7 +1,7 @@
 -- fm-kltr (rd)
 
-import Sound.OpenSoundControl
-import Sound.SC3.Monadic
+import Sound.OpenSoundControl {- hosc -}
+import Sound.SC3.Monadic {- hsc3 -}
 import System.Random
 
 fm_kltr :: UId m => m UGen
