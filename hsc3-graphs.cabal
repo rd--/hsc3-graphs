@@ -9,7 +9,7 @@ Copyright:         (c) Rohan Drape and others, 2006-2012
 Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
-Homepage:          http://slavepianos.org/rd/?t=hsc3-graphs
+Homepage:          http://rd.slavepianos.org/?t=hsc3-graphs
 Tested-With:       GHC == 7.0.4
 Build-Type:        Simple
 Cabal-Version:     >= 1.8
@@ -749,4 +749,4 @@ Executable         hsc3-xy-interference-m
 
 Source-Repository  head
   Type:            darcs
-  Location:        http://slavepianos.org/rd/sw/hsc3-graphs/
+  Location:        http://rd.slavepianos.org/sw/hsc3-graphs/

@@ -1,11 +1,17 @@
-hsc3-graphs - haskell supercollider graphs
+hsc3-graphs
+-----------
 
-hsc3-graphs provides a collection of illustrative
-unit generator graphs for hsc3.
+[haskell][hs] [supercollider][sc3] ([hsc3][hsc3]) graphs
 
-  http://slavepianos.org/rd/?t=hsc3-graphs
-  http://haskell.org/
-  http://audiosynth.com/
+[hsc3-graphs][hsc3-graphs] provides a collection of illustrative unit
+generator graphs for hsc3.
 
-(c) rohan drape and others, 2006-2012
-    gpl, http://gnu.org/copyleft/
+[hs]: http://haskell.org/
+[sc3]: http://audiosynth.com/
+[hsc3]: http://rd.slavepianos.org/?t=hsc3
+[hsc3-graphs]: http://rd.slavepianos.org/?t=hsc3-graphs
+
+© [rohan drape][rd], 2006-2012, [gpl]
+
+[rd]: http://rd.slavepianos.org/
+[gpl]: http://gnu.org/copyleft/
