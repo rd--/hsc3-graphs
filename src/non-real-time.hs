@@ -1,5 +1,5 @@
-import Sound.OpenSoundControl {- hosc -}
-import Sound.SC3
+import Sound.OSC {- hosc -}
+import Sound.SC3 {- hsc3 -}
 import System.Cmd {- process -}
 
 graph :: UGen
@@ -16,8 +16,8 @@ score =
     let at t = Bundle (NTPr t)
         mk_instr = d_recv (synthdef "test" graph)
         mk_group = g_new [(1, AddToTail, 0)]
-        mk_node t f = at t [s_new "test" (-1) AddToTail 1 [("freq", f)]]
-        notes = take 128 (zipWith mk_node [1.0, 1.05 ..] [330, 350 ..])
+        mk_synth t f = at t [s_new "test" (-1) AddToTail 1 [("freq", f)]]
+        notes = take 128 (zipWith mk_synth [1.0, 1.05 ..] [330, 350 ..])
     in NRT (at 0.0 [mk_instr, mk_group] : notes)
 
 render :: NRT -> IO ()

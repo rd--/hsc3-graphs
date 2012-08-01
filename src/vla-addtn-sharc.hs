@@ -2,7 +2,7 @@
 
 import Data.List
 import Sound.Analysis.SHARC {- hsharc -}
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
@@ -14,9 +14,9 @@ spectra sh nm j =
   let Just i = find ((== nm) . instrument_id) sh
   in note_spectra (note_normalise (notes i !! j))
 
-vla :: FilePath -> IO [R3]
+vla :: Transport m => FilePath -> m [R3]
 vla fn = do
-  Right sh <- read_sharc fn
+  Right sh <- liftIO (read_sharc fn)
   return (spectra sh "viola_vibrato" 0)
 
 unp :: R3 -> [R]
@@ -66,11 +66,11 @@ pattern =
     ,("fall",pwhite 'g' 4 7 inf)
     ,("dur",prand 'h' [3,5] inf)]
 
-act :: Transport t => FilePath -> t -> IO ()
-act fn fd = do
+act :: Transport m => FilePath -> m ()
+act fn = do
   v <- vla fn
-  _ <- async fd (b_alloc_setn1 0 0 (vla_prep v))
-  play fd (plyr36,pbind pattern)
+  _ <- async (b_alloc_setn1 0 0 (vla_prep v))
+  play (plyr36,pbind pattern)
 
 main :: IO ()
 main = withSC3 (act "/home/rohan/data/sharc/sharc.xml")

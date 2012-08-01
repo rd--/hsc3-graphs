@@ -33,4 +33,4 @@ fbl_fbf =
   in mrg [u0,u1,u2,offsetOut 0 o]
 
 main :: IO ()
-main = withSC3 (\fd -> reset fd >> audition fbl_fbf)
+main = withSC3 (reset >> play fbl_fbf)

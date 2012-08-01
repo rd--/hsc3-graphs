@@ -1,7 +1,7 @@
 -- scritto (rd)
 
 import Control.Monad
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import qualified Sound.SC3.Lang.Data.Vowel as V {- hsc3-lang -}
 
@@ -24,20 +24,20 @@ scritto_i bx =
         voice = mix . v_filter_b
     in out 0 (mce (map (voice . ble) (zip "ab" [1,2])))
 
-s_alloc :: Transport t => t -> (V.Fdata Double,Int) -> IO ()
-s_alloc fd (s,b) = do
+s_alloc :: Transport m => (V.Fdata Double,Int) -> m ()
+s_alloc (s,b) = do
   let s_msg n (_,_,fr,am,bw) = b_setn1 n 0 (fr ++ am ++ bw)
-  _ <- async fd (b_alloc b 15 1)
-  send fd (s_msg b s)
+  _ <- async (b_alloc b 15 1)
+  send (s_msg b s)
 
-s_init :: Transport t => t -> IO ()
-s_init fd = mapM_ (s_alloc fd) (zip V.fdata_table [0..])
+s_init :: Transport m => m ()
+s_init = mapM_ s_alloc (zip V.fdata_table [0..])
 
-act :: Transport t => Bool -> t -> IO ()
-act i fd = do
-  when i (s_init fd)
-  let n = constant (length V.fdata_table)
-  play fd (scritto_i n)
+act :: Transport m => Bool -> m ()
+act i = do
+  when i s_init
+  let n = constant (length (V.fdata_table::[V.Fdata Int]))
+  play (scritto_i n)
 
 main :: IO ()
 main = withSC3 (act True)

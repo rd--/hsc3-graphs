@@ -1,6 +1,6 @@
 -- fwalk (rd)
 
-import Sound.OpenSoundControl
+import Sound.OSC
 import Sound.SC3.Monadic
 
 fwalk' :: UId m => UGen -> m UGen
@@ -20,8 +20,8 @@ fwalk = do
   f2 <- fwalk' 36
   return (f1 + f2)
 
-run :: Transport t => t -> IO ()
-run fd = do
+run :: (UId m,Transport m) => m ()
+run = do
   let n = [40,47,42,40,50
           ,43,35,43,40,47
           ,45,35,43,42,59
@@ -30,10 +30,10 @@ run fd = do
           ,35,43,43,40,45
           ,42,35,48,47,43
           ,40,59,45,47,52]
-  _ <- async fd (b_alloc_setn1 0 0 n)
-  _ <- async fd (b_alloc_setn1 1 0 m)
+  _ <- async (b_alloc_setn1 0 0 n)
+  _ <- async (b_alloc_setn1 1 0 m)
   f <- fwalk
-  play fd (out 0 f)
+  play (out 0 f)
 
 main :: IO ()
 main = withSC3 run

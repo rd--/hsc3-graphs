@@ -1,6 +1,6 @@
 -- tr-out (rd)
 
-import Sound.OpenSoundControl
+import Sound.OSC
 import Sound.SC3.Monadic
 
 tr_nd :: UId m => UGen -> m (UGen,UGen)
@@ -21,12 +21,12 @@ tr_out = do
   let o = sum (map fst ns)
   return (mrg (o : map snd ns))
 
-act :: Transport t => t -> IO ()
-act fd = do
-  _ <- async fd (b_alloc_setn1 0 0 [60,62,64,65,67,69])
-  _ <- async fd (b_alloc_setn1 1 0 [-1,-0.5,0,0.25,0.75,1.0])
-  _ <- async fd (b_alloc_setn1 2 0 [0.01,0.05,0.1,0.15,0.25,0.35])
-  play fd . out 0 =<< tr_out
+act :: (UId m,Transport m) => m ()
+act = do
+  _ <- async (b_alloc_setn1 0 0 [60,62,64,65,67,69])
+  _ <- async (b_alloc_setn1 1 0 [-1,-0.5,0,0.25,0.75,1.0])
+  _ <- async (b_alloc_setn1 2 0 [0.01,0.05,0.1,0.15,0.25,0.35])
+  play . out 0 =<< tr_out
 
 main :: IO ()
 main = withSC3 act

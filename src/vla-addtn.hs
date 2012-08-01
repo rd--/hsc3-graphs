@@ -1,6 +1,6 @@
 -- vla-adttn
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
@@ -136,10 +136,10 @@ pattern =
     ,("fall",pwhite 'g' 4 7 inf)
     ,("dur",5)]
 
-act :: Transport t => t -> IO ()
-act fd = do
-  _ <- async fd (b_alloc_setn1 0 0 vla_prep)
-  play fd (plyr36,pbind pattern)
+act :: Transport m => m ()
+act = do
+  _ <- async (b_alloc_setn1 0 0 vla_prep)
+  play (plyr36,pbind pattern)
 
 main :: IO ()
 main = withSC3 act

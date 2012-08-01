@@ -3,13 +3,13 @@ http://www.fredrikolofsson.com/f0blog/?q=node/457
 http://obiwannabe.co.uk/tutorials/html/tutorial_birds.html
 -}
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
 type T3 a = (a,a,a)
 type Bird_Call_Param a = (T3 a,T3 a,T3 a,T3 a,T3 a)
 
-bird_call :: Bird_Call_Param UGen -> IO ()
+bird_call :: Transport m => Bird_Call_Param UGen -> m ()
 bird_call ((freq,atk,dcy)
           ,(fmod1,atkf1,dcyf1)
           ,(fmod2,atkf2,dcyf2)
@@ -27,7 +27,7 @@ bird_call ((freq,atk,dcy)
         fmodc = sinOsc AR freq1 0 * amp1 + 1
         amod = 1 - sinOsc AR freq2 0 * amp2
         z = sinOsc AR ((freq * 7000 + 300) * fmodc) 0 * amod
-    in audition (out 0 (pan2 z 0 e))
+    in play (out 0 (pan2 z 0 e))
 
 triple_tailed_tree_troubler :: (Fractional a) => Bird_Call_Param a
 triple_tailed_tree_troubler =
@@ -104,4 +104,4 @@ main = do
            ,african_boojuboolubala
            ,common_muckoink]
       fn x = bird_call x >> pauseThread 1.25
-  mapM_ fn xs
+  withSC3 (mapM_ fn xs)

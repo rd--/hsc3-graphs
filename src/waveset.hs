@@ -3,7 +3,7 @@
 import qualified Data.Array as A {- array -}
 import Data.List
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3
 import System.Environment
 import System.Random {- random -}
@@ -22,19 +22,19 @@ offset t b =
       _ -> error "offset:non-UTCr bundle"
 
 -- | Play non-empty set of osc bundles.
-play_set :: Transport t => t -> [Bundle] -> IO ()
-play_set _ [] = error "play_set:empty"
-play_set fd (x:xs) = do
+play_set :: Transport m => [Bundle] -> m ()
+play_set [] = error "play_set:empty"
+play_set (x:xs) = do
   let (Bundle (UTCr t) _) = x
   pauseThreadUntil (t - latency)
-  mapM_ (sendBundle fd) (x:xs)
+  mapM_ sendBundle (x:xs)
 
 -- | Play grouped score.
-play_sets :: Transport t => t -> [[Bundle]] -> IO ()
-play_sets _ [] = return ()
-play_sets fd s = do
+play_sets :: Transport m => [[Bundle]] -> m ()
+play_sets [] = return ()
+play_sets s = do
   t <- utcr
-  mapM_ (play_set fd . map (offset t)) s
+  mapM_ (play_set . map (offset t)) s
 
 -- | Split l into chunks of at most n elements.
 form_sets :: Int -> [a] -> [[a]]
@@ -44,8 +44,8 @@ form_sets n l =
     in a : form_sets n b
 
 -- | Play score, send in sets on indicated cardinality.
-play_score :: Transport t => Int -> t -> [Bundle] -> IO ()
-play_score n fd s = play_sets fd (form_sets n s)
+play_score :: Transport m => Int -> [Bundle] -> m ()
+play_score n s = play_sets (form_sets n s)
 
 -- * Waveset analysis
 
@@ -126,19 +126,20 @@ rchoose n w =
 
 -- | Load waveset instrument, allocate sound file buffer, do waveset
 --   analysis, generate & play scores.
-run_waveset :: Transport t => t -> String -> IO ()
-run_waveset fd fn = do
-  _ <- async fd (d_recv (synthdef "waveset" waveset))
-  _ <- async fd (b_allocRead 10 fn 0 0)
-  (hdr, cs) <- F.read fn
+run_waveset :: Transport m => String -> m ()
+run_waveset fn = do
+  _ <- async (d_recv (synthdef "waveset" waveset))
+  _ <- async (b_allocRead 10 fn 0 0)
+  (hdr, cs) <- liftIO (F.read fn)
   let nc = F.channelCount hdr
       nf = F.frameCount hdr
       sr = fromIntegral (F.sampleRate hdr)
       b = cs !! 0
       w = ws (prune 64 0 (fzc 0 b))
-      pl s = play_score 10 fd s >> pauseThread 1
-  putStrLn ("#f: " ++ show (nc, nf, sr))
-  putStrLn ("#w: " ++ show (length w)) -- force w
+      pl s = play_score 10 s >> pauseThread 1
+      post = liftIO . putStrLn
+  post ("#f: " ++ show (nc, nf, sr))
+  post ("#w: " ++ show (length w)) -- force w
   pl (mk_score sr (repeat 1) w)
   pl (mk_score sr (repeat 2) (reverse w))
   pl (mk_score sr (cycle [2,4,8]) (sortBy dur_ord w))
@@ -148,9 +149,9 @@ main :: IO ()
 main = do
   a <- getArgs
   case a of
-    [fn] -> withSC3 (`run_waveset` fn)
+    [fn] -> withSC3 (run_waveset fn)
     _ -> error "audio file?"
 
 {--
-withSC3 (\fd -> run_waveset fd "/home/rohan/data/audio/pf-c5.snd")
+withSC3 (run_waveset "/home/rohan/data/audio/pf-c5.snd")
 --}

@@ -1,6 +1,6 @@
 -- mridangam (jmcc)
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
@@ -49,12 +49,12 @@ p =
     -- sam
     ,pseq [5] 1]
 
-act :: Transport t => t -> IO ()
-act fd = do
-  play fd spe3_drone
-  _ <- async fd (d_recv spe3_mridangam)
+act :: Transport m => m ()
+act = do
+  play spe3_drone
+  _ <- async (d_recv spe3_mridangam)
   let p' = pmono_d spe3_mridangam 100 [("t_amp",pseq p 1),("dur",1/8)]
-  play fd p'
+  play p'
 
 main :: IO ()
 main = withSC3 act

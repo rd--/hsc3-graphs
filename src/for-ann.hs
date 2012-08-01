@@ -1,6 +1,6 @@
 -- http://musicweb.ucsd.edu/~tre/wordpress/?p=131
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
 -- map sixth ["just","golden","equal"]

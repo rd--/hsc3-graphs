@@ -81,4 +81,4 @@ main :: IO ()
 main = do
   let n = 60/157
       p = pedit "dur" (* n) (pbind arpeggio)
-  withSC3 (\fd -> play fd (analogarpeggio,p))
+  withSC3 (play (analogarpeggio,p))

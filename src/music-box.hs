@@ -1,7 +1,7 @@
 -- http://sccode.org/1-1Kl
 -- partial...
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
@@ -64,16 +64,16 @@ amplitude_mod z i =
 limiting :: UGen -> UGen
 limiting i = compander i i 0.1 1 0.3 1e-2 0.1
 
-post :: Transport t => String -> Int -> UGen -> (UGen -> UGen) -> t -> IO ()
-post nm nc b f fd = do
+post :: Transport m => String -> Int -> UGen -> (UGen -> UGen) -> m ()
+post nm nc b f = do
   let i = in' nc AR b
       s = synthdef nm (replaceOut b (f i))
-  _ <- async fd (d_recv s)
-  send fd (s_new nm (-1) AddToTail 2 [])
+  _ <- async (d_recv s)
+  send (s_new nm (-1) AddToTail 2 [])
 
 main :: IO ()
 main = do
   let s = synthdef "ping" ping
-  withSC3 (\fd -> post "amplitude_mod" 2 0 (amplitude_mod 'a') fd >>
-                  post "limiting" 2 0 limiting fd)
+  withSC3 (do post "amplitude_mod" 2 0 (amplitude_mod 'a')
+              post "limiting" 2 0 limiting)
   audition (s,pattern)

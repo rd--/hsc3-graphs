@@ -1,8 +1,8 @@
 -- tgr-rpr (rd)
 
-import Sound.OpenSoundControl
+import Sound.OSC
 import Sound.SC3.Monadic
-import System.Random
+import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 dustR :: UId m => Rate -> UGen -> UGen -> m UGen
 dustR r lo hi = do
@@ -24,9 +24,6 @@ tgr_rpr = do
   amp <- rpr 6 clk
   return (tGrains 2 clk 10 rat pos dur pan amp 2)
 
-rrand :: Random a => a -> a -> IO a
-rrand l r = getStdRandom (randomR (l,r))
-
 preset :: [Double]
 preset =
     [0.01,0.02
@@ -45,21 +42,21 @@ rSet =
     ,(0.0,0.45),(0.55,1.0)
     ,(-1.0,0.0),(0.0,1.0)]
 
-edit :: Transport t => t -> IO ()
-edit fd = do
+edit :: Transport m => m ()
+edit = do
   s <- mapM (uncurry rrand) rSet
-  send fd (c_setn [(0,s)])
+  send (c_setn [(0,s)])
   pauseThread 0.35
 
-run :: Transport t => t -> IO ()
-run fd = do
+run :: (UId m,Transport m) => m ()
+run = do
   let sf = "/home/rohan/data/audio/pf-c5.snd"
-  _ <- async fd (b_allocRead 10 sf 0 0)
-  send fd (c_setn [(0,preset)])
-  play fd . out 0 =<< tgr_rpr
+  _ <- async (b_allocRead 10 sf 0 0)
+  send (c_setn [(0,preset)])
+  play . out 0 =<< tgr_rpr
   pauseThread 0.3
-  _ <- sequence (replicate 64 (edit fd))
-  reset fd
+  _ <- sequence (replicate 64 edit)
+  reset
 
 main :: IO ()
 main = withSC3 run

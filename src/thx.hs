@@ -20,8 +20,8 @@ mk_env z0 t0 z1 t1 t2 z2 t3 c =
         e = Envelope z t [c,c,c] Nothing Nothing
     in envGen KR 1 1 0 1 RemoveSynth e
 
-mk_node :: R -> R -> R -> UGen -> UGen
-mk_node t4 f0 f1 l =
+mk_saw :: R -> R -> R -> UGen -> UGen
+mk_saw t4 f0 f1 l =
     let f = mk_env f0 t0 f0 t1 t2 f1 (t3 + t4 + t5 + t5) EnvLin
         g = mk_env 0 t0 0.1 (t1 + t2 + t3) t4 0.0 (t5 + t5) EnvLin
         s = saw AR f
@@ -35,7 +35,7 @@ mk_node t4 f0 f1 l =
 thx :: UGen
 thx =
     let t4 = 7.9365079365
-        s = sum (zipWith3 (mk_node t4) f0 f1 l)
+        s = sum (zipWith3 (mk_saw t4) f0 f1 l)
         n = 30
         l = take n (randomRs (-1.0,1.0) (mkStdGen 1))
         f = [29,87.5,116,175,233,350,524,880,1048,1760]

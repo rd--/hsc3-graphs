@@ -1,15 +1,9 @@
 -- vlc-distrtn (rd)
 -- caution - audio feedback graph
 
-import Sound.OpenSoundControl {- hosc -}
-import Sound.SC3.Monadic hiding (choose) {- hsc3 -}
-import System.Random
-
-rrand :: Random a => a -> a -> IO a
-rrand l r = getStdRandom (randomR (l,r))
-
-choose :: [a] -> IO a
-choose l = return . (l !!) =<< rrand 0 (length l - 1)
+import Sound.OSC {- hosc -}
+import Sound.SC3.Monadic {- hsc3 -}
+import qualified Sound.SC3.Lang.Random.IO as L {- hsc3-lang -}
 
 prep :: (Double,Double) -> [Double]
 prep (ampl,phase) = [dbAmp ampl,phase]
@@ -41,38 +35,38 @@ degree_to_key degree scale steps =
     let scale_n = length scale
     in (steps * (degree `div` scale_n)) + (scale !! (degree `mod` scale_n))
 
-getCps :: UnaryOp b => [b] -> IO b
+getCps :: (Transport m,UnaryOp b) => [b] -> m b
 getCps b = do
-  b_ <- choose b
-  d <- choose [0 .. 8]
+  b_ <- L.choose b
+  d <- L.choose [0 .. 8]
   let k = degree_to_key d [0,2,3,5,7,8,10] 12
   return (midiCPS (b_ + realToFrac k))
 
-pattern :: Transport t => t -> IO ()
-pattern fd = do
+pattern :: Transport m => m ()
+pattern = do
   f <- getCps [24,36,48,55,60]
-  ia <- rrand 0.05 0.75
-  l <- rrand (-1) 1
-  a <- rrand 0.05 0.1
-  d <- rrand 0.001 0.005
-  fl <- rrand 1 7
-  send fd (n_set 1002 [("freq",f)
-                      ,("iamp",ia)
-                      ,("buf",0)
-                      ,("loc",l)
-                      ,("ampl",a)
-                      ,("detune",d)
-                      ,("fall",fl)])
-  pauseThread =<< choose [0.25,0.5,0.75,1.5]
+  ia <- L.rrand 0.05 0.75
+  l <- L.rrand (-1) 1
+  a <- L.rrand 0.05 0.1
+  d <- L.rrand 0.001 0.005
+  fl <- L.rrand 1 7
+  send (n_set 1002 [("freq",f)
+                   ,("iamp",ia)
+                   ,("buf",0)
+                   ,("loc",l)
+                   ,("ampl",a)
+                   ,("detune",d)
+                   ,("fall",fl)])
+  pauseThread =<< L.choose [0.25,0.5,0.75,1.5]
 
-run :: Transport t => t -> IO ()
-run fd = do
-  _ <- async fd (b_alloc 0 (length vlc * 2) 1)
-  send fd (b_setn1 0 0 (concatMap prep vlc))
+run :: (Transport m,UId m) => m ()
+run = do
+  _ <- async (b_alloc 0 (length vlc * 2) 1)
+  send (b_setn1 0 0 (concatMap prep vlc))
   let i = soundIn 4
-  _ <- async fd . d_recv . synthdef "plyr48" =<< plyr i 48
-  send fd (s_new "plyr48" 1002 AddToTail 1 [])
-  sequence_ (replicate 32 (pattern fd))
+  _ <- async . d_recv . synthdef "plyr48" =<< plyr i 48
+  send (s_new "plyr48" 1002 AddToTail 1 [])
+  sequence_ (replicate 32 pattern)
 
 main :: IO ()
 main = withSC3 run

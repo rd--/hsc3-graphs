@@ -2,9 +2,9 @@
 
 import Control.Concurrent
 import Control.Monad
-import Sound.OpenSoundControl
-import Sound.SC3
-import qualified Sound.SC3.Lang.Random.IO as R
+import Sound.OSC {- hosc -}
+import Sound.SC3 {- hsc3 -}
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 iota :: (Num a, Num b) => a -> b -> b -> [b]
 iota 0 _ _ = []
@@ -66,28 +66,29 @@ lin_data n =
         t = [0.01,0.05,0.1,0.15,0.25,0.5,0.75]
     in (f,a,l,t)
 
-update :: Transport t => Lin_Data -> t -> IO ()
-update (f,a,l,t) fd = do
+update :: Transport m => Lin_Data -> m ()
+update (f,a,l,t) = do
   f' <- R.choose f
   a' <- R.choose a
   l' <- R.choose l
   t' <- R.choose t
-  send fd (b_setn 0 [(0,f')])
-  send fd (b_setn 1 [(0,a')])
-  send fd (c_set [(0,l')])
+  send (b_setn 0 [(0,f')])
+  send (b_setn 1 [(0,a')])
+  send (c_set [(0,l')])
   pauseThread t'
 
 do_update :: Double -> IO ()
-do_update n = withSC3 (replicateM_ 128 . update (lin_data n))
+do_update n = withSC3 (replicateM_ 128 (update (lin_data n)))
 
-run :: Transport t => t -> IO ()
-run fd = do
-  let n = 1024
-  _ <- async fd (b_alloc 0 (floor n) 1)
-  _ <- async fd (b_alloc 1 (floor n) 1)
-  play fd (out 0 lin_sosc)
-  _ <- forkIO (do_update n)
-  return ()
+run :: (Transport m, RealFrac a) => a -> m ()
+run n = do
+  _ <- async (b_alloc 0 (floor n) 1)
+  _ <- async (b_alloc 1 (floor n) 1)
+  play (out 0 lin_sosc)
 
 main :: IO ()
-main = withSC3 run
+main = do
+  let n = 1024
+  withSC3 (run n)
+  _ <- forkIO (do_update n)
+  return ()

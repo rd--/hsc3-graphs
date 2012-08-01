@@ -1,4 +1,5 @@
 -- | L-System oscillator (rd, 2006-11-01)
+
 import Control.Monad
 import Graphics.PS.Pt {- hps -}
 import Graphics.PS.Unit
@@ -7,9 +8,9 @@ import qualified LSystem.Systems as L
 import qualified LSystem.Turtle as L
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
 import Sound.SC3.Monadic {- hsc3 -}
+import Sound.SC3.Lang.Random.IO as R {- random -}
 import System.Directory {- directory -}
 import qualified System.FilePath as P {- filepath -}
-import System.Random {- random -}
 
 -- | Normalise to lie in (0,1).
 --
@@ -59,8 +60,8 @@ lsys_data =
 -- | Exceeds UDP limits.
 lsys_send :: IO ()
 lsys_send = do
-  let alloc fd (n,d) = async fd (b_alloc_setn1 n 0 d)
-  withSC3 (\fd -> mapM_ (alloc fd) (zip [0..] lsys_data))
+  let alloc (n,d) = async (b_alloc_setn1 n 0 d)
+  withSC3 (mapM_ alloc (zip [0..] lsys_data))
 
 
 -- | Filename for 'lsys_data'.
@@ -77,17 +78,15 @@ lsys_write d = zipWithM_ gen_f (lsys_fn d) lsys_data
 -- | Load 'lsys_fn' at /scsynth/.
 lsys_load :: FilePath -> IO ()
 lsys_load d = do
-  let alloc fd (n,nm) = async fd (b_allocRead n nm 0 0)
-  withSC3 (\fd -> mapM_ (alloc fd) (zip [0..] (lsys_fn d)))
+  let alloc (n,nm) = async (b_allocRead n nm 0 0)
+  withSC3 (mapM_ alloc (zip [0..] (lsys_fn d)))
 
 -- | Oscillator instrument
 oi :: IO UGen
 oi = do
-  let rrand l r = getStdRandom (randomR (l, r))
-      choose l = fmap (l !!) (rrand 0 (length l - 1))
-      rng i = linLin i (-1) 1
+  let rng i = linLin i (-1) 1
       exprng i = linExp i (-1) 1
-  c <- choose [0.25, 0.55, 0.75, 1.25]
+  c <- R.choose [0.25, 0.55, 0.75, 1.25]
   let t = impulse KR c 0
   b <- tIRand 0 12 t
   let n  = bufFrames KR b
@@ -98,7 +97,7 @@ oi = do
       y0 = bufRdL 1 AR b (i + 1) NoLoop
       x1 = bufRdL 1 AR b (i + 2) NoLoop
       y1 = bufRdL 1 AR b (i + 3) NoLoop
-  f0 <- choose [16, 32, 64, 128, 256, 512, 8192]
+  f0 <- R.choose [16, 32, 64, 128, 256, 512, 8192]
   let f1 = 22000
       o x y = let f = exprng x f0 f1
               in pan2 (blip AR f (rng y 1 64)) y0 (decay tt 0.005)

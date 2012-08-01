@@ -2,7 +2,7 @@
 
 import Control.Concurrent
 import Control.Monad
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 
 scr :: (UGen -> (UGen,UGen)) -> Int -> UGen -> UGen -> UGen
@@ -36,7 +36,7 @@ x = [[72,69,64],[70,64,62],[67,60,70],[65,60,69],[64,60,67],[65,60,69]]
 begin :: Int -> IO [ThreadId]
 begin n = do
   t0 <- forkIO (forever (audition (b n) >> pauseThread 4))
-  t1 <- forkIO (let set f = withSC3 (\fd -> send fd (c_setn [(0,f)]))
+  t1 <- forkIO (let set f = withSC3 (send (c_setn [(0,f)]))
                 in mapM_ (\f -> set f >> pauseThread 10) (cycle x))
   t2 <- forkIO (do pauseThread 0.1
                    forever (audition (c n) >> pauseThread 0.5))

@@ -1,9 +1,9 @@
 -- fb-090531 (rd)
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 import Control.Monad
-import System.Random {- random -}
+import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 fb_090531 :: UGen
 fb_090531 =
@@ -20,18 +20,18 @@ fb_090531 =
     in mrg [p,localOut d]
 
 -- | Constant reset.
-c_reset :: Transport t => Double -> t -> IO ()
-c_reset n fd = send fd (c_setn [(0,replicate 4 n)])
+c_reset :: Transport m => Double -> m ()
+c_reset n = send (c_setn [(0,replicate 4 n)])
 
 -- | Random reset.
-r_reset :: Transport t => t -> IO ()
-r_reset fd = do
-  cs <- replicateM 4 (randomRIO (-1,1))
-  send fd (c_setn [(0,cs)])
+r_reset :: Transport m => m ()
+r_reset = do
+  cs <- replicateM 4 (rrand (-1) 1)
+  send (c_setn [(0,cs)])
 
 -- | Loop random reset.
-lr_reset :: Transport t => Double -> t -> IO b
-lr_reset t fd = pauseThread t >> r_reset fd >> lr_reset t fd
+lr_reset :: Transport m => Double -> m b
+lr_reset t = pauseThread t >> r_reset >> lr_reset t
 
 -- | Start fb_090531 and run lr_reset.  Type C-cC-i to interrupt.
 main :: IO ()

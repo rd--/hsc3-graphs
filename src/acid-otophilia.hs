@@ -2,7 +2,7 @@
 
 import Data.List
 import Data.Maybe
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import System.Random {- random -}
 
@@ -197,14 +197,14 @@ b_seq_bundle acid_id dt t (b0,b1,b2) =
 
 -- * Runtime
 
-ao_init :: Transport t => t -> IO (Int,Int)
-ao_init fd = do
+ao_init :: Transport m => m (Int,Int)
+ao_init = do
   let i = [kick,snare,clap,hat,acid,fx]
-  mapM_ (async fd) (map d_recv i)
+  mapM_ async (map d_recv i)
   let acid_id = 10
       fx_id = 11
-  sendMessage fd (s_new "acid" acid_id AddToHead 1 [("gate",0)])
-  sendMessage fd (s_new "fx" fx_id AddToTail 1 [])
+  send (s_new "acid" acid_id AddToHead 1 [("gate",0)])
+  send (s_new "fx" fx_id AddToTail 1 [])
   return (acid_id,fx_id)
 
 dt_seq :: Double -> [Double]
@@ -214,22 +214,22 @@ dt_seq bpm =
         dt i = if i `mod` 2 == 0 then 0.25 * (1 + shf) else 0.25 * (1 - shf)
     in map ((* n) . dt) ([0..]::[Int])
 
-ao_run_seq :: Transport t => t -> (Int,Int) -> [D] -> [B] -> IO ()
-ao_run_seq fd (acid_id,fx_id) d_sq b_sq = do
+ao_run_seq :: Transport m => (Int,Int) -> [D] -> [B] -> m ()
+ao_run_seq (acid_id,fx_id) d_sq b_sq = do
   init_t <- utcr
   let dt_seq' = dt_seq 130
       t_seq = scanl1 (+) (init_t : dt_seq')
       act (t,dt,d,b) =
-          do sendBundle fd (dr_seq_bundle fx_id t d)
-             mapM_ (sendBundle fd) (b_seq_bundle acid_id dt t b)
+          do sendBundle (dr_seq_bundle fx_id t d)
+             mapM_ sendBundle (b_seq_bundle acid_id dt t b)
              pauseThreadUntil t
   mapM_ act (zip4 t_seq dt_seq' d_sq b_sq)
 
 main :: IO ()
 main =
-    let act fd = do
+    let act = do
           let d_sq = cycle (concat dr_seq)
               b_sq = map b_form (cycle b_seq)
-          ids <- ao_init fd
-          ao_run_seq fd ids d_sq b_sq
+          ids <- ao_init
+          ao_run_seq ids d_sq b_sq
   in withSC3 act

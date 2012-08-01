@@ -1,6 +1,6 @@
 -- doppler (jmcc,rd)
 
-import Sound.OpenSoundControl
+import Sound.OSC
 import Sound.SC3
 
 -- observer at origin, signal 's' at coordinates ('x','y')
@@ -25,8 +25,6 @@ ellipse a b dt =
 main :: IO ()
 main = do
   let s = rlpf (fSinOsc AR 200 0 * lfPulse AR 31.3 0 0.4) 400 0.3
-  withSC3 (\fd -> do print "line_x"
-                     play fd (out 0 (doppler (line_x 10 100 6) s))
-                     pauseThread 8
-                     print "ellipse"
-                     play fd (out 0 (doppler (ellipse 10 75 12) s)))
+  withSC3 (do play (out 0 (doppler (line_x 10 100 6) s))
+              pauseThread 8
+              play (out 0 (doppler (ellipse 10 75 12) s)))

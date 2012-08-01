@@ -1,9 +1,9 @@
 -- voscil (rd)
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
-import System.Random {- random -}
 
 voscil :: Real a => a -> UGen
 voscil b =
@@ -20,19 +20,18 @@ voscil b =
       q = pan2 w (lfn rt) (lfn rt * 0.5 + 0.5)
   in p + q
 
-run :: Transport t => t -> IO ()
-run fd = do
-  let rrand l r = getStdRandom (randomR (l,r))
-      bn = 8192 * 4
+run :: Transport m => m ()
+run = do
+  let bn = 8192 * 4
       b = 32
       r_set i =
           do m <- rrand 2 512
              j <- sequence (replicate m (rrand 0 bn))
              k <- sequence (replicate m (rrand (-1) 1))
-             _ <- async fd (b_alloc i bn 1)
-             send fd (b_set i (zip j k))
+             _ <- async (b_alloc i bn 1)
+             send (b_set i (zip j k))
   mapM_ r_set [0 .. (b - 1)]
-  play fd (out 0 (voscil b))
+  play (out 0 (voscil b))
 
 main :: IO ()
 main = withSC3 run

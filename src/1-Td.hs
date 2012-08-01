@@ -1,6 +1,6 @@
 -- http://sccode.org/1-Td
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
@@ -53,12 +53,12 @@ postprocess_u =
 postprocess_s :: Synthdef
 postprocess_s = synthdef "postprocess" postprocess_u
 
-run :: Transport t => [Double] -> t -> IO ()
-run n fd = do
-  _ <- async fd (d_recv postprocess_s)
-  _ <- async fd (d_recv one_td_s)
-  send fd (s_new "postprocess" (-1) AddToTail 2 [])
-  mapM_ (\i -> send fd (s_new "one_td" (-1) AddToHead 1 [("base",i)])) n
+run :: Transport m => [Double] -> m ()
+run n = do
+  _ <- async (d_recv postprocess_s)
+  _ <- async (d_recv one_td_s)
+  send (s_new "postprocess" (-1) AddToTail 2 [])
+  mapM_ (\i -> send (s_new "one_td" (-1) AddToHead 1 [("base",i)])) n
 
 main :: IO ()
 main = withSC3 (run (replicate 8 2.6))

@@ -5,7 +5,7 @@
 -- The data sets are sampled at these locations and loaded into
 -- buffers.  The buffers are read using dbufrd.  One of the data sets
 -- gives the time interval to step forward.
-import Sound.OpenSoundControl
+import Sound.OSC
 import Sound.SC3.Monadic
 
 -- | Real
@@ -38,29 +38,29 @@ lerp n (t0,d0) (t1,d1) =
   in (n,f n')
 
 -- | Linear interpolating lookup.
-fetch :: D -> R -> P
-fetch t n =
+lerpd :: D -> R -> P
+lerpd t n =
   let (p0,p1) = pts t n
   in lerp n p0 p1
 
 -- | Linearize in time (ie. /t/ is in equal steps).
 rescale :: D -> Int -> D
-rescale t n = map (fetch t) [0,1 / fromIntegral n .. 1]
+rescale t n = map (lerpd t) [0,1 / fromIntegral n .. 1]
 
 -- | Allocate data buffers for linearized envelopes.
 alloc_data :: Int -> IO ()
 alloc_data n = do
-  let alloc fd b = async fd (b_alloc b n 1)
-  withSC3 (\fd -> mapM_ (alloc fd) [10,11,12,13])
+  let alloc b = async (b_alloc b n 1)
+  withSC3 (mapM_ alloc [10,11,12,13])
 
 -- | Data can be loaded while nodes are running, ie. edited online.
 load_data :: Int -> (D,D,D,D) -> IO ()
 load_data n (t,f,a,p) = do
   let setup d = map snd (rescale d n)
-  withSC3 (\fd -> do send fd (b_setn 10 [(0,setup t)])
-                     send fd (b_setn 11 [(0,setup f)])
-                     send fd (b_setn 12 [(0,setup a)])
-                     send fd (b_setn 13 [(0,setup p)]))
+  withSC3 (do send (b_setn 10 [(0,setup t)])
+              send (b_setn 11 [(0,setup f)])
+              send (b_setn 12 [(0,setup a)])
+              send (b_setn 13 [(0,setup p)]))
 
 -- | Simple synthesis of data.
 play_data :: IO ()

@@ -1,6 +1,6 @@
 -- shepard tones (alberto de campo)
 
-import Sound.OpenSoundControl
+import Sound.OSC
 import Sound.SC3
 
 interp :: (Fractional t,Enum t) => t -> t -> t -> [t]
@@ -25,15 +25,15 @@ shepard_tones =
         amps = bufRdC 1 AR 2 phases Loop
     in mix (sinOsc AR freqs 0 * amps) * 0.1
 
-run :: Transport t => t -> IO ()
-run fd = do
+run :: Transport m => m ()
+run = do
   let square x = x * x
       ampTable = map square (hanningWindow 1024)
       amp_f i = (0.5 ** i) * 20000
       freqTable = map amp_f (interp 1024 0 10)
-  _ <- async fd (b_alloc_setn1 1 0 freqTable)
-  _ <- async fd (b_alloc_setn1 2 0 ampTable)
-  audition (out 0 shepard_tones)
+  _ <- async (b_alloc_setn1 1 0 freqTable)
+  _ <- async (b_alloc_setn1 2 0 ampTable)
+  play (out 0 shepard_tones)
 
 main :: IO ()
 main = withSC3 run

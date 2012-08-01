@@ -6,7 +6,7 @@ import qualified Sound.SC3.Lang.Control.Event as L {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.Instrument as L
 import qualified Sound.SC3.Lang.Control.Pitch as L
 import qualified Sound.SC3.Lang.Pattern.ID as L
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 
 -- | Happy birthday
 --
@@ -42,13 +42,13 @@ hb_t =
 -- | Test typing
 --
 -- > withSC3 plain
-plain :: Transport t => t -> IO ()
-plain fd = do
-  _ <- async fd (d_recv L.defaultInstrument)
+plain :: Transport m => m ()
+plain = do
+  _ <- async (d_recv L.defaultInstrument)
   let p = L.toP . concat
-  play fd (L.pbind [("degree",p hb_d - 1)
-                   ,("octave",p hb_o + 1)
-                   ,("dur",p hb_t / 16)])
+  play (L.pbind [("degree",p hb_d - 1)
+                ,("octave",p hb_o + 1)
+                ,("dur",p hb_t / 16)])
 
 -- | Pitch classes
 --
@@ -170,14 +170,14 @@ ins_s =
 --
 -- > withSC3 (hear 1 (map cim "hiprty"))
 -- > withSC3 (hear 9 (map cim hb))
-hear :: Transport t => L.P L.Value -> [Cim L.Value] -> t -> IO ()
-hear blur x fd =
+hear :: Transport m => L.P L.Value -> [Cim L.Value] -> m ()
+hear blur x =
     let (freq,dur,c) = unzip3 x
-    in play fd (ins_s,L.pbind [("freq",L.toP freq)
-                              ,("dur",L.toP dur)
-                              ,("legato",blur)
-                              ,("amp",L.toP c * 0.1 + 0.1)
-                              ,("loc",L.toP c * 2 - 1)])
+    in play (ins_s,L.pbind [("freq",L.toP freq)
+                           ,("dur",L.toP dur)
+                           ,("legato",blur)
+                           ,("amp",L.toP c * 0.1 + 0.1)
+                           ,("loc",L.toP c * 2 - 1)])
 
 main :: IO ()
 main = withSC3 (hear 9 ph)

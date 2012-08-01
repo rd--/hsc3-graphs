@@ -1,6 +1,6 @@
 -- tgb (rd)
 
-import Sound.OpenSoundControl
+import Sound.OSC
 import Sound.SC3.Monadic
 
 tgb :: UId m => UGen -> UGen -> m UGen
@@ -30,11 +30,11 @@ tgb b d = do
   let cs' = cs * bufDur KR b
   return (tGrains 2 t b rt cs' du pn am 2)
 
-act :: Transport t => t -> IO ()
-act fd = do
+act :: (UId m,Transport m) => m ()
+act = do
   let fn = "/home/rohan/data/audio/pf-c5.aif"
-  _ <- async fd (b_allocRead 10 fn 0 0)
-  play fd . out 0 =<< tgb 10 12
+  _ <- async (b_allocRead 10 fn 0 0)
+  play . out 0 =<< tgb 10 12
 
 main :: IO ()
 main = withSC3 act

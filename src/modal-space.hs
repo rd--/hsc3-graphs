@@ -1,6 +1,6 @@
 -- modal space (jmcc)
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
 
@@ -20,11 +20,11 @@ modal_space =
     let n = uclone 'α' 2 (lfNoise1 'α' KR 3)
     in (ms n 48 + ms n 72) * 0.25
 
-run :: Transport t => t -> IO ()
-run fd = do
+run :: Transport m => m ()
+run = do
   let p = [0,2,3.2,5,7,9,10]
-  _ <- async fd (b_alloc_setn1 0 0 p)
-  play fd (out 0 modal_space)
+  _ <- async (b_alloc_setn1 0 0 p)
+  play (out 0 modal_space)
 
 main :: IO ()
 main = withSC3 run

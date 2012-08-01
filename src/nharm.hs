@@ -2,12 +2,9 @@
 
 import Control.Concurrent
 import Control.Monad
-import Sound.OpenSoundControl
-import Sound.SC3.Monadic
-import System.Random
-
-rrand :: Random a => a -> a -> IO a
-rrand l r = getStdRandom (randomR (l,r))
+import Sound.OSC
+import Sound.SC3.Monadic as U
+import Sound.SC3.Lang.Random.IO
 
 nharm :: (Num b, Integral a) => a -> b -> [b]
 nharm n f = map ((* f) . fromIntegral) [1..n]
@@ -17,8 +14,8 @@ klg m u = do
     n <- rrand 4 u
     d <- iRand 9 12
     f <- iRand m (m + 2)
-    l <- sequence (replicate n (rand 0.01 0.02))
-    p <- rand (-1.0) 1.0
+    l <- sequence (replicate n (U.rand 0.01 0.02))
+    p <- U.rand (-1.0) 1.0
     let a = 0.5
         e = envGen KR 1 0.9 0 1 RemoveSynth (envSine d a)
         nh = nharm n (midiCPS f)

@@ -1,7 +1,7 @@
 -- karplus strong (alex mclean)
 -- http://doc.gold.ac.uk/~ma503am/alex/vocable-source-released/
 
-import Sound.OpenSoundControl
+import Sound.OSC
 import Sound.SC3.ID
 
 karplus_strong :: UGen
@@ -10,8 +10,8 @@ karplus_strong =
                      a = in' 5 KR (i + 5)
                      b = in' 5 KR (i + 10)
                  in mix (resonz s f (b / f) * dbAmp a)
-        x = mouseX' KR 0 0.01 Linear 0.1 {- delay -}
-        y = mouseY' KR 0.85 1 Linear 0.1 {- blend / gain -}
+        x = mouseX KR 0 0.01 Linear 0.1 {- delay -}
+        y = mouseY KR 0.85 1 Linear 0.1 {- blend / gain -}
         ugenIf a b c = (a * b) + ((1 - a) * c)
         n = whiteNoise 'a' AR
         d = dust 'a' KR 4
@@ -29,8 +29,8 @@ karplus_strong =
         a7 = a6 * 1.5
     in mrg [localOut (a5 * 0.99),out 0 (mce2 a7 a7)]
 
-act :: Transport t => t -> IO ()
-act fd = do
+act :: Transport m => m ()
+act = do
   let aA = ("aA"
            ,[800,1150,2800,3500,4950]
            ,[0,-4 ,-20,-36,-60]
@@ -40,8 +40,8 @@ act fd = do
            ,[0,-12,-30,-40,-64]
            ,[50,60, 170,180,200])
       cs (_,c1,c2,c3) = c1 ++ c2 ++ c3
-  send fd (c_setn [(0,cs aA),(15,cs aU)])
-  play fd karplus_strong
+  send (c_setn [(0,cs aA),(15,cs aU)])
+  play karplus_strong
 
 main :: IO ()
 main = withSC3 act

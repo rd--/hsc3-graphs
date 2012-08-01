@@ -1,7 +1,7 @@
 -- e-lamell (rd)
 
 import Control.Monad
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
@@ -23,8 +23,8 @@ e_lamell =
 now :: Time
 now = NTPi 1
 
-sendSynth :: Transport t => t -> String -> UGen -> IO Message
-sendSynth fd n u = async fd (d_recv (synthdef n u))
+sendSynth :: Transport m => String -> UGen -> m Message
+sendSynth n u = async (d_recv (synthdef n u))
 
 mk_s_new :: Double -> Double -> Double -> Double -> Double -> Message
 mk_s_new f n d a l =
@@ -35,8 +35,8 @@ mk_s_new f n d a l =
             ,("l",l)]
     in s_new "blip" (-1) AddToTail 1 p
 
-pattern :: Transport t => t -> IO ()
-pattern fd = do
+pattern :: Transport m => m ()
+pattern = do
   let r_note o p = do oe <- R.choose o
                       pe <- R.choose p
                       return (oe * 12 + pe)
@@ -54,13 +54,13 @@ pattern fd = do
           a <- R.choose [0,0.25,0.5,1]
           l <- R.rrand (-1) 1
           return (mk_s_new f n d a l)
-  sendBundle fd (Bundle now [p,q])
+  sendBundle (Bundle now [p,q])
   pauseThread 0.1
 
-run :: Transport t => t -> IO ()
-run fd = do
-  _ <- sendSynth fd "blip" (out 0 e_lamell)
-  replicateM_ 64 (pattern fd)
+run :: Transport m => m ()
+run = do
+  _ <- sendSynth "blip" (out 0 e_lamell)
+  replicateM_ 64 pattern
 
 main :: IO ()
 main = withSC3 run
