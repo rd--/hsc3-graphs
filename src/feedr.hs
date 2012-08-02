@@ -1,7 +1,7 @@
 -- feedr (rd)
 -- warning: input/output feedback loop
 
-import Sound.OpenSoundControl {- hosc -}
+import Sound.OSC.FD {- hosc -}
 import Sound.SC3.Monadic.FD {- hsc3 -}
 
 delayWr :: UGen -> UGen -> UGen

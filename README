@@ -6,6 +6,8 @@ hsc3-graphs
 [hsc3-graphs][hsc3-graphs] provides a collection of illustrative unit
 generator graphs for hsc3.
 
+There is a @Makefile@ at @src@, type `make dep; make all`.
+
 [hs]: http://haskell.org/
 [sc3]: http://audiosynth.com/
 [hsc3]: http://rd.slavepianos.org/?t=hsc3

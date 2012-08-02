@@ -32,12 +32,11 @@ Executable         hsc3-acid-otophilia
 
 Executable         hsc3-adso
  main-is:          src/adso.hs
- build-depends:    base, hosc, hsc3, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, random
 
 Executable         hsc3-after-goeyvaerts
  main-is:          src/after-goeyvaerts.hs
- build-depends:    base, hosc, hsc3, hsc3-lang,
-                   containers, random, split
+ build-depends:    base, containers, hosc, hsc3, hsc3-lang, random, split
 
 Executable         hsc3-aleatoric-quartet
  main-is:          src/aleatoric-quartet-m.hs
@@ -97,7 +96,7 @@ Executable         hsc3-bowed-string
 
 Executable         hsc3-bs-070705
  main-is:          src/bs-070705.hs
- build-depends:    base, hsc3, hosc, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, random
 
 Executable         hsc3-buffer-display
  main-is:          src/buffer-display.hs
@@ -181,7 +180,7 @@ Executable         hsc3-deep-sea
 
 Executable         hsc3-deep-trip
  main-is:          src/deep-trip.hs
- build-depends:    base, hsc3, hsc3-lang
+ build-depends:    base, hsc3, hsc3-lang, sc3-rdu
 
 Executable         hsc3-default
  main-is:          src/default.hs
@@ -245,11 +244,11 @@ Executable         hsc3-fbl-fbf
 
 Executable         hsc3-fb-090531
  main-is:          src/fb-090531.hs
- build-depends:    base, hsc3, hosc, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, random
 
 Executable         hsc3-feedr
  main-is:          src/feedr.hs
- build-depends:    base, hsc3
+ build-depends:    base, hosc, hsc3
 
 Executable         hsc3-f-lets
  main-is:          src/f-lets.hs
@@ -261,7 +260,7 @@ Executable         hsc3-fm-iter
 
 Executable         hsc3-fm-kltr
  main-is:          src/fm-kltr.hs
- build-depends:    base, hosc, hsc3, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, random
 
 Executable         hsc3-fm-kltr-p
  main-is:          src/fm-kltr-p.hs
@@ -365,7 +364,7 @@ Executable         hsc3-lin-sosc
 
 Executable         hsc3-lso-061101
  main-is:          src/lso-061101.hs
- build-depends:    base, directory, filepath, hls, hosc, hps, hsc3, hsc3-sf, random
+ build-depends:    base, directory, filepath, hls, hosc, hps, hsc3, hsc3-lang, hsc3-sf, random
 
 Executable         hsc3-lucier
  main-is:          src/lucier.hs
@@ -397,11 +396,11 @@ Executable         hsc3-music-box
 
 Executable         hsc3-nharm
  main-is:          src/nharm.hs
- build-depends:    base, hosc, hsc3, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, random
 
 Executable         hsc3-nharm-p
  main-is:          src/nharm-p.hs
- build-depends:    base, hsc3, hsc3-lang
+ build-depends:    base, hsc3, hsc3-lang, sc3-rdu
 
 Executable         hsc3-noise-burst-sweep
  main-is:          src/noise-burst-sweep.hs
@@ -445,7 +444,7 @@ Executable         hsc3-overlap-add
 
 Executable         hsc3-pattern-buffer
  main-is:          src/pattern-buffer.hs
- build-depends:    base, hosc, hsc3, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, random
 
 Executable         hsc3-pebble-beach
  main-is:          src/pebble-beach.hs
@@ -569,7 +568,7 @@ Executable         hsc3-scritto-m
 
 Executable         hsc3-seqr
  main-is:          src/seqr.hs
- build-depends:    base, hsc3
+ build-depends:    base, hsc3, sc3-rdu
 
 Executable         hsc3-shepard-tones
  main-is:          src/shepard-tones.hs
@@ -653,7 +652,7 @@ Executable         hsc3-tgrn
 
 Executable         hsc3-tgr-rpr
  main-is:          src/tgr-rpr.hs
- build-depends:    base, hosc, hsc3, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, random
 
 Executable         hsc3-theremin
  main-is:          src/theremin.hs
@@ -705,7 +704,7 @@ Executable         hsc3-uplink
 
 Executable         hsc3-voscil
  main-is:          src/voscil.hs
- build-depends:    base, hosc, hsc3, hsc3-unsafe, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, hsc3-unsafe, random
 
 Executable         hsc3-vla-addtn
  main-is:          src/vla-addtn.hs
@@ -717,7 +716,7 @@ Executable         hsc3-vla-addtn-sharc
 
 Executable         hsc3-vlc-distrtn
  main-is:          src/vlc-distrtn.hs
- build-depends:    base, hosc, hsc3, random
+ build-depends:    base, hosc, hsc3, hsc3-lang, random
 
 Executable         hsc3-waveset
  main-is:          src/waveset.hs
