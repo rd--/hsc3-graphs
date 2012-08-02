@@ -23,4 +23,4 @@ bowed_string = do
   return (softClip (k * 0.1))
 
 main :: IO ()
-main = overlapTextureU (2,5,12,maxBound) =<< bowed_string
+main = overlapTextureU (5,2,12,maxBound) =<< bowed_string

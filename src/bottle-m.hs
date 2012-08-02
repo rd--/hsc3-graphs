@@ -25,4 +25,4 @@ bottle = do
   return (cls f)
 
 main :: IO ()
-main = overlapTextureU (0,2,2,maxBound) =<< bottle
+main = overlapTextureU (2,0,2,maxBound) =<< bottle

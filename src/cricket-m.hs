@@ -15,7 +15,7 @@ cricket = do
   return (sinOsc AR r4 0 * f * 0.25)
 
 main :: IO ()
-main = overlapTextureU (2,7,3,maxBound) =<< cricket
+main = overlapTextureU (7,2,3,maxBound) =<< cricket
 
 {-
 audition . out 0 =<< cricket

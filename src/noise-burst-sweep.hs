@@ -14,7 +14,7 @@ nbs e =
   in resonz (n * amp) freq 0.1
 
 main :: IO ()
-main = overlapTextureU (2,4,4,maxBound) (nbs 'α')
+main = overlapTextureU (4,2,4,maxBound) (nbs 'α')
 
 {-
 audition (out 0 (nbs 'α'))

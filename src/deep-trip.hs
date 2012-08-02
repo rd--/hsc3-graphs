@@ -17,4 +17,4 @@ deep_trip =
         in s + c0 + c1
 
 main :: IO ()
-main = overlapTextureU (12,4,4,maxBound) deep_trip
+main = overlapTextureU (4,12,4,maxBound) deep_trip

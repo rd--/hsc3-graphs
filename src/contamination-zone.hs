@@ -25,7 +25,7 @@ cz_pp =
     in useq 'α' 6 f
 
 main :: IO ()
-main = overlapTextureU_pp (8,3,4,maxBound) cz 2 cz_pp
+main = overlapTextureU_pp (3,8,4,maxBound) cz 2 cz_pp
 
 {-
 audition (out 0 cz)

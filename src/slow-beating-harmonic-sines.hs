@@ -41,4 +41,4 @@ sbhs n d m = do
 main :: IO ()
 main = do
   g <- getStdGen
-  overlapTextureS (6,3,3,maxBound) (runRand (sbhs 8 0.4 5)) g
+  overlapTextureS (3,6,3,maxBound) (runRand (sbhs 8 0.4 5)) g

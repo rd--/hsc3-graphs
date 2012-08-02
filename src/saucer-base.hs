@@ -14,4 +14,4 @@ saucer_base =
     in pan2 (sinOsc AR o' 0 * 0.1) p 1
 
 main :: IO ()
-main = overlapTextureU (6,2,4,maxBound) saucer_base
+main = overlapTextureU (2,6,4,maxBound) saucer_base

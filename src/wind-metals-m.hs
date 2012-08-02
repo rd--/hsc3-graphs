@@ -19,7 +19,7 @@ wind_metals = do
   return (softClip (s * 0.1))
 
 main :: IO ()
-main = overlapTextureU (2,5,12,maxBound) =<< wind_metals
+main = overlapTextureU (5,2,12,maxBound) =<< wind_metals
 
 {-
 audition . out 0 =<< wind_metals

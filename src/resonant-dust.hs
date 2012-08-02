@@ -12,4 +12,4 @@ resonant_dust =
     in pan2 (resonz d rf 0.1) (rand 'α' (-1) 1) 1
 
 main :: IO ()
-main = overlapTextureU (2,5,9,maxBound) resonant_dust
+main = overlapTextureU (5,2,9,maxBound) resonant_dust

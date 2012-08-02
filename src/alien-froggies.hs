@@ -10,4 +10,4 @@ alien_froggies r =
     in (o * 0.05,r')
 
 main :: IO ()
-main = overlapTextureS (0.5,0.25,5,maxBound) alien_froggies 11
+main = overlapTextureS (0.25,0.5,5,maxBound) alien_froggies 11

@@ -77,4 +77,4 @@ esmlp2_pp i =
 main :: IO ()
 main = do
   let g = R.mkStdGen 0
-  overlapTextureS_pp (2,4,6,maxBound) esmlp2 g 2 esmlp2_pp
+  overlapTextureS_pp (4,2,6,maxBound) esmlp2 g 2 esmlp2_pp

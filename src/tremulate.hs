@@ -17,7 +17,7 @@ tremulate_pp :: UGen -> UGen
 tremulate_pp i = combN i 0.1 0.1 1
 
 main :: IO ()
-main = xfadeTextureU_pp (2,0.5,maxBound) tremulate 2 tremulate_pp
+main = xfadeTextureU_pp (0.5,2,maxBound) tremulate 2 tremulate_pp
 
 {-
 audition (out 0 tremulate)

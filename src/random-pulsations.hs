@@ -11,4 +11,4 @@ rp =
     in pan2 (o1 `amClip` o2) o3 1
 
 main :: IO ()
-main = overlapTextureU (2,5,8,maxBound) rp
+main = overlapTextureU (5,2,8,maxBound) rp

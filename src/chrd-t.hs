@@ -33,4 +33,4 @@ chrdN i j ds = do
 main :: IO ()
 main = do
   g <- getStdGen
-  overlapTextureS (0,21,3,maxBound) (runRand (chrdN 6 9 3)) g
+  overlapTextureS (21,0,3,maxBound) (runRand (chrdN 6 9 3)) g

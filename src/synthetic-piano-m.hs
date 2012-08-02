@@ -19,7 +19,7 @@ synthetic_piano = do
   return (pan2 c_ l 1)
 
 main :: IO ()
-main = overlapTextureU (0,6,6,maxBound) =<< synthetic_piano
+main = overlapTextureU (6,0,6,maxBound) =<< synthetic_piano
 
 {-
 audition . out 0 =<< mixFillM 6 (const synthetic_piano)

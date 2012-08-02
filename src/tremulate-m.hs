@@ -19,7 +19,7 @@ tremulate_pp i = combN i 0.1 0.1 1
 main :: IO ()
 main = do
   t <- tremulate
-  xfadeTextureU_pp (2,0.5,maxBound) t 2 tremulate_pp
+  xfadeTextureU_pp (0.5,2,maxBound) t 2 tremulate_pp
 
 {-
 audition . out 0 =<< tremulate

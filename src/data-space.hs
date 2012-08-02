@@ -22,4 +22,4 @@ data_space =
     in combL (pan2 o l 1) dt dt 3
 
 main :: IO ()
-main = overlapTextureU (6,1,4,maxBound) data_space
+main = overlapTextureU (1,6,4,maxBound) data_space

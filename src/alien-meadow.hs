@@ -13,4 +13,4 @@ alien_meadow =
     in pan2 (sinOsc AR f 0) p (sinOsc AR c 0 * 0.05 + 0.05)
 
 main :: IO ()
-main = overlapTextureU (6,2,6,maxBound) alien_meadow
+main = overlapTextureU (2,6,6,maxBound) alien_meadow

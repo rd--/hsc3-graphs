@@ -20,7 +20,7 @@ rails =
     in pan2 k l 1
 
 main :: IO ()
-main = overlapTextureU (2,3,4,maxBound) rails
+main = overlapTextureU (3,2,4,maxBound) rails
 
 {-
 audition (out 0 rails)
