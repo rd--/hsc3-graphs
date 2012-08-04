@@ -1,7 +1,7 @@
 -- cricket (rd)
 
 import Sound.SC3.Lang.Control.OverlapTexture
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 cricket :: UId m => m UGen
 cricket = do

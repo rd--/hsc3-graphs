@@ -1,7 +1,7 @@
 -- tgb (rd)
 
 import Sound.OSC
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 tgb :: UId m => UGen -> UGen -> m UGen
 tgb b d = do

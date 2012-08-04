@@ -1,6 +1,6 @@
 -- eggcrate-m (rd)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 eggcrate :: UId m => m UGen
 eggcrate = do

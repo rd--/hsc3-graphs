@@ -1,6 +1,6 @@
 -- plucked strings (jmcc)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 plucked_strings :: UId m => m UGen
 plucked_strings = do

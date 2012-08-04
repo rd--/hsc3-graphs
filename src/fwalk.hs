@@ -1,7 +1,7 @@
 -- fwalk (rd)
 
 import Sound.OSC
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 fwalk' :: UId m => UGen -> m UGen
 fwalk' r = do

@@ -1,6 +1,6 @@
 -- shifting pulses (rd)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 shifting_pulses :: UId m => m UGen
 shifting_pulses = do

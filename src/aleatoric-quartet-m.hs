@@ -1,6 +1,6 @@
 -- aleatoric quartet (jmcc)
 
-import Sound.SC3.Monadic {- hsc3 -}
+import Sound.SC3.Monad {- hsc3 -}
 
 aleatoric_quartet :: IO UGen
 aleatoric_quartet = do

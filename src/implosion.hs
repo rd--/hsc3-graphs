@@ -1,6 +1,6 @@
 -- implosion (rd)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 mkls :: [(UGen,UGen)] -> UGen -> UGen
 mkls bp t =

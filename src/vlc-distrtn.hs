@@ -2,7 +2,7 @@
 -- caution - audio feedback graph
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monadic {- hsc3 -}
+import Sound.SC3.Monad {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.IO as L {- hsc3-lang -}
 
 prep :: (Double,Double) -> [Double]

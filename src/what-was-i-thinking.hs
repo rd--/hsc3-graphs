@@ -1,6 +1,6 @@
 -- what was i thinking? (jmcc)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 what_was_i_thinking :: UId m => m UGen
 what_was_i_thinking = do

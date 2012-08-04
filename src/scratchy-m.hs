@@ -1,6 +1,6 @@
 -- scratchy-m (jmcc)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 scratchy :: UId m => m UGen
 scratchy = do

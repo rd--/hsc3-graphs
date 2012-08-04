@@ -1,6 +1,6 @@
 -- insects (sam pluta)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 insect :: UId m => m UGen
 insect = do

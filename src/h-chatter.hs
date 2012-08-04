@@ -1,7 +1,7 @@
 -- h-chatter (rd)
 
 import Control.Monad
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 wrp :: UGen -> UGen -> UGen -> UGen
 wrp i = linLin i (-1) 1

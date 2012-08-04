@@ -1,7 +1,7 @@
 -- pattern buffer (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monadic {- hsc3 -}
+import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 tseq :: [UGen] -> UGen

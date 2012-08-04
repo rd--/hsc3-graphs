@@ -1,7 +1,7 @@
 -- mouse clatter (rd)
 
 import Sound.OSC
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 mouse_clatter :: UId m => m UGen
 mouse_clatter = do

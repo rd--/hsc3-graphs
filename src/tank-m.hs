@@ -2,7 +2,7 @@
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
 
 import Control.Monad
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 pling :: IO UGen
 pling = do

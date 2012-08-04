@@ -1,6 +1,6 @@
 -- oscillator cluster
 
-import Sound.SC3.Monadic {- hsc3 -}
+import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 oscillator_cluster :: (Functor m,UId m) => m UGen

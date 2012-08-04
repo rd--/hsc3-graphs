@@ -1,6 +1,6 @@
 -- scritto (rd)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 import qualified Sound.SC3.Lang.Data.Vowel as V
 
 main :: IO ()

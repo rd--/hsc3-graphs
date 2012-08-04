@@ -2,7 +2,7 @@
 -- warning: input/output feedback loop
 
 import Sound.OSC.FD {- hosc -}
-import Sound.SC3.Monadic.FD {- hsc3 -}
+import Sound.SC3.Monad.FD {- hsc3 -}
 
 delayWr :: UGen -> UGen -> UGen
 delayWr b = recordBuf AR b 0 1 0 1 Loop 0 DoNothing

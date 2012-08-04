@@ -1,6 +1,6 @@
 -- harmonic tumbling (jmcc)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 harmonic_tumbling :: UId m => m UGen
 harmonic_tumbling = do

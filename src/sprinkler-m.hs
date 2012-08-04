@@ -1,6 +1,6 @@
 -- sprinkler-m (jmcc)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 sprinkler_m :: UId m => m UGen
 sprinkler_m = do

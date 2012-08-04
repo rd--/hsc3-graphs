@@ -1,6 +1,6 @@
 -- wial (rd)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 wial :: (Functor m,UId m) => m UGen
 wial = do

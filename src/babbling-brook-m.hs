@@ -1,7 +1,7 @@
 -- babbling brook (jmcc)
 -- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 babbling_brook :: IO UGen
 babbling_brook = do

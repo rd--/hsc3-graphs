@@ -5,7 +5,7 @@ increasing the stack limit of the haskell run time system -}
 
 import Control.Monad
 import qualified Sound.SC3.Lang.Random.IO as R
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 coinIf :: Double -> a -> a -> IO a
 coinIf n a b = do

@@ -6,7 +6,7 @@
 -- buffers.  The buffers are read using dbufrd.  One of the data sets
 -- gives the time interval to step forward.
 import Sound.OSC
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 -- | Real
 type R = Double

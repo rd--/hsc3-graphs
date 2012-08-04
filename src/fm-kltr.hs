@@ -1,7 +1,7 @@
 -- fm-kltr (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monadic as U {- hsc3 -}
+import Sound.SC3.Monad as U {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 fm_kltr :: UId m => m UGen

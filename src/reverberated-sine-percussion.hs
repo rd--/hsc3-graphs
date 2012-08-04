@@ -1,6 +1,6 @@
 -- reverberated sine percussion (jmcc)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 reverberated_sine_percussion :: (Functor m,UId m) => m UGen
 reverberated_sine_percussion = do

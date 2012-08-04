@@ -1,7 +1,7 @@
 -- bottle (sc)
 
 import Sound.SC3.Lang.Control.OverlapTexture
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 bottle :: UId m => m UGen
 bottle = do

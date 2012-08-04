@@ -1,6 +1,6 @@
 -- chrd (rd)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 chrd :: IO UGen
 chrd = do

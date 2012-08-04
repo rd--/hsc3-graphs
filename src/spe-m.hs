@@ -1,7 +1,7 @@
 -- spe (jmcc)
 -- variant of graph in streams & patterns tutorial
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 spe :: UId m => m UGen
 spe = do

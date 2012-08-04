@@ -1,6 +1,6 @@
 -- red_frik (f0)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 red :: UId m => UGen -> UGen -> m UGen
 red tr n = do

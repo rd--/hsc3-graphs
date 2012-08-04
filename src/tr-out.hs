@@ -1,7 +1,7 @@
 -- tr-out (rd)
 
 import Sound.OSC
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 tr_nd :: UId m => UGen -> m (UGen,UGen)
 tr_nd n = do

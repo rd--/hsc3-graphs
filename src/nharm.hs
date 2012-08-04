@@ -3,7 +3,7 @@
 import Control.Concurrent
 import Control.Monad
 import Sound.OSC
-import Sound.SC3.Monadic as U
+import Sound.SC3.Monad as U
 import Sound.SC3.Lang.Random.IO
 
 nharm :: (Num b, Integral a) => a -> b -> [b]

@@ -1,6 +1,6 @@
 -- random panning sines (jmcc)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 import Sound.SC3.Lang.Control.OverlapTexture
 
 rps :: UId m => m UGen

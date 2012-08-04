@@ -1,6 +1,6 @@
 -- discretion-m (rd)
 
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 discretion :: IO UGen
 discretion = do

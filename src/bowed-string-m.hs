@@ -2,7 +2,7 @@
 
 import Control.Monad
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import Sound.SC3.Monadic {- hsc3 -}
+import Sound.SC3.Monad {- hsc3 -}
 
 bowed_string :: UId m => m UGen
 bowed_string = do

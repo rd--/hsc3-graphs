@@ -1,7 +1,7 @@
 -- dial history (jrhb)
 
 import Data.List
-import Sound.SC3.Monadic
+import Sound.SC3.Monad
 
 rng :: UGen -> UGen -> UGen -> UGen
 rng s = linLin s 0 1
