@@ -116,7 +116,7 @@ fx =
         i = in' 2 AR bus
         e = let d = Envelope [0.02,0.3,0.02] [0.4,0.01] (mk_ec [3,-4]) (Just 1) (Just 0)
             in envGen KR (1 - trig gate' 0.01) 1 0 1 DoNothing d
-        r = let MCE [i0,i1] = i
+        r = let [i0,i1] = mceChannels i
             in freeVerb2 (bpf i0 3500 1.5) (bpf i1 3500 1.5) 1 0.95 0.15 * e
         s = limiter (hpf ((i + r) * 1.2) 40) 1 0.02
     in synthdef "fx" (replaceOut bus s)

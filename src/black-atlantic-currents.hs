@@ -30,7 +30,7 @@ i :: UGen -> UGen
 i = inFeedback 2
 
 c :: Int -> UGen
-c = Constant . fromIntegral
+c = constant
 
 bac :: UGen
 bac =
