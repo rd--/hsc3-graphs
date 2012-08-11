@@ -21,8 +21,7 @@ Data-files:        README
 Source-Repository  head
   Type:            darcs
   Location:        http://rd.slavepianos.org/sw/hsc3-graphs/
-
--- Auto-generated: Sat Aug 11 15:04:34 EST 2012
+-- Auto-generated: Sat Aug 11 16:14:43 EST 2012
 Executable hsc3-1-1Ni
  main-is: src/1-1Ni.hs
  build-depends: base,base,hosc,hsc3
@@ -338,6 +337,9 @@ Executable hsc3-lso-061101
 Executable hsc3-lucier
  main-is: src/lucier.hs
  build-depends: base,hsc3
+Executable hsc3-m21360
+ main-is: src/m21360.hs
+ build-depends: base,hosc,hsc3
 Executable hsc3-microhelix
  main-is: src/microhelix.hs
  build-depends: base,hsc3
