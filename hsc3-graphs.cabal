@@ -22,7 +22,7 @@ Source-Repository  head
   Type:            darcs
   Location:        http://rd.slavepianos.org/sw/hsc3-graphs/
 
--- Auto-generated: Sat Aug 11 14:07:23 EST 2012
+-- Auto-generated: Sat Aug 11 15:04:34 EST 2012
 Executable hsc3-1-1Ni
  main-is: src/1-1Ni.hs
  build-depends: base,base,hosc,hsc3
@@ -32,6 +32,9 @@ Executable hsc3-1-4Q6
 Executable hsc3-1-4QM
  main-is: src/1-4QM.hs
  build-depends: base,base,hosc,hsc3,hsc3-lang,sc3-rdu
+Executable hsc3-1-4QN
+ main-is: src/1-4QN.hs
+ build-depends: base,base,hosc,hsc3,hsc3-lang
 Executable hsc3-1-4Qx
  main-is: src/1-4Qx.hs
  build-depends: base,hsc3
