@@ -1,7 +1,7 @@
 -- scritto (rd)
 
-import Sound.SC3.Monad
-import qualified Sound.SC3.Lang.Data.Vowel as V
+import Sound.SC3.Monad {- hsc3 -}
+import qualified Sound.SC3.Lang.Data.Vowel as V {- hsc3-lang -}
 
 main :: IO ()
 main =

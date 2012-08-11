@@ -1,6 +1,6 @@
 -- eggcrate (rd)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 atp :: (t -> u) -> (t,t) -> (u,u)
 atp f (i,j) = (f i,f j)

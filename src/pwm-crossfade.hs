@@ -1,7 +1,7 @@
 -- pwm crossfade (jl)
 -- http://sccode.org/1-L
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 urangeM :: UGen -> UGen -> UGen
 urangeM u = let [u0,u1] = mceChannels u in urange u0 u1

@@ -1,6 +1,6 @@
 -- sample and hold liquidities (jmcc)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 shl :: UGen
 shl =

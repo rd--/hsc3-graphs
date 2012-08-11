@@ -1,17 +1,18 @@
 -- karplus strong (alex mclean)
 -- http://doc.gold.ac.uk/~ma503am/alex/vocable-source-released/
 
-import Sound.OSC
-import Sound.SC3.ID
+import Sound.OSC {- hosc -}
+import Sound.SC3.ID {- hsc3 -}
 
+-- x = delay, y = blend / gain
 karplus_strong :: UGen
 karplus_strong =
     let vf i s = let f = in' 5 KR i
                      a = in' 5 KR (i + 5)
                      b = in' 5 KR (i + 10)
                  in mix (resonz s f (b / f) * dbAmp a)
-        x = mouseX KR 0 0.01 Linear 0.1 {- delay -}
-        y = mouseY KR 0.85 1 Linear 0.1 {- blend / gain -}
+        x = mouseX KR 0 0.01 Linear 0.1
+        y = mouseY KR 0.85 1 Linear 0.1
         ugenIf a b c = (a * b) + ((1 - a) * c)
         n = whiteNoise 'a' AR
         d = dust 'a' KR 4

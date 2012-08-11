@@ -1,6 +1,6 @@
 -- harmonic swimming (jmcc)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 main :: IO ()
 main =

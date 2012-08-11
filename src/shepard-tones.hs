@@ -1,7 +1,7 @@
 -- shepard tones (alberto de campo)
 
-import Sound.OSC
-import Sound.SC3
+import Sound.OSC {- hosc -}
+import Sound.SC3 {- hsc3 -}
 
 interp :: (Fractional t,Enum t) => t -> t -> t -> [t]
 interp n l r =

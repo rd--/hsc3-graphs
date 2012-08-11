@@ -1,6 +1,6 @@
 -- lfo modulation (jmcc)
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 main :: IO ()
 main =

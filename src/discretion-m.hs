@@ -1,6 +1,6 @@
 -- discretion-m (rd)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 discretion :: IO UGen
 discretion = do

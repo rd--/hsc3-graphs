@@ -1,6 +1,6 @@
 -- after goeyvaerts, nick collins, 2007
 
-import Control.Concurrent.MVar
+import Control.Concurrent.MVar {- base -}
 import Data.List
 import Data.List.Split {- split -}
 import qualified Data.Map as M {- containers -}

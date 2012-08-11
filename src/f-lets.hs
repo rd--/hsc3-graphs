@@ -1,6 +1,6 @@
 -- f-lets (rd)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 f_lets :: (Functor m,UId m) => m UGen
 f_lets = do

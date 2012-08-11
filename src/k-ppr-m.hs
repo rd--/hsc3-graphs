@@ -1,7 +1,7 @@
 -- k-ppr-m (rd)
 
-import Control.Monad
-import Sound.SC3.Monad
+import Control.Monad {- base -}
+import Sound.SC3.Monad {- hsc3 -}
 
 k_ppr_m :: IO UGen
 k_ppr_m = do

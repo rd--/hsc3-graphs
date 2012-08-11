@@ -1,6 +1,6 @@
 -- three-cpsw (rd)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 three_cpsw :: UId m => m UGen
 three_cpsw = do

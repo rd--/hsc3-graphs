@@ -1,7 +1,7 @@
 -- tgrn (rd)
 
-import Sound.OSC
-import Sound.SC3.ID
+import Sound.OSC {- hosc -}
+import Sound.SC3.ID {- hsc3 -}
 
 tgrn :: UGen -> UGen
 tgrn b =

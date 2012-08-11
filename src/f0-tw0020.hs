@@ -1,5 +1,5 @@
 -- http://fredrikolofsson.com/f0blog/?q=node/478
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 f0_tw0020 :: UGen
 f0_tw0020 =

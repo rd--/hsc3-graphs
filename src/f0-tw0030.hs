@@ -1,6 +1,6 @@
 -- www.fredrikolofsson.com/f0blog/?q=node/537
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 f0_0030 :: UGen
 f0_0030 =

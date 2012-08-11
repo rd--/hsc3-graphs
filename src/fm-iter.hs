@@ -1,6 +1,6 @@
 -- fm-iter (rd)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 fm_iter :: UGen
 fm_iter =

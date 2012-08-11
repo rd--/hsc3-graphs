@@ -1,7 +1,7 @@
 -- diffraction (rd)
 
-import Control.Monad
-import Sound.SC3.Monad
+import Control.Monad {- base -}
+import Sound.SC3.Monad {- hsc3 -}
 
 diffraction ::(Functor m, UId m) => m UGen
 diffraction = do

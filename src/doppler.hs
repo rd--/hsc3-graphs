@@ -1,7 +1,7 @@
 -- doppler (jmcc,rd)
 
-import Sound.OSC
-import Sound.SC3
+import Sound.OSC {- hosc -}
+import Sound.SC3 {- hsc3 -}
 
 -- observer at origin, signal 's' at coordinates ('x','y')
 doppler :: (UGen,UGen) -> UGen -> UGen

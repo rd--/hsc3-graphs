@@ -1,10 +1,10 @@
 --nharm (rd)
 
-import Control.Concurrent
+import Control.Concurrent {- base -}
 import Control.Monad
-import Sound.OSC
-import Sound.SC3.Monad as U
-import Sound.SC3.Lang.Random.IO
+import Sound.OSC {- hosc -}
+import Sound.SC3.Monad as U {- hsc3 -}
+import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 nharm :: (Num b, Integral a) => a -> b -> [b]
 nharm n f = map ((* f) . fromIntegral) [1..n]

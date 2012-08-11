@@ -1,11 +1,11 @@
 -- chain saw (jrhb)
 
-{- this graph generates long chains of unit generators and may require
-increasing the stack limit of the haskell run time system -}
+-- this graph generates long chains of unit generators and may require
+-- increasing the stack limit of the haskell run time system
 
-import Control.Monad
-import qualified Sound.SC3.Lang.Random.IO as R
-import Sound.SC3.Monad
+import Control.Monad {- base -}
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
+import Sound.SC3.Monad {- hsc3 -}
 
 coinIf :: Double -> a -> a -> IO a
 coinIf n a b = do

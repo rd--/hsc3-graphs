@@ -1,6 +1,6 @@
 -- lg-timed (rd)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 lg_timed :: UId m => m UGen
 lg_timed = do

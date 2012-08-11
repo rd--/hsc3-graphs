@@ -1,6 +1,6 @@
 -- bit reduction (adc)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 sample_rate_decrease :: UGen
 sample_rate_decrease =

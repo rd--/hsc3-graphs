@@ -1,7 +1,7 @@
 -- wind metals (jmcc)
 
-import Sound.SC3.Lang.Control.OverlapTexture
-import Sound.SC3.Monad
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+import Sound.SC3.Monad {- hsc3 -}
 
 wind_metals :: UId m => m UGen
 wind_metals = do

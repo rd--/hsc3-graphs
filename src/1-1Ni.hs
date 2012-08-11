@@ -1,6 +1,6 @@
 -- http://sccode.org/1-1Ni
 
-import Control.Concurrent
+import Control.Concurrent {- base -}
 import Control.Monad
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
@@ -16,14 +16,14 @@ scr h n f d =
 -- > audition (b 12)
 b :: Int -> Synthdef
 b np =
-    let f = midiCPS (choose 'a' [40,45,52])
+    let f = midiCPS (lchoose 'a' [40,45,52])
         h n = (n,n + (n / 64))
     in synthdef "b" (out 0 (scr h np f 9))
 
 -- > audition (c 12)
 c :: Int -> Synthdef
 c np =
-    let f = midiCPS (choose' 'a' (in' 3 KR 0))
+    let f = midiCPS (choose 'a' (in' 3 KR 0))
         h n = (n - (n / 128),n + (n / 128))
     in synthdef "c" (out 0 (scr h np f 6))
 

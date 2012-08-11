@@ -1,7 +1,8 @@
 -- > Sound.SC3.UGen.Help.viewSC3Help "ProxyMixer"
-import Control.Monad
-import Sound.SC3.ID
-import qualified Sound.SC3.Lang.Random.IO as L
+
+import Control.Monad {- base -}
+import Sound.SC3.ID {- hsc3 -}
+import qualified Sound.SC3.Lang.Random.IO as L {- hsc3-lang -}
 
 mk_e :: IO (Envelope UGen)
 mk_e = do

@@ -1,5 +1,5 @@
 -- http://sccode.org/1-4Qy
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 -- > Sound.SC3.UGen.Dot.draw f0_tw0084
 f0_tw0084 :: UGen

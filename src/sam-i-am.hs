@@ -1,8 +1,8 @@
 -- sam i am (jr)
 -- http://www.listarc.bham.ac.uk/lists/sc-users/msg00280.html
 
-import Control.Monad.Random {- monad-random -}
-import Data.List
+import Control.Monad.Random {- MonadRandom -}
+import Data.List {- base -}
 import Data.Maybe
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.Event {- hsc3-lang -}

@@ -5,8 +5,9 @@
 -- The data sets are sampled at these locations and loaded into
 -- buffers.  The buffers are read using dbufrd.  One of the data sets
 -- gives the time interval to step forward.
-import Sound.OSC
-import Sound.SC3.Monad
+
+import Sound.OSC {- hosc -}
+import Sound.SC3.Monad {- hsc3 -}
 
 -- | Real
 type R = Double

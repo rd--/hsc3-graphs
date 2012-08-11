@@ -1,6 +1,6 @@
 -- demanding studies (jmcc)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 demanding_studies :: UGen
 demanding_studies =

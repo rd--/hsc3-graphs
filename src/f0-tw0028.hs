@@ -1,6 +1,6 @@
 -- http://www.fredrikolofsson.com/f0blog/?q=node/537
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 fib :: Integral i => [i]
 fib = 0 : scanl (+) 1 fib

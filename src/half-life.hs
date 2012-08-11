@@ -1,6 +1,6 @@
 -- half-life (jrhb)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 half_life :: UGen
 half_life =

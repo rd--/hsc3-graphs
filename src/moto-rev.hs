@@ -1,6 +1,6 @@
 -- moto rev (jmcc)
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 moto_rev :: UGen
 moto_rev =

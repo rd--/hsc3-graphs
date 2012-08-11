@@ -1,7 +1,7 @@
 -- birds (jmcc)
 -- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 composeM :: Monad m => [a -> m a] -> a -> m a
 composeM fs i = foldr (=<<) (return i) fs

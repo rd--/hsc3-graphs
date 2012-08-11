@@ -7,9 +7,11 @@ all: $(GRAPHS)
 
 clean:
 	rm -f $(GRAPHS)
+	rm -f *.packages *.cabal
 	rm -f *.hi *.o
 
 dep:
-	echo -n "GRAPHS=" > Makefile.graphs
-	ls *.hs | sed -r -e 's/(.*)\.hs/ \1\\/g' \
-		>> Makefile.graphs
+	bash ../sh/mk-dependencies.sh
+
+packages:
+	bash ../sh/mk-packages.sh

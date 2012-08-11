@@ -1,6 +1,6 @@
 -- police state (jmcc)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 police_state :: UId m => m UGen
 police_state = do

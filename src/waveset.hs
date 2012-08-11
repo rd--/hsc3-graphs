@@ -1,10 +1,10 @@
 -- A simple waveset synthesiser (rd)
 
 import qualified Data.Array as A {- array -}
-import Data.List
+import Data.List {- base -}
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
 import Sound.OSC {- hosc -}
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 import System.Environment
 import System.Random {- random -}
 

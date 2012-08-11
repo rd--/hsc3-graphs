@@ -1,7 +1,7 @@
 -- cymbalism accellerando (jmcc)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 enumFromN :: Enum a => a -> Int -> [Int]
 enumFromN e i = let j = fromEnum e in [j .. j + i]

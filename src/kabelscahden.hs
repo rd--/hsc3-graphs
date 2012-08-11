@@ -1,5 +1,6 @@
 -- Alberto de Campo & Julian Rohrhuber, March 2003
-import Sound.SC3.ID
+
+import Sound.SC3.ID {- hsc3 -}
 
 kabelScahden :: UGen
 kabelScahden =

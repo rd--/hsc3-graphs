@@ -1,6 +1,6 @@
 -- | L-System oscillator (rd, 2006-11-01)
 
-import Control.Monad
+import Control.Monad {- base -}
 import Graphics.PS.Pt {- hps -}
 import Graphics.PS.Unit
 import qualified LSystem.LSystem as L {- hls -}
@@ -8,7 +8,7 @@ import qualified LSystem.Systems as L
 import qualified LSystem.Turtle as L
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
 import Sound.SC3.Monad {- hsc3 -}
-import Sound.SC3.Lang.Random.IO as R {- random -}
+import Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 import System.Directory {- directory -}
 import qualified System.FilePath as P {- filepath -}
 

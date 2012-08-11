@@ -1,8 +1,8 @@
 -- comb delay sweeps (jmcc)
 
-import Sound.SC3.ID
-import Sound.SC3.Lang.Control.OverlapTexture
-import System.Random
+import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+import System.Random {- random -}
 
 type ST = (Double,Double,StdGen)
 

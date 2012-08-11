@@ -1,7 +1,7 @@
 -- record scratcher (josh parmenter)
 
-import Sound.OSC
-import Sound.SC3
+import Sound.OSC {- hosc -}
+import Sound.SC3 {- hsc3 -}
 
 record_scratcher :: UGen
 record_scratcher =

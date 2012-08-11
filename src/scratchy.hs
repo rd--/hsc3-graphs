@@ -1,6 +1,6 @@
 -- scratchy (jmcc)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 scratchy :: UGen
 scratchy =

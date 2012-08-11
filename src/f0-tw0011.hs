@@ -1,7 +1,7 @@
 -- f0
 -- instance of unworkable graph given current Eq implementation!
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 f0_0011 :: UGen
 f0_0011 =

@@ -1,6 +1,6 @@
 -- fbl-fbf (rd)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 fbl :: UGen -> [UGen] -> [UGen] -> [UGen] -> (UGen, UGen)
 fbl l i d g =

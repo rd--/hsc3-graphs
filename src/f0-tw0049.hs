@@ -1,8 +1,8 @@
 -- f0 -- tweet0049
 -- https://www.listarc.bham.ac.uk/lists/sc-users/msg18379.html
 
-import Data.Bits -- .&.
-import Sound.SC3
+import Data.Bits {- base -}
+import Sound.SC3 {- hsc3 -}
 
 f0_0049 :: UGen
 f0_0049 =

@@ -1,8 +1,8 @@
 -- pulsing bottles (jmcc)
 
-import Control.Monad
-import Sound.SC3.Monad
-import Sound.SC3.Lang.Control.OverlapTexture
+import Control.Monad {- base -}
+import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 pulsing_bottles :: UId m => m UGen
 pulsing_bottles = do

@@ -1,8 +1,8 @@
 -- tank-m (jmcc)
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
 
-import Control.Monad
-import Sound.SC3.Monad
+import Control.Monad {- base -}
+import Sound.SC3.Monad {- hsc3 -}
 
 pling :: IO UGen
 pling = do

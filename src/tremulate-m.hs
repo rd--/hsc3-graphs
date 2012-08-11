@@ -1,7 +1,7 @@
 -- tremulate (jmcc)
 
-import Sound.SC3.Monad
-import Sound.SC3.Lang.Control.OverlapTexture
+import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 tremulate :: UId m => m UGen
 tremulate = do

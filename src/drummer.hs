@@ -1,6 +1,6 @@
 -- drummer (thor magnusson)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 drummer :: UGen
 drummer =

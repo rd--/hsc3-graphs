@@ -1,7 +1,7 @@
 -- nv-tw-41 (nv)
 -- http://sccode.org/1-V
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 nv_tw_41 :: UGen
 nv_tw_41 =

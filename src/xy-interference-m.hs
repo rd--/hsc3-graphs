@@ -1,6 +1,6 @@
 -- xy-interference-m (rd)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 xy_interference :: UId m => m UGen
 xy_interference = do

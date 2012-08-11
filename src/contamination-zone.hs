@@ -14,7 +14,7 @@ cz =
         k = let sp = klankSpec_mce (randN 4 'α' 50 2000)
                                    (mce [1,1,1,1])
                                    (randN 4 'α' 0.2 4)
-            in abs (klank p 1 0 1 sp) * choose 'α' [-1,1]
+            in abs (klank p 1 0 1 sp) * choose 'α' (mce2 (-1) 1)
         r = rlpf k s 0.1
         a = lfPulse KR (linRand 'α' 0 150 0) 0 (rand 'α' 0.2 0.4)
     in pan2 r (lfNoise1 'α' KR (rand 'α' 0 1)) a

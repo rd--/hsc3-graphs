@@ -1,7 +1,7 @@
 -- rain, thunder (jl)
 -- http://sccode.org/1-e
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 rain_thunder :: UGen
 rain_thunder =

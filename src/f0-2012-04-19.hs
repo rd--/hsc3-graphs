@@ -1,5 +1,5 @@
 -- https://www.listarc.bham.ac.uk/lists/sc-users/msg17536.html
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 f0 :: UGen
 f0 = let s0 = lfSaw AR 10 0 * 0.01

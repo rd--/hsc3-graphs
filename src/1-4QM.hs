@@ -1,6 +1,6 @@
 -- http://sccode.org/1-4QM
 
-import Control.Monad
+import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.IO as L {- hsc3-lang -}

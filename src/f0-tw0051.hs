@@ -1,5 +1,5 @@
 -- http://sccode.org/1-4Qy
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 -- > ascii "sunday" == mce (map constant [115,117,110,100,97,121])
 ascii :: String -> UGen

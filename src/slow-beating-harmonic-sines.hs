@@ -1,7 +1,7 @@
 -- slow beating harmonic sines (jmcc)
 
-import Control.Monad
-import Control.Monad.Random
+import Control.Monad {- base -}
+import Control.Monad.Random {- MonadRandom -}
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3.Lang.Random.Monad

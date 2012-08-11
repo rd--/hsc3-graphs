@@ -1,8 +1,8 @@
 -- thx (perry cook)
 -- http://ccrma-mail.stanford.edu/pipermail/stk/2007-January/000327.html
 
-import Sound.SC3
-import System.Random
+import Sound.SC3 {- hsc3 -}
+import System.Random {- random -}
 
 type R = Double
 

@@ -1,6 +1,6 @@
 -- ccomb (rd)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 ccomb :: (Functor m,UId m) => m UGen
 ccomb = do

@@ -1,6 +1,6 @@
 -- cut-outs (rd)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 cut_outs :: (Functor m,UId m) => m UGen
 cut_outs = do

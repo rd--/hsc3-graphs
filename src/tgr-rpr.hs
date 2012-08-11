@@ -1,7 +1,7 @@
 -- tgr-rpr (rd)
 
-import Sound.OSC
-import Sound.SC3.Monad
+import Sound.OSC {- hosc -}
+import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 dustR :: UId m => Rate -> UGen -> UGen -> m UGen

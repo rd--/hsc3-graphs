@@ -1,6 +1,6 @@
 -- rm-octaver (andrea valle, miller puckette)
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 defaultPitch :: UGen -> UGen
 defaultPitch x = pitch x 440 60 4000 100 16 1 0.01 0.5 1

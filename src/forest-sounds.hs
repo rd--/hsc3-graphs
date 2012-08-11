@@ -1,7 +1,7 @@
 -- forest sounds (paul jones)
 -- sc-users, 2007-04-06
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
 insects :: UId m => m UGen
 insects = do

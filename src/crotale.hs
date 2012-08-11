@@ -1,6 +1,6 @@
 -- crotale (rd)
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 crotale :: UGen
 crotale =
