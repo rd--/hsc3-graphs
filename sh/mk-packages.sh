@@ -15,7 +15,7 @@ function mk_cabal
 {
     o=$1.cabal
     read < $1.packages p
-    echo "Executable "$1 > $o
+    echo "Executable hsc3-"$1 > $o
     echo " main-is: src/"$1".hs" >> $o
     echo " build-depends: base,"$p >> $o
 }
