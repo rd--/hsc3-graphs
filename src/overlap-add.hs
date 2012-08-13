@@ -18,5 +18,5 @@ noise =
     in pan2 (resonz (n0 * 0.1) r0 0.05) r1 0.25
 
 main :: IO ()
-main = audition (ppar [overlapTextureU' (4,4,6,maxBound) sine
-                      ,overlapTextureU' (4,4,6,maxBound) noise])
+main = audition (ppar [overlapTextureP (4,4,6,maxBound) sine
+                      ,overlapTextureP (4,4,6,maxBound) noise])
