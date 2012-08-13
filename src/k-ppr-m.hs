@@ -3,7 +3,7 @@
 import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 
-k_ppr_m :: IO UGen
+k_ppr_m :: UId m => m UGen
 k_ppr_m = do
   let wrp i = linLin i (-1) 1
       x = mouseX' KR 0.05 0.35 Linear 0.1

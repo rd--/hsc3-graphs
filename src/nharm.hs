@@ -9,7 +9,7 @@ import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 nharm :: (Num b, Integral a) => a -> b -> [b]
 nharm n f = map ((* f) . fromIntegral) [1..n]
 
-klg :: UGen -> Int -> IO UGen
+klg :: UId m => UGen -> Int -> m UGen
 klg m u = do
     n <- rrand 4 u
     d <- iRand 9 12

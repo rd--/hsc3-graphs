@@ -2,7 +2,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
-discretion :: IO UGen
+discretion :: UId m => m UGen
 discretion = do
   let mkls bp t = envGen KR 1 1 0 1 RemoveSynth (envCoord bp t 1 EnvLin)
       part = do f1 <- clone 2 (rand 50 55)

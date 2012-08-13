@@ -2,7 +2,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
-aleatoric_quartet :: IO UGen
+aleatoric_quartet :: UId m => m UGen
 aleatoric_quartet = do
   let base_mn = control KR "note" 66
       amp = control KR "ampl" 0.07

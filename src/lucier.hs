@@ -7,7 +7,7 @@ http://www.listarc.bham.ac.uk/lists/sc-users/msg47540.html
 
 import Sound.SC3.ID {- hsc3 -}
 
-lucier_wire :: UGen -> IO ()
+lucier_wire :: UGen -> UGen
 lucier_wire freq =
     let block_size = recip controlRate
         mk_dt f = recip f - block_size
@@ -54,11 +54,7 @@ lucier_wire freq =
         l_out = localOut (source * 0.2 + stringR)
         outL = pk1_L + pk1_R
         outR = pk2_L + pk2_R
-    in audition (out 0 (mrg [mce2 outL outR, drv, source, l_out]))
+    in mrg [mce2 outL outR, drv, source, l_out]
 
 main :: IO ()
-main = lucier_wire 60
-
-{-
-lucier_wire 60
--}
+main = audition (out 0 (lucier_wire 60))

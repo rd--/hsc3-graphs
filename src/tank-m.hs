@@ -4,7 +4,7 @@
 import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 
-pling :: IO UGen
+pling :: UId m => m UGen
 pling = do
   d <- dust AR 0.2
   f <- expRand 300 2200
@@ -13,7 +13,7 @@ pling = do
       s2 = decay2 d 0.1 0.5 * 0.1 * s1
   return (pan2 s2 p 1)
 
-bang :: IO UGen
+bang :: UId m => m UGen
 bang = do
   d <- dust AR 0.01
   n <- brownNoise AR
@@ -27,7 +27,7 @@ r_allpass i = do
   r <- clone 2 (rand 0.005 0.02)
   return (allpassN i 0.03 r 1)
 
-tank_f :: UGen -> IO UGen
+tank_f :: UId m => UGen -> m UGen
 tank_f i = do
   r1 <- clone 2 (rand 0.01 0.05)
   r2 <- clone 2 (rand 0.03 0.15)
@@ -42,7 +42,7 @@ tank_f i = do
       l7 = l6 + i
   return (mrg [l7,localOut l7])
 
-tank :: IO UGen
+tank :: UId m => m UGen
 tank = do
   s <- liftM2 (+) bang (mixFillM 8 (const pling))
   s' <- chain 4 r_allpass s

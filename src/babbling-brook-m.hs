@@ -3,7 +3,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
-babbling_brook :: IO UGen
+babbling_brook :: UId m => m UGen
 babbling_brook = do
   let b f m a g = do n1 <- brownNoise AR
                      n2 <- brownNoise AR

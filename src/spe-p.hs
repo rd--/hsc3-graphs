@@ -3,7 +3,7 @@
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
-spe3_allpass6 :: IO Synthdef
+spe3_allpass6 :: UId m => m Synthdef
 spe3_allpass6 = do
   n <- lfNoise1 KR 1
   let freq = control KR "freq" 440

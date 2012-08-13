@@ -20,7 +20,7 @@ pmr_n rt l0 l1 r0 r1 d = do
   n <- whiteNoise rt
   return (wrp n le re)
 
-implosion :: IO UGen
+implosion :: UId m => m UGen
 implosion = do
   n0 <- rand (-1) 0
   n1 <- rand 0 1
