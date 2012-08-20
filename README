@@ -3,15 +3,17 @@ hsc3-graphs
 
 [haskell][hs] [supercollider][sc3] ([hsc3][hsc3]) graphs
 
-[hsc3-graphs][hsc3-graphs] provides a collection of illustrative unit
-generator graphs for hsc3.
+[hsc3-graphs][hsc3-graphs] provides a [collection][gr-ix] of
+illustrative unit generator graphs for hsc3.
 
-There is a @Makefile@ at @src@, type `make dep; make all`.
+There is a `Makefile` at `gr`, type `make dep; make all`.
 
 [hs]: http://haskell.org/
 [sc3]: http://audiosynth.com/
 [hsc3]: http://rd.slavepianos.org/?t=hsc3
 [hsc3-graphs]: http://rd.slavepianos.org/?t=hsc3-graphs
+
+[gr-ix]: ?t=hsc3-graphs&q=md/ix.md
 
 © [rohan drape][rd], 2006-2012, [gpl]
 
