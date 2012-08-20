@@ -1,7 +1,7 @@
 -- http://sccode.org/1-4Qy
 import Sound.SC3 {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw (out 0 f0_tw0077)
+-- > Sound.SC3.UGen.Dot.draw f0_tw0077
 f0_tw0077 :: UGen
 f0_tw0077 =
     let a = sinOsc AR

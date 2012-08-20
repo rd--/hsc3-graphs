@@ -12,6 +12,8 @@ offset_id :: Enum a => Int -> a -> Int
 offset_id n e = n + fromEnum e
 
 -- mce...........................
+--
+-- > Sound.SC3.UGen.Dot.draw microhelix
 microhelix :: UGen
 microhelix =
     let rp = replicate
@@ -52,7 +54,3 @@ microhelix =
 
 main :: IO ()
 main = audition (out 0 microhelix)
-
-{-
-Sound.SC3.UGen.Dot.draw microhelix
--}

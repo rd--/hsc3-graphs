@@ -11,12 +11,9 @@ bp140u =
         o = pmOsc AR (f 'a' (mce2 438 442)) (f 'b' 880) (f 'c' e) 0
     in o * e
 
+-- > Sound.SC3.UGen.Dot.draw bp140u
 bp140 :: Synthdef
 bp140 = synthdef "bp140" (out 0 bp140u)
 
 main :: IO ()
 main = audition (bp140,pbind [("dur",prand 'a' [1/6,1/3] inf)])
-
-{-
-Sound.SC3.UGen.Dot.draw bp140u
--}

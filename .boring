@@ -1,1 +1,4 @@
 dist
+^md/ix.md$
+^pdf/.*\.pdf$
+^svg/.*\.svg$

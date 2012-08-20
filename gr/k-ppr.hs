@@ -3,6 +3,7 @@
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
 
+-- > Sound.SC3.UGen.Dot.draw k_ppr
 k_ppr :: UGen
 k_ppr =
   let wrp i = linLin i (-1) 1
@@ -23,7 +24,3 @@ k_ppr =
 
 main :: IO ()
 main = audition (out 0 k_ppr)
-
-{-
-Sound.SC3.UGen.Dot.draw k_ppr
--}

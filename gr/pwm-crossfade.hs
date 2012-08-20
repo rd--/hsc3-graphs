@@ -6,6 +6,7 @@ import Sound.SC3.ID {- hsc3 -}
 urangeM :: UGen -> UGen -> UGen
 urangeM u = let [u0,u1] = mceChannels u in urange u0 u1
 
+-- > Sound.SC3.UGen.Dot.draw pwm_crossfade
 pwm_crossfade :: UGen
 pwm_crossfade =
     let n = mce [400,500,450,376,600]
@@ -16,7 +17,3 @@ pwm_crossfade =
 
 main :: IO ()
 main = audition (out 0 pwm_crossfade)
-
-{-
-Sound.SC3.UGen.Dot.draw pwm_crossfade
--}

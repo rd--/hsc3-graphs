@@ -8,6 +8,7 @@ rng s l r =
     let m = (r - l) * 0.5
     in mulAdd s m (m + l)
 
+-- > Sound.SC3.UGen.Dot.draw deep_sea
 deep_sea :: UGen
 deep_sea =
     let amp = 1
@@ -30,8 +31,3 @@ main :: IO ()
 main = do
   let s = synthdef "deep-sea" (out 0 deep_sea)
   audition (s,pbind [("dur",pxrand 'a' [0.25,0.5,1,2] inf)])
-
-{-
-Sound.SC3.UGen.Dot.draw (out 0 deep_sea)
-audition (out 0 deep_sea)
--}

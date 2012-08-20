@@ -4,6 +4,7 @@ import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
+-- > Sound.SC3.UGen.Dot.draw coolant
 coolant :: UGen
 coolant =
     let p = 20
@@ -15,8 +16,3 @@ coolant =
 
 main :: IO ()
 main = xfadeTextureU (4,4,maxBound) coolant
-
-{-
-audition (out 0 coolant)
-Sound.SC3.UGen.Dot.draw (out 0 coolant)
--}

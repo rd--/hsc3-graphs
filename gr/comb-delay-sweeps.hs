@@ -14,6 +14,7 @@ wander (s,e,g) =
        ,foldToRange 50 120 (e + e')
        ,g'')
 
+-- > Sound.SC3.UGen.Dot.draw (fst (cds (60,61,mkStdGen 3567824)))
 cds :: ST -> (UGen,ST)
 cds st =
     let (s,e,g) = wander st
@@ -26,7 +27,3 @@ cds st =
 
 main :: IO ()
 main = overlapTextureS (4/3,4/3,9,maxBound) cds (60,61,mkStdGen 3567824)
-
-{-
-Sound.SC3.UGen.Dot.draw (fst (cds (60,61,mkStdGen 3567824)))
--}

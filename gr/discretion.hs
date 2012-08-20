@@ -4,6 +4,7 @@ import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
 import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
+-- > Sound.SC3.UGen.Dot.draw discretion
 discretion :: UGen
 discretion =
   let mkls bp t = envGen KR 1 1 0 1 RemoveSynth (envCoord bp t 1 EnvLin)
@@ -19,7 +20,3 @@ discretion =
 
 main :: IO ()
 main = audition (out 0 discretion)
-
-{-
-Sound.SC3.UGen.Dot.draw discretion
--}

@@ -5,6 +5,7 @@ import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
 import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
+-- > Sound.SC3.UGen.Dot.draw dark_sea_horns
 dark_sea_horns :: UGen
 dark_sea_horns =
     let n = lfNoise1
@@ -16,7 +17,3 @@ dark_sea_horns =
 
 main :: IO ()
 main = audition (out 0 dark_sea_horns)
-
-{-
-Sound.SC3.UGen.Dot.draw dark_sea_horns
--}

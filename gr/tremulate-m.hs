@@ -3,6 +3,7 @@
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< tremulate
 tremulate :: UId m => m UGen
 tremulate = do
   f <- rand 500 900
@@ -20,8 +21,3 @@ main :: IO ()
 main = do
   t <- tremulate
   xfadeTextureU_pp (0.5,2,maxBound) t 2 tremulate_pp
-
-{-
-audition . out 0 =<< tremulate
-Sound.SC3.UGen.Dot.draw =<< tremulate
--}

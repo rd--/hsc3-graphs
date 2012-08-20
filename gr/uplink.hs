@@ -7,6 +7,7 @@ import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 randz :: ID a => a -> UGen -> UGen
 randz e = rand e 0
 
+-- > Sound.SC3.UGen.Dot.draw uplink
 uplink :: UGen
 uplink =
     let r = randz
@@ -17,7 +18,3 @@ uplink =
 
 main :: IO ()
 main = overlapTextureU (4,1,5,maxBound) uplink
-
-{-
-Sound.SC3.UGen.Dot.draw uplink
--}

@@ -4,6 +4,7 @@ import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
+-- > Sound.SC3.UGen.Dot.draw rps
 rps :: UGen
 rps =
     let nd = let o = fSinOsc AR (linRand 'a' 80 2000 0) 0
@@ -14,8 +15,3 @@ rps =
 
 main :: IO ()
 main = overlapTextureU (8,8,2,maxBound) rps
-
-{-
-audition (out 0 rps)
-Sound.SC3.UGen.Dot.draw rps
--}

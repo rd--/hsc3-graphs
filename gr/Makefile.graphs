@@ -1,6 +1,7 @@
 GRAPHS= 1-1Ni\
  1-4Q6\
  1-4QM\
+ 1-4QN\
  1-4Qx\
  1-Td\
  acid-otophilia\
@@ -102,6 +103,7 @@ GRAPHS= 1-1Ni\
  lin-sosc\
  lso-061101\
  lucier\
+ m21360\
  microhelix\
  modal-space\
  moto-rev\
@@ -117,6 +119,7 @@ GRAPHS= 1-1Ni\
  nv-tw-1\
  nv-tw-41\
  nv-tw-54\
+ nx102\
  one-line\
  oscillator-cluster\
  overlap-add\
@@ -189,6 +192,7 @@ GRAPHS= 1-1Ni\
  trmlo\
  tr-out\
  uplink\
+ urandom\
  vla-addtn\
  vla-addtn-sharc\
  vlc-distrtn\

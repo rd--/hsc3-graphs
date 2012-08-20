@@ -3,7 +3,7 @@
 import Sound.SC3.ID {-hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
--- > Sound.SC3.UGen.Dot.draw (out 0 nx102)
+-- > Sound.SC3.UGen.Dot.draw nx102
 -- > audition (out 0 nx102)
 nx102 :: UGen
 nx102 =
@@ -25,5 +25,5 @@ main :: IO ()
 main =
     let fn = "/home/rohan/data/audio/pf-c5.aif"
         ac = do _ <- async (b_allocRead 1 fn 0 0)
-                play (overlapTextureU' (6,3,9,maxBound) nx102)
+                play (overlapTextureP (6,3,9,maxBound) nx102)
     in withSC3 ac

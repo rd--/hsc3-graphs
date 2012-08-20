@@ -4,6 +4,7 @@ import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
+-- > Sound.SC3.UGen.Dot.draw tremulate
 tremulate :: UGen
 tremulate =
     let f = rand 'a' 500 900
@@ -18,8 +19,3 @@ tremulate_pp i = combN i 0.1 0.1 1
 
 main :: IO ()
 main = xfadeTextureU_pp (0.5,2,maxBound) tremulate 2 tremulate_pp
-
-{-
-audition (out 0 tremulate)
-Sound.SC3.UGen.Dot.draw tremulate
--}

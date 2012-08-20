@@ -7,6 +7,7 @@ import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 rand2 :: ID a => a -> UGen -> UGen
 rand2 e n = rand e (-n) n
 
+-- > Sound.SC3.UGen.Dot.draw rails
 rails :: UGen
 rails =
     let n = 20 -- resonant modes
@@ -21,8 +22,3 @@ rails =
 
 main :: IO ()
 main = overlapTextureU (3,2,4,maxBound) rails
-
-{-
-audition (out 0 rails)
-Sound.SC3.UGen.Dot.draw rails
--}
