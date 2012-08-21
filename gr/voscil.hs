@@ -5,6 +5,7 @@ import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
 
+-- > Sound.SC3.UGen.Dot.draw (voscil 32)
 voscil :: Real a => a -> UGen
 voscil b =
   let lfn = lfNoise0 KR

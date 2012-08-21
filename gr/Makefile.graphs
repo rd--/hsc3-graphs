@@ -189,8 +189,10 @@ GRAPHS= 1-1Ni\
  train\
  tremulate\
  tremulate-m\
+ trkl\
  trmlo\
  tr-out\
+ tsort\
  uplink\
  urandom\
  vla-addtn\

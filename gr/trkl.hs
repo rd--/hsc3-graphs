@@ -1,9 +1,7 @@
 -- trkl (rd)
 
-import Sound.SC3.Monad
+import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< trkl 0.5 16 1200 0.005 (-60) 0.015
--- > audition . out 0 =<< trkl 0.5 16 1200 0.005 (-60) 0.015
 trkl :: UId m => UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> m UGen
 trkl d ul fu dy la fy = do
   let tf = xLine KR 1 ul d RemoveSynth
@@ -21,12 +19,17 @@ trkl d ul fu dy la fy = do
       o2 = mix (saw AR (mce2 f (f * fh)))
   return (pan2 (o1 + o2 * decay2 t 0.1 r2 * r3) p a)
 
-main :: IO ()
-main = do
+-- > Sound.SC3.UGen.Dot.draw =<< trkl_r
+-- > audition . out 0 =<< trkl_r
+trkl_r :: UId m => m UGen
+trkl_r = do
   d <- rand 0.5 16
   ul <- rand 16 64
   fu <- rand 1200 9000
   dy <- rand 0.005 0.175
   la <- rand (-60) (-25)
   fy <- rand 0.015 0.125
-  audition . out 0 =<< trkl d ul fu dy la fy
+  trkl d ul fu dy la fy
+
+main :: IO ()
+main = audition . out 0 =<< trkl_r

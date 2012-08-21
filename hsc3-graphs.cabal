@@ -22,7 +22,7 @@ Source-Repository  head
   Type:            darcs
   Location:        http://rd.slavepianos.org/sw/hsc3-graphs/
 
--- Auto-generated: Mon Aug 20 11:17:11 EST 2012
+-- Auto-generated: Tue Aug 21 14:50:33 EST 2012
 Executable hsc3-1-1Ni
  main-is: gr/1-1Ni.hs
  build-depends: base,base,hosc,hsc3
@@ -596,12 +596,18 @@ Executable hsc3-tremulate
 Executable hsc3-tremulate-m
  main-is: gr/tremulate-m.hs
  build-depends: base,hsc3,hsc3-lang
+Executable hsc3-trkl
+ main-is: gr/trkl.hs
+ build-depends: base,hsc3
 Executable hsc3-trmlo
  main-is: gr/trmlo.hs
  build-depends: base,hsc3,hsc3-unsafe,hsc3-lang
 Executable hsc3-tr-out
  main-is: gr/tr-out.hs
  build-depends: base,hosc,hsc3
+Executable hsc3-tsort
+ main-is: gr/tsort.hs
+ build-depends: base,hsc3
 Executable hsc3-uplink
  main-is: gr/uplink.hs
  build-depends: base,hsc3,hsc3-lang

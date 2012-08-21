@@ -15,6 +15,7 @@ tr_nd n = do
   return (pan2 (sinOsc AR f 0) p a
          ,sendTrig t n (f / 660))
 
+-- > Sound.SC3.UGen.Dot.draw =<< tr_out
 tr_out :: UId m => m UGen
 tr_out = do
   ns <- mapM tr_nd [1..4]

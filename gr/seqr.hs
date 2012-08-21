@@ -14,6 +14,7 @@ seqr_f f e =
     let n = constant (length e `div` 2)
     in select (lfSaw KR f 0 * n + n) (mce e)
 
+-- > Sound.SC3.UGen.Dot.draw (seqr 12)
 seqr :: Int -> UGen
 seqr n =
   let f = rand 'a' 9 18 / constant n

@@ -11,13 +11,16 @@ of interconnect buffers, so to test this we must delete all graphs that
 would otherwise be loaded.)
 -}
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
-main :: IO ()
-main =
-  let n = 122::Int
+tsort :: UGen
+tsort =
+  let n = 122
       c = envCoord [(0,0), (0.15, 1), (6, 0)] 1 1 EnvLin
       e = envGen KR 1 1 0 1 RemoveSynth c
       f o = sinOsc AR (440 + constant o) 0 * 0.001
       s = mixFill n f
-  in audition (out 0 (s * e))
+  in s * e
+
+main :: IO ()
+main = audition (out 0 tsort)

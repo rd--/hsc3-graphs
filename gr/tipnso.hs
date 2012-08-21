@@ -4,7 +4,7 @@ import Sound.SC3.ID {- hsc3 -}
 
 tipnso :: UGen
 tipnso =
-  let x = mouseX' KR 1 32 Linear 0.1
+  let x = mouseX KR 1 32 Linear 0.1
       t = impulse AR x 0
       n1 = tIRand 'a' 16 72 t
       n2 = tIRand 'a' 0 1 t

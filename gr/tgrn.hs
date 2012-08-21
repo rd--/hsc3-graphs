@@ -3,6 +3,7 @@
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw (tgrn 10)
 tgrn :: UGen -> UGen
 tgrn b =
   let trate = mouseY KR 2 120 Exponential 0.1

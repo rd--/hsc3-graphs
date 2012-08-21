@@ -14,6 +14,7 @@ dustR r lo hi = do
 rpr :: UId m => UGen -> UGen -> m UGen
 rpr n = tRand (in' 1 KR n) (in' 1 KR (n + 1))
 
+-- > Sound.SC3.UGen.Dot.draw =<< tgr_rpr
 tgr_rpr :: (Functor m,UId m) => m UGen
 tgr_rpr = do
   clk <- dustR AR (in' 1 KR 0) (in' 1 KR 1)

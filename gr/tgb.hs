@@ -3,6 +3,7 @@
 import Sound.OSC {- hosc -}
 import Sound.SC3.Monad {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< tgb 10 12
 tgb :: UId m => UGen -> UGen -> m UGen
 tgb b d = do
   let mkls bp t = envGen KR 1 1 0 1 RemoveSynth (envCoord bp t 1 EnvLin)

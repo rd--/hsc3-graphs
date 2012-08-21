@@ -21,8 +21,8 @@ snare_909 tr =
 
 snare_909_a :: UGen
 snare_909_a =
-    let x = mouseX' KR 1 4 Linear 0.2
-        y = mouseY' KR 0.25 0.75 Exponential 0.2
+    let x = mouseX KR 1 4 Linear 0.2
+        y = mouseY KR 0.25 0.75 Exponential 0.2
         t = impulse KR (3 * x) 0
     in pan2 (snare_909 t) 0 y
 

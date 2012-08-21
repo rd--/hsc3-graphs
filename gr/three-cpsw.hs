@@ -2,6 +2,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< three_cpsw
 three_cpsw :: UId m => m UGen
 three_cpsw = do
   t <- dust KR (mce2 12 18)

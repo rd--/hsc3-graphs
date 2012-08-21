@@ -2,6 +2,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< what_was_i_thinking
 what_was_i_thinking :: UId m => m UGen
 what_was_i_thinking = do
   n0 <- lfNoise1 KR 0.2

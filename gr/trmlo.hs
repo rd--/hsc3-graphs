@@ -4,6 +4,7 @@ import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
+-- > audition (out 0 trmlo)
 trmlo :: UGen
 trmlo =
     let mWrp i l r = linLin i (-1) 1 (midiCPS l) (midiCPS r)
@@ -46,7 +47,3 @@ main :: IO ()
 main = do
   let s = synthdef "trmlo" (out 0 trmlo)
   audition (s,pbind [("dur",pxrand 'a' [0.25,0.5,1,2,4] inf)])
-
-{-
-audition (out 0 trmlo)
--}
