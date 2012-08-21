@@ -1,5 +1,4 @@
--- ellipse based synthesis (nc)
--- http://www.listarc.bham.ac.uk/lists/sc-users/msg09524.html
+-- http://www.listarc.bham.ac.uk/lists/sc-users/msg09524.html (nc)
 
 import Sound.SC3 {- hsc3 -}
 

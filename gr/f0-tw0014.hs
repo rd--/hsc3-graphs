@@ -1,4 +1,5 @@
--- http://fredrikolofsson.com/f0blog/?q=node/478
+-- http://fredrikolofsson.com/f0blog/?q=node/478 (f0)
+
 import Sound.SC3 {- hsc3 -}
 
 f0_tw0014 :: UGen

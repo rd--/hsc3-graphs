@@ -1,4 +1,4 @@
--- www.fredrikolofsson.com/f0blog/?q=node/537
+-- www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
 
 import Sound.SC3.ID {- hsc3 -}
 

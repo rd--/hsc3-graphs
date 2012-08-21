@@ -1,3 +1,5 @@
+-- thb (rd)
+
 import Data.List
 import qualified Music.Theory.Contour.Polansky_1992 as T {- hmt -}
 import qualified Music.Theory.Pitch as T

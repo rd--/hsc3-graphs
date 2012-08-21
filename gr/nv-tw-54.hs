@@ -1,5 +1,4 @@
--- nv-tw-54 (nv)
--- http://sccode.org/1-V
+-- http://sccode.org/1-V (nv)
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}

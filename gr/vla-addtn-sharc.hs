@@ -1,4 +1,4 @@
--- vla-adttn-sharc
+-- vla-adttn-sharc (rd)
 
 import Data.List
 import Sound.Analysis.SHARC {- hsharc -}

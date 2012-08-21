@@ -1,5 +1,4 @@
--- pwm crossfade (jl)
--- http://sccode.org/1-L
+-- http://sccode.org/1-L (jl)
 
 import Sound.SC3.ID {- hsc3 -}
 

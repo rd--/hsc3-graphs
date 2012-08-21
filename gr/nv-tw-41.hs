@@ -1,5 +1,4 @@
--- nv-tw-41 (nv)
--- http://sccode.org/1-V
+-- http://sccode.org/1-V (nv)
 
 import Sound.SC3.ID {- hsc3 -}
 

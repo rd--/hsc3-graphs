@@ -1,5 +1,4 @@
--- sinusdeklinationen (ms,f0)
--- http://www.fredrikolofsson.com/f0blog/?q=node/488
+-- http://www.fredrikolofsson.com/f0blog/?q=node/488 (f0)
 
 import Data.List.Split {- split -}
 import Sound.SC3 {- hsc3 -}

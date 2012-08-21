@@ -1,5 +1,4 @@
--- tank (jmcc)
--- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
+-- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html (jmcc)
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect

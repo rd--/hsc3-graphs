@@ -1,5 +1,4 @@
--- dark sea horns (jl)
--- http://sccode.org/1-j#c51
+-- http://sccode.org/1-j#c51 (jl)
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect

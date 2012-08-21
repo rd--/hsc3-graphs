@@ -1,4 +1,4 @@
--- shepard tones (alberto de campo)
+-- shepard tones, alberto de campo (adc)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

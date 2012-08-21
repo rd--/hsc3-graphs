@@ -1,4 +1,5 @@
--- http://sccode.org/1-4Qy
+-- http://sccode.org/1-4Qy (f0)
+
 import Sound.SC3 {- hsc3 -}
 
 -- > ascii "sunday" == mce (map constant [115,117,110,100,97,121])

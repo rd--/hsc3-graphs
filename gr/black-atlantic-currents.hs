@@ -1,5 +1,4 @@
--- black atlantic currents (jr)
--- http://www.listarc.bham.ac.uk/lists/sc-users/msg08240.html
+-- http://www.listarc.bham.ac.uk/lists/sc-users/msg08240.html (jrhb)
 
 import Data.Numbers.Primes {- primes -}
 import Sound.SC3.ID {- hsc3 -}

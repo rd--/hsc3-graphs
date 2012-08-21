@@ -1,5 +1,4 @@
--- rain, thunder (jl)
--- http://sccode.org/1-e
+-- http://sccode.org/1-e (jl)
 
 import Sound.SC3.ID {- hsc3 -}
 

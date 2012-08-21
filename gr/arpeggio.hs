@@ -1,5 +1,4 @@
--- arpeggio (nc)
--- http://www.listarc.bham.ac.uk/lists/sc-users/msg07473.html
+-- http://www.listarc.bham.ac.uk/lists/sc-users/msg07473.html (nc)
 
 import Control.Monad {- base -}
 import Sound.SC3 {- hsc3 -}

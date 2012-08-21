@@ -1,4 +1,5 @@
--- https://www.listarc.bham.ac.uk/lists/sc-users/msg17536.html
+-- https://www.listarc.bham.ac.uk/lists/sc-users/msg17536.html (f0)
+
 import Sound.SC3 {- hsc3 -}
 
 f0 :: UGen

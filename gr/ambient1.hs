@@ -1,4 +1,4 @@
--- ambient1 (http://sccode.org/1-1y)
+-- http://sccode.org/1-1y
 -- some edits......
 
 import Control.Applicative

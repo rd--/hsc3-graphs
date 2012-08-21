@@ -1,5 +1,4 @@
--- birds (jmcc)
--- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
+-- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html (jmcc)
 
 import Sound.SC3.Monad {- hsc3 -}
 

@@ -1,5 +1,4 @@
--- tank-m (jmcc)
--- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
+-- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html (jmcc)
 
 import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}

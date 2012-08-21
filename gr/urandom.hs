@@ -1,3 +1,5 @@
+-- urandom (rd)
+
 import Control.Monad {- base -}
 import qualified Data.ByteString.Lazy as B {- bytestring -}
 import Sound.OpenSoundControl.Coding.Byte {- hosc -}

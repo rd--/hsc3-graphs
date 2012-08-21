@@ -1,4 +1,4 @@
--- e-lamell-p
+-- e-lamell-p (rd)
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.Event {- hsc3-lang -}

@@ -3,19 +3,41 @@ hsc3-graphs
 
 [haskell][hs] [supercollider][sc3] ([hsc3][hsc3]) graphs
 
-[hsc3-graphs][hsc3-graphs] provides a [collection][gr-ix] of
-illustrative unit generator graphs for hsc3.
+[hsc3-graphs][gr] is a [collection][gr-ix] of illustrative unit
+generator graphs for hsc3.
+
+Graphs credits are on the first line of each file, and are courtesy:
+
+- James McCartney ([jmcc][sc3], 70)
+- Rohan Drape ([rd][rd], 61)
+- Fredrik Olofsson ([f0][f0], 19)
+- Julian Rohrhuber ([jrhb][jrhb], 7)
+- Jonatan Liljedahl ([jl][jl], 5)
+- Alberto De Campo ([adc][adc], 3)
+- Nick Collins ([nc][nc], 3)
+- Nathaniel Virgo ([nv][nv], 3)
+- Alex McLean ([am][am], 1)
+
+In most cases the `sclang` variants have been re-written prior to
+transliteration to haskell.
 
 There is a `Makefile` at `gr`, type `make dep; make all`.
 
 [hs]: http://haskell.org/
 [sc3]: http://audiosynth.com/
 [hsc3]: http://rd.slavepianos.org/?t=hsc3
-[hsc3-graphs]: http://rd.slavepianos.org/?t=hsc3-graphs
-
+[gr]: http://rd.slavepianos.org/?t=hsc3-graphs
 [gr-ix]: ?t=hsc3-graphs&q=md/ix.md
 
-© [rohan drape][rd], 2006-2012, [gpl]
+[adc]: http://medienhaus.udk-berlin.de/pages/Dr._Alberto_De_Campo
+[am]: http://yaxu.org/
+[f0]: http://fredrikolofsson.com/
+[jl]: http://kymatica.com/
+[jrhb]: http://musikundmedien.net/index.php?id=454&L=1
+[nc]: http://www.sussex.ac.uk/Users/nc81/
+[nv]: http://nathanielvirgo.com/
+
+© [rohan drape][rd] and others, 2006-2012, [gpl]
 
 [rd]: http://rd.slavepianos.org/
 [gpl]: http://gnu.org/copyleft/

@@ -1,7 +1,5 @@
-{-
-http://www.fredrikolofsson.com/f0blog/?q=node/457
-http://obiwannabe.co.uk/tutorials/html/tutorial_birds.html
--}
+-- http://www.fredrikolofsson.com/f0blog/?q=node/457 (f0)
+-- http://obiwannabe.co.uk/tutorials/html/tutorial_birds.html
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

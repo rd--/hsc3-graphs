@@ -1,4 +1,3 @@
--- train (th.list at gmail.com)
 -- http://www.create.ucsb.edu/pipermail/sc-users/2007-August/035957.html
 
 import Sound.SC3.ID {- hsc3 -}

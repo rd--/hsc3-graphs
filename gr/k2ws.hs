@@ -1,4 +1,4 @@
--- https://www.listarc.bham.ac.uk/lists/sc-users/msg21341.html
+-- https://www.listarc.bham.ac.uk/lists/sc-users/msg21341.html (mn)
 
 import Sound.SC3.ID {- hsc3 -}
 

@@ -1,5 +1,4 @@
--- forest sounds (paul jones)
--- sc-users, 2007-04-06
+-- sc-users, 2007-04-06 (paul jones)
 
 import Sound.SC3.Monad {- hsc3 -}
 

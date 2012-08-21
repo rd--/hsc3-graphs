@@ -1,4 +1,4 @@
--- a0f253ff89f6b244ea29a1e431dd9e5df5571a8b (jonatan liljedahl)
+-- a0f253ff89f6b244ea29a1e431dd9e5df5571a8b (jl)
 
 import Data.Bits
 import Sound.SC3 {- hsc3 -}

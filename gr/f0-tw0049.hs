@@ -1,5 +1,4 @@
--- f0 -- tweet0049
--- https://www.listarc.bham.ac.uk/lists/sc-users/msg18379.html
+-- https://www.listarc.bham.ac.uk/lists/sc-users/msg18379.html (f0)
 
 import Data.Bits {- base -}
 import Sound.SC3 {- hsc3 -}

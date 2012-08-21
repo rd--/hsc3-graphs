@@ -3,6 +3,9 @@ include Makefile.graphs
 % : %.hs
 	ghc -Wall -fwarn-tabs --make $<
 
+%.html : %.hs
+	HsColour -icss $< -o$*.html
+
 all: $(GRAPHS)
 
 clean:

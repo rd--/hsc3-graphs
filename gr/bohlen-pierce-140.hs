@@ -1,5 +1,4 @@
--- bohlen-pierce-140 (jj)
--- http://sccode.org/1-W
+-- http://sccode.org/1-W (jj)
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}

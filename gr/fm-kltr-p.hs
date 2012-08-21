@@ -1,4 +1,4 @@
--- fm-kltr-p
+-- fm-kltr-p (rd)
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}

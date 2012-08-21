@@ -1,5 +1,4 @@
--- karplus strong (alex mclean)
--- http://doc.gold.ac.uk/~ma503am/alex/vocable-source-released/
+-- http://doc.gold.ac.uk/~ma503am/alex/vocable-source-released/ (am)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}

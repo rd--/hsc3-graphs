@@ -1,4 +1,4 @@
--- Alberto de Campo & Julian Rohrhuber, March 2003
+-- march 2003 (adc) / (jrhb)
 
 import Sound.SC3.ID {- hsc3 -}
 

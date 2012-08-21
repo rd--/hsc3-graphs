@@ -1,3 +1,8 @@
+mk-html:
+	mkdir -p html
+	cp -f css/emacs.css html/hscolour.css
+	(cd gr ; sh ../sh/mk-html.sh)
+
 mk-pdf:
 	mkdir -p pdf
 	(cd dot.gz ; sh ../sh/mk-pdf.sh)
@@ -10,7 +15,8 @@ mk-ix:
 	mkdir -p md
 	(cd hs; runhaskell ix.hs)
 
-all: mk-pdf mk-svg mk-ix
+# mk-pdf fails at sp.org
+all: mk-html mk-svg mk-ix
 
 clean:
 	(cd gr; make clean)

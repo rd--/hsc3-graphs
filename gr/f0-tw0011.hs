@@ -1,5 +1,4 @@
--- f0
--- instance of unworkable graph given current Eq implementation!
+-- instance of unworkable graph given current Eq implementation (f0)
 
 import Sound.SC3 {- hsc3 -}
 

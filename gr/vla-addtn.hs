@@ -1,4 +1,4 @@
--- vla-adttn
+-- vla-adttn (rd)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}

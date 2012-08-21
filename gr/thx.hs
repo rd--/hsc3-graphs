@@ -1,5 +1,4 @@
--- thx (perry cook)
--- http://ccrma-mail.stanford.edu/pipermail/stk/2007-January/000327.html
+-- http://ccrma-mail.stanford.edu/pipermail/stk/2007-January/000327.html (pc)
 
 import Sound.SC3 {- hsc3 -}
 import System.Random {- random -}

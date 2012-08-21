@@ -1,5 +1,4 @@
--- sam i am (jr)
--- http://www.listarc.bham.ac.uk/lists/sc-users/msg00280.html
+-- http://www.listarc.bham.ac.uk/lists/sc-users/msg00280.html (jrhb)
 
 import Control.Monad.Random {- MonadRandom -}
 import Data.List {- base -}
