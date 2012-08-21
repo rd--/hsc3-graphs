@@ -2,6 +2,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< reverberated_sine_percussion
 reverberated_sine_percussion :: (Functor m,UId m) => m UGen
 reverberated_sine_percussion = do
   let d = 6

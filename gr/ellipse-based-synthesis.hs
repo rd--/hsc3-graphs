@@ -25,8 +25,8 @@ ebs_jmcc wd fr sc =
 
 ctl :: (UGen -> UGen -> UGen -> t) -> t
 ctl f =
-    let fr = mouseY' KR 4 444 Linear 0.1
-        sc = mouseX' KR 0.1 1.0 Linear 0.1
+    let fr = mouseY KR 4 444 Linear 0.1
+        sc = mouseX KR 0.1 1.0 Linear 0.1
         wd = mouseR 'z' KR 0 2 Linear 0.1
     in f wd fr sc
 

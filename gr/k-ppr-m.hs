@@ -7,8 +7,8 @@ import Sound.SC3.Monad {- hsc3 -}
 k_ppr_m :: UId m => m UGen
 k_ppr_m = do
   let wrp i = linLin i (-1) 1
-      x = mouseX' KR 0.05 0.35 Linear 0.1
-      y = mouseY' KR 0.15 0.75 Linear 0.1
+      x = mouseX KR 0.05 0.35 Linear 0.1
+      y = mouseY KR 0.15 0.75 Linear 0.1
       ti = lfTri KR x 0
       tf = wrp ti 100 200
       t = impulse AR tf 0

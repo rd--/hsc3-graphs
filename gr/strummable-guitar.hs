@@ -5,7 +5,7 @@ import Sound.SC3.ID {- hsc3 -}
 strummable_guitar :: UGen
 strummable_guitar =
     let scale = [52,57,62,67,71,76]
-        str i = let x = mouseX' KR 0 1 Linear 0.2
+        str i = let x = mouseX KR 0 1 Linear 0.2
                     t = abs (hpz1 (x >* (0.25 + constant i * 0.1)))
                     e = decay t 0.05
                     n = pinkNoise i AR * e

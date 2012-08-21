@@ -7,7 +7,7 @@ aleatoric_quartet :: UId m => m UGen
 aleatoric_quartet = do
   let base_mn = control KR "note" 66
       amp = control KR "ampl" 0.07
-      density = mouseX' KR 0.01 1 Linear 0.1
+      density = mouseX KR 0.01 1 Linear 0.1
       dmul = recip density * 0.5 * amp
       dadd = amp - dmul
       (>=>) f g x = f x >>= g

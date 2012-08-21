@@ -9,8 +9,8 @@ klink =
       a = abs (slope o) * mce2 2 3
       t = impulse AR a 0
       i = decay2 t 0.01 0.1
-      x = mouseX' KR 960 3620 Exponential 0.2
-      y = mouseY' KR 0.5 2.0 Linear 0.2
+      x = mouseX KR 960 3620 Exponential 0.2
+      y = mouseY KR 0.5 2.0 Linear 0.2
       n2 = tRand 'a' x 3940 t
       n3 = tRand 'a' 0.005 0.275 t
   in ringz i n2 (n3 * y)

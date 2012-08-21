@@ -28,7 +28,7 @@ tblC b c = tblM b (in' 1 KR c)
 
 lin_sosc :: UGen
 lin_sosc =
-    let x = mouseX' KR 0.001 1.0 Linear 0.1
+    let x = mouseX KR 0.001 1.0 Linear 0.1
         o = sinOsc AR (tblM 0 x) 0 * tblM 1 x
     in clip2 (pan2 o (tblC 1 0) 0.025) 0.25
 

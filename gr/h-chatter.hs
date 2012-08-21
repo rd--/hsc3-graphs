@@ -6,6 +6,7 @@ import Sound.SC3.Monad {- hsc3 -}
 wrp :: UGen -> UGen -> UGen -> UGen
 wrp i = linLin i (-1) 1
 
+-- > Sound.SC3.UGen.Dot.draw =<< h_chatter
 h_chatter :: UId m => m UGen
 h_chatter = do
   let mma m a = return . (+ a)  . (* m)
@@ -17,8 +18,8 @@ h_chatter = do
               return (saw AR (h * 3200 + 1600) * 0.35)
       h1 = do n0 <- lfNoise0 KR 32
               n1 <- lfNoise0 KR 2
-              let a = mouseX' KR 1.2 1.4 Linear 0.1
-                  b = mouseY' KR 0.2 0.3 Linear 0.1
+              let a = mouseX KR 1.2 1.4 Linear 0.1
+                  b = mouseY KR 0.2 0.3 Linear 0.1
                   h = wrp n0 1 32
                   p = wrp n1 2400 3200
                   l = wrp n1 (-0.75) 0.75
