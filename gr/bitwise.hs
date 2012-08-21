@@ -6,6 +6,7 @@ import Sound.SC3 {- hsc3 -}
 (.%.) :: UGen -> UGen -> UGen
 (.%.) = modE
 
+-- > Sound.SC3.UGen.Dot.draw bitwise_operators
 bitwise_operators :: UGen
 bitwise_operators =
     let t = pulseCount (impulse AR 8e3 0) 0

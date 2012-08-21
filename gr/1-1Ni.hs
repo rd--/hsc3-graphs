@@ -14,6 +14,7 @@ scr h n f d =
     in splay (m * e) 1 0.1 0 True
 
 -- > audition (b 12)
+-- > Sound.SC3.UGen.Dot.draw (b 8)
 b :: Int -> Synthdef
 b np =
     let f = midiCPS (lchoose 'a' [40,45,52])

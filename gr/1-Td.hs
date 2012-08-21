@@ -6,6 +6,7 @@ import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 -- > audition one_td_u
+-- > Sound.SC3.UGen.Dot.draw one_td_u
 one_td_u :: UGen
 one_td_u =
     let base = control IR "base" 2.6

@@ -14,6 +14,7 @@ init_b = do
   _ <- async (b_alloc 0 512 1)
   async (b_gen_sine1 0 [Normalise,Wavetable,Clear] (map recip [1,2,3,4]))
 
+-- > Sound.SC3.UGen.Dot.draw (mk_g (lfNoise0 'a'))
 mk_g :: (Rate -> UGen -> UGen) -> Synthdef
 mk_g o =
     let k = control KR

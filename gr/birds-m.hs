@@ -8,6 +8,7 @@ composeM fs i = foldr (=<<) (return i) fs
 chainM :: Monad m => Int -> (a -> m a) -> a -> m a
 chainM n f = composeM (replicate n f)
 
+-- > Sound.SC3.UGen.Dot.draw =<< birds
 birds :: UId m => m UGen
 birds = do
   let node = do r1 <- rand 94.0 102.0

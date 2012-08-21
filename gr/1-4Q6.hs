@@ -6,6 +6,7 @@ import Sound.SC3.Lang.Control.Instrument
 import Sound.SC3.Lang.Pattern.ID
 
 -- > audition risset
+-- > Sound.SC3.UGen.Dot.draw risset
 --
 -- let set p = withSC3 (\fd -> send fd (n_set (-1) p))
 -- set [("trig",1)]

@@ -21,5 +21,6 @@ bit_rate_decrease =
       bit_redux = roundTo down_sample (0.5 ** bit_sz)
   in mce2 down_sample bit_redux
 
+-- > Sound.SC3.UGen.Dot.draw (sample_rate_decrease + bit_rate_decrease)
 main :: IO ()
 main = audition (out 0 (sample_rate_decrease + bit_rate_decrease))
