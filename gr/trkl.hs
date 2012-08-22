@@ -1,5 +1,6 @@
 -- trkl (rd)
 
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3.Monad {- hsc3 -}
 
 trkl :: UId m => UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> m UGen
@@ -10,7 +11,7 @@ trkl d ul fu dy la fy = do
   r0 <- rand (-1) 1
   r1 <- rand (-1) 1
   r2 <- tRand 0.05 1.0 t
-  r3 <- tExpRand 0.0 0.25 st
+  r3 <- tExpRand 0.001 0.25 st -- non-zero minima
   fh <- tRand 1.75 2.25 t
   let a = dbAmp (line KR 12 la d RemoveSynth)
       f = xLine KR fu 900 d RemoveSynth
@@ -32,4 +33,4 @@ trkl_r = do
   trkl d ul fu dy la fy
 
 main :: IO ()
-main = audition . out 0 =<< trkl_r
+main = overlapTextureU (5,2,12,maxBound) =<< trkl_r
