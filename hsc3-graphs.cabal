@@ -388,7 +388,7 @@ Executable hsc3-nv-tw-54
  build-depends: base,hsc3,hsc3-lang
 Executable hsc3-nx102
  main-is: gr/nx102.hs
- build-depends: base,import,Sound.SC3.ID,{-hsc3,hsc3-lang
+ build-depends: base,hsc3,hsc3-lang
 Executable hsc3-one-line
  main-is: gr/one-line.hs
  build-depends: base,hsc3
