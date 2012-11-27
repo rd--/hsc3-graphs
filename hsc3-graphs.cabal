@@ -1,5 +1,5 @@
 Name:              hsc3-graphs
-Version:           0.12
+Version:           0.13
 Synopsis:          Haskell SuperCollider Graphs
 Description:       hsc3-graphs provides a collection of illustrative
                    unit generator graphs for hsc3.
@@ -15,7 +15,11 @@ Build-Type:        Simple
 Cabal-Version:     >= 1.8
 
 Data-files:        README
+                   Makefile
+                   css/*.css
                    gr/*.scd
+                   hs/*.hs
+                   sh/*.sh
 
 Source-Repository  head
   Type:            darcs
