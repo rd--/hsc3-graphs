@@ -42,5 +42,5 @@ cells = [-1,-0.6,-0.5,0,0.2,0.5,0.4,1]
 main :: IO ()
 main =
     let s = synthdef "sinuscell" sinuscell
-        c = zip cells (splitEvery 4 ['a'..])
+        c = zip cells (chunksOf 4 ['a'..])
     in audition (s,ppar (map pattern c))

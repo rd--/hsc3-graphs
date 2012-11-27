@@ -6,18 +6,16 @@ import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
-iota :: (Num a, Num b) => a -> b -> b -> [b]
-iota 0 _ _ = []
-iota n l s = l : iota (n - 1) (l + s) s
+iota :: (Num a,Eq a,Num b) => a -> b -> b -> [b]
+iota n l s = if n == 0 then [] else l : iota (n - 1) (l + s) s
 
-geom :: (Num a, Num b) => a -> b -> b -> [b]
-geom 0 _ _ = []
-geom n i f = i : geom (n - 1) (i * f) f
+geom :: (Num a,Eq a,Num b) => a -> b -> b -> [b]
+geom n i f = if n == 0 then [] else i : geom (n - 1) (i * f) f
 
-lineTo :: Fractional a => a -> a -> a -> [a]
+lineTo :: (Fractional a,Eq a) => a -> a -> a -> [a]
 lineTo n l r = iota n l ((r - l) / n)
 
-xlineTo :: Floating a => a -> a -> a -> [a]
+xlineTo :: (Floating a,Eq a) => a -> a -> a -> [a]
 xlineTo n l r = geom n l ((r / l) ** (1.0 / n))
 
 tblM :: UGen -> UGen -> UGen

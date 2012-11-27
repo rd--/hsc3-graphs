@@ -10,7 +10,7 @@ Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
 Homepage:          http://rd.slavepianos.org/?t=hsc3-graphs
-Tested-With:       GHC == 7.0.4
+Tested-With:       GHC == 7.6.1
 Build-Type:        Simple
 Cabal-Version:     >= 1.8
 
@@ -598,7 +598,7 @@ Executable hsc3-tremulate-m
  build-depends: base,hsc3,hsc3-lang
 Executable hsc3-trkl
  main-is: gr/trkl.hs
- build-depends: base,hsc3
+ build-depends: base,hsc3,hsc3-lang
 Executable hsc3-trmlo
  main-is: gr/trmlo.hs
  build-depends: base,hsc3,hsc3-unsafe,hsc3-lang

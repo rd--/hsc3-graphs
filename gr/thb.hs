@@ -67,7 +67,7 @@ hb_m :: [[Integer]]
 hb_m = zipWith (\p q -> map T.octpc_to_midi (zip p q)) hb_o hb_k
 
 -- | Transposition predicate.
-is_trs :: Num a => [a] -> [a] -> Bool
+is_trs :: (Eq a,Num a) => [a] -> [a] -> Bool
 is_trs p q = T.all_equal (zipWith (-) p q)
 
 -- | 'Enum' transposition predicate.
