@@ -15,17 +15,14 @@ latency :: Double
 latency = 0.15
 
 -- | Add t to timestamp.
-offset :: Double -> Bundle -> Bundle
-offset t b =
-    case b of
-      Bundle (UTCr t0) m -> Bundle (UTCr (t + t0)) m
-      _ -> error "offset:non-UTCr bundle"
+offset :: Time -> Bundle -> Bundle
+offset t (Bundle t0 m) = Bundle (t + t0) m
 
 -- | Play non-empty set of osc bundles.
 play_set :: Transport m => [Bundle] -> m ()
 play_set [] = error "play_set:empty"
 play_set (x:xs) = do
-  let (Bundle (UTCr t) _) = x
+  let (Bundle t _) = x
   pauseThreadUntil (t - latency)
   mapM_ sendBundle (x:xs)
 
@@ -33,7 +30,7 @@ play_set (x:xs) = do
 play_sets :: Transport m => [[Bundle]] -> m ()
 play_sets [] = return ()
 play_sets s = do
-  t <- utcr
+  t <- time
   mapM_ (play_set . map (offset t)) s
 
 -- | Split l into chunks of at most n elements.
@@ -114,7 +111,7 @@ mk_score :: Double -> [Double] -> [(Double, Double)] -> [Bundle]
 mk_score sr repeats w =
     let durations = zipWith (\(s, e) r -> (e - s) * r / sr) w repeats
         start_times = scanl (+) 0 durations
-        mk_elem (s,e) t d = Bundle (UTCr t) [mk_msg 10 s e d]
+        mk_elem (s,e) t d = Bundle t [mk_msg 10 s e d]
     in zipWith3 mk_elem w start_times durations
 
 -- | n randomly chosen elements of w.
@@ -136,7 +133,7 @@ run_waveset fn = do
       sr = fromIntegral (F.sampleRate hdr)
       b = cs !! 0
       w = ws (prune 64 0 (fzc 0 b))
-      pl s = play_score 10 s >> pauseThread 1
+      pl s = play_score 10 s >> pauseThread (1::Double)
       post = liftIO . putStrLn
   post ("#f: " ++ show (nc, nf, sr))
   post ("#w: " ++ show (length w)) -- force w
