@@ -36,11 +36,10 @@ x = [[72,69,64],[70,64,62],[67,60,70],[65,60,69],[64,60,67],[65,60,69]]
 -- > mapM_ killThread t
 begin :: Int -> IO [ThreadId]
 begin n = do
-  t0 <- forkIO (forever (audition (b n) >> pauseThread 4))
+  t0 <- forkIO (forever (audition (b n) >> wait 4))
   t1 <- forkIO (let set f = withSC3 (send (c_setn [(0,f)]))
-                in mapM_ (\f -> set f >> pauseThread 10) (cycle x))
-  t2 <- forkIO (do pauseThread 0.1
-                   forever (audition (c n) >> pauseThread 0.5))
+                in mapM_ (\f -> set f >> wait 10) (cycle x))
+  t2 <- forkIO (wait 0.1 >> forever (audition (c n) >> wait 0.5))
   return [t0,t1,t2]
 
 main :: IO ()

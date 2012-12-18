@@ -133,7 +133,7 @@ run_waveset fn = do
       sr = fromIntegral (F.sampleRate hdr)
       b = cs !! 0
       w = ws (prune 64 0 (fzc 0 b))
-      pl s = play_score 10 s >> pauseThread (1::Double)
+      pl s = play_score 10 s >> wait 1
       post = liftIO . putStrLn
   post ("#f: " ++ show (nc, nf, sr))
   post ("#w: " ++ show (length w)) -- force w

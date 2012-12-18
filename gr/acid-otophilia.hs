@@ -164,7 +164,7 @@ dr_msg fx_id (i,x) =
 
 dr_seq_bundle :: Int -> Double -> D -> Bundle
 dr_seq_bundle fx_id t =
-    Bundle (UTCr t) .
+    bundle t .
     mapMaybe (dr_msg fx_id) .
     zip [0..]
 
@@ -190,9 +190,9 @@ b_seq_bundle acid_id dt t (b0,b1,b2) =
                  m = if b0 == 1
                      then [p,n_set acid_id [("gate",1)]]
                      else [p]
-             in Bundle (UTCr t) m
+             in bundle t m
         off = let end_t = t + (dt * b1 * 0.25 * 0.99)
-              in Bundle (UTCr end_t) [n_set acid_id [("gate",0)]]
+              in bundle end_t [n_set acid_id [("gate",0)]]
     in if b1 > 0 then [on,off] else [on]
 
 -- * Runtime
@@ -216,7 +216,7 @@ dt_seq bpm =
 
 ao_run_seq :: Transport m => (Int,Int) -> [D] -> [B] -> m ()
 ao_run_seq (acid_id,fx_id) d_sq b_sq = do
-  init_t <- utcr
+  init_t <- time
   let dt_seq' = dt_seq 130
       t_seq = scanl1 (+) (init_t : dt_seq')
       act (t,dt,d,b) =

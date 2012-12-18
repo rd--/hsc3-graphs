@@ -338,7 +338,7 @@ ag_step fd r = do
                 return (last p',last s')
   dt <- ioi_row r
   i <- ioi_mult_seq r
-  pauseThread (dt * i)
+  wait (dt * i)
   return (r {probabilities = p',selections = s'})
 
 ag_run :: Transport t => t -> Maybe Int -> IO ()
@@ -353,7 +353,7 @@ ag_run fd i = do
 main :: IO ()
 main = do
   i <- randomRIO (256,512)
-  withSC3 (\fd -> ag_run fd (Just i) >> pauseThread 9 >> reset fd)
+  withSC3 (\fd -> ag_run fd (Just i) >> wait 9 >> reset fd)
 
 {-
 withSC3 ag_init

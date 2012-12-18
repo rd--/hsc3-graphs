@@ -26,5 +26,5 @@ main :: IO ()
 main = do
   let s = rlpf (fSinOsc AR 200 0 * lfPulse AR 31.3 0 0.4) 400 0.3
   withSC3 (do play (out 0 (doppler (line_x 10 100 6) s))
-              pauseThread 8
+              wait 8
               play (out 0 (doppler (ellipse 10 75 12) s)))

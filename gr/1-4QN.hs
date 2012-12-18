@@ -59,7 +59,7 @@ update_g :: Transport m => m ()
 update_g = do
   _ <- push_g
   dt <- L.choose [1,2,4,8,16,32]
-  pauseThread dt
+  wait dt
 
 main :: IO ()
 main = do

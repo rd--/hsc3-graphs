@@ -47,7 +47,7 @@ nd = do
   i <- rrand 240 1480
   t <- rrand 0.15 1.25
   fm 53 ff a d i
-  pauseThread t
+  wait t
 
 run :: (Transport m,UId m) => m ()
 run = do

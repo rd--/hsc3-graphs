@@ -13,12 +13,11 @@ graph =
 -- > audition score
 score :: NRT
 score =
-    let at t = Bundle (NTPr t)
-        mk_instr = d_recv (synthdef "test" graph)
+    let mk_instr = d_recv (synthdef "test" graph)
         mk_group = g_new [(1, AddToTail, 0)]
-        mk_synth t f = at t [s_new "test" (-1) AddToTail 1 [("freq", f)]]
+        mk_synth t f = bundle t [s_new "test" (-1) AddToTail 1 [("freq",f)]]
         notes = take 128 (zipWith mk_synth [1.0, 1.05 ..] [330, 350 ..])
-    in NRT (at 0.0 [mk_instr, mk_group] : notes)
+    in NRT (bundle 0.0 [mk_instr, mk_group] : notes)
 
 render :: NRT -> IO ()
 render s = do

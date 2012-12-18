@@ -101,5 +101,5 @@ main = do
            ,pointy_beaked_beetlefiend
            ,african_boojuboolubala
            ,common_muckoink]
-      fn x = bird_call x >> pauseThread 1.25
+      fn x = bird_call x >> wait 1.25
   withSC3 (mapM_ fn xs)

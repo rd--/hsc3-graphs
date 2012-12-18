@@ -20,9 +20,6 @@ e_lamell =
         e = envGen AR 1 a 0 1 RemoveSynth e_d
     in pan2 s l e
 
-now :: Time
-now = NTPi 1
-
 sendSynth :: Transport m => String -> UGen -> m Message
 sendSynth n u = async (d_recv (synthdef n u))
 
@@ -54,8 +51,8 @@ pattern = do
           a <- R.choose [0,0.25,0.5,1]
           l <- R.rrand (-1) 1
           return (mk_s_new f n d a l)
-  sendBundle (Bundle now [p,q])
-  pauseThread 0.1
+  sendBundle (bundle immediately [p,q])
+  wait 0.1
 
 run :: Transport m => m ()
 run = do

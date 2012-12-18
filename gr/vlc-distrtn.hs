@@ -57,7 +57,7 @@ pattern = do
                    ,("ampl",a)
                    ,("detune",d)
                    ,("fall",fl)])
-  pauseThread =<< L.choose [0.25,0.5,0.75,1.5]
+  wait =<< L.choose [0.25,0.5,0.75,1.5]
 
 run :: (Transport m,UId m) => m ()
 run = do

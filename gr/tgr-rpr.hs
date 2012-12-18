@@ -47,7 +47,7 @@ edit :: Transport m => m ()
 edit = do
   s <- mapM (uncurry rrand) rSet
   send (c_setn [(0,s)])
-  pauseThread 0.35
+  wait 0.35
 
 run :: (UId m,Transport m) => m ()
 run = do
@@ -55,7 +55,7 @@ run = do
   _ <- async (b_allocRead 10 sf 0 0)
   send (c_setn [(0,preset)])
   play . out 0 =<< tgr_rpr
-  pauseThread 0.3
+  wait 0.3
   _ <- sequence (replicate 64 edit)
   reset
 

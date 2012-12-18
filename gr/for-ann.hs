@@ -31,10 +31,9 @@ for_ann z =
 
 score :: Double -> NRT
 score z =
-    let at t = Bundle (NTPr t)
-        i = [d_recv (for_ann z),g_new [(1,AddToTail,0)]]
-        s t = at t [s_new "for-ann" (-1) AddToTail 1 []]
-    in NRT (at 0 i : map s [0,2.8 .. 669.2])
+    let i = [d_recv (for_ann z),g_new [(1,AddToTail,0)]]
+        s t = bundle t [s_new "for-ann" (-1) AddToTail 1 []]
+    in NRT (bundle 0 i : map s [0,2.8 .. 669.2])
 
 main :: IO ()
 main = audition (score (sixth "just"))

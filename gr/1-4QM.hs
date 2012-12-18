@@ -46,7 +46,7 @@ c1_4QM st = do
   play (n1 st a)
   play (n2 a)
   play (n3 a)
-  liftIO (pauseThread dt)
+  liftIO (wait dt)
 
 main :: IO ()
 main = do
