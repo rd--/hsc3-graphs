@@ -1,6 +1,7 @@
--- trmlo (rd)
+-- trmlo-u (rd)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
+import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 -- > Sound.SC3.UGen.Dot.draw trmlo
@@ -17,33 +18,33 @@ trmlo =
                  n = 65
                  m = sinOsc KR f 0
              in pan2 (sinOsc AR (mWrp1 m n) 0) m e
-        o2 = let f = iRand 'α' 5 9
-                 d = iRand 'β' 5 9
-                 s = envSine d (rand 'γ' 0.1 0.2)
+        o2 = let f = iRand 5 9
+                 d = iRand 5 9
+                 s = envSine d (rand 0.1 0.2)
                  e = envGen KR 1 1 0 1 DoNothing s
-                 n = iRand 'δ' 69 72
+                 n = iRand 69 72
                  m = sinOsc KR f 0
              in pan2 (sinOsc AR (mWrp1 m n) 0) m e
-        o3 = let f = iRand 'ε' 5 9
-                 d = iRand 'ζ' 9 12
-                 s = envSine d (rand 'η' 0.1 0.2)
+        o3 = let f = iRand 5 9
+                 d = iRand 9 12
+                 s = envSine d (rand 0.1 0.2)
                  e = envGen KR 1 1 0 1 DoNothing s
-                 n = iRand 'θ' 69 72
+                 n = iRand 69 72
                  m = sinOsc KR f 0
-                 l = line KR 0 (iRand 'ι' 1 5) d DoNothing
+                 l = line KR 0 (iRand 1 5) d DoNothing
              in pan2 (blip AR (mWrp1 m (n + l)) (linLin m (-1) 1 1 2)) m e
-        o4 = let f = iRand 'κ' 5 18
-                 d = iRand 'λ' 12 15
-                 s = envSine d (rand 'μ' 0.1 0.2)
+        o4 = let f = iRand 5 18
+                 d = iRand 12 15
+                 s = envSine d (rand 0.1 0.2)
                  e = envGen KR 1 5e-2 0 1 DoNothing s
-                 n = iRand 'ν' 69 72
+                 n = iRand 69 72
                  m = sinOsc KR f 0
-                 l = line KR 0 (iRand 'ξ' 1 5) d RemoveSynth
-                 fr = mWrpN m (n + l) (iRand 'ο' 1 5)
-             in pan2 (blip AR fr (linLin m (-1) 1 1 (iRand 'π' 2 24))) m e
+                 l = line KR 0 (iRand 1 5) d RemoveSynth
+                 fr = mWrpN m (n + l) (iRand 1 5)
+             in pan2 (blip AR fr (linLin m (-1) 1 1 (iRand 2 24))) m e
     in o1 + o2 + o3 + o4
 
 main :: IO ()
 main = do
   let s = synthdef "trmlo" (out 0 trmlo)
-  audition (s,pbind [("dur",pxrand 'ρ' [0.25,0.5,1,2,4] inf)])
+  audition (s,pbind [("dur",pxrand 'α' [0.25,0.5,1,2,4] inf)])
