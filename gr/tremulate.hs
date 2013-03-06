@@ -7,11 +7,11 @@ import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 -- > Sound.SC3.UGen.Dot.draw tremulate
 tremulate :: UGen
 tremulate =
-    let f = rand 'a' 500 900
+    let f = rand 'α' 500 900
         o = fSinOsc AR (f * mce [1,1.2,1.5,1.8]) 0
-        r = randN 4 'a' 30 90
-        a = max 0 (lfNoise2 'a' KR r) * 0.1
-        l = randN 4 'a' (-1) 1
+        r = randN 4 'β' 30 90
+        a = max 0 (lfNoise2 'γ' KR r) * 0.1
+        l = randN 4 'δ' (-1) 1
     in mix (pan2 o l a)
 
 tremulate_pp :: UGen -> UGen

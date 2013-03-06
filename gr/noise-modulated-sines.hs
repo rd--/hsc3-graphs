@@ -5,9 +5,9 @@ import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 nms :: UGen
 nms =
-    let f = midiCPS (rand 'a' 60 100)
+    let f = midiCPS (rand 'α' 60 100)
         o = fSinOsc AR (mce2 f (f + 0.2)) 0
-        a = lfNoise2 'b' KR (f * mce2 0.15 0.16) * 0.1
+        a = lfNoise2 'β' KR (f * mce2 0.15 0.16) * 0.1
     in o * a
 
 nms_pp :: (UGen -> UGen)

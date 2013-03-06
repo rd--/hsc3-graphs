@@ -16,7 +16,7 @@ fbf b i d g =
 
 fbl_fbf :: UGen
 fbl_fbf =
-  let n = brownNoise 'a' AR
+  let n = brownNoise 'α' AR
       e = decay (impulse AR 0.3 0) 0.1 * n * 0.2
       c = 4
       e' = replicate c e

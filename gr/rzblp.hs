@@ -35,7 +35,7 @@ mk_f z d =
            ,blip AR (lfn z q 16 36) 3 * mce2 0.03 0.09]
 
 rzblp :: UGen
-rzblp = mk_f 'a' drand + mk_f 'b' dxrand
+rzblp = mk_f 'α' drand + mk_f 'β' dxrand
 
 main :: IO ()
 main = audition (out 0 rzblp)

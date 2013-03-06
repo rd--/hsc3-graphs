@@ -27,33 +27,33 @@ ping =
         dy = decay2 tr ea ed * 1
         i = mix (ringz dy (f * mce2 1 2) es)
         r = chain i [\s -> let e = decay2 tr 0.01 hd
-                               fr = mce [rand 'a' 1 1.1
-                                        ,rand 'a' 1.4 1.6
-                                        ,rand 'a' 1.9 2.1
-                                        ,rand 'a' 3.9 4.1]
+                               fr = mce [rand 'α' 1 1.1
+                                        ,rand 'β' 1.4 1.6
+                                        ,rand 'γ' 1.9 2.1
+                                        ,rand 'δ' 3.9 4.1]
                            in s + mix (sinOsc AR (f * fr) 0 * e)
                     ,\s -> bLowPass s (ff * linExp dy 0 1 1 fa) 0.1
-                    ,\s -> let e = envLinen 0 (es / rand 'a' 1 4) 0.1 1
+                    ,\s -> let e = envLinen 0 (es / rand 'ε' 1 4) 0.1 1
                            in s * envGen AR 1 1 0 1 RemoveSynth e]
     in offsetOut o (r * mce2 a a)
 
 pattern :: P Event
 pattern =
-    let o = prand 'a' [6,7] inf
+    let o = prand 'ζ' [6,7] inf
     in pbind [("degree",place [[0,1,2,3,4]
                               ,[2,3,4,5,6]
                               ,[4,3,4,3,6,7]
                               ,[0,2,1,2,1,4,3,3,5]] inf)
-             ,("detune",pwhite 'b' (-2) 2 inf)
+             ,("detune",pwhite 'η' (-2) 2 inf)
              ,("octave",o)
-             ,("dur",prand 'c' [0.5,1,2] inf + pwhite 'd' (-0.1) 0.1 inf)
-             ,("amp",pwhite 'e' 0.01 0.1 inf)
-             ,("attack",pwhite 'f' 0.0005 0.001 inf)
-             ,("sustain",(o / 4) + pwhite 'g' 0.01 0.5 inf)
-             ,("ffreq",pwhite 'h' 200 2000 inf)
-             ,("famt",pwhite 'i' 3 6 inf)
-             ,("hdur",pwhite 'j' 0.05 0.3 inf)
-             ,("impdecay",pwhite 'k' 0.001 0.01 inf)]
+             ,("dur",prand 'θ' [0.5,1,2] inf + pwhite 'ι' (-0.1) 0.1 inf)
+             ,("amp",pwhite 'κ' 0.01 0.1 inf)
+             ,("attack",pwhite 'λ' 0.0005 0.001 inf)
+             ,("sustain",(o / 4) + pwhite 'μ' 0.01 0.5 inf)
+             ,("ffreq",pwhite 'ν' 200 2000 inf)
+             ,("famt",pwhite 'ξ' 3 6 inf)
+             ,("hdur",pwhite 'ο' 0.05 0.3 inf)
+             ,("impdecay",pwhite 'π' 0.001 0.01 inf)]
 
 amplitude_mod :: (ID a, Enum a) => a -> UGen -> UGen
 amplitude_mod z i =
@@ -74,6 +74,6 @@ post nm nc b f = do
 main :: IO ()
 main = do
   let s = synthdef "ping" ping
-  withSC3 (do post "amplitude_mod" 2 0 (amplitude_mod 'a')
+  withSC3 (do post "amplitude_mod" 2 0 (amplitude_mod 'ρ')
               post "limiting" 2 0 limiting)
   audition (s,pattern)

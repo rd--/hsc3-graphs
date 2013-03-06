@@ -19,9 +19,9 @@ spe3_allpass6 = do
 
 notes :: P Double
 notes =
-    let n = [prand' 'a' [pempty,fromList [24,31,36,43,48,55]] inf
-            ,pflop [60,prand 'b' [63,65] inf,67,prand 'c' [70,72,74] inf]
-            ,psplitPlaces (pwhite 'd' 3 9 inf) (fromList [74,75,77,79,81])]
+    let n = [prand' 'α' [pempty,fromList [24,31,36,43,48,55]] inf
+            ,pflop [60,prand 'β' [63,65] inf,67,prand 'γ' [70,72,74] inf]
+            ,psplitPlaces (pwhite 'δ' 3 9 inf) (fromList [74,75,77,79,81])]
     in pjoin (pseq1 n inf)
 
 main :: IO ()

@@ -101,12 +101,12 @@ vla_partial fr rise fall dt n =
     let m = n * 2
         ampl = bufRdN 1 KR 0 m NoLoop
         ph = bufRdN 1 KR 0 (m + 1) NoLoop
-        o = let dt' = lfNoise1 'a' KR 1 * dt + 1.0
+        o = let dt' = lfNoise1 'α' KR 1 * dt + 1.0
             in fSinOsc AR (fr * (n + 1) * dt') ph
         e = linen (impulse KR 0 0)
-                  (rise * rand 'a' 0.75 1.25)
+                  (rise * rand 'β' 0.75 1.25)
                   ampl
-                  (fall * rand 'b' 0.75 1.25)
+                  (fall * rand 'γ' 0.75 1.25)
                   DoNothing
     in o * e
 
@@ -127,13 +127,13 @@ plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
 pattern :: [(String,P Double)]
 pattern =
-    [("loc",pwhite 'a' (-1) 1 inf)
-    ,("ampl",pwhite 'b' 0.05 0.1 inf)
-    ,("degree",prand 'c' [0,1,2,3,4,5,6,7,8] inf)
-    ,("octave",prand 'd' [2,3] inf)
-    ,("dt",pwhite 'e' 0.001 0.005 inf)
-    ,("rise",pwhite 'f' 1 2 inf)
-    ,("fall",pwhite 'g' 4 7 inf)
+    [("loc",pwhite 'δ' (-1) 1 inf)
+    ,("ampl",pwhite 'ε' 0.05 0.1 inf)
+    ,("degree",prand 'ζ' [0,1,2,3,4,5,6,7,8] inf)
+    ,("octave",prand 'η' [2,3] inf)
+    ,("dt",pwhite 'θ' 0.001 0.005 inf)
+    ,("rise",pwhite 'ι' 1 2 inf)
+    ,("fall",pwhite 'κ' 4 7 inf)
     ,("dur",5)]
 
 act :: Transport m => m ()

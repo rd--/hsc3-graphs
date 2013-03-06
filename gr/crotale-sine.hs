@@ -25,8 +25,8 @@ crotale_sine =
 main :: IO ()
 main = do
   let s = synthdef "crotale-sine" (out 0 crotale_sine)
-  audition (s,pbind [("m",pwhitei 'a' 0 12 inf)
-                    ,("dur",pxrand 'b' [1,2,3] inf)
+  audition (s,pbind [("m",pwhitei 'α' 0 12 inf)
+                    ,("dur",pxrand 'β' [1,2,3] inf)
                     ,("sustain",6)])
 
 crotale_data :: ([Double],[Double])

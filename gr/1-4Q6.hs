@@ -36,11 +36,11 @@ risset =
 pattern :: P Event
 pattern =
   let i = (InstrumentDef risset False)
-  in pmono i 1000 [("note",prand 'a' [0,2,5,7,11] inf)
-                  ,("octave",prand 'b' [4,5,6,7,9] inf)
+  in pmono i 1000 [("note",prand 'α' [0,2,5,7,11] inf)
+                  ,("octave",prand 'β' [4,5,6,7,9] inf)
                   ,("legato",1)
-                  ,("dur",prand 'c' [2,3,5,7] inf)
-                  ,("amp",pwhite 'd' 0.025 0.15 inf)
+                  ,("dur",prand 'γ' [2,3,5,7] inf)
+                  ,("amp",pwhite 'δ' 0.025 0.15 inf)
                   ,("trig",1)]
 
 main :: IO ()

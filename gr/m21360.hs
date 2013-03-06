@@ -13,15 +13,15 @@ init_b b = do
 -- > audition (m21360 (mce [0,1]))
 m21360 :: UGen -> UGen
 m21360 b =
-    let del = mce [0.2,0.3,0.4,0.5] * rand 'a' 0.15 0.35
+    let del = mce [0.2,0.3,0.4,0.5] * rand 'α' 0.15 0.35
         loc = mce [-1,-0.7,0.6,1]
-        hpp = mce [rand 'a' 300 600,rand 'a' 900 1200]
+        hpp = mce [rand 'β' 300 600,rand 'γ' 900 1200]
         avg = mce [8000,14000]
         sdt = mce [300,400]
-        lpp = mce [rand 'a' 4300 4500,rand 'a' 4000 4200]
+        lpp = mce [rand 'δ' 4300 4500,rand 'ε' 4000 4200]
         sr = sampleRate
         local = localIn 2 AR
-        wn = line KR 0 1 0.1 DoNothing * whiteNoise 'a' AR * 0.03
+        wn = line KR 0 1 0.1 DoNothing * whiteNoise 'ζ' AR * 0.03
         ph = delTapWr AR b (wn + local)
         fb = delTapRd b ph del 1
         p_fb = mix (pan2 fb loc 1)

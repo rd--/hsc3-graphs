@@ -5,7 +5,7 @@ import Sound.SC3.Monad {- hsc3 -}
 police_state :: UId m => m UGen
 police_state = do
   let nd = do r0 <- rand 0.02 0.12
-              r1 <- rand 0 (pi*2)
+              r1 <- rand 0 (pi * 2)
               r2 <- rand 0 600
               r3 <- rand 700 1300
               r4 <- rand (-1) 1

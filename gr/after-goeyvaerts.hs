@@ -86,7 +86,7 @@ coin = R.coin
 coinIO :: R -> IO Bool
 coinIO = getStdRandom . coin
 
--- | 'R.wchoose' at 'R'
+-- | 'R.wchoose'.
 wchoose :: RandomGen g => [a] -> [R] -> g -> (a,g)
 wchoose = R.wchoose
 
@@ -118,11 +118,11 @@ nd =
         pan = control KR "pan" 0
         s = let p = mix (lfPar AR (freq * mce [0.999,1.001]) 0 * amp)
                 l = [10000,2000,4000,1000]
-                t = [0.005,rand 'a' 0.009 0.05,0.005]
+                t = [0.005,rand 'α' 0.009 0.05,0.005]
                 d = Envelope l t (replicate 3 EnvLin) Nothing Nothing
             in lpf (distort p) (envGen KR 1 1 0 1 DoNothing d)
         e = let l = [0,1,0.4,0.7,0]
-                t = [rand 'b' 0.001 0.005,0.005,0.005,sustain]
+                t = [rand 'β' 0.001 0.005,0.005,0.005,sustain]
                 d = Envelope l t (replicate 4 EnvLin) Nothing Nothing
             in envGen KR 1 1 0 1 RemoveSynth d
     in out 0 (pan2 (s * e) pan 1)
@@ -316,9 +316,9 @@ ag_score = do
 ag_run_note :: Transport t => t->Int->Int->R->R->R->(P,S,Int)->IO()
 ag_run_note fd o b a su pn (p,s,z) = do
   let mn = ag_note s z o b
-  print ('o',o,'b',b)
-  print ('p',map (set_prec 2) (M.elems p))
-  print ('s',M.elems s)
+  print ('γ',o,'δ',b)
+  print ('ε',map (set_prec 2) (M.elems p))
+  print ('ζ',M.elems s)
   send fd (nd_msg (midiCPS (fromIntegral mn)) a su pn)
 
 ag_step :: Transport t => t -> AG -> IO AG

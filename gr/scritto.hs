@@ -9,7 +9,7 @@ scritto_i :: UGen -> UGen
 scritto_i bx =
     let buf_at b n = bufRd 1 KR b (mce [n .. n + 4]) NoLoop NoInterpolation
         v_filter i f a b = resonz i f (b / f) * dbAmp a
-        n0 = lfNoise2 'a' KR 3
+        n0 = lfNoise2 'α' KR 3
         v_filter_b i =
             let bi = linLin n0 (-1) 1 0 bx
                 b = buf_at bi in v_filter i (b 0) (b 5) (b 10)

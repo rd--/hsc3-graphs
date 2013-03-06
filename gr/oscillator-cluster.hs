@@ -25,7 +25,7 @@ main :: IO ()
 main = do
   u <- oscillator_cluster
   let s = synthdef "oscillator_cluster" (out 0 u)
-  audition (s,pbind [("dur",prand 'a' [0.25,0.5,1,3,5] inf)])
+  audition (s,pbind [("dur",prand 'α' [0.25,0.5,1,3,5] inf)])
 
 {-
 audition . (out 0) =<< oscillator_cluster

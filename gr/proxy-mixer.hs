@@ -12,12 +12,12 @@ iScramble z = tScramble z KR 1
 -- > Sound.SC3.UGen.Dot.draw pm
 pm :: UGen
 pm =
-    let e = let l = randN_l 11 'a' (-1) 1
-                t = randN_l 10 'a' 0 1
+    let e = let l = randN_l 11 'α' (-1) 1
+                t = randN_l 10 'β' 0 1
             in Envelope l t [EnvNum 0] (Just 9) (Just 0)
         env = envGen KR 1 1 0 1 DoNothing e
         p = midiRatio (env * mce [1, 0.33, -1] * 19) * 250
-        o = formant AR p (iScramble 'a' p * 2) (iScramble 'b' p)
+        o = formant AR p (iScramble 'γ' p * 2) (iScramble 'δ' p)
     in out 0 (splay o 1 1 0 True * 0.1)
 
 main :: IO ()

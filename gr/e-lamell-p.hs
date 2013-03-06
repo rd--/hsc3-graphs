@@ -12,7 +12,7 @@ e_lamell =
         d = ctl "d" 0.1
         n = ctl "n" 12
         l = ctl "l" 0
-        t = lchoose 'a' [1,32]
+        t = lchoose 'α' [1,32]
         h = line AR n t d DoNothing
         s = blip AR f h
         e_d = envPerc 0.005 d
@@ -21,20 +21,20 @@ e_lamell =
 
 pattern :: P Event
 pattern =
-  let p = pbind [("note",prand 'a' [0,2,5,7] inf)
-                ,("octave",pwrand 'b' [2,3,4,5] [0.2,0.35,0.35,0.1] inf)
+  let p = pbind [("note",prand 'β' [0,2,5,7] inf)
+                ,("octave",pwrand 'γ' [2,3,4,5] [0.2,0.35,0.35,0.1] inf)
                 ,("dur",0.1)
-                ,("d",pwhite 'c' 0.01 0.8 inf)
-                ,("amp",pwhite 'd' 0 0.75 inf)
-                ,("n",pwhite 'e' 2 36 inf)
-                ,("l",pwhite 'f' (-1) 1 inf)]
-      q = pbind [("note",prand 'g' [0] inf)
-                ,("octave",prand 'h' [2,3] inf)
+                ,("d",pwhite 'δ' 0.01 0.8 inf)
+                ,("amp",pwhite 'ε' 0 0.75 inf)
+                ,("n",pwhite 'ζ' 2 36 inf)
+                ,("l",pwhite 'η' (-1) 1 inf)]
+      q = pbind [("note",prand 'θ' [0] inf)
+                ,("octave",prand 'ι' [2,3] inf)
                 ,("dur",0.1)
-                ,("d",pwhite 'i' 0.01 1.2 inf)
-                ,("amp",prand 'j' [0,0.25,0.5,1] inf)
-                ,("n",pwhite 'k' 2 36 inf)
-                ,("l",pwhite 'l' (-1) 1 inf)]
+                ,("d",pwhite 'κ' 0.01 1.2 inf)
+                ,("amp",prand 'λ' [0,0.25,0.5,1] inf)
+                ,("n",pwhite 'μ' 2 36 inf)
+                ,("l",pwhite 'ν' (-1) 1 inf)]
   in ppar [p,q]
 
 main :: IO ()

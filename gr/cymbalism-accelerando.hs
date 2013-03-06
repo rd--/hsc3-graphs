@@ -13,9 +13,9 @@ cymbalism_accellerando =
                 f = map (\e -> rand e f1 (f1 + f2)) (enumFromN n 15)
                 rt = map (\e -> rand e 1 5) (enumFromN n 15)
           in klankSpec f (replicate 15 1) rt
-      z = mce2 (y 'a') (y 'A')
-      w = whiteNoise 'α' AR * 0.02
-      tf = xLine KR (linRand 'β' 0.5 4.5 0) (rand 'γ' 0.5 35.5) 12 DoNothing
+      z = mce2 (y 'α') (y 'β')
+      w = whiteNoise 'γ' AR * 0.02
+      tf = xLine KR (linRand 'δ' 0.5 4.5 0) (rand 'ε' 0.5 35.5) 12 DoNothing
       t = impulse AR tf 0
       s = decay t 0.004 * w
   in klank s 1 0 1 (mceTranspose z)

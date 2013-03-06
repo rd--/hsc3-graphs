@@ -17,13 +17,13 @@ seqr_f f e =
 -- > Sound.SC3.UGen.Dot.draw (seqr 12)
 seqr :: Int -> UGen
 seqr n =
-  let f = rand 'a' 9 18 / constant n
-      b = blip AR (mce2 (seqr_f f (nfreq 'a' n 72 96))
-                        (seqr_f f (nfreq 'b' n 72 84)))
-                  (mce2 (seqr_f f (nrand n 'c' 1 3))
-                        (seqr_f f (nrand n 'd' 3 6)))
-      a = mce2 (seqr_f f (nrand n 'e' 0.05 0.10))
-               (seqr_f f (nrand n 'f' 0.05 0.15))
+  let f = rand 'α' 9 18 / constant n
+      b = blip AR (mce2 (seqr_f f (nfreq 'β' n 72 96))
+                        (seqr_f f (nfreq 'γ' n 72 84)))
+                  (mce2 (seqr_f f (nrand n 'δ' 1 3))
+                        (seqr_f f (nrand n 'ε' 3 6)))
+      a = mce2 (seqr_f f (nrand n 'ζ' 0.05 0.10))
+               (seqr_f f (nrand n 'η' 0.05 0.15))
   in b * a
 
 -- n = rand 6 18

@@ -17,7 +17,7 @@ ms n r =
 
 modal_space :: UGen
 modal_space =
-    let n = uclone 'α' 2 (lfNoise1 'α' KR 3)
+    let n = uclone 'α' 2 (lfNoise1 'β' KR 3)
     in (ms n 48 + ms n 72) * 0.25
 
 run :: Transport m => m ()

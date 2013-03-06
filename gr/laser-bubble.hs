@@ -13,7 +13,7 @@ laser_bubble_f z =
 
 laser_bubble :: Int -> UGen
 laser_bubble n =
-    let f = mce (map laser_bubble_f (take n ['a'..]))
+    let f = mce (map laser_bubble_f (take n ['α'..]))
         [s0,s1] = mceChannels (splay (sinOsc AR f 0) 1 1 0 True)
     in limiter (rotate2 s0 s1 (lfSaw KR 0.1 0)) 1 1e-2
 

@@ -7,7 +7,7 @@ import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 spe3_mridangam :: Synthdef
 spe3_mridangam =
     let t_amp = tr_control "t_amp" 1
-        n = whiteNoise 'a' AR * 70
+        n = whiteNoise 'α' AR * 70
         e = decay2 t_amp 0.002 0.1
         o = distort (resonz (n * e) (midiCPS 60) 0.02 * 4) * 0.4
     in synthdef "mridangam" (out 0 o)
@@ -28,7 +28,7 @@ p =
     ,pseq [0.9,0.0,0.0,0.2,0.0,0.2,0.0,0.2,0.0,0.0] 2
     ,pseq [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.2] 2
     -- solo
-    ,prand 'a' [pseq [0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0] 1
+    ,prand 'β' [pseq [0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0] 1
                ,pseq [0.9,0.2,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0] 1
                ,pseq [0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.2] 1
                ,pseq [0.9,0.0,0.0,0.7,0.2,0.2,0.0,0.7,0.0,0.0] 1

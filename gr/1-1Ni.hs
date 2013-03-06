@@ -9,7 +9,7 @@ scr :: (UGen -> (UGen,UGen)) -> Int -> UGen -> UGen -> UGen
 scr h n f d =
     let (h0,h1) = h f
         o z = sinOsc AR (expRand z h0 h1) 0 * 0.2
-        m = mce (map o (take n ['a'..]))
+        m = mce (map o (take n ['α'..]))
         e = lfGauss AR d (1/4) 0 NoLoop RemoveSynth
     in splay (m * e) 1 0.1 0 True
 
@@ -17,14 +17,14 @@ scr h n f d =
 -- > Sound.SC3.UGen.Dot.draw (b 8)
 b :: Int -> Synthdef
 b np =
-    let f = midiCPS (lchoose 'a' [40,45,52])
+    let f = midiCPS (lchoose 'β' [40,45,52])
         h n = (n,n + (n / 64))
     in synthdef "b" (out 0 (scr h np f 9))
 
 -- > audition (c 12)
 c :: Int -> Synthdef
 c np =
-    let f = midiCPS (choose 'a' (in' 3 KR 0))
+    let f = midiCPS (choose 'γ' (in' 3 KR 0))
         h n = (n - (n / 128),n + (n / 128))
     in synthdef "c" (out 0 (scr h np f 6))
 

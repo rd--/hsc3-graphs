@@ -12,7 +12,7 @@ sc3_fib n = take n (tail fib)
 f0_0028 :: UGen
 f0_0028 =
     let n = map ((* 99) . (`mod` 8)) (sc3_fib 16)
-        p = dseq 'a' dinf (dshuf 'a' 8 (mce (map fromInteger n)))
+        p = dseq 'α' dinf (dshuf 'β' 8 (mce (map fromInteger n)))
         q = combN (duty AR (1/8) 0 DoNothing p) 4 4 16
         o = lfTri AR q 0 / 4
         f = lfTri KR (1/16) 0 * 2e3 + 3e3

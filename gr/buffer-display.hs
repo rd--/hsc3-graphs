@@ -102,7 +102,7 @@ instr =
         v = varSaw AR x 0 0.5
         f = bpf v y 0.5
         s = sinOsc AR 0 f
-        n = brownNoise 'a' AR * 0.1
+        n = brownNoise 'α' AR * 0.1
     in out 0 (mce2 s n)
 
 bd_shell :: Int -> Shell BD

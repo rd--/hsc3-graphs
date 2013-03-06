@@ -4,8 +4,8 @@ import Sound.SC3.ID {- hsc3 -}
 
 snare_909 :: UGen -> UGen
 snare_909 tr =
-  let n = whiteNoise 'a' AR
-      v = tRand 'a' 0.25 1.0 tr
+  let n = whiteNoise 'α' AR
+      v = tRand 'β' 0.25 1.0 tr
       e a b = envGen AR tr 1 0 1 DoNothing (envPerc a b)
       e1 = e 0.0005 0.055
       e2 = e 0.0005 0.075

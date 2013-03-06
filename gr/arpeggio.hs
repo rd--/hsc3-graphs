@@ -24,12 +24,12 @@ analogarpeggio =
 
 {-
 audition (analogarpeggio
-         ,(pbind [("dur",pwrand 'a' [0.1,0.25] [2/3,1/2] inf)
-                 ,("freq",pwhite 'b' 440.0 1600.0 inf)
-                 ,("pan",pwhite 'c' (-1.0) 1.0 inf)
-                 ,("amp",pwhite 'd' 0.0 0.5 inf)
-                 ,("cutoffmult",pwhite 'e' 4.0 5.0 inf)
-                 ,("res",pwhite 'f' 0.0 1.0 inf)]))
+         ,(pbind [("dur",pwrand 'α' [0.1,0.25] [2/3,1/2] inf)
+                 ,("freq",pwhite 'β' 440.0 1600.0 inf)
+                 ,("pan",pwhite 'γ' (-1.0) 1.0 inf)
+                 ,("amp",pwhite 'δ' 0.0 0.5 inf)
+                 ,("cutoffmult",pwhite 'ε' 4.0 5.0 inf)
+                 ,("res",pwhite 'ζ' 0.0 1.0 inf)]))
 -}
 
 pinterp :: (Fractional a) => Int -> a -> a -> P a
@@ -41,28 +41,28 @@ pinterp' n s e = join (pzipWith3 pinterp n s e)
 arpeggio :: [(Key,P Double)]
 arpeggio =
     [("dur"
-     ,let d = pwrand 'n' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf
+     ,let d = pwrand 'η' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf
       in pstutter 32 d)
     ,("cutoffmult"
-     ,let n = prand 'a' [8,16,24,32] inf
-          s = pwhite 'b' 2.5 5.0 inf
-          e = pwhite 'c' 1.5 7.0 inf
+     ,let n = prand 'θ' [8,16,24,32] inf
+          s = pwhite 'ι' 2.5 5.0 inf
+          e = pwhite 'κ' 1.5 7.0 inf
       in pinterp' n s e)
     ,("res"
-     ,let n = prand 'd' [8,16,24,32] inf
-          s = pexprand 'e' 0.02 0.5 inf
-          e = pexprand 'f' 0.02 1.0 inf
+     ,let n = prand 'λ' [8,16,24,32] inf
+          s = pexprand 'μ' 0.02 0.5 inf
+          e = pexprand 'ν' 0.02 1.0 inf
       in pinterp' n s e)
     ,("pan"
-     ,let n = prand 'g' [8,16] inf
-          s = pwhite 'h' (-1.0) 1.0 inf
+     ,let n = prand 'ξ' [8,16] inf
+          s = pwhite 'ο' (-1.0) 1.0 inf
           s' = fmap (< 0) s
-          e = pif s' (pwhite 'i' 0.0 1.0 inf) (pwhite 'i' (-1.0) 0.0 inf)
+          e = pif s' (pwhite 'π' 0.0 1.0 inf) (pwhite 'ρ' (-1.0) 0.0 inf)
       in pinterp' n s e)
     ,("amp"
-     ,let n = prand 'j' [8,16,24,32] inf
-          s = prand 'k' [0.25,0.05,0.5] inf
-          e = prand 'l' [0.25,0.05,0.5,0.01] inf
+     ,let n = prand 'σ' [8,16,24,32] inf
+          s = prand 'τ' [0.25,0.05,0.5] inf
+          e = prand 'υ' [0.25,0.05,0.5,0.01] inf
       in pinterp' n s e)
     ,("note"
      ,let f x = pn (fromList x) 8

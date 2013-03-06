@@ -30,7 +30,7 @@ grain =
 
 pattern :: Enum e => (Value, e) -> P Event
 pattern (f,z) =
-    let f_mul = prand 'a' [4,1,2,3,4,8] inf
+    let f_mul = prand 'α' [4,1,2,3,4,8] inf
     in pbind [("freq",return f * f_mul * pwhite z 0.99 1 (12 * 4))
              ,("dur",pseq [pseq [10,0.1,10] 1,pseq [0.1] 6
                           ,pseq [1,pseq [0.1] 6,1] inf] 1)
@@ -51,4 +51,4 @@ grain_ip =
 main :: IO ()
 main =
     let f = concat (replicate 12 [1200, 800, 600, 200])
-    in audition (pinstr grain_ip (ppar (map pattern (zip f ['a'..]))))
+    in audition (pinstr grain_ip (ppar (map pattern (zip f ['β'..]))))

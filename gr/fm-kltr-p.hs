@@ -5,10 +5,10 @@ import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 fm_kltr :: UGen
 fm_kltr =
-  let r1 = rand 'a' 0.975 1.025
-      r2 = rand 'b' 0.5 1.5
-      r3 = rand 'c' 0.975 1.025
-      r4 = rand 'd' 0.75 1.25
+  let r1 = rand 'α' 0.975 1.025
+      r2 = rand 'β' 0.5 1.5
+      r3 = rand 'γ' 0.975 1.025
+      r4 = rand 'δ' 0.75 1.25
       o = control IR "out" 0
       a = control KR "amp" 0.1
       dt = control KR "sustain" 0.1
@@ -28,11 +28,11 @@ main :: IO ()
 main = do
   let s = synthdef "fm_kltr" fm_kltr
       p = pbind [("freq",fmap midiCPS 53)
-                ,("freq2",fmap midiCPS (pwhitei 'a' 48 96 inf +
-                                        pwhite 'b' (-1) 1 inf))
-                ,("amp",pwhite 'c' 0.1 0.4 inf)
-                ,("dur",pwhite 'd' 0.15 1.25 inf)
-                ,("sustain",pwhite 'e' 5 6 inf)
-                ,("index",pwhite 'f' 240 1480 inf)
-                ,("pan", pwhite 'g' (-1) 1 inf)]
+                ,("freq2",fmap midiCPS (pwhitei 'ε' 48 96 inf +
+                                        pwhite 'ζ' (-1) 1 inf))
+                ,("amp",pwhite 'η' 0.1 0.4 inf)
+                ,("dur",pwhite 'θ' 0.15 1.25 inf)
+                ,("sustain",pwhite 'ι' 5 6 inf)
+                ,("index",pwhite 'κ' 240 1480 inf)
+                ,("pan", pwhite 'λ' (-1) 1 inf)]
   audition (s,p)

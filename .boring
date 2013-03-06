@@ -3,3 +3,5 @@ dist
 ^md$
 ^pdf$
 ^svg$
+^gr/.*\.hi$
+^gr/.*\.o$

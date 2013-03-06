@@ -42,8 +42,8 @@ tank_f e i =
 -- > Sound.SC3.UGen.Dot.draw tank
 tank :: UGen
 tank =
-  let s = bang 'α' + mix (uclone 'β' 8 (pling 'β'))
-  in tank_f 'γ' (useq 'δ' 4 (r_allpass 'δ') s)
+  let s = bang 'α' + mix (uclone 'β' 8 (pling 'γ'))
+  in tank_f 'δ' (useq 'ε' 4 (r_allpass 'ζ') s)
 
 main :: IO ()
 main = audition (out 0 tank)

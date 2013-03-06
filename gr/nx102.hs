@@ -7,14 +7,14 @@ import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 -- > audition (out 0 nx102)
 nx102 :: UGen
 nx102 =
-    let r = rand 'a' 50 100
+    let r = rand 'α' 50 100
         b = playBuf 1 KR 1 r 1 0 Loop DoNothing
-        f = clip (b * rand 'a' 100 1000) (rand 'a' 5 12) (rand 'a' 12 20)
+        f = clip (b * rand 'β' 100 1000) (rand 'γ' 5 12) (rand 'δ' 12 20)
         o = pulse AR f 0.5
-        lrf = rand 'a' 100 5000
-        lrq = rand 'a' 0.005 0.1
-        hrf = rand 'a' 5000 20000
-        hrq = rand 'b' 0.005 0.1
+        lrf = rand 'ε' 100 5000
+        lrq = rand 'ζ' 0.005 0.1
+        hrf = rand 'η' 5000 20000
+        hrq = rand 'θ' 0.005 0.1
         s = rhpf (rlpf o lrf lrq) hrf hrq
         v = freeVerb s 0 0 0
         pk i n k = bPeakEQ i n 6.0 k

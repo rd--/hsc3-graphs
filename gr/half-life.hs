@@ -7,7 +7,7 @@ half_life =
   let t_half = 1/3.92
       n_atoms = 1e+5
       n = max 0 (n_atoms - pulseCount (localIn 2 AR) 0)
-      activity = dust 'a' AR (n * log 2 * t_half)
+      activity = dust 'α' AR (n * log 2 * t_half)
   in mrg [activity,localOut activity]
 
 main :: IO ()

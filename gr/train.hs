@@ -24,9 +24,9 @@ train =
     let time = 24
         loc = let e = Envelope [-0.8,0.8] [time + 2] [EnvSin,EnvSin] Nothing Nothing
               in envGen AR 1 1 0 1 RemoveSynth e
-        n1 = whiteNoise 'a' AR
-        n2 = pinkNoise 'b' AR
-        n3 = whiteNoise 'c' AR
+        n1 = whiteNoise 'α' AR
+        n2 = pinkNoise 'β' AR
+        n3 = whiteNoise 'γ' AR
     in pan2 (steam time n1 n2 + whistle time n3) loc 1
 
 main :: IO ()

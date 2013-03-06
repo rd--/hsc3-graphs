@@ -22,7 +22,7 @@ kick =
         env1 = let d = mk_env [110,59,29] [0.005,0.29] [-4,-5]
                in midiCPS (envGen AR 1 1 0 1 DoNothing d)
         s = let p = lfPulse AR env1 0 0.5 - 0.5
-                q = p + mce2 (whiteNoise 'a' AR) (whiteNoise 'b' AR)
+                q = p + mce2 (whiteNoise 'α' AR) (whiteNoise 'β' AR)
                 r = lpf q (env1 * 1.5) * env0
             in clip2 (r + sinOsc AR env1 0.5 * env0 * 1.2) 1
     in synthdef "kick" (out bus s)
@@ -41,7 +41,7 @@ snare =
                    q = lfPulse AR (env1 * 1.6) 0 0.5 * 0.5 - 0.25
                    r = lpf (p + q) (env1 * 1.2) * env0
                in r + sinOsc AR env1 0.8 * env0
-        noise = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'b' AR) * 0.2
+        noise = let p = mce2 (whiteNoise 'γ' AR) (whiteNoise 'δ' AR) * 0.2
                     q = hpf p 200 * 2
                     r = bpf q 6900 0.6 * 3 + p
                 in r * env2
@@ -58,10 +58,10 @@ clap =
                in envGen AR 1 1 0 1 DoNothing d
         env2 = let d = mk_env [0,1,0] [0.02,0.3] [0,-4]
                in envGen AR 1 1 0 1 RemoveSynth d
-        noise1 = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'a' AR) * env1
+        noise1 = let p = mce2 (whiteNoise 'ε' AR) (whiteNoise 'ζ' AR) * env1
                      q = hpf p 600
                  in bpf q 2000 3
-        noise2 = let p = mce2 (whiteNoise 'a' AR) (whiteNoise 'a' AR) * env2
+        noise2 = let p = mce2 (whiteNoise 'η' AR) (whiteNoise 'θ' AR) * env2
                      q = hpf p 1000
                  in bpf q 1200 0.7 * 0.7
         s = let p = noise1 + noise2
@@ -84,7 +84,7 @@ hat =
                     p = sum (map f [0..n1-1])
                 in bHiPass p 1000 2 * env1
         noise = let n2 = 8
-                    p = whiteNoise 'a' AR
+                    p = whiteNoise 'ι' AR
                     f i = let t = 1 / midiCPS (linLin i 0 (n2-1) 40 50 + r2)
                           in combN p 0.05 t 0.1
                     q = sum (map f [0..n2-1]) * (1/n2) + p
