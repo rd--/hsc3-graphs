@@ -2,7 +2,6 @@
 
 import Sound.SC3.ID {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw rain_thunder
 rain_thunder :: UGen
 rain_thunder =
     let n0 = pinkNoise 'α' AR * (0.08 + lfNoise1 'β' KR 0.3 * 0.02)

@@ -14,7 +14,6 @@ red tr n = do
       o2 = fSinOsc KR o1 r5 * r6
   return (rhpf n r1 o2)
 
--- > Sound.SC3.UGen.Dot.draw =<< red_frik
 red_frik :: UId m => m UGen
 red_frik = do
   n <- clone 2 (brownNoise AR)

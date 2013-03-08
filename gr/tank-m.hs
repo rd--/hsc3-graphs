@@ -41,7 +41,6 @@ tank_f i = do
       l7 = l6 + i
   return (mrg [l7,localOut l7])
 
--- > tank >>= Sound.SC3.UGen.Dot.draw
 tank :: UId m => m UGen
 tank = do
   s <- liftM2 (+) bang (mixFillM 8 (const pling))

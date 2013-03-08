@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< harmonic_tumbling
 harmonic_tumbling :: UId m => m UGen
 harmonic_tumbling = do
   let f = 80

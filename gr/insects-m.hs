@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< insect
 insect :: UId m => m UGen
 insect = do
   r1 <- rand 2000 3000

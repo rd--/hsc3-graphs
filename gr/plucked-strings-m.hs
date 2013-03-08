@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< plucked_strings
 plucked_strings :: UId m => m UGen
 plucked_strings = do
   let dt = do r0 <- rand 60 90

@@ -6,7 +6,6 @@ import Sound.SC3.Monad {- hsc3 -}
 wrp :: UGen -> UGen -> UGen -> UGen
 wrp i = linLin i (-1) 1
 
--- > Sound.SC3.UGen.Dot.draw =<< h_chatter
 h_chatter :: UId m => m UGen
 h_chatter = do
   let mma m a = return . (+ a)  . (* m)

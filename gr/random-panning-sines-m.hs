@@ -3,7 +3,6 @@
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
--- > Sound.SC3.UGen.Dot.draw =<< rps
 rps :: UId m => m UGen
 rps = do
   let nd = do r0 <- linRand 80 2000 0

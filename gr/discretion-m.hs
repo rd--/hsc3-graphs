@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< discretion
 discretion :: UId m => m UGen
 discretion = do
   let mkls bp t = envGen KR 1 1 0 1 RemoveSynth (envCoord bp t 1 EnvLin)

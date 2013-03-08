@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< wial
 wial :: (Functor m,UId m) => m UGen
 wial = do
   let pls c d f = do let t = pulseDivider c d 0

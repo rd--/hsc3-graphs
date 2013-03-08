@@ -32,7 +32,6 @@ mk_f d =
            ,hpb q * lfn q 1.2 1.8
            ,blip AR (lfn q 16 36) 3 * mce2 0.03 0.09]
 
--- Sound.SC3.UGen.Dot.draw rzblp
 rzblp :: UGen
 rzblp = mk_f drand + mk_f dxrand
 

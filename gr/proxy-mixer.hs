@@ -1,7 +1,7 @@
 -- > Sound.SC3.UGen.Help.viewSC3Help "ProxyMixer"
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 
 randN_l :: ID z => Int -> z -> UGen -> UGen -> [UGen]
 randN_l k z l = mceChannels . randN k z l
@@ -9,7 +9,6 @@ randN_l k z l = mceChannels . randN k z l
 iScramble :: ID z => z -> UGen -> UGen
 iScramble z = tScramble z KR 1
 
--- > Sound.SC3.UGen.Dot.draw pm
 pm :: UGen
 pm =
     let e = let l = randN_l 11 'α' (-1) 1

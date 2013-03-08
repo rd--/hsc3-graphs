@@ -20,7 +20,6 @@ trkl d ul fu dy la fy = do
       o2 = mix (saw AR (mce2 f (f * fh)))
   return (pan2 (o1 + o2 * decay2 t 0.1 r2 * r3) p a)
 
--- > Sound.SC3.UGen.Dot.draw =<< trkl_r
 -- > audition . out 0 =<< trkl_r
 trkl_r :: UId m => m UGen
 trkl_r = do

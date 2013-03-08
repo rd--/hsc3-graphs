@@ -31,7 +31,6 @@ sosc_lp t n =
         o2 = sinOsc AR f2 0 * d_env
     in (o1 + o2) * 0.2
 
--- > Sound.SC3.UGen.Dot.draw =<< sosc_lp_m
 sosc_lp_m :: UId m => m UGen
 sosc_lp_m = do
   clk <- dustR KR 0.2 0.9

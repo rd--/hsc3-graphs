@@ -3,6 +3,7 @@
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3.Monad {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< cymbalism
 cymbalism :: (Functor m,UId m) => m UGen
 cymbalism = do
   let p = replicate 15

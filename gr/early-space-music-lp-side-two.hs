@@ -3,7 +3,7 @@
 import Sound.SC3.ID {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
 import Sound.SC3.Lang.Control.OverlapTexture
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 import qualified System.Random as R {- random -}
 
 m1 :: UGen
@@ -53,7 +53,6 @@ enumFromN :: Enum a => a -> Int -> [Int]
 enumFromN e i = let j = fromEnum e in [j .. j + i]
 
 -- audition (out 0 m7)
--- Sound.SC3.UGen.Dot.draw m7
 m7 :: UGen
 m7 =
     let p = 15

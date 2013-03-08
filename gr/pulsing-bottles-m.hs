@@ -4,7 +4,6 @@ import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
--- > Sound.SC3.UGen.Dot.draw =<< pulsing_bottles
 pulsing_bottles :: UId m => m UGen
 pulsing_bottles = do
   let r = do n <- whiteNoise AR

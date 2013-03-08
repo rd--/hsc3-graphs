@@ -1,8 +1,8 @@
--- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html (jmcc)
+-- babbling brook (jmcc)
+-- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< babbling_brook
 babbling_brook :: UId m => m UGen
 babbling_brook = do
   let b f m a g = do n1 <- brownNoise AR

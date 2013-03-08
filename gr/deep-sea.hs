@@ -8,7 +8,6 @@ rng s l r =
     let m = (r - l) * 0.5
     in mulAdd s m (m + l)
 
--- > Sound.SC3.UGen.Dot.draw deep_sea
 deep_sea :: UGen
 deep_sea =
     let amp = 1

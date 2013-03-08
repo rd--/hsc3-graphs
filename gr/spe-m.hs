@@ -3,7 +3,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< spe
 spe :: UId m => m UGen
 spe = do
   let (>=>) f g x = f x >>= g

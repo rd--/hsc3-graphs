@@ -2,7 +2,7 @@
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 xl :: ID a => a -> a -> UGen -> UGen -> UGen -> UGen

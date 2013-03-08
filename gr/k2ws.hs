@@ -5,7 +5,6 @@ import Sound.SC3.ID {- hsc3 -}
 rng :: (UGen,UGen) -> UGen -> UGen
 rng (i,j) = range i j
 
--- > Sound.SC3.UGen.Dot.draw k2ws
 k2ws :: UGen
 k2ws =
     let fc = 400 + rng (100,200) (lfNoise2 'α' AR (mce2 1 2))

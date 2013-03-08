@@ -2,9 +2,8 @@
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 
--- > Sound.SC3.UGen.Dot.draw tremulate
 tremulate :: UGen
 tremulate =
     let f = rand 'α' 500 900

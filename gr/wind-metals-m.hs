@@ -4,7 +4,6 @@ import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3.Monad {- hsc3 -}
 
 -- > audition . out 0 =<< wind_metals
--- > Sound.SC3.UGen.Dot.draw =<< wind_metals
 wind_metals :: UId m => m UGen
 wind_metals = do
   let n = 6

@@ -2,9 +2,8 @@
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 
--- > Sound.SC3.UGen.Dot.draw why_supercollider
 why_supercollider :: UGen
 why_supercollider =
     let r = resonz (dust 'α' AR 0.2 * 50) (rand 'β' 200 3200) 0.003

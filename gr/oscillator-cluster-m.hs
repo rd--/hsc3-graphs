@@ -3,7 +3,6 @@
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
--- > Sound.SC3.UGen.Dot.draw =<< oscillator_cluster
 oscillator_cluster :: (Functor m,UId m) => m UGen
 oscillator_cluster = do
   let ln a b d = line KR a b d RemoveSynth

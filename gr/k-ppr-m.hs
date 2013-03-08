@@ -3,7 +3,6 @@
 import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 
--- > k_ppr_m >>= Sound.SC3.UGen.Dot.draw
 k_ppr_m :: UId m => m UGen
 k_ppr_m = do
   let wrp i = linLin i (-1) 1

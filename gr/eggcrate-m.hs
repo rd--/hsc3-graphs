@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< eggcrate
 eggcrate :: UId m => m UGen
 eggcrate = do
   let cosu = cos . (* pi)

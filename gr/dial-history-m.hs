@@ -6,7 +6,6 @@ import Sound.SC3.Monad {- hsc3 -}
 rng :: UGen -> UGen -> UGen -> UGen
 rng s = linLin s 0 1
 
--- > Sound.SC3.UGen.Dot.draw =<< dial_history
 dial_history :: UId m => m UGen
 dial_history = do
   let mfv = [[697,770,852,941],[1209,1336,1477,1633]]

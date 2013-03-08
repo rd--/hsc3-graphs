@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< shifting_pulses
 shifting_pulses :: UId m => m UGen
 shifting_pulses = do
   n0 <- clone 2 (brownNoise KR)

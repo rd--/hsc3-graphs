@@ -4,7 +4,6 @@ import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
--- > Sound.SC3.UGen.Dot.draw trmlo
 -- > audition (out 0 trmlo)
 trmlo :: UGen
 trmlo =

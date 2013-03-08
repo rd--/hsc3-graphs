@@ -3,7 +3,6 @@
 import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< diffraction
 diffraction ::(Functor m,UId m) => m UGen
 diffraction = do
   let p = do let x = mouseX KR 0.001 0.02 Exponential 0.1

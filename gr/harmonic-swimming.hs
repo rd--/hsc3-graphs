@@ -1,7 +1,7 @@
 -- harmonic swimming (jmcc)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 
 harmonic_swimming :: UGen
 harmonic_swimming =

@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< cut_outs
 cut_outs :: (Functor m,UId m) => m UGen
 cut_outs = do
   let t = impulse AR 22 0 * (sinOsc KR 0.5 0 + 1)

@@ -1,7 +1,6 @@
 -- http://sccode.org/1-4Qx
 import Sound.SC3 {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw tw
 tw :: UGen
 tw =
     let l = lfCub

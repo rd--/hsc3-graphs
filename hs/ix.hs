@@ -28,7 +28,8 @@ link h p c = do
 use_html :: Bool
 use_html = True
 
-type HS_LN = (Maybe String,Maybe String,Maybe String,Maybe String)
+type M_Str = Maybe String
+type HS_LN = (M_Str,M_Str,M_Str,M_Str,M_Str)
 
 hs_plain :: FilePath -> FilePath -> IO HS_LN
 hs_plain h nm = do
@@ -36,7 +37,8 @@ hs_plain h nm = do
   m_hs <- link h (dir </> "gr" </> nm ++ "-m" <.> "hs") "m/hs"
   u_hs <- link h (dir </> "gr" </> nm ++ "-u" <.> "hs") "u/hs"
   hp_hs <- link h (dir </> "gr" </> nm ++ "-hp" <.> "hs") "hp/hs"
-  return (hs,m_hs,u_hs,hp_hs)
+  p_hs <- link h (dir </> "gr" </> nm ++ "-p" <.> "hs") "p/hs"
+  return (hs,m_hs,u_hs,hp_hs,p_hs)
 
 hs_html :: FilePath -> FilePath -> IO HS_LN
 hs_html h nm = do
@@ -44,17 +46,20 @@ hs_html h nm = do
   m_hs <- link h (dir </> "html" </> nm ++ "-m" <.> "hs.html") "hs-m"
   u_hs <- link h (dir </> "html" </> nm ++ "-u" <.> "hs.html") "hs-u"
   hp_hs <- link h (dir </> "html" </> nm ++ "-hp" <.> "hs.html") "hs-hp"
-  return (hs,m_hs,u_hs,hp_hs)
+  p_hs <- link h (dir </> "html" </> nm ++ "-p" <.> "hs.html") "hs-p"
+  return (hs,m_hs,u_hs,hp_hs,p_hs)
 
 entry :: FilePath -> String -> IO String
 entry h nm = do
-  (hs,m_hs,u_hs,hp_hs) <- if use_html then hs_html h nm else hs_plain h nm
+  (hs,m_hs,u_hs,hp_hs,p_hs) <- if use_html
+                               then hs_html h nm
+                               else hs_plain h nm
   scd <- link h (dir </> "gr" </> nm <.> "scd") "scd"
   scm <- link h (scm_dir </> nm <.> "scm") "scm"
   dot <- link h (dir </> "dot" </> nm <.> "dot") "dot"
   pdf <- link h (dir </> "pdf" </> nm <.> "pdf") "pdf"
   svg <- link h (dir </> "svg" </> nm <.> "svg") "svg"
-  let ln = intercalate "," (catMaybes [hs,m_hs,u_hs,hp_hs
+  let ln = intercalate "," (catMaybes [hs,m_hs,u_hs,hp_hs,p_hs
                                       ,scd,scm,dot,pdf,svg])
   return (printf "- %s [%s]" nm ln)
 

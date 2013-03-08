@@ -5,7 +5,6 @@ import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
 
--- > Sound.SC3.UGen.Dot.draw analogarpeggio
 analogarpeggio :: Synthdef
 analogarpeggio =
     let k = control KR

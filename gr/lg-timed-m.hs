@@ -2,7 +2,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw =<< lg_timed
 lg_timed :: UId m => m UGen
 lg_timed = do
   let timed r y p =
