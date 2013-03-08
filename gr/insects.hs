@@ -2,6 +2,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< insect
 insect :: UId m => m UGen
 insect = do
   r1 <- rand 2000 3000
@@ -15,7 +16,7 @@ insect = do
   return (pan2 o n2 1)
 
 insects :: UId m => m UGen
-insects = return.sum =<< sequence (replicate 60 insect)
+insects = fmap sum (sequence (replicate 60 insect))
 
 main :: IO ()
 main = audition . out 0 =<< insects

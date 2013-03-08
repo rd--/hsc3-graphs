@@ -2,6 +2,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< harmonic_tumbling
 harmonic_tumbling :: UId m => m UGen
 harmonic_tumbling = do
   let f = 80
@@ -11,7 +12,7 @@ harmonic_tumbling = do
                r <- rand 0 0.5
                let e = decay2 (n * 0.02) 0.005 r
                return (fSinOsc AR (f * (h + 1)) 0 * e)
-  return.sum =<< mapM o [0..p]
+  fmap sum (mapM o [0..p])
 
 main :: IO ()
 main = audition . out 0 =<< harmonic_tumbling

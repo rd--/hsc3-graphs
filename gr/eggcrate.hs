@@ -5,6 +5,7 @@ import Sound.SC3.ID {- hsc3 -}
 atp :: (t -> u) -> (t,t) -> (u,u)
 atp f (i,j) = (f i,f j)
 
+-- > Sound.SC3.UGen.Dot.draw eggcrate
 eggcrate :: UGen
 eggcrate =
   let cosu = cos . (* pi)

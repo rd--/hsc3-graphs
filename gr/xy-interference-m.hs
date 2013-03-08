@@ -11,7 +11,7 @@ xy_interference = do
               let a = sinOsc AR (x + n) 0
                   b = sinOsc AR y 0
               return (a * b)
-  return.sum =<< sequence (replicate 3 nd)
+  fmap sum (sequence (replicate 3 nd))
 
 main :: IO ()
 main = audition . out 0 =<< xy_interference

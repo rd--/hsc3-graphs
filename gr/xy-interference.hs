@@ -3,6 +3,7 @@
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect
 
+-- > Sound.SC3.UGen.Dot.draw xy_interference
 xy_interference :: UGen
 xy_interference =
   let x = mouseX KR 20 22000 Linear (mce2 0.005 0.025)

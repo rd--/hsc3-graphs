@@ -4,6 +4,7 @@ import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< pulsing_bottles
 pulsing_bottles :: UId m => m UGen
 pulsing_bottles = do
   let r = do n <- whiteNoise AR
@@ -15,7 +16,7 @@ pulsing_bottles = do
              p <- rand 0 (pi * 2)
              return (sinOsc KR f p)
       u = liftM2 (\x y -> pan2 x y 1) r s
-  return.sum =<< sequence (replicate 6 u)
+  fmap sum (sequence (replicate 6 u))
 
 main :: IO ()
 main = overlapTextureU (4,4,4,maxBound) =<< pulsing_bottles

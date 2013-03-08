@@ -3,7 +3,8 @@
 import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 
-diffraction ::(Functor m, UId m) => m UGen
+-- > Sound.SC3.UGen.Dot.draw =<< diffraction
+diffraction ::(Functor m,UId m) => m UGen
 diffraction = do
   let p = do let x = mouseX KR 0.001 0.02 Exponential 0.1
                  y = mouseY KR 120 400 Exponential 0.1
@@ -22,7 +23,7 @@ diffraction = do
                        am <- fmap (* y) (rand 0.04 0.16)
                        return (sinOsc AR fr 0 * am)
           in liftM2 mce2 (mixFillM 16 f) (mixFillM 12 f)
-  return.sum =<< sequence [p, q, r]
+  fmap sum (sequence [p,q,r])
 
 main :: IO ()
 main = audition . out 0 =<< diffraction

@@ -21,7 +21,7 @@ wial = do
       clk = impulse AR 16 0
   n0 <- dust KR 2
   f <- tWChoose n0 (mce2 (20 * 0.66) 20) (mce2 0.25 0.75) 0
-  return.sum =<< mapM (plss clk) (smpl f)
+  fmap sum (mapM (plss clk) (smpl f))
 
 main :: IO ()
 main = audition . out 0 =<< wial

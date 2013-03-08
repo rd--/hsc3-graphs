@@ -2,6 +2,7 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
+-- > Sound.SC3.UGen.Dot.draw =<< plucked_strings
 plucked_strings :: UId m => m UGen
 plucked_strings = do
   let dt = do r0 <- rand 60 90
@@ -21,7 +22,7 @@ plucked_strings = do
              dt' <- dt
              let t = decay im 0.1 * n0 * 0.1
              return (pan2 (combL t dt' dt' 4) r1 1)
-  return.sum =<< sequence (replicate 5 s)
+  fmap sum (sequence (replicate 5 s))
 
 main :: IO ()
 main = audition . out 0 =<< plucked_strings
