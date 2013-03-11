@@ -14,8 +14,7 @@ sidereal_time = do
              return (klankSpec fr (replicate p 1) rt)
        in clone 2 y
   let f = xLine KR #(expRand 40 300) #(expRand 40 300) 12 DoNothing
-  e <- lfNoise2 KR #(rand 0 8)
-  let t = lfPulse AR f 0 #(rand 0.1 0.9) * 0.002 * max 0 e
+  let t = lfPulse AR f 0 #(rand 0.1 0.9) * 0.002 * max 0 #(lfNoise2 KR #(rand 0 8))
       o = distort (klank t 1 0 1 (mceTranspose z)) * 0.1
   return (combN o 0.6 #(rand 0.1 0.6) 8 + mceReverse o)
 
