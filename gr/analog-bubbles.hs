@@ -2,7 +2,6 @@
 
 import Sound.SC3 {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw (synthdef "analog-bubbles" analog_bubbles)
 analog_bubbles :: UGen
 analog_bubbles =
   let o = lfSaw KR (mce2 8 7.23) 0 * 3 + 80

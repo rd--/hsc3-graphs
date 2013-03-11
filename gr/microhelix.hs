@@ -2,18 +2,10 @@
 
 import Sound.SC3.ID {- hsc3 -}
 
-rng :: UGen -> UGen -> UGen -> UGen
-rng l r =
-    let m = (r - l) * 0.5
-        a = m + l
-    in (+ a) . (* m)
-
 offset_id :: Enum a => Int -> a -> Int
 offset_id n e = n + fromEnum e
 
 -- mce...........................
---
--- > Sound.SC3.UGen.Dot.draw microhelix
 microhelix :: UGen
 microhelix =
     let rp = replicate
@@ -27,7 +19,7 @@ microhelix =
         ctrigs = mce2 (ctrigs_ 0) (ctrigs_ 12)
         clicks =
             let n = pinkNoise 'ε' AR * decay ctrigs (0.001 * abs (lfNoise1 'ζ' AR 4))
-            in fold (bpf n 15000 0.9 * (25 * rng 0 1 (lfNoise1 'η' AR 8))) (-1) 1
+            in fold (bpf n 15000 0.9 * (25 * range 0 1 (lfNoise1 'η' AR 8))) (-1) 1
         snd1 =
             let o = sinOsc AR (midiCPS 44) 0 * 0.5 + sinOsc AR (midiCPS 90) 0 * 0.6
             in lpf o (midiCPS 32) * 2 + hpf (lpf (whiteNoise 'θ' AR * 0.008) 12000) 2400

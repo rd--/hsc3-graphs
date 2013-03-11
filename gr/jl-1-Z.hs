@@ -2,7 +2,6 @@
 
 import Sound.SC3 {- hsc3 -}
 
--- > Sound.SC3.UGen.Dot.draw jl_z_1
 jl_z_1 :: UGen
 jl_z_1 =
     let a = lag (impulse KR 8 0) 0.1

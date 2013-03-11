@@ -34,7 +34,6 @@ mk_f d = do
            return (blip AR f 3 * mce2 0.03 0.09)
   return (sum [s1,s2,s3,s4])
 
--- Sound.SC3.UGen.Dot.draw =<< rzblp
 rzblp :: UId m => m UGen
 rzblp = mk_f drand .+. mk_f dxrand
 

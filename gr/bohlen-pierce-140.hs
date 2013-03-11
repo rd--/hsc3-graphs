@@ -10,7 +10,6 @@ bp140u =
         o = pmOsc AR (f 'α' (mce2 438 442)) (f 'β' 880) (f 'γ' e) 0
     in o * e
 
--- > Sound.SC3.UGen.Dot.draw bp140u
 bp140 :: Synthdef
 bp140 = synthdef "bp140" (out 0 bp140u)
 

@@ -40,7 +40,6 @@ tank_f e i =
         l7 = l6 + i
     in mrg [l7,localOut l7]
 
--- > Sound.SC3.UGen.Dot.draw tank
 tank :: UGen
 tank =
   let s = bang 'α' + mix (uclone 'β' 8 (pling 'γ'))

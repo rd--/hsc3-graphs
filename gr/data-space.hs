@@ -3,12 +3,9 @@
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
-randz :: ID a => a -> UGen -> UGen
-randz e = rand e 0
-
 data_space :: UGen
 data_space =
-    let r = randz
+    let r e = rand e 0
         p0 = lfPulse KR (r 'α' 200) 0 (r 'β' 1)
         p1 = lfPulse KR (r 'γ' 40) 0 (r 'δ' 1) * r 'ε' 8000 + r 'ζ' 2000
         p2 = lfPulse KR (r 'η' 20) 0 (r 'θ' 1)

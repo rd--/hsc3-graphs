@@ -13,7 +13,6 @@ mk_e = do
 mce_scramble :: UGen -> IO UGen
 mce_scramble u = fmap mce (L.scramble (mceChannels u))
 
--- > pm >>= Sound.SC3.UGen.Dot.draw
 pm :: IO UGen
 pm = do
   e <- mk_e
