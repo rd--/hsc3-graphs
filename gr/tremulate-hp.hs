@@ -6,7 +6,7 @@ import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 tremulate :: UId m => m UGen
 tremulate = do
-  let o = fSinOsc AR (mce [1,1.2,1.5,1.8] * #(rand 500 900)) 0
+  let o = fSinOsc AR (#(rand 500 900) * mce [1,1.2,1.5,1.8]) 0
   n <- clone 4 (lfNoise2 KR #(rand 30 90))
   return (mix (pan2 o #(clone 4 (rand (-1) 1)) (max 0 (n * 0.1))))
 
