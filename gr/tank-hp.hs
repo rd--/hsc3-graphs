@@ -7,19 +7,20 @@ import Sound.SC3.UGen.Monad.Syntax {- hsc3 -}
 
 pling :: UId m => m UGen
 pling = do
-  let s = decay2 #(dust AR 0.2) 0.1 0.5 * 0.1 * cubed (fSinOsc AR #(expRand 300 2200) 0)
+  let s = decay2 #(dust AR 0.2) 0.1 0.5
+          * cubed (fSinOsc AR #(expRand 300 2200) 0)
+          * 0.1
   return (pan2 s #(rand (-1) 1) 1)
 
 bang :: UId m => m UGen
-bang = do
-  return (pan2 (decay2 #(dust AR 0.01) 0.04 0.3 * #(brownNoise AR)) 0 1)
+bang = do return (pan2 (decay2 #(dust AR 0.01) 0.04 0.3
+                        * #(brownNoise AR)) 0 1)
 
 chain :: Monad m => Int -> (b -> m b) -> b -> m b
 chain n f = foldl (>=>) return (replicate n f)
 
 r_allpass :: UId m => UGen -> m UGen
-r_allpass i = do
-  return (allpassN i 0.03 #(clone 2 (rand 0.005 0.02)) 1)
+r_allpass i = do return (allpassN i 0.03 #(clone 2 (rand 0.005 0.02)) 1)
 
 tank_f :: UId m => UGen -> m UGen
 tank_f i = do
