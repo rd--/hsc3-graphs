@@ -2,15 +2,10 @@
 
 import Sound.SC3.ID {- hsc3 -}
 
-wrp :: Fractional a => a -> a -> a -> a
-wrp i l r =
-    let m = (r - l) / 2
-    in i * m + l + m
-
 lfn :: ID a => a -> UGen -> UGen -> UGen -> UGen
 lfn z f l r =
     let z' = z `joinID` l `joinID` r
-    in wrp (lfNoise0 z' KR f) l r
+    in range l r (lfNoise0 z' KR f)
 
 hpb :: (ID a) => a -> UGen -> UGen
 hpb z q =

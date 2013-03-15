@@ -3,13 +3,8 @@
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
 
-wrp :: Fractional a => a -> a -> a -> a
-wrp i l r =
-    let m = (r - l) / 2
-    in i * m + l + m
-
 lfn :: UGen -> UGen -> UGen -> UGen
-lfn f = wrp (lfNoise0 KR f)
+lfn f l r = range l r (lfNoise0 KR f)
 
 hpb :: UGen -> UGen
 hpb q =

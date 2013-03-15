@@ -3,12 +3,6 @@
 
 import Sound.SC3.Monad {- hsc3 -}
 
-composeM :: Monad m => [a -> m a] -> a -> m a
-composeM fs i = foldr (=<<) (return i) fs
-
-chainM :: Monad m => Int -> (a -> m a) -> a -> m a
-chainM n f = composeM (replicate n f)
-
 birds :: UId m => m UGen
 birds = do
   let node = do r1 <- rand 94.0 102.0

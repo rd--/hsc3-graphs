@@ -2,7 +2,6 @@
 -- data space (jmcc)
 
 import Sound.SC3.Monad {- hsc3 -}
-import Sound.SC3.UGen.Monad.Syntax {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 data_space :: UId m => m UGen

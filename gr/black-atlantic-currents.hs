@@ -2,7 +2,7 @@
 
 import Data.Numbers.Primes {- primes -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.UGen.Protect
+import Sound.SC3.UGen.Protect {- hsc3 -}
 import System.Random {- random -}
 import System.Random.Shuffle {- random-shuffle -}
 

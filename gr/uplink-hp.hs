@@ -2,7 +2,6 @@
 -- uplink (jmcc)
 
 import Sound.SC3.Monad {- hsc3 -}
-import Sound.SC3.UGen.Monad.Syntax
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 uplink :: UId m => m UGen

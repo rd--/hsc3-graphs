@@ -1,8 +1,8 @@
 -- fb-090531 (rd)
 
+import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Control.Monad
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 fb_090531 :: UGen

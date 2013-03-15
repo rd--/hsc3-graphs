@@ -8,9 +8,7 @@ bottle = do
   freq <- rand 220 880
   wn <- whiteNoise AR
   pn <- pinkNoise AR
-  let (>=>) f g x = f x >>= g
-      chain n f = foldl (>=>) return (replicate n f)
-      perc = envPerc 0.1 0.6
+  let perc = envPerc 0.1 0.6
       ex = envGen KR 1 1 0 1 DoNothing perc * wn * 0.02
       flute = ringz ex freq 0.3
       r = resonz pn (5 + (freq / 2)) 0.1
@@ -21,7 +19,7 @@ bottle = do
                   l = envLinen' 0.01 3.0 1.0 1 en
                   z = (breath + i) * envGen KR 1 1 0 1 RemoveSynth l
               in mce2 z z
-  f <- chain 2 rapf flute
+  f <- chainM 2 rapf flute
   return (cls f)
 
 main :: IO ()

@@ -1,6 +1,5 @@
 -- k-ppr-m (rd)
 
-import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 
 k_ppr_m :: UId m => m UGen
@@ -19,7 +18,7 @@ k_ppr_m = do
              return (ringz (decay2 t' 0.01 0.5) r2 (r3 * y) * g)
       s1 = stream 3140 6240 0.050 0.005 0.15
       s2 = stream 0400 9000 0.005 0.005 0.15
-  liftM2 (+) (clone 2 s1) (clone 2 s2)
+  clone 2 s1 .+. clone 2 s2
 
 main :: IO ()
 main = audition . out 0 =<< k_ppr_m

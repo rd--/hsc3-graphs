@@ -11,7 +11,7 @@ all: $(GRAPHS)
 clean:
 	rm -f $(GRAPHS)
 	rm -f *.packages *.cabal
-	rm -f *.hi *.o
+	rm -f *.hi *.o *.hspp
 
 dep:
 	bash ../sh/mk-dependencies.sh

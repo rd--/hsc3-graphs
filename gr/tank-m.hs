@@ -1,6 +1,6 @@
--- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html (jmcc)
+-- tank (jmcc)
+-- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
 
-import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
 
 pling :: UId m => m UGen
@@ -17,9 +17,6 @@ bang = do
   d <- dust AR 0.01
   n <- brownNoise AR
   return (pan2 (decay2 d 0.04 0.3 * n) 0 1)
-
-chain :: Monad m => Int -> (b -> m b) -> b -> m b
-chain n f = foldl (>=>) return (replicate n f)
 
 r_allpass :: UId m => UGen -> m UGen
 r_allpass i = do
@@ -42,12 +39,7 @@ tank_f i = do
   return (mrg [l7,localOut l7])
 
 tank :: UId m => m UGen
-tank = do
-  s <- liftM2 (+) bang (mixFillM 8 (const pling))
-  s' <- chain 4 r_allpass s
-  tank_f s'
+tank = tank_f =<< chainM 4 r_allpass =<< bang .+. mixFillM 8 (const pling)
 
 main :: IO ()
-main = do
-  t <- tank
-  audition (out 0 t)
+main = audition . out 0 =<< tank

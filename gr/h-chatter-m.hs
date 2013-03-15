@@ -1,10 +1,6 @@
 -- h-chatter (rd)
 
-import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
-
-wrp :: UGen -> UGen -> UGen -> UGen
-wrp i = linLin i (-1) 1
 
 h_chatter :: UId m => m UGen
 h_chatter = do
@@ -19,6 +15,7 @@ h_chatter = do
               n1 <- lfNoise0 KR 2
               let a = mouseX KR 1.2 1.4 Linear 0.1
                   b = mouseY KR 0.2 0.3 Linear 0.1
+                  wrp i = linLin i (-1) 1
                   h = wrp n0 1 32
                   p = wrp n1 2400 3200
                   l = wrp n1 (-0.75) 0.75
@@ -26,7 +23,7 @@ h_chatter = do
                   f = 40
                   o = blip AR (wrp (henonN AR f a b 0 0) p (p * 2)) h
               return (pan2 o l g * 0.35)
-  liftM2 (+) h0 h1
+  h0 .+. h1
 
 main :: IO ()
 main = audition . out 0 =<< h_chatter

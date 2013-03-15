@@ -1,9 +1,7 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html (jmcc)
 
-import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
-import Sound.SC3.UGen.Monad.Syntax {- hsc3 -}
 
 pling :: UId m => m UGen
 pling = do
@@ -13,11 +11,7 @@ pling = do
   return (pan2 s #(rand (-1) 1) 1)
 
 bang :: UId m => m UGen
-bang = do return (pan2 (decay2 #(dust AR 0.01) 0.04 0.3
-                        * #(brownNoise AR)) 0 1)
-
-chain :: Monad m => Int -> (b -> m b) -> b -> m b
-chain n f = foldl (>=>) return (replicate n f)
+bang = do return (pan2 (decay2 #(dust AR 0.01) 0.04 0.3 * #(brownNoise AR)) 0 1)
 
 r_allpass :: UId m => UGen -> m UGen
 r_allpass i = do return (allpassN i 0.03 #(clone 2 (rand 0.005 0.02)) 1)
@@ -33,7 +27,7 @@ tank_f i = do
 tank :: UId m => m UGen
 tank = do
   s <- bang .+. mixFillM 8 (const pling)
-  s' <- chain 4 r_allpass s
+  s' <- chainM 4 r_allpass s
   tank_f s'
 
 main :: IO ()

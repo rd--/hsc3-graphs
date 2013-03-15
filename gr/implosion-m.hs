@@ -10,13 +10,11 @@ mkls bp t =
 mkrmp :: UGen -> UGen -> UGen -> UGen
 mkrmp l r = mkls [(0,l),(1,r)]
 
-wrp :: UGen -> UGen -> UGen -> UGen
-wrp i = linLin i (-1) 1
-
 pmr_n :: UId m => Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> m UGen
 pmr_n rt l0 l1 r0 r1 d = do
   let le = mkrmp l0 r0 d
       re = mkrmp l1 r1 d
+      wrp i = linLin i (-1) 1
   n <- whiteNoise rt
   return (wrp n le re)
 

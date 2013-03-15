@@ -1,14 +1,9 @@
 -- rzblp-m (rd)
 
-import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}
-import Sound.SC3.UGen.Monad.Syntax {- hsc3 -}
-
-wrp :: Fractional a => a -> a -> a -> a
-wrp l r i = let m = (r - l) / 2 in i * m + l + m
 
 lfn :: UId m => UGen -> UGen -> UGen -> m UGen
-lfn f l r = fmap (wrp l r) (lfNoise0 KR f)
+lfn f l r = fmap (range l r) (lfNoise0 KR f)
 
 hpb :: UId m => UGen -> m UGen
 hpb q =
@@ -16,9 +11,6 @@ hpb q =
                  a <- lfn q 0.001 0.007
                  return (blip AR f 24 * a)
     in mixFillM 2 g
-
-sumM :: (Monad m,Num n) => [n] -> m n
-sumM = foldM (\p q -> return (p + q)) 0
 
 mk_f :: UId m => (UGen -> UGen -> m UGen) -> m UGen
 mk_f d = do
