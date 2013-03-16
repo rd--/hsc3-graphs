@@ -1,4 +1,4 @@
---nharm (rd)
+-- nharm (rd)
 
 import Control.Concurrent {- base -}
 import Control.Monad

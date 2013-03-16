@@ -2,11 +2,11 @@
 
 import Control.Monad.Random {- MonadRandom -}
 import Data.List {- base -}
-import Data.Maybe
+import Data.Maybe {- base -}
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Random.Monad
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.Lang.Random.Monad {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 text :: [String]
 text =

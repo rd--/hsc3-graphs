@@ -14,4 +14,6 @@ bp140 :: Synthdef
 bp140 = synthdef "bp140" (out 0 bp140u)
 
 main :: IO ()
-main = audition (bp140,pbind [("dur",prand 'δ' [1/6,1/3] inf)])
+main = do
+  let p = pbind [("dur",prand 'δ' [1/6,1/3] inf)]
+  audition (bp140,p :: P_Event)

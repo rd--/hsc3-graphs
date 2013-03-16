@@ -1,4 +1,4 @@
--- crotale-sine
+-- crotale-sine (rd)
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
@@ -22,12 +22,16 @@ crotale_sine =
             in pan2 o (sinOsc KR r2 r3) e'
     in sum (zipWith (fn m) cf ca) * 0.1
 
+pattern :: P_Bind Double
+pattern =
+    [("m",pwhitei 'α' 0 12 inf)
+    ,("dur",pxrand 'β' [1,2,3] inf)
+    ,("sustain",6)]
+
 main :: IO ()
 main = do
   let s = synthdef "crotale-sine" (out 0 crotale_sine)
-  audition (s,pbind [("m",pwhitei 'α' 0 12 inf)
-                    ,("dur",pxrand 'β' [1,2,3] inf)
-                    ,("sustain",6)])
+  audition (s,pbind pattern)
 
 crotale_data :: ([Double],[Double])
 crotale_data =

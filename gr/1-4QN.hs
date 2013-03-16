@@ -4,8 +4,7 @@ import Control.Concurrent {- base -}
 import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.IO as L
 
 -- > withSC3 init_b
@@ -31,21 +30,21 @@ mk_g o =
         g = grainBuf 2 t (1 / l) b r p 2 0 (-1) 512
     in synthdef "g" (out 0 (g * e))
 
-p1 :: P Event
-p1 = pbind
+p1 :: P_Bind Double
+p1 =
     [("dur",pseq [4] inf)
     ,("sdens",pseq [9000,1000,500] inf / 100)
     ,("edens",prand 'δ' [pseq [9000,1000,500] 1 / 10,pseq [1] 3] inf)
     ,("rate",pwhite 'ε' (-10) 10 inf)
     ,("pos",pwhite 'ζ' (-10) 10 inf)]
 
-p2 :: P Event
-p2 = pbind
-     [("dur",pseq [4/3] inf)
-     ,("sdens",pseq [9000,1000,500,25] inf)
-     ,("edens",prand 'η' [pseq [9000,1000,500,25] 1,pseq [1] 4] inf)
-     ,("rate",pwhite 'θ' (-100) 100 inf)
-     ,("pos",pwhite 'ι' (-10) 10 inf)]
+p2 :: P_Bind Double
+p2 =
+    [("dur",pseq [4/3] inf)
+    ,("sdens",pseq [9000,1000,500,25] inf)
+    ,("edens",prand 'η' [pseq [9000,1000,500,25] 1,pseq [1] 4] inf)
+    ,("rate",pwhite 'θ' (-100) 100 inf)
+    ,("pos",pwhite 'ι' (-10) 10 inf)]
 
 push_g :: Transport m => m Message
 push_g = do
@@ -64,4 +63,4 @@ update_g = do
 main :: IO ()
 main = do
   _ <- forkIO (withSC3 (reset >> init_b >> forever update_g))
-  audition ("g",ppar [p1,p2])
+  audition ("g",ppar (map pbind [p1,p2]))

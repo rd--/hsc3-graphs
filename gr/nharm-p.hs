@@ -1,9 +1,8 @@
--- nharm-p
+-- nharm-p (rd)
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
-import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 nharm :: Num n => Int -> n -> [n]
 nharm n f = map ((* f) . fromIntegral) [1..n]
@@ -26,7 +25,7 @@ type Range = (Double,Double)
 and any gate message, are ignored by the UGen graph, which manages
 duration internally.  -}
 
-pN :: Int -> Range -> Range -> P Event
+pN :: Int -> Range -> Range -> P_Event
 pN n (m0,m1) (d0,d1) =
     let i = synthdef ("klg" ++ show n) (klg n)
         p = pbind [("midinote",pwhite 'α' m0 m1 inf)

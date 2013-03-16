@@ -24,15 +24,15 @@ fm_kltr =
       l = line KR p (p * r4) dt DoNothing
   in out o (pan2 (sinOsc AR m 0) l e)
 
+pattern :: P_Bind Double
+pattern =
+    [("freq",fmap midiCPS 53)
+    ,("freq2",fmap midiCPS (pwhitei 'ε' 48 96 inf + pwhite 'ζ' (-1) 1 inf))
+    ,("amp",pwhite 'η' 0.1 0.4 inf)
+    ,("dur",pwhite 'θ' 0.15 1.25 inf)
+    ,("sustain",pwhite 'ι' 5 6 inf)
+    ,("index",pwhite 'κ' 240 1480 inf)
+    ,("pan", pwhite 'λ' (-1) 1 inf)]
+
 main :: IO ()
-main = do
-  let s = synthdef "fm_kltr" fm_kltr
-      p = pbind [("freq",fmap midiCPS 53)
-                ,("freq2",fmap midiCPS (pwhitei 'ε' 48 96 inf +
-                                        pwhite 'ζ' (-1) 1 inf))
-                ,("amp",pwhite 'η' 0.1 0.4 inf)
-                ,("dur",pwhite 'θ' 0.15 1.25 inf)
-                ,("sustain",pwhite 'ι' 5 6 inf)
-                ,("index",pwhite 'κ' 240 1480 inf)
-                ,("pan", pwhite 'λ' (-1) 1 inf)]
-  audition (s,p)
+main = audition (synthdef "fm_kltr" fm_kltr,pbind pattern)

@@ -3,8 +3,7 @@
 
 import Control.Applicative
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Control.Instrument
+import Sound.SC3.Lang.Control.Instrument {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
 
 chain :: a -> [a -> a] -> a
@@ -70,28 +69,30 @@ bass_i = InstrumentDef (synthdef "bass" bass_u) False
 dur_p :: Fractional a => P a
 dur_p = prand 'β' [3,0.7,1,0.5] inf
 
-pulse_p :: P Event
-pulse_p = pbind [("dur",dur_p * 10)
-                ,("midinote",prand 'α' [59,72,76,79,81,88,90] inf)
-                ,("amp",pwhite 'β' 0.2 0.27 inf)
-                ,("attackTime",pwhite 'γ' 0 7 inf)
-                ,("delayTime",0.02)]
+pulse_p :: P_Bind Double
+pulse_p =
+    [("dur",dur_p * 10)
+    ,("midinote",prand 'α' [59,72,76,79,81,88,90] inf)
+    ,("amp",pwhite 'β' 0.2 0.27 inf)
+    ,("attackTime",pwhite 'γ' 0 7 inf)
+    ,("delayTime",0.02)]
 
-drone_p :: P Event
-drone_p = pbind [("dur",dur_p)
-                ,("midinote",prand 'α' [31,40,45,64,68,69] inf)
-                ,("amp",pwhite 'β' 0.03 0.08 inf * 0.7)
-                ,("phase",pwrand 'γ' [0,4.7123] [0.5,0.5] inf)]
+drone_p :: P_Bind Double
+drone_p =
+    [("dur",dur_p)
+    ,("midinote",prand 'α' [31,40,45,64,68,69] inf)
+    ,("amp",pwhite 'β' 0.03 0.08 inf * 0.7)
+    ,("phase",pwrand 'γ' [0,4.7123] [0.5,0.5] inf)]
 
-bass_p :: P Event
-bass_p = pbind [("dur",dur_p)
-               ,("midinote",31)
-               ,("amp",0.3)]
-
-ambient1_p :: P Event
-ambient1_p = ppar [pinstr (pure pulse_i) pulse_p
-                  ,pinstr (pure drone_i) drone_p
-                  ,pinstr (pure bass_i) bass_p]
+bass_p :: P_Bind Double
+bass_p =
+    [("dur",dur_p)
+    ,("midinote",31)
+    ,("amp",0.3)]
 
 main :: IO ()
-main = audition ambient1_p
+main = do
+  let p = ppar [pinstr (pure pulse_i) (pbind pulse_p)
+               ,pinstr (pure drone_i) (pbind drone_p)
+               ,pinstr (pure bass_i) (pbind bass_p)]
+  audition p

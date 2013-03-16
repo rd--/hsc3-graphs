@@ -1,9 +1,8 @@
 -- http://sccode.org/1-4Q6 (f0)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Control.Instrument
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.Lang.Control.Instrument {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 -- > audition risset
 --
@@ -32,15 +31,16 @@ risset =
         src = mixFill 11 fn
     in synthdef "risset" (out 0 (pan2 src pan 1))
 
-pattern :: P Event
+pattern :: P_Bind Double
 pattern =
-  let i = (InstrumentDef risset False)
-  in pmono i 1000 [("note",prand 'α' [0,2,5,7,11] inf)
-                  ,("octave",prand 'β' [4,5,6,7,9] inf)
-                  ,("legato",1)
-                  ,("dur",prand 'γ' [2,3,5,7] inf)
-                  ,("amp",pwhite 'δ' 0.025 0.15 inf)
-                  ,("trig",1)]
+  [("note",prand 'α' [0,2,5,7,11] inf)
+  ,("octave",prand 'β' [4,5,6,7,9] inf)
+  ,("legato",1)
+  ,("dur",prand 'γ' [2,3,5,7] inf)
+  ,("amp",pwhite 'δ' 0.025 0.15 inf)
+  ,("trig",1)]
 
 main :: IO ()
-main = audition pattern
+main = do
+  let i = (InstrumentDef risset False)
+  audition (pmono i 1000 pattern)

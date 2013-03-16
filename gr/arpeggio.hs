@@ -2,8 +2,7 @@
 
 import Control.Monad {- base -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 analogarpeggio :: Synthdef
 analogarpeggio =
@@ -37,7 +36,7 @@ pinterp n s e = pseries s ((e - s) / fromIntegral n) n
 pinterp' :: (Fractional a) => P Int -> P a -> P a -> P a
 pinterp' n s e = join (pzipWith3 pinterp n s e)
 
-arpeggio :: [(Key,P Double)]
+arpeggio :: P_Bind Double
 arpeggio =
     [("dur"
      ,let d = pwrand 'η' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf

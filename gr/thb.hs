@@ -4,10 +4,9 @@ import Data.List
 import qualified Music.Theory.Contour.Polansky_1992 as T {- hmt -}
 import qualified Music.Theory.Pitch as T
 import Sound.SC3 {- hsc3 -}
-import qualified Sound.SC3.Lang.Control.Event as L {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Control.Instrument as L
-import qualified Sound.SC3.Lang.Control.Pitch as L
-import qualified Sound.SC3.Lang.Pattern.ID as L
+import qualified Sound.SC3.Lang.Control.Instrument as I {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Control.Pitch as P
+import Sound.SC3.Lang.Pattern.ID
 import Sound.OSC {- hosc -}
 
 -- | Happy birthday
@@ -46,18 +45,19 @@ hb_t =
 -- > withSC3 plain
 plain :: Transport m => m ()
 plain = do
-  _ <- async (d_recv L.defaultInstrument)
-  let p = L.toP . concat
-  play (L.pbind [("degree",p hb_d - 1)
-                ,("octave",p hb_o + 1)
-                ,("dur",p hb_t / 16)])
+  _ <- async (d_recv I.defaultInstrument)
+  let p :: [[Double]] -> P Double
+      p = toP . concat
+  play (pbind [("degree",p hb_d - 1)
+              ,("octave",p hb_o + 1)
+              ,("dur",p hb_t / 16)])
 
 -- | Pitch classes
 --
 -- > tail hb_k == [[7,7,9,7,2,0],[7,7,7,4,0,11,9],[5,5,4,0,2,0]]
 hb_k :: Integral n => [[n]]
 hb_k =
-    let f = floor . L.degree_to_key [0,2,4,5,7,9,11] 12 . pred
+    let f = floor . P.degree_to_key [0,2,4,5,7,9,11] 12 . pred
     in map (map f) (hb_d :: [[Double]])
 
 -- | Midi note numbers
@@ -172,14 +172,14 @@ ins_s =
 --
 -- > withSC3 (hear 1 (map cim "hiprty"))
 -- > withSC3 (hear 9 (map cim hb))
-hear :: Transport m => L.P L.Value -> [Cim L.Value] -> m ()
+hear :: Transport m => P Double -> [Cim Double] -> m ()
 hear blur x =
     let (freq,dur,c) = unzip3 x
-    in play (ins_s,L.pbind [("freq",L.toP freq)
-                           ,("dur",L.toP dur)
-                           ,("legato",blur)
-                           ,("amp",L.toP c * 0.1 + 0.1)
-                           ,("loc",L.toP c * 2 - 1)])
+    in play (ins_s,pbind [("freq",toP freq)
+                         ,("dur",toP dur)
+                         ,("legato",blur)
+                         ,("amp",toP c * 0.1 + 0.1)
+                         ,("loc",toP c * 2 - 1)])
 
 main :: IO ()
 main = withSC3 (hear 9 ph)

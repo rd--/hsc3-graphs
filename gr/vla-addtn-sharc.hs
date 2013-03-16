@@ -55,7 +55,7 @@ vla_plyr n =
 plyr36 :: Synthdef
 plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
-pattern :: [(String,P Double)]
+pattern :: P_Bind Double
 pattern =
     [("loc",pwhite 'δ' (-1) 1 inf)
     ,("ampl",pwhite 'ε' 0.05 0.1 inf)
