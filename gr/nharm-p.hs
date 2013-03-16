@@ -25,7 +25,7 @@ type Range = (Double,Double)
 and any gate message, are ignored by the UGen graph, which manages
 duration internally.  -}
 
-pN :: Int -> Range -> Range -> P_Event
+pN :: Int -> Range -> Range -> P_Event Double
 pN n (m0,m1) (d0,d1) =
     let i = synthdef ("klg" ++ show n) (klg n)
         p = pbind [("midinote",pwhite 'α' m0 m1 inf)
