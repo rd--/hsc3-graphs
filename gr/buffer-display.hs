@@ -1,6 +1,6 @@
 -- http://sccode.org/1-1HR (f0)
 
-import Control.Concurrent
+import Control.Concurrent {- base -}
 import Data.CG.Minus {- hcg-minus -}
 import qualified Foreign.C.Math.Double as M {- cmath -}
 import qualified Graphics.Rendering.Cairo as C {- cairo -}

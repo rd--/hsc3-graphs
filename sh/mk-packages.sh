@@ -4,7 +4,7 @@ function mk_packages
 {
     i=$1.hs
     o=$1.packages
-    grep '{-.*-}' $i | \
+    grep '{- .* -}' $i | \
         sed -e 's/.*{- //g' | \
         sed -e 's/ -}//g' | \
         xargs echo | \
