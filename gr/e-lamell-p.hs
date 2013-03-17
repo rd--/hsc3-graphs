@@ -18,7 +18,7 @@ e_lamell =
         e = envGen AR 1 a 0 1 RemoveSynth e_d
     in pan2 s l e
 
-patterns :: [P_Bind Double]
+patterns :: [P_Bind]
 patterns =
     [[("note",prand 'β' [0,2,5,7] inf)
      ,("octave",pwrand 'γ' [2,3,4,5] [0.2,0.35,0.35,0.1] inf)

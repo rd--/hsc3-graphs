@@ -2,6 +2,7 @@
 -- partial...
 
 import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Control.Instrument {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
 
@@ -27,7 +28,7 @@ grain =
         src = wrap2 (sinOsc AR fEnv 1 * (1 + distort')) 1
     in out o (delayN (src * mce2 aEnv aEnv) 0.1 delay)
 
-pattern :: Enum e => (Double,e) -> P_Bind Double
+pattern :: Enum e => (Field,e) -> P_Bind
 pattern (f,z) =
     let f_mul = prand 'α' [4,1,2,3,4,8] inf
     in [("freq",return f * f_mul * pwhite z 0.99 1 (12 * 4))

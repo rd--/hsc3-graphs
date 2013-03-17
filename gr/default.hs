@@ -15,7 +15,7 @@ defaultInstrument =
         z = lpf (mix (varSaw AR f3 0 0.3 * 0.3)) l * e
     in synthdef "default" (out 0 (pan2 z p a))
 
-pattern :: P_Bind Double
+pattern :: P_Bind
 pattern =
     [("note",pxrand 'ε' [0,1,5,7,9] inf)
     ,("octave",prand 'ζ' [3,4,5,6] inf)

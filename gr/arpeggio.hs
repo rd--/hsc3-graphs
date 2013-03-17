@@ -30,13 +30,15 @@ audition (analogarpeggio
                  ,("res",pwhite 'ζ' 0.0 1.0 inf)]))
 -}
 
+-- > pinterp 3 0 9 == toP' [0,3,6]
+-- > pseries 6 ((15 - 3) / 6) 3 == toP' [6,8,10]
 pinterp :: (Fractional a) => Int -> a -> a -> P a
 pinterp n s e = pseries s ((e - s) / fromIntegral n) n
 
 pinterp' :: (Fractional a) => P Int -> P a -> P a -> P a
 pinterp' n s e = join (pzipWith3 pinterp n s e)
 
-arpeggio :: P_Bind Double
+arpeggio :: P_Bind
 arpeggio =
     [("dur"
      ,let d = pwrand 'η' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf

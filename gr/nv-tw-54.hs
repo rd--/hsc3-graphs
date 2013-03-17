@@ -23,6 +23,8 @@ nvi =
     in synthdef "nvi" (out 0 o)
 
 main :: IO ()
-main = audition (nvi,pbind [("f",fromList fS)
+main =
+    let fS' = map realToFrac fS
+    in audition (nvi,pbind [("f",fromList fS')
                            ,("i",pseries 0 1 inf)
                            ,("dur",0.3)])

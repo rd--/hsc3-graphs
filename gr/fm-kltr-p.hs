@@ -24,7 +24,7 @@ fm_kltr =
       l = line KR p (p * r4) dt DoNothing
   in out o (pan2 (sinOsc AR m 0) l e)
 
-pattern :: P_Bind Double
+pattern :: P_Bind
 pattern =
     [("freq",fmap midiCPS 53)
     ,("freq2",fmap midiCPS (pwhitei 'ε' 48 96 inf + pwhite 'ζ' (-1) 1 inf))

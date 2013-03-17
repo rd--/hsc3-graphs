@@ -12,6 +12,7 @@ clean:
 	rm -f $(GRAPHS)
 	rm -f *.packages *.cabal
 	rm -f *.hi *.o *.hspp
+	rm -f *.hers
 
 dep:
 	bash ../sh/mk-dependencies.sh

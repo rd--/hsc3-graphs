@@ -69,7 +69,7 @@ bass_i = InstrumentDef (synthdef "bass" bass_u) False
 dur_p :: Fractional a => P a
 dur_p = prand 'β' [3,0.7,1,0.5] inf
 
-pulse_p :: P_Bind Double
+pulse_p :: P_Bind
 pulse_p =
     [("dur",dur_p * 10)
     ,("midinote",prand 'α' [59,72,76,79,81,88,90] inf)
@@ -77,14 +77,14 @@ pulse_p =
     ,("attackTime",pwhite 'γ' 0 7 inf)
     ,("delayTime",0.02)]
 
-drone_p :: P_Bind Double
+drone_p :: P_Bind
 drone_p =
     [("dur",dur_p)
     ,("midinote",prand 'α' [31,40,45,64,68,69] inf)
     ,("amp",pwhite 'β' 0.03 0.08 inf * 0.7)
     ,("phase",pwrand 'γ' [0,4.7123] [0.5,0.5] inf)]
 
-bass_p :: P_Bind Double
+bass_p :: P_Bind
 bass_p =
     [("dur",dur_p)
     ,("midinote",31)

@@ -2,6 +2,7 @@
 
 import Data.List.Split {- split -}
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
 
 sinuscell :: UGen
@@ -19,7 +20,7 @@ sinuscell =
         s = sinOsc AR fre 0
     in out b (pan2 s p e)
 
-pattern :: Enum e => (Double,[e]) -> P_Bind Double
+pattern :: Enum e => (Field,[e]) -> P_Bind
 pattern (c,z) =
     case z of
       [z0,z1,z2,z3] ->

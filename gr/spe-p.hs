@@ -15,7 +15,7 @@ spe3_allpass6 = do
   u <- fmap (out 0) (chainM 4 rapf o)
   return (synthdef "spe" u)
 
-notes :: P Double
+notes :: Num n => P n
 notes =
     let n = [prand' 'α' [pempty,fromList [24,31,36,43,48,55]] inf
             ,pflop [60,prand 'β' [63,65] inf,67,prand 'γ' [70,72,74] inf]

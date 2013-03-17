@@ -34,7 +34,7 @@ sam =
         o = sinOsc AR f1 0 * pulse AR f2 0.5 * saw AR f3 * e
     in synthdef "sam" (out 0 o)
 
-b :: RandomGen g => g -> [(String,[(String,Double)])]
+b :: (RandomGen g,Floating n,Random n) => g -> [(String,[(String,n)])]
 b g =
     let mk w = do
           f1 <- exprand 200 9000
@@ -48,5 +48,5 @@ main :: IO ()
 main = do
   g <- getStdGen
   let t = b g
-      ae = mapMaybe (\w -> fmap event (lookup w t)) (concat x)
+      ae = mapMaybe (\w -> fmap e_from_list (lookup w t)) (concat x)
   audition (sam,pseq (map return ae) 1)

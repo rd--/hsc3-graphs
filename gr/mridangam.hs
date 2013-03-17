@@ -19,7 +19,7 @@ spe3_drone =
         o = lpf (s1 + s2) (midiCPS 108) * 0.007
     in synthdef "drone" (out 0 o)
 
-p :: [P Double]
+p :: Fractional n => [P n]
 p =
     [pseq [0.0] 10
     -- intro

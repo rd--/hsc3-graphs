@@ -31,7 +31,7 @@ risset =
         src = mixFill 11 fn
     in synthdef "risset" (out 0 (pan2 src pan 1))
 
-pattern :: P_Bind Double
+pattern :: P_Bind
 pattern =
   [("note",prand 'α' [0,2,5,7,11] inf)
   ,("octave",prand 'β' [4,5,6,7,9] inf)

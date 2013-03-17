@@ -46,8 +46,7 @@ hb_t =
 plain :: Transport m => m ()
 plain = do
   _ <- async (d_recv I.defaultInstrument)
-  let p :: [[Double]] -> P Double
-      p = toP . concat
+  let p = toP . map realToFrac . concat
   play (pbind [("degree",p hb_d - 1)
               ,("octave",p hb_o + 1)
               ,("dur",p hb_t / 16)])
@@ -172,14 +171,15 @@ ins_s =
 --
 -- > withSC3 (hear 1 (map cim "hiprty"))
 -- > withSC3 (hear 9 (map cim hb))
-hear :: Transport m => P Double -> [Cim Double] -> m ()
+hear :: Transport m => Double -> [Cim Double] -> m ()
 hear blur x =
     let (freq,dur,c) = unzip3 x
-    in play (ins_s,pbind [("freq",toP freq)
-                         ,("dur",toP dur)
-                         ,("legato",blur)
-                         ,("amp",toP c * 0.1 + 0.1)
-                         ,("loc",toP c * 2 - 1)])
+        p = toP . map realToFrac
+    in play (ins_s,pbind [("freq",p freq)
+                         ,("dur",p dur)
+                         ,("legato",p (repeat blur))
+                         ,("amp",p c * 0.1 + 0.1)
+                         ,("loc",p c * 2 - 1)])
 
 main :: IO ()
 main = withSC3 (hear 9 ph)
