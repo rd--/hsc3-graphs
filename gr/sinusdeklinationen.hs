@@ -27,7 +27,9 @@ pattern (c,z) =
           let a = pwhite z0 0 1 inf
               s = 0.2
               r = pwhite z1 0 1 inf
-          in [("fre",pwhite z2 0 1100 inf)
+              i = psynth (synthdef "sinuscell" sinuscell)
+          in [("instr",i)
+             ,("fre",pwhite z2 0 1100 inf)
              ,("atk",a)
              ,("sus",s)
              ,("rel",r)
@@ -41,6 +43,5 @@ cells = [-1,-0.6,-0.5,0,0.2,0.5,0.4,1]
 
 main :: IO ()
 main =
-    let s = synthdef "sinuscell" sinuscell
-        c = zip cells (chunksOf 4 ['α'..])
-    in audition (s,ppar (map (pbind . pattern) c))
+    let c = zip cells (chunksOf 4 ['α'..])
+    in audition (ppar (map (pbind . pattern) c))

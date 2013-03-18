@@ -57,7 +57,8 @@ plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
 pattern :: P_Bind
 pattern =
-    [("loc",pwhite 'δ' (-1) 1 inf)
+    [("instr",pinstr "plyr36")
+    ,("loc",pwhite 'δ' (-1) 1 inf)
     ,("ampl",pwhite 'ε' 0.05 0.1 inf)
     ,("degree",prand 'ζ' [0,1,2,3,4,5,6,7,8] inf)
     ,("octave",prand 'η' [2,3] inf)
@@ -70,7 +71,8 @@ act :: Transport m => FilePath -> m ()
 act fn = do
   v <- vla fn
   _ <- async (b_alloc_setn1 0 0 (vla_prep v))
-  play (plyr36,pbind pattern)
+  _ <- async (d_recv plyr36)
+  play (pbind pattern)
 
 main :: IO ()
 main = withSC3 (act "/home/rohan/data/sharc/sharc.xml")

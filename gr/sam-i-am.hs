@@ -49,4 +49,4 @@ main = do
   g <- getStdGen
   let t = b g
       ae = mapMaybe (\w -> fmap e_from_list (lookup w t)) (concat x)
-  audition (sam,pseq (map return ae) 1)
+  audition (p_with_synth sam (pseq (map return ae) 1))

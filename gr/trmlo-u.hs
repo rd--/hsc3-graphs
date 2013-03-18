@@ -46,6 +46,7 @@ trmlo =
 main :: IO ()
 main = do
   let s = synthdef "trmlo" (out 0 trmlo)
-      p = pbind [("dur",pxrand 'α' [0.25,0.5,1,2,4] inf)
+      p = pbind [("instr",psynth s)
+                ,("dur",pxrand 'α' [0.25,0.5,1,2,4] inf)
                 ,("legato",1.25)]
-  audition (s,p)
+  audition p

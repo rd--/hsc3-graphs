@@ -40,7 +40,8 @@ pinterp' n s e = join (pzipWith3 pinterp n s e)
 
 arpeggio :: P_Bind
 arpeggio =
-    [("dur"
+    [("instr",psynth analogarpeggio)
+    ,("dur"
      ,let d = pwrand 'η' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf
       in pstutter 32 d)
     ,("cutoffmult"
@@ -81,4 +82,4 @@ main :: IO ()
 main = do
   let n = 60/157
       p = pedit "dur" (* n) (pbind arpeggio)
-  withSC3 (play (analogarpeggio,p))
+  withSC3 (play p)

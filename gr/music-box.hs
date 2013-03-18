@@ -39,7 +39,8 @@ ping =
 pattern :: P_Bind
 pattern =
     let o = prand 'ζ' [6,7] inf
-    in [("degree",place [[0,1,2,3,4]
+    in [("instr",psynth (synthdef "ping" ping))
+       ,("degree",place [[0,1,2,3,4]
                         ,[2,3,4,5,6]
                         ,[4,3,4,3,6,7]
                         ,[0,2,1,2,1,4,3,3,5]] inf)
@@ -72,7 +73,6 @@ post nm nc b f = do
 
 main :: IO ()
 main = do
-  let s = synthdef "ping" ping
   withSC3 (do post "amplitude_mod" 2 0 (amplitude_mod 'ρ')
               post "limiting" 2 0 limiting)
-  audition (s,pbind pattern)
+  audition (pbind pattern)

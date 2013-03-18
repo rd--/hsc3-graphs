@@ -63,4 +63,4 @@ update_g = do
 main :: IO ()
 main = do
   _ <- forkIO (withSC3 (reset >> init_b >> forever update_g))
-  audition ("g",ppar (map pbind [p1,p2]))
+  audition (p_with_instr "g" (ppar (map pbind [p1,p2])))

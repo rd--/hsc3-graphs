@@ -2,7 +2,8 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Control.Instrument {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern.ID
 
 spe3_mridangam :: Synthdef
 spe3_mridangam =
@@ -53,8 +54,9 @@ act :: Transport m => m ()
 act = do
   play spe3_drone
   _ <- async (d_recv spe3_mridangam)
-  let p' = pmono_d spe3_mridangam 100 [("t_amp",pseq p 1),("dur",1/8)]
-  play p'
+  let i = Instr_Def spe3_mridangam False
+  play (pmono [("instr",pinstr' i),("id",100)
+              ,("t_amp",pseq p 1),("dur",1/8)])
 
 main :: IO ()
 main = withSC3 act

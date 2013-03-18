@@ -3,7 +3,6 @@
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Control.Instrument {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.ID
 
 grain :: UGen
@@ -31,7 +30,8 @@ grain =
 pattern :: Enum e => (Field,e) -> P_Bind
 pattern (f,z) =
     let f_mul = prand 'α' [4,1,2,3,4,8] inf
-    in [("freq",return f * f_mul * pwhite z 0.99 1 (12 * 4))
+    in [("instr",pinstr "grain")
+       ,("freq",return f * f_mul * pwhite z 0.99 1 (12 * 4))
        ,("dur",pseq [pseq [10,0.1,10] 1,pseq [0.1] 6
                     ,pseq [1,pseq [0.1] 6,1] inf] 1)
        ,("fTime",0.0125)
@@ -42,14 +42,8 @@ pattern (f,z) =
        ,("amp",0.1)
        ,("delay",pwhite z 0.01 0.1 1 * 0.1)]
 
-grain_ip :: P Instrument
-grain_ip =
-    let n = "grain"
-        s = synthdef n grain
-    in pcons (InstrumentDef s False) (prepeat (InstrumentName n False))
-
 main :: IO ()
 main =
     let f = concat (replicate 12 [1200, 800, 600, 200])
         p = ppar (map (pbind . pattern) (zip f ['β'..]))
-    in audition (pinstr grain_ip p)
+    in withSC3 (async (d_recv (synthdef "grain" grain)) >> play p)

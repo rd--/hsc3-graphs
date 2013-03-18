@@ -33,7 +33,9 @@ risset =
 
 pattern :: P_Bind
 pattern =
-  [("note",prand 'α' [0,2,5,7,11] inf)
+  [("instr",pinstr' (Instr_Def risset False))
+  ,("id",1000)
+  ,("note",prand 'α' [0,2,5,7,11] inf)
   ,("octave",prand 'β' [4,5,6,7,9] inf)
   ,("legato",1)
   ,("dur",prand 'γ' [2,3,5,7] inf)
@@ -41,6 +43,4 @@ pattern =
   ,("trig",1)]
 
 main :: IO ()
-main = do
-  let i = (InstrumentDef risset False)
-  audition (pmono i 1000 pattern)
+main = audition (pmono pattern)

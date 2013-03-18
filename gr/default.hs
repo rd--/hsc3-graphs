@@ -17,11 +17,12 @@ defaultInstrument =
 
 pattern :: P_Bind
 pattern =
-    [("note",pxrand 'ε' [0,1,5,7,9] inf)
+    [("instr",psynth defaultInstrument)
+    ,("note",pxrand 'ε' [0,1,5,7,9] inf)
     ,("octave",prand 'ζ' [3,4,5,6] inf)
     ,("dur",pwrand 'η' [0.1,0.2,0.4] [0.5,0.4,0.1] inf)
     ,("amp",pbrown 'θ' 0.01 0.2 0.01 inf)
     ,("pan",pbrown 'ι' (-1) 1 0.25 inf)]
 
 main :: IO ()
-main = audition (defaultInstrument,pbind pattern)
+main = audition (pbind pattern)

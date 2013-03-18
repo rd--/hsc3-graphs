@@ -26,7 +26,8 @@ fm_kltr =
 
 pattern :: P_Bind
 pattern =
-    [("freq",fmap midiCPS 53)
+    [("instr",psynth (synthdef "fm_kltr" fm_kltr))
+    ,("freq",fmap midiCPS 53)
     ,("freq2",fmap midiCPS (pwhitei 'ε' 48 96 inf + pwhite 'ζ' (-1) 1 inf))
     ,("amp",pwhite 'η' 0.1 0.4 inf)
     ,("dur",pwhite 'θ' 0.15 1.25 inf)
@@ -35,4 +36,4 @@ pattern =
     ,("pan", pwhite 'λ' (-1) 1 inf)]
 
 main :: IO ()
-main = audition (synthdef "fm_kltr" fm_kltr,pbind pattern)
+main = audition (pbind pattern)
