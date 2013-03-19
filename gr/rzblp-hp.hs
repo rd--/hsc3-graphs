@@ -8,7 +8,8 @@ lfn f l r = fmap (range l r) (lfNoise0 KR f)
 
 hpb :: UId m => UGen -> m UGen
 hpb q =
-    let g _ = do blip AR #(lfn q 1330 1395) 24 *. lfn q 0.001 0.007
+    let g :: UId m => Int -> m UGen
+        g _ = do blip AR #(lfn q 1330 1395) 24 *. lfn q 0.001 0.007
     in mixFillM 2 g
 
 mk_f :: UId m => (UGen -> UGen -> m UGen) -> m UGen

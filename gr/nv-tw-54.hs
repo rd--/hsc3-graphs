@@ -26,6 +26,6 @@ main :: IO ()
 main =
     let fS' = map realToFrac fS
     in audition (pbind [("instr",psynth nvi)
-                       ,("f",fromList fS')
+                       ,("f",toP fS')
                        ,("i",pseries 0 1 inf)
                        ,("dur",0.3)])

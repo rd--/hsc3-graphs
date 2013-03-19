@@ -14,6 +14,7 @@ GRAPHS= 1-1Ni\
  analog-bubbles\
  arpeggio\
  babbling-brook-m\
+ birds-hp\
  birds-m\
  bit-reduction\
  bitwise\
@@ -21,32 +22,35 @@ GRAPHS= 1-1Ni\
  bohlen-pierce-140\
  bottle-m\
  bowed-string-m\
- bs-070705\
+ bs-070705-m\
  buffer-display\
- ccomb\
- cds-070701\
- chain-saw\
+ ccomb-m\
+ cds-070701-m\
+ chain-saw-m\
  choip\
  chrd-m\
  chrd-t\
  clustered-sines\
+ clustered-sines-m\
  comb-delay-sweeps\
  contamination-zone\
  coolant\
  cricket-m\
  crotale\
  crotale-sine\
- cut-outs\
+ cut-outs-m\
  cymbalism-accelerando\
  cymbalism-m\
+ dark-sea-horns-hp\
  dark-sea-horns\
+ data-space-hp\
  data-space\
  deep-sea\
  deep-trip\
  default\
  demanding-studies\
- dial-history\
- diffraction\
+ dial-history-m\
+ diffraction-m\
  discretion\
  discretion-m\
  doppler\
@@ -71,25 +75,26 @@ GRAPHS= 1-1Ni\
  f0-tw0084\
  fb-090531\
  fbl-fbf\
- feedr\
- f-lets\
+ feedr-m\
+ f-lets-m\
  fm-iter\
- fm-kltr\
+ fm-kltr-m\
  fm-kltr-p\
  for-ann\
- forest-sounds\
- fwalk\
+ forest-sounds-m\
+ fwalk-m\
  half-life\
  hansm\
  harmonic-swimming\
  harmonic-swimming-m\
- harmonic-tumbling\
- h-chatter\
+ harmonic-tumbling-m\
+ h-chatter-m\
  hell-is-busy\
  hh-808\
- implosion\
- insects\
+ implosion-m\
+ insects-m\
  jl-1-Z\
+ k2ws-hp\
  k2ws\
  kabelscahden\
  karplus-strong\
@@ -99,9 +104,9 @@ GRAPHS= 1-1Ni\
  laser-bubble\
  lfo-modulation\
  lf-pulses\
- lg-timed\
+ lg-timed-m\
  lin-sosc\
- lso-061101\
+ lso-061101-m\
  lucier\
  m21360\
  microhelix\
@@ -110,7 +115,7 @@ GRAPHS= 1-1Ni\
  mouse-clatter-m\
  mridangam\
  music-box\
- nharm\
+ nharm-m\
  nharm-p\
  noise-burst-sweep\
  noise-modulated-sines\
@@ -121,14 +126,16 @@ GRAPHS= 1-1Ni\
  nv-tw-54\
  nx102\
  one-line\
- oscillator-cluster\
+ oscillator-cluster-m\
  overlap-add\
- pattern-buffer\
+ pattern-buffer-m\
  pebble-beach\
  pkt-26\
  pkt-28\
- plucked-strings\
+ plucked-strings-m\
  police-state\
+ police-state-m\
+ pond-life-hp\
  pond-life\
  proxy-mixer\
  proxy-mixer-m\
@@ -140,15 +147,21 @@ GRAPHS= 1-1Ni\
  random-panning-sines\
  random-panning-sines-m\
  random-pulsations\
+ random-sine-waves-hp\
  random-sine-waves\
+ random-sine-waves-she\
  record-scratcher\
- red-frik\
+ red-frik-m\
  reset\
+ resonant-dust-hp\
  resonant-dust\
- reverberated-sine-percussion\
+ reverberated-sine-percussion-hp\
+ reverberated-sine-percussion-m\
  ring-modulated-klank\
  rm-octaver\
+ rzblp-hp\
  rzblp\
+ rzblp-m\
  rzblp-u\
  sam-i-am\
  sample-and-hold-liquidities\
@@ -161,13 +174,14 @@ GRAPHS= 1-1Ni\
  scritto-m\
  seqr\
  shepard-tones\
- shifting-pulses\
+ shifting-pulses-m\
+ sidereal-time-hp\
  sidereal-time\
  sinusdeklinationen\
  slow-beating-harmonic-sines\
  slow-beating-sines\
  snare-909\
- sosc-lp\
+ sosc-lp-m\
  spe-m\
  spe-p\
  sprinkler\
@@ -176,33 +190,38 @@ GRAPHS= 1-1Ni\
  strummable-guitar\
  sweepy-noise\
  synthetic-piano-m\
+ tank-hp\
  tank\
  tank-m\
- tgb\
+ tgb-m\
  tgrn\
- tgr-rpr\
+ tgr-rpr-m\
  thb\
  theremin\
- three-cpsw\
+ three-cpsw-m\
  thx\
  tipnso\
  train\
+ tremulate-hp\
  tremulate\
  tremulate-m\
- trkl\
+ trkl-m\
  trmlo\
- tr-out\
+ trmlo-u\
+ tr-out-m\
  tsort\
+ uplink-hp\
  uplink\
  urandom\
  vla-addtn\
  vla-addtn-sharc\
- vlc-distrtn\
+ vlc-distrtn-m\
  voscil\
+ voscil-u\
  waveset\
- what-was-i-thinking\
+ what-was-i-thinking-m\
  why-supercollider\
- wial\
+ wial-m\
  wind-metals-m\
  xy-interference\
  xy-interference-m\

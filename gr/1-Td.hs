@@ -8,10 +8,10 @@ import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 one_td_u :: UGen
 one_td_u =
     let base = control IR "base" 2.6
-        z1 = C.geom 5 2 2
-        z2 = C.geom 4 (base / 2) 2
-        z3 = C.geom 5 (base / 4) 2
-        z4 = C.geom 5 (1/8) 2
+        z1 = C.geom (5::Int) 2 2
+        z2 = C.geom (4::Int) (base / 2) 2
+        z3 = C.geom (5::Int) (base / 4) 2
+        z4 = C.geom (5::Int) (1/8) 2
         z5 = [4,6..24]
         rand_sym z n = rand z (- n) n
         a = let fr = range 20 10000 (lfdNoise3 'α' KR (base / 4))

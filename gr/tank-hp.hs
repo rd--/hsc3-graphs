@@ -26,7 +26,7 @@ tank_f i = do
 
 tank :: UId m => m UGen
 tank = do
-  s <- bang .+. mixFillM 8 (const pling)
+  s <- bang .+. mixFillM 8 (const pling :: UId m => Int -> m UGen)
   s' <- chainM 4 r_allpass s
   tank_f s'
 

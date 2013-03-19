@@ -4,8 +4,9 @@ import Data.List
 import qualified Music.Theory.Contour.Polansky_1992 as T {- hmt -}
 import qualified Music.Theory.Pitch as T
 import Sound.SC3 {- hsc3 -}
+import qualified Sound.SC3.Lang.Control.Event as E {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.Instrument as I {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Control.Pitch as P
+import qualified Sound.SC3.Lang.Math as M
 import Sound.SC3.Lang.Pattern.ID
 import Sound.OSC {- hosc -}
 
@@ -46,7 +47,8 @@ hb_t =
 plain :: Transport m => m ()
 plain = do
   _ <- async (d_recv I.defaultSynthdef)
-  let p = toP . map realToFrac . concat
+  let p :: [[Double]] -> P E.Field
+      p = toP . map realToFrac . concat
   play (pbind [("degree",p hb_d - 1)
               ,("octave",p hb_o + 1)
               ,("dur",p hb_t / 16)])
@@ -56,7 +58,7 @@ plain = do
 -- > tail hb_k == [[7,7,9,7,2,0],[7,7,7,4,0,11,9],[5,5,4,0,2,0]]
 hb_k :: Integral n => [[n]]
 hb_k =
-    let f = floor . P.degree_to_key [0,2,4,5,7,9,11] 12 . pred
+    let f = floor . M.degreeToKey [0,2,4,5,7,9,11] 12 . pred
     in map (map f) (hb_d :: [[Double]])
 
 -- | Midi note numbers

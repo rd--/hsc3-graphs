@@ -8,7 +8,8 @@ lfn f l r = range l r (lfNoise0 KR f)
 
 hpb :: UGen -> UGen
 hpb q =
-    let g _ = let f = lfn q 1330 1395
+    let g :: Int -> UGen
+        g _ = let f = lfn q 1330 1395
                   a = lfn q 0.001 0.007
               in blip AR f 24 * a
     in mixFill 2 g

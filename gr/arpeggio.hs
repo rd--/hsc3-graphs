@@ -66,7 +66,7 @@ arpeggio =
           e = prand 'υ' [0.25,0.05,0.5,0.01] inf
       in pinterp' n s e)
     ,("note"
-     ,let f x = pn (fromList x) 8
+     ,let f x = pn (toP x) 8
       in pseq (map f [[10,6,1,-2]
                      ,[-3,1,6,9]
                      ,[9,6,1,-3]
