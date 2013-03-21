@@ -1,7 +1,7 @@
 include Makefile.graphs
 
 % : %.hs
-	ghc -Wall -fwarn-tabs --make $<
+	ghc -Wall -fwarn-tabs -O0 --make $<
 
 %.html : %.hs
 	HsColour -icss $< -o$*.html

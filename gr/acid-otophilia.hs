@@ -1,6 +1,6 @@
 -- 08091500Acid309 by_otophilia
 
-import Data.List
+import Data.List {- base -}
 import Data.Maybe
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
