@@ -21,13 +21,14 @@ analogarpeggio =
     in synthdef "analogarpeggio" (out o (pan2 (e * s * a) p 0.25))
 
 {-
-audition (analogarpeggio
-         ,(pbind [("dur",pwrand 'α' [0.1,0.25] [2/3,1/2] inf)
-                 ,("freq",pwhite 'β' 440.0 1600.0 inf)
-                 ,("pan",pwhite 'γ' (-1.0) 1.0 inf)
-                 ,("amp",pwhite 'δ' 0.0 0.5 inf)
-                 ,("cutoffmult",pwhite 'ε' 4.0 5.0 inf)
-                 ,("res",pwhite 'ζ' 0.0 1.0 inf)]))
+audition (pbind [("instr",psynth analogarpeggio)
+                ,("dur",pstutter 8 (pwrand 'α' [0.1,0.25] [2/3,1/3] inf))
+                ,("note",pwrand 'β' [0,2,4,5,7] [0.3,0.1,0.3,0.1,0.2] inf)
+                ,("octave",pstutter 4 (prand 'γ' [4,5,6,7] inf))
+                ,("pan",pbrown 'δ' (-1.0) 1.0 0.25 inf)
+                ,("amp",pbrown 'ε' 0.1 0.5 0.15 inf)
+                ,("cutoffmult",pbrown 'ζ' 4.0 5.0 0.1 inf)
+                ,("res",pbrown 'η' 0.0 1.0 0.25 inf)])
 -}
 
 -- > pinterp 3 0 9 == toP' [0,3,6]
@@ -42,28 +43,28 @@ arpeggio :: P_Bind
 arpeggio =
     [("instr",psynth analogarpeggio)
     ,("dur"
-     ,let d = pwrand 'η' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf
+     ,let d = pwrand 'θ' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf
       in pstutter 32 d)
     ,("cutoffmult"
-     ,let n = prand 'θ' [8,16,24,32] inf
-          s = pwhite 'ι' 2.5 5.0 inf
-          e = pwhite 'κ' 1.5 7.0 inf
+     ,let n = prand 'ι' [8,16,24,32] inf
+          s = pwhite 'κ' 2.5 5.0 inf
+          e = pwhite 'λ' 1.5 7.0 inf
       in pinterp' n s e)
     ,("res"
-     ,let n = prand 'λ' [8,16,24,32] inf
-          s = pexprand 'μ' 0.02 0.5 inf
-          e = pexprand 'ν' 0.02 1.0 inf
+     ,let n = prand 'μ' [8,16,24,32] inf
+          s = pexprand 'ν' 0.02 0.5 inf
+          e = pexprand 'ξ' 0.02 1.0 inf
       in pinterp' n s e)
     ,("pan"
-     ,let n = prand 'ξ' [8,16] inf
-          s = pwhite 'ο' (-1.0) 1.0 inf
+     ,let n = prand 'ο' [8,16] inf
+          s = pwhite 'π' (-1.0) 1.0 inf
           s' = fmap (< 0) s
-          e = pif s' (pwhite 'π' 0.0 1.0 inf) (pwhite 'ρ' (-1.0) 0.0 inf)
+          e = pif s' (pwhite 'ρ' 0.0 1.0 inf) (pwhite 'σ' (-1.0) 0.0 inf)
       in pinterp' n s e)
     ,("amp"
-     ,let n = prand 'σ' [8,16,24,32] inf
-          s = prand 'τ' [0.25,0.05,0.5] inf
-          e = prand 'υ' [0.25,0.05,0.5,0.01] inf
+     ,let n = prand 'τ' [8,16,24,32] inf
+          s = prand 'υ' [0.25,0.05,0.5] inf
+          e = prand 'φ' [0.25,0.05,0.5,0.01] inf
       in pinterp' n s e)
     ,("note"
      ,let f x = pn (toP x) 8
