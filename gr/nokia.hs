@@ -31,8 +31,9 @@ pattern :: Enum e => (Field,e) -> P_Bind
 pattern (f,z) =
     let f_mul = prand 'α' [4,1,2,3,4,8] inf
     in [("instr",pinstr "grain")
-       ,("freq",return f * f_mul * pwhite z 0.99 1 (12 * 4))
-       ,("dur",pseq [pseq [10,0.1,10] 1,pseq [0.1] 6
+       ,("freq",prepeat f * f_mul * phold (pwhite z 0.99 1 inf))
+       ,("dur",pseq [pseq [10,0.1,10] 1
+                    ,pseq [0.1] 6
                     ,pseq [1,pseq [0.1] 6,1] inf] 1)
        ,("fTime",0.0125)
        ,("fFac",5)
@@ -40,7 +41,7 @@ pattern (f,z) =
        ,("attack",0.0005)
        ,("decay",2)
        ,("amp",0.1)
-       ,("delay",pwhite z 0.01 0.1 1 * 0.1)]
+       ,("delay",phold (pwhite z 0.01 0.1 inf * 0.1))]
 
 main :: IO ()
 main =

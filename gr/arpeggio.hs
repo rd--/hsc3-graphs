@@ -43,28 +43,28 @@ arpeggio :: P_Bind
 arpeggio =
     [("instr",psynth analogarpeggio)
     ,("dur"
-     ,let d = pwrand 'θ' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf
+     ,let d = pwrand 'α' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf
       in pstutter 32 d)
     ,("cutoffmult"
-     ,let n = prand 'ι' [8,16,24,32] inf
-          s = pwhite 'κ' 2.5 5.0 inf
-          e = pwhite 'λ' 1.5 7.0 inf
+     ,let n = prand 'β' [8,16,24,32] inf
+          s = pwhite 'γ' 2.5 5.0 inf
+          e = pwhite 'δ' 1.5 7.0 inf
       in pinterp' n s e)
     ,("res"
-     ,let n = prand 'μ' [8,16,24,32] inf
-          s = pexprand 'ν' 0.02 0.5 inf
-          e = pexprand 'ξ' 0.02 1.0 inf
+     ,let n = prand 'ε' [8,16,24,32] inf
+          s = pexprand 'ζ' 0.02 0.5 inf
+          e = pexprand 'η' 0.02 1.0 inf
       in pinterp' n s e)
     ,("pan"
-     ,let n = prand 'ο' [8,16] inf
-          s = pwhite 'π' (-1.0) 1.0 inf
+     ,let n = prand 'θ' [8,16] inf
+          s = pwhite 'ι' (-1.0) 1.0 inf
           s' = fmap (< 0) s
-          e = pif s' (pwhite 'ρ' 0.0 1.0 inf) (pwhite 'σ' (-1.0) 0.0 inf)
+          e = pif s' (pwhite 'κ' 0.0 1.0 inf) (pwhite 'λ' (-1.0) 0.0 inf)
       in pinterp' n s e)
     ,("amp"
-     ,let n = prand 'τ' [8,16,24,32] inf
-          s = prand 'υ' [0.25,0.05,0.5] inf
-          e = prand 'φ' [0.25,0.05,0.5,0.01] inf
+     ,let n = prand 'μ' [8,16,24,32] inf
+          s = prand 'ν' [0.25,0.05,0.5] inf
+          e = prand 'ξ' [0.25,0.05,0.5,0.01] inf
       in pinterp' n s e)
     ,("note"
      ,let f x = pn (toP x) 8
