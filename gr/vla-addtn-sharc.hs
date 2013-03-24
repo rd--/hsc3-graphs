@@ -1,10 +1,10 @@
 -- vla-adttn-sharc (rd)
 
-import Data.List
+import Data.List {- base -}
 import Sound.Analysis.SHARC {- hsharc -}
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 type R = Double
 type R3 = (R,R,R)
@@ -42,7 +42,7 @@ vla_partial fr rise fall dt n =
 
 vla_plyr :: UGen -> UGen
 vla_plyr n =
-    let a = control KR "ampl" 0.1
+    let a = control KR "amp" 0.1
         f = control KR "freq" 129.897
         rs = control KR "rise" 0.1
         fa = control KR "fall" 0.5
@@ -57,15 +57,15 @@ plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
 pattern :: P_Bind
 pattern =
-    [("instr",pinstr "plyr36")
-    ,("loc",pwhite 'δ' (-1) 1 inf)
-    ,("ampl",pwhite 'ε' 0.05 0.1 inf)
-    ,("degree",prand 'ζ' [0,1,2,3,4,5,6,7,8] inf)
-    ,("octave",prand 'η' [2,3] inf)
-    ,("dt",pwhite 'θ' 0.001 0.005 inf)
-    ,("rise",pwhite 'ι' 1 2 inf)
-    ,("fall",pwhite 'κ' 4 7 inf)
-    ,("dur",prand 'λ' [3,5] inf)]
+    [(K_instr,pinstr "plyr36")
+    ,(K_param "loc",pwhite 'δ' (-1) 1 inf)
+    ,(K_amp,pwhite 'ε' 0.05 0.1 inf)
+    ,(K_degree,prand 'ζ' [0,1,2,3,4,5,6,7,8] inf)
+    ,(K_octave,prand 'η' [2,3] inf)
+    ,(K_param "dt",pwhite 'θ' 0.001 0.005 inf)
+    ,(K_param "rise",pwhite 'ι' 1 2 inf)
+    ,(K_param "fall",pwhite 'κ' 4 7 inf)
+    ,(K_dur,prand 'λ' [3,5] inf)]
 
 act :: Transport m => FilePath -> m ()
 act fn = do

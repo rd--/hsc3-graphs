@@ -1,7 +1,7 @@
 -- deep sea (jrhb)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 rng :: UGen -> UGen -> UGen -> UGen
 rng s l r =
@@ -29,5 +29,5 @@ deep_sea =
 main :: IO ()
 main = do
   let s = synthdef "deep-sea" (out 0 deep_sea)
-      p = pbind [("instr",psynth s),("dur",pxrand 'ζ' [0.25,0.5,1,2] inf)]
+      p = pbind [(K_instr,psynth s),(K_dur,pxrand 'ζ' [0.25,0.5,1,2] inf)]
   audition p

@@ -1,17 +1,17 @@
 -- spe-p (jmcc)
 
 import Sound.SC3.Monad {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 spe3_allpass6 :: UId m => m Synthdef
 spe3_allpass6 = do
   n <- lfNoise1 KR 1
-  let freq = control KR "freq" 440
+  let fr = control KR "freq" 440
       rapf i = do r <- clone 2 (rand 0 0.05)
                   return (allpassN i 0.05 r 4)
       e = envGen KR 1 0.1 0 1 RemoveSynth (envPerc 0.1 1)
       rq = midiCPS (n * 36 + 110)
-      o = rlpf (lfSaw AR freq 0 * e) rq 0.1
+      o = rlpf (lfSaw AR fr 0 * e) rq 0.1
   u <- fmap (out 0) (chainM 4 rapf o)
   return (synthdef "spe" u)
 
@@ -25,4 +25,4 @@ notes =
 main :: IO ()
 main = do
   i <- spe3_allpass6
-  audition (pbind [("instr",psynth i),("midinote",notes),("dur",0.13)])
+  audition (pbind [(K_instr,psynth i),(K_midinote,notes),(K_dur,0.13)])

@@ -1,7 +1,7 @@
 -- default (jmcc)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 defaultInstrument :: Synthdef
 defaultInstrument =
@@ -17,12 +17,12 @@ defaultInstrument =
 
 pattern :: P_Bind
 pattern =
-    [("instr",psynth defaultInstrument)
-    ,("note",pxrand 'ε' [0,1,5,7,9] inf)
-    ,("octave",prand 'ζ' [3,4,5,6] inf)
-    ,("dur",pwrand 'η' [0.1,0.2,0.4] [0.5,0.4,0.1] inf)
-    ,("amp",pbrown 'θ' 0.01 0.2 0.01 inf)
-    ,("pan",pbrown 'ι' (-1) 1 0.25 inf)]
+    [(K_instr,psynth defaultInstrument)
+    ,(K_note,pxrand 'ε' [0,1,5,7,9] inf)
+    ,(K_octave,prand 'ζ' [3,4,5,6] inf)
+    ,(K_dur,pwrand 'η' [0.1,0.2,0.4] [0.5,0.4,0.1] inf)
+    ,(K_amp,pbrown 'θ' 0.01 0.2 0.01 inf)
+    ,(K_param "pan",pbrown 'ι' (-1) 1 0.25 inf)]
 
 main :: IO ()
 main = audition (pbind pattern)

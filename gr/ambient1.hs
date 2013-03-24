@@ -2,8 +2,7 @@
 -- some edits......
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.Instrument {- hsc3-lang -}
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 chain :: a -> [a -> a] -> a
 chain n ff =
@@ -70,27 +69,27 @@ dur_p = prand 'β' [3,0.7,1,0.5] inf
 
 pulse_p :: P_Bind
 pulse_p =
-    [("instr",pinstr' pulse_i)
-    ,("dur",dur_p * 10)
-    ,("midinote",prand 'α' [59,72,76,79,81,88,90] inf)
-    ,("amp",pwhite 'β' 0.2 0.27 inf)
-    ,("attackTime",pwhite 'γ' 0 7 inf)
-    ,("delayTime",0.02)]
+    [(K_instr,pinstr' pulse_i)
+    ,(K_dur,dur_p * 10)
+    ,(K_midinote,prand 'α' [59,72,76,79,81,88,90] inf)
+    ,(K_amp,pwhite 'β' 0.2 0.27 inf)
+    ,(K_param "attackTime",pwhite 'γ' 0 7 inf)
+    ,(K_param "delayTime",0.02)]
 
 drone_p :: P_Bind
 drone_p =
-    [("instr",pinstr' drone_i)
-    ,("dur",dur_p)
-    ,("midinote",prand 'α' [31,40,45,64,68,69] inf)
-    ,("amp",pwhite 'β' 0.03 0.08 inf * 0.7)
-    ,("phase",pwrand 'γ' [0,4.7123] [0.5,0.5] inf)]
+    [(K_instr,pinstr' drone_i)
+    ,(K_dur,dur_p)
+    ,(K_midinote,prand 'α' [31,40,45,64,68,69] inf)
+    ,(K_amp,pwhite 'β' 0.03 0.08 inf * 0.7)
+    ,(K_param "phase",pwrand 'γ' [0,4.7123] [0.5,0.5] inf)]
 
 bass_p :: P_Bind
 bass_p =
-    [("instr",pinstr' bass_i)
-    ,("dur",dur_p)
-    ,("midinote",31)
-    ,("amp",0.3)]
+    [(K_instr,pinstr' bass_i)
+    ,(K_dur,dur_p)
+    ,(K_midinote,31)
+    ,(K_amp,0.3)]
 
 main :: IO ()
 main = do

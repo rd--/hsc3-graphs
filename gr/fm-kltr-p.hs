@@ -1,7 +1,7 @@
 -- fm-kltr-p (rd)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 fm_kltr :: UGen
 fm_kltr =
@@ -26,14 +26,15 @@ fm_kltr =
 
 pattern :: P_Bind
 pattern =
-    [("instr",psynth (synthdef "fm_kltr" fm_kltr))
-    ,("freq",fmap midiCPS 53)
-    ,("freq2",fmap midiCPS (pwhitei 'ε' 48 96 inf + pwhite 'ζ' (-1) 1 inf))
-    ,("amp",pwhite 'η' 0.1 0.4 inf)
-    ,("dur",pwhite 'θ' 0.15 1.25 inf)
-    ,("sustain",pwhite 'ι' 5 6 inf)
-    ,("index",pwhite 'κ' 240 1480 inf)
-    ,("pan", pwhite 'λ' (-1) 1 inf)]
+    [(K_instr,psynth (synthdef "fm_kltr" fm_kltr))
+    ,(K_freq,fmap midiCPS 53)
+    ,(K_param "freq2",fmap midiCPS (pwhitei 'ε' 48 96 inf +
+                                    pwhite 'ζ' (-1) 1 inf))
+    ,(K_amp,pwhite 'η' 0.1 0.4 inf)
+    ,(K_dur,pwhite 'θ' 0.15 1.25 inf)
+    ,(K_sustain,pwhite 'ι' 5 6 inf)
+    ,(K_param "index",pwhite 'κ' 240 1480 inf)
+    ,(K_param "pan", pwhite 'λ' (-1) 1 inf)]
 
 main :: IO ()
 main = audition (pbind pattern)

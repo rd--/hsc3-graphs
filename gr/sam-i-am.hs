@@ -4,9 +4,8 @@ import Control.Monad.Random {- MonadRandom -}
 import Data.List {- base -}
 import Data.Maybe {- base -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
 import Sound.SC3.Lang.Random.Monad {- hsc3-lang -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 text :: [String]
 text =
@@ -34,14 +33,17 @@ sam =
         o = sinOsc AR f1 0 * pulse AR f2 0.5 * saw AR f3 * e
     in synthdef "sam" (out 0 o)
 
-b :: (RandomGen g,Floating n,Random n) => g -> [(String,[(String,n)])]
+b :: (RandomGen g,Floating n,Random n) => g -> [(String,[(Key,n)])]
 b g =
     let mk w = do
           f1 <- exprand 200 9000
           f2 <- exprand 20 9000
           f3 <- exprand 20 9000
           let d = 0.1 * fromIntegral (length w)
-          return (w,[("freq1",f1),("freq2",f2),("freq3",f3),("dur",d)])
+          return (w,[(K_param "freq1",f1)
+                    ,(K_param "freq2",f2)
+                    ,(K_param "freq3",f3)
+                    ,(K_dur,d)])
     in evalRand (mapM mk a) g
 
 main :: IO ()

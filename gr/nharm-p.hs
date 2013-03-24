@@ -2,8 +2,7 @@
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
-import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 nharm :: Num n => Int -> n -> [n]
 nharm n f = map ((* f) . fromIntegral) [1..n]
@@ -29,9 +28,9 @@ duration internally.  -}
 pN :: Int -> Range -> Range -> P_Event
 pN n (m0,m1) (d0,d1) =
     let s = synthdef ("klg" ++ show n) (klg n)
-    in pbind [("instr",psynth s)
-             ,("midinote",pwhite 'α' m0 m1 inf)
-             ,("dur",pwhite 'β' d0 d1 inf)]
+    in pbind [(K_instr,psynth s)
+             ,(K_midinote,pwhite 'α' m0 m1 inf)
+             ,(K_dur,pwhite 'β' d0 d1 inf)]
 
 main :: IO ()
 main = audition (pmerge (pN 24 (90,92) (0.25,0.75))

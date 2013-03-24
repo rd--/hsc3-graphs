@@ -1,7 +1,7 @@
 -- http://sccode.org/1-V (nv)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 fF :: Double -> Double -> Double
 fF i f =
@@ -25,7 +25,7 @@ nvi =
 main :: IO ()
 main =
     let fS' = map realToFrac fS
-    in audition (pbind [("instr",psynth nvi)
-                       ,("f",toP fS')
-                       ,("i",pseries 0 1 inf)
-                       ,("dur",0.3)])
+    in audition (pbind [(K_instr,psynth nvi)
+                       ,(K_param "f",toP fS')
+                       ,(K_param "i",pseries 0 1 inf)
+                       ,(K_dur,0.3)])

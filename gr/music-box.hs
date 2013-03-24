@@ -3,7 +3,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 chain :: a -> [a -> a] -> a
 chain n c =
@@ -39,21 +39,21 @@ ping =
 pattern :: P_Bind
 pattern =
     let o = prand 'ζ' [6,7] inf
-    in [("instr",psynth (synthdef "ping" ping))
-       ,("degree",place [[0,1,2,3,4]
+    in [(K_instr,psynth (synthdef "ping" ping))
+       ,(K_degree,place [[0,1,2,3,4]
                         ,[2,3,4,5,6]
                         ,[4,3,4,3,6,7]
                         ,[0,2,1,2,1,4,3,3,5]] inf)
-       ,("detune",pwhite 'η' (-2) 2 inf)
-       ,("octave",o)
-       ,("dur",prand 'θ' [0.5,1,2] inf + pwhite 'ι' (-0.1) 0.1 inf)
-       ,("amp",pwhite 'κ' 0.01 0.1 inf)
-       ,("attack",pwhite 'λ' 0.0005 0.001 inf)
-       ,("sustain",(o / 4) + pwhite 'μ' 0.01 0.5 inf)
-       ,("ffreq",pwhite 'ν' 200 2000 inf)
-       ,("famt",pwhite 'ξ' 3 6 inf)
-       ,("hdur",pwhite 'ο' 0.05 0.3 inf)
-       ,("impdecay",pwhite 'π' 0.001 0.01 inf)]
+       ,(K_detune,pwhite 'η' (-2) 2 inf)
+       ,(K_octave,o)
+       ,(K_dur,prand 'θ' [0.5,1,2] inf + pwhite 'ι' (-0.1) 0.1 inf)
+       ,(K_amp,pwhite 'κ' 0.01 0.1 inf)
+       ,(K_param "attack",pwhite 'λ' 0.0005 0.001 inf)
+       ,(K_sustain,(o / 4) + pwhite 'μ' 0.01 0.5 inf)
+       ,(K_param "ffreq",pwhite 'ν' 200 2000 inf)
+       ,(K_param "famt",pwhite 'ξ' 3 6 inf)
+       ,(K_param "hdur",pwhite 'ο' 0.05 0.3 inf)
+       ,(K_param "impdecay",pwhite 'π' 0.001 0.01 inf)]
 
 amplitude_mod :: (ID a, Enum a) => a -> UGen -> UGen
 amplitude_mod z i =

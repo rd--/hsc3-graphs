@@ -1,7 +1,7 @@
 -- e-lamell-p (rd)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 e_lamell :: UGen
 e_lamell =
@@ -21,22 +21,22 @@ e_lamell =
 patterns :: [P_Bind]
 patterns =
     let i = psynth (synthdef "e-lamell" (out 0 e_lamell))
-    in [[("instr",i)
-        ,("note",prand 'β' [0,2,5,7] inf)
-        ,("octave",pwrand 'γ' [2,3,4,5] [0.2,0.35,0.35,0.1] inf)
-        ,("dur",0.1)
-        ,("d",pwhite 'δ' 0.01 0.8 inf)
-        ,("amp",pwhite 'ε' 0 0.75 inf)
-        ,("n",pwhite 'ζ' 2 36 inf)
-        ,("l",pwhite 'η' (-1) 1 inf)]
-       ,[("instr",i)
-        ,("note",prand 'θ' [0] inf)
-        ,("octave",prand 'ι' [2,3] inf)
-        ,("dur",0.1)
-        ,("d",pwhite 'κ' 0.01 1.2 inf)
-        ,("amp",prand 'λ' [0,0.25,0.5,1] inf)
-        ,("n",pwhite 'μ' 2 36 inf)
-        ,("l",pwhite 'ν' (-1) 1 inf)]]
+    in [[(K_instr,i)
+        ,(K_note,prand 'β' [0,2,5,7] inf)
+        ,(K_octave,pwrand 'γ' [2,3,4,5] [0.2,0.35,0.35,0.1] inf)
+        ,(K_dur,0.1)
+        ,(K_param "d",pwhite 'δ' 0.01 0.8 inf)
+        ,(K_amp,pwhite 'ε' 0 0.75 inf)
+        ,(K_param "n",pwhite 'ζ' 2 36 inf)
+        ,(K_param "l",pwhite 'η' (-1) 1 inf)]
+       ,[(K_instr,i)
+        ,(K_note,prand 'θ' [0] inf)
+        ,(K_octave,prand 'ι' [2,3] inf)
+        ,(K_dur,0.1)
+        ,(K_param "d",pwhite 'κ' 0.01 1.2 inf)
+        ,(K_amp,prand 'λ' [0,0.25,0.5,1] inf)
+        ,(K_param "n",pwhite 'μ' 2 36 inf)
+        ,(K_param "l",pwhite 'ν' (-1) 1 inf)]]
 
 main :: IO ()
 main = audition (ppar (map pbind patterns))

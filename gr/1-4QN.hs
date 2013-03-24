@@ -4,7 +4,7 @@ import Control.Concurrent {- base -}
 import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.IO as L
 
 -- > withSC3 init_b
@@ -32,19 +32,21 @@ mk_g o =
 
 p1 :: P_Bind
 p1 =
-    [("dur",pseq [4] inf)
-    ,("sdens",pseq [9000,1000,500] inf / 100)
-    ,("edens",prand 'δ' [pseq [9000,1000,500] 1 / 10,pseq [1] 3] inf)
-    ,("rate",pwhite 'ε' (-10) 10 inf)
-    ,("pos",pwhite 'ζ' (-10) 10 inf)]
+    [(K_dur,pseq [4] inf)
+    ,(K_param "sdens",pseq [9000,1000,500] inf / 100)
+    ,(K_param "edens",prand 'δ' [pseq [9000,1000,500] 1 / 10
+                                ,pseq [1] 3] inf)
+    ,(K_param "rate",pwhite 'ε' (-10) 10 inf)
+    ,(K_param "pos",pwhite 'ζ' (-10) 10 inf)]
 
 p2 :: P_Bind
 p2 =
-    [("dur",pseq [4/3] inf)
-    ,("sdens",pseq [9000,1000,500,25] inf)
-    ,("edens",prand 'η' [pseq [9000,1000,500,25] 1,pseq [1] 4] inf)
-    ,("rate",pwhite 'θ' (-100) 100 inf)
-    ,("pos",pwhite 'ι' (-10) 10 inf)]
+    [(K_dur,pseq [4/3] inf)
+    ,(K_param "sdens",pseq [9000,1000,500,25] inf)
+    ,(K_param "edens",prand 'η' [pseq [9000,1000,500,25] 1
+                                ,pseq [1] 4] inf)
+    ,(K_param "rate",pwhite 'θ' (-100) 100 inf)
+    ,(K_param "pos",pwhite 'ι' (-10) 10 inf)]
 
 push_g :: Transport m => m Message
 push_g = do

@@ -1,7 +1,7 @@
 -- oscillator cluster
 
 import Sound.SC3.Monad {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 oscillator_cluster :: (Functor m,UId m) => m UGen
 oscillator_cluster = do
@@ -25,7 +25,7 @@ main :: IO ()
 main = do
   u <- oscillator_cluster
   let s = synthdef "oscillator_cluster" (out 0 u)
-      p = pbind [("instr",psynth s),("dur",prand 'α' [0.25,0.5,1,3,5] inf)]
+      p = pbind [(K_instr,psynth s),(K_dur,prand 'α' [0.25,0.5,1,3,5] inf)]
   audition p
 
 {-

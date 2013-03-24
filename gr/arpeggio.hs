@@ -2,7 +2,7 @@
 
 import Control.Monad {- base -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 analogarpeggio :: Synthdef
 analogarpeggio =
@@ -21,14 +21,14 @@ analogarpeggio =
     in synthdef "analogarpeggio" (out o (pan2 (e * s * a) p 0.25))
 
 {-
-audition (pbind [("instr",psynth analogarpeggio)
-                ,("dur",pstutter 8 (pwrand 'α' [0.1,0.25] [2/3,1/3] inf))
-                ,("note",pwrand 'β' [0,2,4,5,7] [0.3,0.1,0.3,0.1,0.2] inf)
-                ,("octave",pstutter 4 (prand 'γ' [4,5,6,7] inf))
-                ,("pan",pbrown 'δ' (-1.0) 1.0 0.25 inf)
-                ,("amp",pbrown 'ε' 0.1 0.5 0.15 inf)
-                ,("cutoffmult",pbrown 'ζ' 4.0 5.0 0.1 inf)
-                ,("res",pbrown 'η' 0.0 1.0 0.25 inf)])
+audition (pbind [(K_instr,psynth analogarpeggio)
+                ,(K_dur,pstutter 8 (pwrand 'α' [0.1,0.25] [2/3,1/3] inf))
+                ,(K_note,pwrand 'β' [0,2,4,5,7] [0.3,0.1,0.3,0.1,0.2] inf)
+                ,(K_octave,pstutter 4 (prand 'γ' [4,5,6,7] inf))
+                ,(K_param "pan",pbrown 'δ' (-1.0) 1.0 0.25 inf)
+                ,(K_amp,pbrown 'ε' 0.1 0.5 0.15 inf)
+                ,(K_param "cutoffmult",pbrown 'ζ' 4.0 5.0 0.1 inf)
+                ,(K_param "res",pbrown 'η' 0.0 1.0 0.25 inf)])
 -}
 
 -- > pinterp 3 0 9 == toP' [0,3,6]
@@ -41,32 +41,32 @@ pinterp' n s e = join (pzipWith3 pinterp n s e)
 
 arpeggio :: P_Bind
 arpeggio =
-    [("instr",psynth analogarpeggio)
-    ,("dur"
+    [(K_instr,psynth analogarpeggio)
+    ,(K_dur
      ,let d = pwrand 'α' [0.25,0.125,0.0625] [0.4875,0.4875,0.025] inf
       in pstutter 32 d)
-    ,("cutoffmult"
+    ,(K_param "cutoffmult"
      ,let n = prand 'β' [8,16,24,32] inf
           s = pwhite 'γ' 2.5 5.0 inf
           e = pwhite 'δ' 1.5 7.0 inf
       in pinterp' n s e)
-    ,("res"
+    ,(K_param "res"
      ,let n = prand 'ε' [8,16,24,32] inf
           s = pexprand 'ζ' 0.02 0.5 inf
           e = pexprand 'η' 0.02 1.0 inf
       in pinterp' n s e)
-    ,("pan"
+    ,(K_param "pan"
      ,let n = prand 'θ' [8,16] inf
           s = pwhite 'ι' (-1.0) 1.0 inf
           s' = fmap (< 0) s
           e = pif s' (pwhite 'κ' 0.0 1.0 inf) (pwhite 'λ' (-1.0) 0.0 inf)
       in pinterp' n s e)
-    ,("amp"
+    ,(K_amp
      ,let n = prand 'μ' [8,16,24,32] inf
           s = prand 'ν' [0.25,0.05,0.5] inf
           e = prand 'ξ' [0.25,0.05,0.5,0.01] inf
       in pinterp' n s e)
-    ,("note"
+    ,(K_note
      ,let f x = pn (toP x) 8
       in pseq (map f [[10,6,1,-2]
                      ,[-3,1,6,9]
@@ -76,11 +76,11 @@ arpeggio =
                      ,[-3,1,6,9]
                      ,[8,6,1,-3]
                      ,[-6,1,6,8]]) inf)
-    ,("octave"
+    ,(K_octave
      ,pstutter 8 (pseq [7,6,5,4,4,5,6,7] inf))]
 
 main :: IO ()
 main = do
   let n = 60/157
-      p = pedit "dur" (* n) (pbind arpeggio)
+      p = pedit K_dur (* n) (pbind arpeggio)
   withSC3 (play p)

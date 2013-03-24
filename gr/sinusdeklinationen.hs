@@ -2,8 +2,7 @@
 
 import Data.List.Split {- split -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.Event {- hsc3-lang -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 sinuscell :: UGen
 sinuscell =
@@ -28,14 +27,14 @@ pattern (c,z) =
               s = 0.2
               r = pwhite z1 0 1 inf
               i = psynth (synthdef "sinuscell" sinuscell)
-          in [("instr",i)
-             ,("fre",pwhite z2 0 1100 inf)
-             ,("atk",a)
-             ,("sus",s)
-             ,("rel",r)
-             ,("dur",a+s+r)
-             ,("amp",pwhite z3 0 1 inf)
-             ,("pan",prepeat c)]
+          in [(K_instr,i)
+             ,(K_dur,a+s+r)
+             ,(K_amp,pwhite z3 0 1 inf)
+             ,(K_param "fre",pwhite z2 0 1100 inf)
+             ,(K_param "atk",a)
+             ,(K_param "sus",s)
+             ,(K_param "rel",r)
+             ,(K_param "pan",prepeat c)]
       _ -> undefined
 
 cells :: Fractional n => [n]

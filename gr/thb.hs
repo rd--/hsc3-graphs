@@ -4,10 +4,8 @@ import Data.List
 import qualified Music.Theory.Contour.Polansky_1992 as T {- hmt -}
 import qualified Music.Theory.Pitch as T
 import Sound.SC3 {- hsc3 -}
-import qualified Sound.SC3.Lang.Control.Event as E {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Control.Instrument as I {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Math as M
-import Sound.SC3.Lang.Pattern.ID
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 import Sound.OSC {- hosc -}
 
 -- | Happy birthday
@@ -46,12 +44,12 @@ hb_t =
 -- > withSC3 plain
 plain :: Transport m => m ()
 plain = do
-  _ <- async (d_recv I.defaultSynthdef)
-  let p :: [[Double]] -> P E.Field
+  _ <- async (d_recv defaultSynthdef)
+  let p :: [[Double]] -> P_Field
       p = toP . map realToFrac . concat
-  play (pbind [("degree",p hb_d - 1)
-              ,("octave",p hb_o + 1)
-              ,("dur",p hb_t / 16)])
+  play (pbind [(K_degree,p hb_d - 1)
+              ,(K_octave,p hb_o + 1)
+              ,(K_dur,p hb_t / 16)])
 
 -- | Pitch classes
 --
@@ -175,14 +173,14 @@ ins_s =
 -- > withSC3 (hear 9 (map cim hb))
 hear :: Transport m => Double -> [Cim Double] -> m ()
 hear blur x =
-    let (freq,dur,c) = unzip3 x
+    let (f,d,c) = unzip3 x
         p = toP . map realToFrac
-    in play (pbind [("instr",psynth ins_s)
-                   ,("freq",p freq)
-                   ,("dur",p dur)
-                   ,("legato",p (repeat blur))
-                   ,("amp",p c * 0.1 + 0.1)
-                   ,("loc",p c * 2 - 1)])
+    in play (pbind [(K_instr,psynth ins_s)
+                   ,(K_freq,p f)
+                   ,(K_dur,p d)
+                   ,(K_legato,p (repeat blur))
+                   ,(K_amp,p c * 0.1 + 0.1)
+                   ,(K_param "loc",p c * 2 - 1)])
 
 main :: IO ()
 main = withSC3 (hear 9 ph)

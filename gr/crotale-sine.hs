@@ -1,7 +1,7 @@
 -- crotale-sine (rd)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 crotale_sine :: UGen
 crotale_sine =
@@ -24,9 +24,9 @@ crotale_sine =
 
 pattern :: P_Bind
 pattern =
-    [("m",pwhitei 'α' 0 12 inf)
-    ,("dur",pxrand 'β' [1,2,3] inf)
-    ,("sustain",6)]
+    [(K_param "m",pwhitei 'α' 0 12 inf)
+    ,(K_dur,pxrand 'β' [1,2,3] inf)
+    ,(K_sustain,6)]
 
 main :: IO ()
 main = do
