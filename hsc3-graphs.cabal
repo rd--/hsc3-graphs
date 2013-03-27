@@ -103,7 +103,7 @@ Executable hsc3-bs-070705-m
  build-depends: base,hosc,hsc3,hsc3-lang
 Executable hsc3-buffer-display
  main-is: gr/buffer-display.hs
- build-depends: base,base,hcg-minus,cmath,cairo,hsc3,hsc3-cairo
+ build-depends: base,base,cmath,cairo,hsc3,hsc3-cairo
 Executable hsc3-ccomb-m
  main-is: gr/ccomb-m.hs
  build-depends: base,hsc3

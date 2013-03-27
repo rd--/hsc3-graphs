@@ -1,7 +1,6 @@
 -- http://sccode.org/1-1HR (f0)
 
 import Control.Concurrent {- base -}
-import Data.CG.Minus {- hcg-minus -}
 import qualified Foreign.C.Math.Double as M {- cmath -}
 import qualified Graphics.Rendering.Cairo as C {- cairo -}
 import Sound.SC3.ID {- hsc3 -}
@@ -9,6 +8,7 @@ import Sound.SC3.Cairo.Scope.Shell {- hsc3-cairo -}
 
 -- * Type
 
+type R = Double
 data BD_Type = BD_Line | BD_Warp | BD_Flower
 data BD = BD {gain :: R
              ,theta :: R
@@ -35,13 +35,16 @@ render_line n a d = do
   mapM_ f (zip [0..] d)
   C.stroke
 
-pt_rotate' :: Floating a => a -> a -> a -> (a,a)
-pt_rotate' a x y = pt_xy (pt_rotate a (pt x y))
+pt_rotate :: Floating a => a -> (a,a) -> (a,a)
+pt_rotate a (x,y) =
+    let s = sin a
+        c = cos a
+    in (x * c - y * s,y * c + x * s)
 
 render_warp :: R -> R -> [R] -> C.Render ()
 render_warp n a d = do
   C.translate (n/2) (n/2)
-  let f (x,y) = let (x',y') = pt_rotate' (y * 2 * pi) (x * a) (y * a)
+  let f (x,y) = let (x',y') = pt_rotate (y * 2 * pi) (x * a,y * a)
                 in if x == 0 then C.moveTo x' y' else C.lineTo x' y'
   mapM_ f (zip [0..] d)
   C.stroke
@@ -52,7 +55,7 @@ render_flower n t d = do
   C.translate (n/2) (n/2)
   C.moveTo (d0 * d0) 0
   let f (x,y) = let a = ((x `M.fmod` n) / n) * 2 * pi + t
-                    (x',y') = pt_rotate' a (y * y) (x * y)
+                    (x',y') = pt_rotate a (y * y,x * y)
                 in C.lineTo x' y'
   mapM_ f (zip [0..] d)
   C.stroke
