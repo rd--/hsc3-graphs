@@ -25,7 +25,7 @@ type Range = (Field,Field)
 and any gate message, are ignored by the UGen graph, which manages
 duration internally.  -}
 
-pN :: Int -> Range -> Range -> P_Event
+pN :: Int -> Range -> Range -> P Event
 pN n (m0,m1) (d0,d1) =
     let s = synthdef ("klg" ++ show n) (klg n)
     in pbind [(K_instr,psynth s)
