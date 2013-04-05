@@ -1,5 +1,5 @@
-{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 -- tremulate (jmcc)
+{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}

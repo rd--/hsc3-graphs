@@ -1,5 +1,5 @@
-{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 -- sidereal time (jmcc)
+{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}

@@ -1,5 +1,5 @@
-{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 -- reverberated sine percussion (jmcc)
+{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3.Monad {- hsc3 -}
 

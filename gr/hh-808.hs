@@ -1,4 +1,4 @@
--- hh-808 (ryan at wabdo.com)
+-- hh-808 (rb)
 -- http://www.create.ucsb.edu/pipermail/sc-users/2007-August/036131.html
 
 import Sound.SC3 {- hsc3 -}

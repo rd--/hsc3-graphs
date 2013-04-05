@@ -1,5 +1,5 @@
-{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 -- http://sccode.org/1-j#c51 (jl)
+{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.UGen.External.RDU.Monad {- sc3-rdu -}

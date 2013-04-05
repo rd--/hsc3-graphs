@@ -1,4 +1,4 @@
--- http://musicweb.ucsd.edu/~tre/wordpress/?p=131
+-- http://musicweb.ucsd.edu/~tre/wordpress/?p=131 (rd)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

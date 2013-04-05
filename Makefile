@@ -13,15 +13,22 @@ mk-svg:
 
 mk-ix:
 	mkdir -p md
-	(cd hs; runhaskell ix.hs)
+	(cd hs; runhaskell mk-ix.hs)
+
+mk-lib:
+	mkdir -p Sound/SC3/Graph
+	(cd hs; runhaskell mk-lib.hs)
 
 # mk-pdf fails at sp.org
 all: mk-html mk-svg mk-ix
 
 clean:
 	(cd gr; make clean)
+	cabal clean
 	rm -f pdf/*.pdf
 	rm -f svg/*.svg
+	rm -R Sound
+	rm -f hs/hsc3-graphs.hs
 
 remote-update:
 	ssh rd@slavepianos.org "(cd sw/hsc3-graphs; make all)"

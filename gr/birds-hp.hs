@@ -1,6 +1,6 @@
-{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 -- birds (jmcc)
 -- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
+{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3.Monad {- hsc3 -}
 

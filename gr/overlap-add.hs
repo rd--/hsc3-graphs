@@ -1,4 +1,4 @@
--- overlap-add (jmcc, rd)
+-- overlap-add (jmcc)
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern {- hsc3-lang -}

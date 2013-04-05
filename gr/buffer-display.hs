@@ -1,7 +1,6 @@
 -- http://sccode.org/1-1HR (f0)
 
 import Control.Concurrent {- base -}
-import qualified Foreign.C.Math.Double as M {- cmath -}
 import qualified Graphics.Rendering.Cairo as C {- cairo -}
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Cairo.Scope.Shell {- hsc3-cairo -}
@@ -54,7 +53,7 @@ render_flower n t d = do
   let d0 = d !! 0
   C.translate (n/2) (n/2)
   C.moveTo (d0 * d0) 0
-  let f (x,y) = let a = ((x `M.fmod` n) / n) * 2 * pi + t
+  let f (x,y) = let a = ((x `modE` n) / n) * 2 * pi + t
                     (x',y') = pt_rotate a (y * y,x * y)
                 in C.lineTo x' y'
   mapM_ f (zip [0..] d)

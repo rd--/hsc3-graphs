@@ -45,7 +45,7 @@ hb_t =
 plain :: Transport m => m ()
 plain = do
   _ <- async (d_recv defaultSynthdef)
-  let p :: [[Double]] -> P_Field
+  let p :: [[Double]] -> P Field
       p = toP . map realToFrac . concat
   play (pbind [(K_degree,p hb_d - 1)
               ,(K_octave,p hb_o + 1)

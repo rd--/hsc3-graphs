@@ -1,4 +1,4 @@
--- rm-octaver (andrea valle, miller puckette)
+-- rm-octaver (av), courtesy miller puckette
 
 import Sound.SC3 {- hsc3 -}
 

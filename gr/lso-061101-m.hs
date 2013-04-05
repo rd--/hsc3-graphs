@@ -1,4 +1,4 @@
--- | L-System oscillator (rd, 2006-11-01)
+-- | L-System oscillator (rd), 2006-11-01
 
 import Control.Monad {- base -}
 import Graphics.PS {- hps -}

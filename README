@@ -17,9 +17,20 @@ Graphs credits are on the first line of each file, and are courtesy:
 - Nick Collins ([nc][nc], 3)
 - Nathaniel Virgo ([nv][nv], 3)
 - Alex McLean ([am][am], 1)
+- Andrea Valle ([av][av], 1)
+- Jacob Joaquin ([jj][jj], 1)
+- Josh Parmenter ([jp][jp], 1)
+- Juan A. Romero ([jar][jar], 1)
+- Lance J. Putnam ([ljp][ljp], 1)
+- Ryan Brown ([rb][rb], 1)
+- Sam Pluta ([sp][sp], 1)
+- Thor Magnusson ([tm][tm], 1)
 
 In most cases the `sclang` variants have been re-written prior to
 transliteration to haskell.
+
+The graphs can be compiled into a library by typing `make mk-lib` and
+built by typing `cabal install`.
 
 There is a `Makefile` at `gr`, type `make dep; make all`.
 
@@ -31,13 +42,21 @@ There is a `Makefile` at `gr`, type `make dep; make all`.
 
 [adc]: http://medienhaus.udk-berlin.de/pages/Dr._Alberto_De_Campo
 [am]: http://yaxu.org/
+[av]: http://www.fonurgia.unito.it/
 [f0]: http://fredrikolofsson.com/
+[jar]: http://rukano.de/
+[jj]: http://codehop.com/
 [jl]: http://kymatica.com/
+[jp]: http://www.realizedsound.net/josh/
 [jrhb]: http://musikundmedien.net/index.php?id=454&L=1
+[ljp]: http://www.mat.ucsb.edu/l.putnam/
 [nc]: http://www.sussex.ac.uk/Users/nc81/
 [nv]: http://nathanielvirgo.com/
+[rb]: http://www.wabdo.com/
+[sp]: http://www.sampluta.com/
+[tm]: http://www.sussex.ac.uk/Users/thm21/
 
-© [rohan drape][rd] and others, 2006-2012, [gpl]
+© [rohan drape][rd] and others, 2006-2013, [gpl]
 
 [rd]: http://rd.slavepianos.org/
 [gpl]: http://gnu.org/copyleft/

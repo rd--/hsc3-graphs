@@ -1,4 +1,4 @@
--- one-line (lance putnam)
+-- one-line (ljp)
 
 import Sound.SC3 {- hsc3 -}
 

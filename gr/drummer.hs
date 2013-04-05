@@ -1,4 +1,4 @@
--- drummer (thor magnusson)
+-- drummer (tm)
 
 import Sound.SC3.ID {- hsc3 -}
 

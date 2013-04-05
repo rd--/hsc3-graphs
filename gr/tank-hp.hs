@@ -1,5 +1,5 @@
-{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html (jmcc)
+{-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3.Monad {- hsc3 -}
 

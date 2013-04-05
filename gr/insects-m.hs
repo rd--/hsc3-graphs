@@ -1,4 +1,4 @@
--- insects (sam pluta)
+-- insects (sp)
 
 import Sound.SC3.Monad {- hsc3 -}
 

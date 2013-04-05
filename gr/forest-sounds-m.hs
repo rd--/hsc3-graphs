@@ -1,4 +1,4 @@
--- sc-users, 2007-04-06 (paul jones)
+-- sc-users, 2007-04-06 (pj) [paul jones]
 
 import Sound.SC3.Monad {- hsc3 -}
 

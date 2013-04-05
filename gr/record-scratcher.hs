@@ -1,4 +1,4 @@
--- record scratcher (josh parmenter)
+-- record scratcher (jp)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

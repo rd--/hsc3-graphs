@@ -1,4 +1,4 @@
--- http://sccode.org/1-4Qx
+-- http://sccode.org/1-4Qx (jar)
 
 import Sound.SC3 {- hsc3 -}
 

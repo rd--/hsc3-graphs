@@ -1,5 +1,5 @@
-{-# OPTIONS_GHC -F -pgmF she #-}
 -- random sine waves (jmcc)
+{-# OPTIONS_GHC -F -pgmF she #-}
 
 import Control.Applicative {- base -}
 import Sound.SC3.Monad {- hsc3 -}

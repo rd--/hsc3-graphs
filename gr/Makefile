@@ -17,5 +17,5 @@ clean:
 dep:
 	bash ../sh/mk-dependencies.sh
 
-packages:
+mk-packages:
 	bash ../sh/mk-packages.sh
