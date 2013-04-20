@@ -1,16 +1,14 @@
 import Data.List {- base -}
 import Data.Maybe {- base -}
 import System.Directory  {- directory -}
+import System.Environment  {- base -}
 import System.FilePath  {- filepath -}
 import Text.Printf {- base -}
 
 import L
 
-dir :: FilePath
-dir = "sw/hsc3-graphs"
-
-scm_dir :: FilePath
-scm_dir = "sw/rsc3/help/graph"
+-- (home,hs-project,use-html?,use-scm?)
+type State = (FilePath,FilePath,Bool,Bool)
 
 link :: FilePath -> FilePath -> String -> IO (Maybe String)
 link h p c = do
@@ -18,51 +16,60 @@ link h p c = do
   let r = if e then Just (printf "[%s](%s)" c p) else Nothing
   return r
 
-use_html :: Bool
-use_html = True
-
 type M_Str = Maybe String
-type HS_LN = (M_Str,M_Str,M_Str,M_Str,M_Str,M_Str)
+type HS_LN = [M_Str]
 
-hs_plain :: FilePath -> FilePath -> IO HS_LN
-hs_plain h nm = do
-  hs <- link h (dir </> "gr" </> nm <.> "hs") "hs"
-  m_hs <- link h (dir </> "gr" </> nm ++ "-m" <.> "hs") "m/hs"
-  u_hs <- link h (dir </> "gr" </> nm ++ "-u" <.> "hs") "u/hs"
-  hp_hs <- link h (dir </> "gr" </> nm ++ "-hp" <.> "hs") "hp/hs"
-  she_hs <- link h (dir </> "gr" </> nm ++ "-she" <.> "hs") "she/hs"
-  p_hs <- link h (dir </> "gr" </> nm ++ "-p" <.> "hs") "p/hs"
-  return (hs,m_hs,u_hs,hp_hs,she_hs,p_hs)
+alternates :: [String]
+alternates = ["m","u","hp","she","p","buf","buf-m"]
 
-hs_html :: FilePath -> FilePath -> IO HS_LN
-hs_html h nm = do
-  hs <- link h (dir </> "html" </> nm <.> "hs.html") "hs"
-  m_hs <- link h (dir </> "html" </> nm ++ "-m" <.> "hs.html") "hs-m"
-  u_hs <- link h (dir </> "html" </> nm ++ "-u" <.> "hs.html") "hs-u"
-  hp_hs <- link h (dir </> "html" </> nm ++ "-hp" <.> "hs.html") "hs-hp"
-  she_hs <- link h (dir </> "html" </> nm ++ "-she" <.> "hs.html") "hs-she"
-  p_hs <- link h (dir </> "html" </> nm ++ "-p" <.> "hs.html") "hs-p"
-  return (hs,m_hs,u_hs,hp_hs,she_hs,p_hs)
+alternates' :: [String]
+alternates' = map ('-':) alternates
 
-entry :: FilePath -> String -> IO String
-entry h nm = do
-  (hs,m_hs,u_hs,hp_hs,she_hs,p_hs) <- if use_html
-                                      then hs_html h nm
-                                      else hs_plain h nm
-  scd <- link h (dir </> "gr" </> nm <.> "scd") "scd"
-  scm <- link h (scm_dir </> nm <.> "scm") "scm"
-  dot <- link h (dir </> "dot" </> nm <.> "dot") "dot"
-  pdf <- link h (dir </> "pdf" </> nm <.> "pdf") "pdf"
-  svg <- link h (dir </> "svg" </> nm <.> "svg") "svg"
-  let ln = intercalate "," (catMaybes [hs,m_hs,u_hs,hp_hs,she_hs,p_hs
-                                      ,scd,scm,dot,pdf,svg])
+hs_plain :: State -> FilePath -> IO HS_LN
+hs_plain (hm,pr,_,_) nm = do
+  let gr = pr </> "gr"
+      alt k = link hm (gr </> nm ++ "-" ++ k <.> "hs") (k </> "hs")
+  hs <- link hm (gr </> nm <.> "hs") "hs"
+  a <- mapM alt alternates
+  return (hs : a)
+
+hs_html :: State -> FilePath -> IO HS_LN
+hs_html (hm,pr,_,_) nm = do
+  let ht = pr </> "html"
+      alt k = link hm (ht </> nm ++ "-" ++ k <.> "hs.html") (k </> "hs")
+  hs <- link hm (ht </> nm <.> "hs.html") "hs"
+  a <- mapM alt alternates
+  return (hs : a)
+
+entry :: State -> String -> IO String
+entry st nm = do
+  let (hm,pr,use_html,use_scm) = st
+  hs <- if use_html
+        then hs_html st nm
+        else hs_plain st nm
+  scd <- link hm (pr </> "gr" </> nm <.> "scd") "scd"
+  scm <- if use_scm
+         then link hm ("sw/rsc3/help/graph" </> nm <.> "scm") "scm"
+         else return Nothing
+  dot <- link hm (pr </> "dot" </> nm <.> "dot") "dot"
+  pdf <- link hm (pr </> "pdf" </> nm <.> "pdf") "pdf"
+  svg <- link hm (pr </> "svg" </> nm <.> "svg") "svg"
+  let ln = intercalate "," (catMaybes (hs ++ [scd,scm,dot,pdf,svg]))
   return (printf "- %s [%s]" nm ln)
+
+-- > mk_ix ("/home/rohan","sw/hsc3-graphs",True,True)
+mk_ix :: State -> IO ()
+mk_ix st = do
+  let (hm,pr,_,_) = st
+  d <- getDirectoryContents (hm </> pr </> "gr")
+  let hs = mapMaybe (stripSuffix ".hs") (filter (".hs" `isSuffixOf`) d)
+      nm = map (strip_suffix_or_id alternates') hs
+  e <- mapM (entry st)(nub (sort nm))
+  writeFile (hm </> pr </> "md/ix.md") (unlines e)
 
 main :: IO ()
 main = do
-  h <- getHomeDirectory
-  d <- getDirectoryContents (h </> dir </> "gr")
-  let hs = mapMaybe (stripSuffix ".hs") (filter (".hs" `isSuffixOf`) d)
-      nm = map (strip_suffix_or_id ["-m","-u","-hp"]) hs
-  e <- mapM (entry h) (nub (sort nm))
-  writeFile (h </> dir </> "md/ix.md") (unlines e)
+  [pr] <- getArgs
+  hm <- getHomeDirectory
+  let st = (hm,pr,True,True)
+  mk_ix st
