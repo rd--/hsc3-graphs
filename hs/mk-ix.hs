@@ -20,7 +20,7 @@ type M_Str = Maybe String
 type HS_LN = [M_Str]
 
 alternates :: [String]
-alternates = ["m","u","hp","she","p","buf","buf-m"]
+alternates = ["m","u","hp","she","p"]
 
 alternates' :: [String]
 alternates' = map ('-':) alternates
