@@ -9,7 +9,7 @@ mk-pdf:
 
 mk-svg:
 	mkdir -p svg
-	(cd dot.gz ; sh ../sh/mk-svg.sh)
+	sh sh/mk-svg.sh
 
 mk-ix:
 	mkdir -p md
