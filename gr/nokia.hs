@@ -26,7 +26,7 @@ grain =
         src = wrap2 (sinOsc AR fEnv 1 * (1 + distort')) 1
     in out o (delayN (src * mce2 aEnv aEnv) 0.1 delay)
 
-pattern :: Enum e => (Field,e) -> P_Bind
+pattern :: Enum e => (Field,e) -> [P_Bind]
 pattern (f,z) =
     let f_mul = prand 'α' [4,1,2,3,4,8] inf
     in [(K_instr,pinstr "grain")

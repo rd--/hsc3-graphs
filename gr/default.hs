@@ -4,7 +4,7 @@ import Data.Default {- data-default -}
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
-pattern :: P_Bind
+pattern :: [P_Bind]
 pattern =
     [(K_instr,psynth def)
     ,(K_note,pxrand 'α' [0,1,5,7,9] inf)

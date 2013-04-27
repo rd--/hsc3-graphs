@@ -36,7 +36,7 @@ ping =
                            in s * envGen AR 1 1 0 1 RemoveSynth e]
     in offsetOut o (r * mce2 a a)
 
-pattern :: P_Bind
+pattern :: [P_Bind]
 pattern =
     let o = prand 'ζ' [6,7] inf
     in [(K_instr,psynth (synthdef "ping" ping))

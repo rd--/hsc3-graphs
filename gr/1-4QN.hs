@@ -30,7 +30,7 @@ mk_g o =
         g = grainBuf 2 t (1 / l) b r p 2 0 (-1) 512
     in synthdef "g" (out 0 (g * e))
 
-p1 :: P_Bind
+p1 :: [P_Bind]
 p1 =
     [(K_dur,pseq [4] inf)
     ,(K_param "sdens",pseq [9000,1000,500] inf / 100)
@@ -39,7 +39,7 @@ p1 =
     ,(K_param "rate",pwhite 'ε' (-10) 10 inf)
     ,(K_param "pos",pwhite 'ζ' (-10) 10 inf)]
 
-p2 :: P_Bind
+p2 :: [P_Bind]
 p2 =
     [(K_dur,pseq [4/3] inf)
     ,(K_param "sdens",pseq [9000,1000,500,25] inf)

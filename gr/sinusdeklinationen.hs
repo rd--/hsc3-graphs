@@ -19,7 +19,7 @@ sinuscell =
         s = sinOsc AR fre 0
     in out b (pan2 s p e)
 
-pattern :: Enum e => (Field,[e]) -> P_Bind
+pattern :: Enum e => (Field,[e]) -> [P_Bind]
 pattern (c,z) =
     case z of
       [z0,z1,z2,z3] ->

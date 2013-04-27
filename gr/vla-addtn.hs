@@ -125,7 +125,7 @@ vla_plyr n =
 plyr36 :: Synthdef
 plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
-pattern :: P_Bind
+pattern :: [P_Bind]
 pattern =
     [(K_instr,pinstr "plyr36")
     ,(K_param "loc",pwhite 'δ' (-1) 1 inf)

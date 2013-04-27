@@ -130,6 +130,8 @@ GRAPHS= 1-1Ni\
  overlap-add\
  pattern-buffer-m\
  pebble-beach\
+ pkt-00\
+ pkt-07\
  pkt-26\
  pkt-28\
  plucked-strings-m\

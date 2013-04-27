@@ -18,7 +18,7 @@ e_lamell =
         e = envGen AR 1 a 0 1 RemoveSynth e_d
     in pan2 s l e
 
-patterns :: [P_Bind]
+patterns :: [[P_Bind]]
 patterns =
     let i = psynth (synthdef "e-lamell" (out 0 e_lamell))
     in [[(K_instr,i)

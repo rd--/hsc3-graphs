@@ -39,7 +39,7 @@ pinterp n s e = pseries s ((e - s) / fromIntegral n) n
 pinterp' :: (Fractional a) => P Int -> P a -> P a -> P a
 pinterp' n s e = join (pzipWith3 pinterp n s e)
 
-arpeggio :: P_Bind
+arpeggio :: [P_Bind]
 arpeggio =
     [(K_instr,psynth analogarpeggio)
     ,(K_dur

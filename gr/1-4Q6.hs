@@ -30,7 +30,7 @@ risset =
         src = mixFill 11 fn
     in synthdef "risset" (out 0 (pan2 src pan 1))
 
-pattern :: P_Bind
+pattern :: [P_Bind]
 pattern =
   [(K_instr,pinstr' (Instr_Def risset False))
   ,(K_id,1000)

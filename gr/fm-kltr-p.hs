@@ -24,7 +24,7 @@ fm_kltr =
       l = line KR p (p * r4) dt DoNothing
   in out o (pan2 (sinOsc AR m 0) l e)
 
-pattern :: P_Bind
+pattern :: [P_Bind]
 pattern =
     [(K_instr,psynth (synthdef "fm_kltr" fm_kltr))
     ,(K_freq,fmap midiCPS 53)

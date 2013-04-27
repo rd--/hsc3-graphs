@@ -67,7 +67,7 @@ bass_i = Instr_Def (synthdef "bass" bass_u) False
 dur_p :: Fractional a => P a
 dur_p = prand 'β' [3,0.7,1,0.5] inf
 
-pulse_p :: P_Bind
+pulse_p :: [P_Bind]
 pulse_p =
     [(K_instr,pinstr' pulse_i)
     ,(K_dur,dur_p * 10)
@@ -76,7 +76,7 @@ pulse_p =
     ,(K_param "attackTime",pwhite 'γ' 0 7 inf)
     ,(K_param "delayTime",0.02)]
 
-drone_p :: P_Bind
+drone_p :: [P_Bind]
 drone_p =
     [(K_instr,pinstr' drone_i)
     ,(K_dur,dur_p)
@@ -84,7 +84,7 @@ drone_p =
     ,(K_amp,pwhite 'β' 0.03 0.08 inf * 0.7)
     ,(K_param "phase",pwrand 'γ' [0,4.7123] [0.5,0.5] inf)]
 
-bass_p :: P_Bind
+bass_p :: [P_Bind]
 bass_p =
     [(K_instr,pinstr' bass_i)
     ,(K_dur,dur_p)
