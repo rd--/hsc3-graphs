@@ -39,12 +39,14 @@ Library
                    hsc3-lang == 0.15.*,
                    hsc3-sf == 0.15.*,
                    hsc3-unsafe == 0.15.*,
+                   hsc3-utils == 0.15.*,
                    hsharc == 0.15.*,
                    MonadRandom,
                    primes,
                    random,
                    random-shuffle,
                    sc3-rdu == 0.15.*,
+                   she,
                    split
   GHC-Options:     -Wall -fwarn-tabs
   -- Auto-generated: Fri Apr 5 14:49:03 EST 2013
