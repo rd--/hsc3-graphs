@@ -1,5 +1,5 @@
 Name:              hsc3-graphs
-Version:           0.14
+Version:           0.15
 Synopsis:          Haskell SuperCollider Graphs
 Description:       hsc3-graphs provides a collection of illustrative
                    unit generator graphs for hsc3.
@@ -30,21 +30,21 @@ Library
                    data-default,
                    directory,
                    filepath,
-                   hls == 0.14.*,
-                   hmt == 0.14.*,
-                   hosc == 0.14.*,
-                   hps == 0.14.*,
-                   hsc3 == 0.14.*,
-                   hsc3-cairo == 0.14.*,
-                   hsc3-lang == 0.14.*,
-                   hsc3-sf == 0.14.*,
-                   hsc3-unsafe == 0.14.*,
-                   hsharc == 0.14.*,
+                   hls == 0.15.*,
+                   hmt == 0.15.*,
+                   hosc == 0.15.*,
+                   hps == 0.15.*,
+                   hsc3 == 0.15.*,
+                   hsc3-cairo == 0.15.*,
+                   hsc3-lang == 0.15.*,
+                   hsc3-sf == 0.15.*,
+                   hsc3-unsafe == 0.15.*,
+                   hsharc == 0.15.*,
                    MonadRandom,
                    primes,
                    random,
                    random-shuffle,
-                   sc3-rdu == 0.14.*,
+                   sc3-rdu == 0.15.*,
                    split
   GHC-Options:     -Wall -fwarn-tabs
   -- Auto-generated: Fri Apr 5 14:49:03 EST 2013
