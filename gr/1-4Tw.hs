@@ -12,10 +12,3 @@ one_4tw =
 
 main :: IO ()
 main = audition (out 0 one_4tw)
-
-
-{-
-;var n = (1..10).inject([i],f)
-;n = n.collect{|n,i| SinOsc.ar((4000 + (i * 500))) * Decay2.ar(n,0.01,0.2)}
-;Splay.ar(n)}.draw
--}
