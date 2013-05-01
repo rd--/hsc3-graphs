@@ -24,6 +24,7 @@ Graphs credits are on the first line of each file, and are courtesy:
 - Lance J. Putnam ([ljp][ljp], 1)
 - Ryan Brown ([rb][rb], 1)
 - Sam Pluta ([sp][sp], 1)
+- Till Bovermann ([tb][tb], 1)
 - Thor Magnusson ([tm][tm], 1)
 
 In most cases the `sclang` variants have been re-written prior to
@@ -54,6 +55,7 @@ There is a `Makefile` at `gr`, type `make dep; make all`.
 [nv]: http://nathanielvirgo.com/
 [rb]: http://www.wabdo.com/
 [sp]: http://www.sampluta.com/
+[tb]: http://www.lfsaw.de/
 [tm]: http://www.sussex.ac.uk/Users/thm21/
 
 © [rohan drape][rd] and others, 2006-2013, [gpl]
