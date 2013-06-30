@@ -16,6 +16,7 @@ bang = do return (pan2 (decay2 #(dust AR 0.01) 0.04 0.3 * #(brownNoise AR)) 0 1)
 r_allpass :: UId m => UGen -> m UGen
 r_allpass i = do return (allpassN i 0.03 #(clone 2 (rand 0.005 0.02)) 1)
 
+-- > audition . out 0 =<< tank_f (soundIn 4)
 tank_f :: UId m => UGen -> m UGen
 tank_f i = do
   let [l,r] = mceChannels (onePole (localIn 2 AR * 0.98) 0.33)

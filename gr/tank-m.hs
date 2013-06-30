@@ -23,6 +23,7 @@ r_allpass i = do
   r <- clone 2 (rand 0.005 0.02)
   return (allpassN i 0.03 r 1)
 
+-- > audition . out 0 =<< tank_f (soundIn 4)
 tank_f :: UId m => UGen -> m UGen
 tank_f i = do
   r1 <- clone 2 (rand 0.01 0.05)

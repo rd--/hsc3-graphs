@@ -25,6 +25,7 @@ r_allpass e i =
     let r = randN 2 e 0.005 0.02
     in allpassN i 0.03 r 1
 
+-- > audition (out 0 (tank_f 'α' (soundIn 4)))
 tank_f :: ID z => z -> UGen -> UGen
 tank_f e i =
     let r1 = randN 2 e 0.01 0.05

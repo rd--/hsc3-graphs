@@ -24,7 +24,7 @@ prts n f a = fmap sum (mapM (prt a) [f,f + f .. f * n])
 fmt :: UId m => m UGen
 fmt = do
   n <- (lfNoise2 KR 2)
-  return  (formant AR (mce2 20 21) (wrp n 10 100) 200 * 0.35)
+  return (formant AR (mce2 20 21) (wrp n 10 100) 200 * 0.35)
 
 -- audition . out 0 =<< pulses
 pulses :: UId m => m UGen
@@ -36,8 +36,8 @@ pulses = do
   let warp i = linLin i (-1) 1
       l = latch t t
       p = pulse AR (warp n0 2 (mce2 11 15)) 0.01 * 0.1
-      f = warp n1 300 1800
-      rq = warp n2 0.01 2
+      f = warp n1 90 300
+      rq = warp n2 2 9
   return (mrg2 (l * rlpf p f rq) (sendTrig t 0 t))
 
 shifting_pulses :: UId m => m UGen
