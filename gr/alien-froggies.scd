@@ -6,27 +6,6 @@
 	};
 };
 
-~add_env = {
-	arg sig_fn;
-	{
-		var susdur = \susdur.kr(4);
-		var transdur = \transdur.kr(1);
-		var env = EnvGen.kr(Env([0,1,1,0],[transdur,susdur,transdur],\sin),doneAction: 2);
-		Out.ar(0,sig_fn.value * env);
-	};
-};
-
-~add_env.(~alien_froggies.(11)).play(args: [\susdur:0.5,\transdur:0.25]);
-
-~overlap_texture = {
-	arg sig_fn, susdur, transdur, overlaps, maxRepeats = inf;
-	Task({
-		maxRepeats.do{
-			arg index;
-			~add_env.(sig_fn.value).play(args: [\susdur:susdur,\transdur:transdur]);
-			((susdur + (transdur * 2)) / overlaps).wait;
-		};
-	}).play;
-}
+"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
 ~overlap_texture.({~alien_froggies.(11)},susdur:0.5,transdur:0.25,overlaps:5);

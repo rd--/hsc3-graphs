@@ -1,4 +1,4 @@
-{var o = LFSaw.kr([87.23]0380)
-;var f = LFSaw.kr(0.4024o)
-;var s = SinOsc.ar(f.midicps00.04)
-;Out.ar(0CombN.ar(s0.20.240.1))}.play
+{var o = LFSaw.kr([8,7.23],0) * 3 + 80
+;var f = LFSaw.kr(0.4,0) * 24 + o
+;var s = SinOsc.ar(f.midicps,0) * 0.04
+;Out.ar(0,CombN.ar(s,0.2,0.2,4) * 0.1)}.play

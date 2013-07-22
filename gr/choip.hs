@@ -26,4 +26,4 @@ choip_pp =
     in useq 'κ' 4 f
 
 main :: IO ()
-main = overlapTextureU_pp (1,10,8,maxBound) choip 2 choip_pp
+main = overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp

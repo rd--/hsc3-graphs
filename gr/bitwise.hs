@@ -13,7 +13,7 @@ bitwise_operators =
               ((t *  5) .&. (t .>>. (mce2 3 4))) .|.
               ((t *  2) .&. (t .>>. 9)) .|.
               ((t *  8) .&. (t .>>. 11))) - 3) .%. 256
-    in tanh (hpf (((s / 127) - 1) * 3) 20)
+    in tanh (hpf (((s / 127) - 1) * 3) 20) * 0.02
 
 main :: IO ()
 main = audition (out 0 bitwise_operators)
