@@ -6,3 +6,5 @@ var l = XLine.kr(Rand(4000,5000), Rand(2500,3200), 1);
 var z = LPF.ar(Mix.new(VarSaw.ar(f3, 0, 0.3, 0.3)),l) * e;
 OffsetOut.ar(out, Pan2.ar(z, pan, amp));
 },[\ir]).add;
+
+Pbind(\note,Pseq([1,2,3],1)).play;

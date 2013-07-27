@@ -15,8 +15,8 @@
 ; var sig = SinOsc.ar(dial, 0) * 0.05 * trig
 ; var d = LFDNoise3.kr(0.5)
 ; var dsig = DelayC.ar(sig, 0.2, d.range(0, 0.01))
-; var g1 = GrayNoise.AR
-; var g2 = GrayNoise.AR
+; var g1 = GrayNoise.ar
+; var g2 = GrayNoise.ar
 ; var z = Silent.ar(1)
 ; var hiss = g1 * 0.01 + HPF.ar(g2 * 0.02, 3000)
 ; Out.ar(0, [z, dsig + hiss]) }.play

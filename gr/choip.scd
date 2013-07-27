@@ -14,15 +14,10 @@
 
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
-~overlap_texture.({~choip.(12)},susdur:1,transdur:12-2,overlaps:8);
+~overlap_texture.({~choip.(12)},susdur:10,transdur:1,overlaps:8);
 
-~choip_pp = {
-	arg n = 4;
-	{
-		var z = In.ar(0,2);
-		n.do({ z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4)});
-		ReplaceOut.ar(0,z);
-	};
-}
-
-~choip_pp.(4).play(addAction: \addToTail);
+~post_process.({
+	arg z;
+	4.do({ z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4)});
+	z;
+});

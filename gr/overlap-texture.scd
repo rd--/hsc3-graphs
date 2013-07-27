@@ -17,4 +17,13 @@
 			((susdur + (transdur * 2)) / overlaps).wait;
 		};
 	}).play;
-}
+};
+
+~post_process = {
+	arg treatment;
+	{
+		var z = In.ar(0,2);
+		z = treatment.(z);
+		ReplaceOut.ar(0,z);
+	}.play(addAction: \addToTail);
+};

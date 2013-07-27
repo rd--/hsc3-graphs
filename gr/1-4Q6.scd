@@ -12,7 +12,7 @@ SynthDef(\risset,
  ;SinOsc.ar(freq*frqs[i]+dets[i],0,amp*env)}
 ;var src = Mix.fill(11,fn)
 ;Out.ar(out,Pan2.ar(src,pan));
-}).add;
+}).send;
 
 a = Synth(\risset,[\freq,72.midicps,\dur,4])
 a.set(\t_trig,1)

@@ -8,7 +8,7 @@
              ;var s2 = Decay2.ar(d, 0.1, 0.5) * 0.1 * s1
              ;Pan2.ar(s2, p, 1)}
 ;var bang = {var d = Dust.ar(0.01)
-            ;var n = BrownNoise.AR
+            ;var n = BrownNoise.ar
             ;Pan2.ar(Decay2.ar(d, 0.04, 0.3) * n, 0, 1)}
 ;var tank = {arg i
             ;var r1 = {Rand.new(0.01,0.05)}.dup

@@ -16,6 +16,6 @@
 ; var x = MouseX.kr(1, 4, 'linear', 0.2)
 ; var y = MouseY.kr(0.25, 0.75, 'exponential', 0.2)
 ; var t = Impulse.kr(3 * x, 0)
-; var n = WhiteNoise.AR
+; var n = WhiteNoise.ar
 ; var v = TRand.kr(0.25, 1.0, t)
 ; Out.ar(0, Pan2.ar(snr.value(t, n, v), 0, y)) }.play
