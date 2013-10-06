@@ -5,11 +5,11 @@ import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 -- > audition risset
 --
--- let set p = withSC3 (\fd -> send fd (n_set (-1) p))
--- set [("trig",1)]
--- set [("freq",midiCPS 100),("sustain",3),("trig",1)]
--- set [("freq",midiCPS 60),("sustain",9),("trig",1)]
--- set [("freq",midiCPS 40),("sustain",15),("trig",1)]
+-- > let set p = withSC3 (send (n_set (-1) p))
+-- > set [("trig",1)]
+-- > set [("freq",midiCPS 100),("sustain",3),("trig",1)]
+-- > set [("freq",midiCPS 60),("sustain",9),("trig",1)]
+-- > set [("freq",midiCPS 40),("sustain",15),("trig",1)]
 risset :: Synthdef
 risset =
     let k = control KR
