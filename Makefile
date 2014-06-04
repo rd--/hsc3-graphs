@@ -30,5 +30,11 @@ clean:
 	rm -R Sound
 	rm -f hs/hsc3-graphs.hs
 
+push-sp:
+	darcs push -a rd@slavepianos.org:sw/hsc3-graphs
+
+pull-sp:
+	darcs pull -a http://rd.slavepianos.org/sw/hsc3-graphs
+
 remote-update:
 	ssh rd@slavepianos.org "(cd sw/hsc3-graphs; make all)"
