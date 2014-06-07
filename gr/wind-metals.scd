@@ -1,3 +1,6 @@
+"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+
+~wind_metals =
 {var n = 6
 ;var base = ExpRand.new(60,4000)
 ;var rng = Rand.new(500.0,8000.0)
@@ -8,4 +11,7 @@
 ;var f = Array.fill(n,{Rand.new(0,rng) + base})
 ;var dt = Array.fill(n,{Rand.new(0.1,2.0)})
 ;var s = Klank.ar(`[f,nil,dt],exc)
-;Out.ar(0,(s * 0.1).softclip)}.play
+;(s * 0.1).softclip
+};
+
+~overlap_texture.(~wind_metals,5,2,12);
