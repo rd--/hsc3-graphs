@@ -13,7 +13,7 @@
 	Task({
 		maxRepeats.do{
 			arg index;
-			~add_env.(sig_fn.value).play(args:[\susdur:susdur,\transdur:transdur]);
+			~add_env.(sig_fn).play(args:[\susdur:susdur,\transdur:transdur]);
 			((susdur + (transdur * 2)) / overlaps).wait;
 		};
 	}).play;

@@ -8,4 +8,4 @@
 	CombL.ar(Pan2.ar( LFPulse.ar(freq, 0, 0.5, 0.04), LFNoise0.kr(3.0.rand, 0.8)), dtime, dtime, 3);
 }
 
-~overlap_texture.({~data_space},susdur:6,transdur:1,overlaps:4);
+~overlap_texture.(~data_space,susdur:6,transdur:1,overlaps:4);

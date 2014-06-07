@@ -14,4 +14,4 @@
 	)
 }
 
-~overlap_texture.({~coolant},susdur:4,transdur:4,overlaps:2)
+~overlap_texture.(~coolant,susdur:4,transdur:4,overlaps:2)

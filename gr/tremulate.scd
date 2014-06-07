@@ -9,7 +9,7 @@
 	Mix.ar(Pan2.ar(o*a,l));
 }
 
-~overlap_texture.({~tremulate},susdur:0.5,transdur:2,overlaps:3);
+~overlap_texture.(~tremulate,susdur:0.5,transdur:2,overlaps:3);
 
 ~post_process.({arg z; CombN.ar(z,0.1,0.1,1)});
 

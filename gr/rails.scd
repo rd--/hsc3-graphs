@@ -11,5 +11,4 @@
 ;Pan2.ar(k,l)
 }
 
-~overlap_texture.({~rails},susdur:2,transdur:3,overlaps:4);
-
+~overlap_texture.(~rails,susdur:2,transdur:3,overlaps:4);

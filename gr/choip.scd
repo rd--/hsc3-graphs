@@ -1,3 +1,5 @@
+"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+
 ~choip = {
 	arg t = 12;
 	{
@@ -10,14 +12,12 @@
 	};
 }
 
-~choip.(12).play;
-
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
-
-~overlap_texture.({~choip.(12)},susdur:10,transdur:1,overlaps:8);
+~overlap_texture.(~choip.(12),susdur:10,transdur:1,overlaps:8);
 
 ~post_process.({
 	arg z;
 	4.do({ z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4)});
 	z;
 });
+
+~choip.(12).play;

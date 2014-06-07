@@ -1,3 +1,5 @@
+"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+
 ~sidereal_time = {
 	var p = 15;
 	var z = Array.fill(2,{`[Array.fill(p,{exprand(100.0,6000.0)}),
@@ -8,10 +10,8 @@
 	Klank.ar(z,t).distort * 0.1;
 }
 
-~sidereal_time.play;
-
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
-
-~overlap_texture.({~sidereal_time},susdur:4,transdur:4,overlaps:6);
+~overlap_texture.(~sidereal_time,susdur:4,transdur:4,overlaps:6);
 
 ~post_process.({arg z; CombN.ar(z,0.6,0.5.rand + 0.1,8,1,z.reverse)});
+
+~sidereal_time.play;

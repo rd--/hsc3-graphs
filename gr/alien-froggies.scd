@@ -8,4 +8,4 @@
 	};
 };
 
-~overlap_texture.({~alien_froggies.(11)},susdur:0.5,transdur:0.25,overlaps:5);
+~overlap_texture.(~alien_froggies.(11),susdur:0.5,transdur:0.25,overlaps:5);

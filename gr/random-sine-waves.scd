@@ -5,6 +5,6 @@
 	Pan2.ar(o,1.0.rand2);
 }
 
-~rsw.play
+~overlap_texture.(~rsw,susdur:2,transdur:5,overlaps:12);
 
-~overlap_texture.({~rsw},susdur:2,transdur:5,overlaps:12);
+~rsw.play

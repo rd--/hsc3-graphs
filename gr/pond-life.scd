@@ -6,6 +6,6 @@
 	Pan2.ar(o,1.0.rand2);
 }
 
-~pond_life.play;
+~overlap_texture.(~pond_life,susdur:8,transdur:8,overlaps:4);
 
-~overlap_texture.({~pond_life},susdur:8,transdur:8,overlaps:4);
+~pond_life.play;
