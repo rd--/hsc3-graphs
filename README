@@ -37,6 +37,7 @@ There is a `Makefile` at `gr`, type `make dep; make all`.
 
 Requires:
 
+- cabal install hscolour
 - cabal install she
 
 [hs]: http://haskell.org/

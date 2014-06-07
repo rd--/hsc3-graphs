@@ -1,6 +1,6 @@
 {var f = 80
 ;var p = 10
-;var t = XLine.kr([10,11],0.1,60,doneAction: 0)
+;var t = XLine.kr([10,11],0.1,60,doneAction: 0) /* trigger probability decreases over time */
 ;var o = {arg h
          ;var n = Dust.kr(t)
          ;var r = Rand.new(0,0.5)

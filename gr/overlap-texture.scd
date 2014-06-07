@@ -20,10 +20,10 @@
 };
 
 ~post_process = {
-	arg treatment;
+	arg treatment,bus = 0,nc = 2;
 	{
-		var z = In.ar(0,2);
+		var z = In.ar(bus,nc);
 		z = treatment.(z);
-		ReplaceOut.ar(0,z);
+		ReplaceOut.ar(bus,z);
 	}.play(addAction: \addToTail);
 };

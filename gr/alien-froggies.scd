@@ -1,3 +1,5 @@
+"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+
 ~alien_froggies = {
 	arg rate;
 	{
@@ -5,7 +7,5 @@
 		Formant.ar(r,exprand(200,3000.0),9.0.rand * r + r,0.05);
 	};
 };
-
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
 ~overlap_texture.({~alien_froggies.(11)},susdur:0.5,transdur:0.25,overlaps:5);

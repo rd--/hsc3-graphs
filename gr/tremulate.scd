@@ -1,3 +1,5 @@
+"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+
 ~tremulate = {
 	var f = 500 + 400.rand;
 	var r = 30 + 60.rand;
@@ -7,10 +9,8 @@
 	Mix.ar(Pan2.ar(o*a,l));
 }
 
-~tremulate.play;
-
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
-
 ~overlap_texture.({~tremulate},susdur:0.5,transdur:2,overlaps:3);
 
 ~post_process.({arg z; CombN.ar(z,0.1,0.1,1)});
+
+~tremulate.play;
