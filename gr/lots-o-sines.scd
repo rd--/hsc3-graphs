@@ -1,3 +1,5 @@
+// lots-o-sins (jmcc) #2
+
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
 ~xfade_texture.({

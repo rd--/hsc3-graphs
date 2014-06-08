@@ -1,4 +1,4 @@
-// cymbalism accellerando (jmcc) #2
+// cymbalism accelerando (jmcc) #2
 
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
