@@ -1,4 +1,4 @@
--- modal space (jmcc)
+-- modal space (jmcc) #8
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}

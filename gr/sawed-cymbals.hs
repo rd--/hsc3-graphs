@@ -1,4 +1,4 @@
--- sawed cymbals (jmcc)
+-- sawed cymbals (jmcc) #9
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect

@@ -1,4 +1,4 @@
--- modal space, using local buffer (jmcc)
+-- modal space, using local buffer (jmcc) #8
 
 import Sound.SC3.ID {- hsc3 -}
 

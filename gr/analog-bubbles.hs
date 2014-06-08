@@ -1,4 +1,4 @@
--- analog bubbles (jmcc)
+-- analog bubbles (jmcc) #1
 
 import Sound.SC3 {- hsc3 -}
 

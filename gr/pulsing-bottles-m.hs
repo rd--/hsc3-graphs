@@ -1,4 +1,4 @@
--- pulsing bottles (jmcc)
+-- pulsing bottles (jmcc) #2
 
 import Control.Monad {- base -}
 import Sound.SC3.Monad {- hsc3 -}

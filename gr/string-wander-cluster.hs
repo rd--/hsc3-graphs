@@ -1,4 +1,4 @@
--- string wander-cluster (jmcc)
+-- string wander-cluster (jmcc) #6
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}

@@ -55,6 +55,7 @@ jmcc_sc2 =
      ,"sample and hold liquidities"
      ,"random panning sines"]
     ,["distort input"
+     ,"ring modulate input"
      ,"filter input"]
     ,["sweepy noise"
      ,"string wander-cluster"

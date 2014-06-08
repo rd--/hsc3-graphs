@@ -1,4 +1,4 @@
--- random sine waves (jmcc)
+-- random sine waves (jmcc) #1
 {-# OPTIONS_GHC -F -pgmF she #-}
 
 import Control.Applicative {- base -}

@@ -1,4 +1,4 @@
--- sidereal time (jmcc)
+-- sidereal time (jmcc) #9
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Control.Monad {- base -}

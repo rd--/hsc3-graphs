@@ -1,4 +1,4 @@
--- slow beating harmonic sines (jmcc)
+-- slow beating harmonic sines (jmcc) #7
 
 import Control.Monad {- base -}
 import Control.Monad.Random {- MonadRandom -}

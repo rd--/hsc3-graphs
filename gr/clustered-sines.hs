@@ -1,4 +1,4 @@
--- clustered sines (jmcc)
+-- clustered sines (jmcc) #2
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect

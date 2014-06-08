@@ -1,4 +1,4 @@
--- reverberated sine percussion (jmcc)
+-- reverberated sine percussion (jmcc) #3
 
 import Sound.SC3.Monad {- hsc3 -}
 

@@ -1,4 +1,4 @@
--- random panning sines (jmcc)
+-- random panning sines (jmcc) #4
 
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}

@@ -1,4 +1,4 @@
--- scratchy (jmcc)
+-- scratchy (jmcc) #1
 
 import Sound.SC3.ID {- hsc3 -}
 

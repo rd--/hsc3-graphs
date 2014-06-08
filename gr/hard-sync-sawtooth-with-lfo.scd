@@ -8,4 +8,4 @@
 }, 4, 4, 4, postProcess: {
     arg z;
     CombN.ar(z, 0.3, 0.3, 4, 1, z.reverse);
-});
+}, numChannels: 2);

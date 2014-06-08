@@ -1,4 +1,4 @@
-// ring modulate input (jmcc)
+// ring modulate input (jmcc) #5
 
 {var input = SoundIn.ar([0,1])
 ;var x = MouseX.kr(10,4000,'exponential') /* mouse x controls ring mod freq */

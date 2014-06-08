@@ -1,4 +1,4 @@
--- sprinkler-m (jmcc)
+-- sprinkler-m (jmcc) #1
 
 import Sound.SC3.Monad {- hsc3 -}
 

@@ -1,4 +1,4 @@
--- synthetic piano (jmcc)
+-- synthetic piano (jmcc) #3
 
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3.Monad {- hsc3 -}

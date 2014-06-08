@@ -1,4 +1,4 @@
--- noise burst sweep (jmcc)
+-- noise burst sweep (jmcc) #6
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.Protect

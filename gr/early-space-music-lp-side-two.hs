@@ -1,4 +1,4 @@
--- early space music LP, side 2 (jmcc)
+-- early space music LP, side 2 (jmcc) #12
 
 import Sound.SC3.ID {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
