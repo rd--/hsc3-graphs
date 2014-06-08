@@ -2,7 +2,7 @@
 
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
-~wind_metals =
+~overlap_texture.(
 {var n = 6
 ;var base = ExpRand.new(60,4000)
 ;var rng = Rand.new(500.0,8000.0)
@@ -14,6 +14,4 @@
 ;var dt = Array.fill(n,{Rand.new(0.1,2.0)})
 ;var s = Klank.ar(`[f,nil,dt],exc)
 ;(s * 0.1).softclip
-};
-
-~overlap_texture.(~wind_metals,5,2,12);
+},5,2,12);

@@ -25,5 +25,7 @@
         CombN.ar(SinOsc.ar(f, 0, 0.02), 0.3, rrand(0.15,0.3), 4)
     };
     [s1,s2].choose.value;
-}, 4, 4, 6);
-~post_process.({arg z; CombN.ar(z, 0.5, [0.5,0.47], 7, 1, z.reverse)});
+}, 4, 4, 6, postProcess: {
+    arg z;
+    CombN.ar(z, 0.5, [0.5,0.47], 7, 1, z.reverse)
+});

@@ -2,7 +2,7 @@
 
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
-~coolant = {
+~overlap_texture.({
     var p = 10;
     Klank.ar(
         [
@@ -14,5 +14,4 @@
             0.95
         )
     )
-};
-~overlap_texture.(~coolant,sustainTime:4,transitionTime:4,overlap:2);
+},sustainTime:4,transitionTime:4,overlap:2);

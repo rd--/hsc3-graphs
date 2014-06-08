@@ -45,9 +45,7 @@
         var in = LFPulse.ar(f3, 0, rrand(0.1, 0.9), 0.002 * LFNoise2.kr(8.0.rand).max(0));
         Klank.ar(z, in).distort * 0.3;
     }].choose.value;
-}, 2, 4, 6);
-
-~post_process.({
+}, 2, 4, 6, postProcess: {
     arg z;
     var fn = {CombN.ar(z, 0.3, [rrand(0.1,0.3),rrand(0.1,0.3)], 8)};
     Mix.arFill(5,fn) * 0.3;

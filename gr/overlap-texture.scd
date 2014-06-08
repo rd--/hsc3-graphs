@@ -34,7 +34,8 @@
 };
 
 ~overlap_texture = {
-    arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2, maxRepeats = inf;
+    arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2, maxRepeats = inf,
+        postProcess = nil, bus = 0, numChannels = 2;
     var period = (sustainTime + (transitionTime * 2)) / overlap;
     Task({
         maxRepeats.do({
@@ -45,10 +46,11 @@
             period.wait;
         });
     }).play;
+    if(postProcess.notNil,{~post_process.(postProcess,bus,numChannels)});
 };
 
 ~post_process = {
-    arg treatment,bus = 0,numChannels = 2;
+    arg treatment, bus = 0, numChannels = 2;
     {
         var z = In.ar(bus,numChannels);
         z = treatment.(z);
