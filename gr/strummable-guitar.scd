@@ -10,4 +10,4 @@
            ;var s = CombL.ar(n,dt,dt,4)
            ;Pan2.ar(s,i * 0.2 - 0.5,1)}
 ;var strs = Mix.fill(scale.size,str)
-;Out.ar(0,LeakDC.ar(LPF.ar(strs,12000),0.995))}.play
+;LeakDC.ar(LPF.ar(strs,12000),0.995)}.play

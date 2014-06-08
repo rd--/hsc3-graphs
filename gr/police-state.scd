@@ -13,4 +13,4 @@
 ;var n1 = LFNoise2.ar(n0 * 90 + 620)
 ;var n2 = LFNoise2.kr([0.3,0.3])
 ;var e = n1 * (n2 * 0.15 + 0.18)
-;Out.ar(0,CombL.ar(Mix.fill(4,node) + e,0.3,0.3,3))}.play
+;CombL.ar(Mix.fill(4,node) + e,0.3,0.3,3)}.play

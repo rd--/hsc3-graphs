@@ -18,7 +18,7 @@
             0.1
         ),
         LFNoise1.kr(1.0.rand),
-        LFPulse.kr(15.0.linrand, 0.2 + 0.2.rand)
+        LFPulse.kr(15.0.linrand, 0, 0.2 + 0.2.rand)
     )
 };
 ~overlap_texture.(~contamination_zone, 8, 3, 4);

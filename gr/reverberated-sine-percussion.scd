@@ -14,4 +14,4 @@
 ;var x_ = {var r = [Rand.new(0,0.05),Rand.new(0,0.05)]
           ;x = AllpassN.ar(x,0.050,r,1)}
 ;a.do(x_)
-;Out.ar(0,s + (0.2 * x))}.play
+;s + (0.2 * x)}.play

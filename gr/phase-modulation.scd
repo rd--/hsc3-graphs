@@ -8,7 +8,7 @@
     var a = 0;
     3.do({
         f = IRand(0,x);
-        a = FSinOsc.ar([f, f + 1.0.rand2], y, a);
+        a = FSinOsc.ar([f, f + 1.0.rand2], 0, y, a);
     });
     f = IRand(0,x);
     SinOsc.ar([f, f+1.0.rand2], a, 0.1)

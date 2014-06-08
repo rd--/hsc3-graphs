@@ -5,7 +5,7 @@
 ;var k = DegreeToKey.kr(b,x,12)
 ;var c = {arg n,r
          ;var o = SinOsc.ar((r + k + (n * 0.04)).midicps,0) * 0.1
-         ;var t = LFPulse.ar([48,55].midicps,0.15,0.5)
+         ;var t = LFPulse.ar([48,55].midicps,0,0.15)
          ;var f = (SinOsc.kr(0.1,0) * 10 + r).midicps
          ;var d = RLPF.ar(t,f,0.1) * 0.1
          ;var m = o + d

@@ -6,7 +6,7 @@
             ; var r5 = TRand.kr(0.3, 0.6, tr)
             ; var r6 = TRand.kr(0.3, 0.5, tr)
             ; var o1 = FSinOsc.kr(r2, 0, r3, r4)
-            ; var o2 = FSinOsc.kr(o1, r5, r6)
+            ; var o2 = FSinOsc.kr(o1, 0, r5, r6)
             ; RHPF.ar(n, r1, o2) }
 ; var n = [BrownNoise.ar, BrownNoise.ar]
 ; var tr = Impulse.kr(0.1, 0)

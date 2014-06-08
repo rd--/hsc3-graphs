@@ -13,4 +13,4 @@
          ;var l = ((n - 36) / 27) - 1
          ;var c_ = Mix.fill(3,c)
          ;Pan2.ar(c_,l,1) }
-;Out.ar(0,Mix.fill(6,p))}.play
+;Mix.fill(6,p)}.play
