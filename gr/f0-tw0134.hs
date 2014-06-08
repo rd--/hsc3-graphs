@@ -16,7 +16,7 @@ f0_tw0134 =
                   f0 = o1 >* o2 * (n / 2) + n
                   m = a ((i + 1) / n) (i / (n / 2))
                   o3 = blip AR f0 (i + mce [2,3]) * m
-	      in ringz o3 ((i + 1) * (n * 2 - 1)) 0.1
+              in ringz o3 ((i + 1) * (n * 2 - 1)) 0.1
     in mean (map z [0 .. n'])  / 5
 
 main :: IO ()

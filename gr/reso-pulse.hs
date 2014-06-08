@@ -15,11 +15,11 @@ reso_pulse =
 reso_pulse_pp :: UGen -> UGen
 reso_pulse_pp z =
     let lfoFreq = 6
-	lfo = lfNoise0 'γ' KR lfoFreq * 1000 + 1200
-	x = mouseX KR 0.2 0.02 Exponential 0.2
-	left = rlpf z lfo x
-	delayTime = 2 / lfoFreq
-	right = delayN left delayTime delayTime
+        lfo = lfNoise0 'γ' KR lfoFreq * 1000 + 1200
+        x = mouseX KR 0.2 0.02 Exponential 0.2
+        left = rlpf z lfo x
+        delayTime = 2 / lfoFreq
+        right = delayN left delayTime delayTime
     in mce2 left right
 
 main :: IO ()

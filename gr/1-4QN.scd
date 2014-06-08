@@ -15,22 +15,22 @@ g =
   ;Out.ar(out,g * env)}).add()};
 
 b = Pbind(
-	\instrument,\g1,
-	\dur,Pseq([4],inf),
-	\sdens,Pseq([9000,1000,500]/100,inf),
-	\edens,Prand([Pseq([9000,1000,500]/10,1),Pseq([1],3)],inf),
-	\rate,Pfunc({-10.0.rrand(10)}),
-	\pos,Pfunc({-10.0.rrand(10)}),
-	\bufnum,z.bufnum);
+    \instrument,\g1,
+    \dur,Pseq([4],inf),
+    \sdens,Pseq([9000,1000,500]/100,inf),
+    \edens,Prand([Pseq([9000,1000,500]/10,1),Pseq([1],3)],inf),
+    \rate,Pfunc({-10.0.rrand(10)}),
+    \pos,Pfunc({-10.0.rrand(10)}),
+    \bufnum,z.bufnum);
 
 c = Pbind(
-	\instrument,\g1,
-	\dur,Pseq([4/3],inf),
-	\sdens,Pseq([9000,1000,500,25],inf),
-	\edens,Prand([Pseq([9000,1000,500,25],1),Pseq([1],4)],inf),
-	\rate,Pfunc({-100.0.rrand(100)}),
-	\pos,Pfunc({-10.0.rrand(10)}),
-	\bufnum,z.bufnum);
+    \instrument,\g1,
+    \dur,Pseq([4/3],inf),
+    \sdens,Pseq([9000,1000,500,25],inf),
+    \edens,Prand([Pseq([9000,1000,500,25],1),Pseq([1],4)],inf),
+    \rate,Pfunc({-100.0.rrand(100)}),
+    \pos,Pfunc({-10.0.rrand(10)}),
+    \bufnum,z.bufnum);
 
 fork({loop
  {var o = [LFNoise0,SinOsc,Impulse,LFPulse,LFSaw].choose

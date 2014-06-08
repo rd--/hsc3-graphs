@@ -16,7 +16,7 @@
             Decay.ar( // each impulse triggers a decay
                 Impulse.ar( // impulses trigger decay envelope
                     XLine.kr(5 + 2.0.rand2, 600, 4), // accellerating frequency
-					0,
+                    0,
                     XLine.kr(0.09, 0.000009, 4) // decaying impulse amplitude
                 ),
                 0.001 // decay time - very short

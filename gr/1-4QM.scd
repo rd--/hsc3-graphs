@@ -10,7 +10,7 @@
   ;play{var p = Env.perc(0.01,a + rel.next)
        ;var e = EnvGen.ar(p,doneAction:2)
        ;var x = [60,67,75,79,94].scramble
-	   ;var ta = x.midicps * a * s1.choose
+       ;var ta = x.midicps * a * s1.choose
        ;var tb = x * s2.choose.midicps
        ;var tc = a * s3.choose.midicps
        ;e * AY.ar(ta,tb,tc,0.25,3,15,10,7)}
