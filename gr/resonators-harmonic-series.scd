@@ -1,4 +1,4 @@
-// resonators tuned in a harmonic series with pitch ratios from a just scale (jmcc)
+// resonators harmonic series (jmcc) #2
 
 ~xfade_texture.({
     var p = 12; // number of overtones

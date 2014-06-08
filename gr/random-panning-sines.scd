@@ -1,4 +1,4 @@
-// random panning sines (jmcc)
+// random panning sines (jmcc) #4
 
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 

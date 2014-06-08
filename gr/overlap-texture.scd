@@ -1,20 +1,21 @@
 ~add_env = {
-    arg newEventFunc;
+    arg newEventFunc, i;
     {
         var sustainTime = \sustainTime.kr(4);
         var transitionTime = \transitionTime.kr(1);
         var env = Env([0,1,1,0],[transitionTime,sustainTime,transitionTime],\sin);
-        Out.ar(0,newEventFunc.value * EnvGen.kr(env,doneAction: 2));
+        Out.ar(0,newEventFunc.(i) * EnvGen.kr(env,doneAction: 2));
     };
 };
 
 ~spawn = {
     arg newEventFunc, nextTime, maxRepeats = inf;
     Task({
-        maxRepeats.do{
-            {Out.ar(0,newEventFunc.value)}.play;
+        maxRepeats.do({
+            arg i;
+            {Out.ar(0,newEventFunc.(i))}.play;
             nextTime.value.wait;
-        };
+        });
     }).play;
 };
 
@@ -22,12 +23,13 @@
     arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, maxRepeats = inf;
     var period = sustainTime + transitionTime;
     Task({
-        maxRepeats.do{
-            ~add_env.(newEventFunc).play(args:[
+        maxRepeats.do({
+            arg i;
+            ~add_env.(newEventFunc,i).play(args:[
                 \sustainTime:sustainTime,
                 \transitionTime:transitionTime]);
             period.wait;
-        };
+        });
     }).play;
 };
 
@@ -35,12 +37,13 @@
     arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2, maxRepeats = inf;
     var period = (sustainTime + (transitionTime * 2)) / overlap;
     Task({
-        maxRepeats.do{
-            ~add_env.(newEventFunc).play(args:[
+        maxRepeats.do({
+            arg i;
+            ~add_env.(newEventFunc,i).play(args:[
                 \sustainTime:sustainTime,
                 \transitionTime:transitionTime]);
             period.wait;
-        };
+        });
     }).play;
 };
 

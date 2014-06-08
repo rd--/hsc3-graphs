@@ -1,4 +1,4 @@
-// harmonic swimming (jmcc)
+// harmonic swimming (jmcc) #1
 
 {var a = 0.02 /* amplitude scale */
 ;var f = 50 /* fundamental frequency */

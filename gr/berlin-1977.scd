@@ -1,4 +1,4 @@
-// berlin 1977 (jmcc)
+// berlin 1977 (jmcc) #4
 
 {var sequ = {arg s,tr; Demand.kr(tr,0,Dseq(s,inf))}
 ;var sequR = {arg s,tr; Demand.kr(tr,0,Dshuf(s,inf))}

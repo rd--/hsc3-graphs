@@ -1,4 +1,4 @@
-// filter input (jmcc)
+// filter input (jmcc) #5
 
 play({
     var rQ = MouseY.kr(0.01, 1, 'exponential'); // bandwidth ratio = 1/Q

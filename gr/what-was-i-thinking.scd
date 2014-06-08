@@ -1,4 +1,4 @@
-// what was i thinking? (jmcc)
+// what was i thinking? (jmcc) #2
 
 {var n0 = LFNoise1.kr(0.2,2000,2400)
 ;var n1 = LFNoise1.kr(0.157,0.4,0.5)

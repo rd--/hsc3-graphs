@@ -1,4 +1,4 @@
-// random sine waves (jmcc)
+// random sine waves (jmcc) #1
 
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 

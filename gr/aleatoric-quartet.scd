@@ -1,4 +1,4 @@
-// aleatoric quartet (jmcc)
+// aleatoric quartet (jmcc) #7
 
 { var amp = 0.07
 ; var density = MouseX.kr(0.01, 1, 'linear', 0.1)

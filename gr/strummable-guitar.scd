@@ -1,4 +1,4 @@
-// strummable guitar (jmcc)
+// strummable guitar (jmcc) #11
 
 {var scale = [52,57,62,67,71,76]
 ;var str = {arg i

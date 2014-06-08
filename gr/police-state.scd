@@ -1,4 +1,4 @@
-// police state (jmcc)
+// police state (jmcc) #2
 
 {var node = {var r0 = Rand.new(0.02,0.12)
             ;var r1 = Rand.new(0,2pi)

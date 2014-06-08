@@ -1,4 +1,4 @@
-// noise burst sweep (jmcc)
+// noise burst sweep (jmcc) #6
 
 {var n = WhiteNoise.ar ! 2
 ;var lfoRate = MouseX.kr(10,60,'exponential',0.2)

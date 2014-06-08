@@ -1,4 +1,4 @@
-// pulsing bottles (jmcc)
+// pulsing bottles (jmcc) #2
 
 play({
     var n = 6; /* number of 'bottles' */
