@@ -1,3 +1,5 @@
+// sidereal time (jmcc)
+
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
 ~sidereal_time = {

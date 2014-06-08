@@ -1,3 +1,5 @@
+// reverberated sine percussion (jmcc)
+
 {var d = 6
 ;var c = 5
 ;var a = 4

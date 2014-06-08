@@ -1,3 +1,5 @@
+// aleatoric quartet (jmcc)
+
 { var amp = 0.07
 ; var density = MouseX.kr(0.01, 1, 'linear', 0.1)
 ; var dmul = density.reciprocal * 0.5 * amp

@@ -1,3 +1,5 @@
+// strummable guitar (jmcc)
+
 {var scale = [52,57,62,67,71,76]
 ;var str = {arg i
            ;var x = MouseX.kr(0,1,'linear',0.2)

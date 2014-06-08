@@ -1,3 +1,5 @@
+// tank (jmcc)
+
 {var r_allpass = {arg signal
                  ;var r = {Rand.new(0.005, 0.02)}.dup
                  ;AllpassN.ar(signal, 0.03, r, 1);}

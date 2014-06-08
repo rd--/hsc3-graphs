@@ -1,3 +1,5 @@
+// synthetic piano (jmcc)
+
 {var p = {var n = IRand.new(36,90)
          ;var f = Rand.new(0.1,0.5)
          ;var ph = Rand.new(0,pi * 2)

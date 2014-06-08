@@ -1,3 +1,5 @@
+// pulsing bottles (jmcc)
+
 play({
     var n = 6; /* number of 'bottles' */
     Mix.arFill(n, {

@@ -1,3 +1,5 @@
+// police state (jmcc)
+
 {var node = {var r0 = Rand.new(0.02,0.12)
             ;var r1 = Rand.new(0,2pi)
             ;var r2 = Rand.new(0,600)

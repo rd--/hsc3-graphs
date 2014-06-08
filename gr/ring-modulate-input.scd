@@ -1,3 +1,5 @@
+// ring modulate input (jmcc)
+
 play({
     var input = SoundIn.ar([0,1]);
     var modulator = SinOsc.ar(

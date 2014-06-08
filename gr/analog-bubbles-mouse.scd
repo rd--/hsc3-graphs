@@ -1,3 +1,5 @@
+// analog bubbles with mouse control (jmcc)
+
 play({
     var y = MouseY.kr(0.1,10,'exponential'); /* lfo 1 rate */
     var x = MouseX.kr(2,40,'exponential');  /* lfo 2 rate */

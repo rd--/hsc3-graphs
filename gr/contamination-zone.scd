@@ -1,3 +1,5 @@
+// contamination zone (jmcc)
+
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
 ~contamination_zone = {
@@ -19,11 +21,9 @@
         LFPulse.kr(15.0.linrand, 0.2 + 0.2.rand)
     )
 };
-
 ~overlap_texture.(~contamination_zone, 8, 3, 4);
-
 ~post_process.({
-	arg z;
-	6.do({ z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4)});
-	z;
+    arg z;
+    6.do({ z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4)});
+    z;
 });

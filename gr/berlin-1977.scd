@@ -1,3 +1,5 @@
+// berlin 1977 (jmcc)
+
 {var sequ = {arg s,tr; Demand.kr(tr,0,Dseq(s,inf))}
 ;var sequR = {arg s,tr; Demand.kr(tr,0,Dshuf(s,inf))}
 ;var clock_rate = MouseX.kr(5,20,'exponential',0.2) // mouse x controls clock rate

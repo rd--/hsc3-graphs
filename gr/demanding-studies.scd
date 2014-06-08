@@ -1,3 +1,5 @@
+// demanding studies (jmcc)
+
 {var s1 = Drand.new([72,75,79,82],inf)
 ;var s2 = Drand.new([82,84,86],1)
 ;var s3 = Dseq.new([72,75,79,s2],inf)

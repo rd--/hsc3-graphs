@@ -1,3 +1,5 @@
+// harmonic swimming (jmcc)
+
 {var a = 0.02 /* amplitude scale */
 ;var f = 50 /* fundamental frequency */
 ;var p = 20 /* number of partials per channel */

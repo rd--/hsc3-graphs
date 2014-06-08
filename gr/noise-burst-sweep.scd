@@ -1,3 +1,5 @@
+// noise burst sweep (jmcc)
+
 {var n = WhiteNoise.ar ! 2
 ;var lfoRate = MouseX.kr(10,60,'exponential',0.2)
 ;var amp = max(0,LFSaw.kr(lfoRate,-1))

@@ -1,3 +1,5 @@
+// sweepy noise (jmcc)
+
 {var lfoDepth = MouseY.kr(200,8000,'exponential',0.1)
 ;var lfoRate = MouseX.kr(4,60,'exponential',0.1)
 ;var freq = LFSaw.kr(lfoRate,0) * lfoDepth + (lfoDepth * 1.2)

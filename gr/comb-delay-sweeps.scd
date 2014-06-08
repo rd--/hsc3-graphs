@@ -1,3 +1,5 @@
+// comb delay sweeps (jmcc)
+
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
 ~comb_delay_sweeps = {
