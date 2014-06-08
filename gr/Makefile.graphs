@@ -14,8 +14,10 @@ GRAPHS= 1-1Ni\
  alien-meadow\
  ambient1\
  analog-bubbles\
+ analog-bubbles-mouse\
  arpeggio\
  babbling-brook-m\
+ berlin-1977\
  birds-hp\
  birds-m\
  bit-reduction\
@@ -55,6 +57,7 @@ GRAPHS= 1-1Ni\
  diffraction-m\
  discretion\
  discretion-m\
+ distort-input\
  doppler\
  drummer\
  early-space-music-lp-side-two\
@@ -82,6 +85,7 @@ GRAPHS= 1-1Ni\
  fb-090531\
  fbl-fbf\
  feedr-m\
+ filter-input\
  f-lets-m\
  fm-iter\
  fm-kltr-m\
@@ -118,6 +122,7 @@ GRAPHS= 1-1Ni\
  m21360\
  microhelix\
  modal-space\
+ modal-space-local\
  moto-rev\
  mouse-clatter-m\
  mridangam\
@@ -166,9 +171,11 @@ GRAPHS= 1-1Ni\
  reset\
  resonant-dust-hp\
  resonant-dust\
+ reso-pulse\
  reverberated-sine-percussion-hp\
  reverberated-sine-percussion-m\
  ring-modulated-klank\
+ ring-modulate-input\
  rm-octaver\
  rzblp-hp\
  rzblp\
