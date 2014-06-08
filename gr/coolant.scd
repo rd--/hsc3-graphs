@@ -1,3 +1,5 @@
+// coolant (jmcc)
+
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
 ~coolant = {
@@ -12,6 +14,5 @@
 			0.95
 		)
 	)
-}
-
-~overlap_texture.(~coolant,susdur:4,transdur:4,overlaps:2)
+};
+~overlap_texture.(~coolant,sustainTime:4,transitionTime:4,overlap:2);

@@ -1,10 +1,7 @@
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
-~rsw = {
-	var o = FSinOsc.ar(2000.0.rand) * 0.02;
-	Pan2.ar(o,1.0.rand2);
-}
-
-~overlap_texture.(~rsw,susdur:2,transdur:5,overlaps:12);
-
-~rsw.play
+~spawn.({
+	var env = Env.linen(2, 5, 2);
+	var osc = FSinOsc.ar(2000.0.rand,0,EnvGen.kr(env, levelScale: 0.02));
+	Pan2.ar(osc,1.0.rand2);
+},nextTime:9/12);

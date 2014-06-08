@@ -4,7 +4,7 @@ play({
         Pan2.ar(
             Resonz.ar(
                 WhiteNoise.ar(
-                    LFPulse.kr(4 + 10.0.rand, 0.7.rand, 0.8/n)
+                    LFPulse.kr(4 + 10.0.rand, 0, 0.7.rand, 0.8/n)
                 ),
                 400 + 7000.0.linrand,
                 0.01

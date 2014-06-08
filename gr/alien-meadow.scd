@@ -7,5 +7,4 @@
 	var pan = 1.0.rand2;
 	Pan2.ar(SinOsc.ar(SinOsc.ar(a, 0, 0.1*b, b), 0, SinOsc.kr(c, 0, 0.05, 0.05)), pan);
 };
-
-~overlap_texture.(~alien_meadow,susdur:6,transdur:2,overlaps:6);
+~overlap_texture.(~alien_meadow,sustainTime:6,transitionTime:2,overlap:6);

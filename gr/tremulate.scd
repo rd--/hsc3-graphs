@@ -7,10 +7,6 @@
 	var a = max(0,LFNoise2.kr([r,r,r,r],0.1));
 	var l = [1.0.rand2,1.0.rand2,1.0.rand2,1.0.rand2];
 	Mix.ar(Pan2.ar(o*a,l));
-}
-
-~overlap_texture.(~tremulate,susdur:0.5,transdur:2,overlaps:3);
-
+};
+~overlap_texture.(~tremulate,sustainTime:0.5,transitionTime:2,overlap:3);
 ~post_process.({arg z; CombN.ar(z,0.1,0.1,1)});
-
-~tremulate.play;

@@ -13,5 +13,4 @@
 		Pan2.ar(CombC.ar(WhiteNoise.ar(0.005), 0.01, dt, dc),1.0.rand2);
 	}
 };
-
-~overlap_texture.(~comb_delay_sweeps.(4),susdur:4/3,transdur:4/3,overlaps:6);
+~overlap_texture.(~comb_delay_sweeps.(4),sustainTime:4/3,transitionTime:4/3,overlap:6);

@@ -1,3 +1,8 @@
+// cymbalism (jmcc)
+
+"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+
+~xfade_texture.(
 {var p = 15
 ;var f1 = Rand.new(500,2500)
 ;var f2 = Rand.new(0,8000)
@@ -8,4 +13,4 @@
 ;var t = Impulse.ar(Rand.new(0,3) + 0.5,0)
 ;var n = WhiteNoise.ar() * 0.03
 ;var s = Decay.ar(t,0.004) * n
-;Out.ar(0,Klank.ar(z,s))}.play
+;Klank.ar(z,s)},4,4);

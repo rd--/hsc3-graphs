@@ -6,7 +6,7 @@ shl :: UGen
 shl =
     let r = mouseX KR 1 200 Exponential 0.1
         t = recip r
-        c = impulse KR r 0.4
+        c = impulse KR r 0 * 0.4
         cf = mouseY KR 100 8000 Exponential 0.1
         f = latch (whiteNoise 'α' KR * cf * 0.5 + cf) c
         p = latch (whiteNoise 'β' KR) c

@@ -10,14 +10,10 @@
 		var j = XLine.kr(exprand(0.01,0.5),exprand(0.01,0.5),t);
 		Pan2.ar(Decay2.ar(i * j,0.01,0.2,a),l);
 	};
-}
-
-~overlap_texture.(~choip.(12),susdur:10,transdur:1,overlaps:8);
-
+};
+~overlap_texture.(~choip.(12),sustainTime:10,transitionTime:1,overlap:8);
 ~post_process.({
 	arg z;
 	4.do({ z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4)});
 	z;
 });
-
-~choip.(12).play;
