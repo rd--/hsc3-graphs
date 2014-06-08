@@ -21,7 +21,7 @@
 
 ~overlap_texture.({
     arg i;
-    var isequ = {arg s, tr; Changed.ar(Demand.ar(tr, 0, Dseq(s, inf)))};
+    var isequ = {arg s, tr; tr * Demand.ar(tr, 0, Dseq(s, inf))};
     if (i > 8, {
         var f = (#[48, 60, 72, 84].choose + ~scale.choose + [0.03.rand2, 0.03.rand2]).midicps;
         var sq = isequ.([1,1,1,0,0,0].scramble,Impulse.ar([1.5,3,6].choose));
