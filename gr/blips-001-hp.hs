@@ -9,7 +9,7 @@ rand2 n = rand (-n) n
 
 blips_001 :: UId m => m UGen
 blips_001 = do
-  let c = #(rand 0 1) >* 0.8
+  let c = #(rand 0 1) <* 0.8
   let b = do
         let f = xLine KR #(expRand 0.25 400) #(expRand 0.25 400) 4 DoNothing
         let nh = xLine KR #(expRand 2 100) #(expRand 2 100) 4 DoNothing
