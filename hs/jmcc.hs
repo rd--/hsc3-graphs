@@ -13,6 +13,7 @@ to_scd_file nm = prj_dir </> "gr" </> to_file_name nm <.> "scd"
 
 jmcc_sc2 :: [[String]]
 jmcc_sc2 =
+    -- SC2
     [["analog bubbles"
      ,"lfo modulation"
      ,"hell is busy"
@@ -83,7 +84,10 @@ jmcc_sc2 =
     ,["strummable guitar"
      ,"drone plus rhythm"
      ,"early space music lp side one"
-     ,"early space music lp side two"]]
+     ,"early space music lp side two"]
+    -- SC3d1.5
+    ,["blips-001"
+     ,"zizle"]]
 
 -- > writeFile "/tmp/jmcc.scd" . unlines =<< jmcc_sc2_src
 jmcc_sc2_src :: IO [String]
