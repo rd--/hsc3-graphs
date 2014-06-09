@@ -9,4 +9,4 @@
 ;var o1 = SinOsc.ar(f + [0,0.7],0)
 ;var o2 = Saw.ar(f + [0,0.7]) * 0.3
 ;var o3 = (o1 + o2).distort.log.distort.cubed
-;Out.ar(0,o3 * 0.1)}.play
+;o3 * 0.1}.play;

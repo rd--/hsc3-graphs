@@ -12,4 +12,4 @@ rp =
     in pan2 (o1 `amClip` o2) o3 1
 
 main :: IO ()
-main = spawnTextureU (9/8,maxBound) rp
+main = spawnTextureU (const (9/8),maxBound) rp
