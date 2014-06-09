@@ -4,6 +4,7 @@ GRAPHS= 1-1Ni\
  1-4QN\
  1-4Qx\
  1-4Tw\
+ 1-4VL\
  1-Td\
  acid-otophilia\
  adso\
@@ -15,14 +16,17 @@ GRAPHS= 1-1Ni\
  ambient1\
  analog-bubbles\
  analog-bubbles-mouse\
+ analogue-daze\
  arpeggio\
  babbling-brook-m\
  berlin-1977\
+ birdies\
  birds-hp\
  birds-m\
  bit-reduction\
  bitwise\
  black-atlantic-currents\
+ blips-001-hp\
  bohlen-pierce-140\
  bottle-m\
  bowed-string-m\
@@ -95,6 +99,7 @@ GRAPHS= 1-1Ni\
  fwalk-m\
  half-life\
  hansm\
+ hard-sync-sawtooth-with-lfo\
  harmonic-swimming\
  harmonic-swimming-m\
  harmonic-tumbling-m\
@@ -144,6 +149,7 @@ GRAPHS= 1-1Ni\
  overlap-add\
  pattern-buffer-m\
  pebble-beach\
+ phase-modulation\
  pkt-00\
  pkt-07\
  pkt-26\
@@ -243,3 +249,4 @@ GRAPHS= 1-1Ni\
  wind-metals-m\
  xy-interference\
  xy-interference-m\
+ zizle-hp\
