@@ -11,49 +11,45 @@ chain n c =
       [] -> n
       f:c' -> chain (f n) c'
 
+-- > audition ping
 ping :: UGen
 ping =
-    let o = control KR "out" 0
+    let k = control KR
         f = control KR "freq" 440
         a = control KR "amp" 0.1
-        ed = control KR "impdecay" 0.01
-        ea = control KR "attack" 0.0001
         es = control KR "sustain" 0.1
-        fa = control KR "famt" 3
-        ff = control KR "ffreq" 1000
-        hd = control KR "hdur" 0.1
         tr = impulse AR 0 0
-        dy = decay2 tr ea ed * 1
+        dy = decay2 tr (k "attack" 0.0001) (k "impdecay" 0.01)
         i = mix (ringz dy (f * mce2 1 2) es)
-        r = chain i [\s -> let e = decay2 tr 0.01 hd
+        r = chain i [\s -> let e = decay2 tr 0.01 (k "hdur" 0.1)
                                fr = mce [rand 'α' 1 1.1
                                         ,rand 'β' 1.4 1.6
                                         ,rand 'γ' 1.9 2.1
                                         ,rand 'δ' 3.9 4.1]
                            in s + mix (sinOsc AR (f * fr) 0 * e)
-                    ,\s -> bLowPass s (ff * linExp dy 0 1 1 fa) 0.1
+                    ,\s -> bLowPass s (k "ffreq" 1000 * linExp dy 0 1 1 (k "famt" 3)) 0.1
                     ,\s -> let e = envLinen 0 (es / rand 'ε' 1 4) 0.1 1
                            in s * envGen AR 1 1 0 1 RemoveSynth e]
-    in offsetOut o (r * mce2 a a)
+    in out (k "out" 0) (r * mce2 a a)
 
 pattern :: [P_Bind]
 pattern =
     let o = prand 'ζ' [6,7] inf
     in [(K_instr,psynth (synthdef "ping" ping))
+       ,(K_octave,o)
        ,(K_degree,place [[0,1,2,3,4]
                         ,[2,3,4,5,6]
                         ,[4,3,4,3,6,7]
                         ,[0,2,1,2,1,4,3,3,5]] inf)
        ,(K_detune,pwhite 'η' (-2) 2 inf)
-       ,(K_octave,o)
-       ,(K_dur,prand 'θ' [0.5,1,2] inf + pwhite 'ι' (-0.1) 0.1 inf)
-       ,(K_amp,pwhite 'κ' 0.01 0.1 inf)
        ,(K_param "attack",pwhite 'λ' 0.0005 0.001 inf)
        ,(K_sustain,(o / 4) + pwhite 'μ' 0.01 0.5 inf)
        ,(K_param "ffreq",pwhite 'ν' 200 2000 inf)
        ,(K_param "famt",pwhite 'ξ' 3 6 inf)
        ,(K_param "hdur",pwhite 'ο' 0.05 0.3 inf)
-       ,(K_param "impdecay",pwhite 'π' 0.001 0.01 inf)]
+       ,(K_param "impdecay",pwhite 'π' 0.001 0.01 inf)
+       ,(K_amp,pwhite 'κ' 0.01 0.1 inf * 0.3)
+       ,(K_dur,prand 'θ' [0.5,1,2] inf + pwhite 'ι' (-0.1) 0.1 inf)]
 
 amplitude_mod :: (ID a, Enum a) => a -> UGen -> UGen
 amplitude_mod z i =
