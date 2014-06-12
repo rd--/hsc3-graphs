@@ -15,5 +15,5 @@
 ;var n = LFNoise1.kr([3,3])
 ;var b_setn1 = {arg b,i,p
                ;["/b_setn",b,i,p.size] ++ p}
-;s.sendMsg("/b_alloc",b,p.size,1,b_setn1.value(b,0,p).asRawOSC)
-;(c.value(n,48) + c.value(n,72)) * 0.25}.play
+;s.sendMsg("/b_alloc",b,p.size,1,b_setn1.(b,0,p).asRawOSC)
+;(c.(n,48) + c.(n,72)) * 0.25}.play

@@ -8,4 +8,4 @@
 ; var s = Mix.fill(3, n)
 ; var b = TRand.kr(0, 1, Dust.kr(8))
 ; Out.kr(0, b)
-; Out.ar(0, s.clip2(In.kr(0, 1)) * 0.25) }.play
+; s.clip2(In.kr(0, 1)) * 0.25 }.play

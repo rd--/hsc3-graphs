@@ -19,4 +19,4 @@ b = Array.fill(2,{Buffer.alloc(s,s.sampleRate * 1,1)});
 ;var n_fb = h_fb * (0.02 / (Lag.ar(ao,sdt / sr).clip(0.0001,1)))
 ;var l_fb = LPF.ar(n_fb,lpf)
 ;LocalOut.ar(l_fb)
-;Out.ar(0,l_fb)}.play;
+;l_fb}.play;

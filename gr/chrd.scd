@@ -13,4 +13,4 @@
              ; var p = XLine.kr(r1, r2, d)
              ; var o = SinOsc.ar(f, 0)
              ; Mix.ar(Pan2.ar(o, p, e)) }
-; Out.ar(0, Mix.fill(9, chrd)) }.play
+; Mix.fill(9, chrd) }.play

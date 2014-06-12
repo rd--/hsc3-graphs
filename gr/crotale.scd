@@ -152,7 +152,7 @@
 ; var ca = crotale[1]
 ; var cd = crotale[2]
 ; var ps = [-12, -5, 0, 2, 4, 5, 7, 12]
-; var n = PinkNoise.ar()
+; var n = PinkNoise.ar
 ; var t = Dust.kr(3)
 ; var fs = Select.kr(TIRand.kr(0, 7, t), ps)
 ; var g = TRand.kr(0, 1, t)
@@ -161,4 +161,4 @@
 ; var p = TRand.kr(-1, 1, t)
 ; var s = Decay2.kr(t, 0.06, 0.01) * n * g
 ; var k = DynKlank.ar(`[cf, ca, cd.reciprocal], s, fs.midiratio, fo, ds)
-; Out.ar(0, Pan2.ar(k, p, 1)) }.play
+; Pan2.ar(k, p, 1) }.play

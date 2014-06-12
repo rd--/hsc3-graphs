@@ -9,5 +9,4 @@
 ;var phases = (0..9) * 0.1 * 1024 + ph
 ;var freqs = BufRd.ar(1,b1.bufnum,phases)
 ;var amps = BufRd.ar(1,b2.bufnum,phases)
-;var tone = Mix.ar(SinOsc.ar(freqs) * amps) * 0.1
-;Out.ar(0,tone)}.play
+;Mix.ar(SinOsc.ar(freqs) * amps) * 0.1}.play

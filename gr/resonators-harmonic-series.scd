@@ -1,5 +1,7 @@
 // resonators harmonic series (jmcc) #2
 
+"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+
 ~xfade_texture.({
     var p = 12; // number of overtones
     var noise = BrownNoise.ar(0.001);

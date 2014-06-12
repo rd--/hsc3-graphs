@@ -8,5 +8,4 @@
 ;var rq = LFNoise1.ar(1).range(0.5,10)
 ;var a = RLPF.ar(x, rf, rq)
 ;var ph = a * LFNoise1.ar(0.1).range(1.0,4.0) * 4pi
-;var o = SinOsc.ar(0.2,ph) * 0.5
-;Out.ar(0,o)}.play
+;SinOsc.ar(0.2,ph) * 0.5}.play

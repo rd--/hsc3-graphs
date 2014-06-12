@@ -24,7 +24,7 @@
         var f = LFTri.kr(exprand(0.25,0.5) * [1,-1].choose, 0, linrand(4,30), sw).midicps;
         CombN.ar(SinOsc.ar(f, 0, 0.02), 0.3, rrand(0.15,0.3), 4)
     };
-    [s1,s2].choose.value;
+    [s1,s2].choose.();
 }, 4, 4, 6, postProcess: {
     arg z;
     CombN.ar(z, 0.5, [0.5,0.47], 7, 1, z.reverse)

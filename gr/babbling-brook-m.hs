@@ -1,4 +1,4 @@
--- babbling brook (jmcc)
+-- babbling brook (jmcc) #SC3
 -- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
 
 import Sound.SC3.Monad {- hsc3 -}

@@ -6,8 +6,8 @@
     var n = 8; // number of notes
     var d = 0.4; // beat freq deviation
     var m = 5; // harmonics per note
-    var p = Array.new(m*n);
-    var q = Array.new(m*n);
+    var p = Array(m*n);
+    var q = Array(m*n);
     var k = 24 + 12.rand;
     n.do({
         var freq = (#[0,2,4,5,7,9].choose + (7.rand*12) + k).midicps;

@@ -3,4 +3,4 @@
 ; var n = max(0, n_atoms - PulseCount.ar(LocalIn.ar(2), 0))
 ; var activity = Dust.ar(n * 2.log / t_half)
 ; LocalOut.ar(activity)
-; Out.ar(0, activity) }.play
+; activity }.play

@@ -5,8 +5,8 @@
 ~xfade_texture.({
     var n = 20; // n*3 components in each channel
     var d = 5.0; // beat freq deviation
-    var p = Array.new(3*n);
-    var q = Array.new(3*n);
+    var p = Array(3*n);
+    var q = Array(3*n);
     n.do({
         var freq = (24 + 60.rand).midicps;
         p.add(freq);

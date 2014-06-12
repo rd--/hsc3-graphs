@@ -87,7 +87,9 @@ jmcc_sc2 =
      ,"early space music lp side two"]
     -- SC3d1.5
     ,["blips-001"
-     ,"zizle"]]
+     ,"zizle"]
+    -- SC3
+    ,["babbling-brook"]]
 
 -- > writeFile "/tmp/jmcc.scd" . unlines =<< jmcc_sc2_src
 jmcc_sc2_src :: IO [String]

@@ -1,4 +1,4 @@
--- oscillator cluster
+-- oscillator cluster (rd)
 
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Pattern {- hsc3-lang -}

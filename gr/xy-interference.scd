@@ -4,4 +4,4 @@
           ;var a = SinOsc.ar(x + n,0)
           ;var b = SinOsc.ar(y,0)
           ;a * b}
-;Out.ar(0,Mix.fill(3,nd))}.play
+;Mix.fill(3,nd)}.play

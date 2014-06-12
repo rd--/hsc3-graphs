@@ -34,6 +34,6 @@ c = Pbind(
 
 fork({loop
  {var o = [LFNoise0,SinOsc,Impulse,LFPulse,LFSaw].choose
- ;g.value(o);[1,2,4,8,16,32].choose.postln.wait}});
+ ;g.(o);[1,2,4,8,16,32].choose.postln.wait}});
 
 [b,c].do({|p| p.play});

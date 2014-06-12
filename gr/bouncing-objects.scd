@@ -17,6 +17,6 @@
     // place each bouncer at a random position in the stereo field
     var loc = Pan2.ar(flt,1.0.rand2);
     // 3 second cut off envelope to end sound
-    var e = Env.new([1, 1, 0],[3, 0.001]);
+    var e = Env([1, 1, 0],[3, 0.001]);
     loc * EnvGen.kr(e,doneAction:2);
 }, nextTime: { 0.6 + 0.6.rand });
