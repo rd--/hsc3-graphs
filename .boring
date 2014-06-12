@@ -1,5 +1,6 @@
 dist
-^html$
+^html/.*\.html$
+^html/hscolour\.css$
 ^md$
 ^pdf$
 ^svg$

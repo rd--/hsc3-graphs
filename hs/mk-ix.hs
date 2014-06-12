@@ -47,7 +47,9 @@ entry st nm = do
   hs <- if use_html
         then hs_html st nm
         else hs_plain st nm
-  scd <- link hm (pr </> "gr" </> nm <.> "scd") "scd"
+  scd <- if use_html
+         then link hm (pr </> "html" </> nm <.> "scd.html") "scd"
+         else link hm (pr </> "gr" </> nm <.> "scd") "scd"
   scm <- if use_scm
          then link hm ("sw/rsc3/help/graph" </> nm <.> "scm") "scm"
          else return Nothing

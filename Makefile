@@ -2,6 +2,7 @@ mk-html:
 	mkdir -p html
 	cp -f css/emacs.css html/hscolour.css
 	(cd gr ; sh ../sh/mk-html.sh)
+	mv gr/*.html html
 
 mk-pdf:
 	mkdir -p pdf
