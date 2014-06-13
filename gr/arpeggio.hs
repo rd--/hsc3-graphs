@@ -4,21 +4,24 @@ import Control.Monad {- base -}
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
+outk :: UGen -> UGen
+outk = out (control KR "out" 0)
+
+pan2k :: UGen -> UGen
+pan2k s = pan2 s (control KR "pan" 0) (control KR "amp" 0.1)
+
 analogarpeggio :: Synthdef
 analogarpeggio =
     let k = control KR
-        o = k "out" 0
-        p = k "pan" 0
         g = k "gate" 1
         f = k "freq" 440
-        a = k "amp" 0.1
         c = k "cutoffmult" 3
         r = k "res" 0.1
         e = let d = envADSR 0.01 0.3 0.5 1 1 (EnvNum (-4)) 0
             in envGen AR g 1 0 1 RemoveSynth d
         i = mix (saw AR (f * mce [0.497,0.999,1.0,2.03]))
         s = bLowPass i (c * f) r * 0.25
-    in synthdef "analogarpeggio" (out o (pan2 (e * s * a) p 0.25))
+    in synthdef "analogarpeggio" (outk (pan2k (e * s)))
 
 {-
 audition (pbind [(K_instr,psynth analogarpeggio)

@@ -71,7 +71,7 @@ pulse_p :: [P_Bind]
 pulse_p =
     [(K_instr,pinstr' pulse_i)
     ,(K_dur,dur_p * 10)
-    ,(K_midinote,prand 'α' [59,72,76,79,81,88,90] inf)
+    ,(K_freq,fmap midiCPS (prand 'α' [59,72,76,79,81,88,90] inf))
     ,(K_amp,pwhite 'β' 0.2 0.27 inf)
     ,(K_param "attackTime",pwhite 'γ' 0 7 inf)
     ,(K_param "delayTime",0.02)]
@@ -80,7 +80,7 @@ drone_p :: [P_Bind]
 drone_p =
     [(K_instr,pinstr' drone_i)
     ,(K_dur,dur_p)
-    ,(K_midinote,prand 'α' [31,40,45,64,68,69] inf)
+    ,(K_freq,fmap midiCPS (prand 'α' [31,40,45,64,68,69] inf))
     ,(K_amp,pwhite 'β' 0.03 0.08 inf * 0.7)
     ,(K_param "phase",pwrand 'γ' [0,4.7123] [0.5,0.5] inf)]
 
@@ -88,7 +88,7 @@ bass_p :: [P_Bind]
 bass_p =
     [(K_instr,pinstr' bass_i)
     ,(K_dur,dur_p)
-    ,(K_midinote,31)
+    ,(K_freq,fmap midiCPS 31)
     ,(K_amp,0.3)]
 
 main :: IO ()

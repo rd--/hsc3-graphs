@@ -54,7 +54,7 @@ act = do
   play (pmono [(K_instr,pinstr' i)
               ,(K_id,100)
               ,(K_amp,pseq p 1)
-              ,(K_dur,1/12)])
+              ,(K_dur,1/8)])
 
 main :: IO ()
 main = withSC3 act
