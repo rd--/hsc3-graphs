@@ -1,4 +1,5 @@
 -- vla-adttn-sharc (rd)
+-- http://www.timbre.ws/sharc/
 
 import Data.List {- base -}
 import Sound.Analysis.SHARC {- hsharc -}

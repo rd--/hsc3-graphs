@@ -1,5 +1,5 @@
 dist
-^html/.*\.html$
+^html/[-\.a-zA-Z0-9]*\.html$
 ^html/hscolour\.css$
 ^md$
 ^pdf$

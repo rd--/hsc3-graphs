@@ -51,7 +51,9 @@ entry st nm = do
          then link hm (pr </> "html" </> nm <.> "scd.html") "scd"
          else link hm (pr </> "gr" </> nm <.> "scd") "scd"
   scm <- if use_scm
-         then link hm ("sw/rsc3/help/graph" </> nm <.> "scm") "scm"
+         then if use_html
+              then link hm (pr </> "html" </> nm <.> "scm.html") "scm"
+              else link hm ("sw/rsc3/help/graph" </> nm <.> "scm") "scm"
          else return Nothing
   dot <- link hm (pr </> "dot" </> nm <.> "dot") "dot"
   pdf <- link hm (pr </> "pdf" </> nm <.> "pdf") "pdf"

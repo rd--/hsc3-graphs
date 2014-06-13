@@ -89,7 +89,8 @@ jmcc_sc2 =
     ,["blips-001"
      ,"zizle"]
     -- SC3
-    ,["babbling-brook"]]
+    ,["babbling-brook"]
+    ,["mridangam"]]
 
 -- > writeFile "/tmp/jmcc.scd" . unlines =<< jmcc_sc2_src
 jmcc_sc2_src :: IO [String]

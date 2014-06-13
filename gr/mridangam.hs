@@ -1,4 +1,4 @@
--- mridangam (jmcc)
+-- mridangam (jmcc) #SPE3
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
@@ -6,9 +6,9 @@ import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 spe3_mridangam :: Synthdef
 spe3_mridangam =
-    let t_amp = tr_control "t_amp" 1
+    let a = tr_control "amp" 1
         n = whiteNoise 'α' AR * 70
-        e = decay2 t_amp 0.002 0.1
+        e = decay2 a 0.002 0.1
         o = distort (resonz (n * e) (midiCPS 60) 0.02 * 4) * 0.4
     in synthdef "mridangam" (out 0 o)
 
@@ -54,8 +54,10 @@ act = do
   play spe3_drone
   _ <- async (d_recv spe3_mridangam)
   let i = Instr_Def spe3_mridangam False
-  play (pmono [(K_instr,pinstr' i),(K_id,100)
-              ,(K_param "t_amp",pseq p 1),(K_dur,1/8)])
+  play (pmono [(K_instr,pinstr' i)
+              ,(K_id,100)
+              ,(K_amp,pseq p 1)
+              ,(K_dur,1/12)])
 
 main :: IO ()
 main = withSC3 act
