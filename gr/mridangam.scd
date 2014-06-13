@@ -1,19 +1,13 @@
 // mridangam (jmcc) #SPE3
 
-(
-var m = SynthDef(\mridangam, {
+{var m = {
     arg t_amp = 1;
     var n = WhiteNoise.ar(70) * Decay2.kr(t_amp, 0.002, 0.1);
-    var out = Resonz.ar(n, 60.midicps, 0.02, 4).distort * 0.4;
-    Out.ar(0, out);
-});
-
-var d = SynthDef(\drone, {
+    Resonz.ar(n, 60.midicps, 0.02, 4).distort * 0.4};
+var d = {
     var s1 = Saw.ar([60, 60.04].midicps);
     var s2 = Saw.ar([67, 67.04].midicps);
-    Out.ar(0, LPF.ar(s1 + s2,108.midicps, 0.007));
-});
-
+    LPF.ar(s1 + s2,108.midicps, 0.007)};
 var p =
   Pseq([
     Pseq(#[0.0], 10),
@@ -45,8 +39,6 @@ var p =
         1.5, 0.0, 0.2, 0.5, 0.0, 0.2], 3),
     // sam
     Pseq(#[5], 1),
-    Pseq(#[0.0], inf)]);
-
+    Pseq(#[0.0], 1)]);
 d.play;
-Pbind(\instrument,m,\amp,p,\dur,1/8).play;
-)
+Pbind(\instrument,SynthDef(\m,m),\amp,p,\dur,1/8).play}.()

@@ -4,20 +4,18 @@ import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
-spe3_mridangam :: Synthdef
-spe3_mridangam =
+mridangam :: UGen
+mridangam =
     let a = tr_control "amp" 1
         n = whiteNoise 'α' AR * 70
         e = decay2 a 0.002 0.1
-        o = distort (resonz (n * e) (midiCPS 60) 0.02 * 4) * 0.4
-    in synthdef "mridangam" (out 0 o)
+    in distort (resonz (n * e) (midiCPS 60) 0.02 * 4) * 0.4
 
-spe3_drone :: Synthdef
-spe3_drone =
+drone :: UGen
+drone =
     let s1 = saw AR (midiCPS (mce2 60 60.04))
         s2 = saw AR (midiCPS (mce2 67 67.04))
-        o = lpf (s1 + s2) (midiCPS 108) * 0.007
-    in synthdef "drone" (out 0 o)
+    in lpf (s1 + s2) (midiCPS 108) * 0.007
 
 p :: Fractional n => [P n]
 p =
@@ -51,9 +49,8 @@ p =
 
 act :: Transport m => m ()
 act = do
-  play spe3_drone
-  _ <- async (d_recv spe3_mridangam)
-  let i = Instr_Def spe3_mridangam False
+  play (out 0 drone)
+  let i = Instr_Def (synthdef "mridangam" (out 0 mridangam)) False
   play (pmono [(K_instr,pinstr' i)
               ,(K_id,100)
               ,(K_amp,pseq p 1)
