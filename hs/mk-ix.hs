@@ -55,7 +55,9 @@ entry st nm = do
               then link hm (pr </> "html" </> nm <.> "scm.html") "scm"
               else link hm ("sw/rsc3/help/graph" </> nm <.> "scm") "scm"
          else return Nothing
-  dot <- link hm (pr </> "dot" </> nm <.> "dot") "dot"
+  dot <- if False
+         then link hm (pr </> "dot" </> nm <.> "dot") "dot"
+         else return Nothing
   pdf <- link hm (pr </> "pdf" </> nm <.> "pdf") "pdf"
   svg <- link hm (pr </> "svg" </> nm <.> "svg") "svg"
   let ln = intercalate "," (catMaybes (hs ++ [scd,scm,dot,pdf,svg]))
