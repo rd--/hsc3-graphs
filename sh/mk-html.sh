@@ -5,7 +5,7 @@ s=$HOME/sw/rsc3/help/graph
 
 for i in $d/gr/*.hs
 do
-    o=$d/html/$(basename $i .hs).html
+    o=$d/html/$(basename $i).html
     if test -f $o
     then
         echo "$o exists"
@@ -17,7 +17,7 @@ done
 
 for i in $d/gr/*.scd
 do
-    o=$d/html/$(basename $i .scd).html
+    o=$d/html/$(basename $i).html
     if test -f $o
     then
         echo "$o exists"
@@ -30,7 +30,7 @@ done
 
 for i in $s/*.scm
 do
-    o=$d/html/$(basename $i .scm).html
+    o=$d/html/$(basename $i).html
     if test -f $o
     then
         echo "$o exists"
