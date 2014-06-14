@@ -1,7 +1,7 @@
 -- http://sccode.org/1-V (nv)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Pattern.Bind {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
 
 fF :: Double -> Double -> Double
 fF i f =
@@ -27,4 +27,4 @@ main =
     let p = [("f",fS)
             ,("i",[0..])
             ,("dur",repeat 0.3)]
-    in audition (sbind1 (nvi,p))
+    in audition (P.sbind1 (nvi,p))

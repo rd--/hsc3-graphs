@@ -56,6 +56,7 @@ vla_plyr n =
 plyr36 :: Synthdef
 plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
+-- retained as comparison to vla-addtn
 pattern :: [P_Bind]
 pattern =
     [(K_instr,pinstr "plyr36")

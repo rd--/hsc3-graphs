@@ -1,12 +1,15 @@
 -- thb (rd)
 
-import Data.List
+import Data.List {- base -}
+
 import qualified Music.Theory.Contour.Polansky_1992 as T {- hmt -}
 import qualified Music.Theory.Pitch as T
+
 import Sound.SC3 {- hsc3 -}
-import qualified Sound.SC3.Lang.Math as M
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import Sound.SC3.Monad.Syntax {- hsc3 -}
 import Sound.OSC {- hosc -}
+
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 -- | Happy birthday
 --
@@ -45,19 +48,18 @@ hb_t =
 plain :: Transport m => m ()
 plain = do
   _ <- async (d_recv defaultSynthdef)
-  let p :: [[Double]] -> P Field
-      p = toP . map realToFrac . concat
-  pplay (pbind [(K_degree,p hb_d - 1)
-               ,(K_octave,p hb_o + 1)
-               ,(K_dur,p hb_t / 16)])
+  let fr = map P.octpc_to_cps (zip (concat hb_o .+ 1) (concat hb_k))
+  play (P.sbind1 (defaultSynthdef
+                 ,[("freq",fr)
+                  ,("dur",concat hb_t ./ 16)]))
 
 -- | Pitch classes
 --
 -- > tail hb_k == [[7,7,9,7,2,0],[7,7,7,4,0,11,9],[5,5,4,0,2,0]]
-hb_k :: Integral n => [[n]]
+hb_k :: Num n => [[n]]
 hb_k =
-    let f = floor . M.degreeToKey [0,2,4,5,7,9,11] 12 . pred
-    in map (map f) (hb_d :: [[Double]])
+    let f = fromInteger . floor . P.degreeToKey [0,2,4,5,7,9,11] 12 . pred
+    in map (map f) hb_d
 
 -- | Midi note numbers
 --
@@ -174,13 +176,12 @@ ins_s =
 hear :: Transport m => Double -> [Cim Double] -> m ()
 hear blur x =
     let (f,d,c) = unzip3 x
-        p = toP . map realToFrac
-    in pplay (pbind [(K_instr,psynth ins_s)
-                    ,(K_freq,p f)
-                    ,(K_dur,p d)
-                    ,(K_legato,p (repeat blur))
-                    ,(K_amp,p c * 0.1 + 0.1)
-                    ,(K_param "loc",p c * 2 - 1)])
+        pr = [("freq",f)
+             ,("dur",d)
+             ,("sustain",d .* blur)
+             ,("amp",c .* 0.1 .+ 0.1)
+             ,("loc",c .* 2 .- 1)]
+    in play (P.sbind1 (ins_s,pr))
 
 main :: IO ()
 main = withSC3 (hear 9 ph)

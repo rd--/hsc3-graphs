@@ -2,7 +2,8 @@
 
 import Data.List.Split {- split -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import Sound.SC3.Monad.Syntax {- hsc3 -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 sinuscell :: UGen
 sinuscell =
@@ -19,22 +20,22 @@ sinuscell =
         s = sinOsc AR fre 0
     in out b (pan2 s p e)
 
-pattern :: Enum e => (Field,[e]) -> [P_Bind]
+pattern :: Enum e => (Double,[e]) -> (Synthdef,P.Param)
 pattern (c,z) =
     case z of
       [z0,z1,z2,z3] ->
-          let a = pwhite z0 0 1 inf
-              s = 0.2
-              r = pwhite z1 0 1 inf
-              i = psynth (synthdef "sinuscell" sinuscell)
-          in [(K_instr,i)
-             ,(K_dur,a+s+r)
-             ,(K_amp,pwhite z3 0 1 inf)
-             ,(K_param "fre",pwhite z2 0 1100 inf)
-             ,(K_param "atk",a)
-             ,(K_param "sus",s)
-             ,(K_param "rel",r)
-             ,(K_param "pan",prepeat c)]
+          let a = P.white z0 0 1
+              s = repeat 0.2
+              r = P.white z1 0 1
+              i = synthdef "sinuscell" sinuscell
+          in (i
+             ,[("dur",a .+. s .+. r)
+              ,("amp",P.white z3 0 1)
+              ,("fre",P.white z2 0 1100)
+              ,("atk",a)
+              ,("sus",s)
+              ,("rel",r)
+              ,("pan",repeat c)])
       _ -> undefined
 
 cells :: Fractional n => [n]
@@ -43,4 +44,4 @@ cells = [-1,-0.6,-0.5,0,0.2,0.5,0.4,1]
 main :: IO ()
 main =
     let c = zip cells (chunksOf 4 ['α'..])
-    in paudition (ppar (map (pbind . pattern) c))
+    in audition (P.sbind (map pattern c))

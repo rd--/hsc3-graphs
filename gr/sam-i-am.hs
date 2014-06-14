@@ -3,9 +3,10 @@
 import Control.Monad.Random {- MonadRandom -}
 import Data.List {- base -}
 import Data.Maybe {- base -}
+
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Random.Monad {- hsc3-lang -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 text :: [String]
 text =
@@ -33,22 +34,23 @@ sam =
         o = sinOsc AR f1 0 * pulse AR f2 0.5 * saw AR f3 * e
     in synthdef "sam" (out 0 o)
 
-b :: (RandomGen g,Floating n,Random n) => g -> [(String,[(Key,n)])]
+b :: (Floating t, RandomGen g, Random t) => g -> [(String,(t,t,t,t))]
 b g =
     let mk w = do
           f1 <- exprand 200 9000
           f2 <- exprand 20 9000
           f3 <- exprand 20 9000
           let d = 0.1 * fromIntegral (length w)
-          return (w,[(K_param "freq1",f1)
-                    ,(K_param "freq2",f2)
-                    ,(K_param "freq3",f3)
-                    ,(K_dur,d)])
+          return (w,(f1,f2,f3,d))
     in evalRand (mapM mk a) g
 
 main :: IO ()
 main = do
   g <- getStdGen
   let t = b g
-      ae = mapMaybe (\w -> fmap e_from_list (lookup w t)) (concat x)
-  paudition (p_with (K_instr,psynth sam) (pseq (map return ae) 1))
+      (f1,f2,f3,d) = unzip4 (mapMaybe (\w -> lookup w t) (concat x))
+      p = [("freq1",f1)
+          ,("freq2",f2)
+          ,("freq3",f3)
+          ,("dur",d)]
+  audition (P.sbind1 (sam,p))

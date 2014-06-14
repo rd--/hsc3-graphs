@@ -1,7 +1,7 @@
 -- e-lamell-p (rd)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 e_lamell :: UGen
 e_lamell =
@@ -18,25 +18,24 @@ e_lamell =
         e = envGen AR 1 a 0 1 RemoveSynth e_d
     in pan2 s l e
 
-patterns :: [[P_Bind]]
+patterns :: [(Synthdef,P.Param)]
 patterns =
-    let i = psynth (synthdef "e-lamell" (out 0 e_lamell))
-    in [[(K_instr,i)
-        ,(K_note,prand 'β' [0,2,5,7] inf)
-        ,(K_octave,pwrand 'γ' [2,3,4,5] [0.2,0.35,0.35,0.1] inf)
-        ,(K_dur,0.1)
-        ,(K_param "d",pwhite 'δ' 0.01 0.8 inf)
-        ,(K_amp,pwhite 'ε' 0 0.75 inf)
-        ,(K_param "n",pwhite 'ζ' 2 36 inf)
-        ,(K_param "l",pwhite 'η' (-1) 1 inf)]
-       ,[(K_instr,i)
-        ,(K_note,prand 'θ' [0] inf)
-        ,(K_octave,prand 'ι' [2,3] inf)
-        ,(K_dur,0.1)
-        ,(K_param "d",pwhite 'κ' 0.01 1.2 inf)
-        ,(K_amp,prand 'λ' [0,0.25,0.5,1] inf)
-        ,(K_param "n",pwhite 'μ' 2 36 inf)
-        ,(K_param "l",pwhite 'ν' (-1) 1 inf)]]
+    let sy = synthdef "e-lamell" (out 0 e_lamell)
+        to_cps n o = let sc = [0,2,4,5,7,9,11]
+                         pc = map (P.degreeToKey sc 12) n
+                     in map P.octpc_to_cps (zip o pc)
+    in [(sy,[("freq",to_cps (P.rand 'β' [0,2,5,7]) (P.wrand 'γ' [2,3,4,5] [0.2,0.35,0.35,0.1]))
+            ,("dur",repeat 0.1)
+            ,("d",P.white 'δ' 0.01 0.8)
+            ,("amp",P.white 'ε' 0 0.75)
+            ,("n",P.white 'ζ' 2 36)
+            ,("l",P.white 'η' (-1) 1)])
+       ,(sy,[("freq",to_cps (P.rand 'θ' [0]) (P.rand 'ι' [1,2,3]))
+            ,("dur",repeat 0.1)
+            ,("d",P.white 'κ' 0.01 1.2)
+            ,("amp",P.rand 'λ' [0,0.25,0.5,1])
+            ,("n",P.white 'μ' 2 36)
+            ,("l",P.white 'ν' (-1) 1)])]
 
 main :: IO ()
-main = paudition (ppar (map pbind patterns))
+main = audition (P.sbind patterns)
