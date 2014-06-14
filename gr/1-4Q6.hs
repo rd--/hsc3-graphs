@@ -42,4 +42,4 @@ pattern =
   ,(K_param "trig",1)]
 
 main :: IO ()
-main = audition (pmono pattern)
+main = paudition (pmono pattern)

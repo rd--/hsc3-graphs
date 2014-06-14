@@ -1,9 +1,8 @@
 -- https://twitter.com/headcube/status/474064500564324352 (nv)
+-- requires -m at scsynth
 -- inaccurate...
 
-import Sound.SC3.ID
-import Sound.SC3.UGen.Optimise
-import Sound.SC3.UGen.Protect
+import Sound.SC3.ID {- hsc3 -}
 
 -- > audition (out 0 p)
 p :: UGen
@@ -23,7 +22,7 @@ nv = splay (uclone 'ε' 9 s) 1 1 0 True
 
 -- > audition (out 0 nv_opt)
 nv_opt :: UGen
-nv_opt = ugen_optimize_const_binop (ugen_optimize_ir_rand nv)
+nv_opt = ugen_optimise_const_binop (ugen_optimise_ir_rand nv)
 
 -- > via_disk (out 0 nv)
 via_disk :: UGen -> IO ()

@@ -141,7 +141,7 @@ act :: Transport m => m ()
 act = do
   _ <- async (b_alloc_setn1 0 0 vla_prep)
   _ <- async (d_recv plyr36)
-  play (pbind pattern)
+  pplay (pbind pattern)
 
 main :: IO ()
 main = withSC3 act

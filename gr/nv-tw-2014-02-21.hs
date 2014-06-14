@@ -1,7 +1,7 @@
 -- https://twitter.com/headcube/status/437094206767513600 (nv)
+-- requires -m at scsynth
 
-import Sound.SC3.ID
-import Sound.SC3.UGen.Protect
+import Sound.SC3.ID {- hsc3 -}
 
 x :: UGen
 x = impulse AR 0.05 0
@@ -21,5 +21,8 @@ y = useq 'ε' 20 f x * 5
 z :: UGen
 z = mix (uclone 'ζ' 4 y)
 
+z_opt :: UGen
+z_opt = ugen_optimise_ir_rand z
+
 main :: IO ()
-main = audition (out 0 z)
+main = audition (out 0 z_opt)

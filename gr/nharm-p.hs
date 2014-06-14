@@ -33,5 +33,5 @@ pN n (m0,m1) (d0,d1) =
              ,(K_dur,pwhite 'β' d0 d1 inf)]
 
 main :: IO ()
-main = audition (pmerge (pN 24 (90,92) (0.25,0.75))
-                        (pN 54 (12,14) (1.25,1.76)))
+main = paudition (pmerge (pN 24 (90,92) (0.25,0.75))
+                         (pN 54 (12,14) (1.25,1.76)))

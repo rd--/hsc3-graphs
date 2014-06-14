@@ -43,4 +43,4 @@ cells = [-1,-0.6,-0.5,0,0.2,0.5,0.4,1]
 main :: IO ()
 main =
     let c = zip cells (chunksOf 4 ['α'..])
-    in audition (ppar (map (pbind . pattern) c))
+    in paudition (ppar (map (pbind . pattern) c))

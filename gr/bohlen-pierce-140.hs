@@ -14,4 +14,4 @@ bp140 :: Synthdef
 bp140 = synthdef "bp140" (out 0 bp140u)
 
 main :: IO ()
-main = audition (pbind [(K_instr,psynth bp140),(K_dur,prand 'δ' [1/6,1/3] inf)])
+main = paudition (pbind [(K_instr,psynth bp140),(K_dur,prand 'δ' [1/6,1/3] inf)])

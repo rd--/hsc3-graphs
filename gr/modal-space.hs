@@ -2,7 +2,6 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.UGen.Protect
 
 ms :: UGen -> UGen -> UGen
 ms n r =

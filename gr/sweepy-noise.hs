@@ -1,7 +1,6 @@
 -- sweepy noise (jmcc) #6
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.UGen.Protect
 
 sweepy_noise :: UGen
 sweepy_noise =

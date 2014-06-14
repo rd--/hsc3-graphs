@@ -31,7 +31,7 @@ pattern =
 main :: IO ()
 main = do
   let s = synthdef "crotale-sine" (out 0 crotale_sine)
-  audition (p_with (K_instr,psynth s) (pbind pattern))
+  paudition (p_with (K_instr,psynth s) (pbind pattern))
 
 crotale_data :: ([Double],[Double])
 crotale_data =

@@ -1,7 +1,6 @@
 -- police state (jmcc) #2
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
 
 nd :: UGen
 nd =

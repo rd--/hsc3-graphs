@@ -31,29 +31,26 @@ mk_g o =
         g = grainBuf 2 t (1 / l) b r p 2 0 (-1) 512
     in synthdef "g" (out 0 (g * e))
 
-p1 :: [P_Bind]
-p1 =
-    [(K_dur,pseq [4] inf)
-    ,(K_param "sdens",pseq [9000,1000,500] inf / 100)
-    ,(K_param "edens",prand 'δ' [pseq [9000,1000,500] 1 / 10
-                                ,pseq [1] 3] inf)
-    ,(K_param "rate",pwhite 'ε' (-10) 10 inf)
-    ,(K_param "pos",pwhite 'ζ' (-10) 10 inf)]
-
-p2 :: [P_Bind]
-p2 =
-    [(K_dur,pseq [4/3] inf)
-    ,(K_param "sdens",pseq [9000,1000,500,25] inf)
-    ,(K_param "edens",prand 'η' [pseq [9000,1000,500,25] 1
-                                ,pseq [1] 4] inf)
-    ,(K_param "rate",pwhite 'θ' (-100) 100 inf)
-    ,(K_param "pos",pwhite 'ι' (-10) 10 inf)]
+pb :: [[P_Bind]]
+pb =
+    [[(K_dur,pseq [4] inf)
+     ,(K_param "sdens",pseq [9000,1000,500] inf / 100)
+     ,(K_param "edens",prand 'α' [pseq [9000,1000,500] 1 / 10
+                                 ,pseq [1] 3] inf)
+     ,(K_param "rate",pwhite 'β' (-10) 10 inf)
+     ,(K_param "pos",pwhite 'γ' (-10) 10 inf)]
+    ,[(K_dur,pseq [4/3] inf)
+     ,(K_param "sdens",pseq [9000,1000,500,25] inf)
+     ,(K_param "edens",prand 'δ' [pseq [9000,1000,500,25] 1
+                                 ,pseq [1] 4] inf)
+     ,(K_param "rate",pwhite 'ε' (-100) 100 inf)
+     ,(K_param "pos",pwhite 'ζ' (-10) 10 inf)]]
 
 push_g :: Transport m => m Message
 push_g = do
   let ph u r f = u r f 0
       wd u r f = u r f 0 0
-      o_set = [lfNoise0 'κ',ph sinOsc,ph impulse,wd lfPulse,ph lfSaw]
+      o_set = [lfNoise0 'α',ph sinOsc,ph impulse,wd lfPulse,ph lfSaw]
   o <- L.choose o_set
   async (d_recv (mk_g o))
 
@@ -66,4 +63,4 @@ update_g = do
 main :: IO ()
 main = do
   _ <- forkIO (withSC3 (reset >> init_b >> forever update_g))
-  audition (p_with (K_instr,pinstr "g") (ppar (map pbind [p1,p2])))
+  paudition (p_with (K_instr,pinstr "g") (ppar (map pbind pb)))

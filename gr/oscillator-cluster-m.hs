@@ -26,7 +26,7 @@ main = do
   u <- oscillator_cluster
   let s = synthdef "oscillator_cluster" (out 0 u)
       p = pbind [(K_instr,psynth s),(K_dur,prand 'α' [0.25,0.5,1,3,5] inf)]
-  audition p
+  paudition p
 
 {-
 audition . (out 0) =<< oscillator_cluster

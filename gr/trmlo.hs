@@ -48,4 +48,4 @@ main = do
       p = pbind [(K_instr,psynth s)
                 ,(K_dur,pxrand 'ρ' [0.25,0.5,1,2,4] inf)
                 ,(K_legato,1.25)]
-  audition p
+  paudition p

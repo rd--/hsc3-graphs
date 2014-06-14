@@ -39,4 +39,4 @@ patterns =
         ,(K_param "l",pwhite 'ν' (-1) 1 inf)]]
 
 main :: IO ()
-main = audition (ppar (map pbind patterns))
+main = paudition (ppar (map pbind patterns))

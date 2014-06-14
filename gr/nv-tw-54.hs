@@ -25,7 +25,7 @@ nvi =
 main :: IO ()
 main =
     let fS' = map realToFrac fS
-    in audition (pbind [(K_instr,psynth nvi)
-                       ,(K_param "f",toP fS')
-                       ,(K_param "i",pseries 0 1 inf)
-                       ,(K_dur,0.3)])
+    in paudition (pbind [(K_instr,psynth nvi)
+                        ,(K_param "f",toP fS')
+                        ,(K_param "i",pseries 0 1 inf)
+                        ,(K_dur,0.3)])

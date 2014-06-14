@@ -71,4 +71,4 @@ main :: IO ()
 main = do
   withSC3 (do post "amplitude_mod" 2 0 (amplitude_mod 'ρ')
               post "limiting" 2 0 limiting)
-  audition (pbind pattern)
+  paudition (pbind pattern)

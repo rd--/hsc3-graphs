@@ -1,7 +1,6 @@
 -- default (jmcc)
 
 import Data.Default {- data-default -}
-import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
 pattern :: [P_Bind]
@@ -14,4 +13,4 @@ pattern =
     ,(K_param "pan",pbrown 'ε' (-1) 1 0.25 inf)]
 
 main :: IO ()
-main = audition (pbind pattern)
+main = paudition (pbind pattern)

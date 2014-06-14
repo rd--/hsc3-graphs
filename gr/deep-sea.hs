@@ -30,4 +30,4 @@ main :: IO ()
 main = do
   let s = synthdef "deep-sea" (out 0 deep_sea)
       p = pbind [(K_instr,psynth s),(K_dur,pxrand 'ζ' [0.25,0.5,1,2] inf)]
-  audition p
+  paudition p

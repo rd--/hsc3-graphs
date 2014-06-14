@@ -25,4 +25,4 @@ notes =
 main :: IO ()
 main = do
   i <- spe3_allpass6
-  audition (pbind [(K_instr,psynth i),(K_midinote,notes),(K_dur,0.13)])
+  paudition (pbind [(K_instr,psynth i),(K_freq,fmap midiCPS notes),(K_dur,0.13)])

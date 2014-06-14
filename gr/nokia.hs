@@ -46,4 +46,4 @@ main :: IO ()
 main =
     let f = concat (replicate 12 [1200, 800, 600, 200])
         p = ppar (map (pbind . pattern) (zip f ['β'..]))
-    in withSC3 (async (d_recv (synthdef "grain" grain)) >> play p)
+    in withSC3 (async (d_recv (synthdef "grain" grain)) >> pplay p)

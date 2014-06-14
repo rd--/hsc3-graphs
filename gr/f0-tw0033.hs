@@ -1,7 +1,6 @@
 -- www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.UGen.Protect
 
 f0_0033 :: UGen
 f0_0033 =

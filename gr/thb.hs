@@ -47,9 +47,9 @@ plain = do
   _ <- async (d_recv defaultSynthdef)
   let p :: [[Double]] -> P Field
       p = toP . map realToFrac . concat
-  play (pbind [(K_degree,p hb_d - 1)
-              ,(K_octave,p hb_o + 1)
-              ,(K_dur,p hb_t / 16)])
+  pplay (pbind [(K_degree,p hb_d - 1)
+               ,(K_octave,p hb_o + 1)
+               ,(K_dur,p hb_t / 16)])
 
 -- | Pitch classes
 --
@@ -175,12 +175,12 @@ hear :: Transport m => Double -> [Cim Double] -> m ()
 hear blur x =
     let (f,d,c) = unzip3 x
         p = toP . map realToFrac
-    in play (pbind [(K_instr,psynth ins_s)
-                   ,(K_freq,p f)
-                   ,(K_dur,p d)
-                   ,(K_legato,p (repeat blur))
-                   ,(K_amp,p c * 0.1 + 0.1)
-                   ,(K_param "loc",p c * 2 - 1)])
+    in pplay (pbind [(K_instr,psynth ins_s)
+                    ,(K_freq,p f)
+                    ,(K_dur,p d)
+                    ,(K_legato,p (repeat blur))
+                    ,(K_amp,p c * 0.1 + 0.1)
+                    ,(K_param "loc",p c * 2 - 1)])
 
 main :: IO ()
 main = withSC3 (hear 9 ph)

@@ -96,4 +96,4 @@ main = do
   let p = ppar [pbind pulse_p
                ,pbind drone_p
                ,pbind bass_p]
-  audition p
+  paudition p

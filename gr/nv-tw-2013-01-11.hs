@@ -1,5 +1,6 @@
+-- https://twitter.com/headcube/status/289761321065541633 (nv)
+
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
 import Sound.SC3.Lang.Collection {- hsc3-lang -}
 
 mce_concat :: [UGen] -> UGen

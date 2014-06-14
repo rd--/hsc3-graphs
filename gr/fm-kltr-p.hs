@@ -37,4 +37,4 @@ pattern =
     ,(K_param "pan", pwhite 'λ' (-1) 1 inf)]
 
 main :: IO ()
-main = audition (pbind pattern)
+main = paudition (pbind pattern)

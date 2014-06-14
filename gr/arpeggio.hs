@@ -86,4 +86,4 @@ main :: IO ()
 main = do
   let n = 60/157
       p = pedit K_dur (* n) (pbind arpeggio)
-  audition p
+  paudition p

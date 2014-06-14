@@ -73,7 +73,7 @@ act fn = do
   v <- vla fn
   _ <- async (b_alloc_setn1 0 0 (vla_prep v))
   _ <- async (d_recv plyr36)
-  play (pbind pattern)
+  pplay (pbind pattern)
 
 main :: IO ()
 main = withSC3 (act "/home/rohan/data/sharc/sharc.xml")
