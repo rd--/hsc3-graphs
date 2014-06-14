@@ -2,7 +2,7 @@
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 nharm :: Num n => Int -> n -> [n]
 nharm n f = map ((* f) . fromIntegral) [1..n]
@@ -19,19 +19,17 @@ klg n =
         s = klangSpec nh l (replicate n 0.0)
     in out 0 (pan2 (klang AR 1 0 s) p e)
 
-type Range = (Field,Field)
+type Range = (Double,Double)
 
-{- Note that the dur key is used only to schedule the nodes. Both it,
-and any gate message, are ignored by the UGen graph, which manages
-duration internally.  -}
+{- Note that the dur key is used only to schedule the nodes, the UGen
+graph manages duration internally.-}
 
-pN :: Int -> Range -> Range -> P Event
+pN :: Int -> Range -> Range -> (Synthdef,P.Param)
 pN n (m0,m1) (d0,d1) =
     let s = synthdef ("klg" ++ show n) (klg n)
-    in pbind [(K_instr,psynth s)
-             ,(K_midinote,pwhite 'α' m0 m1 inf)
-             ,(K_dur,pwhite 'β' d0 d1 inf)]
+    in (s,[("freq",map midiCPS (P.white 'α' m0 m1))
+          ,("dur",P.white 'β' d0 d1)])
 
 main :: IO ()
-main = paudition (pmerge (pN 24 (90,92) (0.25,0.75))
-                         (pN 54 (12,14) (1.25,1.76)))
+main = audition (P.sbind [(pN 24 (90,92) (0.25,0.75))
+                         ,(pN 54 (12,14) (1.25,1.76))])

@@ -2,7 +2,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 type R = Double
 type R2 = (R,R)
@@ -125,23 +125,23 @@ vla_plyr n =
 plyr36 :: Synthdef
 plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
-pattern :: [P_Bind]
+pattern :: P.Param
 pattern =
-    [(K_instr,pinstr "plyr36")
-    ,(K_param "loc",pwhite 'δ' (-1) 1 inf)
-    ,(K_amp,pwhite 'ε' 0.05 0.1 inf)
-    ,(K_degree,prand 'ζ' [0,1,2,3,4,5,6,7,8] inf)
-    ,(K_octave,prand 'η' [2,3] inf)
-    ,(K_param "dt",pwhite 'θ' 0.001 0.005 inf)
-    ,(K_param "rise",pwhite 'ι' 1 2 inf)
-    ,(K_param "fall",pwhite 'κ' 4 7 inf)
-    ,(K_dur,5)]
+    let sc = [0,2,4,5,7,9,11]
+        pc = map (P.degreeToKey sc 12) (P.rand 'ζ' [0,1,2,3,4,5,6,7,8])
+        fr = map P.octpc_to_cps (zip (P.rand 'η' [1,2]) pc)
+    in [("loc",P.white 'δ' (-1) 1)
+       ,("amp",P.white 'ε' 0.05 0.1)
+       ,("freq",fr)
+       ,("dt",P.white 'θ' 0.001 0.005)
+       ,("rise",P.white 'ι' 1 2)
+       ,("fall",P.white 'κ' 4 7)
+       ,("dur",repeat 5)]
 
 act :: Transport m => m ()
 act = do
   _ <- async (b_alloc_setn1 0 0 vla_prep)
-  _ <- async (d_recv plyr36)
-  pplay (pbind pattern)
+  play (P.sbind1 (plyr36,pattern))
 
 main :: IO ()
 main = withSC3 act

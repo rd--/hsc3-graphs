@@ -1,7 +1,7 @@
 -- http://sccode.org/1-W (jj)
 
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 bp140u :: UGen
 bp140u =
@@ -14,4 +14,4 @@ bp140 :: Synthdef
 bp140 = synthdef "bp140" (out 0 bp140u)
 
 main :: IO ()
-main = paudition (pbind [(K_instr,psynth bp140),(K_dur,prand 'δ' [1/6,1/3] inf)])
+main = audition (P.sbind1 (bp140,[("dur",P.rand 'δ' [1/6,1/3])]))

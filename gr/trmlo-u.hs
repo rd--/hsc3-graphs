@@ -2,7 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 -- > audition (out 0 trmlo)
 trmlo :: UGen
@@ -46,7 +46,5 @@ trmlo =
 main :: IO ()
 main = do
   let s = synthdef "trmlo" (out 0 trmlo)
-      p = pbind [(K_instr,psynth s)
-                ,(K_dur,pxrand 'α' [0.25,0.5,1,2,4] inf)
-                ,(K_legato,1.25)]
-  paudition p
+      p = [("dur",P.xrand 'ρ' [0.25,0.5,1,2,4])]
+  audition (P.sbind1 (s,p))

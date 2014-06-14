@@ -2,7 +2,7 @@
 -- some edits......
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 chain :: a -> [a -> a] -> a
 chain n ff =
@@ -55,45 +55,42 @@ audition drone_u
 audition bass_u
 -}
 
-pulse_i :: Instr
-pulse_i = Instr_Def (synthdef "pulse" pulse_u) False
+pulse_s :: Synthdef
+pulse_s = synthdef "pulse" pulse_u
 
-drone_i :: Instr
-drone_i = Instr_Def (synthdef "drone" drone_u) False
+drone_s :: Synthdef
+drone_s = synthdef "drone" drone_u
 
-bass_i :: Instr
-bass_i = Instr_Def (synthdef "bass" bass_u) False
+bass_s :: Synthdef
+bass_s = synthdef "bass" bass_u
 
-dur_p :: Fractional a => P a
-dur_p = prand 'β' [3,0.7,1,0.5] inf
+dur_p :: Fractional a => [a]
+dur_p = P.rand 'β' [3,0.7,1,0.5]
 
-pulse_p :: [P_Bind]
+pulse_p :: P.Param
 pulse_p =
-    [(K_instr,pinstr' pulse_i)
-    ,(K_dur,dur_p * 10)
-    ,(K_freq,fmap midiCPS (prand 'α' [59,72,76,79,81,88,90] inf))
-    ,(K_amp,pwhite 'β' 0.2 0.27 inf)
-    ,(K_param "attackTime",pwhite 'γ' 0 7 inf)
-    ,(K_param "delayTime",0.02)]
+    [("dur",map (* 10) dur_p)
+    ,("freq",fmap midiCPS (P.rand 'α' [59,72,76,79,81,88,90]))
+    ,("amp",P.white 'β' 0.2 0.27)
+    ,("attackTime",P.white 'γ' 0 7)
+    ,("delayTime",repeat 0.02)]
 
-drone_p :: [P_Bind]
+drone_p :: P.Param
 drone_p =
-    [(K_instr,pinstr' drone_i)
-    ,(K_dur,dur_p)
-    ,(K_freq,fmap midiCPS (prand 'α' [31,40,45,64,68,69] inf))
-    ,(K_amp,pwhite 'β' 0.03 0.08 inf * 0.7)
-    ,(K_param "phase",pwrand 'γ' [0,4.7123] [0.5,0.5] inf)]
+    [("dur",dur_p)
+    ,("freq",fmap midiCPS (P.rand 'α' [31,40,45,64,68,69]))
+    ,("amp",P.white 'β' 0.02 0.06)
+    ,("phase",P.rand 'γ' [0,4.7123])]
 
-bass_p :: [P_Bind]
+bass_p :: P.Param
 bass_p =
-    [(K_instr,pinstr' bass_i)
-    ,(K_dur,dur_p)
-    ,(K_freq,fmap midiCPS 31)
-    ,(K_amp,0.3)]
+    [("dur",dur_p)
+    ,("freq",repeat (midiCPS 31))
+    ,("amp",repeat 0.3)]
 
 main :: IO ()
 main = do
-  let p = ppar [pbind pulse_p
-               ,pbind drone_p
-               ,pbind bass_p]
-  paudition p
+  let sc = P.sbind [(pulse_s,pulse_p)
+                   ,(drone_s,drone_p)
+                   ,(bass_s,bass_p)]
+  audition sc
