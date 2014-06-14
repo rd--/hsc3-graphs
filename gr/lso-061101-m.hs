@@ -1,15 +1,17 @@
 -- | L-System oscillator (rd), 2006-11-01
 
 import Control.Monad {- base -}
+import System.Directory {- directory -}
+import qualified System.FilePath as P {- filepath -}
+
 import Graphics.PS {- hps -}
 import qualified LSystem.LSystem as L {- hls -}
 import qualified LSystem.Systems as L
 import qualified LSystem.Turtle as L
+
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
 import Sound.SC3.Monad {- hsc3 -}
 import Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
-import System.Directory {- directory -}
-import qualified System.FilePath as P {- filepath -}
 
 -- | Normalise to lie in (0,1).
 --
@@ -83,14 +85,12 @@ lsys_load d = do
 -- | Oscillator instrument
 oi :: IO UGen
 oi = do
-  let rng i = linLin i (-1) 1
-      exprng i = linExp i (-1) 1
   c <- R.choose [0.25, 0.55, 0.75, 1.25]
   let t = impulse KR c 0
   b <- tIRand 0 12 t
   let n  = bufFrames KR b
       m  = n / 4
-      i  = floorE (rng (lfSaw AR c 0) 0 m) * 4
+      i  = floorE (linLin_b (lfSaw AR c 0) 0 m) * 4
       tt = impulse AR (m / c) 0
       x0 = bufRdL 1 AR b i       NoLoop
       y0 = bufRdL 1 AR b (i + 1) NoLoop
@@ -98,8 +98,8 @@ oi = do
       y1 = bufRdL 1 AR b (i + 3) NoLoop
   f0 <- R.choose [16, 32, 64, 128, 256, 512, 8192]
   let f1 = 22000
-      o x y = let f = exprng x f0 f1
-              in pan2 (blip AR f (rng y 1 64)) y0 (decay tt 0.005)
+      o x y = let f = linExp_b x f0 f1
+              in pan2 (blip AR f (linLin_b y 1 64)) y0 (decay tt 0.005)
   return (o x0 y0 + o x1 y1)
 
 main :: IO ()

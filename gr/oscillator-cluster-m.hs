@@ -31,5 +31,5 @@ main = do
 {-
 audition . (out 0) =<< oscillator_cluster
 let otu = Sound.SC3.Lang.Control.OverlapTexture.overlapTextureU
-otu (0,6,3,maxBound) =<< oscillator_cluster
+otu (3,1,5,maxBound) =<< oscillator_cluster
 -}

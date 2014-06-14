@@ -9,11 +9,10 @@ tgb b d = do
       pm_t l r du t = let le = mkls l du
                           re = mkls r du
                       in tRand le re t
-      wrp i = linLin i (-1) 1
       pm_n rt l du = do let le = mkls l du
                             re = mkls l du
                         n <- whiteNoise rt
-                        return (wrp n le re)
+                        return (linLin_b n le re)
   gps <- pm_n AR [(0,400),(1,900)] d
   let t = impulse AR gps 0
       pm_f (l,r) = pm_t l r d t

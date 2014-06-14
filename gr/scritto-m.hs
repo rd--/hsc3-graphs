@@ -20,7 +20,7 @@ main =
                      let p = pulseDivider t d 0
                          b = blip AR (midiCPS n2) n3
                      return (decay2 p 0.01 n1 * b * 12)
-            bi = linLin n (-1) 1 0 bx
+            bi = linLin_b n 0 bx
             voice = mix . v_filter_b bi
         return . out 0 . mce . map voice =<< mapM i [1,2]
   in withSC3 (do mapM_ s_alloc (zip V.fdata_table [0..])

@@ -14,9 +14,8 @@ pmr_n :: UId m => Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> m UGen
 pmr_n rt l0 l1 r0 r1 d = do
   let le = mkrmp l0 r0 d
       re = mkrmp l1 r1 d
-      wrp i = linLin i (-1) 1
   n <- whiteNoise rt
-  return (wrp n le re)
+  return (linLin_b n le re)
 
 implosion :: UId m => m UGen
 implosion = do

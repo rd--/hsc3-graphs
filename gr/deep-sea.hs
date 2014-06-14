@@ -3,11 +3,6 @@
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Pattern {- hsc3-lang -}
 
-rng :: UGen -> UGen -> UGen -> UGen
-rng s l r =
-    let m = (r - l) * 0.5
-    in mulAdd s m (m + l)
-
 deep_sea :: UGen
 deep_sea =
     let amp = 1
@@ -21,7 +16,7 @@ deep_sea =
         count = pulseCount t 0
         mul = count <* n
         u1 = bpf (mul * t) f 1 * 0.1
-        f2 = f * ((count `modE` rng (lfNoise1 'ε' KR 1) 2 20) + 1)
+        f2 = f * ((count `modE` range (lfNoise1 'ε' KR 1) 2 20) + 1)
         u2 = bpf u1 f2 1 * 0.2
     in mrg [pan2 u2 pan (amp * 10)
            ,detectSilence u2 0.0001 0.2 RemoveSynth]

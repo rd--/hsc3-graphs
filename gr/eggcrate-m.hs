@@ -11,8 +11,8 @@ eggcrate = do
   [x,y] <- sequence (replicate 2 (brownNoise KR))
   t <- dust KR 2.4
   [f0,f1] <- sequence (replicate 2 (tChoose t p))
-  let f = linLin (eggcrate_f x y) (-1) 1 f0 f1
-      a = linLin x (-1) 1 0 0.1
+  let f = linLin_b (eggcrate_f x y) f0 f1
+      a = linLin_b x 0 0.1
   return (pan2 (mix (sinOsc AR f 0)) y a)
 
 main :: IO ()

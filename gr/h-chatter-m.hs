@@ -15,13 +15,12 @@ h_chatter = do
               n1 <- lfNoise0 KR 2
               let a = mouseX KR 1.2 1.4 Linear 0.1
                   b = mouseY KR 0.2 0.3 Linear 0.1
-                  wrp i = linLin i (-1) 1
-                  h = wrp n0 1 32
-                  p = wrp n1 2400 3200
-                  l = wrp n1 (-0.75) 0.75
-                  g = wrp n1 0.55 0.85
+                  h = linLin_b n0 1 32
+                  p = linLin_b n1 2400 3200
+                  l = linLin_b n1 (-0.75) 0.75
+                  g = linLin_b n1 0.55 0.85
                   f = 40
-                  o = blip AR (wrp (henonN AR f a b 0 0) p (p * 2)) h
+                  o = blip AR (linLin_b (henonN AR f a b 0 0) p (p * 2)) h
               return (pan2 o l g * 0.35)
   h0 .+. h1
 
