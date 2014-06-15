@@ -1,7 +1,7 @@
 -- http://sccode.org/1-4Q6 (f0)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 -- > audition risset
 --
@@ -30,16 +30,20 @@ risset =
         src = mixFill 11 fn
     in synthdef "risset" (out 0 (pan2 src pan 1))
 
-pattern :: [P_Bind]
+pattern :: (Synthdef,Int,P.Param)
 pattern =
-  [(K_instr,pinstr' (Instr_Def risset False))
-  ,(K_id,1000)
-  ,(K_note,prand 'α' [0,2,5,7,11] inf)
-  ,(K_octave,prand 'β' [4,5,6,7,9] inf)
-  ,(K_legato,1)
-  ,(K_dur,prand 'γ' [2,3,5,7] inf)
-  ,(K_amp,pwhite 'δ' 0.025 0.15 inf)
-  ,(K_param "trig",1)]
+    let fr = let d = P.rand 'α' [0,2,5,7,11]
+                 o = P.rand 'β' [4,5,6,7,9]
+                 sc = [0,2,4,5,7,9,11]
+                 pc = map (P.degreeToKey sc 12) d
+             in map P.octpc_to_cps (zip o pc)
+        du = P.rand 'γ' [2,3,5,7]
+    in (risset,1000
+       ,[("freq",fr)
+        ,("dur",du)
+        ,("sustain",map (* 1.25) du)
+        ,("amp",P.white 'δ' 0.025 0.15)
+        ,("trig",repeat 1)])
 
 main :: IO ()
-main = paudition (pmono pattern)
+main = audition (P.nbind1 pattern)

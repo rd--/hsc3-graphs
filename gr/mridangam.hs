@@ -2,7 +2,8 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern.Bind {- hsc3-lang -}
 
 mridangam :: UGen
 mridangam =
@@ -50,11 +51,9 @@ p =
 act :: Transport m => m ()
 act = do
   play (out 0 drone)
-  let i = Instr_Def (synthdef "mridangam" (out 0 mridangam)) False
-  pplay (pmono [(K_instr,pinstr' i)
-               ,(K_id,100)
-               ,(K_amp,pseq p 1)
-               ,(K_dur,1/8)])
+  let sy = synthdef "mridangam" (out 0 mridangam)
+      a = unP (pseq p 1)
+  play (nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
 
 main :: IO ()
 main = withSC3 act
