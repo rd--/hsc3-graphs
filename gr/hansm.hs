@@ -1,4 +1,4 @@
--- http://www.fredrikolofsson.com/f0blog/?q=node/457 (f0)
+-- http://www.fredrikolofsson.com/f0blog/?q=node/457 (f0) (af)
 -- http://obiwannabe.co.uk/tutorials/html/tutorial_birds.html
 
 import Sound.OSC {- hosc -}
