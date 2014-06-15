@@ -27,6 +27,7 @@ GRAPHS= 1-1Ni\
  bitwise\
  black-atlantic-currents\
  blips-001-hp\
+ blips-001\
  blips-001-u\
  bohlen-pierce-140\
  bottle-m\
@@ -142,6 +143,9 @@ GRAPHS= 1-1Ni\
  nv-ml-2014-06-03\
  nv-tw-1\
  nv-tw-2013-01-11\
+ nv-tw-2013-12-04\
+ nv-tw-2014-02-21\
+ nv-tw-2014-06-03\
  nv-tw-41\
  nv-tw-54\
  nx102\
@@ -158,6 +162,7 @@ GRAPHS= 1-1Ni\
  plucked-strings-m\
  police-state\
  police-state-m\
+ pond-life-ha\
  pond-life-hp\
  pond-life\
  proxy-mixer\
@@ -223,6 +228,7 @@ GRAPHS= 1-1Ni\
  tgr-rpr-m\
  thb\
  theremin\
+ three-cpsw\
  three-cpsw-m\
  thx\
  tipnso\
@@ -251,3 +257,4 @@ GRAPHS= 1-1Ni\
  xy-interference\
  xy-interference-m\
  zizle-hp\
+ zizle\

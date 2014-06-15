@@ -127,12 +127,10 @@ plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
 pattern :: P.Param
 pattern =
-    let sc = [0,2,4,5,7,9,11]
-        pc = map (P.degreeToKey sc 12) (P.rand 'ζ' [0,1,2,3,4,5,6,7,8])
-        fr = map P.octpc_to_cps (zip (P.rand 'η' [1,2]) pc)
+    let to_cps = P.degree_to_cps' [0,2,4,5,7,9,11] 12
     in [("loc",P.white 'δ' (-1) 1)
        ,("amp",P.white 'ε' 0.05 0.1)
-       ,("freq",fr)
+       ,("freq",to_cps (P.rand 'ζ' [0,1,2,3,4,5,6,7,8]) (P.rand 'η' [1,2]))
        ,("dt",P.white 'θ' 0.001 0.005)
        ,("rise",P.white 'ι' 1 2)
        ,("fall",P.white 'κ' 4 7)

@@ -1,16 +1,17 @@
 -- default (jmcc)
 
-import Data.Default {- data-default -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import Sound.SC3 {- hsc3 -}
+import qualified Sound.SC3.Lang.Pattern.List as L {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
-pattern :: [P_Bind]
+pattern :: (Synthdef,P.Param)
 pattern =
-    [(K_instr,psynth def)
-    ,(K_note,pxrand 'α' [0,1,5,7,9] inf)
-    ,(K_octave,prand 'β' [3,4,5,6] inf)
-    ,(K_dur,pwrand 'γ' [0.1,0.2,0.4] [0.5,0.4,0.1] inf)
-    ,(K_amp,pbrown 'δ' 0.01 0.2 0.01 inf)
-    ,(K_param "pan",pbrown 'ε' (-1) 1 0.25 inf)]
+    let to_cps = P.degree_to_cps' [0,2,4,5,7,9,11] 12
+    in (defaultSynthdef
+       ,[("freq",to_cps (P.xrand 'α' [0,1,5,7,9]) (P.rand 'β' [2,3,4,5,6]))
+        ,("dur",P.wrand 'γ' [0.1,0.2,0.4] [0.5,0.4,0.1])
+        ,("amp",L.brown 'δ' 0.01 0.2 0.01)
+        ,("pan",L.brown 'ε' (-1) 1 0.25)])
 
 main :: IO ()
-main = paudition (pbind pattern)
+main = audition (P.sbind1 pattern)

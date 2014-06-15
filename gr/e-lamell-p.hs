@@ -21,9 +21,7 @@ e_lamell =
 patterns :: [(Synthdef,P.Param)]
 patterns =
     let sy = synthdef "e-lamell" (out 0 e_lamell)
-        to_cps n o = let sc = [0,2,4,5,7,9,11]
-                         pc = map (P.degreeToKey sc 12) n
-                     in map P.octpc_to_cps (zip o pc)
+        to_cps = P.degree_to_cps' [0,2,4,5,7,9,11] 12
     in [(sy,[("freq",to_cps (P.rand 'β' [0,2,5,7]) (P.wrand 'γ' [2,3,4,5] [0.2,0.35,0.35,0.1]))
             ,("dur",repeat 0.1)
             ,("d",P.white 'δ' 0.01 0.8)

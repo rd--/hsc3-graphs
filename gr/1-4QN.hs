@@ -4,7 +4,8 @@ import Control.Concurrent {- base -}
 import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import Sound.SC3.Monad.Syntax {- hsc3 -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.IO as L
 
 -- > withSC3 init_b
@@ -31,20 +32,20 @@ mk_g o =
         g = grainBuf 2 t (1 / l) b r p 2 0 (-1) 512
     in synthdef "g" (out 0 (g * e))
 
-pb :: [[P_Bind]]
+pb :: [P.Param]
 pb =
-    [[(K_dur,pseq [4] inf)
-     ,(K_param "sdens",pseq [9000,1000,500] inf / 100)
-     ,(K_param "edens",prand 'α' [pseq [9000,1000,500] 1 / 10
-                                 ,pseq [1] 3] inf)
-     ,(K_param "rate",pwhite 'β' (-10) 10 inf)
-     ,(K_param "pos",pwhite 'γ' (-10) 10 inf)]
-    ,[(K_dur,pseq [4/3] inf)
-     ,(K_param "sdens",pseq [9000,1000,500,25] inf)
-     ,(K_param "edens",prand 'δ' [pseq [9000,1000,500,25] 1
-                                 ,pseq [1] 4] inf)
-     ,(K_param "rate",pwhite 'ε' (-100) 100 inf)
-     ,(K_param "pos",pwhite 'ζ' (-10) 10 inf)]]
+    [[("dur",repeat 4)
+     ,("sdens",cycle [9000,1000,500] ./ 100)
+     ,("edens",concat (P.rand 'α' [[9000,1000,500] ./ 10
+                                  ,[1,1,1]]))
+     ,("rate",P.white 'β' (-10) 10)
+     ,("pos",P.white 'γ' (-10) 10)]
+    ,[("dur",repeat (4/3))
+     ,("sdens",cycle [9000,1000,500,25])
+     ,("edens",concat (P.rand 'δ' [[9000,1000,500,25]
+                                  ,[1,1,1,1]]))
+     ,("rate",P.white 'ε' (-100) 100)
+     ,("pos",P.white 'ζ' (-10) 10)]]
 
 push_g :: Transport m => m Message
 push_g = do
@@ -60,7 +61,11 @@ update_g = do
   dt <- L.choose [1,2,4,8,16,32]
   wait dt
 
+-- 1. there is a 'pattern' that plays the 'g'
+-- 2. there is a process that sends new 'g' definitions to scsynth
 main :: IO ()
 main = do
   _ <- forkIO (withSC3 (reset >> init_b >> forever update_g))
-  paudition (p_with (K_instr,pinstr "g") (ppar (map pbind pb)))
+  let g = mk_g (lfNoise0 'α')
+      sc = P.sbind (zip (repeat g) pb)
+  audition sc

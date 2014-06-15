@@ -2,7 +2,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.ID {- hsc3-lang -}
+import Sound.SC3.Lang.Pattern.P {- hsc3-lang -}
 import Sound.SC3.Lang.Pattern.Bind {- hsc3-lang -}
 
 mridangam :: UGen

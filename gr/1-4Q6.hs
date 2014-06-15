@@ -35,8 +35,7 @@ pattern =
     let fr = let d = P.rand 'α' [0,2,5,7,11]
                  o = P.rand 'β' [4,5,6,7,9]
                  sc = [0,2,4,5,7,9,11]
-                 pc = map (P.degreeToKey sc 12) d
-             in map P.octpc_to_cps (zip o pc)
+             in P.degree_to_cps' sc 12 d o
         du = P.rand 'γ' [2,3,5,7]
     in (risset,1000
        ,[("freq",fr)
