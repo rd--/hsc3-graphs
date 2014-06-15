@@ -2,7 +2,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern.Bind {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 
 mridangam :: UGen
@@ -24,8 +24,8 @@ lseq l n = concat (replicate n l)
 lrand :: Enum e => e -> [[a]] -> Int -> [a]
 lrand e l n = concat (R.nchoose e n l)
 
-l :: Fractional n => Char -> [[n]]
-l e =
+a_seq :: Fractional n => Char -> [[n]]
+a_seq e =
     [lseq [0.0] 10
     -- intro
     ,lseq [0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] 2
@@ -58,8 +58,8 @@ act :: Transport m => m ()
 act = do
   play (out 0 drone)
   let sy = synthdef "mridangam" (out 0 mridangam)
-      a = concat (l 'α')
-  play (nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
+      a = concat (a_seq 'α')
+  play (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
 
 main :: IO ()
 main = withSC3 act

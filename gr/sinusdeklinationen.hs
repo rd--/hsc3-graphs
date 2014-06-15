@@ -2,7 +2,7 @@
 
 import Data.List.Split {- split -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Lang.Collection.Numerical.Truncating () {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 sinuscell :: UGen
@@ -29,7 +29,7 @@ pattern (c,z) =
               r = P.white z1 0 1
               i = synthdef "sinuscell" sinuscell
           in (i
-             ,[("dur",a .+. s .+. r)
+             ,[("dur",a + s + r)
               ,("amp",P.white z3 0 1)
               ,("fre",P.white z2 0 1100)
               ,("atk",a)

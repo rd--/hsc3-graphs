@@ -1,7 +1,9 @@
 -- spe-p (jmcc)
 
 import Sound.SC3.Monad {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.List as P {- hsc3-lang -}
 
 spe3_allpass6 :: UId m => m Synthdef
 spe3_allpass6 = do
@@ -15,14 +17,20 @@ spe3_allpass6 = do
   u <- fmap (out 0) (chainM 4 rapf o)
   return (synthdef "spe" u)
 
-notes :: Num n => P n
+lseq1 :: [[a]] -> [a]
+lseq1 = concat . C.flop
+
+inf :: Int
+inf = maxBound
+
+notes :: Num n => [n]
 notes =
-    let n = [prand' 'α' [pempty,toP [24,31,36,43,48,55]] inf
-            ,pflop [60,prand 'β' [63,65] inf,67,prand 'γ' [70,72,74] inf]
-            ,psplitPlaces (pwhite 'δ' 3 9 inf) (toP [74,75,77,79,81])]
-    in pjoin (pseq1 n inf)
+    let n = [P.rand' 'α' [[],[24,31,36,43,48,55]] inf
+            ,C.flop [[60],P.rand' 'β' [63,65] inf,[67],P.rand' 'γ' [70,72,74] inf]
+            ,[P.rand' 'a' [74,75,77,79,81] 3]]
+    in concat (lseq1 n)
 
 main :: IO ()
 main = do
   i <- spe3_allpass6
-  paudition (pbind [(K_instr,psynth i),(K_freq,fmap midiCPS notes),(K_dur,0.13)])
+  audition (P.sbind1 (i,[("freq",map midiCPS notes),("dur",repeat 0.13)]))

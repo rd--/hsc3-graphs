@@ -3,7 +3,8 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import Sound.SC3.Lang.Collection.Numerical.Truncating () {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 chain :: a -> [a -> a] -> a
 chain n c =
@@ -32,24 +33,25 @@ ping =
                            in s * envGen AR 1 1 0 1 RemoveSynth e]
     in out (k "out" 0) (r * mce2 a a)
 
-pattern :: [P_Bind]
+pattern :: P.Param
 pattern =
-    let o = prand 'ζ' [6,7] inf
-    in [(K_instr,psynth (synthdef "ping" ping))
-       ,(K_octave,o)
-       ,(K_degree,place [[0,1,2,3,4]
+    let octave = P.rand 'ζ' [6,7]
+        degree = P.lace [[0,1,2,3,4]
                         ,[2,3,4,5,6]
                         ,[4,3,4,3,6,7]
-                        ,[0,2,1,2,1,4,3,3,5]] inf)
-       ,(K_detune,pwhite 'η' (-2) 2 inf)
-       ,(K_param "attack",pwhite 'λ' 0.0005 0.001 inf)
-       ,(K_sustain,(o / 4) + pwhite 'μ' 0.01 0.5 inf)
-       ,(K_param "ffreq",pwhite 'ν' 200 2000 inf)
-       ,(K_param "famt",pwhite 'ξ' 3 6 inf)
-       ,(K_param "hdur",pwhite 'ο' 0.05 0.3 inf)
-       ,(K_param "impdecay",pwhite 'π' 0.001 0.01 inf)
-       ,(K_amp,pwhite 'κ' 0.01 0.1 inf * 0.3)
-       ,(K_dur,prand 'θ' [0.5,1,2] inf + pwhite 'ι' (-0.1) 0.1 inf)]
+                        ,[0,2,1,2,1,4,3,3,5]]
+        detune = P.white 'η' (-2) 2
+        to_cps = P.degree_to_cps [0,2,4,5,7,9,11] 12
+        freq = zipWith to_cps degree octave + detune
+    in [("freq",freq)
+       ,("attack",P.white 'λ' 0.0005 0.001)
+       ,("sustain",(octave / 4) + P.white 'μ' 0.01 0.5)
+       ,("ffreq",P.white 'ν' 200 2000)
+       ,("famt",P.white 'ξ' 3 6)
+       ,("hdur",P.white 'ο' 0.05 0.3)
+       ,("impdecay",P.white 'π' 0.001 0.01)
+       ,("amp",P.white 'κ' 0.01 0.1 * 0.3)
+       ,("dur",P.rand 'θ' [0.5,1,2] + P.white 'ι' (-0.1) 0.1)]
 
 amplitude_mod :: (ID a, Enum a) => a -> UGen -> UGen
 amplitude_mod z i =
@@ -69,6 +71,7 @@ post nm nc b f = do
 
 main :: IO ()
 main = do
+  let sy = synthdef "ping" ping
   withSC3 (do post "amplitude_mod" 2 0 (amplitude_mod 'ρ')
               post "limiting" 2 0 limiting)
-  paudition (pbind pattern)
+  audition (P.sbind1 (sy,pattern))
