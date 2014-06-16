@@ -5,7 +5,7 @@ import Data.List {- base -}
 import Sound.Analysis.SHARC {- hsharc -}
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import Sound.SC3.Lang.Pattern {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 type R = Double
 type R3 = (R,R,R)
@@ -56,25 +56,23 @@ vla_plyr n =
 plyr36 :: Synthdef
 plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
 
--- retained as comparison to vla-addtn
-pattern :: [P_Bind]
+pattern :: P.Param
 pattern =
-    [(K_instr,pinstr "plyr36")
-    ,(K_param "loc",pwhite 'δ' (-1) 1 inf)
-    ,(K_amp,pwhite 'ε' 0.05 0.1 inf)
-    ,(K_degree,prand 'ζ' [0,1,2,3,4,5,6,7,8] inf)
-    ,(K_octave,prand 'η' [2,3] inf)
-    ,(K_param "dt",pwhite 'θ' 0.001 0.005 inf)
-    ,(K_param "rise",pwhite 'ι' 1 2 inf)
-    ,(K_param "fall",pwhite 'κ' 4 7 inf)
-    ,(K_dur,prand 'λ' [3,5] inf)]
+    let to_cps = P.degree_to_cps' [0,2,4,5,7,9,11] 12
+    in [("loc",P.white 'α' (-1) 1)
+       ,("amp",P.white 'β' 0.05 0.1)
+       ,("freq",to_cps (P.rand 'γ' [0,1,2,3,4,5,6,7,8]) (P.rand 'δ' [1,2]))
+       ,("dt",P.white 'ε' 0.001 0.005)
+       ,("rise",P.white 'ζ' 1 2)
+       ,("fall",P.white 'η' 4 7)
+       ,("dur",repeat 5)]
 
 act :: Transport m => FilePath -> m ()
 act fn = do
   v <- vla fn
   _ <- async (b_alloc_setn1 0 0 (vla_prep v))
   _ <- async (d_recv plyr36)
-  pplay (pbind pattern)
+  play (P.sbind1 (plyr36,pattern))
 
 main :: IO ()
 main = withSC3 (act "/home/rohan/data/sharc/sharc.xml")

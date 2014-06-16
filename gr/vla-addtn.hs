@@ -3,6 +3,43 @@
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
+-- fr = freq,dt = detune
+vla_partial :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+vla_partial b fr rise fall dt n =
+    let m = n * 2
+        ampl = bufRdN 1 KR b m NoLoop
+        ph = bufRdN 1 KR b (m + 1) NoLoop
+        o = let dt' = lfNoise1 'α' KR 1 * dt + 1.0
+            in fSinOsc AR (fr * (n + 1) * dt') ph
+        e = linen (impulse KR 0 0)
+                  (rise * rand 'β' 0.75 1.25)
+                  ampl
+                  (fall * rand 'γ' 0.75 1.25)
+                  DoNothing
+    in o * e
+
+vla_plyr :: UGen -> UGen -> UGen
+vla_plyr b n =
+    let fr = midiCPS (rand 'α' 10 30)
+        rise = rand 'β' 1 2
+        fall = rand 'γ' 4 7
+        dt = rand 'δ' 0.001 0.005
+        a = rand 'ε' 0.05 0.1
+        l = rand 'ζ' (-1) 1
+        s = sum (map (vla_partial b fr rise fall dt) [0 .. n - 1])
+        e = detectSilence s 0.001 0.2 RemoveSynth
+    in mrg2 (pan2 s l a) e
+
+plyr36 :: UGen
+plyr36 =
+    let p_prep (a,p) = (dbAmp a,p)
+        unp (i,j) = [i,j]
+        b = asLocalBuf 'α' (concatMap (unp . p_prep) vla)
+    in vla_plyr b 36
+
+main :: IO ()
+main = spawnTextureU (const 3,maxBound) plyr36
+
 vla :: Fractional n => [(n,n)]
 vla =
     [(-49.43290,1.99165)
@@ -81,40 +118,3 @@ vla =
     ,(-81.89010,3.12971)
     ,(-80.18220,1.76888)
     ,(-82.94420,2.77531)]
-
--- fr = freq,dt = detune
-vla_partial :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-vla_partial b fr rise fall dt n =
-    let m = n * 2
-        ampl = bufRdN 1 KR b m NoLoop
-        ph = bufRdN 1 KR b (m + 1) NoLoop
-        o = let dt' = lfNoise1 'α' KR 1 * dt + 1.0
-            in fSinOsc AR (fr * (n + 1) * dt') ph
-        e = linen (impulse KR 0 0)
-                  (rise * rand 'β' 0.75 1.25)
-                  ampl
-                  (fall * rand 'γ' 0.75 1.25)
-                  DoNothing
-    in o * e
-
-vla_plyr :: UGen -> UGen -> UGen
-vla_plyr b n =
-    let fr = midiCPS (rand 'α' 10 30)
-        rise = rand 'β' 1 2
-        fall = rand 'γ' 4 7
-        dt = rand 'δ' 0.001 0.005
-        a = rand 'ε' 0.05 0.1
-        l = rand 'ζ' (-1) 1
-        s = sum (map (vla_partial b fr rise fall dt) [0 .. n - 1])
-        e = detectSilence s 0.001 0.2 RemoveSynth
-    in mrg2 (pan2 s l a) e
-
-plyr36 :: UGen
-plyr36 =
-    let p_prep (a,p) = (dbAmp a,p)
-        unp (i,j) = [i,j]
-        b = asLocalBuf 'α' (concatMap (unp . p_prep) vla)
-    in vla_plyr b 36
-
-main :: IO ()
-main = spawnTextureU (const 3,maxBound) plyr36
