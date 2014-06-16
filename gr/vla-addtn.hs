@@ -1,13 +1,9 @@
 -- vla-adttn (rd)
 
-import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
-import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
+import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
-type R = Double
-type R2 = (R,R)
-
-vla :: [R2]
+vla :: Fractional n => [(n,n)]
 vla =
     [(-49.43290,1.99165)
     ,(0.00000,1.09187)
@@ -86,21 +82,12 @@ vla =
     ,(-80.18220,1.76888)
     ,(-82.94420,2.77531)]
 
-p_prep :: R2 -> R2
-p_prep (a,p) = (dbAmp a,p)
-
-unp :: R2 -> [R]
-unp (i,j) = [i,j]
-
-vla_prep :: [R]
-vla_prep = concatMap (unp . p_prep) vla
-
 -- fr = freq,dt = detune
-vla_partial :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-vla_partial fr rise fall dt n =
+vla_partial :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+vla_partial b fr rise fall dt n =
     let m = n * 2
-        ampl = bufRdN 1 KR 0 m NoLoop
-        ph = bufRdN 1 KR 0 (m + 1) NoLoop
+        ampl = bufRdN 1 KR b m NoLoop
+        ph = bufRdN 1 KR b (m + 1) NoLoop
         o = let dt' = lfNoise1 'α' KR 1 * dt + 1.0
             in fSinOsc AR (fr * (n + 1) * dt') ph
         e = linen (impulse KR 0 0)
@@ -110,36 +97,24 @@ vla_partial fr rise fall dt n =
                   DoNothing
     in o * e
 
-vla_plyr :: UGen -> UGen
-vla_plyr n =
-    let a = control KR "amp" 0.1
-        f = control KR "freq" 129.897
-        rs = control KR "rise" 0.1
-        fa = control KR "fall" 0.5
-        l = control KR "loc" 0.0
-        dt = control KR "dt" 0.001
-        s = sum (map (vla_partial f rs fa dt) [0 .. n - 1])
+vla_plyr :: UGen -> UGen -> UGen
+vla_plyr b n =
+    let fr = midiCPS (rand 'α' 10 30)
+        rise = rand 'β' 1 2
+        fall = rand 'γ' 4 7
+        dt = rand 'δ' 0.001 0.005
+        a = rand 'ε' 0.05 0.1
+        l = rand 'ζ' (-1) 1
+        s = sum (map (vla_partial b fr rise fall dt) [0 .. n - 1])
         e = detectSilence s 0.001 0.2 RemoveSynth
     in mrg2 (pan2 s l a) e
 
-plyr36 :: Synthdef
-plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))
-
-pattern :: P.Param
-pattern =
-    let to_cps = P.degree_to_cps' [0,2,4,5,7,9,11] 12
-    in [("loc",P.white 'δ' (-1) 1)
-       ,("amp",P.white 'ε' 0.05 0.1)
-       ,("freq",to_cps (P.rand 'ζ' [0,1,2,3,4,5,6,7,8]) (P.rand 'η' [1,2]))
-       ,("dt",P.white 'θ' 0.001 0.005)
-       ,("rise",P.white 'ι' 1 2)
-       ,("fall",P.white 'κ' 4 7)
-       ,("dur",repeat 5)]
-
-act :: Transport m => m ()
-act = do
-  _ <- async (b_alloc_setn1 0 0 vla_prep)
-  play (P.sbind1 (plyr36,pattern))
+plyr36 :: UGen
+plyr36 =
+    let p_prep (a,p) = (dbAmp a,p)
+        unp (i,j) = [i,j]
+        b = asLocalBuf 'α' (concatMap (unp . p_prep) vla)
+    in vla_plyr b 36
 
 main :: IO ()
-main = withSC3 act
+main = spawnTextureU (const 3,maxBound) plyr36
