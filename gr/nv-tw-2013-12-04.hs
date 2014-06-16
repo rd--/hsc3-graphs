@@ -1,6 +1,6 @@
 -- https://twitter.com/headcube/status/408145586970324992 (nv)
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 mean :: Fractional a => [a] -> a
 mean l = sum l / fromIntegral (length l)

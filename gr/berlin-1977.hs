@@ -1,6 +1,6 @@
 -- berlin 1977 (jmcc) #4
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 -- Somewhat akin to SC2 Sequencer.
 sequ :: ID i => i -> [UGen] -> UGen -> UGen

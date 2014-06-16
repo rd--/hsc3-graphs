@@ -1,6 +1,6 @@
 -- analogue daze (jmcc) #3
 
-import Sound.SC3.ID
+import Sound.SC3.ID {- hsc3 -}
 
 analogue_daze :: UGen
 analogue_daze =

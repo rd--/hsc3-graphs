@@ -1,4 +1,6 @@
-{- http://create.ucsb.edu/pipermail/sc-users/2003-March/002807.html (jmcc)
+-- http://create.ucsb.edu/pipermail/sc-users/2003-March/002807.html (jmcc)
+
+{-
 
 This simple graph tests the topological sort of the unit generator
 graph, it ought only to use a minimal number of interconnect buffers.

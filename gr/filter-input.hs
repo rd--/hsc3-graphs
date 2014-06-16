@@ -1,6 +1,6 @@
 -- filter input (jmcc) #5
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 filter_input :: UGen
 filter_input =

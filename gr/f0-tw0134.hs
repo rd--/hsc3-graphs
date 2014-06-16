@@ -1,7 +1,7 @@
 -- http://sccode.org/1-4Qy (f0)
 -- scsynth -u 57110 -w 512
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 mean :: Fractional a => [a] -> a
 mean l = sum l / fromIntegral (length l)

@@ -1,6 +1,6 @@
 -- ring modulate input (jmcc) #5
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 ring_modulate_input :: UGen
 ring_modulate_input =

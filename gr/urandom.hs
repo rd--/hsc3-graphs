@@ -3,7 +3,7 @@
 import Control.Monad {- base -}
 import qualified Data.ByteString.Lazy as B {- bytestring -}
 import Data.Int {- base -}
-import Data.Binary {- base -}
+import Data.Binary {- binary -}
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import System.IO {- base -}
