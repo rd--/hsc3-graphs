@@ -13,4 +13,4 @@ coolant =
     in klank s 1 0 1 (mceTranspose sp)
 
 main :: IO ()
-main = xfadeTextureU (4,4,maxBound) coolant
+main = overlapTextureU (4,4,2,maxBound) coolant
