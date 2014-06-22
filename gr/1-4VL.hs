@@ -2,7 +2,7 @@
 
 import Sound.SC3.ID {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import System.Random {- random -}
+import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 
 tb_freq :: [UGen]
 tb_freq =
@@ -79,8 +79,5 @@ bell_2 =
         frq = lchoose 'β' [240, 360 .. 2000]
     in prayer_bell exc frq 1 10 RemoveSynth
 
-random_r :: Random t => Int -> (t, t) -> t
-random_r n r = let (x,_) = randomR r (mkStdGen n) in x
-
 main :: IO ()
-main = spawnTextureU (\i -> random_r i (1/3,9),maxBound) (lchoose 'α' [bell_1,bell_2])
+main = spawnTextureU (\i -> R.rrand i (1/3) 9,maxBound) (lchoose 'α' [bell_1,bell_2])

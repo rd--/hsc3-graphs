@@ -1,10 +1,10 @@
-// bouncing lightbulbs, pencils, cans, and other assorted objects (jmcc) #2
+// bouncing objects (jmcc) #2
 
 "/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
 
 ~spawn.({
     // impulses trigger decay envelope
-    var imp_frq = XLine.kr(5 + 2.0.rand2, 600, 4); // accellerating frequency
+    var imp_frq = XLine.kr(5 + 2.0.rand2, 600, 4); // accelerating frequency
     var imp_amp = XLine.kr(0.09, 0.000009, 4); // decaying impulse amplitude
     var imp = Impulse.ar(imp_frq,0,imp_amp);
     // decays excite filter bank
@@ -20,3 +20,5 @@
     var e = Env([1, 1, 0],[3, 0.001]);
     loc * EnvGen.kr(e,doneAction:2);
 }, nextTime: { 0.6 + 0.6.rand });
+
+// lightbulbs, pencils, cans, and other assorted objects
