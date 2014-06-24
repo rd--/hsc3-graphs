@@ -12,6 +12,7 @@ tap nc b dt = playBuf nc AR b 1 0 (dt * (- sampleRate)) Loop DoNothing
 
 type State = (UGen,Double)
 
+-- > u <- feedr (mce2 0 1,6) 18
 feedr :: (UId m) => State -> Int -> m UGen
 feedr (ch,dl) n = do
   t <- sequence (replicate n (rand 0.0 (constant dl)))
@@ -31,6 +32,6 @@ run (ch,dl) fd = do
   audition =<< feedr (ch,dl) 18
 
 main :: IO ()
-main = withSC3 (run (mce2 4 5,6))
+main = withSC3 (run (mce2 0 1,6))
 
 -- withSC3 (\fd -> send fd (b_zero 10))
