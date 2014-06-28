@@ -2,6 +2,10 @@
 
 import Sound.SC3 {- hsc3 -}
 
+-- > putStrLn$synthstat analog_bubbles
+-- > let g = synthdef_to_graphdef (synthdef "analog-bubbles" (out 0 analog_bubbles))
+-- > import qualified Sound.SC3.Server.Graphdef as G
+-- > putStrLn$G.graphdef_stat g
 analog_bubbles :: UGen
 analog_bubbles =
   let o = lfSaw KR (mce2 8 7.23) 0 * 3 + 80

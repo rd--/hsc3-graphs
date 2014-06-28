@@ -12,12 +12,12 @@ nrec n f st = if n > 0 then nrec (n - 1) f (f st) else st
 pmwsb :: UGen
 pmwsb =
     let x = mouseX KR 100 6000 Exponential 0.2 -- random freq of new events
-	y = mouseY KR 0 2 Linear 0.2 -- modulation index
+        y = mouseY KR 0 2 Linear 0.2 -- modulation index
         o (e,a) = let f = rand e 0 x
                   in (succ e,fSinOsc AR (mce [f,f + rand2 'α' 1]) 0 * y + a)
         (_,ph) = nrec 3 o ('β',0)
-        f = rand 'γ' 0 x
-    in sinOsc AR (mce [f, f + rand2 'δ' 1]) ph * 0.1
+        freq = rand 'γ' 0 x
+    in sinOsc AR (mce [freq, freq + rand2 'δ' 1]) ph * 0.1
 
 main :: IO ()
 main = overlapTextureU (4,4,4,maxBound) pmwsb
