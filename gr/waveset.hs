@@ -1,4 +1,5 @@
 -- A simple waveset synthesiser (adc)
+{-# OPTIONS_GHC -F -pgmF hsc3-uparam #-}
 
 import qualified Data.Array as A {- array -}
 import Data.List {- base -}
@@ -57,18 +58,12 @@ zc_to_ws =
 -- | A trivial waveset instrument with unit envelope.
 waveset :: UGen
 waveset =
-    let o = control KR "bus" 0 -- output bus
-        b = control KR "bufnum" 0 -- buffer number
-        s = control KR "start" 0 -- start frame
-        e = control KR "end" 0 -- end frame
-        r = control KR "rate" 1 -- playback rate
-        d = control KR "sustain" 1 -- duration (in seconds, ie. (e - s) * r / sr)
-        a = control KR "amp" 0.2 -- linear amplitude scalar
-        rs = bufRateScale KR b * r
-        ph = phasor AR 0 rs 0 (e - s) 0 + s -- see adc for rationale
-        e_data = Envelope [a, a, 0] [d, 0] [EnvLin] Nothing Nothing
+    let uparam = {bus=0,bufnum=0,start=0,end=0,rate=1,sustain=1,amp=0.2}
+        rs = bufRateScale KR bufnum * rate
+        ph = phasor AR 0 rs 0 (end - start) 0 + start -- see adc for rationale
+        e_data = Envelope [amp, amp, 0] [sustain, 0] [EnvLin] Nothing Nothing
         e_ugen = envGen AR 1 1 0 1 RemoveSynth e_data
-    in offsetOut o (bufRdL 1 AR b ph Loop * e_ugen)
+    in offsetOut bus (bufRdL 1 AR bufnum ph Loop * e_ugen)
 
 -- * Waveset synthesizer
 

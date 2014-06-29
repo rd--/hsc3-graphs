@@ -1,4 +1,5 @@
 -- vlc-distrtn (rd)
+{-# OPTIONS_GHC -F -pgmF hsc3-uparam #-}
 -- caution - audio feedback graph
 
 import Sound.OSC {- hosc -}
@@ -19,14 +20,7 @@ partial b i freq detune fall n = do
 
 plyr :: UId m => UGen -> UGen -> m UGen
 plyr i n = do
-  let ctl = control KR
-      buf = ctl "buf" 0
-      iamp = ctl "iamp" 0.1
-      ampl = ctl "ampl" 0.1
-      freq = ctl "freq" 129.897
-      fall = ctl "fall" 0.5
-      loc = ctl "loc" 0.0
-      detune = ctl "detune" 0.001
+  let uparam = {buf=0,iamp=0.1,ampl=0.1,freq=129.897,fall=0.5,loc=0.0,detune=0.001}
   s <- mapM (partial buf (i * iamp) freq detune fall) [0 .. n-1]
   return (out 0 (clip2 (pan2 (sum s) loc ampl) 0.1))
 
@@ -63,7 +57,7 @@ run :: (Transport m,UId m) => m ()
 run = do
   _ <- async (b_alloc 0 (length vlc * 2) 1)
   send (b_setn1 0 0 (concatMap prep vlc))
-  let i = soundIn 4
+  let i = soundIn 0
   _ <- async . d_recv . synthdef "plyr48" =<< plyr i 48
   send (s_new "plyr48" 1002 AddToTail 1 [])
   sequence_ (replicate 32 pattern)

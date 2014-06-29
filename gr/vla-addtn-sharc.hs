@@ -1,4 +1,5 @@
 -- vla-adttn-sharc (rd)
+{-# OPTIONS_GHC -F -pgmF hsc3-uparam #-}
 -- http://www.timbre.ws/sharc/
 
 import Data.List {- base -}
@@ -43,15 +44,10 @@ vla_partial fr rise fall dt n =
 
 vla_plyr :: UGen -> UGen
 vla_plyr n =
-    let a = control KR "amp" 0.1
-        f = control KR "freq" 129.897
-        rs = control KR "rise" 0.1
-        fa = control KR "fall" 0.5
-        l = control KR "loc" 0.0
-        dt = control KR "dt" 0.001
-        s = sum (map (vla_partial f rs fa dt) [0 .. n - 1])
+    let uparam = {amp = 0.1,freq = 129.897,rise = 0.1,fall = 0.5,loc = 0,dt = 0.001}
+        s = sum (map (vla_partial freq rise fall dt) [0 .. n - 1])
         e = detectSilence s 0.001 0.2 RemoveSynth
-    in mrg2 (pan2 s l a) e
+    in mrg2 (pan2 s loc amp) e
 
 plyr36 :: Synthdef
 plyr36 = synthdef "plyr36" (out 0 (vla_plyr 36))

@@ -1,13 +1,14 @@
 -- adc-16-6-2 (adc) #p.489
-{-# OPTIONS_GHC -F -pgmF hsc3-psynth #-}
+{-# OPTIONS_GHC -F -pgmF hsc3-uparam #-}
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.List as L {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 constQ :: Synthdef
-constQ = psynth {bus=0, bufnum=0, amp=0.1, pan=0, centerPos=0.5, sustain=0.1, rate=1, freq=400, rq=0.3} where
-    let ringtime = min ((2.4 / (freq * rq)) * 0.66) 0.5 -- estimated
+constQ =
+    let uparam = {bus=0, bufnum=0, amp=0.1, pan=0, centerPos=0.5, sustain=0.1, rate=1, freq=400, rq=0.3}
+        ringtime = min ((2.4 / (freq * rq)) * 0.66) 0.5 -- estimated
         ampcomp = (rq ** (-1)) * ((400 / freq) ** 0.5)
         envSig = let env = envelope [0,amp,0] (map (* sustain) [0.5,0.5]) [EnvWelch]
                  in envGen AR 1 1 0 1 DoNothing env
@@ -16,7 +17,7 @@ constQ = psynth {bus=0, bufnum=0, amp=0.1, pan=0, centerPos=0.5, sustain=0.1, ra
         startPos = (centerPos - (sustain * rate * 0.5)) * bufSampleRate IR bufnum
         grain = playBuf 1 AR bufnum rate 0 startPos Loop DoNothing * envSig
         filtered = bpf grain freq rq * ampcomp
-    in offsetOut bus (pan2 filtered pan cutoffEnv)
+    in synthdef "constQ" (offsetOut bus (pan2 filtered pan cutoffEnv))
 
 p :: Double -> P.Param
 p b =
