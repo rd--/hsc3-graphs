@@ -18,5 +18,6 @@ birds = do
   w <- chainM 12 apf d
   return (d * 0.7 + w * 0.3)
 
+-- > birds >>= putStrLn . synthstat
 main :: IO ()
 main = audition . out 0 =<< birds

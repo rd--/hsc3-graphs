@@ -7,7 +7,7 @@ import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 constQ :: Synthdef
 constQ =
-    let uparam = {bus=0, bufnum=0, amp=0.1, pan=0, centerPos=0.5, sustain=0.1, rate=1, freq=400, rq=0.3}
+    let uparam = {bus=0,bufnum=0,amp=0.1,pan=0,centerPos=0.5,sustain=0.1,rate=1,freq=400,rq=0.3}
         ringtime = min ((2.4 / (freq * rq)) * 0.66) 0.5 -- estimated
         ampcomp = (rq ** (-1)) * ((400 / freq) ** 0.5)
         envSig = let env = envelope [0,amp,0] (map (* sustain) [0.5,0.5]) [EnvWelch]
