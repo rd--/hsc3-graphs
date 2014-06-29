@@ -1,24 +1,17 @@
 -- http://www.fredrikolofsson.com/f0blog/?q=node/488 (f0)
+{-# OPTIONS_GHC -F -pgmF hsc3-psynth #-}
 
 import Data.List.Split {- split -}
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Collection.Numerical.Truncating () {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
-sinuscell :: UGen
-sinuscell =
-    let ctl = control KR
-        b = ctl "out" 0
-        p = ctl "pan" 0
-        a = ctl "amp" 0.5
-        fre = ctl "fre" 400
-        atk = ctl "atk" 1
-        sus = ctl "sus" 0.2
-        rel = ctl "rel" 1
-        e_d = envLinen atk sus rel a
+sinuscell :: Synthdef
+sinuscell = psynth {bus=0,pan=0,amp=0.5,freq=400,atk=1,sus=0.2,rel=1} where
+    let e_d = envLinen atk sus rel amp
         e = envGen KR 1 0.1 0 1 RemoveSynth e_d
-        s = sinOsc AR fre 0
-    in out b (pan2 s p e)
+        s = sinOsc AR freq 0
+    in out bus (pan2 s pan e)
 
 pattern :: Enum e => (Double,[e]) -> (Synthdef,P.Param)
 pattern (c,z) =
@@ -27,11 +20,10 @@ pattern (c,z) =
           let a = P.white z0 0 1
               s = repeat 0.2
               r = P.white z1 0 1
-              i = synthdef "sinuscell" sinuscell
-          in (i
+          in (sinuscell
              ,[("dur",a + s + r)
               ,("amp",P.white z3 0 1)
-              ,("fre",P.white z2 0 1100)
+              ,("freq",P.white z2 0 1100)
               ,("atk",a)
               ,("sus",s)
               ,("rel",r)

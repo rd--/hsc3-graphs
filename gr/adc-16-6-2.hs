@@ -1,27 +1,22 @@
 -- adc-16-6-2 (adc) #p.489
+{-# OPTIONS_GHC -F -pgmF hsc3-psynth #-}
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.List as L {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
-constQ :: UGen
-constQ =
-    let k = control IR
-        bufnum = k "bufnum" 0
-        sustain = k "sustain" 0.1
-        rate = k "rate" 1
-        freq = k "freq" 400
-        rq = control KR "rq" 0.3
-        ringtime = min ((2.4 / (freq * rq)) * 0.66) 0.5 -- estimated
+constQ :: Synthdef
+constQ = psynth {bus=0, bufnum=0, amp=0.1, pan=0, centerPos=0.5, sustain=0.1, rate=1, freq=400, rq=0.3} where
+    let ringtime = min ((2.4 / (freq * rq)) * 0.66) 0.5 -- estimated
         ampcomp = (rq ** (-1)) * ((400 / freq) ** 0.5)
-        envSig = let env = envelope [0,k "amp" 0.1,0] (map (* sustain) [0.5,0.5]) [EnvWelch]
+        envSig = let env = envelope [0,amp,0] (map (* sustain) [0.5,0.5]) [EnvWelch]
                  in envGen AR 1 1 0 1 DoNothing env
         cutoffEnv = let env = envelope [1,1,0] [sustain + ringtime,0.01] [EnvLin]
                     in envGen KR 1 1 0 1 RemoveSynth env
-        startPos = (k "centerPos" 0.5 - (sustain * rate * 0.5)) * bufSampleRate IR bufnum
+        startPos = (centerPos - (sustain * rate * 0.5)) * bufSampleRate IR bufnum
         grain = playBuf 1 AR bufnum rate 0 startPos Loop DoNothing * envSig
         filtered = bpf grain freq rq * ampcomp
-    in offsetOut (k "out" 0) (pan2 filtered (k "pan" 0) cutoffEnv)
+    in offsetOut bus (pan2 filtered pan cutoffEnv)
 
 p :: Double -> P.Param
 p b =
@@ -50,6 +45,5 @@ p' b =
 main :: IO ()
 main = withSC3$do
   let fn = "/home/rohan/opt/share/SuperCollider/sounds/a11wlk01-44_1.aiff"
-      sy = synthdef "constQ" constQ
   _ <- async (b_allocRead 0 fn 0 0)
-  play (P.sbind [(sy,p 0),(sy,p' 0)])
+  play (P.sbind [(constQ,p 0),(constQ,p' 0)])

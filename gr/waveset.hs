@@ -1,4 +1,4 @@
--- A simple waveset synthesiser (rd)
+-- A simple waveset synthesiser (adc)
 
 import qualified Data.Array as A {- array -}
 import Data.List {- base -}
@@ -57,14 +57,13 @@ zc_to_ws =
 -- | A trivial waveset instrument with unit envelope.
 waveset :: UGen
 waveset =
-    let k = control KR
-        o = k "out" 0 -- output bus
-        b = k "bufnum" 0 -- buffer number
-        s = k "start" 0 -- start frame
-        e = k "end" 0 -- end frame
-        r = k "rate" 1 -- playback rate
-        d = k "sustain" 1 -- duration (in seconds, ie. (e - s) * r / sr)
-        a = k "amp" 0.2 -- linear amplitude scalar
+    let o = control KR "bus" 0 -- output bus
+        b = control KR "bufnum" 0 -- buffer number
+        s = control KR "start" 0 -- start frame
+        e = control KR "end" 0 -- end frame
+        r = control KR "rate" 1 -- playback rate
+        d = control KR "sustain" 1 -- duration (in seconds, ie. (e - s) * r / sr)
+        a = control KR "amp" 0.2 -- linear amplitude scalar
         rs = bufRateScale KR b * r
         ph = phasor AR 0 rs 0 (e - s) 0 + s -- see adc for rationale
         e_data = Envelope [a, a, 0] [d, 0] [EnvLin] Nothing Nothing

@@ -1,4 +1,5 @@
 -- thb (rd)
+{-# OPTIONS_GHC -F -pgmF hsc3-psynth #-}
 
 import Data.List {- base -}
 
@@ -159,15 +160,11 @@ ph = concatMap (map cim) gen_c_hb_m_cache'
 --
 -- > audition ins_s
 ins_s :: Synthdef
-ins_s =
-    let f = control IR "freq" 440
-        l = control IR "loc" 0
-        a = control IR "amp" 0.1
-        d = control IR "sustain" 0.1
-        s = envSine d a
+ins_s = psynth {bus = 0,freq = 440,loc = 0,amp = 0.1,sustain = 0.1} where
+    let s = envSine sustain amp
         e = envGen AR 1 1 0 1 RemoveSynth s
-        i = impulse AR f 0
-    in synthdef "ins" (out 0 (pan2 i l e))
+        i = impulse AR freq 0
+    in out bus (pan2 i loc e)
 
 -- | 'audition' 'ph' using pattern library.  /blur/ is @legato@.
 --
