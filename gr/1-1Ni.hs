@@ -1,7 +1,7 @@
 -- http://sccode.org/1-1Ni
 
 import Control.Concurrent {- base -}
-import Control.Monad
+import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
 
@@ -11,7 +11,7 @@ scr h n f d =
         o z = sinOsc AR (expRand z h0 h1) 0 * 0.2
         m = mce (map o (take n ['α'..]))
         e = lfGauss AR d (1/4) 0 NoLoop RemoveSynth
-    in splay (m * e) 1 0.1 0 True
+    in splay (m * e) 1 0.25 0 True
 
 -- > audition (b 12)
 -- > Sound.SC3.UGen.Dot.draw (b 8)
