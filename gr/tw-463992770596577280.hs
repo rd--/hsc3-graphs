@@ -13,4 +13,4 @@ g :: UGen
 g = uclone 'α' 2 (sum (map f [0 .. 23]))
 
 main :: IO ()
-main = overlapTextureU (50,25,4,maxBound) g
+main = overlapTextureU (60,15,3,maxBound) g
