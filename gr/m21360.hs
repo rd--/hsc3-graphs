@@ -2,6 +2,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3.UGen.External {- hsc3 -}
 
 -- > withSC3 (reset >> init_b [0,1])
 init_b :: Transport m => [Int] -> m ()
