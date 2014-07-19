@@ -5,4 +5,4 @@
 ;var n = BrownNoise.ar(a)
 ;var z = {|i| [i + 1 * f,i * f + (i + 1 / 3)]}
 ;var o = LFPar.ar(z ! 4,0)
-;Splay.ar((o > n) / 3)}.play
+;Splay.ar((o > n) / 3) * 0.1}.play

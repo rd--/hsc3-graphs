@@ -9,7 +9,7 @@ f0_0033 =
         n = uclone 'α' 4 (brownNoise 'α' AR) * a
         z i = mce2 (i + 1 * f) (i * f + (i + 1 / 3))
         o = lfPar AR (mce (map z [0..3])) 0
-    in out 0 (splay ((o >* n) / 3) 1 1 0 True)
+    in out 0 (splay ((o >* n) / 3) 1 1 0 True * 0.1)
 
 main :: IO ()
 main = audition f0_0033
