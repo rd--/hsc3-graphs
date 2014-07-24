@@ -47,6 +47,7 @@ entry st nm = do
   hs <- if use_html
         then hs_html st nm
         else hs_plain st nm
+  fs <- link hm (pr </> "gr" </> nm <.> "fs") "fs"
   scd <- if use_html
          then link hm (pr </> "html" </> nm <.> "scd.html") "scd"
          else link hm (pr </> "gr" </> nm <.> "scd") "scd"
@@ -60,7 +61,7 @@ entry st nm = do
          else return Nothing
   pdf <- link hm (pr </> "pdf" </> nm <.> "pdf") "pdf"
   svg <- link hm (pr </> "svg" </> nm <.> "svg") "svg"
-  let ln = intercalate "," (catMaybes (hs ++ [scd,scm,dot,pdf,svg]))
+  let ln = intercalate "," (catMaybes (hs ++ [fs,scd,scm,dot,pdf,svg]))
   return (printf "- %s [%s]" nm ln)
 
 -- > mk_ix ("/home/rohan","sw/hsc3-graphs",True,True)
