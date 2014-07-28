@@ -10,6 +10,8 @@
     n dt dt 4 CombL.ar { s }
     s ix 0.2 * 0.5 - 1 Pan2.ar ;
 
-: strs 52 0 str 57 1 str + 62 2 str + 67 3 str + 71 4 str + 76 5 str + ;
+: strs scale 0 6 0 do swap i str + loop ;
 
-strs play
+: gtr strs 12000 LPF.ar 0.995 LeakDC.ar ;
+
+gtr play
