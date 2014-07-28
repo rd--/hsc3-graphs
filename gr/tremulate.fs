@@ -5,8 +5,7 @@
 : l 0 1 Rand.ir 4 clone ;
 : tremulate o l a Pan2 mix ;
 : tremulates tremulate 0.5 2 3 inf overlap-texture ;
+: cmb 0 2 In.ar 0.1 0.1 1 CombN ;
 
-\ post-processing
-0 2 In.ar 0.1 0.1 1 CombN -1 add-to-tail 1 play-at
-
+cmb -1 add-to-tail 1 play-at \ post-processing
 tremulates
