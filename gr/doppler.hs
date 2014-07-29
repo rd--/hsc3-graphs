@@ -22,9 +22,14 @@ ellipse a b dt =
     let t = line KR (-pi/2) (pi * 3/2) dt RemoveSynth
     in (a * cos t,b * sin t)
 
+src :: UGen
+src = rlpf (fSinOsc AR 200 0 * lfPulse AR 31.3 0 0.4) 400 0.3
+
+d1 :: UGen
+d1 = doppler (line_x 10 100 6) src
+
+d2 :: UGen
+d2 = doppler (ellipse 10 75 12) src
+
 main :: IO ()
-main = do
-  let s = rlpf (fSinOsc AR 200 0 * lfPulse AR 31.3 0 0.4) 400 0.3
-  withSC3 (do play (out 0 (doppler (line_x 10 100 6) s))
-              wait 8
-              play (out 0 (doppler (ellipse 10 75 12) s)))
+main = withSC3 (play (out 0 d1) >> wait 8 >> play (out 0 d2))
