@@ -15,7 +15,7 @@ choip =
     let t = 12
         i = impulse AR (xl 'α' 'β' 1 30 t) 0
         f = xl 'γ' 'δ' 600 8000 t
-        a = sinOsc AR (decay2 i 0.05 0.5 * (-0.9 * f) + f) 0
+        a = sinOsc AR (decay2 i 0.05 0.5 * (-0.9) * f + f) 0
         l = line KR (r2 'ε' 1) (r2 'ζ' 1) t DoNothing
     in pan2 (decay2 (i * xl 'η' 'θ' 0.01 0.5 t) 0.01 0.2 * a) l 1
 
