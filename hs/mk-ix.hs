@@ -47,7 +47,9 @@ entry st nm = do
   hs <- if use_html
         then hs_html st nm
         else hs_plain st nm
-  fs <- link hm (pr </> "gr" </> nm <.> "fs") "fs"
+  fs <- if use_html
+        then link hm (pr </> "html" </> nm <.> "fsu.htm") "fs"
+        else link hm (pr </> "gr" </> nm <.> "fs") "fs"
   scd <- if use_html
          then link hm (pr </> "html" </> nm <.> "scd.html") "scd"
          else link hm (pr </> "gr" </> nm <.> "scd") "scd"

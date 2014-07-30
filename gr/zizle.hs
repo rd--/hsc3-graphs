@@ -9,8 +9,8 @@ twopi = 2 * pi
 rand2 :: ID a => a -> UGen -> UGen
 rand2 e n = rand e (-n) n
 
--- Sound.SC3.UGen.Dot.draw zizle
--- audition zizle
+-- > Sound.SC3.UGen.Dot.draw zizle
+-- > audition zizle
 zizle :: UGen
 zizle =
   let a e f = let fm = mce2 (rand 'α' 0.7 1.3) 1

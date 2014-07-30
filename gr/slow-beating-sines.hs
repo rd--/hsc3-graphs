@@ -20,6 +20,7 @@ r_harmonics' d m f = fmap ((f :)  . map (+ f)) (nrand2 (m - 1) d)
 r_phase :: (RandomGen g) => Int -> Rand g [Double]
 r_phase m = nrrand m 0 (2 * pi)
 
+-- > g <- fmap (fst . runRand (sbs 3 0.4 3)) getStdGen
 sbs :: (RandomGen g) => Int -> Double -> Int -> Rand g UGen
 sbs n d m = do
   f <- r_freq n

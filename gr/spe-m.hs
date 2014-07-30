@@ -1,8 +1,8 @@
--- spe (jmcc)
--- variant of graph in streams & patterns tutorial
+-- spe (jmcc)/(rd)
 
 import Sound.SC3.Monad {- hsc3 -}
 
+-- fmap (Sound.SC3.UGen.PP.ugen_graph_forth_pp False) spe
 spe :: UId m => m UGen
 spe = do
   let rapf i = do r <- clone 2 (rand 0 0.05)

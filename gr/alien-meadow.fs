@@ -14,6 +14,3 @@ alien-meadows
 
 \ 20 Rand 0 SinOsc.ar 5000 Rand * 0.1 * 5000 Rand + 0 SinOsc.ar
 \ -1 1 Rand.ir 20 Rand 0 SinOsc.ar 0.05 * 0.05 + Pan2.ar draw
-
-\ 0 20 0 uid Rand.ir 0 SinOsc.ar 0 5000 1 uid Rand.ir * 0.1 * 0 5000 1 uid Rand.ir + 0 SinOsc.ar
-\ -1 1 3 uid Rand.ir 0 20 2 uid Rand.ir 0 SinOsc.ar 0.05 * 0.05 + Pan2.ar
