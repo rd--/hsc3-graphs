@@ -18,6 +18,7 @@ blips_001 =
         o = blip_001 'ζ' * blip_001 'η'
     in (c * pan2 o (line KR (rand2 'θ' 1) (rand2 'ι' 1) 4 DoNothing) 0.3)
 
+-- > let g = blips_pp blips_001
 -- > audition (out 0 (blips_pp blips_001))
 blips_pp :: UGen -> UGen
 blips_pp z =
