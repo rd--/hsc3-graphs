@@ -1,7 +1,5 @@
 \ demanding studies (jmcc)
 
-: inf 9e8 ;
-
 5 13 1 0.2 MouseX.kr ( x )
 0 Impulse.kr ( tr )
 0 inf 72 75 79 82 4 mce Drand.dr ( s1 )

@@ -1,7 +1,8 @@
 \ bouncing objects (jmcc) #2
 
 : param 4 0 do 400 8400 Rand.ir 0 1 Rand.ir 0.01 0.11 Rand.ir loop 12 mce ;
-5 -2 2 Rand.ir + 600 4 0 XLine.kr 0 Impulse.ar 0.09 0.00001 4 0 XLine.kr * 0.001 Decay
+5 -2 2 Rand.ir + 600 4 0 XLine.kr 0 Impulse.ar
+0.09 0.00001 4 0 XLine.kr * 0.001 Decay
 1 0 1 param Klank.ar
 -1 1 Rand.ir 1 Pan2.ar
 1 1 0 1 2 1 2 -99 -99 1 3 1 0 0 0.001 1 0 12 mce EnvGen.kr *
