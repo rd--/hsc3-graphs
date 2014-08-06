@@ -7,7 +7,7 @@ import Sound.SC3.UGen.External.RDU.Monad {- sc3-rdu -}
 dark_sea_horns :: UId m => m UGen
 dark_sea_horns = do
   let n = lfNoise1
-  let x = localIn 2 AR
+  let x = localIn' 2 AR
   let a = tanh (sinOsc AR 65 (x * #(n AR 0.1) * 3) * #(n AR 3) * 6)
   let f i = do return (allpassN i 0.3 #(randN 2 0.1 0.3) 5)
   let o = tanh #(chainM 9 f a)

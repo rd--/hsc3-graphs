@@ -8,7 +8,7 @@ import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 fb_090531 :: UGen
 fb_090531 =
     let k_in n = linLin_b (in' 1 KR n)
-        p = localIn 1 AR
+        p = localIn' 1 AR
         bt = recip controlRate
         ig_f = k_in 0 1 20
         ig = impulse AR ig_f 0

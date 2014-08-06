@@ -28,7 +28,7 @@ tank_f :: UId m => UGen -> m UGen
 tank_f i = do
   r1 <- clone 2 (rand 0.01 0.05)
   r2 <- clone 2 (rand 0.03 0.15)
-  let l0 = localIn 2 AR * 0.98
+  let l0 = localIn' 2 AR * 0.98
       l1 = onePole l0 0.33
       [l1l,l1r] = mceChannels l1
       l2 = rotate2 l1l l1r 0.23
