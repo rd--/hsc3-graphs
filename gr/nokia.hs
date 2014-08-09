@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-psynth #-}
 -- partial...
 
-import Sound.SC3.ID hiding (decay,distort) {- hsc3 -}
+import Sound.SC3 hiding (decay,distort) {- hsc3 -}
 import Sound.SC3.Lang.Pattern hiding (freq) {- hsc3-lang -}
 
 grain :: Synthdef

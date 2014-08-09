@@ -1,7 +1,7 @@
 -- s-chirp (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 s_chirp :: UGen
 s_chirp =

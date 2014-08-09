@@ -1,6 +1,6 @@
 -- xy-interference (rd)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 xy_interference :: UGen
 xy_interference =
@@ -10,7 +10,7 @@ xy_interference =
                a = sinOsc AR (x + n) 0
                b = sinOsc AR y 0
            in a * b
-  in mix (uclone 'β' 3 nd)
+  in mix (uclone 'β' 3 nd) * 0.1
 
 main :: IO ()
 main = audition (out 0 xy_interference)

@@ -1,6 +1,6 @@
 -- https://www.listarc.bham.ac.uk/lists/sc-users/msg21341.html (mn)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 rng :: (UGen,UGen) -> UGen -> UGen
 rng (i,j) = range i j

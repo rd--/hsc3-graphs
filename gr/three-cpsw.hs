@@ -1,6 +1,6 @@
 -- three-cpsw (rd)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 three_cpsw :: UGen
 three_cpsw =

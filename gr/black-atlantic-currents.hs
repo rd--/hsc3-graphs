@@ -4,7 +4,7 @@ import Data.Numbers.Primes {- primes -}
 import System.Random {- random -}
 import System.Random.Shuffle {- random-shuffle -}
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 nth_prime :: Integral a => Int -> a
 nth_prime j = primes !! j

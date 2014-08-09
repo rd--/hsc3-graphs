@@ -1,6 +1,6 @@
 -- https://www.listarc.bham.ac.uk/lists/sc-users/msg14775.html
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 laser_bubble_f :: ID a => a -> UGen
 laser_bubble_f z =

@@ -1,6 +1,6 @@
 -- https://twitter.com/thormagnusson/status/463992770596577280
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 f :: Int -> UGen

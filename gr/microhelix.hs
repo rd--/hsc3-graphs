@@ -1,6 +1,6 @@
 -- Batuhan Bozkurt 2009 http://www.earslap.com
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 offset_id :: Enum a => Int -> a -> Int
 offset_id n e = n + fromEnum e

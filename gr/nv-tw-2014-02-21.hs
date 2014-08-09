@@ -1,7 +1,7 @@
 -- https://twitter.com/headcube/status/437094206767513600 (nv)
 -- requires -m at scsynth
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 x :: UGen
 x = impulse AR 0.05 0

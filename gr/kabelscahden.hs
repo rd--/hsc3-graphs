@@ -1,6 +1,6 @@
 -- march 2003 (adc) / (jrhb)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 kabelScahden :: UGen
 kabelScahden =

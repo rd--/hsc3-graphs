@@ -1,6 +1,6 @@
 -- k-ppr (rd)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 k_ppr :: UGen
 k_ppr =

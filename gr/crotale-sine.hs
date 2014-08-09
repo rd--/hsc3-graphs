@@ -1,6 +1,6 @@
 -- crotale-sine (rd)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 crotale_sine :: UGen

@@ -2,9 +2,10 @@
 -- http://www.obiwannabe.co.uk/tutorials/html/tutorial_birds.html
 -- perhaps some mis-translations...
 
+-- import Debug.Trace {- base -}
 import System.Random {- random -}
 
-import Sound.SC3.ID hiding (sweep) {- hsc3 -}
+import Sound.SC3 hiding (sweep) {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.Gen as R
 
@@ -24,9 +25,11 @@ pd_osc f = sinOsc AR f pi
 pd_phasor :: UGen -> UGen
 pd_phasor f = linLin_b (lfSaw AR f 0) 0 1
 
+-- | Ramp doesn't make sense with a constant input signal.
+--
 -- > audition (out 0 (pd_osc (pd_line (lfNoise0 'a' AR 0.5) 300 * 500 + 300) * 0.1))
 pd_line :: UGen -> UGen -> UGen
-pd_line x msec = ramp x (msec / 1000)
+pd_line x msec = if isConstant x then x else ramp x (msec / 1000)
 
 -- > audition (out 0 (pd_clip (pd_osc 220) (-0.05) 0.05))
 pd_clip :: UGen -> UGen -> UGen -> UGen
@@ -56,6 +59,7 @@ data B n = B {artic :: n
              ,tb2 :: n
              ,reson :: n
              ,vol :: n}
+         deriving (Show)
 
 square :: Num a => a -> a
 square n = n * n

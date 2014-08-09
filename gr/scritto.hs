@@ -2,7 +2,7 @@
 
 import Control.Monad
 import Sound.OSC {- hosc -}
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Data.Vowel as V {- hsc3-lang -}
 
 scritto_i :: UGen -> UGen

@@ -2,7 +2,7 @@
 
 import Control.Concurrent {- base -}
 import qualified Graphics.Rendering.Cairo as C {- cairo -}
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Cairo.Scope.Shell {- hsc3-cairo -}
 
 -- * Type
@@ -118,7 +118,7 @@ main = do
 
 {-
 
-import Sound.SC3.ID
+import Sound.SC3
 
 let s = saw AR (mouseX KR 20 800 Exponential 0.2)
 in audition (out 0 s)

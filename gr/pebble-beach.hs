@@ -2,7 +2,7 @@
 -- http://sccode.org/1-u
 -- requires 'scsynth -u 57110 -m 32768'
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 exprange :: UGen -> UGen -> UGen -> UGen
 exprange l r i = linExp i (-1) 1 l r

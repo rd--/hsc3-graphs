@@ -5,7 +5,7 @@ http://www.listarc.bham.ac.uk/lists/sc-users/msg47539.html
 http://www.listarc.bham.ac.uk/lists/sc-users/msg47540.html
 -}
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 lucier_wire :: UGen -> UGen
 lucier_wire freq =

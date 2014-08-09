@@ -1,6 +1,6 @@
 -- http://www.create.ucsb.edu/pipermail/sc-users/2007-August/035957.html
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 steam :: UGen -> UGen -> UGen -> UGen
 steam time n1 n2 =
