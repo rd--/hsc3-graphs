@@ -1,7 +1,7 @@
 -- tank (jmcc)
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 
 pling :: ID a => a -> UGen
@@ -29,7 +29,7 @@ tank_f :: ID z => z -> UGen -> UGen
 tank_f e i =
     let r1 = randN 2 e 0.01 0.05
         r2 = randN 2 e 0.03 0.15
-        l0 = localIn' 2 AR * 0.98
+        l0 = localIn 2 AR (mce2 0 0) * 0.98
         l1 = onePole l0 0.33
         (l1l,l1r) = mce2c l1
         l2 = rotate2 l1l l1r 0.23

@@ -1,14 +1,14 @@
 -- berlin 1977 (jmcc) #4
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 -- Somewhat akin to SC2 Sequencer.
-sequ :: ID i => i -> [UGen] -> UGen -> UGen
-sequ e s tr = demand tr 0 (dseq e dinf (mce s))
+sequ :: [UGen] -> UGen -> UGen
+sequ s tr = demand tr 0 (dseq dinf (mce s))
 
 -- Somewhat akin to SC2 Sequencer with random selection function as input.
-sequR :: ID i => i -> [UGen] -> UGen -> UGen
-sequR e s tr = demand tr 0 (dshuf e dinf (mce s))
+sequR :: [UGen] -> UGen -> UGen
+sequR s tr = demand tr 0 (dshuf dinf (mce s))
 
 berlin_1977 :: UGen
 berlin_1977 =
@@ -16,9 +16,9 @@ berlin_1977 =
         clock_time = 1 / clock_rate
         clock = impulse KR clock_rate 0 -- sequencer trigger
         patternList = [55,60,63,62,60,67,63,58];
-        note = sequ 'α' patternList clock -- midi note pattern sequencer
+        note = sequ patternList clock -- midi note pattern sequencer
         clock_16 = pulseDivider clock 16 0 -- divide clock by 16
-        note' = sequR 'β' [-12,-7,-5,0,2,5] clock_16 + note -- transpose somewhat randomly
+        note' = sequR [-12,-7,-5,0,2,5] clock_16 + note -- transpose somewhat randomly
         freq = midiCPS note' -- convert midi note to cycles per second
         env = decay2 clock (0.05 * clock_time) (2 * clock_time)
         amp = env * 0.1 + 0.02 -- amplitude envelope

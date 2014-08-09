@@ -1,6 +1,6 @@
 -- swept resonant noise (jmcc) #2
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 

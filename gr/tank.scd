@@ -27,4 +27,4 @@
             ;l7}
 ;var signal = Mix.fill(12, pling) + bang.()
 ;4.do({signal = r_allpass.(signal)})
-;tank.(signal)}.play
+;tank.(signal)}.draw

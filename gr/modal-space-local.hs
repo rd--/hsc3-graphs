@@ -1,6 +1,6 @@
 -- modal space, using local buffer (jmcc) #8
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 ms :: UGen -> UGen -> UGen
 ms n r =

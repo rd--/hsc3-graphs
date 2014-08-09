@@ -5,7 +5,7 @@ import Data.List
 import Data.List.Split {- split -}
 import qualified Data.Map as M {- containers -}
 import Sound.OSC.FD {- hosc -}
-import Sound.SC3.ID.FD {- hsc3 -}
+import Sound.SC3.FD {- hsc3 -}
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.Gen as R
 import System.Random {- random -}

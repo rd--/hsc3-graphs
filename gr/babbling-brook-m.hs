@@ -1,12 +1,12 @@
 -- babbling brook (jmcc) #SC3
 -- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 babbling_brook :: UId m => m UGen
 babbling_brook = do
-  let b f m a g = do n1 <- brownNoise AR
-                     n2 <- brownNoise AR
+  let b f m a g = do n1 <- brownNoiseM AR
+                     n2 <- brownNoiseM AR
                      let n3 = lpf n2 f * m + a
                          n4 = onePole n1 0.99
                      return (rhpf n4 n3 0.03 * g)

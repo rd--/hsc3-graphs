@@ -1,11 +1,11 @@
 -- analogue daze (jmcc) #3
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 analogue_daze :: UGen
 analogue_daze =
     let pattern = [55,63,60,63,57,65,62,65]
-        sequ k s tr = demand tr 0 (dseq k dinf (mce s))
+        sequ k s tr = demand tr 0 (dseq k inf (mce s))
         f k octave clockRate pwmrate fltrate =
             let trg = impulse KR clockRate 0
                 pattern' = map (midiCPS .  (+ (12 * octave))) pattern

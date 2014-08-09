@@ -1,6 +1,6 @@
 -- birds (jmcc)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 node :: UGen
 node =
@@ -13,8 +13,8 @@ node =
 birds :: UGen
 birds =
   let d = mix (uclone 'α' 6 node)
-      apf i = allpassL i 0.07 (rand 'β' 0 0.06) (rand 'γ' 0.7 2.0)
-      w = useq 'δ' 12 apf d
+      f i = allpassL i 0.07 (rand 'β' 0 0.06) (rand 'γ' 0.7 2.0)
+      w = useq 'δ' 12 f d
   in d * 0.7 + w * 0.3
 
 main :: IO ()

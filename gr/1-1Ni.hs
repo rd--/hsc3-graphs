@@ -3,7 +3,7 @@
 import Control.Concurrent {- base -}
 import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 scr :: (UGen -> (UGen,UGen)) -> Int -> UGen -> UGen -> UGen
 scr h n f d =

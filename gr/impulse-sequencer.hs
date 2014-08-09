@@ -1,6 +1,6 @@
 -- impulse sequencer (jmcc) SC2
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 isequ :: ID i => i -> [UGen] -> UGen -> UGen
 isequ z s tr = tr * demand tr 0 (dseq z dinf (mce s))

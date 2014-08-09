@@ -1,6 +1,6 @@
 -- eggcrate (rd)
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 atp :: (t -> u) -> (t,t) -> (u,u)
 atp f (i,j) = (f i,f j)
@@ -15,7 +15,7 @@ eggcrate =
       t = dust 'γ' KR 2.4
       (f0,f1) = atp (\z -> tChoose z t p) ('δ','ε')
       f = linLin_b (eggcrate_f x y) f0 f1
-      a = linLin _b x 0 0.1
+      a = linLin_b x 0 0.1
  in pan2 (mix (sinOsc AR f 0)) y a
 
 main :: IO ()

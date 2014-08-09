@@ -1,6 +1,6 @@
 -- phase modulation with slow beats (jmcc) #6
 
-import Sound.SC3.ID {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 rand2 :: ID a => a -> UGen -> UGen
