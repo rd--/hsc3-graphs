@@ -1,10 +1,11 @@
 -- rzblp-hp (rd)
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
 
 lfn :: UId m => UGen -> UGen -> UGen -> m UGen
-lfn f l r = fmap (range l r) (lfNoise0 KR f)
+lfn f l r = fmap (range l r) (lfNoise0M KR f)
 
 hpb :: UId m => UGen -> m UGen
 hpb q =
@@ -25,7 +26,7 @@ mk_f d = do
   return (sum [s1,s2,s3,s4])
 
 rzblp :: UId m => m UGen
-rzblp = mk_f drand .+. mk_f dxrand
+rzblp = mk_f drandM .+. mk_f dxrandM
 
 main :: IO ()
 main = audition . out 0 =<< rzblp

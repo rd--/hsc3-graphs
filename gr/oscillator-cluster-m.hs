@@ -1,24 +1,24 @@
 -- oscillator cluster (rd)
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 oscillator_cluster :: (Functor m,UId m) => m UGen
 oscillator_cluster = do
   let ln a b d = line KR a b d RemoveSynth
-      rln r a b d = fmap (\n -> ln (a + n) b d) (rand 0 r)
-      prt d a cf = do r1 <- rand cf (cf + 2)
+      rln r a b d = fmap (\n -> ln (a + n) b d) (randM 0 r)
+      prt d a cf = do r1 <- randM cf (cf + 2)
                       r2 <- rln 1 5 0.01 d
                       r3 <- rln 10 20 0 d
-                      r4 <- rand 0.1 0.2
+                      r4 <- randM 0.1 0.2
                       let f = mce2 cf r1 + sinOsc KR r2 0 * r3
                           o = fSinOsc AR f 0
                           e = decay2 (impulse AR 0 0) r4 d * a
                       return (o * e)
       np = 12
-      fp = sequence (replicate np (rand 220 660))
-  d <- rand 4 7
-  a <- rand 0.01 0.05
+      fp = sequence (replicate np (randM 220 660))
+  d <- randM 4 7
+  a <- randM 0.01 0.05
   fmap sum (mapM (prt d a) =<< fp)
 
 main :: IO ()

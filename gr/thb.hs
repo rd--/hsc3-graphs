@@ -7,7 +7,7 @@ import qualified Music.Theory.Contour.Polansky_1992 as T {- hmt -}
 import qualified Music.Theory.Pitch as T
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
 import Sound.OSC {- hosc -}
 
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}

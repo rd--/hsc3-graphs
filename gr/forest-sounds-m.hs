@@ -1,11 +1,11 @@
 -- sc-users, 2007-04-06 (pj) [paul jones]
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 insects :: UId m => m UGen
 insects = do
-  n1 <- brownNoise AR
-  n2 <- lfNoise2 KR 50
+  n1 <- brownNoiseM AR
+  n2 <- lfNoise2M KR 50
   let o = sinOsc KR (n2 * 50 + 50) 0 * 100 + 2000
   return (bpf n1 o 0.001 * 10)
 

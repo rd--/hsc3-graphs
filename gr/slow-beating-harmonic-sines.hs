@@ -4,7 +4,7 @@ import Control.Monad {- base -}
 import Control.Monad.Random {- MonadRandom -}
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import Sound.SC3.Lang.Random.Monad
+import Sound.SC3.Lang.Random.Monad as L {- hsc3-lang -}
 
 r_freq :: (RandomGen g) => Int -> Int -> Rand g [Double]
 r_freq k i = do
@@ -23,7 +23,7 @@ r_phase m = nrrand m 0 (2 * pi)
 
 sbhs :: (RandomGen g) => Int -> Double -> Int -> Rand g UGen
 sbhs n d m = do
-  k' <- rand 12
+  k' <- L.rand 12
   let k = 24 + k'
   f <- r_freq k n
   p_fr <- mapM (r_harmonics d m) f

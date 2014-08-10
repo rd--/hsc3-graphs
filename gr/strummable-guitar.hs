@@ -2,12 +2,13 @@
 
 import Sound.SC3 {- hsc3 -}
 
-str :: UGen -> UGen -> UGen
-str sc ix =
-    let x = mouseX KR 0 1 Linear 0.2
+str :: UGen -> Double -> UGen
+str sc ix' =
+    let ix = constant ix'
+        x = mouseX KR 0 1 Linear 0.2
         t = abs (hpz1 (x >* (0.25 + ix * 0.1)))
         e = decay t 0.05
-        n = pinkNoise ix AR * e
+        n = pinkNoise ix' AR * e
         dt = 1 / midiCPS sc
         s = combL n dt dt 4
     in pan2 s (ix * 0.2 - 0.5) 1

@@ -1,16 +1,16 @@
 -- synthetic piano (jmcc) #3
 
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 synthetic_piano :: UId m => m UGen
 synthetic_piano = do
-  n <- iRand 36 90
-  f <- rand 0.1 0.5
-  ph <- rand 0 (pi * 2)
+  n <- iRandM 36 90
+  f <- randM 0.1 0.5
+  ph <- randM 0 (pi * 2)
   let s = impulse AR f ph * 0.1
       e = decay2 s 0.008 0.04
-      c i = do n0 <- lfNoise2 AR 3000
+      c i = do n0 <- lfNoise2M AR 3000
                let o = [-0.05,0,0.04] !! i
                    dt = 1 / midiCPS (n + o)
                return (combL (n0 * e) dt dt 6)

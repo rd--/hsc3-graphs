@@ -1,10 +1,10 @@
 -- scratchy-m (jmcc) #1
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 scratchy :: UId m => m UGen
 scratchy = do
-  n <- clone 2 (brownNoise AR)
+  n <- clone 2 (brownNoiseM AR)
   let f = max (n * 0.5 - 0.49) 0 * 20
   return (rhpf f 5000 1)
 

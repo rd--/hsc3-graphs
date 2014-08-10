@@ -1,7 +1,7 @@
 -- bs-070705 (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 -- | One step in a bubble sort with specified /greater than/ function.
@@ -31,10 +31,10 @@ alloc_data n = do
 play_data :: (UId m,Transport m) => UGen -> m ()
 play_data r = do
   let inf_sc = 9e8
-  phase <- dseries inf_sc 0 1
-  f' <- dbufrd 10 phase Loop
-  a' <- dbufrd 11 phase Loop
-  p' <- dbufrd 12 phase Loop
+  phase <- dseriesM inf_sc 0 1
+  f' <- dbufrdM 10 phase Loop
+  a' <- dbufrdM 11 phase Loop
+  p' <- dbufrdM 12 phase Loop
   let tr = impulse AR r 0
       f'' = demand tr 0 f'
       a'' = demand tr 0 a'

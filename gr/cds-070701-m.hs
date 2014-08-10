@@ -7,7 +7,7 @@
 -- gives the time interval to step forward.
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 -- | Real
 type R = Double
@@ -67,11 +67,11 @@ load_data n (t,f,a,p) = do
 play_data :: IO ()
 play_data = do
   let inf_sc = 9e8
-  phase <- dseries inf_sc 0 1
-  t' <- dbufrd 10 phase Loop
-  f' <- dbufrd 11 phase Loop
-  a' <- dbufrd 12 phase Loop
-  p' <- dbufrd 13 phase Loop
+  phase <- dseriesM inf_sc 0 1
+  t' <- dbufrdM 10 phase Loop
+  f' <- dbufrdM 11 phase Loop
+  a' <- dbufrdM 12 phase Loop
+  p' <- dbufrdM 13 phase Loop
   let tr = tDuty AR t' 0 DoNothing 1 0
       f'' = demand tr 0 f'
       a'' = demand tr 0 a'

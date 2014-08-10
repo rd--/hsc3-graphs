@@ -1,13 +1,13 @@
 -- fwalk (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 fwalk' :: UId m => UGen -> m UGen
 fwalk' r = do
-  t <- dust KR 3
-  r1 <- tIRand 0 6 t
-  r2 <- tRand (-0.0001) 0.0001 t
+  t <- dustM KR 3
+  r1 <- tIRandM 0 6 t
+  r2 <- tRandM (-0.0001) 0.0001 t
   let f = bufRdL 1 KR (mce2 0 1) r1 NoLoop
       f' = f + r2
       o1 = blip AR (midiCPS (r + f)) 12

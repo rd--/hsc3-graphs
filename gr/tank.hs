@@ -2,7 +2,7 @@
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 pling :: ID a => a -> UGen
 pling e =

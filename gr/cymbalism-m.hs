@@ -1,19 +1,19 @@
 -- cymbalism (jmcc) #2
 
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 cymbalism :: (Functor m,UId m) => m UGen
 cymbalism = do
   let p = replicate 15
-  f1 <- rand 500 2500
-  f2 <- rand 0 8000
-  let y = do f <- sequence (p (rand f1 (f1 + f2)))
-             rt <- sequence (p (rand 1 5))
+  f1 <- randM 500 2500
+  f2 <- randM 0 8000
+  let y = do f <- sequence (p (randM f1 (f1 + f2)))
+             rt <- sequence (p (randM 1 5))
              return (klankSpec f (p 1) rt)
   z <- clone 2 y
-  n <- fmap (* 0.03) (whiteNoise AR)
-  tf <- rand 0.5 3.5
+  n <- fmap (* 0.03) (whiteNoiseM AR)
+  tf <- randM 0.5 3.5
   let t = impulse AR tf 0
       s = decay t 0.004 * n
   return (klank s 1 0 1 (mceTranspose z))

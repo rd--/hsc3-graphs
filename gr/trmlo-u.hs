@@ -1,7 +1,7 @@
 -- trmlo-u (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
+import qualified Sound.SC3.UGen.Unsafe as U {- hsc3-unsafe -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 -- > audition (out 0 trmlo)
@@ -17,30 +17,30 @@ trmlo =
                  n = 65
                  m = sinOsc KR f 0
              in pan2 (sinOsc AR (mWrp1 m n) 0) m e
-        o2 = let f = iRand 5 9
-                 d = iRand 5 9
-                 s = envSine d (rand 0.1 0.2)
+        o2 = let f = U.iRand 5 9
+                 d = U.iRand 5 9
+                 s = envSine d (U.rand 0.1 0.2)
                  e = envGen KR 1 1 0 1 DoNothing s
-                 n = iRand 69 72
+                 n = U.iRand 69 72
                  m = sinOsc KR f 0
              in pan2 (sinOsc AR (mWrp1 m n) 0) m e
-        o3 = let f = iRand 5 9
-                 d = iRand 9 12
-                 s = envSine d (rand 0.1 0.2)
+        o3 = let f = U.iRand 5 9
+                 d = U.iRand 9 12
+                 s = envSine d (U.rand 0.1 0.2)
                  e = envGen KR 1 1 0 1 DoNothing s
-                 n = iRand 69 72
+                 n = U.iRand 69 72
                  m = sinOsc KR f 0
-                 l = line KR 0 (iRand 1 5) d DoNothing
+                 l = line KR 0 (U.iRand 1 5) d DoNothing
              in pan2 (blip AR (mWrp1 m (n + l)) (linLin_b m 1 2)) m e
-        o4 = let f = iRand 5 18
-                 d = iRand 12 15
-                 s = envSine d (rand 0.1 0.2)
+        o4 = let f = U.iRand 5 18
+                 d = U.iRand 12 15
+                 s = envSine d (U.rand 0.1 0.2)
                  e = envGen KR 1 5e-2 0 1 DoNothing s
-                 n = iRand 69 72
+                 n = U.iRand 69 72
                  m = sinOsc KR f 0
-                 l = line KR 0 (iRand 1 5) d RemoveSynth
-                 fr = mWrpN m (n + l) (iRand 1 5)
-             in pan2 (blip AR fr (linLin_b m 1 (iRand 2 24))) m e
+                 l = line KR 0 (U.iRand 1 5) d RemoveSynth
+                 fr = mWrpN m (n + l) (U.iRand 1 5)
+             in pan2 (blip AR fr (linLin_b m 1 (U.iRand 2 24))) m e
     in o1 + o2 + o3 + o4
 
 main :: IO ()

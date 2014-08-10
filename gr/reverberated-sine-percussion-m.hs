@@ -1,6 +1,7 @@
 -- reverberated sine percussion (jmcc) #3
 
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
 
 reverberated_sine_percussion :: (Functor m,UId m) => m UGen
 reverberated_sine_percussion = do

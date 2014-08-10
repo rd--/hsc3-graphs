@@ -20,6 +20,7 @@ GRAPHS= 1-1Ni\
  analog-bubbles-mouse\
  analogue-daze\
  arpeggio\
+ babbling-brook\
  babbling-brook-m\
  berlin-1977\
  birdies\
@@ -78,12 +79,16 @@ GRAPHS= 1-1Ni\
  e-lamell-p\
  ellipse-based-synthesis\
  f0-2012-04-19\
+ f0-454598285861617665\
+ f0-456384156159574016\
  f0-tw0011\
  f0-tw0014\
  f0-tw0020\
+ f0-tw0026\
  f0-tw0028\
  f0-tw0030\
  f0-tw0033\
+ f0-tw0041\
  f0-tw0045\
  f0-tw0049\
  f0-tw0051\
@@ -114,6 +119,7 @@ GRAPHS= 1-1Ni\
  hell-is-busy\
  hh-808\
  implosion-m\
+ impulse-sequencer\
  insects-m\
  jl-1-Z\
  jr-100515\

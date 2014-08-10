@@ -1,15 +1,16 @@
 -- spe-p (jmcc)
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.List as P {- hsc3-lang -}
 
 spe3_allpass6 :: UId m => m Synthdef
 spe3_allpass6 = do
-  n <- lfNoise1 KR 1
+  n <- lfNoise1M KR 1
   let fr = control KR "freq" 440
-      rapf i = do r <- clone 2 (rand 0 0.05)
+      rapf i = do r <- clone 2 (randM 0 0.05)
                   return (allpassN i 0.05 r 4)
       e = envGen KR 1 0.1 0 1 RemoveSynth (envPerc 0.1 1)
       rq = midiCPS (n * 36 + 110)

@@ -3,7 +3,7 @@
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
 import Sound.SC3.Lang.Control.OverlapTexture
-import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 import qualified System.Random as R {- random -}
 
 m1 :: UGen
@@ -28,29 +28,30 @@ m3 =
     let f = midiCPS (rand 'λ' 60 100)
     in fSinOsc AR (mce2 f (f + 0.2)) 0 * lfNoise2 'μ' KR (f * mce2 0.15 0.16) * 0.1
 
+id_seq :: Enum a => a -> Int -> [Int]
+id_seq c n = let c' = fromEnum c in [c' .. c' + n - 1]
+
 -- audition (out 0 m4)
 m4 :: UGen
 m4 =
     let a = lfPulse KR (expRand 'ν' 0.2 1.2) 0 (rand 'ξ' 0.1 0.2)
-        o i = let r = let (p,q) = mce2c (expRandN 2 i 0.1 20)
+        o z = let i = constant z
+                  r = let (p,q) = mce2c (expRandN 2 z 0.1 20)
                       in xLine KR p q 25.6 DoNothing
-                  f = midiCPS (rand i 24 96)
-                  e = max 0 (sinOsc KR (r * rand i 0.9 1.1) (rand i 0 (2 * pi)) * 0.1 - 0.05)
+                  f = midiCPS (rand z 24 96)
+                  e = max 0 (sinOsc KR (r * rand z 0.9 1.1) (rand z 0 (2 * pi)) * 0.1 - 0.05)
                   s = fSinOsc AR (f * i + f) 0 * e * (1 / (i + 1))
-              in pan2 s (rand i (-1) 1) 1
-    in sum (map o [0..11]) * a
+              in pan2 s (rand z (-1) 1) 1
+    in sum (map o (id_seq 0 12)) * a
 
 -- audition (out 0 (m6 * 0.5))
 m6 :: UGen
 m6 =
-    let f = midiCPS (lfNoise1 'ο' KR (rand 'π' 0 0.3) * 60 + 70)
-        a0 = lfNoise2 'ρ' AR (f * rand 'σ' 0 0.5)
-        a1 = max 0 (lfNoise1 'τ' KR (rand 'υ' 0 8) * sinOsc KR (rand 'φ' 0 40) 0 * 0.1)
+    let f = midiCPS (lfNoise1 'π' KR (rand 'ρ' 0 0.3) * 60 + 70)
+        a0 = lfNoise2 'σ' AR (f * rand 'τ' 0 0.5)
+        a1 = max 0 (lfNoise1 'υ' KR (rand 'φ' 0 8) * sinOsc KR (rand 'χ' 0 40) 0 * 0.1)
         z = sinOsc AR f 0 * a0 * a1
-    in pan2 z (lfNoise1 'χ' KR (rand 'ψ' 0 5)) 1
-
-enumFromN :: Enum a => a -> Int -> [Int]
-enumFromN e i = let j = fromEnum e in [j .. j + i]
+    in pan2 z (lfNoise1 'ψ' KR (rand 'ω' 0 5)) 1
 
 -- audition (out 0 m7)
 m7 :: UGen
@@ -59,9 +60,9 @@ m7 =
         k = let y z = let fr = mceChannels (expRandN p z 100 6000)
                           rt = mceChannels (randN p z 2 6)
                       in klankSpec fr (replicate p 1) rt
-            in mce2 (y 'ω') (y 'Α')
-        f = xLine KR (expRand 'Β' 40 300) (expRand 'Γ' 40 300) 12 DoNothing
-        t = lfPulse AR f 0 (rand 'Δ' 0.1 0.9) * 0.002 * max 0 (lfNoise2 'Ε' KR (rand 'Ζ' 0 8))
+            in mce2 (y 'Α') (y 'Β')
+        f = xLine KR (expRand 'Γ' 40 300) (expRand 'Δ' 40 300) 12 DoNothing
+        t = lfPulse AR f 0 (rand 'Ε' 0.1 0.9) * 0.002 * max 0 (lfNoise2 'Ζ' KR (rand 'Η' 0 8))
     in distort (klank t 1 0 1 (mceTranspose k)) * 0.3
 
 esmlp2 :: R.RandomGen g => g -> (UGen, g)
@@ -71,7 +72,7 @@ esmlp2 = R.choose (map (* 0.3) [m1,m2,m3,m4,m6,m7])
 esmlp2_pp :: UGen -> UGen
 esmlp2_pp i =
     let c z = combN i 0.3 (mce2 (rand z 0.1 0.3) (rand z 0.12 0.32)) 8
-    in sum (map c ['Η'..'Θ']) * 0.3
+    in sum (map c (id_seq 'Θ' 5)) * 0.3
 
 main :: IO ()
 main = do

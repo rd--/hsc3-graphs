@@ -2,14 +2,15 @@
 
 import Sound.SC3 {- hsc3 -}
 
-lfn :: ID a => a -> UGen -> UGen -> UGen -> UGen
+lfn :: ID a => a -> UGen -> Double -> Double -> UGen
 lfn z f l r =
     let z' = z `joinID` l `joinID` r
-    in range l r (lfNoise0 z' KR f)
+    in range (constant l) (constant r) (lfNoise0 z' KR f)
 
-hpb :: (ID a) => a -> UGen -> UGen
+hpb :: ID a => a -> UGen -> UGen
 hpb z q =
-    let g i = let z' = idHash z + i
+    let g :: Int -> UGen
+        g i = let z' = z `joinID` i
                   f = lfn z' q 1330 1395
                   a = lfn z' q 0.001 0.007
               in blip AR f 24 * a

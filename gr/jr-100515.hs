@@ -2,7 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 import System.Random {- random -}
 
 pat :: UGen
@@ -15,4 +15,5 @@ main :: IO ()
 main = do
   let r = randomRs (1,64) (mkStdGen 245763)
       f (n0:n) = (mat n0 pat,n)
+      f [] = undefined
   overlapTextureS (6,2,2,maxBound) f r

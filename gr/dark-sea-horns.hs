@@ -1,7 +1,7 @@
 -- http://sccode.org/1-j#c51 (jl)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.External.RDU.ID {- sc3-rdu -}
+import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 dark_sea_horns :: UGen
 dark_sea_horns =

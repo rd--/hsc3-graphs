@@ -1,17 +1,17 @@
 -- tgb (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 tgb :: UId m => UGen -> UGen -> m UGen
 tgb b d = do
   let mkls bp t = envGen KR 1 1 0 1 RemoveSynth (envCoord bp t 1 EnvLin)
       pm_t l r du t = let le = mkls l du
                           re = mkls r du
-                      in tRand le re t
+                      in tRandM le re t
       pm_n rt l du = do let le = mkls l du
                             re = mkls l du
-                        n <- whiteNoise rt
+                        n <- whiteNoiseM rt
                         return (linLin_b n le re)
   gps <- pm_n AR [(0,400),(1,900)] d
   let t = impulse AR gps 0

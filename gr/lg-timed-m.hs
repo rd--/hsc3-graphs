@@ -1,13 +1,13 @@
 -- lg-timed (rd)
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 lg_timed :: UId m => m UGen
 lg_timed = do
   let timed r y p =
-          do d0 <- dser r p
-             d1 <- dcons 0 d0
-             d2 <- dser r y
+          do d0 <- dserM r p
+             d1 <- dconsM 0 d0
+             d2 <- dserM r y
              let t = tDuty AR d1 0 RemoveSynth d2 1
              return (latch t t)
       lg u = return (lag u 0.03)

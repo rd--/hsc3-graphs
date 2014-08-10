@@ -2,7 +2,6 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.External {- hsc3 -}
 
 -- > withSC3 (reset >> init_b [0,1])
 init_b :: Transport m => [Int] -> m ()
@@ -24,7 +23,7 @@ m21360 b =
         local = localIn' 2 AR
         wn = line KR 0 1 0.1 DoNothing * whiteNoise 'ζ' AR * 0.03
         ph = delTapWr AR b (wn + local)
-        fb = delTapRd b ph del 1
+        fb = delTapRd AR b ph del 1
         p_fb = mix (pan2 fb loc 1)
         h_fb = hpf p_fb hpp
         ao = averageOutput (abs h_fb) (impulse KR (recip (avg / sr)) 0)

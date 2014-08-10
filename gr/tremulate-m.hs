@@ -1,16 +1,16 @@
 -- tremulate (jmcc) #1
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 tremulate :: UId m => m UGen
 tremulate = do
-  f <- rand 500 900
+  f <- randM 500 900
   let o = fSinOsc AR (f * mce [1,1.2,1.5,1.8]) 0
-  r <- rand 30 90
-  n <- clone 4 (lfNoise2 KR r)
+  r <- randM 30 90
+  n <- clone 4 (lfNoise2M KR r)
   let a = max 0 (n * 0.1)
-  l <- clone 4 (rand (-1) 1)
+  l <- clone 4 (randM (-1) 1)
   return (mix (pan2 o l a))
 
 tremulate_pp :: UGen -> UGen

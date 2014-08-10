@@ -3,7 +3,7 @@
 import Control.Concurrent {- base -}
 import Control.Monad
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad as U {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 nharm :: (Num b, Integral a) => a -> b -> [b]
@@ -12,10 +12,10 @@ nharm n f = map ((* f) . fromIntegral) [1..n]
 klg :: UId m => UGen -> Int -> m UGen
 klg m u = do
     n <- rrand 4 u
-    d <- iRand 9 12
-    f <- iRand m (m + 2)
-    l <- sequence (replicate n (U.rand 0.01 0.02))
-    p <- U.rand (-1.0) 1.0
+    d <- iRandM 9 12
+    f <- iRandM m (m + 2)
+    l <- sequence (replicate n (randM 0.01 0.02))
+    p <- randM (-1.0) 1.0
     let a = 0.5
         e = envGen KR 1 0.9 0 1 RemoveSynth (envSine d a)
         nh = nharm n (midiCPS f)

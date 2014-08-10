@@ -10,7 +10,7 @@ import qualified LSystem.Systems as L
 import qualified LSystem.Turtle as L
 
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 -- | Normalise to lie in (0,1).
@@ -87,7 +87,7 @@ oi :: IO UGen
 oi = do
   c <- R.choose [0.25, 0.55, 0.75, 1.25]
   let t = impulse KR c 0
-  b <- tIRand 0 12 t
+  b <- tIRandM 0 12 t
   let n  = bufFrames KR b
       m  = n / 4
       i  = floorE (linLin_b (lfSaw AR c 0) 0 m) * 4

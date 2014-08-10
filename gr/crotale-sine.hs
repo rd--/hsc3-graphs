@@ -11,12 +11,13 @@ crotale_sine =
         e = let p = envASR 1 1 1 (EnvNum (-4))
             in envGen KR g 1 0 1 RemoveSynth p
         fn m' f' a' =
-            let f = constant f'
+            let k = floor f' :: Int
+                f = constant f'
                 a = constant a'
-                r0 = rand (f+0) 0 (2 * pi)
-                r1 = rand (f+1) 0.1 0.3
-                r2 = rand (f+2) 0.025 0.1
-                r3 = rand (f+3) 0 (2 * pi)
+                r0 = rand (k + 0) 0 (2 * pi)
+                r1 = rand (k + 1) 0.1 0.3
+                r2 = rand (k + 2) 0.025 0.1
+                r3 = rand (k + 3) 0 (2 * pi)
                 o = sinOsc AR (f * midiRatio (m' - 12)) r0
                 e' = e * sinOsc KR r1 0 * a
             in pan2 o (sinOsc KR r2 r3) e'

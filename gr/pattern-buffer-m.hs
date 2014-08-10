@@ -1,7 +1,7 @@
 -- pattern buffer (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 tseq :: [UGen] -> UGen
@@ -16,7 +16,7 @@ pattern_buffer c = do
   r1 <- sequence (replicate c (rrand 36 96))
   r2 <- sequence (replicate c (rrand (-1.0) 1.0))
   r3 <- rrand 0 1
-  n1 <- tRand 0.02 0.08 t
+  n1 <- tRandM 0.02 0.08 t
   let e = decay2 t 0.01 n1
       f = midiCPS (tseq r1)
       l = tseq r2

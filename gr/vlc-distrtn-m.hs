@@ -3,7 +3,7 @@
 -- caution - audio feedback graph
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.IO as L {- hsc3-lang -}
 
 prep :: (Double,Double) -> [Double]
@@ -11,8 +11,8 @@ prep (ampl,phase) = [dbAmp ampl,phase]
 
 partial :: UId m => UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> m UGen
 partial b i freq detune fall n = do
-  n0 <- lfNoise1 KR 1
-  n1 <- rand 0.75 1.25
+  n0 <- lfNoise1M KR 1
+  n1 <- randM 0.75 1.25
   let m = n * 2
       ampl = bufRdN 1 KR b m NoLoop
       f = freq * (n + 1) * (n0 * detune + 1)

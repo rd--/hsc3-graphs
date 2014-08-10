@@ -1,22 +1,22 @@
 -- tgr-rpr (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
-dustR :: UId m => Rate -> UGen -> UGen -> m UGen
-dustR r lo hi = do
-  n1 <- dwhite 1 lo hi
-  n2 <- whiteNoise r
-  d <- dseq dinf n1
+dustR' :: UId m => Rate -> UGen -> UGen -> m UGen
+dustR' r lo hi = do
+  n1 <- dwhiteM 1 lo hi
+  n2 <- whiteNoiseM r
+  d <- dseqM dinf n1
   return (tDuty r d 0 DoNothing (abs n2) 1)
 
 rpr :: UId m => UGen -> UGen -> m UGen
-rpr n = tRand (in' 1 KR n) (in' 1 KR (n + 1))
+rpr n = tRandM (in' 1 KR n) (in' 1 KR (n + 1))
 
 tgr_rpr :: (Functor m,UId m) => m UGen
 tgr_rpr = do
-  clk <- dustR AR (in' 1 KR 0) (in' 1 KR 1)
+  clk <- dustR' AR (in' 1 KR 0) (in' 1 KR 1)
   rat <- rpr 2 clk
   dur <- rpr 4 clk
   pos <- fmap (* bufDur KR 10) (rpr 8 clk)

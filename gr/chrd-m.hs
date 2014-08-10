@@ -1,13 +1,13 @@
 -- chrd (rd)
 
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 chrd :: UId m => m UGen
 chrd = do
-  r0 <- rand 0.05 0.5
-  [r1, r2] <- sequence (replicate 2 (rand (-1) 1))
-  r3 <- rand 0.15 0.35
-  r4 <- rand 0.005 0.01
+  r0 <- randM 0.05 0.5
+  [r1, r2] <- sequence (replicate 2 (randM (-1) 1))
+  r3 <- randM 0.15 0.35
+  r4 <- randM 0.005 0.01
   let m = mce [60, 65, 72, 77, 79, 84]
       ds = 3
       d = mce (map (* ds) [5, 4, 5, 7, 4, 5])

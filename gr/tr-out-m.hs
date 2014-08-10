@@ -1,14 +1,14 @@
 -- tr-out (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 tr_nd :: UId m => UGen -> m (UGen,UGen)
 tr_nd n = do
-  t <- dust KR 1.6
-  r1 <- tRand 0 6 t
-  r2 <- tRand 0 6 t
-  r3 <- tRand 0 6 t
+  t <- dustM KR 1.6
+  r1 <- tRandM 0 6 t
+  r2 <- tRandM 0 6 t
+  r3 <- tRandM 0 6 t
   let f = midiCPS (bufRdN 1 KR 0 r1 NoLoop)
       p = bufRdN 1 KR 1 r2 NoLoop
       a = bufRdN 1 KR 2 r3 NoLoop

@@ -4,7 +4,7 @@
 -- increasing the stack limit of the haskell run time system
 
 import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 coinIf :: Double -> a -> a -> IO a
 coinIf n a b = do
@@ -25,10 +25,10 @@ dup a = mce2 a a
 
 chain_saw :: IO UGen
 chain_saw = do
-  let f s1 = do xr <- fmap dup (expRand 0.1 2)
-                n1 <- lfNoise1 KR xr
-                n2 <- lfNoise1 KR xr
-                n3 <- lfNoise1 KR xr
+  let f s1 = do xr <- fmap dup (expRandM 0.1 2)
+                n1 <- lfNoise1M KR xr
+                n2 <- lfNoise1M KR xr
+                n3 <- lfNoise1M KR xr
                 f1 <- coinIf 0.6 (exprange n1 0.01 10) (exprange n2 10 50)
                 s2 <- coinIf 0.5 (1 - s1) (mceReverse s1)
                 let f2 = linExp s1 (-1) 1 f1 (f1 * exprange n3 2 10)

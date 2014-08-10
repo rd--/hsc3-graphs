@@ -1,15 +1,15 @@
 -- fm-kltr (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad as U {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
 fm_kltr :: UId m => m UGen
 fm_kltr = do
-  r1 <- U.rand 0.975 1.025
-  r2 <- U.rand 0.5 1.5
-  r3 <- U.rand 0.975 1.025
-  r4 <- U.rand 0.75 1.25
+  r1 <- randM 0.975 1.025
+  r2 <- randM 0.5 1.5
+  r3 <- randM 0.975 1.025
+  r4 <- randM 0.75 1.25
   let o = control IR "out" 0
       a = control KR "amp" 0.1
       d = control KR "dur" 0.1

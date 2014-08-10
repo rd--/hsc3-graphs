@@ -1,13 +1,13 @@
 -- sosc-lp (rd)
 
 import Sound.OSC {- hosc -}
-import Sound.SC3.Monad {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
-dustR :: UId m => Rate -> UGen -> UGen -> m UGen
-dustR r lo hi = do
-  n1 <- dwhite 1 lo hi
-  n2 <- whiteNoise r
-  d <- dseq dinf n1
+dustR' :: UId m => Rate -> UGen -> UGen -> m UGen
+dustR' r lo hi = do
+  n1 <- dwhiteM 1 lo hi
+  n2 <- whiteNoiseM r
+  d <- dseqM dinf n1
   return (tDuty r d 0 DoNothing (abs n2) 1)
 
 setup :: Transport m => m ()
@@ -33,8 +33,8 @@ sosc_lp t n =
 
 sosc_lp_m :: UId m => m UGen
 sosc_lp_m = do
-  clk <- dustR KR 0.2 0.9
-  n <- lfNoise0 KR (mce2 1 3)
+  clk <- dustR' KR 0.2 0.9
+  n <- lfNoise0M KR (mce2 1 3)
   return (sosc_lp clk n)
 
 main :: IO ()
