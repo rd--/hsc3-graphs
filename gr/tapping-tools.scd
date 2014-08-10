@@ -4,7 +4,7 @@
 
 ~spawn.({
     var e = Env.linen(1, 4, 1);
-    var rate = XLine.kr(64, 0.125, 60);
+    var rate = XLine.kr(64, 0.125, 60, 0);
     var exc = Decay.ar(Impulse.ar((1 + 20.0.linrand) * rate, 0, 0.03), 0.001);
     var spc = `[Array.fill(4, {400 + 8000.0.rand}), nil, Array.fill(4, {0.01 + 0.1.rand})];
     var flt = Klank.ar(spc, exc);
