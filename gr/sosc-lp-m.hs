@@ -19,6 +19,9 @@ setup = do
   send (b_setn1 10 0 a)
   send (b_setn1 11 0 b)
 
+--b0 = asLocalBuf 'α' [60, 71, 89, 65, 36, 57, 92, 97, 92, 97]
+--b1 = asLocalBuf 'β' [71, 89, 60, 57, 65, 36, 95, 92, 93, 97]
+
 sosc_lp :: UGen -> UGen -> UGen
 sosc_lp t n =
     let d_env = decay2 t 0.002 2.5
