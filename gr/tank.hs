@@ -19,11 +19,11 @@ bang =
         n = brownNoise 'ε' AR
     in pan2 (decay2 d 0.04 0.3 * n) 0 1
 
--- > let u = r_allpass (soundIn 0)
+-- > let u = useq 'λ' 4 r_allpass (soundIn 0)
 r_allpass :: UGen -> UGen
 r_allpass i = allpassN i 0.03 (randN 2 'ζ' 0.005 0.02) 1
 
--- > let u = tank_f (soundIn 4)
+-- > let u = tank_f (useq 'λ' 4 r_allpass (soundIn 0))
 tank_f :: UGen -> UGen
 tank_f i =
     let l0 = localIn 2 AR (mce2 0 0) * 0.98
