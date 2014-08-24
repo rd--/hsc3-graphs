@@ -1,6 +1,7 @@
 -- aleatoric quartet (jmcc) #7
 
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
 
 aleatoric_quartet :: UId m => m UGen
 aleatoric_quartet = do
@@ -11,8 +12,7 @@ aleatoric_quartet = do
       dadd = amp - dmul
       rapf i = do r <- clone 2 (randM 0 0.05)
                   return (allpassN i 0.05 r 1)
-      mk_f = do i0 <- iRandM 0 2
-                let r0 = select i0 (mce [1, 0.5, 0.25])
+      mk_f = do r0 <- lchooseM [1, 0.5, 0.25]
                 r1 <- randM (-30) 30
                 n0 <- lfNoise0M KR r0
                 let m = n0 * 7 + base_mn + r1
