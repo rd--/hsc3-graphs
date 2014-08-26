@@ -19,3 +19,7 @@ dep:
 
 mk-packages:
 	bash ../sh/mk-packages.sh
+
+scm:
+	rm -f *.scm
+	ln -s ~/sw/rsc3/help/graph/*.scm .

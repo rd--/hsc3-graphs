@@ -8,8 +8,8 @@ to_file_name =
     let f c = if c `elem` " " then '-' else c
     in map f
 
-to_scd_file :: String -> FilePath
-to_scd_file nm = prj_dir </> "gr" </> to_file_name nm <.> "scd"
+to_file :: String -> String -> FilePath
+to_file ext nm = prj_dir </> "gr" </> to_file_name nm <.> ext
 
 jmcc_sc2 :: [[String]]
 jmcc_sc2 =
@@ -92,10 +92,17 @@ jmcc_sc2 =
     ,["babbling brook"]
     ,["mridangam"]]
 
--- > writeFile "/tmp/jmcc.scd" . unlines =<< jmcc_sc2_src
-jmcc_sc2_src :: IO [String]
-jmcc_sc2_src = do
-  let fn = concatMap (map to_scd_file) jmcc_sc2
+jmcc_concat :: String -> (String -> r) -> IO [r]
+jmcc_concat ext f = do
+  let fn = concatMap (map (to_file ext)) jmcc_sc2
   d <- mapM readFile fn
-  let d' = map (\s -> concat ["(\n",s,")\n"]) d
+  let d' = map f d
   return d'
+
+-- > writeFile "/tmp/jmcc.scd" . unlines =<< jmcc_scd
+jmcc_scd :: IO [String]
+jmcc_scd = let f s = concat ["(\n",s,")\n"] in jmcc_concat "scd" f
+
+-- > writeFile "/tmp/jmcc.scm" . unlines =<< jmcc_scm
+jmcc_scm :: IO [String]
+jmcc_scm = let f s = concat [";;;;;\n",s,"\n"] in jmcc_concat "scm" f
