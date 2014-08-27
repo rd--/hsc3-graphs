@@ -12,6 +12,7 @@ reso_pulse =
         f' = 2 * f + rand2 'β' 0.5
     in (lfPulse AR f 0 0.2 + lfPulse AR f' 0 0.2) * 0.02
 
+-- > let g = reso_pulse_pp (silent 1)
 reso_pulse_pp :: UGen -> UGen
 reso_pulse_pp z =
     let lfoFreq = 6

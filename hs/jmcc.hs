@@ -106,3 +106,7 @@ jmcc_scd = let f s = concat ["(\n",s,")\n"] in jmcc_concat "scd" f
 -- > writeFile "/tmp/jmcc.scm" . unlines =<< jmcc_scm
 jmcc_scm :: IO [String]
 jmcc_scm = let f s = concat [";;;;;\n",s,"\n"] in jmcc_concat "scm" f
+
+-- > writeFile "/tmp/jmcc.fs" . unlines =<< jmcc_fs
+jmcc_fs :: IO [String]
+jmcc_fs = let f s = concat ["\ \ \ \ \\n",s,"\n"] in jmcc_concat "fs" f
