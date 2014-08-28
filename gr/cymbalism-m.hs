@@ -3,6 +3,7 @@
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3 {- hsc3 -}
 
+-- > g <- cymbalism
 cymbalism :: (Functor m,UId m) => m UGen
 cymbalism = do
   let p = replicate 15

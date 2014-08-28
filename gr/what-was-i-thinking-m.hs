@@ -2,6 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 
+-- > g <- what_was_i_thinking
 what_was_i_thinking :: UId m => m UGen
 what_was_i_thinking = do
   n0 <- lfNoise1M KR 0.2

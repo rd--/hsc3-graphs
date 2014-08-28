@@ -3,6 +3,7 @@
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3 {- hsc3 -}
 
+-- > g <- synthetic_piano
 synthetic_piano :: UId m => m UGen
 synthetic_piano = do
   n <- iRandM 36 90
