@@ -1,3 +1,5 @@
+import Control.Monad {- base -}
+import System.Directory {- directory -}
 import System.FilePath {- filepath -}
 
 prj_dir :: FilePath
@@ -74,7 +76,6 @@ jmcc_sc2 =
      ,"slow beating harmonic sines"
      ,"tapping tools"]
     ,["modal space"
-     ,"modal space local"
      ,"landon rose"]
     ,["deep trip"
      ,"sawed cymbals"
@@ -91,6 +92,13 @@ jmcc_sc2 =
     -- SC3
     ,["babbling brook"]
     ,["mridangam"]]
+
+jmcc_fnames :: String -> [FilePath]
+jmcc_fnames ext = concatMap (map (to_file ext)) jmcc_sc2
+
+-- > jmcc_missing "fs"
+jmcc_missing :: String -> IO [FilePath]
+jmcc_missing = filterM (fmap not . doesFileExist) . jmcc_fnames
 
 jmcc_concat :: String -> (String -> r) -> IO [r]
 jmcc_concat ext f = do
