@@ -102,7 +102,7 @@ jmcc_missing = filterM (fmap not . doesFileExist) . jmcc_fnames
 
 jmcc_concat :: String -> (String -> r) -> IO [r]
 jmcc_concat ext f = do
-  let fn = concatMap (map (to_file ext)) jmcc_sc2
+  fn <- filterM doesFileExist (jmcc_fnames ext)
   d <- mapM readFile fn
   let d' = map f d
   return d'
@@ -117,4 +117,4 @@ jmcc_scm = let f s = concat [";;;;;\n",s,"\n"] in jmcc_concat "scm" f
 
 -- > writeFile "/tmp/jmcc.fs" . unlines =<< jmcc_fs
 jmcc_fs :: IO [String]
-jmcc_fs = let f s = concat ["\ \ \ \ \\n",s,"\n"] in jmcc_concat "fs" f
+jmcc_fs = jmcc_concat "fs" id

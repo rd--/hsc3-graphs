@@ -1,6 +1,6 @@
 \ slow beating sines (jmcc) #7
 
-\ store uid, fix uid of central freq, restore uid
+( store uid, fix uid of central freq, restore uid )
 
 : n 10 ;
 : two-pi 2 pi * ;

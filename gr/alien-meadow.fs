@@ -12,5 +12,7 @@
 
 alien-meadows
 
-\ 20 Rand 0 SinOsc.ar 5000 Rand * 0.1 * 5000 Rand + 0 SinOsc.ar
-\ -1 1 Rand.ir 20 Rand 0 SinOsc.ar 0.05 * 0.05 + Pan2.ar draw
+(
+20 RAND_ 0 SINOSC.AR 5000 RAND_ * 0.1 * 5000 RAND_ + 0 SINOSC.AR
+-1 1 RAND.IR 20 RAND_ 0 SINOSC.AR 0.05 * 0.05 + PAN2 DRAW
+)

@@ -2,6 +2,7 @@
 
 : scale 0 2 3 5 7 9 10 7 mce ;
 : rand2 { n } n neg n rand.ir ;
+: iseqr { s tr } tr tr 0 inf s dxrand.dr demand.ar * ;
 
 : drone-1
     24 36 2 mce choose 0.08 rand2 + midicps { f0 }
@@ -13,8 +14,6 @@
     60 72 2 mce choose scale choose + 0.05 rand2 2 clone + midicps
     0 sinosc.ar 0.04 0.07 rand.ir * 0 1 rand.ir 0.8 > *
 ;
-
-: iseqr { s tr } tr tr 0 inf s dxrand.dr demand.ar * ;
 
 : rhy
     48 60 72 84 4 mce choose scale choose + 0.03 rand2 + { m }
@@ -34,4 +33,4 @@ fork drone-1-txt .
 fork drone-2-txt .
 fork rhy-txt .
 
-\ killall
+( killall )

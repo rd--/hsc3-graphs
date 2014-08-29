@@ -1,6 +1,5 @@
 \ mridangam (jmcc) #SPE3
 
-\ 1 Dust.ar drum drone + play
 : drum { a } WhiteNoise.ar 70 * a 0.002 0.1 Decay2 * 261.62557 0.02 Resonz 4 * Distort 0.4 * ;
 : drone 60 60.04 2 mce midiCPS Saw.ar 67 67.04 2 mce midiCPS Saw.ar + 4186.00904 LPF 0.007 * ;
 : ten 10 mce Dseq.dr ;
@@ -38,3 +37,5 @@
 ;
 
 1 8 / 0 do-nothing 1 a_seq Dseq.dr 0 TDuty.ar drum drone + play
+
+( 1 Dust.ar drum drone + play )
