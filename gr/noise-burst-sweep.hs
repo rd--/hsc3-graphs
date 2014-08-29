@@ -16,5 +16,6 @@ main :: IO ()
 main = overlapTextureU (4,2,4,maxBound) (nbs 'α')
 
 {-
-audition (out 0 (nbs 'α'))
+let g = nbs 'α'
+audition (out 0 g)
 -}

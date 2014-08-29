@@ -13,6 +13,7 @@ tapping_tools =
         flt = klank exc 1 0 1 spc
     in pan2 flt (rand 'δ' (-1) 1) (envGen KR 1 1 0 1 RemoveSynth e)
 
+-- > let g = pp (silent 1)
 pp :: UGen -> UGen
 pp z = let f x = allpassN x 0.05 (mce2 (rand 'ε' 0 0.05) (rand 'ζ' 0 0.05)) 2 in useq 'η' 3 f z
 

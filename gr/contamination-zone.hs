@@ -18,6 +18,7 @@ cz =
         a = lfPulse KR (linRand 'ι' 0 150 0) 0 (rand 'κ' 0.2 0.4)
     in pan2 r (lfNoise1 'λ' KR (rand 'μ' 0 1)) a
 
+-- > let g = cz_pp (silent 1)
 cz_pp :: UGen -> UGen
 cz_pp =
     let f x = allpassN x 0.04 (randN 2 'ν' 0 0.04) 16
