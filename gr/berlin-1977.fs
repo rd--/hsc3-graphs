@@ -3,7 +3,6 @@
 : sequ { seq tr } tr 0 inf seq dseq.dr demand.kr ;
 : sequr { seq tr } tr 0 inf seq dshuf.dr demand.kr ;
 : half-pi pi 0.5 * ;
-
 : clock_rate 5 20 1 0.2 mousex.kr ;
 : clock_time 1 clock_rate / ;
 : clock clock_rate 0 impulse.kr ;
@@ -17,5 +16,4 @@
 : pw  0.08 half-pi sinosc.kr 0.45 * 0.5 + ;
 : sig freq pw pulse.ar amp * ;
 : belin-1977 sig filt 0.15 rlpf 0.2 0.2 0.17 2 mce 1.5 combn ;
-
 belin-1977 play

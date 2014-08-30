@@ -3,7 +3,6 @@
 : two-pi 2 pi * ;
 : rev unmce swap 2 mce ;
 : sequ { s tr } tr 0 inf s Dseq.dr Demand.kr ;
-
 : nt-seq 55 63 60 63 57 65 62 65 8 mce ;
 : freq { oct clk-rt pwm-rt flt-rt }
     clk-rt 0 Impulse.kr { tr }
@@ -16,5 +15,4 @@
 : plain 1 8 0.31 0.2 freq 0 2 0.13 0.11 freq 2 mce pulses + ;
 : echoed plain 0.375 0.375 5 CombN plain rev + 0.4 * ;
 : env 1 1 0 1 remove-synth 2 56 2 1 env-linen EnvGen.kr ;
-
 echoed env * play

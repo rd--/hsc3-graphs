@@ -6,6 +6,5 @@
 : tremulate o l a Pan2 mix ;
 : tremulates tremulate 0.5 2 3 inf overlap-texture ;
 : cmb 0.1 0.1 1 CombN ;
-
 ' cmb texture-post-proc
 tremulates

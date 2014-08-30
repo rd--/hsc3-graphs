@@ -12,5 +12,4 @@
     m 0.31 0.31 2 CombN.ar m + ;
 : n 3 3 2 mce LFNoise1.kr ;
 : modal-space n 48 c n 72 c + 0.2 * ;
-
 modal-space play
