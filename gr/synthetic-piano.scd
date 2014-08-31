@@ -2,7 +2,7 @@
 
 {var p = {var n = IRand(36,90)
          ;var f = Rand(0.1,0.5)
-         ;var ph = Rand(0,pi * 2)
+         ;var ph = Rand(0,1)
          ;var s = Impulse.ar(f,ph) * 0.1
          ;var e = Decay2.ar(s,0.008,0.04)
          ;var c = {arg i

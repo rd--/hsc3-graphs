@@ -7,7 +7,7 @@ import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 vla_partial :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 vla_partial b fr rise fall dt n =
     let m = n * 2
-        ampl = bufRdN 1 KR b m NoLoop
+        ampl = dbAmp (bufRdN 1 KR b m NoLoop)
         ph = bufRdN 1 KR b (m + 1) NoLoop
         o = let dt' = lfNoise1 'α' KR 1 * dt + 1.0
             in fSinOsc AR (fr * (n + 1) * dt') ph
@@ -32,14 +32,18 @@ vla_plyr b n =
 
 plyr36 :: UGen
 plyr36 =
-    let p_prep (a,p) = (dbAmp a,p)
-        unp (i,j) = [i,j]
-        b = asLocalBuf 'α' (concatMap (unp . p_prep) vla)
+    let unp (i,j) = [i,j]
+        b = asLocalBuf 'α' (concatMap (map double_to_ugen . unp) vla)
     in vla_plyr b 36
 
 main :: IO ()
 main = spawnTextureU (const 3,maxBound) plyr36
 
+-- q = quantised
+vla_q :: (RealFrac n,Fractional n) => [(n,n)]
+vla_q = let f (a,p) = (roundTo_ a 0.1,roundTo_ p 0.1) in map f vla
+
+-- ampl (DB) and phase data
 vla :: Fractional n => [(n,n)]
 vla =
     [(-49.43290,1.99165)

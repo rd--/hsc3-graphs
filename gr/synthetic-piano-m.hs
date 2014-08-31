@@ -8,7 +8,7 @@ synthetic_piano :: UId m => m UGen
 synthetic_piano = do
   n <- iRandM 36 90
   f <- randM 0.1 0.5
-  ph <- randM 0 (pi * 2)
+  ph <- randM 0 1
   let s = impulse AR f ph * 0.1
       e = decay2 s 0.008 0.04
       c i = do n0 <- lfNoise2M AR 3000
