@@ -1,4 +1,4 @@
-// why supercollider (jmcc)
+// why supercollider (jmcc) #0
 
 {var r = {Resonz.ar(Dust.ar(0.2,50),200 + 3000.0.rand,0.003)}
 ;var s = Mix.ar(Array.fill(10,r))

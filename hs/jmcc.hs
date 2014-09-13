@@ -16,7 +16,8 @@ to_file ext nm = prj_dir </> "gr" </> to_file_name nm <.> ext
 jmcc_sc2 :: [[String]]
 jmcc_sc2 =
     -- SC2
-    [["analog bubbles"
+    [["why supercollider"]
+    ,["analog bubbles"
      ,"lfo modulation"
      ,"hell is busy"
      ,"pond life"
@@ -112,10 +113,10 @@ jmcc_concat ext f = do
 jmcc_scd :: IO [String]
 jmcc_scd = let f s = concat ["(\n",s,")\n"] in jmcc_concat "scd" f
 
--- > writeFile "/tmp/jmcc.scm" . unlines =<< jmcc_scm
+-- > writeFile "/home/rohan/sw/hsc3-lisp/help/jmcc.lisp" . unlines =<< jmcc_scm
 jmcc_scm :: IO [String]
 jmcc_scm = jmcc_concat "scm" id
 
--- > writeFile "/tmp/jmcc.fs" . unlines =<< jmcc_fs
+-- > writeFile "/home/rohan/sw/hsc3-forth/help/jmcc.fs" . unlines =<< jmcc_fs
 jmcc_fs :: IO [String]
 jmcc_fs = jmcc_concat "fs" id
