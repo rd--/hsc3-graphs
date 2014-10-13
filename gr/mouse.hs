@@ -1,6 +1,6 @@
 -- https://mohayonao.github.io/CoffeeCollider/#mouse.coffee
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 mouse :: UGen
 mouse =

@@ -1,4 +1,4 @@
--- http://www.fredrikolofsson.com/f0blog/?q=node/537
+-- http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
 
 import Sound.SC3 {- hsc3 -}
 

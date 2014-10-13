@@ -1,6 +1,6 @@
 -- harmonic tumbling (jmcc) #1
 
-import Sound.SC3
+import Sound.SC3 {- hsc3 -}
 
 harmonic_tumbling :: UGen
 harmonic_tumbling =
