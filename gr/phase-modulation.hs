@@ -15,7 +15,7 @@ pmwsb =
         y = mouseY KR 0 2 Linear 0.2 -- modulation index
         o (e,a) = let f = rand e 0 x
                   in (succ e,fSinOsc AR (mce [f,f + rand2 'α' 1]) 0 * y + a)
-        (_,ph) = nrec 3 o ('β',0)
+        ph = snd (nrec 3 o ('β',0))
         freq = rand 'γ' 0 x
     in sinOsc AR (mce [freq, freq + rand2 'δ' 1]) ph * 0.1
 

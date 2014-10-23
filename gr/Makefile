@@ -20,6 +20,7 @@ dep:
 mk-packages:
 	bash ../sh/mk-packages.sh
 
-scm:
-	rm -f *.scm
+rsc3:
+	rm -f *.scm *.lisp
 	ln -s ~/sw/rsc3/help/graph/*.scm .
+	ln -s ~/sw/rsc3/help/graph/*.lisp .

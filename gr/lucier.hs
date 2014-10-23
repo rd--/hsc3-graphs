@@ -18,7 +18,7 @@ lucier_wire freq =
         max_delay = 1.0 -- maximum delay time (corresponds to a length = c * s)
         mk_delay i r = lpz1 (delayC i max_delay (r * string_delay))
         mk_allpass i r dt = lpz1 (allpassC i max_delay (r * string_delay) dt)
-        drv = localIn' 1 AR -- driver (source + data stored in the string)
+        drv = localIn 1 AR 0 -- driver (source + data stored in the string)
         pk1_R =
             let i = drv
                 r = src_pos - pk1_pos
