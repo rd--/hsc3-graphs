@@ -16,3 +16,5 @@ why_supercollider =
 
 main :: IO ()
 main = audition why_supercollider
+
+-- > synthdefWrite (synthdef "why_supercollider" why_supercollider) "/home/rohan/sw/hsc3-graphs/scsyndef"
