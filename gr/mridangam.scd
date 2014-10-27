@@ -3,7 +3,7 @@
 {var m = {
     arg t_amp = 1;
     var n = WhiteNoise.ar(70) * Decay2.kr(t_amp, 0.002, 0.1);
-    Resonz.ar(n, 60.midicps, 0.02, 4).distort * 0.4};
+    Out.ar(0,Resonz.ar(n, 60.midicps, 0.02, 4).distort * 0.4)};
 var d = {
     var s1 = Saw.ar([60, 60.04].midicps);
     var s2 = Saw.ar([67, 67.04].midicps);
@@ -41,4 +41,5 @@ var p =
     Pseq(#[5], 1),
     Pseq(#[0.0], 1)]);
 d.play;
-Pbind(\instrument,SynthDef(\m,m),\amp,p,\dur,1/8).play}.()
+SynthDef(\m,m).add;
+Pbind(\instrument,\m,\amp,p,\dur,1/8).play}.()

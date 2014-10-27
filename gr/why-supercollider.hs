@@ -17,4 +17,5 @@ why_supercollider =
 main :: IO ()
 main = audition why_supercollider
 
--- > synthdefWrite (synthdef "why_supercollider" why_supercollider) "/home/rohan/sw/hsc3-graphs/scsyndef"
+-- > let dir = "/home/rohan/sw/hsc3-graphs/scsyndef"
+-- > synthdefWrite (synthdef "why_supercollider" why_supercollider) dir
