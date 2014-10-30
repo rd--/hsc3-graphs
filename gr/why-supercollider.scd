@@ -5,6 +5,6 @@
 ;var z = DelayN.ar(s,0.048)
 ;var c = {CombL.ar(z,0.1,LFNoise1.kr(0.1.rand,0.04,0.05),15)}
 ;var y = Mix.ar(Array.fill(7,c))
-;4.do({x = AllpassN.ar(y,0.050,[0.050.rand,0.050.rand],1)})
+;var x; 4.do({x = AllpassN.ar(y,0.050,[0.050.rand,0.050.rand],1)})
 ;s+(0.2*x)}.play
 
