@@ -35,3 +35,5 @@
 ;{var z =FreeVerb.ar(In.ar(0,2),1.0.rrand(0.33))
  ;ReplaceOut.ar(0,Limiter.ar(z))}.play(addAction:\addToTail)
 ;{f.play(args:[out:0])} ! 4.rrand(8))
+
+// sc3-plugins: LFBrownNoise2
