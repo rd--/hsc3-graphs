@@ -3,11 +3,17 @@
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
 
-fF :: Double -> Double -> Double
+-- > import Sound.SC3.UGen.Dot
+-- > let u = let [p,q] = mceChannels (in' 2 AR 0) in out 0 (mce2 (p + 1) (fF p q))
+-- > draw u
+fF :: (UnaryOp a, RealFracE a, BinaryOp a) => a -> a -> a
 fF i f =
-    let n = (((2 * i) `modE` 6 + 1) + floorE f) / (i `modE` 5 + 1)
-    in (f + log2 n) `modE` 2
+    let n = (((modE (2 * i) 6) + 1) + floorE f) / ((modE i 5) + 1)
+    in modE (f + log2 n) 2
 
+-- > import Sound.SC3.Plot
+-- > let fS' = map (2 **) fS
+-- > plotImpulses [take 600 (drop 0 fS')] -- 32 128 250 500 750
 fS :: [Double]
 fS =
     let lp i f = let f' = fF i f in f' : lp (i + 1) f'
