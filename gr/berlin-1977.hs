@@ -22,7 +22,7 @@ berlin_1977 =
         freq = midiCPS note' -- convert midi note to cycles per second
         env = decay2 clock (0.05 * clock_time) (2 * clock_time)
         amp = env * 0.1 + 0.02 -- amplitude envelope
-        filt = env * (fSinOsc KR 0.17 0 * 800)+ 1400 -- filter frequency
+        filt = env * (fSinOsc KR 0.17 0 * 800) + 1400 -- filter frequency
         pw = sinOsc KR 0.08 (mce2 0 (0.5 * pi)) * 0.45 + 0.5 -- pulse width LFO(s)
         s = pulse AR freq pw * amp
     in combN (rlpf s filt 0.15) 0.2 (mce2 0.2 0.17) 1.5

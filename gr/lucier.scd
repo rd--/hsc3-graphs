@@ -7,10 +7,8 @@
 ; var src_p = 0.3
 ; var pk2_p = 0.9
 ; var max_dt = 1
-; var mk_dl = { arg i, r
-              ; LPZ1.ar(DelayC.ar(i, max_dt, r * string_dt)) }
-; var mk_ap = { arg i, r, dt
-              ; LPZ1.ar(AllpassC.ar(i, max_dt, r * string_dt, dt)) }
+; var mk_dl = {arg i, r; LPZ1.ar(DelayC.ar(i, max_dt, r * string_dt))}
+; var mk_ap = {arg i, r, dt; LPZ1.ar(AllpassC.ar(i, max_dt, r * string_dt, dt)) }
 ; var drv = LocalIn.ar(1)
 ; var r = { Rand(0.001, 0.11) }
 ; var pk1_R = mk_dl.(drv, src_p - pk1_p, 2 + r.())

@@ -1,7 +1,7 @@
 // berlin 1977 (jmcc) #4
 
-{var sequ = {arg s,tr; Demand.kr(tr,0,Dseq(s,inf))}
-;var sequR = {arg s,tr; Demand.kr(tr,0,Dshuf(s,inf))}
+{var sequ = {arg s,tr; Demand.kr(tr,0,Dseq(s,inf))} // somewhat akin to SC2 Sequencer
+;var sequR = {arg s,tr; Demand.kr(tr,0,Dshuf(s,inf))} // sequ with random selection function
 ;var clock_rate = MouseX.kr(5,20,'exponential',0.2) // mouse x controls clock rate
 ;var clock_time = 1 / clock_rate
 ;var clock = Impulse.kr(clock_rate,0) // sequencer trigger
