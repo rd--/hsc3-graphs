@@ -1,6 +1,6 @@
 -- bouncing objects (jmcc) #2
 
-import Sound.SC3.UGen.Record.DRF {- hsc3-rec -}
+import Sound.SC3.UGen.Record.CRU {- hsc3-rec -}
 
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}

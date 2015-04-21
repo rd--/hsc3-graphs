@@ -1,6 +1,6 @@
 -- synthetic piano (jmcc) #3
 
-import Sound.SC3.UGen.Record.DRF {- hsc3-rec -}
+import Sound.SC3.UGen.Record.CRU {- hsc3-rec -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 synthetic_piano :: UGen
