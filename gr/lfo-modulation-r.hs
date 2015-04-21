@@ -1,6 +1,5 @@
 -- lfo modulation (jmcc) #1
 
-import Sound.SC3.UGen.Rate {- hsc3 -}
 import Sound.SC3.UGen.Record.DRF {- hsc3-rec -}
 
 lfo_modulation :: UGen

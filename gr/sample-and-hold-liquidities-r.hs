@@ -1,7 +1,5 @@
 -- sample and hold liquidities (jmcc) #4
 
-import Sound.SC3.UGen.Enum {- hsc3 -}
-import Sound.SC3.UGen.Rate {- hsc3 -}
 import Sound.SC3.UGen.Record.DRF {- hsc3-rec -}
 
 -- > draw shl
