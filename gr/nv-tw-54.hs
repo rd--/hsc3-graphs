@@ -14,6 +14,13 @@ fF i f =
 -- > import Sound.SC3.Plot
 -- > let fS' = map (2 **) fS
 -- > plotImpulses [take 600 (drop 0 fS')] -- 32 128 250 500 750
+--
+-- > import Music.Theory.Diagram.Sequencer
+-- > import Music.Theory.Pitch
+-- > let k = 450
+-- > let mnn = take k (map (\x -> cps_to_fmidi ((2 ** x) * 99)) fS)
+-- > let opt = ([],((1024,256),(0,k),(20,80)))
+-- > sequencer_plot_midi opt "/tmp" "nv" (zip (zip [0,1..] (repeat 1)) (zip mnn (repeat 127)))
 fS :: [Double]
 fS =
     let lp i f = let f' = fF i f in f' : lp (i + 1) f'
