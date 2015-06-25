@@ -13,7 +13,7 @@ mk-svg:
 
 mk-ix:
 	mkdir -p md
-	(cd hs; runhaskell mk-ix.hs sw/hsc3-graphs)
+	(cd hs; runhaskell mk-ix.hs hsc3-graphs)
 
 mk-lib:
 	mkdir -p Sound/SC3/Graph
