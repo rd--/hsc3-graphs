@@ -19,8 +19,8 @@ mk-lib:
 	mkdir -p Sound/SC3/Graph
 	(cd hs; runhaskell mk-lib.hs)
 
-# mk-pdf fails at sp.org
-all: mk-html mk-svg mk-ix
+# mk-pdf fails at sp.org, html is quasi obsolete
+all: mk-svg mk-ix
 
 clean:
 	(cd gr; make clean)
