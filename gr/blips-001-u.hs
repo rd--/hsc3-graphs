@@ -1,5 +1,6 @@
 -- blips 001 (jmcc) #SC3d1.5
 
+import Prelude hiding ((<*)) {- base -}
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.UGen.Unsafe as U {- hsc3-unsafe -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}

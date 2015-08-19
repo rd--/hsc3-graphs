@@ -1,6 +1,6 @@
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import System.Cmd {- process -}
+import System.Process {- process -}
 
 graph :: UGen
 graph =

@@ -2,6 +2,7 @@
 
 import Control.Monad {- base -}
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 -- > fmap synthstat (clone 2 cs)

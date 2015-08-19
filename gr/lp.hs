@@ -34,7 +34,7 @@ main :: IO ()
 main =
     withSC3$do
       _ <- async (b_alloc 0 (48000 * 2) 1)
-      play_at (node_id,AddToHead,1) lp
+      play_at (node_id,AddToHead,1,[]) lp
 
 {-
 set "oct" 1.0

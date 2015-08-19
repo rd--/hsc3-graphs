@@ -6,7 +6,7 @@ import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 seqr_f :: UGen -> UGen -> UGen
 seqr_f f e =
-    let n = constant (mceDegree e) / 2
+    let n = constant (mceDegree_err e) / 2
     in select (mulAdd (lfSaw KR f 0) n n) e
 
 seqr_n :: Int -> UGen

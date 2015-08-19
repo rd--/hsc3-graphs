@@ -1,5 +1,6 @@
 -- deep sea (jrhb)
 
+import Prelude hiding ((<*)) {- base -}
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 

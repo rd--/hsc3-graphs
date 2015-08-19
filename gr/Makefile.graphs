@@ -142,7 +142,7 @@ GRAPHS= 1-1Ni\
  m21360\
  microhelix\
  modal-space\
- modal-space-local\
+ modal-space-buf\
  moto-rev\
  mouse-clatter-m\
  mouse\
@@ -191,7 +191,6 @@ GRAPHS= 1-1Ni\
  random-pulsations\
  random-sine-waves-hp\
  random-sine-waves\
- random-sine-waves-she\
  record-scratcher\
  red-frik-m\
  reset\

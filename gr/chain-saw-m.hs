@@ -3,8 +3,9 @@
 -- this graph generates long chains of unit generators and may require
 -- increasing the stack limit of the haskell run time system
 
-import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 coinIf :: Double -> a -> a -> IO a
 coinIf n a b = do
