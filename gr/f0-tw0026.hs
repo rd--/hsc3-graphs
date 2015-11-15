@@ -21,7 +21,8 @@ post_proc = let s = combL (tanh (in' 1 AR 8) / 8) 1 1 8 in mce2 s s * 0.1
 
 pattern :: NRT
 pattern =
-    let d = nfibs 32 `mod0` (nfibs 64  `mod0` [12])
+    let d :: [Int]
+        d = nfibs 32 `mod0` (nfibs 64  `mod0` [12])
         f = map (\x -> degree_to_cps [0,2,4,5,7,9,11] 12 (fromIntegral x) 4) d
     in sbind1 (defaultSynthdef
               ,[("amp",repeat 8)

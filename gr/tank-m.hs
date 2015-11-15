@@ -40,8 +40,11 @@ tank_f i = do
       l7 = l6 + i
   return (mrg [l7,localOut l7])
 
+mix_replicate_m :: Monad m => Int -> m UGen -> m UGen
+mix_replicate_m n = mixFillM n . const
+
 tank :: UId m => m UGen
-tank = tank_f =<< chainM 4 r_allpass =<< bang .+. mixFillM 8 (const pling)
+tank = tank_f =<< chainM 4 r_allpass =<< bang .+. mix_replicate_m 8 pling
 
 main :: IO ()
 main = audition . out 0 =<< tank

@@ -44,7 +44,9 @@ pp z = combN z 0.5 0.5 6 + mceReverse z
 rhy_txt :: IO ()
 rhy_txt = overlapTextureU_pp (6,6,6,maxBound) rhy 2 pp
 
+main :: IO ()
 main = do
-  forkIO drone_1_txt
-  forkIO drone_2_txt
-  forkIO rhy_txt
+  _ <- forkIO drone_1_txt
+  _ <- forkIO drone_2_txt
+  _ <- forkIO rhy_txt
+  return ()

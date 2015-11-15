@@ -1,9 +1,6 @@
 -- mridangam (jmcc) #SPE3
 
-import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 
 -- > let g = drum (dust 'α' AR 1)
 -- > audition (out 0 g)

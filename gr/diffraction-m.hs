@@ -18,6 +18,7 @@ diffraction = do
              return (combN s 0.2 (n * 0.1 + 0.1) 3)
       r = let x = mouseX KR 0.75 1.25 Exponential 0.1
               y = mouseY KR 0.25 1 Exponential 0.1
+              f :: UId m => Int -> m UGen
               f _ = do fr <- fmap (* x) (randM 50 59)
                        am <- fmap (* y) (randM 0.04 0.16)
                        return (sinOsc AR fr 0 * am)

@@ -20,8 +20,8 @@ feedback4 =
 
 type Param = [(String, Double)]
 
-fb :: Param -> IO ()
-fb p = audition_at (-1,AddToHead,1,p) feedback4 >> pauseThread 2
+f0_fb :: Param -> IO ()
+f0_fb p = audition_at (-1,AddToHead,1,p) feedback4 >> pauseThread (2::Double)
 
 param :: [Param]
 param =
@@ -34,4 +34,4 @@ param =
     ,[("del",0.5),("fb",1),("lfo",200),("freq",300),("rate",0.01),("cutoff",100)]]
 
 main :: IO ()
-main = mapM_ fb param
+main = mapM_ f0_fb param

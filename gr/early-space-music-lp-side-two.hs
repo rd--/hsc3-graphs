@@ -42,7 +42,7 @@ m4 =
                   e = max 0 (sinOsc KR (r * rand z 0.9 1.1) (rand z 0 (2 * pi)) * 0.1 - 0.05)
                   s = fSinOsc AR (f * i + f) 0 * e * (1 / (i + 1))
               in pan2 s (rand z (-1) 1) 1
-    in sum (map o (id_seq 0 12)) * a
+    in sum (map o (id_seq (0::Int) 12)) * a
 
 -- audition (out 0 (m6 * 0.5))
 m6 :: UGen

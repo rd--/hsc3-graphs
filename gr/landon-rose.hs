@@ -21,7 +21,7 @@ env :: Real n => n -> UGen
 env i = abs (sinOsc AR (1 / 8) ((constant i / 2) * pi))
 
 lr :: UGen
-lr = sum (zipWith3 nd "αβγδ" (map env [0 .. 3]) fr)
+lr = sum (zipWith3 nd "αβγδ" (map env [0::Int .. 3]) fr)
 
 main :: IO ()
 main = audition (out 0 lr)

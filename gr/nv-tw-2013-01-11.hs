@@ -20,7 +20,7 @@ nv_tw_2013_01_11 =
         x = sin (j + d)
     in mce_concat [splay x 1 1 0 True
                   ,mce (replicate 18 0)
-                  ,(x - mce_rotate 1 x) / 2]
+                  ,(x - mce_rotate (1::Int) x) / 2]
 
 main :: IO ()
 main = audition (out 0 nv_tw_2013_01_11)

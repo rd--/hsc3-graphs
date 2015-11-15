@@ -28,7 +28,7 @@ postProcess :: UGen -> UGen
 postProcess z =
     let z' = distort z
         f x = allpassN x 0.05 (mce2 (U.rand 0 0.05) (U.rand 0 0.05)) 4
-    in iter f 6 z'
+    in iter f (6::Int) z'
 
 main :: IO ()
 main = overlapTextureU_pp (2,1,12,maxBound) blips_001 2 postProcess

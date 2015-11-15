@@ -5,7 +5,7 @@ import Sound.SC3 {- hsc3 -}
 mp :: UGen
 mp =
     let
-        sr = 48000
+        sr = 48000::Double
         -- number of delay lines
         n = 4
         -- maximum delay time
