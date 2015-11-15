@@ -6,6 +6,7 @@ GRAPHS= 1-1Ni\
  1-4Tw\
  1-4VL\
  1-9\
+ 1-S\
  1-Td\
  acid-otophilia\
  adc-16-6-2\
@@ -18,11 +19,14 @@ GRAPHS= 1-1Ni\
  ambient1\
  analog-bubbles\
  analog-bubbles-mouse\
+ analog-bubbles-r\
  analogue-daze\
+ analogue-daze-r\
  arpeggio\
  babbling-brook\
  babbling-brook-m\
  berlin-1977\
+ berlin-1977-r\
  birdies\
  birds-am-fm\
  birds-hp\
@@ -37,6 +41,7 @@ GRAPHS= 1-1Ni\
  bohlen-pierce-140\
  bottle-m\
  bouncing-objects\
+ bouncing-objects-r\
  bowed-string-m\
  bs-070705-m\
  buffer-display\
@@ -71,7 +76,9 @@ GRAPHS= 1-1Ni\
  discretion-m\
  distort-input\
  doppler\
+ drone-plus-rhythm\
  drummer\
+ drummer-r\
  early-space-music-lp-side-two\
  eggcrate\
  eggcrate-m\
@@ -81,6 +88,8 @@ GRAPHS= 1-1Ni\
  f0-2012-04-19\
  f0-454598285861617665\
  f0-456384156159574016\
+ f0-chipwave\
+ f0-feedback\
  f0-tw0011\
  f0-tw0014\
  f0-tw0020\
@@ -98,6 +107,9 @@ GRAPHS= 1-1Ni\
  f0-tw0121\
  f0-tw0125\
  f0-tw0134\
+ f0-tw0220\
+ f0-tw0224\
+ f0-tw0225\
  fb-090531\
  fbl-fbf\
  feedr-m\
@@ -114,6 +126,7 @@ GRAPHS= 1-1Ni\
  hard-sync-sawtooth-with-lfo\
  harmonic-swimming\
  harmonic-swimming-m\
+ harmonic-tumbling\
  harmonic-tumbling-m\
  h-chatter-m\
  hell-is-busy\
@@ -130,8 +143,10 @@ GRAPHS= 1-1Ni\
  klink\
  k-ppr\
  k-ppr-m\
+ landon-rose\
  laser-bubble\
  lfo-modulation\
+ lfo-modulation-r\
  lf-pulses\
  lg-timed-m\
  lin-sosc\
@@ -140,17 +155,21 @@ GRAPHS= 1-1Ni\
  lucier\
  lz-bf\
  m21360\
+ metal-plate\
  microhelix\
- modal-space\
  modal-space-buf\
+ modal-space\
  moto-rev\
  mouse-clatter-m\
  mouse\
+ mridangam-dr\
  mridangam\
  music-box\
+ narrow-band-filtered-crackle-noise\
  nharm-m\
  nharm-p\
  noise-burst-sweep\
+ noise-modulated-sawtooths\
  noise-modulated-sines\
  nokia\
  non-real-time\
@@ -179,6 +198,7 @@ GRAPHS= 1-1Ni\
  pond-life-ha\
  pond-life-hp\
  pond-life\
+ pond-life-m\
  proxy-mixer\
  proxy-mixer-m\
  pulsing-bottles\
@@ -191,12 +211,15 @@ GRAPHS= 1-1Ni\
  random-pulsations\
  random-sine-waves-hp\
  random-sine-waves\
+ random-sine-waves-she\
  record-scratcher\
  red-frik-m\
  reset\
  resonant-dust-hp\
  resonant-dust\
+ resonators-harmonic-series\
  reso-pulse\
+ reverberated-noise-bursts\
  reverberated-sine-percussion-hp\
  reverberated-sine-percussion-m\
  ring-modulated-klank\
@@ -208,6 +231,7 @@ GRAPHS= 1-1Ni\
  rzblp-u\
  sam-i-am\
  sample-and-hold-liquidities\
+ sample-and-hold-liquidities-r\
  saucer-base\
  sawed-cymbals\
  s-chirp\
@@ -230,14 +254,19 @@ GRAPHS= 1-1Ni\
  spe-p\
  sprinkler\
  sprinkler-m\
+ sprinkler-r\
  string-wander-cluster\
  strummable-guitar\
+ strummable-guitar-r\
  sweepy-noise\
  swept-resonant-noise\
+ synthetic-piano\
  synthetic-piano-m\
+ synthetic-piano-r\
  tank-hp\
  tank\
  tank-m\
+ tapping-tools\
  tgb-m\
  tgrn\
  tgr-rpr-m\
