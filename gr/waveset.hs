@@ -100,7 +100,7 @@ run_waveset :: Transport m => Double -> String -> m ()
 run_waveset pr fn = do
   _ <- async (d_recv (synthdef "waveset" waveset))
   _ <- async (b_allocRead 10 fn 0 0)
-  (hdr, cs) <- liftIO (F.read fn)
+  (hdr, cs) <- liftIO (F.au_read fn)
   let nc = F.channelCount hdr
       nf = F.frameCount hdr
       sr = fromIntegral (F.sampleRate hdr)

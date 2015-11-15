@@ -45,4 +45,5 @@ main :: IO ()
 main = audition (out 0 tank)
 
 -- > audition (out 0 trev)
+trev :: UGen
 trev = tank_f (useq 'λ' 4 r_allpass (soundIn 0))

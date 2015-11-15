@@ -21,6 +21,7 @@ crotale =
 main :: IO ()
 main = audition (out 0 crotale)
 
+-- (freq,ampl,decay)
 crotale_data :: ([Double],[Double],[Double])
 crotale_data =
     ([35.45676040649414
