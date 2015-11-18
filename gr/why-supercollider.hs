@@ -12,10 +12,10 @@ why_supercollider =
         y = mix (uclone 'ζ' 7 c)
         f i = allpassN i 0.05 (randN 2 'η' 0 0.05) 1
         x = useq 'θ' 4 f y
-    in out 0 (s + 0.2 * x)
+    in s + 0.2 * x
 
 main :: IO ()
-main = audition why_supercollider
+main = audition (out 0 why_supercollider)
 
 -- > let dir = "/home/rohan/sw/hsc3-graphs/scsyndef"
--- > synthdefWrite (synthdef "why_supercollider" why_supercollider) dir
+-- > synthdefWrite (synthdef "why-supercollider" (out 0 why_supercollider)) dir

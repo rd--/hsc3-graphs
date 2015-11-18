@@ -20,6 +20,6 @@ main = audition (out 0 analog_bubbles)
 > putStrLn$G.graphdef_stat g
 
 > let dir = "/home/rohan/sw/hsc3-graphs/scsyndef"
-> synthdefWrite (synthdef "analog_bubbles" (out 0 analog_bubbles)) dir
+> synthdefWrite (synthdef "analog-bubbles" (out 0 analog_bubbles)) dir
 
 -}

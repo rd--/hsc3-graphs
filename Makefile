@@ -28,7 +28,7 @@ clean:
 	rm -f pdf/*.pdf
 	rm -f svg/*.svg
 	rm -Rf lib/Sound
-	rm -f lib/hsc3-graphs.hs
+	rm -f lib/*.o lib/*.hi lib/*.hs lib/hsc3-graphs
 	rm -f html/*.html html/*.htm html/*.fs html/*.css
 
 push-sp:

@@ -47,6 +47,9 @@ mod_name gr =
     let (nm,au) = fix_gr gr
     in printf "Sound.SC3.Graph.%s_%s" au nm
 
+graph_name :: GR -> String
+graph_name = fst . fix_gr
+
 gen_mod :: FilePath -> GR -> IO ()
 gen_mod h gr = do
   let m_nm = mod_name gr
@@ -59,24 +62,50 @@ gen_mod h gr = do
       c' = unlines (p ++ [printf "module %s where" m_nm] ++ q)
   writeFile (h </> dir </> "lib/Sound/SC3/Graph" </> m <.> "hs") c'
 
+gen_import_list :: [GR] -> [String]
+gen_import_list = let f gr = "import qualified " ++ mod_name gr in map f
+
 gen_hsc3_graphs :: [GR] -> String
 gen_hsc3_graphs gr_seq =
-    let mk_import gr = "import qualified " ++ mod_name gr
-        mk_case_stmt gr = let (nm,_) = gr
-                              m_nm = mod_name gr
-                          in printf "    [\"%s\"] -> %s.main" nm m_nm
-        usage = "hsc3-graphs graph\\n" ++
-                intercalate ", " (sort (map fst gr_seq))
+    let mk_case_stmt gr = printf "    [\"%s\"] -> %s.main" (fst gr) (mod_name gr)
+        usage = "hsc3-graphs graph\\n\\n" ++ intercalate ", " (sort (map fst gr_seq))
     in unlines (["import System.Environment {- base -}"
+                ,""
+                ,"import Sound.SC3 {- hsc3 -}"
                 ,""] ++
-                map mk_import gr_seq ++
+                gen_import_list gr_seq ++
+                [""
+                ,""] ++
+                gen_scsyndef (apply_scsyndef_whitelist gr_seq) ++
                 [""
                 ,"main :: IO ()"
                 ,"main = do"
                 ,"  a <- getArgs"
-                ,"  case a of"] ++
+                ,"  case a of"
+                ,"    [\"update-scsyndef-store\"] -> update_scsyndef_store"] ++
                 map mk_case_stmt gr_seq ++
                 [printf "    _ -> putStrLn \"%s\"" usage])
+
+-- initial pass at white list only...
+scsyndef_whitelist :: [String]
+scsyndef_whitelist =
+    ["analog-bubbles","analogue-daze"
+    ,"scratchy","sidereal-time","sprinkler","synthetic-piano"
+    ,"tank"
+    ,"why-supercollider"
+    ,"zizle"]
+
+apply_scsyndef_whitelist :: [GR] -> [GR]
+apply_scsyndef_whitelist = let f (nm,_) = nm `elem` scsyndef_whitelist in filter f
+
+gen_scsyndef :: [GR] -> [String]
+gen_scsyndef =
+    let mk gr = printf "  write_scsyndef \"%s\" %s.%s" (fst gr) (mod_name gr) (graph_name gr)
+        pre = ["update_scsyndef_store :: IO ()"
+              ,"update_scsyndef_store = do"
+              ,"  let prj_dir = \"/home/rohan/sw/hsc3-graphs/\""
+              ,"      write_scsyndef nm u = synthdefWrite (synthdef nm (out 0 u)) (prj_dir ++ \"scsyndef\")"]
+        in (pre ++) . map mk
 
 main :: IO ()
 main = do
