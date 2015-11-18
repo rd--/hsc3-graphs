@@ -7,7 +7,8 @@ function mk_packages
     grep '{- .* -}' $i | \
         sed -e 's/.*{- //g' | \
         sed -e 's/ -}//g' | \
-        sort -u | \
+        sed '$a\base' | \
+	sort -u | \
         xargs echo | \
         sed -e 's/ /,/g' > $o
 }
@@ -17,10 +18,10 @@ function mk_cabal
     o=$1.cabal
     read < $1.packages p
     echo "Executable hsc3-"$1 > $o
-    echo " If !flag(build-exec)" >> $o
-    echo "  buildable: False" >> $o
+#    echo " If !flag(build-exec)" >> $o
+#    echo "  buildable: False" >> $o
     echo " main-is: gr/"$1".hs" >> $o
-    echo " build-depends: "$p >> $o
+    echo " build-depends: base,"$p >> $o
 }
 
 for i in *.hs ; do mk_packages $(basename $i .hs) ; done

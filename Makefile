@@ -5,7 +5,7 @@ mk-html:
 
 mk-pdf:
 	mkdir -p pdf
-	(cd dot.gz ; sh ../sh/mk-pdf.sh)
+	(cd dot ; sh ../sh/mk-pdf.sh)
 
 mk-svg:
 	mkdir -p svg
@@ -16,7 +16,7 @@ mk-ix:
 	(cd hs; runhaskell mk-ix.hs hsc3-graphs)
 
 mk-lib:
-	mkdir -p Sound/SC3/Graph
+	mkdir -p lib/Sound/SC3/Graph
 	(cd hs; runhaskell mk-lib.hs)
 
 # mk-pdf fails at sp.org, html is quasi obsolete
@@ -27,8 +27,9 @@ clean:
 	cabal clean
 	rm -f pdf/*.pdf
 	rm -f svg/*.svg
-	rm -R Sound
-	rm -f hs/hsc3-graphs.hs
+	rm -Rf lib/Sound
+	rm -f lib/hsc3-graphs.hs
+	rm -f html/*.html html/*.htm html/*.fs html/*.css
 
 push-sp:
 	darcs push -a rd@slavepianos.org:sw/hsc3-graphs

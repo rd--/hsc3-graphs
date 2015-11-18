@@ -57,7 +57,7 @@ gen_mod h gr = do
   c <- readFile (gr_name h nm)
   let (p,q) = span (not . null) (lines c)
       c' = unlines (p ++ [printf "module %s where" m_nm] ++ q)
-  writeFile (h </> dir </> "Sound/SC3/Graph" </> m <.> "hs") c'
+  writeFile (h </> dir </> "lib/Sound/SC3/Graph" </> m <.> "hs") c'
 
 gen_hsc3_graphs :: [GR] -> String
 gen_hsc3_graphs gr_seq =
@@ -81,9 +81,9 @@ gen_hsc3_graphs gr_seq =
 main :: IO ()
 main = do
   h <- getHomeDirectory
-  d <- getDirectoryContents (h </> dir </> "gr")
-  let hs = filter (".hs" `isSuffixOf`) d
+  dc <- getDirectoryContents (h </> dir </> "gr")
+  let hs = filter (".hs" `isSuffixOf`) dc
   au <- mapM (author h) hs
   let au' = sortBy (compare `on` snd) (catMaybes au)
   mapM_ (gen_mod h) au'
-  writeFile (h </> dir </> "hs/hsc3-graphs.hs") (gen_hsc3_graphs au')
+  writeFile (h </> dir </> "lib/hsc3-graphs.hs") (gen_hsc3_graphs au')
