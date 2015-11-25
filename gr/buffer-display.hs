@@ -2,6 +2,7 @@
 
 import Control.Concurrent {- base -}
 import qualified Graphics.Rendering.Cairo as C {- cairo -}
+
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Cairo.Scope.Shell {- hsc3-cairo -}
 
@@ -92,7 +93,7 @@ bd_key k bd =
       'w' -> bd {version = BD_Warp}
       'l' -> bd {version = BD_Line}
       'f' -> bd {version = BD_Flower}
-      'z' -> bd {theta = 0}
+      'z' -> bd {theta = 0,theta_incr = 0}
       _ -> bd
 
 -- * Audio...
@@ -108,7 +109,7 @@ instr =
     in out 0 (mce2 s n)
 
 bd_shell :: Int -> Shell BD
-bd_shell nc = sh_default nc bd_render bd_key
+bd_shell nc = sh_default_mon nc bd_render bd_key
 
 main :: IO ()
 main = do
