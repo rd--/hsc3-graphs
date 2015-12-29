@@ -10,7 +10,7 @@ type ST = (UGen,UGen,UGen)
 
 n1 :: ST -> UGen -> UGen
 n1 (s1,s2,s3) a =
-    let x = tScramble 'α' KR 1 (mce [60,67,75,79,94])
+    let x = tScramble 'α' {- KR -} 1 (mce [60,67,75,79,94])
         rel = choose 'β' (mce [0,0,0,0,0,0,0,1])
         p = envPerc 0.01 (a + rel)
         e = envGen AR 1 1 0 1 RemoveSynth p

@@ -7,7 +7,7 @@ randN_l :: ID z => Int -> z -> UGen -> UGen -> [UGen]
 randN_l k z l = mceChannels . randN k z l
 
 iScramble :: ID z => z -> UGen -> UGen
-iScramble z = tScramble z KR 1
+iScramble z = tScramble z {- KR -} 1
 
 pm :: UGen
 pm =
