@@ -19,6 +19,9 @@ mk-lib:
 	mkdir -p lib/Sound/SC3/Graph
 	(cd hs; runhaskell mk-lib.hs)
 
+append-exec:
+	hsc3-setup cabal print-exec hsc3- gr/*.hs >> hsc3-graphs.cabal
+
 # mk-pdf fails at sp.org, html is quasi obsolete
 all: mk-svg mk-ix
 
