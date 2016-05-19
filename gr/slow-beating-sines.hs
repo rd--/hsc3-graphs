@@ -9,7 +9,7 @@ import Sound.SC3.Lang.Random.Monad
 r_freq :: (RandomGen g) => Int -> Rand g [Double]
 r_freq i = do
   n <- nrrand i 24 84
-  return (map midiCPS' n)
+  return (map midi_to_cps n)
 
 r_harmonics :: (RandomGen g) => Double -> Int -> Double -> Rand g [Double]
 r_harmonics d m f = fmap (map (+ f)) (nrand2 m d)

@@ -9,7 +9,7 @@ nt = [[32,43,54, 89]
      ,[76,88,99,124]]
 
 fr :: Floating n => [[n]]
-fr = map (map midiCPS') nt
+fr = map (map midi_to_cps) nt
 
 nd :: ID a => a -> UGen -> [UGen] -> UGen
 nd z e f =

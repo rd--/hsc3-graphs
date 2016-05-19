@@ -10,7 +10,7 @@ r_freq :: (RandomGen g) => Int -> Int -> Rand g [Double]
 r_freq k i = do
   n <- nchoose i [0,2,4,5,7,9]
   o <- nrand i 7
-  let f n' o' = midiCPS' (n' + (o' * 12) + fromIntegral k)
+  let f n' o' = midi_to_cps (n' + (o' * 12) + fromIntegral k)
   return (zipWith f n o)
 
 r_harmonics :: (RandomGen g) => Double -> Int -> Double -> Rand g [Double]

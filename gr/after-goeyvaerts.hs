@@ -6,8 +6,8 @@ import Data.List.Split {- split -}
 import qualified Data.Map as M {- containers -}
 import Sound.OSC.FD {- hosc -}
 import Sound.SC3.FD {- hsc3 -}
-import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.Gen as R
+import Sound.SC3.Common.Buffer {- hsc3 -}
+import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
 import System.Random {- random -}
 
 -- * SCHEMA
@@ -174,7 +174,7 @@ note_set :: [Int]
 note_set = [0 .. 11]
 
 note_step' :: RandomGen g => [Int] -> P -> g -> (Int,g)
-note_step' n p = R.wchoose n (C.normalizeSum (M.elems p))
+note_step' n p = R.wchoose n (normalizeSum (M.elems p))
 
 note_step :: [Int] -> P -> IO Int
 note_step n = getStdRandom . note_step' n
