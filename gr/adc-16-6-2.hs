@@ -44,7 +44,7 @@ p' b =
     ,("rq",repeat 0.05)]
 
 main :: IO ()
-main = withSC3$do
-  let fn = "/usr/local/share/SuperCollider/sounds/a11wlk01-44_1.aiff"
+main = withSC3 $ do
+  let fn = "/home/rohan/opt/src/supercollider/sounds/a11wlk01-44_1.aiff"
   _ <- async (b_allocRead 0 fn 0 0)
   play (P.sbind [(constQ,p 0),(constQ,p' 0)])

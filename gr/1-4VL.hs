@@ -55,10 +55,14 @@ tb_rtime freqscale =
             ,0.6]
     in map (* ((recip freqscale) ** 0.5)) t
 
+-- hsc3-db marks Lag3 as rate restricted...
+maybe_lag3 :: UGen -> UGen -> UGen
+maybe_lag3 i t = if rateOf i == IR then i else lag3 i t
+
 prayer_bell :: UGen -> UGen -> UGen -> UGen -> DoneAction -> UGen
 prayer_bell exc freq decayscale lagTime doneAction =
-    let freqscale = lag3 (freq / 2434) lagTime
-        decayscale' = lag3 decayscale lagTime
+    let freqscale = maybe_lag3 (freq / 2434) lagTime
+        decayscale' = maybe_lag3 decayscale lagTime
         spec = klankSpec tb_freq tb_amp (tb_rtime freqscale)
         sig = dynKlank exc freqscale 0 decayscale' spec
         end = detectSilence (mix sig) 1e-4 0.1 doneAction
