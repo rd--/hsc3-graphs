@@ -8,9 +8,9 @@ import qualified Music.Theory.List as T {- hmt -}
 import qualified Music.Theory.Pitch as T {- hmt -}
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
 import Sound.OSC {- hosc -}
 
+import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 -- | Happy birthday
@@ -60,7 +60,7 @@ plain = do
 -- > tail hb_k == [[7,7,9,7,2,0],[7,7,7,4,0,11,9],[5,5,4,0,2,0]]
 hb_k :: Num n => [[n]]
 hb_k =
-    let f = fromInteger . floor . P.degreeToKey [0,2,4,5,7,9,11] 12 . pred
+    let f = fromInteger . floor . P.degreeToKey [0 :: Double,2,4,5,7,9,11] 12 . pred
     in map (map f) hb_d
 
 -- | Midi note numbers

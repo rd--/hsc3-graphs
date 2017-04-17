@@ -2,7 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 
-f_lets :: (Functor m,UId m) => m UGen
+f_lets :: UId m => m UGen
 f_lets = do
   let f_let t g j n f = do
            let pd = pulseDivider t j 0

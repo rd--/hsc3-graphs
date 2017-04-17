@@ -6,8 +6,8 @@ import qualified System.FilePath as P {- filepath -}
 
 import Graphics.PS {- hps -}
 import qualified LSystem.LSystem as L {- hls -}
-import qualified LSystem.Systems as L
-import qualified LSystem.Turtle as L
+import qualified LSystem.Systems as L {- hls -}
+import qualified LSystem.Turtle as L {- hls -}
 
 import qualified Sound.File.NeXT as F {- hsc3-sf -}
 import Sound.SC3 {- hsc3 -}

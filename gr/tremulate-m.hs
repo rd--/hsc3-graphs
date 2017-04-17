@@ -1,7 +1,8 @@
 -- tremulate (jmcc) #1
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 tremulate :: UId m => m UGen
 tremulate = do
@@ -19,4 +20,4 @@ tremulate_pp i = combN i 0.1 0.1 1
 main :: IO ()
 main = do
   t <- tremulate
-  xfadeTextureU_pp (0.5,2,maxBound) t 2 tremulate_pp
+  O.xfadeTextureU_pp (0.5,2,maxBound) t 2 tremulate_pp

@@ -3,7 +3,7 @@
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
-oscillator_cluster :: (Functor m,UId m) => m UGen
+oscillator_cluster :: UId m => m UGen
 oscillator_cluster = do
   let ln a b d = line KR a b d RemoveSynth
       rln r a b d = fmap (\n -> ln (a + n) b d) (randM 0 r)

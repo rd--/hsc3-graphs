@@ -1,7 +1,8 @@
 -- zizle (jmcc) #SC3d1.5
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 twopi :: Floating n => n
 twopi = 2 * pi
@@ -22,4 +23,4 @@ zizle =
   in pan2 (o * a1 * a2) (rand2 'κ' 1) 1
 
 main :: IO ()
-main = overlapTextureU (4,4,12,maxBound) zizle
+main = O.overlapTextureU (4,4,12,maxBound) zizle

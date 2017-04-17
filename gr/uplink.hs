@@ -1,7 +1,8 @@
 -- uplink (jmcc) #2
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 randz :: ID a => a -> UGen -> UGen
 randz e = rand e 0
@@ -15,4 +16,4 @@ uplink =
     in pan2 (lfPulse AR f 0 0.5 * 0.04) (rand 'θ' (-0.8) 0.8) 1
 
 main :: IO ()
-main = overlapTextureU (4,1,5,maxBound) uplink
+main = O.overlapTextureU (4,1,5,maxBound) uplink

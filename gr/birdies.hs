@@ -1,7 +1,8 @@
 -- birdies (jmcc) #6
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 rand2 :: ID a => a -> UGen -> UGen
 rand2 e n = rand e (- n) n
@@ -17,4 +18,4 @@ birdies =
     in pan2 (sinOsc AR freq 0 * amp) (rand2 'κ' 1) 1
 
 main :: IO ()
-main = overlapTextureU (7,4,4,maxBound) birdies
+main = O.overlapTextureU (7,4,4,maxBound) birdies

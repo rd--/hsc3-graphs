@@ -2,7 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 
-ccomb :: (Functor m,UId m) => m UGen
+ccomb :: UId m => m UGen
 ccomb = do
   let lwr = 48
       flwr = midiCPS lwr

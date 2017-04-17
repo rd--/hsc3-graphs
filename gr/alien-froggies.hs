@@ -1,7 +1,8 @@
 -- alien froggies (jmcc) #1
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 alien_froggies :: UGen -> UGen
 alien_froggies r =
@@ -11,4 +12,4 @@ alien_froggies r =
 
 -- > let u = alien_froggies 11
 main :: IO ()
-main = overlapTextureU (0.25,0.5,5,maxBound) (alien_froggies 11)
+main = O.overlapTextureU (0.25,0.5,5,maxBound) (alien_froggies 11)

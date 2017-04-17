@@ -2,7 +2,8 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 dustR' :: UId m => Rate -> UGen -> UGen -> m UGen
 dustR' r lo hi = do
@@ -14,7 +15,7 @@ dustR' r lo hi = do
 rpr :: UId m => UGen -> UGen -> m UGen
 rpr n = tRandM (in' 1 KR n) (in' 1 KR (n + 1))
 
-tgr_rpr :: (Functor m,UId m) => m UGen
+tgr_rpr :: UId m => m UGen
 tgr_rpr = do
   clk <- dustR' AR (in' 1 KR 0) (in' 1 KR 1)
   rat <- rpr 2 clk
@@ -44,7 +45,7 @@ rSet =
 
 edit :: Transport m => m ()
 edit = do
-  s <- mapM (uncurry rrand) rSet
+  s <- mapM (uncurry R.rrand) rSet
   send (c_setn [(0,s)])
   wait 0.35
 

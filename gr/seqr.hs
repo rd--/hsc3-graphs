@@ -1,10 +1,11 @@
 -- seqr (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+
+import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 
 nrand :: ID z => Int -> z -> UGen -> UGen -> [UGen]
-nrand n e l = mceChannels . randN n e l
+nrand n e l = mceChannels . RDU.randN n e l
 
 nfreq :: ID a => a -> Int -> UGen -> UGen -> [UGen]
 nfreq z n l r = map (midiCPS . floorE) (nrand n z l r)

@@ -2,8 +2,10 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
+
+import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 
 one_td_u :: UGen
 one_td_u =
@@ -15,7 +17,7 @@ one_td_u =
         z5 = [4,6..24]
         rand_sym z n = rand z (- n) n
         a = let fr = range 20 10000 (lfdNoise3 'α' KR (base / 4))
-            in lfBrownNoise2 'β' AR fr 0.005 0
+            in E.lfBrownNoise2 'β' AR fr 0.005 0
         b = let x = mouseX KR 0 (lchoose 'γ' z1) Linear 0.2
             in gbmanL AR x (rand_sym 'δ' 3) (rand_sym 'ε' 3) / 3
         c = let y = mouseY KR 0 (lchoose 'ζ' z1) Linear 0.2
@@ -34,9 +36,9 @@ one_td_u =
         loc = let mu = rand 'τ' 0.2 0.7
                   ad = rand 'υ' 0 0.3
               in lfTri KR (base / lchoose 'φ' z5) 0 * mu + ad
-        klk = let fr = randN 30 'χ' 50 10000
-                  ph = randN 30 'ψ' 0 1
-                  am = randN 30 'ω' 0 1
+        klk = let fr = RDU.randN 30 'χ' 50 10000
+                  ph = RDU.randN 30 'ψ' 0 1
+                  am = RDU.randN 30 'ω' 0 1
                   l = klankSpec_mce fr ph am
               in klank (lchoose 'Α' [a,b,c,d,e,g]) 1 0 1 l
         sig = pan2 klk loc amp

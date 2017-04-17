@@ -1,13 +1,14 @@
 -- > Sound.SC3.UGen.Help.viewSC3Help "ProxyMixer"
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+
+import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 
 randN_l :: ID z => Int -> z -> UGen -> UGen -> [UGen]
-randN_l k z l = mceChannels . randN k z l
+randN_l k z l = mceChannels . RDU.randN k z l
 
 iScramble :: ID z => z -> UGen -> UGen
-iScramble z = tScramble z {- KR -} 1
+iScramble z = RDU.tScramble z {- KR -} 1
 
 pm :: UGen
 pm =

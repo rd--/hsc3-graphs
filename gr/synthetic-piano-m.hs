@@ -1,7 +1,8 @@
 -- synthetic piano (jmcc) #3
 
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3 {- hsc3 -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 -- > g <- synthetic_piano
 synthetic_piano :: UId m => m UGen
@@ -20,7 +21,7 @@ synthetic_piano = do
   return (pan2 c_ l 1)
 
 main :: IO ()
-main = overlapTextureU (6,0,6,maxBound) =<< synthetic_piano
+main = O.overlapTextureU (6,0,6,maxBound) =<< synthetic_piano
 
 {-
 audition . out 0 =<< mixFillM 6 (const synthetic_piano)

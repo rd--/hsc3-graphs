@@ -1,7 +1,8 @@
 -- vla-adttn (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 -- fr = freq,dt = detune
 vla_partial :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
@@ -37,10 +38,10 @@ plyr36 =
     in vla_plyr b 36
 
 main :: IO ()
-main = spawnTextureU (const 3,maxBound) plyr36
+main = O.spawnTextureU (const 3,maxBound) plyr36
 
 -- q = quantised
-vla_q :: (RealFrac n,Fractional n) => [(n,n)]
+vla_q :: RealFrac n => [(n,n)]
 vla_q = let f (a,p) = (roundTo_ a 0.1,roundTo_ p 0.1) in map f vla
 
 -- ampl (DB) and phase data

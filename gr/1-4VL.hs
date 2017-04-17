@@ -1,7 +1,8 @@
 -- http://sccode.org/1-4VL
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 
 tb_freq :: [UGen]
@@ -84,4 +85,4 @@ bell_2 =
     in prayer_bell exc frq 1 10 RemoveSynth
 
 main :: IO ()
-main = spawnTextureU (\i -> R.rrand i (1/3) 9,maxBound) (lchoose 'α' [bell_1,bell_2])
+main = O.spawnTextureU (\i -> R.rrand i (1/3) 9,maxBound) (lchoose 'α' [bell_1,bell_2])

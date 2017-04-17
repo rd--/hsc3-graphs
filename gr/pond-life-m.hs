@@ -1,7 +1,8 @@
 -- pond life (jmcc) #1
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 pond_life :: UId m => m UGen
 pond_life = do
@@ -17,4 +18,4 @@ pond_life = do
   return (pan2 (sinOsc AR f1 0 * a) n5 0.5)
 
 main :: IO ()
-main = overlapTextureU (8,8,4,maxBound) =<< pond_life
+main = O.overlapTextureU (8,8,4,maxBound) =<< pond_life

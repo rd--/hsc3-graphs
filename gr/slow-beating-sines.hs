@@ -1,27 +1,29 @@
 -- slow beating sines (jmcc) #7
 
 import Control.Monad {- base -}
-import Control.Monad.Random {- MonadRandom -}
-import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import Sound.SC3.Lang.Random.Monad
+import qualified Control.Monad.Random as R {- MonadRandom -}
 
-r_freq :: (RandomGen g) => Int -> Rand g [Double]
+import Sound.SC3 {- hsc3 -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Random.Monad as R {- hsc3-lang -}
+
+r_freq :: (R.RandomGen g) => Int -> R.Rand g [Double]
 r_freq i = do
-  n <- nrrand i 24 84
+  n <- R.nrrand i 24 84
   return (map midi_to_cps n)
 
-r_harmonics :: (RandomGen g) => Double -> Int -> Double -> Rand g [Double]
-r_harmonics d m f = fmap (map (+ f)) (nrand2 m d)
+r_harmonics :: (R.RandomGen g) => Double -> Int -> Double -> R.Rand g [Double]
+r_harmonics d m f = fmap (map (+ f)) (R.nrand2 m d)
 
-r_harmonics' :: (RandomGen g) => Double -> Int -> Double -> Rand g [Double]
-r_harmonics' d m f = fmap ((f :)  . map (+ f)) (nrand2 (m - 1) d)
+r_harmonics' :: (R.RandomGen g) => Double -> Int -> Double -> R.Rand g [Double]
+r_harmonics' d m f = fmap ((f :)  . map (+ f)) (R.nrand2 (m - 1) d)
 
-r_phase :: (RandomGen g) => Int -> Rand g [Double]
-r_phase m = nrrand m 0 (2 * pi)
+r_phase :: (R.RandomGen g) => Int -> R.Rand g [Double]
+r_phase m = R.nrrand m 0 (2 * pi)
 
 -- > g <- fmap (fst . runRand (sbs 3 0.4 3)) getStdGen
-sbs :: (RandomGen g) => Int -> Double -> Int -> Rand g UGen
+sbs :: (R.RandomGen g) => Int -> Double -> Int -> R.Rand g UGen
 sbs n d m = do
   f <- r_freq n
   p_fr <- mapM (r_harmonics' d m) f
@@ -38,5 +40,5 @@ sbs n d m = do
 
 main :: IO ()
 main = do
-  g <- getStdGen
-  overlapTextureS (4,4,3,maxBound) (runRand (sbs 20 0.4 3)) g
+  g <- R.getStdGen
+  O.overlapTextureS (4,4,3,maxBound) (R.runRand (sbs 20 0.4 3)) g

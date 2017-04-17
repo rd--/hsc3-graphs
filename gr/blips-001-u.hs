@@ -1,9 +1,11 @@
 -- blips 001 (jmcc) #SC3d1.5
 
 import Prelude hiding ((<*)) {- base -}
+
 import Sound.SC3 {- hsc3 -}
+
 import qualified Sound.SC3.UGen.Unsafe as U {- hsc3-unsafe -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 rand2 :: UGen -> UGen
 rand2 n = U.rand (-n) n
@@ -31,4 +33,4 @@ postProcess z =
     in iter f (6::Int) z'
 
 main :: IO ()
-main = overlapTextureU_pp (2,1,12,maxBound) blips_001 2 postProcess
+main = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 postProcess

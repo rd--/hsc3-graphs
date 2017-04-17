@@ -3,6 +3,8 @@
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
+import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
+
 -- > withSC3 (reset >> init_b [0,1])
 init_b :: Transport m => [Int] -> m ()
 init_b b = do
@@ -26,7 +28,7 @@ m21360 b =
         fb = delTapRd b ph del 1
         p_fb = mix (pan2 fb loc 1)
         h_fb = hpf p_fb hpp
-        ao = averageOutput (abs h_fb) (impulse KR (recip (avg / sr)) 0) -- RFWUGens
+        ao = E.averageOutput (abs h_fb) (impulse KR (recip (avg / sr)) 0) -- RFWUGens
         n_fb = h_fb * (0.02 / clip (lag ao (sdt / sr)) 0.0001 1)
         l_fb = lpf n_fb lpp
     in mrg [localOut l_fb,out 0 l_fb]

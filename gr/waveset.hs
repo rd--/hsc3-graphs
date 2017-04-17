@@ -16,7 +16,7 @@ is_zc :: (Num a, Ord a) => a -> a -> Bool
 is_zc a b = a <= 0 && b > 0
 
 -- | Locate fractional zero-crossing point.
-locate_fzc :: (Ord a, Fractional a) => a -> a -> a
+locate_fzc :: Fractional a => a -> a -> a
 locate_fzc x y = (1.0 / (y - x)) * abs x
 
 -- | Fractional zero-crossing constructor, n is the initial frame location.

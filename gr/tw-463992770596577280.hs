@@ -1,7 +1,8 @@
 -- https://twitter.com/thormagnusson/status/463992770596577280
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 f :: Int -> UGen
 f z =
@@ -13,4 +14,4 @@ g :: UGen
 g = uclone 'α' 2 (sum (map f [0 .. 23]))
 
 main :: IO ()
-main = overlapTextureU (60,15,3,maxBound) g
+main = O.overlapTextureU (60,15,3,maxBound) g

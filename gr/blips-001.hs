@@ -1,8 +1,10 @@
 -- blips 001 (jmcc) #SC3d1.5
 
 import Prelude hiding ((<*)) {- base -}
+
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 rand2 :: ID a => a -> UGen -> UGen
 rand2 e n = rand e (-n) n
@@ -28,4 +30,4 @@ blips_pp z =
     in useq 'μ' 6 f z'
 
 main :: IO ()
-main = overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_pp
+main = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_pp

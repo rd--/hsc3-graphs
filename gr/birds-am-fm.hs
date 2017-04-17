@@ -6,8 +6,9 @@
 import System.Random {- random -}
 
 import Sound.SC3 hiding (sweep) {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.Gen as R
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
 
 -- > audition (out 0 (pd_noise 'a' * 0.1))
 pd_noise :: ID a => a -> UGen
@@ -119,6 +120,7 @@ birdbox b_data =
         a' = sqrt a * 1000
     in pd_vcf tw a' 0.1 * vol b_data
 
+-- > length presets == 13
 presets :: Fractional n => [B n]
 presets =
     [B 0.683544 0.658228 0.177215 0.0886076 0.911392 0.0126582 0.291139 0.772152 0.0886076 0.632911 0.316456 0.860759 0.227848 0.620253 0.417722 0.199808
@@ -135,8 +137,6 @@ presets =
     ,B 0.291139 0.556962 0.0632911 0.0253165 0.0506329 0.0379747 0.0759494 0 0.177215 0.227848 0.0759494 0.240506 0.0379747 0.506329 0.924051 0.314002
     ,B 0.848101 0.772152 0.367089 0.189873 0.35443 0.0506329 0.0126582 0.177215 0.101266 0.0253165 0.924051 0.0886076 1 0.0886076 0.455696 0.732876]
 
--- B 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-
 -- > hearb (presets !! 4)
 hearb :: B UGen -> IO ()
 hearb = audition . out 0 . birdbox
@@ -144,7 +144,7 @@ hearb = audition . out 0 . birdbox
 main :: IO ()
 main = do
   let f g = let (p,g') = R.choose presets g in (birdbox p,g')
-  overlapTextureS (20,4,5,maxBound) f =<< getStdGen
+  O.overlapTextureS (20,4,5,maxBound) f =<< getStdGen
 
 -- Local Variables:
 -- truncate-lines:t

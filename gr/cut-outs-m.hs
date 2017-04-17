@@ -2,7 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 
-cut_outs :: (Functor m,UId m) => m UGen
+cut_outs :: UId m => m UGen
 cut_outs = do
   let t = impulse AR 22 0 * (sinOsc KR 0.5 0 + 1)
       x = mouseX KR 0.005 0.12 Exponential 0.1

@@ -5,6 +5,7 @@ import Sound.SC3 {- hsc3 -}
 k :: Enum a => a -> Int -> [Int]
 k c n = let i = fromEnum c in [i .. i + n]
 
+-- > putStrLn (synthstat u)
 u :: UGen
 u =
     let a = hpf (pinkNoise 'α' AR * 0.005) 10 * line KR 0 1 9 DoNothing

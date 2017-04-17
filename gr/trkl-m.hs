@@ -1,7 +1,8 @@
 -- trkl (rd)
 
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3 {- hsc3 -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 trkl :: UId m => UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> m UGen
 trkl d ul fu dy la fy = do
@@ -32,4 +33,4 @@ trkl_r = do
   trkl d ul fu dy la fy
 
 main :: IO ()
-main = overlapTextureU (5,2,12,maxBound) =<< trkl_r
+main = O.overlapTextureU (5,2,12,maxBound) =<< trkl_r

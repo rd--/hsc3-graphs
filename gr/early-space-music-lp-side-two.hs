@@ -1,10 +1,12 @@
 -- early space music LP, side 2 (jmcc) #12
 
-import Sound.SC3 {- hsc3 -}
-import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
-import Sound.SC3.Lang.Control.OverlapTexture
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 import qualified System.Random as R {- random -}
+
+import Sound.SC3 {- hsc3 -}
+
+import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
+import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 
 m1 :: UGen
 m1 =
@@ -36,7 +38,7 @@ m4 :: UGen
 m4 =
     let a = lfPulse KR (expRand 'ν' 0.2 1.2) 0 (rand 'ξ' 0.1 0.2)
         o z = let i = constant z
-                  r = let (p,q) = mce2c (expRandN 2 z 0.1 20)
+                  r = let (p,q) = mce2c (RDU.expRandN 2 z 0.1 20)
                       in xLine KR p q 25.6 DoNothing
                   f = midiCPS (rand z 24 96)
                   e = max 0 (sinOsc KR (r * rand z 0.9 1.1) (rand z 0 (2 * pi)) * 0.1 - 0.05)
@@ -57,8 +59,8 @@ m6 =
 m7 :: UGen
 m7 =
     let p = 15
-        k = let y z = let fr = mceChannels (expRandN p z 100 6000)
-                          rt = mceChannels (randN p z 2 6)
+        k = let y z = let fr = mceChannels (RDU.expRandN p z 100 6000)
+                          rt = mceChannels (RDU.randN p z 2 6)
                       in klankSpec fr (replicate p 1) rt
             in mce2 (y 'Α') (y 'Β')
         f = xLine KR (expRand 'Γ' 40 300) (expRand 'Δ' 40 300) 12 DoNothing
@@ -68,7 +70,7 @@ m7 =
 esmlp2 :: R.RandomGen g => g -> (UGen, g)
 esmlp2 = R.choose (map (* 0.3) [m1,m2,m3,m4,m6,m7])
 
--- Sound.SC3.UGen.Dot.draw (esmlp2_pp (sinOsc AR 440 0))
+-- > Sound.SC3.UGen.Dot.draw (esmlp2_pp (sinOsc AR 440 0))
 esmlp2_pp :: UGen -> UGen
 esmlp2_pp i =
     let c z = combN i 0.3 (mce2 (rand z 0.1 0.3) (rand z 0.12 0.32)) 8
@@ -77,4 +79,4 @@ esmlp2_pp i =
 main :: IO ()
 main = do
   let g = R.mkStdGen 0
-  overlapTextureS_pp (4,2,6,maxBound) esmlp2 g 2 esmlp2_pp
+  O.overlapTextureS_pp (4,2,6,maxBound) esmlp2 g 2 esmlp2_pp

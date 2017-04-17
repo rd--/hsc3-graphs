@@ -3,21 +3,23 @@
 import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
+
+import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.IO as L {- hsc3-lang -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 
 type ST = (UGen,UGen,UGen)
 
 n1 :: ST -> UGen -> UGen
 n1 (s1,s2,s3) a =
-    let x = tScramble 'α' {- KR -} 1 (mce [60,67,75,79,94])
+    let x = RDU.tScramble 'α' {- KR -} 1 (mce [60,67,75,79,94])
         rel = choose 'β' (mce [0,0,0,0,0,0,0,1])
         p = envPerc 0.01 (a + rel)
         e = envGen AR 1 1 0 1 RemoveSynth p
         ta = midiCPS x * a * choose 'γ' s1
         tb = x * midiCPS (choose 'δ' s2)
         tc = a * midiCPS (choose 'ε' s3)
-    in out 0 (e * ay ta tb tc 0.25 3 15 10 7 4 1 0)
+    in out 0 (e * E.ay ta tb tc 0.25 3 15 10 7 4 1 0)
 
 mk_e :: UGen -> UGen -> UGen
 mk_e m k =

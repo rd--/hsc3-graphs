@@ -1,14 +1,15 @@
 -- after goeyvaerts, nick collins (nc), 2007
 
 import Control.Concurrent.MVar {- base -}
-import Data.List
-import Data.List.Split {- split -}
+import Data.List {- base -}
+import qualified Data.List.Split as S {- split -}
 import qualified Data.Map as M {- containers -}
+import System.Random {- random -}
+
 import Sound.OSC.FD {- hosc -}
 import Sound.SC3.FD {- hsc3 -}
-import Sound.SC3.Common.Buffer {- hsc3 -}
+
 import qualified Sound.SC3.Lang.Random.Gen as R {- hsc3-lang -}
-import System.Random {- random -}
 
 -- * SCHEMA
 
@@ -58,7 +59,7 @@ sequence (replicate 10 a)
 type SEL a b g = (a,g) -> (b,g)
 
 -- | a recursion schema where s chooses between a and b at each step
-sel_seq :: RandomGen g => SEL a Bool g->SEL a a g->SEL a a g->a->g->[a]
+sel_seq :: SEL a Bool g -> SEL a a g -> SEL a a g -> a -> g -> [a]
 sel_seq s a b j =
     let step (i,g) =
             let (r,g') = s (i,g)
@@ -307,7 +308,7 @@ ag_score = do
       b = base_note_seq' g
   nr <- scrambleIO note_set
   cn <- chord_n
-  let gr = splitPlaces (map (+ 1) cn)
+  let gr = S.splitPlaces (map (+ 1) cn)
   psz <- ag_psz nr cn probabilities' selections'
   return (zip6 (gr o) (gr b) (gr a) (gr su) (gr pn) psz,i,m)
 

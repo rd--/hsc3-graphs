@@ -3,7 +3,7 @@
 import Control.Monad {- base -}
 import Sound.SC3 {- hsc3 -}
 
-diffraction ::(Functor m,UId m) => m UGen
+diffraction ::UId m => m UGen
 diffraction = do
   let p = do let x = mouseX KR 0.001 0.02 Exponential 0.1
                  y = mouseY KR 120 400 Exponential 0.1

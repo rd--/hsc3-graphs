@@ -1,7 +1,8 @@
 -- random pulsations (jmcc) #1
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 rp :: UGen
 rp =
@@ -12,4 +13,4 @@ rp =
     in pan2 (o1 `amClip` o2) o3 1
 
 main :: IO ()
-main = spawnTextureU (const (9/8),maxBound) rp
+main = O.spawnTextureU (const (9/8),maxBound) rp

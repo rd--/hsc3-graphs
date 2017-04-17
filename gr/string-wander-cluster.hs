@@ -1,14 +1,16 @@
 -- string wander-cluster (jmcc) #6
 
-import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
-import System.Random {- random -}
+import qualified System.Random as R {- random -}
 
-type ST = (Double,StdGen)
+import Sound.SC3 {- hsc3 -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
+
+type ST = (Double,R.StdGen)
 
 wander :: ST -> ST
 wander (n,g) =
-    let (n',g') = randomR (-7,8) g
+    let (n',g') = R.randomR (-7,8) g
     in (foldToRange 50 120 (n + n'),g')
 
 swc :: ST -> (UGen,ST)
@@ -20,7 +22,7 @@ swc st =
     in (pan2 o (rand 'β' (-1) 1) 1,(n,g))
 
 main :: IO ()
-main = overlapTextureS (4/3,4/3,6,maxBound) swc (60,mkStdGen 0)
+main = O.overlapTextureS (4/3,4/3,6,maxBound) swc (60,R.mkStdGen 0)
 
 swc' :: UGen
 swc' =
@@ -32,4 +34,4 @@ swc' =
     in pan2 o (rand 'δ' (-1) 1) 1
 
 main' :: IO ()
-main' = overlapTextureU (4/3,4/3,6,maxBound) swc'
+main' = O.overlapTextureU (4/3,4/3,6,maxBound) swc'

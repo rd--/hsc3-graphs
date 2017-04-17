@@ -1,7 +1,8 @@
 -- wind metals (jmcc)
 
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3 {- hsc3 -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 -- > audition . out 0 =<< wind_metals
 wind_metals :: UId m => m UGen
@@ -20,4 +21,4 @@ wind_metals = do
   return (softClip (s * 0.1))
 
 main :: IO ()
-main = overlapTextureU (5,2,12,maxBound) =<< wind_metals
+main = O.overlapTextureU (5,2,12,maxBound) =<< wind_metals

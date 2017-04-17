@@ -1,7 +1,8 @@
 -- nharm-p (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+
+import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 nharm :: Num n => Int -> n -> [n]
@@ -11,7 +12,7 @@ klg :: Int -> UGen
 klg n =
     let f = control KR "freq" 440
         d = rand 'α' 9 12
-        l = mceChannels (randN n 'α' 0.01 0.02)
+        l = mceChannels (RDU.randN n 'α' 0.01 0.02)
         p = rand 'α' (-1.0) 1.0
         a = 0.5
         e = envGen KR 1 0.9 0 1 RemoveSynth (envSine d a)
@@ -22,7 +23,7 @@ klg n =
 type Range = (Double,Double)
 
 {- Note that the dur key is used only to schedule the nodes, the UGen
-graph manages duration internally.-}
+graph manages duration internally. -}
 
 pN :: Int -> Range -> Range -> (Synthdef,P.Param)
 pN n (m0,m1) (d0,d1) =

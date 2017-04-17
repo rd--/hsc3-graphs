@@ -2,7 +2,8 @@
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 bottle :: UId m => m UGen
 bottle = do
@@ -24,4 +25,4 @@ bottle = do
   return (cls f)
 
 main :: IO ()
-main = overlapTextureU (2,0,2,maxBound) =<< bottle
+main = O.overlapTextureU (2,0,2,maxBound) =<< bottle

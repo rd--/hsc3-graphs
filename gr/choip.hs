@@ -1,8 +1,9 @@
 -- choip (jmcc) #10
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.UGen.External.RDU as RDU  {- sc3-rdu -}
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 xl :: ID a => a -> a -> UGen -> UGen -> UGen -> UGen
 xl e0 e1 l r t = xLine KR (expRand e0 l r) (expRand e1 l r) t DoNothing
@@ -21,8 +22,8 @@ choip =
 
 choip_pp :: UGen -> UGen
 choip_pp =
-    let f x = allpassN x 0.1 (randN 2 'ι' 0 0.05) 4
+    let f x = allpassN x 0.1 (RDU.randN 2 'ι' 0 0.05) 4
     in useq 'κ' 4 f
 
 main :: IO ()
-main = overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp
+main = O.overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp

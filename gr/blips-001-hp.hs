@@ -2,8 +2,10 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Prelude hiding ((<*)) {- base -}
+
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 rand2 :: UId m => UGen -> m UGen
 rand2 n = randM (-n) n
@@ -30,5 +32,4 @@ postProcess z = do
 -}
 
 main :: IO ()
-main = overlapTextureU (2,1,12,maxBound) =<< blips_001
-
+main = O.overlapTextureU (2,1,12,maxBound) =<< blips_001

@@ -2,7 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 
-wial :: (Functor m,UId m) => m UGen
+wial :: UId m => m UGen
 wial = do
   let pls c d f = do let t = pulseDivider c d 0
                          e = decay2 t 0.05 0.75

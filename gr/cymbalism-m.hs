@@ -1,10 +1,11 @@
 -- cymbalism (jmcc) #2
 
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3 {- hsc3 -}
 
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
+
 -- > g <- cymbalism
-cymbalism :: (Functor m,UId m) => m UGen
+cymbalism :: UId m => m UGen
 cymbalism = do
   let p = replicate 15
   f1 <- randM 500 2500
@@ -20,7 +21,7 @@ cymbalism = do
   return (klank s 1 0 1 (mceTranspose z))
 
 main :: IO ()
-main = overlapTextureU (3,6,6,maxBound) =<< cymbalism
+main = O.overlapTextureU (3,6,6,maxBound) =<< cymbalism
 
 {-
 main = audition . out 0 =<< cymbalism

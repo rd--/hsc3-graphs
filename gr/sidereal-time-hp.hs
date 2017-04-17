@@ -2,8 +2,10 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Control.Monad {- base -}
+
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 sidereal_time :: UId m => m UGen
 sidereal_time = do
@@ -21,7 +23,7 @@ sidereal_time = do
   return (combN o 0.6 #(randM 0.1 0.6) 8 + mceReverse o)
 
 main :: IO ()
-main = overlapTextureU (4,4,6,maxBound) =<< sidereal_time
+main = O.overlapTextureU (4,4,6,maxBound) =<< sidereal_time
 
 {-
 audition (out 0 sidereal_time)

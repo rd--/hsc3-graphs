@@ -1,7 +1,8 @@
 -- sidereal time (jmcc) #9
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 sidereal_time :: UGen
 sidereal_time =
@@ -17,7 +18,7 @@ sidereal_time =
   in combN o 0.6 (rand 'λ' 0.1 0.6) 8 + mceReverse o
 
 main :: IO ()
-main = overlapTextureU (4,4,6,maxBound) sidereal_time
+main = O.overlapTextureU (4,4,6,maxBound) sidereal_time
 
 {-
 audition (out 0 sidereal_time)

@@ -2,7 +2,8 @@
 -- http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+
+import qualified Sound.SC3.Common.Monad.Syntax as M {- hsc3 -}
 
 pling :: UId m => m UGen
 pling = do
@@ -41,10 +42,10 @@ tank_f i = do
   return (mrg [l7,localOut l7])
 
 mix_replicate_m :: Monad m => Int -> m UGen -> m UGen
-mix_replicate_m n = mixFillM n . const
+mix_replicate_m n = mixFillM n . (const :: m UGen -> Int -> m UGen)
 
 tank :: UId m => m UGen
-tank = tank_f =<< chainM 4 r_allpass =<< bang .+. mix_replicate_m 8 pling
+tank = tank_f =<< M.chainM 4 r_allpass =<< bang M..+. mix_replicate_m 8 pling
 
 main :: IO ()
 main = audition . out 0 =<< tank

@@ -1,7 +1,8 @@
 -- mouse clatter (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+
+import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 
 mouse_clatter :: UGen
 mouse_clatter =
@@ -16,7 +17,7 @@ mouse_clatter =
         n6 = tExpRand 'ζ' 0.15 1 t
         o = let e = decay2 t 0.01 n2
             in bpf (n3 * e) n4 n5
-        c = pv_Splita 'η' (ffta 'θ' 2048 o 0.5 0 1 0)
+        c = RDU.pv_Splita 'η' (ffta 'θ' 2048 o 0.5 0 1 0)
         n7 = pv_RandComb 'ι' c n6 t
     in mix (o * 0.05 + ifft n7 0 0)
 
