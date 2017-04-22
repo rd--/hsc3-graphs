@@ -13,89 +13,90 @@ to_file_name =
 to_file :: String -> String -> FilePath
 to_file ext nm = prj_dir </> "gr" </> to_file_name nm <.> ext
 
-jmcc_sc2 :: [[String]]
+-- | Left = ugen graph, Right = texture (ot=overlap,xt=xfade,st=spawn)
+jmcc_sc2 :: [[(String,Either String String)]]
 jmcc_sc2 =
     -- SC2
-    [["why supercollider"]
-    ,["analog bubbles"
-     ,"lfo modulation"
-     ,"hell is busy"
-     ,"pond life"
-     ,"alien froggies"
-     ,"random sine waves"
-     ,"random pulsations"
-     ,"moto rev"
-     ,"scratchy"
-     ,"tremulate"
-     ,"reso pulse"
-     ,"sprinkler"
-     ,"sprinkler mouse"
-     ,"harmonic swimming"
-     ,"harmonic tumbling"]
-    ,["rails"
-     ,"bouncing objects"
-     ,"lots-o-sines"
-     ,"clustered sines"
-     ,"resonators harmonic series"
-     ,"swept resonant noise"
-     ,"coolant"
-     ,"pulsing bottles"
-     ,"what was i thinking"
-     ,"narrow band filtered crackle noise"
-     ,"resonant dust"
-     ,"police state"
-     ,"uplink"
-     ,"data space"
-     ,"cymbalism"
-     ,"cymbalism accelerando"
-     ,"ring modulated klank"]
-    ,["analogue daze"
-     ,"synthetic piano"
-     ,"reverberated sine percussion"
-     ,"reverberated noise bursts"
-     ,"analog bubbles mouse"]
-    ,["berlin 1977"
-     ,"metal plate"
-     ,"sample and hold liquidities"
-     ,"random panning sines"]
-    ,["distort input"
-     ,"ring modulate input"
-     ,"filter input"]
-    ,["sweepy noise"
-     ,"string wander-cluster"
-     ,"comb delay sweeps"
-     ,"noise burst sweep"
-     ,"saucer base"
-     ,"alien meadow"
-     ,"birdies"
-     ,"phase modulation"
-     ,"hard sync sawtooth with lfo"
-     ,"noise modulated sines"
-     ,"noise modulated sawtooths"]
-    ,["aleatoric quartet"
-     ,"slow beating sines"
-     ,"slow beating harmonic sines"
-     ,"tapping tools"]
-    ,["modal space"
-     ,"landon rose"]
-    ,["deep trip"
-     ,"sawed cymbals"
-     ,"sidereal time"
-     ,"contamination zone"]
+    [[("why supercollider",Left "why_supercollider")]
+    ,[("analog bubbles",Left "analog_bubbles")
+     ,("lfo modulation",Left "lfo_modulation")
+     ,("hell is busy",Right "hib_ot")
+     ,("pond life",Right "pond_life_ot")
+     ,("alien froggies",Right "alien_froggies_ot")
+     ,("random sine waves",undefined)
+     ,("random pulsations",undefined)
+     ,("moto rev",undefined)
+     ,("scratchy",undefined)
+     ,("tremulate",undefined)
+     ,("reso pulse",undefined)
+     ,("sprinkler",undefined)
+     ,("sprinkler mouse",undefined)
+     ,("harmonic swimming",undefined)
+     ,("harmonic tumbling",undefined)]
+    ,[("rails",undefined)
+     ,("bouncing objects",undefined)
+     ,("lots-o-sines",undefined)
+     ,("clustered sines",undefined)
+     ,("resonators harmonic series",undefined)
+     ,("swept resonant noise",undefined)
+     ,("coolant",Right "coolant_ot")
+     ,("pulsing bottles",undefined)
+     ,("what was i thinking",undefined)
+     ,("narrow band filtered crackle noise",undefined)
+     ,("resonant dust",undefined)
+     ,("police state",undefined)
+     ,("uplink",undefined)
+     ,("data space",undefined)
+     ,("cymbalism",undefined)
+     ,("cymbalism accelerando",undefined)
+     ,("ring modulated klank",undefined)]
+    ,[("analogue daze",undefined)
+     ,("synthetic piano",undefined)
+     ,("reverberated sine percussion",undefined)
+     ,("reverberated noise bursts",undefined)
+     ,("analog bubbles mouse",undefined)]
+    ,[("berlin 1977",undefined)
+     ,("metal plate",undefined)
+     ,("sample and hold liquidities",undefined)
+     ,("random panning sines",undefined)]
+    ,[("distort input",undefined)
+     ,("ring modulate input",undefined)
+     ,("filter input",undefined)]
+    ,[("sweepy noise",undefined)
+     ,("string wander-cluster",undefined)
+     ,("comb delay sweeps",undefined)
+     ,("noise burst sweep",undefined)
+     ,("saucer base",undefined)
+     ,("alien meadow",undefined)
+     ,("birdies",undefined)
+     ,("phase modulation",undefined)
+     ,("hard sync sawtooth with lfo",undefined)
+     ,("noise modulated sines",undefined)
+     ,("noise modulated sawtooths",undefined)]
+    ,[("aleatoric quartet",undefined)
+     ,("slow beating sines",undefined)
+     ,("slow beating harmonic sines",undefined)
+     ,("tapping tools",undefined)]
+    ,[("modal space",undefined)
+     ,("landon rose",undefined)]
+    ,[("deep trip",undefined)
+     ,("sawed cymbals",undefined)
+     ,("sidereal time",undefined)
+     ,("contamination zone",undefined)]
     ,[]
-    ,["strummable guitar"
-     ,"drone plus rhythm"
-     ,"early space music lp side one"
-     ,"early space music lp side two"]
+    ,[("strummable guitar",undefined)
+     ,("drone plus rhythm",undefined)
+     ,("early space music lp side one",undefined)
+     ,("early space music lp side two",undefined)]
     -- SC3d1.5
-    ,["blips 001"
-     ,"zizle"]
+    ,[("blips 001",undefined)
+     ,("zizle",undefined)]
     -- SC3
-    ,["babbling brook"]
-    ,["mridangam"]]
+    ,[("babbling brook",undefined)]
+    ,[("mridangam",undefined)]]
 
 jmcc_fnames :: String -> [FilePath]
-jmcc_fnames ext = concatMap (map (to_file ext)) jmcc_sc2
+jmcc_fnames ext = concatMap (map (to_file ext . fst)) jmcc_sc2
 
 -- > jmcc_missing "fs"
 -- > jmcc_missing "scm"

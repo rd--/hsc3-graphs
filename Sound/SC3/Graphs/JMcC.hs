@@ -20,6 +20,9 @@ import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
 
 import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 
+twopi :: Floating n => n
+twopi = 2 * pi
+
 rand2 :: ID a => a -> UGen -> UGen
 rand2 z n = rand z (negate n) n
 
@@ -1035,6 +1038,26 @@ cz_pp =
 cz_ot :: IO ()
 cz_ot = O.overlapTextureU_pp (3,8,4,maxBound) cz 2 cz_pp
 
+-- choip (jmcc) #10
+
+choip :: UGen
+choip =
+    let xl e0 e1 n0 n1 tm = xLine KR (expRand e0 n0 n1) (expRand e1 n0 n1) tm DoNothing
+        t = 12
+        i = impulse AR (xl 'α' 'β' 1 30 t) 0
+        f = xl 'γ' 'δ' 600 8000 t
+        a = sinOsc AR (decay2 i 0.05 0.5 * (-0.9) * f + f) 0
+        l = line KR (rand2 'ε' 1) (rand2 'ζ' 1) t DoNothing
+    in pan2 (decay2 (i * xl 'η' 'θ' 0.01 0.5 t) 0.01 0.2 * a) l 1
+
+choip_pp :: UGen -> UGen
+choip_pp =
+    let f x = allpassN x 0.1 (RDU.randN 2 'ι' 0 0.05) 4
+    in useq 'κ' 4 f
+
+choip_ot :: IO ()
+choip_ot = O.overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp
+
 -- strummable guitar (jmcc) #11
 
 str_gtr_str :: UGen -> Double -> UGen
@@ -1179,13 +1202,10 @@ blips_pp z =
         f x = allpassN x 0.05 (mce2 (rand 'κ' 0 0.05) (rand 'λ' 0 0.05)) 4
     in useq 'μ' 6 f z'
 
-blips_pp_ot :: IO ()
-blips_pp_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_pp
+blips_ot :: IO ()
+blips_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_pp
 
 -- zizle (jmcc) #SC3d1.5
-
-twopi :: Floating n => n
-twopi = 2 * pi
 
 zizle :: UGen
 zizle =
