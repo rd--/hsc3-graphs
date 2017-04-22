@@ -1,6 +1,6 @@
 module Sound.SC3.Graphs.JMcC where
 
---import Control.Concurrent {- base -}
+import Control.Concurrent {- base -}
 import Control.Monad {- base -}
 import Prelude hiding ((<*)) {- base -}
 
@@ -8,12 +8,12 @@ import qualified System.Random as R {- random -}
 
 import qualified Control.Monad.Random as MR {- MonadRandom -}
 
---import Sound.OSC {- hosc -}
+import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
---import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.Gen as R.Gen {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
@@ -29,9 +29,12 @@ rand0 e = rand e 0
 sequ :: ID a => a -> [UGen] -> UGen -> UGen
 sequ e s tr = demand tr 0 (dseq e dinf (mce s))
 
--- Somewhat akin to SC2 Sequencer with random selection function as input.
+-- | Somewhat akin to SC2 Sequencer with random selection function as input.
 sequR :: ID a => a -> [UGen] -> UGen -> UGen
 sequR e s tr = demand tr 0 (dshuf e dinf (mce s))
+
+iseqr :: ID a => a -> [UGen] -> UGen -> UGen
+iseqr z s tr = tr * demand tr 0 (dxrand z dinf (mce s))
 
 -- why supercollider (jmcc) #0
 
@@ -46,8 +49,12 @@ why_supercollider =
         x = useq 'θ' 4 f y
     in s + 0.2 * x
 
--- > let dir = "/home/rohan/sw/hsc3-graphs/scsyndef"
--- > synthdefWrite (synthdef "why-supercollider" (out 0 why_supercollider)) dir
+{-
+
+> let dir = "/home/rohan/sw/hsc3-graphs/scsyndef"
+> synthdefWrite (synthdef "why-supercollider" (out 0 why_supercollider)) dir
+
+-}
 
 -- analog bubbles (jmcc) #1
 
@@ -110,7 +117,6 @@ alien_froggies r =
         o = formant AR r' (expRand 'β' 200 3000) (rand 'γ' 0 9 * r' + r')
     in o * 0.05
 
--- > let u = alien_froggies 11
 alien_froggies_ot :: IO ()
 alien_froggies_ot = O.overlapTextureU (0.25,0.5,5,maxBound) (alien_froggies 11)
 
@@ -179,7 +185,6 @@ reso_pulse =
         f' = 2 * f + rand2 'β' 0.5
     in (lfPulse AR f 0 0.2 + lfPulse AR f' 0 0.2) * 0.02
 
--- > let g = reso_pulse_pp (silent 1)
 reso_pulse_pp :: UGen -> UGen
 reso_pulse_pp z =
     let lfoFreq = 6
@@ -202,7 +207,6 @@ sprinkler =
       n = whiteNoise 'α' AR
   in bpz2 (n * t)
 
--- > audition (out 0 sprinkler')
 sprinkler' :: UGen
 sprinkler' =
            let n = whiteNoise 'α' AR
@@ -241,13 +245,13 @@ harmonic_tumbling =
 
 rails :: UGen
 rails =
-    let n = 20 -- resonant modes
-        e = dust 'α' AR 100 * 0.04 -- excitation
-        f = xLine KR 3000 300 8 DoNothing -- sweep filter down
-        l = line KR (rand2 'β' 1) (rand2 'γ' 1) 8 DoNothing -- sweep pan
-        r = uclone' 'δ' n (200 + linRand 'ε' 0 3000 0) -- resonant frequencies
+    let n = 20 {- resonant modes -}
+        e = dust 'α' AR 100 * 0.04 {- excitation -}
+        f = xLine KR 3000 300 8 DoNothing {- sweep filter down -}
+        l = line KR (rand2 'β' 1) (rand2 'γ' 1) 8 DoNothing {- sweep pan -}
+        r = uclone' 'δ' n (200 + linRand 'ε' 0 3000 0) {- resonant frequencies -}
         a = replicate n 1
-        t = uclone' 'ζ' n (0.2 + rand 'η' 0 1) -- ring times
+        t = uclone' 'ζ' n (0.2 + rand 'η' 0 1) {- ring times -}
         k = klank (resonz e f 0.2) 1 0 1 (klankSpec r a t)
     in pan2 k l 1
 
@@ -275,7 +279,6 @@ bouncing_objects_st = O.spawnTextureU (\i -> R.rrand i 0.6 1.6,maxBound) bouncin
 
 -- clustered sines (jmcc) #2
 
--- > synthstat cs
 cs :: UGen
 cs =
     let n = 80
@@ -472,7 +475,6 @@ rmk_ot = O.overlapTextureU (4,4,4,maxBound) rmk
 
 -- analogue daze (jmcc) #3
 
--- Somewhat akin to SC2 Sequencer.
 analogue_daze :: UGen
 analogue_daze =
     let pattern = [55,63,60,63,57,65,62,65]
@@ -523,30 +525,30 @@ rnb =
 
 analog_bubbles_mouse :: UGen
 analog_bubbles_mouse =
-  let y = mouseY KR 0.1 10 Exponential 0.2 -- lfo 1 rate
-      x = mouseX KR 2 40 Exponential 0.2  -- lfo 2 rate
-      o2 = lfSaw KR x 0 * (-3) + 80 -- depth & offset in semitones
-      o1 = lfSaw KR y 0 * 24 + o2 -- depth in semitones, offset is lfo_2
-      f = midiCPS o1 -- convert to frequency
+  let y = mouseY KR 0.1 10 Exponential 0.2 {- lfo 1 rate -}
+      x = mouseX KR 2 40 Exponential 0.2  {- lfo 2 rate -}
+      o2 = lfSaw KR x 0 * (-3) + 80 {- depth & offset in semitones -}
+      o1 = lfSaw KR y 0 * 24 + o2 {- depth in semitones, offset is lfo_2 -}
+      f = midiCPS o1 {- convert to frequency -}
       s = sinOsc AR f 0 * 0.04
-  in combN s 0.2 0.2 4 -- echoing sine wave
+  in combN s 0.2 0.2 4 {- echoing sine wave -}
 
 -- berlin 1977 (jmcc) #4
 
 berlin_1977 :: UGen
 berlin_1977 =
-    let clock_rate = mouseX KR 5 20 Exponential 0.2 -- mouse x controls clock rate
+    let clock_rate = mouseX KR 5 20 Exponential 0.2 {- mouse x controls clock rate -}
         clock_time = 1 / clock_rate
-        clock = impulse KR clock_rate 0 -- sequencer trigger
-        patternList = [55,60,63,62,60,67,63,58];
-        note = sequ 'α' patternList clock -- midi note pattern sequencer
-        clock_16 = pulseDivider clock 16 0 -- divide clock by 16
-        note' = sequR 'β' [-12,-7,-5,0,2,5] clock_16 + note -- transpose somewhat randomly
-        freq = midiCPS note' -- convert midi note to cycles per second
+        clock = impulse KR clock_rate 0 {- sequencer trigger -}
+        patternList = [55,60,63,62,60,67,63,58]
+        note = sequ 'α' patternList clock {- midi note pattern sequencer -}
+        clock_16 = pulseDivider clock 16 0 {- divide clock by 16 -}
+        note' = sequR 'β' [-12,-7,-5,0,2,5] clock_16 + note {- transpose somewhat randomly -}
+        freq = midiCPS note' {- convert midi note to cycles per second -}
         env = decay2 clock (0.05 * clock_time) (2 * clock_time)
-        amp = env * 0.1 + 0.02 -- amplitude envelope
-        filt = env * (fSinOsc KR 0.17 0 * 800) + 1400 -- filter frequency
-        pw = sinOsc KR 0.08 (mce2 0 (0.5 * pi)) * 0.45 + 0.5 -- pulse width LFO(s)
+        amp = env * 0.1 + 0.02 {- amplitude envelope -}
+        filt = env * (fSinOsc KR 0.17 0 * 800) + 1400 {- filter frequency -}
+        pw = sinOsc KR 0.08 (mce2 0 (0.5 * pi)) * 0.45 + 0.5 {- pulse width LFO(s) -}
         s = pulse AR freq pw * amp
     in combN (rlpf s filt 0.15) 0.2 (mce2 0.2 0.17) 1.5
 
@@ -556,25 +558,19 @@ mp :: UGen
 mp =
     let
         sr = 48000::Double
-        -- number of delay lines
-        n = 4
-        -- maximum delay time
-        maxdt = ceiling (sr * 0.03)
-        -- allocate buffers for delay lines
-        buf = map (\k -> asLocalBuf k (replicate maxdt 0)) [0 .. n - 1]
-        -- assign random tap times
-        tap_tm = uclone' 'a' n (rand 'a' 0.015 0.03)
-        -- excitation
+        n = 4 {- number of delay lines -}
+        maxdt = ceiling (sr * 0.03) {- maximum delay time -}
+        mk_buf k = asLocalBuf k (replicate maxdt 0)
+        buf = map mk_buf [0 .. n - 1] {- buffers for delay lines -}
+        tap_tm = uclone' 'α' n (rand 'β' 0.015 0.03) {- random tap times -}
         exc_freq = mouseY KR 10 8000 Linear 0.2
         exc_trig = impulse AR 0.5 0 * 0.2
-        exc = decay2 exc_trig 0.01 0.2 * lfNoise2 'a' AR exc_freq
-        -- tap the delay lines
-        del = zipWith (tap 1) buf tap_tm
-        -- filter the taps
+        exc = decay2 exc_trig 0.01 0.2 * lfNoise2 'γ' AR exc_freq {- excitation -}
+        del = zipWith (tap 1) buf tap_tm {- delay line taps -}
         flt_freq = mouseX KR 10 5000 Linear 0.2
-        flt = map (\i -> lpf i flt_freq * 0.98) del
-        -- write to delay lines
-        wr = zipWith (\b f -> recordBuf AR b 0 1 0 1 Loop 1 DoNothing (f + exc)) buf flt
+        flt = map (\i -> lpf i flt_freq * 0.98) del {- tap filters -}
+        wr_f b f = recordBuf AR b 0 1 0 1 Loop 1 DoNothing (f + exc)
+        wr = zipWith wr_f buf flt {- write to delay lines -}
     in mrg (sum flt : wr)
 
 -- sample and hold liquidities (jmcc) #4
@@ -607,7 +603,7 @@ rps_ot = O.overlapTextureU (8,8,2,maxBound) rps
 
 distort_input :: UGen
 distort_input =
-    let gain = mouseX KR 1 100 Exponential 0.2  -- mouse x controls gain into distortion
+    let gain = mouseX KR 1 100 Exponential 0.2 {- gain into distortion -}
     in distort (soundIn (mce2 0 1) * gain) * 0.4
 
 -- ring modulate input (jmcc) #5
@@ -615,17 +611,17 @@ distort_input =
 ring_modulate_input :: UGen
 ring_modulate_input =
     let input = soundIn (mce2 0 1)
-        x = mouseX KR 10 4000 Exponential 0.2 -- mouse x controls ring mod freq
-        modulator = sinOsc AR x (mce2 0 (0.5 * pi)) -- offset phase of one osc by 90 degrees
+        x = mouseX KR 10 4000 Exponential 0.2 {- ring mod freq -}
+        modulator = sinOsc AR x (mce2 0 (0.5 * pi)) {- offset phase of one osc by 90 degrees -}
     in input * modulator
 
 -- filter input (jmcc) #5
 
 filter_input :: UGen
 filter_input =
-    let rQ = mouseY KR 0.01 1 Exponential 0.2 -- bandwidth ratio = 1/Q
-        cf = mouseX KR 100 12000 Exponential 0.2 -- mouse x controls cutoff freq
-        sg = soundIn (mce2 0 1) * 0.4 * sqrt rQ -- attenuate to offset resonance
+    let rQ = mouseY KR 0.01 1 Exponential 0.2 {- bandwidth ratio = 1/Q -}
+        cf = mouseX KR 100 12000 Exponential 0.2 {- cutoff freq -}
+        sg = soundIn (mce2 0 1) * 0.4 * sqrt rQ {- attenuate to offset resonance -}
     in rlpf sg cf rQ
 
 -- sweepy noise (jmcc) #6
@@ -772,8 +768,8 @@ nrec n f st = if n > 0 then nrec (n - 1) f (f st) else st
 
 pmwsb :: UGen
 pmwsb =
-    let x = mouseX KR 100 6000 Exponential 0.2 -- random freq of new events
-        y = mouseY KR 0 2 Linear 0.2 -- modulation index
+    let x = mouseX KR 100 6000 Exponential 0.2 {- random freq of new events -}
+        y = mouseY KR 0 2 Linear 0.2 {- modulation index -}
         o (e,a) = let f = rand e 0 x
                   in (succ e,fSinOsc AR (mce [f,f + rand2 'α' 1]) 0 * y + a)
         ph = snd (nrec (3::Int) o ('β',0))
@@ -843,8 +839,7 @@ sbs_r_harmonics' d m f = fmap ((f :)  . map (+ f)) (MR.nrand2 (m - 1) d)
 sbs_r_phase :: (MR.RandomGen g) => Int -> MR.Rand g [Double]
 sbs_r_phase m = MR.nrrand m 0 (2 * pi)
 
--- > g <- fmap (fst . runRand (sbs 3 0.4 3)) getStdGen
-sbs :: (MR.RandomGen g) => Int -> Double -> Int -> MR.Rand g UGen
+sbs :: MR.RandomGen g => Int -> Double -> Int -> MR.Rand g UGen
 sbs n d m = do
   f <- sbs_r_freq n
   p_fr <- mapM (sbs_r_harmonics' d m) f
@@ -910,13 +905,16 @@ tapping_tools =
     let e = envLinen 1 4 1 1
         rate = xLine KR 64 0.125 60 DoNothing
         exc = decay (impulse AR (linRand 'α' 1 21 0 * rate) 0 * 0.03) 0.001
-        spc = klankSpec_mce (RDU.randN 4 'β' 400 8400) (mce [1,1,1,1]) (RDU.randN 4 'γ' 0.01 0.11)
+        r0 = RDU.randN 4 'β' 400 8400
+        r1 = RDU.randN 4 'γ' 0.01 0.11
+        spc = klankSpec_mce r0 (mce [1,1,1,1]) r1
         flt = klank exc 1 0 1 spc
     in pan2 flt (rand 'δ' (-1) 1) (envGen KR 1 1 0 1 RemoveSynth e)
 
--- > let g = pp (silent 1)
 tapping_tools_pp :: UGen -> UGen
-tapping_tools_pp z = let f x = allpassN x 0.05 (mce2 (rand 'ε' 0 0.05) (rand 'ζ' 0 0.05)) 2 in useq 'η' 3 f z
+tapping_tools_pp z =
+    let f x = allpassN x 0.05 (mce2 (rand 'ε' 0 0.05) (rand 'ζ' 0 0.05)) 2
+    in useq 'η' 3 f z
 
 tapping_tools_ot :: IO ()
 tapping_tools_ot = O.overlapTextureU_pp (2,1,3,maxBound) tapping_tools 2 tapping_tools_pp
@@ -925,9 +923,9 @@ tapping_tools_ot = O.overlapTextureU_pp (2,1,3,maxBound) tapping_tools 2 tapping
 
 ms1 :: UGen -> UGen -> UGen
 ms1 n r =
-    let b = asLocalBuf 'α' [0,2,3.2,5,7,9,10] -- dorian scale
-        x = mouseX KR 0 15 Linear 0.1 -- mouse indexes into scale
-        k = degreeToKey b x 12 -- 12 notes per octave
+    let b = asLocalBuf 'α' [0,2,3.2,5,7,9,10] {- dorian scale -}
+        x = mouseX KR 0 15 Linear 0.1 {- mouse indexes into scale -}
+        k = degreeToKey b x 12 {- 12 notes per octave -}
         o = sinOsc AR (midiCPS (r + k + n * 0.04)) 0 * 0.1
         t = lfPulse AR (midiCPS (mce2 48 55)) 0 0.15
         f = midiCPS (sinOsc KR 0.1 0 * 10 + r)
@@ -1029,8 +1027,6 @@ cz =
         a = lfPulse KR (linRand 'ι' 0 150 0) 0 (rand 'κ' 0.2 0.4)
     in pan2 r (lfNoise1 'λ' KR (rand 'μ' 0 1)) a
 
--- > let g = cz_pp (silent 1)
--- > audition (out 0 (cz_pp cz))
 cz_pp :: UGen -> UGen
 cz_pp =
     let f x = allpassN x 0.04 (RDU.randN 2 'ν' 0 0.04) 16
@@ -1058,55 +1054,39 @@ str_gtr =
         strs = sum (zipWith str_gtr_str scale [0..])
     in leakDC (lpf strs 12000) 0.995
 
-{-
-
 -- drone plus rhythm (jmcc) #12
 
-scale :: Num a => [a]
-scale = [0, 2, 3, 5, 7, 9, 10]
+dpr_scale :: Num a => [a]
+dpr_scale = [0, 2, 3, 5, 7, 9, 10]
 
-drone_1 :: UGen
-drone_1 =
+dpr_drone_1 :: UGen
+dpr_drone_1 =
     let f0 = midiCPS (lchoose 'α' [24,36] + rand2 'β' 0.08)
         f1 = lfSaw AR (mce2 f0 (f0 + 0.2)) 0 * lfNoise2 'γ' KR (f0 * mce2 0.05 0.04) * 0.06
     in lpf f1 (rand 'δ' 1000 3000)
 
-drone_1_txt :: IO ()
-drone_1_txt = overlapTextureU (4,4,8,maxBound) drone_1
-
-drone_2 :: UGen
-drone_2 =
+dpr_drone_2 :: UGen
+dpr_drone_2 =
     let x = rand 'ε' 0 1 >* 0.8
-        m = lchoose 'ζ' [60,72] + lchoose 'η' scale + uclone 'θ' 2 (rand2 'ι' 0.05)
+        m = lchoose 'ζ' [60,72] + lchoose 'η' dpr_scale + uclone 'θ' 2 (rand2 'ι' 0.05)
     in sinOsc AR (midiCPS m) 0 * x * rand 'κ' 0.04 0.07
 
-drone_2_txt :: IO ()
-drone_2_txt = overlapTextureU (4,6,3,maxBound) drone_2
-
-iseqr :: ID a => a -> [UGen] -> UGen -> UGen
-iseqr z s tr = tr * demand tr 0 (dxrand z dinf (mce s))
-
-rhy :: UGen
-rhy =
-    let m = lchoose 'λ' [48, 60, 72, 84] + lchoose 'μ' scale + uclone 'ν' 2 (rand2 'ξ' 0.03)
+dpr_rhy :: UGen
+dpr_rhy =
+    let m = lchoose 'λ' [48, 60, 72, 84] + lchoose 'μ' dpr_scale + uclone 'ν' 2 (rand2 'ξ' 0.03)
         sq = iseqr 'ο' [0,1,0,1,1,0] (impulse AR (lchoose 'π' [1.5,3,6]) 0)
         sg = lfPulse AR (midiCPS m) 0 0.4 * rand 'ρ' 0.03 0.08
     in rlpf (decay2 sq 0.004 (rand 'σ' 0.2 0.7) * sg) (expRand 'τ' 800 2000) 0.1
 
-pp :: UGen -> UGen
-pp z = combN z 0.5 0.5 6 + mceReverse z
+dpr_rhy_pp :: UGen -> UGen
+dpr_rhy_pp z = combN z 0.5 0.5 6 + mceReverse z
 
-rhy_txt :: IO ()
-rhy_txt = overlapTextureU_pp (6,6,6,maxBound) rhy 2 pp
-
---main :: IO ()
---main = do
---  _ <- forkIO drone_1_txt
---  _ <- forkIO drone_2_txt
---  _ <- forkIO rhy_txt
---  return ()
-
--}
+dpr_ot :: IO [ThreadId]
+dpr_ot = do
+  t1 <- forkIO (O.overlapTextureU_pp (6,6,6,maxBound) dpr_rhy 2 dpr_rhy_pp)
+  t2 <- forkIO (O.overlapTextureU (4,4,8,maxBound) dpr_drone_1)
+  t3 <- forkIO (O.overlapTextureU (4,6,3,maxBound) dpr_drone_2)
+  return [t1,t2,t3]
 
 -- early space music LP, side 2 (jmcc) #12
 
@@ -1135,7 +1115,6 @@ esmlp2_m3 =
 id_seq :: Enum a => a -> Int -> [Int]
 id_seq c n = let c' = fromEnum c in [c' .. c' + n - 1]
 
--- audition (out 0 m4)
 esmlp2_m4 :: UGen
 esmlp2_m4 =
     let a = lfPulse KR (expRand 'ν' 0.2 1.2) 0 (rand 'ξ' 0.1 0.2)
@@ -1148,7 +1127,6 @@ esmlp2_m4 =
               in pan2 s (rand z (-1) 1) 1
     in sum (map o (id_seq (0::Int) 12)) * a
 
--- audition (out 0 (m6 * 0.5))
 esmlp2_m6 :: UGen
 esmlp2_m6 =
     let f = midiCPS (lfNoise1 'π' KR (rand 'ρ' 0 0.3) * 60 + 70)
@@ -1157,7 +1135,6 @@ esmlp2_m6 =
         z = sinOsc AR f 0 * a0 * a1
     in pan2 z (lfNoise1 'ψ' KR (rand 'ω' 0 5)) 1
 
--- audition (out 0 m7)
 esmlp2_m7 :: UGen
 esmlp2_m7 =
     let p = 15
@@ -1172,7 +1149,6 @@ esmlp2_m7 =
 esmlp2 :: R.RandomGen g => g -> (UGen, g)
 esmlp2 = R.Gen.choose (map (* 0.3) [esmlp2_m1,esmlp2_m2,esmlp2_m3,esmlp2_m4,esmlp2_m6,esmlp2_m7])
 
--- > Sound.SC3.UGen.Dot.draw (esmlp2_pp (sinOsc AR 440 0))
 esmlp2_pp :: UGen -> UGen
 esmlp2_pp i =
     let c z = combN i 0.3 (mce2 (rand z 0.1 0.3) (rand z 0.12 0.32)) 8
@@ -1197,8 +1173,6 @@ blips_001 =
         o = blip_001 'ζ' * blip_001 'η'
     in (c * pan2 o (line KR (rand2 'θ' 1) (rand2 'ι' 1) 4 DoNothing) 0.3)
 
--- > let g = blips_pp blips_001
--- > audition (out 0 (blips_pp blips_001))
 blips_pp :: UGen -> UGen
 blips_pp z =
     let z' = distort z
@@ -1213,8 +1187,6 @@ blips_pp_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_pp
 twopi :: Floating n => n
 twopi = 2 * pi
 
--- > Sound.SC3.UGen.Dot.draw zizle
--- > audition zizle
 zizle :: UGen
 zizle =
   let a e f = let fm = mce2 (rand 'α' 0.7 1.3) 1
@@ -1229,8 +1201,8 @@ zizle_ot :: IO ()
 zizle_ot = O.overlapTextureU (4,4,12,maxBound) zizle
 
 -- babbling brook (jmcc) #SC3
--- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
 
+{- | http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html -}
 babbling_brook :: UGen
 babbling_brook =
   let b f m a g = let n3 = lpf (brownNoise 'α' AR) f * m + a
@@ -1240,19 +1212,17 @@ babbling_brook =
       y = uclone 'δ' 2 (b 20 800 1000 0.010)
   in x + y
 
-{-
-
 -- mridangam (jmcc) #SPE3
 
-mridangam :: UGen
-mridangam =
+mri_mridangam :: UGen
+mri_mridangam =
     let a = tr_control "amp" 1
         n = whiteNoise 'α' AR * 70
         e = decay2 a 0.002 0.1
     in distort (resonz (n * e) (midiCPS 60) 0.02 * 4) * 0.4
 
-drone :: UGen
-drone =
+mri_drone :: UGen
+mri_drone =
     let s1 = saw AR (midiCPS (mce2 60 60.04))
         s2 = saw AR (midiCPS (mce2 67 67.04))
     in lpf (s1 + s2) (midiCPS 108) * 0.007
@@ -1263,15 +1233,15 @@ lseq l n = concat (replicate n l)
 lrand :: Enum e => e -> [[a]] -> Int -> [a]
 lrand e l n = concat (R.nchoose e n l)
 
-a_seq :: Fractional n => Char -> [[n]]
-a_seq e =
+mri_a_seq :: Fractional n => Char -> [[n]]
+mri_a_seq e =
     [lseq [0.0] 10
-    -- intro
+    {- intro -}
     ,lseq [0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] 2
     ,lseq [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.0] 2
     ,lseq [0.9,0.0,0.0,0.2,0.0,0.2,0.0,0.2,0.0,0.0] 2
     ,lseq [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.2] 2
-    -- solo
+    {- solo -}
     ,lrand e [[0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
              ,[0.9,0.2,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
              ,[0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.2]
@@ -1286,21 +1256,19 @@ a_seq e =
              ,[0.9,0.0,0.0,0.7,0.0,0.0,0.0,0.7,0.0,0.0]
              ,[0.9,0.7,0.7,0.0,0.0,0.2,0.2,0.2,0.0,0.0]
              ,[0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]] 30
-    -- tehai
+    {- tehai -}
     ,lseq [2.0,0.0,0.2,0.5,0.0,0.2,0.9
           ,1.5,0.0,0.2,0.5,0.0,0.2,0.9
           ,1.5,0.0,0.2,0.5,0.0,0.2] 3
-    -- sam
+    {- sam -}
     ,[5.0]]
 
-act :: Transport m => m ()
-act = do
-  play (out 0 drone)
-  let sy = synthdef "mridangam" (out 0 mridangam)
-      a = concat (a_seq 'α')
+mri_begin :: Transport m => m ()
+mri_begin = do
+  play (out 0 mri_drone)
+  let sy = synthdef "mridangam" (out 0 mri_mridangam)
+      a = concat (mri_a_seq 'α')
   play (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
 
---main :: IO ()
---main = withSC3 act
-
--}
+mri_begin' :: IO ()
+mri_begin' = withSC3 mri_begin
