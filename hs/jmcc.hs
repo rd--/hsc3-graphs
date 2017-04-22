@@ -109,6 +109,10 @@ jmcc_concat ext f = do
   let d' = map f d
   return d'
 
+-- > writeFile "/tmp/jmcc.hs" . unlines =<< jmcc_hs
+jmcc_hs :: IO [String]
+jmcc_hs = jmcc_concat "hs" id
+
 -- > writeFile "/tmp/jmcc.scd" . unlines =<< jmcc_scd
 jmcc_scd :: IO [String]
 jmcc_scd = let f s = concat ["(\n",s,")\n"] in jmcc_concat "scd" f
