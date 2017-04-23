@@ -210,12 +210,14 @@ sprinkler =
       n = whiteNoise 'α' AR
   in bpz2 (n * t)
 
-sprinkler' :: UGen
-sprinkler' =
-           let n = whiteNoise 'α' AR
-               f = mouseX KR 0.2 50 Linear 0.2
-               t = lfPulse KR f 0 0.25 * 0.1
-           in bpz2 (n * t)
+-- sprinkler mouse (jmcc) #1
+
+sprinkler_mouse :: UGen
+sprinkler_mouse =
+    let n = whiteNoise 'α' AR
+        f = mouseX KR 0.2 50 Linear 0.2
+        t = lfPulse KR f 0 0.25 * 0.1
+    in bpz2 (n * t)
 
 -- harmonic swimming (jmcc) #1
 
@@ -279,6 +281,21 @@ bouncing_objects =
 
 bouncing_objects_st :: IO ()
 bouncing_objects_st = O.spawnTextureU (\i -> R.rrand i 0.6 1.6,maxBound) bouncing_objects
+
+-- lots-o-sins (jmcc) #2
+
+lots_o_sins :: UGen
+lots_o_sins =
+    let n = 60 {- n sines in each channel (twice as many during cross-fade) -}
+        f0 = RDU.randN n 'a' 40 10000
+        f1 = RDU.randN n 'b' 40 10000
+        mk_k x = mce (replicate n x)
+        o1 = klang AR 1 0 (klangSpec_mce f0 (mk_k 1) (mk_k 0))
+        o2 = klang AR 1 0 (klangSpec_mce f1 (mk_k 1) (mk_k 0))
+    in mce2 o1 o2 * (0.1 / constant n)
+
+lots_o_sins_xt :: IO ()
+lots_o_sins_xt = O.xfadeTextureU (4,4,maxBound) lots_o_sins
 
 -- clustered sines (jmcc) #2
 
