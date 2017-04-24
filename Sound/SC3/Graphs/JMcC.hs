@@ -402,7 +402,7 @@ what_was_i_thinking_m = do
   return (z + mce [mix z0,mix z1])
 
 what_was_i_thinking :: UGen
-what_was_i_thinking = uid_st_run what_was_i_thinking_m
+what_was_i_thinking = uid_st_eval what_was_i_thinking_m
 
 -- narrow band filtered crackle noise (jmcc) #2
 
@@ -501,7 +501,7 @@ cymbalism_m = do
   return (klank s 1 0 1 (mceTranspose z))
 
 cymbalism :: UGen
-cymbalism = uid_st_run cymbalism_m
+cymbalism = uid_st_eval cymbalism_m
 
 cymbalism_ot :: IO ()
 cymbalism_ot = O.overlapTextureU (3,6,6,maxBound) cymbalism
@@ -602,7 +602,7 @@ reverberated_sine_percussion_m = do
   return (s + x * 0.2)
 
 reverberated_sine_percussion :: UGen
-reverberated_sine_percussion = uid_st_run reverberated_sine_percussion_m
+reverberated_sine_percussion = uid_st_eval reverberated_sine_percussion_m
 
 -- reverberated noise bursts (jmcc) #3
 
@@ -943,7 +943,7 @@ aleatoric_quartet_m = do
   return (leakDC g 0.995)
 
 aleatoric_quartet :: UGen
-aleatoric_quartet = uid_st_run aleatoric_quartet_m
+aleatoric_quartet = uid_st_eval aleatoric_quartet_m
 
 -- slow beating sines (jmcc) #7
 
@@ -1433,7 +1433,7 @@ bowed_string_m = do
   return (softClip (k * 0.1))
 
 bowed_string :: UGen
-bowed_string = uid_st_run bowed_string_m
+bowed_string = uid_st_eval bowed_string_m
 
 bowed_string_ot :: IO ()
 bowed_string_ot = O.overlapTextureU (5,2,12,maxBound) bowed_string
@@ -1486,7 +1486,7 @@ wind_metals_m = do
   return (softClip (s * 0.1))
 
 wind_metals :: UGen
-wind_metals = uid_st_run wind_metals_m
+wind_metals = uid_st_eval wind_metals_m
 
 wind_metals_ot :: IO ()
 wind_metals_ot = O.overlapTextureU (5,2,12,maxBound) wind_metals
@@ -1558,4 +1558,4 @@ plucked_strings_m = do
   fmap sum (sequence (replicate 5 s))
 
 plucked_strings :: UGen
-plucked_strings = uid_st_run plucked_strings_m
+plucked_strings = uid_st_eval plucked_strings_m
