@@ -1,9 +1,11 @@
 -- clustered sines (jmcc) #2
 
 import Control.Monad {- base -}
+
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
+import Sound.SC3.Common.Monad.Operators {- hsc3 -}
+
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 -- > fmap synthstat (clone 2 cs)
 cs :: UId m => m UGen
@@ -16,4 +18,4 @@ cs = do
   return (klang AR 1 0 sp * (0.3 / fromIntegral n))
 
 main :: IO ()
-main = xfadeTextureU (4,4,maxBound) =<< clone 2 cs
+main = O.xfadeTextureU (4,4,maxBound) =<< clone 2 cs

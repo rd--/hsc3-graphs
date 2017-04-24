@@ -10,7 +10,7 @@ import qualified Music.Theory.Pitch as T {- hmt -}
 import Sound.SC3 {- hsc3 -}
 import Sound.OSC {- hosc -}
 
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
 -- | Happy birthday

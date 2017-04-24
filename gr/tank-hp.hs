@@ -2,7 +2,8 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
 pling :: UId m => m UGen
 pling = do

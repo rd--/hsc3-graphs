@@ -1,17 +1,17 @@
 module Sound.SC3.Graphs.JMcC where
 
+import Control.Applicative {- base -}
 import Control.Concurrent {- base -}
 import Control.Monad {- base -}
-import Prelude hiding ((<*)) {- base -}
+import Prelude {- base -}
 
 import qualified System.Random as R {- random -}
 
 import qualified Control.Monad.Random as MR {- MonadRandom -}
 
 import Sound.OSC {- hosc -}
-import Sound.SC3 {- hsc3 -}
-
-import qualified Sound.SC3.Common.Monad.Syntax as H {- hsc3 -}
+import Sound.SC3 as SC3 {- hsc3 -}
+import qualified Sound.SC3.Common.Monad as SC3 {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
@@ -598,7 +598,7 @@ reverberated_sine_percussion_m = do
           r <- clone c (randM 0 0.1)
           n <- lfNoise1M KR r
           return (mix (combL z 0.1 (n * 0.04 + 0.05) 15))
-  x <- H.chainM a x_ y
+  x <- SC3.chainM a x_ y
   return (s + x * 0.2)
 
 reverberated_sine_percussion :: UGen
@@ -939,7 +939,7 @@ aleatoric_quartet_m = do
                         n1 <- lfNoise1M KR 8
                         return (n0 * max 0 (n1 * dmul + dadd))
                 return (pan2 (combL x 0.02 f 3) r 1)
-  g <- H.chainM 5 rapf =<< fmap sum (sequence (replicate 4 mk_s))
+  g <- SC3.chainM 5 rapf =<< fmap sum (sequence (replicate 4 mk_s))
   return (leakDC g 0.995)
 
 aleatoric_quartet :: UGen
@@ -1311,7 +1311,7 @@ blip_001 e =
 
 blips_001 :: UGen
 blips_001 =
-    let c = rand 'ε' 0 1 <* 0.8
+    let c = rand 'ε' 0 1 SC3.<* 0.8
         o = blip_001 'ζ' * blip_001 'η'
     in (c * pan2 o (line KR (rand2 'θ' 1) (rand2 'ι' 1) 4 DoNothing) 0.3)
 
@@ -1423,7 +1423,7 @@ bowed_string_m = do
   r0 <- expRandM 0.125 0.5
   r1 <- randM 0.7 0.9
   r2 <- sequence (replicate 12 (randM 1.0 3.0))
-  f <- midiCPS `fmap` (lchooseM scale H..+. lchooseM oct)
+  f <- midiCPS `fmap` (liftA2 (+) (lchooseM scale) (lchooseM oct))
   n1 <- lfNoise1M KR r0
   let x = n0 * 0.007 * max 0 (n1 * 0.6 + 0.4)
       geom n i z = take n (iterate (* z) i)

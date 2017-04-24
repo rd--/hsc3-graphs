@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 
 data_space :: UId m => m UGen

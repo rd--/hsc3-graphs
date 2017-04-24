@@ -1,7 +1,7 @@
 -- spe (jmcc)/(rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad {- hsc3 -}
 
 -- fmap (Sound.SC3.UGen.PP.ugen_graph_forth_pp False) spe
 spe :: UId m => m UGen

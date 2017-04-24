@@ -4,7 +4,8 @@
 -- increasing the stack limit of the haskell run time system
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad {- hsc3 -}
+
 import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 coinIf :: Double -> a -> a -> IO a

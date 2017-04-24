@@ -1,7 +1,7 @@
 -- h-chatter (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
 h_chatter :: UId m => m UGen
 h_chatter = do

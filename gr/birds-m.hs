@@ -2,7 +2,7 @@
 -- http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad {- hsc3 -}
 
 birds :: UId m => m UGen
 birds = do

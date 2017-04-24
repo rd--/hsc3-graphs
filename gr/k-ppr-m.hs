@@ -1,7 +1,7 @@
 -- k-ppr-m (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
 k_ppr_m :: UId m => m UGen
 k_ppr_m = do

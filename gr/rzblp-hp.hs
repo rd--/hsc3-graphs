@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Syntax {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
 lfn :: UId m => UGen -> UGen -> UGen -> m UGen
 lfn f l r = fmap (range l r) (lfNoise0M KR f)
