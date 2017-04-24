@@ -1,17 +1,19 @@
 -- nharm (rd)
 
 import Control.Concurrent {- base -}
-import Control.Monad
+import Control.Monad {- base -}
+
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 nharm :: (Num b, Integral a) => a -> b -> [b]
 nharm n f = map ((* f) . fromIntegral) [1..n]
 
-klg :: UId m => UGen -> Int -> m UGen
+klg :: (MonadIO m,UId m) => UGen -> Int -> m UGen
 klg m u = do
-    n <- rrand 4 u
+    n <- R.rrand 4 u
     d <- iRandM 9 12
     f <- iRandM m (m + 2)
     l <- sequence (replicate n (randM 0.01 0.02))
@@ -24,7 +26,7 @@ klg m u = do
 
 ply :: Int -> (Double,Double) -> UGen -> Int -> IO ()
 ply n (l,r) m u = do
-  let a = do pauseThread =<< rrand l r
+  let a = do pauseThread =<< R.rrand l r
              audition . out 0 =<< klg m u
   replicateM_ n a
 

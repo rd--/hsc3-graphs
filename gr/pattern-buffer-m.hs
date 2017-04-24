@@ -2,20 +2,21 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
+
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 tseq :: [UGen] -> UGen
 tseq l =
     let n = fromIntegral (length l) / 2.0
     in select (lfSaw KR 0.5 0 * n + n) (mce l)
 
-pattern_buffer :: UId m => Int -> m UGen
+pattern_buffer :: (UId m,MonadIO m) => Int -> m UGen
 pattern_buffer c = do
   let p = phasor AR 0 (bufRateScale KR 10) 0 (bufFrames KR 10) 0
       t = bufRdC 1 AR 10 p Loop
-  r1 <- sequence (replicate c (rrand 36 96))
-  r2 <- sequence (replicate c (rrand (-1.0) 1.0))
-  r3 <- rrand 0 1
+  r1 <- sequence (replicate c (R.rrand 36 96))
+  r2 <- sequence (replicate c (R.rrand (-1.0) 1.0))
+  r3 <- R.rrand 0 1
   n1 <- tRandM 0.02 0.08 t
   let e = decay2 t 0.01 n1
       f = midiCPS (tseq r1)
@@ -25,8 +26,8 @@ pattern_buffer c = do
 
 set_pattern :: Transport m => Int -> Int -> m ()
 set_pattern nf c = do
-  let rs = do r0 <- rrand 0 nf
-              r1 <- rrand 0.0 1.0
+  let rs = do r0 <- R.rrand 0 nf
+              r1 <- R.rrand 0.0 1.0
               send (b_set1 10 r0 r1)
   sequence_ (replicate c rs)
 

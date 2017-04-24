@@ -12,6 +12,7 @@ import qualified Control.Monad.Random as MR {- MonadRandom -}
 import Sound.OSC {- hosc -}
 import Sound.SC3 as SC3 {- hsc3 -}
 import qualified Sound.SC3.Common.Monad as SC3 {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
@@ -117,6 +118,19 @@ pond_life =
 pond_life_ot :: IO ()
 pond_life_ot = O.overlapTextureU (8,8,4,maxBound) pond_life
 
+pond_life_m :: UId m => m UGen
+pond_life_m = do
+  n0 <- randM 0 30
+  let f0 = 20 + n0
+  n1 <- randM 100 400
+  n2 <- linRandM 500 2500 0
+  let f1 = fSinOsc KR f0 0 * n1 + n2
+  n3 <- randM 1 9
+  n4 <- randM 0.2 0.5
+  let a = lfPulse KR (3 / n3) 0 n4 * 0.04
+  n5 <- randM (-1) 1
+  return (pan2 (sinOsc AR f1 0 * a) n5 0.5)
+
 -- alien froggies (jmcc) #1
 
 alien_froggies :: UGen -> UGen
@@ -168,6 +182,12 @@ scratchy =
       n' = uclone 'β' 2 n
   in rhpf (max n' 0 * 20) 5000 1
 
+scratchy_m :: UId m => m UGen
+scratchy_m = do
+  n <- clone 2 (brownNoiseM AR)
+  let f = max (n * 0.5 - 0.49) 0 * 20
+  return (rhpf f 5000 1)
+
 -- tremulate (jmcc) #1
 
 tremulate :: UGen
@@ -184,6 +204,16 @@ tremulate_pp i = combN i 0.1 0.1 1
 
 tremulate_xt :: IO ()
 tremulate_xt = O.xfadeTextureU_pp (0.5,2,maxBound) tremulate 2 tremulate_pp
+
+tremulate_m :: UId m => m UGen
+tremulate_m = do
+  f <- randM 500 900
+  let o = fSinOsc AR (f * mce [1,1.2,1.5,1.8]) 0
+  r <- randM 30 90
+  n <- clone 4 (lfNoise2M KR r)
+  let a = max 0 (n * 0.1)
+  l <- clone 4 (randM (-1) 1)
+  return (mix (pan2 o l a))
 
 -- reso-pulse (jmcc) #1
 
@@ -215,6 +245,13 @@ sprinkler =
       n = whiteNoise 'α' AR
   in bpz2 (n * t)
 
+sprinkler_m :: UId m => m UGen
+sprinkler_m = do
+  n <- whiteNoiseM AR
+  let f = lfPulse KR 0.09 0 0.16 * 10 + 7
+      t = lfPulse KR f 0 0.25 * 0.1
+  return (bpz2 (n * t))
+
 -- sprinkler mouse (jmcc) #1
 
 sprinkler_mouse :: UGen
@@ -238,6 +275,18 @@ harmonic_swimming =
             in fSinOsc AR (f * (fromIntegral h + 1)) 0 * e
   in sum (map o [0..p])
 
+harmonic_swimming_m :: UId m => m UGen
+harmonic_swimming_m =
+    let a = 0.02
+        f = 50
+        p = 20
+        l = line KR 0 (- a) 60 DoNothing
+        o h = do r <- clone 2 (randM 2 8)
+                 n <- lfNoise1M KR r
+                 let e = max 0 (n * a + l)
+                 return (fSinOsc AR (f * (h + 1)) 0 * e)
+    in fmap sum (mapM o [0..p])
+
 -- harmonic tumbling (jmcc) #1
 
 harmonic_tumbling :: UGen
@@ -250,6 +299,17 @@ harmonic_tumbling =
                 e = decay2 (n * 0.02) 0.005 r
             in fSinOsc AR (f * (fromIntegral h + 1)) 0 * e
   in sum (map o [0..p])
+
+harmonic_tumbling_m :: UId m => m UGen
+harmonic_tumbling_m = do
+  let f = 80
+      p = 10
+      t = xLine KR (mce2 10 11) 0.1 60 DoNothing
+      o h = do n <- dustM KR t
+               r <- randM 0 0.5
+               let e = decay2 (n * 0.02) 0.005 r
+               return (fSinOsc AR (f * (h + 1)) 0 * e)
+  fmap sum (mapM o [0..p])
 
 -- rails (jmcc) #2
 
@@ -316,6 +376,15 @@ cs =
 cs_xt :: IO ()
 cs_xt = O.xfadeTextureU (4,4,maxBound) cs
 
+cs_m :: UId m => m UGen
+cs_m = do
+  let n = 80
+  f1 <- randM 100 1100
+  let f2 = 4 * f1
+  y <- replicateM n (f1 +. randM 0 f2)
+  let sp = klangSpec y (map (f1 /) y) (replicate n 0)
+  return (klang AR 1 0 sp * (0.3 / fromIntegral n))
+
 -- resonators harmonic series (jmcc) #2
 
 rhs :: UGen
@@ -381,6 +450,19 @@ pulsing_bottles =
 
 pulsing_bottles_ot :: IO ()
 pulsing_bottles_ot = O.overlapTextureU (4,4,4,maxBound) pulsing_bottles
+
+pulsing_bottles_m :: UId m => m UGen
+pulsing_bottles_m = do
+  let r = do n <- whiteNoiseM AR
+             r0 <- randM 4 14
+             r1 <- randM 0 0.7
+             r2 <- randM 400 7400
+             return (resonz (n * lfPulse KR r0 0 0.25 * r1) r2 0.01)
+      s = do f <- randM 0.1 0.5
+             p <- randM 0 (pi * 2)
+             return (sinOsc KR f p)
+      u = liftM2 (\x y -> pan2 x y 1) r s
+  fmap sum (sequence (replicate 6 u))
 
 -- what was i thinking? (jmcc) #2
 
@@ -449,6 +531,24 @@ police_state =
       n2 = lfNoise2 'μ' KR (mce2 0.3 0.301)
       e = n1 * (n2 * 0.15 + 0.18)
   in combL (mix ns + e) 0.3 0.3 3
+
+police_state_m :: UId m => m UGen
+police_state_m = do
+  let nd = do r0 <- randM 0.02 0.12
+              r1 <- randM 0 (pi * 2)
+              r2 <- randM 0 600
+              r3 <- randM 700 1300
+              r4 <- randM (-1) 1
+              r5 <- randM 80 120
+              n0 <- lfNoise2M AR r5
+              let f = sinOsc KR r0 r1 * r2 + r3
+              return (pan2 (sinOsc AR f 0 * n0 * 0.1) r4 1)
+  ns <- clone 4 nd
+  n0 <- clone 2 (lfNoise2M KR 0.4)
+  n1 <- lfNoise2M AR (n0 * 90 + 620)
+  n2 <- lfNoise2M KR (mce2 0.3 0.301)
+  let e = n1 * (n2 * 0.15 + 0.18)
+  return (combL (mix ns + e) 0.3 0.3 3)
 
 -- uplink (jmcc) #2
 
@@ -581,6 +681,21 @@ synthetic_piano =
 synthetic_piano_ot :: IO ()
 synthetic_piano_ot = O.overlapTextureU (6,0,6,maxBound) synthetic_piano
 
+synthetic_piano_m :: UId m => m UGen
+synthetic_piano_m = do
+  n <- iRandM 36 90
+  f <- randM 0.1 0.5
+  ph <- randM 0 1
+  let s = impulse AR f ph * 0.1
+      e = decay2 s 0.008 0.04
+      c i = do n0 <- lfNoise2M AR 3000
+               let o = [-0.05,0,0.04] !! i
+                   dt = 1 / midiCPS (n + o)
+               return (combL (n0 * e) dt dt 6)
+      l = ((n - 36) / 27) - 1
+  c_ <- mixFillM 3 c
+  return (pan2 c_ l 1)
+
 -- reverberated sine percussion (jmcc) #3
 
 reverberated_sine_percussion_m :: UId m => m UGen
@@ -691,6 +806,16 @@ rps =
 
 rps_ot :: IO ()
 rps_ot = O.overlapTextureU (8,8,2,maxBound) rps
+
+rps_m :: UId m => m UGen
+rps_m = do
+  let nd = do r0 <- linRandM 80 2000 0
+              let o = fSinOsc AR r0 0
+              l <- lfNoise1M KR =<< randM 0.8 1.2
+              a <- lfNoise1M KR =<< randM 0.82 0.98
+              return (pan2 o l a)
+  r <- clone 8 nd
+  return (mix r * (0.4 / 8))
 
 -- distort input (jmcc) #5
 
@@ -1315,14 +1440,14 @@ blips_001 =
         o = blip_001 'ζ' * blip_001 'η'
     in (c * pan2 o (line KR (rand2 'θ' 1) (rand2 'ι' 1) 4 DoNothing) 0.3)
 
-blips_pp :: UGen -> UGen
-blips_pp z =
+blips_001_pp :: UGen -> UGen
+blips_001_pp z =
     let z' = distort z
         f x = allpassN x 0.05 (mce2 (rand 'κ' 0 0.05) (rand 'λ' 0 0.05)) 4
     in useq 'μ' 6 f z'
 
-blips_ot :: IO ()
-blips_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_pp
+blips_001_ot :: IO ()
+blips_001_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_001_pp
 
 -- zizle (jmcc) #SC3d1.5
 
@@ -1350,6 +1475,17 @@ babbling_brook =
       x = uclone 'γ' 2 (b 14 400 500 0.006)
       y = uclone 'δ' 2 (b 20 800 1000 0.010)
   in x + y
+
+babbling_brook_m :: UId m => m UGen
+babbling_brook_m = do
+  let b f m a g = do n1 <- brownNoiseM AR
+                     n2 <- brownNoiseM AR
+                     let n3 = lpf n2 f * m + a
+                         n4 = onePole n1 0.99
+                     return (rhpf n4 n3 0.03 * g)
+  x <- clone 2 (b 14 400 500 0.006)
+  y <- clone 2 (b 20 800 1000 0.010)
+  return (x + y)
 
 -- mridangam (jmcc) #SPE3
 
@@ -1534,6 +1670,47 @@ tank =
 tank_rev :: UGen
 tank_rev = tank_f (useq 'λ' 4 r_allpass (soundIn 0))
 
+tank_pling_m :: UId m => m UGen
+tank_pling_m = do
+  d <- dustM AR 0.2
+  f <- expRandM 300 2200
+  p <- randM (-1) 1
+  let s1 = cubed (fSinOsc AR f 0)
+      s2 = decay2 d 0.1 0.5 * 0.1 * s1
+  return (pan2 s2 p 1)
+
+tank_bang_m :: UId m => m UGen
+tank_bang_m = do
+  d <- dustM AR 0.01
+  n <- brownNoiseM AR
+  return (pan2 (decay2 d 0.04 0.3 * n) 0 1)
+
+r_allpass_m :: UId m => UGen -> m UGen
+r_allpass_m i = do
+  r <- clone 2 (randM 0.005 0.02)
+  return (allpassN i 0.03 r 1)
+
+tank_f_m :: UId m => UGen -> m UGen
+tank_f_m i = do
+  r1 <- clone 2 (randM 0.01 0.05)
+  r2 <- clone 2 (randM 0.03 0.15)
+  let l0 = localIn' 2 AR * 0.98
+      l1 = onePole l0 0.33
+      [l1l,l1r] = mceChannels l1
+      l2 = rotate2 l1l l1r 0.23
+      l3 = allpassN l2 0.05 r1 2
+      l4 = delayN l3 0.3 (mce [0.17,0.23])
+      l5 = allpassN l4 0.05 r2 2
+      l6 = leakDC l5 0.995
+      l7 = l6 + i
+  return (mrg [l7,localOut l7])
+
+mix_replicate_m :: Monad m => Int -> m UGen -> m UGen
+mix_replicate_m n = mixFillM n . (const :: m UGen -> Int -> m UGen)
+
+tank_m :: UId m => m UGen
+tank_m = tank_f_m =<< SC3.chainM 4 r_allpass_m =<< tank_bang_m .+. mix_replicate_m 8 tank_pling_m
+
 -- plucked strings (jmcc)
 
 plucked_strings_m :: UId m => m UGen
@@ -1559,3 +1736,80 @@ plucked_strings_m = do
 
 plucked_strings :: UGen
 plucked_strings = uid_st_eval plucked_strings_m
+
+-- theremin (jmcc)
+
+theremin :: UGen
+theremin =
+  let m = 7
+      detune = 0
+      x = mouseX KR 0 0.6 Linear 0.2
+      y = mouseY KR 4000 200 Exponential 0.8
+      f = y + detune
+      f' = f + f * sinOsc AR m 0 * 0.02
+      a = sinOsc AR f' 0 * x
+  in pan2 a 0 1
+
+-- snare-909 (jmcc)
+
+snare_909 :: UGen -> UGen
+snare_909 tr =
+  let n = whiteNoise 'α' AR
+      v = tRand 'β' 0.25 1.0 tr
+      e a b = envGen AR tr 1 0 1 DoNothing (envPerc a b)
+      e1 = e 0.0005 0.055
+      e2 = e 0.0005 0.075
+      e3 = e 0.0005 0.4
+      e4 = e 0.0005 0.283
+      t1 = lfTri AR 330 0
+      t2 = lfTri AR 185 0
+      x1 = lpf n 7040 * 0.1 + v
+      x2 = hpf x1 523
+      m1 = t1 * e1 * 0.25 + t2 * e2 * 0.25
+      m2 = x1 * e3 * 0.20 + x2 * e4 * 0.20
+  in m1 + m2
+
+snare_909_mouse :: UGen
+snare_909_mouse =
+    let x = mouseX KR 1 4 Linear 0.2
+        y = mouseY KR 0.25 0.75 Exponential 0.2
+        t = impulse KR (3 * x) 0
+    in pan2 (snare_909 t) 0 y
+
+-- birds (jmcc)
+
+birds_node :: UGen
+birds_node =
+  let swt = lfSaw AR (7 + rand2 'α' 1.5) (rand 'β' 0 1) * rand 'γ' 11 15
+      mnn = lag swt 0.1 + rand 'δ' 94 102
+      a = lfPulse KR (1 / rand 'ε' 12 15.6) (rand 'ζ' 0 1) 0.16 * 0.05
+      b = sinOsc AR (midiCPS mnn) (rand 'η' 0 1) * a
+  in rotate2 b (silent 1) (rand 'θ' (-1) 1)
+
+birds :: UGen
+birds =
+  let d = mix (uclone 'α' 6 birds_node)
+      f i = allpassL i 0.07 (rand 'β' 0 0.06) (rand 'γ' 0.7 2.0)
+      w = useq 'δ' 12 f d
+  in d * 0.7 + w * 0.3
+
+birds_m :: UId m => m UGen
+birds_m = do
+  let node = do r1 <- randM 94.0 102.0
+                r2 <- randM (-1.5) 1.5
+                r3 <- randM 0.0 1.0
+                r4 <- randM 11.0 15.0
+                r5 <- randM 0.0 1.0
+                r6 <- randM 12.0 15.6
+                r7 <- randM 0.0 1.0
+                r8 <- randM (-1.0) 1.0
+                let f = r1 + lag (lfSaw AR (7 + r2) r3 * r4) 0.1
+                    a = lfPulse KR (1.0 / r6) r7 0.16 * 0.05
+                    b = sinOsc AR (midiCPS f) r5 * a
+                return (rotate2 b (silent 1) r8)
+      apf_r i = do r1 <- randM 0.0 0.06
+                   r2 <- randM 0.7 2.0
+                   return (allpassL i 0.07 r1 r2)
+  d <- return . sum =<< sequence (replicate 6 node)
+  w <- SC3.chainM 12 apf_r d
+  return (d * 0.7 + w * 0.3)
