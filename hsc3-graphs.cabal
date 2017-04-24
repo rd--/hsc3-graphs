@@ -33,4 +33,5 @@ Library
                    MonadRandom,
                    random
   GHC-Options:     -Wall -fwarn-tabs
-  Exposed-modules: Sound.SC3.Graphs.JMcC
+  Exposed-modules: Sound.SC3.Graphs.F0
+                   Sound.SC3.Graphs.JMcC
