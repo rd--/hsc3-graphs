@@ -11,6 +11,8 @@ import qualified Control.Monad.Random as MR {- MonadRandom -}
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
+import qualified Sound.SC3.Common.Monad.Syntax as H {- hsc3 -}
+
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
@@ -38,6 +40,9 @@ sequR e s tr = demand tr 0 (dshuf e dinf (mce s))
 
 iseqr :: ID a => a -> [UGen] -> UGen -> UGen
 iseqr z s tr = tr * demand tr 0 (dxrand z dinf (mce s))
+
+isequ :: ID i => i -> [UGen] -> UGen -> UGen
+isequ z s tr = tr * demand tr 0 (dseq z dinf (mce s))
 
 -- why supercollider (jmcc) #0
 
@@ -377,6 +382,28 @@ pulsing_bottles =
 pulsing_bottles_ot :: IO ()
 pulsing_bottles_ot = O.overlapTextureU (4,4,4,maxBound) pulsing_bottles
 
+-- what was i thinking? (jmcc) #2
+
+what_was_i_thinking_m :: UId m => m UGen
+what_was_i_thinking_m = do
+  n0 <- lfNoise1M KR 0.2
+  n1 <- lfNoise1M KR 0.157
+  let p = pulse AR f (n1 * 0.4 + 0.5) * 0.04
+      i = lfPulse AR 0.1 0 0.05 * impulse AR 8 0 * 500
+      d = decay i 2
+      f = max (sinOsc KR 4 0 + 80) d
+      z = rlpf p (n0 * 2000 + 2400) 0.2
+      c x = do r <- randM 0 0.3
+               n <- lfNoise1M KR r
+               return (combL x 0.06 (n * 0.025 + 0.035) 1)
+      y = z * 0.6
+  z0 <- clone 2 (c y)
+  z1 <- clone 2 (c y)
+  return (z + mce [mix z0,mix z1])
+
+what_was_i_thinking :: UGen
+what_was_i_thinking = uid_st_run what_was_i_thinking_m
+
 -- narrow band filtered crackle noise (jmcc) #2
 
 nbfcn :: UGen
@@ -456,6 +483,29 @@ data_space =
 data_space_ot :: IO ()
 data_space_ot = O.overlapTextureU (1,6,4,maxBound) data_space
 
+-- cymbalism (jmcc) #2
+
+cymbalism_m :: UId m => m UGen
+cymbalism_m = do
+  let p = replicate 15
+  f1 <- randM 500 2500
+  f2 <- randM 0 8000
+  let y = do f <- sequence (p (randM f1 (f1 + f2)))
+             rt <- sequence (p (randM 1 5))
+             return (klankSpec f (p 1) rt)
+  z <- clone 2 y
+  n <- fmap (* 0.03) (whiteNoiseM AR)
+  tf <- randM 0.5 3.5
+  let t = impulse AR tf 0
+      s = decay t 0.004 * n
+  return (klank s 1 0 1 (mceTranspose z))
+
+cymbalism :: UGen
+cymbalism = uid_st_run cymbalism_m
+
+cymbalism_ot :: IO ()
+cymbalism_ot = O.overlapTextureU (3,6,6,maxBound) cymbalism
+
 -- cymbalism accelerando (jmcc) #2
 
 enumFromN :: Enum a => a -> Int -> [Int]
@@ -531,6 +581,29 @@ synthetic_piano =
 synthetic_piano_ot :: IO ()
 synthetic_piano_ot = O.overlapTextureU (6,0,6,maxBound) synthetic_piano
 
+-- reverberated sine percussion (jmcc) #3
+
+reverberated_sine_percussion_m :: UId m => m UGen
+reverberated_sine_percussion_m = do
+  let d = 6
+      c = 5
+      a = 4
+      s_ = do n <- dustM AR (2 / constant d)
+              r <- randM 0 3000
+              return (resonz (n * 50) (200 + r) 0.003)
+      x_ i = do r <- clone 2 (randM 0 0.05)
+                return (allpassN i 0.05 r 1)
+  s <- fmap sum (sequence (replicate d s_))
+  y <- do let z = delayN s 0.048 0.48
+          r <- clone c (randM 0 0.1)
+          n <- lfNoise1M KR r
+          return (mix (combL z 0.1 (n * 0.04 + 0.05) 15))
+  x <- H.chainM a x_ y
+  return (s + x * 0.2)
+
+reverberated_sine_percussion :: UGen
+reverberated_sine_percussion = uid_st_run reverberated_sine_percussion_m
+
 -- reverberated noise bursts (jmcc) #3
 
 rnb :: UGen
@@ -574,8 +647,8 @@ berlin_1977 =
 
 -- metal plate (jmcc) #4
 
-mp :: UGen
-mp =
+metal_plate :: UGen
+metal_plate =
     let
         sr = 48000::Double
         n = 4 {- number of delay lines -}
@@ -595,8 +668,8 @@ mp =
 
 -- sample and hold liquidities (jmcc) #4
 
-shl :: UGen
-shl =
+sample_and_hold_liquidities :: UGen
+sample_and_hold_liquidities =
     let r = mouseX KR 1 200 Exponential 0.1
         t = recip r
         c = impulse KR r 0 * 0.4
@@ -843,6 +916,35 @@ nmsw_pp i = combN i 0.3 0.3 4 + mceReverse i
 nmsw_ot :: IO ()
 nmsw_ot = O.overlapTextureU_pp (4,4,4,maxBound) nmsw 2 nmsw_pp
 
+-- aleatoric quartet (jmcc) #7
+
+aleatoric_quartet_m :: UId m => m UGen
+aleatoric_quartet_m = do
+  let base_mn = 66 -- control KR "note" 66
+      amp = 0.07 -- control KR "ampl" 0.07
+      density = mouseX KR 0.01 1 Linear 0.1
+      dmul = recip density * 0.5 * amp
+      dadd = amp - dmul
+      rapf i = do r <- clone 2 (randM 0 0.05)
+                  return (allpassN i 0.05 r 1)
+      mk_f = do r0 <- lchooseM [1, 0.5, 0.25]
+                r1 <- randM (-30) 30
+                n0 <- lfNoise0M KR r0
+                let m = n0 * 7 + base_mn + r1
+                    m' = lag (roundTo m 1) 0.2
+                return (midiCPS m')
+      mk_s = do f <- fmap recip mk_f
+                r <- randM (-1) 1
+                x <- do n0 <- pinkNoiseM AR
+                        n1 <- lfNoise1M KR 8
+                        return (n0 * max 0 (n1 * dmul + dadd))
+                return (pan2 (combL x 0.02 f 3) r 1)
+  g <- H.chainM 5 rapf =<< fmap sum (sequence (replicate 4 mk_s))
+  return (leakDC g 0.995)
+
+aleatoric_quartet :: UGen
+aleatoric_quartet = uid_st_run aleatoric_quartet_m
+
 -- slow beating sines (jmcc) #7
 
 sbs_r_freq :: (MR.RandomGen g) => Int -> MR.Rand g [Double]
@@ -977,8 +1079,8 @@ lr_nd z e f =
 lr_env :: Real n => n -> UGen
 lr_env i = abs (sinOsc AR (1 / 8) ((constant i / 2) * pi))
 
-lr :: UGen
-lr = sum (zipWith3 lr_nd "αβγδ" (map lr_env [0::Int .. 3]) lr_fr)
+landon_rose :: UGen
+landon_rose = sum (zipWith3 lr_nd "αβγδ" (map lr_env [0::Int .. 3]) lr_fr)
 
 -- deep trip (jmcc) #9
 
@@ -1307,5 +1409,153 @@ mri_begin = do
       a = concat (mri_a_seq 'α')
   play (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
 
-mri_begin' :: IO ()
-mri_begin' = withSC3 mri_begin
+mri_run :: IO ()
+mri_run = withSC3 mri_begin
+
+-- bowed string (jmcc)
+
+bowed_string_m :: UId m => m UGen
+bowed_string_m = do
+  let root = 5
+      scale = map (+ root) [0,2,4,5,7,9,11]
+      oct = [24,36,48,60,72,84]
+  n0 <- clone 2 (brownNoiseM AR)
+  r0 <- expRandM 0.125 0.5
+  r1 <- randM 0.7 0.9
+  r2 <- sequence (replicate 12 (randM 1.0 3.0))
+  f <- midiCPS `fmap` (lchooseM scale H..+. lchooseM oct)
+  n1 <- lfNoise1M KR r0
+  let x = n0 * 0.007 * max 0 (n1 * 0.6 + 0.4)
+      geom n i z = take n (iterate (* z) i)
+      iota n i z = take n (iterate (+ z) i)
+      d = klankSpec (iota 12 f f) (geom 12 1 r1) r2
+      k = klank x 1 0 1 d
+  return (softClip (k * 0.1))
+
+bowed_string :: UGen
+bowed_string = uid_st_run bowed_string_m
+
+bowed_string_ot :: IO ()
+bowed_string_ot = O.overlapTextureU (5,2,12,maxBound) bowed_string
+
+-- demanding studies (jmcc)
+
+demanding_studies :: UGen
+demanding_studies =
+  let s1 = drand 'α' dinf (mce [72, 75, 79, 82])
+      s2 = drand 'β' 1 (mce [82, 84, 86])
+      s3 = dseq 'γ' dinf (mce [72, 75, 79, s2])
+      x = mouseX KR 5 13 Linear 0.2
+      tr = impulse KR x 0
+      f = demand tr 0 (mce [midiCPS (s1 - 12), midiCPS s3])
+      o1 = sinOsc AR (f + mce2 0 0.7) 0
+      o2 = saw AR (f + mce2 0 0.7) * 0.3
+      o3 = cubed (distort (log (distort (o1 + o2))))
+  in o3 * 0.1
+
+-- impulse sequencer (jmcc) SC2
+
+impulse_sequencer :: UGen
+impulse_sequencer =
+    let t = impulse AR 8 0 {- single sample impulse as trigger -}
+        c_sq = isequ 'α' [1,0,0,1,0,0,1,0,0,0,1,0,1,0,0,0] t {- clave rhythm -}
+        c = decay2 c_sq 0.001 0.3 * fSinOsc AR 1700 0 * 0.1
+        d_sq = isequ 'β' [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0] t
+        d = decay2 d_sq 0.001 0.3 * fSinOsc AR 2400 0 * 0.04
+        n_sq = isequ 'γ' [1.0, 0.1, 0.1, 1.0, 0.1, 1.0, 0.1, 0.1] t {- noise drum -}
+        n = decay2 n_sq 0.001 0.25 * brownNoise 'δ' AR * 0.1
+        b_sq = isequ 'ε' [1,0,0.2,0,0.2,0,0.2,0] t {- bass drum -}
+        b = decay2 b_sq 0.001 0.5 * fSinOsc AR 100 0 * 0.2
+    in c + d + n + b
+
+-- wind metals (jmcc)
+
+wind_metals_m :: UId m => m UGen
+wind_metals_m = do
+  let n = 6
+  base <- expRandM 60 4000
+  rng <- randM 500 8000
+  n0 <- clone 2 (brownNoiseM AR)
+  r0 <- expRandM 0.125 0.5
+  n1 <- lfNoise1M KR r0
+  f <- sequence (replicate n (randM base (base + rng)))
+  dt <- sequence (replicate n (randM 0.1 2))
+  let exc = n0 * 0.007 * max 0 (n1 * 0.75 + 0.25)
+      k = klankSpec f (replicate n 1) dt
+      s = klank exc 1 0 1 k
+  return (softClip (s * 0.1))
+
+wind_metals :: UGen
+wind_metals = uid_st_run wind_metals_m
+
+wind_metals_ot :: IO ()
+wind_metals_ot = O.overlapTextureU (5,2,12,maxBound) wind_metals
+
+-- tank (jmcc)
+
+tank_pling :: UGen
+tank_pling =
+    let d = dust 'α' AR 0.2
+        f = expRand 'β' 300 2200
+        p = rand 'γ' (-1) 1
+        s1 = cubed (fSinOsc AR f 0)
+        s2 = decay2 d 0.1 0.5 * 0.1 * s1
+    in pan2 s2 p 1
+
+tank_bang :: UGen
+tank_bang =
+    let d = dust 'δ' AR 0.01
+        n = brownNoise 'ε' AR
+    in pan2 (decay2 d 0.04 0.3 * n) 0 1
+
+tank_f :: UGen -> UGen
+tank_f i =
+    let l0 = localIn 2 AR (mce2 0 0) * 0.98
+        l1 = onePole l0 0.33
+        (l1l,l1r) = mce2c l1
+        l2 = rotate2 l1l l1r 0.23
+        l3 = allpassN l2 0.05 (RDU.randN 2 'θ' 0.01 0.05) 2
+        l4 = delayN l3 0.3 (mce2 0.17 0.23)
+        l5 = allpassN l4 0.05 (RDU.randN 2 'ι' 0.03 0.15) 2
+        l6 = leakDC l5 0.995
+        l7 = l6 + i
+    in mrg [l7,localOut l7]
+
+{- > let u = useq 'λ' 4 r_allpass (soundIn 0) -}
+r_allpass :: UGen -> UGen
+r_allpass i = allpassN i 0.03 (RDU.randN 2 'ζ' 0.005 0.02) 1
+
+{- <http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html> -}
+tank :: UGen
+tank =
+  let s = tank_bang + mix (uclone 'κ' 8 tank_pling)
+  in tank_f (useq 'λ' 4 r_allpass s)
+
+tank_rev :: UGen
+tank_rev = tank_f (useq 'λ' 4 r_allpass (soundIn 0))
+
+-- plucked strings (jmcc)
+
+plucked_strings_m :: UId m => m UGen
+plucked_strings_m = do
+  let dt = do r0 <- randM 60 90
+              return (1 / midiCPS (floorE r0))
+      i = do r0 <- randM 2 2.2
+             n0 <- dustM AR 0.5
+             r1 <- randM 0.05 0.15
+             r2 <- randM 0 (pi * 2)
+             r3 <- iRandM 0 2
+             let s0 = impulse AR r0 0 * 0.3
+                 s1 = n0 * 0.3
+                 s2 = impulse AR (sinOsc KR r1 r2 * 5 + 5.2) 0 * 0.3
+             return (select r3 (mce [s0,s1,s2]))
+      s = do n0 <- pinkNoiseM AR
+             r1 <- randM (-1) 1
+             im <- i
+             dt' <- dt
+             let t = decay im 0.1 * n0 * 0.1
+             return (pan2 (combL t dt' dt' 4) r1 1)
+  fmap sum (sequence (replicate 5 s))
+
+plucked_strings :: UGen
+plucked_strings = uid_st_run plucked_strings_m

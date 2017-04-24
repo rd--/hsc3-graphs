@@ -41,59 +41,59 @@ jmcc_sc2 =
      ,("swept resonant noise",Right "srn_ot")
      ,("coolant",Right "coolant_ot")
      ,("pulsing bottles",Right "pulsing_bottles_ot")
-     ,("what was i thinking",undefined) -- UId...
-     ,("narrow band filtered crackle noise",undefined)
-     ,("resonant dust",undefined)
-     ,("police state",undefined)
-     ,("uplink",undefined)
-     ,("data space",undefined)
-     ,("cymbalism",undefined)
-     ,("cymbalism accelerando",undefined)
-     ,("ring modulated klank",undefined)]
-    ,[("analogue daze",undefined)
-     ,("synthetic piano",undefined)
-     ,("reverberated sine percussion",undefined)
-     ,("reverberated noise bursts",undefined)
-     ,("analog bubbles mouse",undefined)]
-    ,[("berlin 1977",undefined)
-     ,("metal plate",undefined)
-     ,("sample and hold liquidities",undefined)
-     ,("random panning sines",undefined)]
-    ,[("distort input",undefined)
-     ,("ring modulate input",undefined)
-     ,("filter input",undefined)]
-    ,[("sweepy noise",undefined)
-     ,("string wander-cluster",undefined)
-     ,("comb delay sweeps",undefined)
-     ,("noise burst sweep",undefined)
-     ,("saucer base",undefined)
-     ,("alien meadow",undefined)
-     ,("birdies",undefined)
-     ,("phase modulation",undefined)
-     ,("hard sync sawtooth with lfo",undefined)
-     ,("noise modulated sines",undefined)
-     ,("noise modulated sawtooths",undefined)]
-    ,[("aleatoric quartet",undefined)
-     ,("slow beating sines",undefined)
-     ,("slow beating harmonic sines",undefined)
-     ,("tapping tools",undefined)]
-    ,[("modal space",undefined)
-     ,("landon rose",undefined)]
-    ,[("deep trip",undefined)
-     ,("sawed cymbals",undefined)
-     ,("sidereal time",undefined)
-     ,("contamination zone",undefined)]
+     ,("what was i thinking",Left "what_was_i_thinking")
+     ,("narrow band filtered crackle noise",Right "nbfcn_st")
+     ,("resonant dust",Right "resonant_dust_ot")
+     ,("police state",Left "police_state")
+     ,("uplink",Right "uplink_ot")
+     ,("data space",Right "data_space_ot")
+     ,("cymbalism",Right "cymbalism_ot")
+     ,("cymbalism accelerando",Right "cymbalism_accellerando_ot")
+     ,("ring modulated klank",Right "rmk_ot")]
+    ,[("analogue daze",Left "analogue_daze")
+     ,("synthetic piano",Right "synthetic_piano_ot")
+     ,("reverberated sine percussion",Left "reverberated_sine_percussion")
+     ,("reverberated noise bursts",Left "rnb")
+     ,("analog bubbles mouse",Left "analog_bubbles_mouse")]
+    ,[("berlin 1977",Left "berlin_1977")
+     ,("metal plate",Left "metal_plate")
+     ,("sample and hold liquidities",Left "sample_and_hold_liquidities")
+     ,("random panning sines",Right "rps_ot")]
+    ,[("distort input",Left "distort_input")
+     ,("ring modulate input",Left "ring_modulate_input")
+     ,("filter input",Left "filter_input")]
+    ,[("sweepy noise",Left "sweepy_noise")
+     ,("string wander-cluster",Right "swc_ot")
+     ,("comb delay sweeps",Right "cds_ot")
+     ,("noise burst sweep",Right "nbs_ot")
+     ,("saucer base",Right "saucer_base_ot")
+     ,("alien meadow",Right "alien_meadow_ot")
+     ,("birdies",Right "birdies_ot")
+     ,("phase modulation",Right "pmwsb_ot")
+     ,("hard sync sawtooth with lfo",Right "hsswl_ot")
+     ,("noise modulated sines",Right "nms_ot")
+     ,("noise modulated sawtooths",Right "nmsw_ot")]
+    ,[("aleatoric quartet",Left "aleatoric_quartet")
+     ,("slow beating sines",Right "sbs_ot")
+     ,("slow beating harmonic sines",Right "sbhs_ot")
+     ,("tapping tools",Right "tapping_tools_ot")]
+    ,[("modal space",Left "modal_space")
+     ,("landon rose",Left "landon_rose")]
+    ,[("deep trip",Right "deep_trip_ot")
+     ,("sawed cymbals",Right "sawed_cymbals_ot")
+     ,("sidereal time",Right "sidereal_time_ot")
+     ,("contamination zone",Right "cz_ot")]
     ,[]
-    ,[("strummable guitar",undefined)
-     ,("drone plus rhythm",undefined)
+    ,[("strummable guitar",Left "str_gtr")
+     ,("drone plus rhythm",Right "dpr_ot")
      ,("early space music lp side one",undefined)
-     ,("early space music lp side two",undefined)]
+     ,("early space music lp side two",Right "esmlp2_ot")]
     -- SC3d1.5
-    ,[("blips 001",undefined)
-     ,("zizle",undefined)]
+    ,[("blips 001",Right "blips_ot")
+     ,("zizle",Right "zizle_ot")]
     -- SC3
-    ,[("babbling brook",undefined)]
-    ,[("mridangam",undefined)]]
+    ,[("babbling brook",Left "babbling_brook")]
+    ,[("mridangam",Right "mri_run")]]
 
 jmcc_fnames :: String -> [FilePath]
 jmcc_fnames ext = concatMap (map (to_file ext . fst)) jmcc_sc2
