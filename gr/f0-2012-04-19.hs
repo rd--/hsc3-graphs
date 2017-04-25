@@ -1,14 +1,5 @@
 -- https://www.listarc.bham.ac.uk/lists/sc-users/msg17536.html (f0)
-
 import Sound.SC3 {- hsc3 -}
-
-f0 :: UGen
-f0 = let s0 = lfSaw AR 10 0 * 0.01
-         t0 = lfTri AR (mce2 5 6 * 0.1) 0
-         t1 = lfTri KR 0.1 0 * 0.05 + 0.05
-         s1 = limiter (brf s0 t0 1) 1 0.01
-         o = combN s1 0.1 (roundTo t1 0.01) 1
-     in out 0 (o * 0.1)
-
+import Sound.SC3.Graphs.F0 {- hsc3-graphs -}
 main :: IO ()
-main = audition f0
+main = audition (out 0 f0_17536)

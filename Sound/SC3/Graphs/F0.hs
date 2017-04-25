@@ -478,3 +478,37 @@ risset_p =
         ,("sustain",map (* 1.25) du)
         ,("amp",P.white 'δ' 0.025 0.15)
         ,("trig",repeat 1)])
+
+-- * https://www.listarc.bham.ac.uk/lists/sc-users/msg17536.html (f0)
+
+f0_17536 :: UGen
+f0_17536 =
+    let s0 = lfSaw AR 10 0 * 0.01
+        t0 = lfTri AR (mce2 5 6 * 0.1) 0
+        t1 = lfTri KR 0.1 0 * 0.05 + 0.05
+        s1 = limiter (brf s0 t0 1) 1 0.01
+        o = combN s1 0.1 (roundTo t1 0.01) 1
+    in o * 0.1
+
+-- * red_frik (f0)
+
+red :: UId m => UGen -> UGen -> m UGen
+red tr n = do
+  r1 <- tRandM 0.3 3 tr
+  r2 <- tRandM 0.3 5 tr
+  r3 <- tRandM 0 0.5 tr
+  r4 <- tRandM 0.49 0.56 tr
+  r5 <- tRandM 0.3 0.6 tr
+  r6 <- tRandM 0.3 0.5 tr
+  let o1 = fSinOsc KR r2 0 * r3 + r4
+      o2 = fSinOsc KR o1 0 * r5 + r6
+  return (rhpf n r1 o2)
+
+red_frik_m :: UId m => m UGen
+red_frik_m = do
+  n <- clone 2 (brownNoiseM AR)
+  let tr = impulse KR 0.1 0
+  red tr n
+
+red_frik :: UGen
+red_frik = uid_st_eval red_frik_m
