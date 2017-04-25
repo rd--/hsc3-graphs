@@ -45,7 +45,7 @@ iseqr z s tr = tr * demand tr 0 (dxrand z dinf (mce s))
 isequ :: ID i => i -> [UGen] -> UGen -> UGen
 isequ z s tr = tr * demand tr 0 (dseq z dinf (mce s))
 
--- why supercollider (jmcc) #0
+-- * why supercollider (jmcc) #0
 
 why_supercollider :: UGen
 why_supercollider =
@@ -65,7 +65,7 @@ why_supercollider =
 
 -}
 
--- analog bubbles (jmcc) #1
+-- * analog bubbles (jmcc) #1
 
 analog_bubbles :: UGen
 analog_bubbles =
@@ -86,7 +86,7 @@ analog_bubbles =
 
 -}
 
--- lfo modulation (jmcc) #1
+-- * lfo modulation (jmcc) #1
 
 lfo_modulation :: UGen
 lfo_modulation =
@@ -95,7 +95,7 @@ lfo_modulation =
       s = rlpf (lfPulse AR o 0 0.4 * 0.05) p 0.2
   in combL s 0.3 (mce2 0.2 0.25) 2
 
--- hell is busy (jmcc) #1
+-- * hell is busy (jmcc) #1
 
 hib :: UGen
 hib =
@@ -106,7 +106,7 @@ hib =
 hib_ot :: IO ()
 hib_ot = O.overlapTextureU (4,4,8,maxBound) hib
 
--- pond life (jmcc) #1
+-- * pond life (jmcc) #1
 
 pond_life :: UGen
 pond_life =
@@ -131,7 +131,7 @@ pond_life_m = do
   n5 <- randM (-1) 1
   return (pan2 (sinOsc AR f1 0 * a) n5 0.5)
 
--- alien froggies (jmcc) #1
+-- * alien froggies (jmcc) #1
 
 alien_froggies :: UGen -> UGen
 alien_froggies r =
@@ -139,10 +139,13 @@ alien_froggies r =
         o = formant AR r' (expRand 'β' 200 3000) (rand 'γ' 0 9 * r' + r')
     in o * 0.05
 
-alien_froggies_ot :: IO ()
-alien_froggies_ot = O.overlapTextureU (0.25,0.5,5,maxBound) (alien_froggies 11)
+alien_froggies_11 :: UGen
+alien_froggies_11 = alien_froggies 11
 
--- random sine waves (jmcc) #1
+alien_froggies_ot :: IO ()
+alien_froggies_ot = O.overlapTextureU (0.25,0.5,5,maxBound) alien_froggies_11
+
+-- * random sine waves (jmcc) #1
 
 rsw :: UGen
 rsw =
@@ -153,7 +156,7 @@ rsw =
 rsw_ot :: IO ()
 rsw_ot = O.overlapTextureU (2,5,12,maxBound) rsw
 
--- random pulsations (jmcc) #1
+-- * random pulsations (jmcc) #1
 
 rp :: UGen
 rp =
@@ -166,7 +169,7 @@ rp =
 rp_st :: IO ()
 rp_st = O.spawnTextureU (const (9/8),maxBound) rp
 
--- moto rev (jmcc) #1
+-- * moto rev (jmcc) #1
 
 moto_rev :: UGen
 moto_rev =
@@ -174,7 +177,7 @@ moto_rev =
       s = lfPulse AR f (mce2 0 0.1) 0.1
   in clip2 (rlpf s 100 0.1) 0.4
 
--- scratchy (jmcc) #1
+-- * scratchy (jmcc) #1
 
 scratchy :: UGen
 scratchy =
@@ -188,7 +191,7 @@ scratchy_m = do
   let f = max (n * 0.5 - 0.49) 0 * 20
   return (rhpf f 5000 1)
 
--- tremulate (jmcc) #1
+-- * tremulate (jmcc) #1
 
 tremulate :: UGen
 tremulate =
@@ -215,7 +218,7 @@ tremulate_m = do
   l <- clone 4 (randM (-1) 1)
   return (mix (pan2 o l a))
 
--- reso-pulse (jmcc) #1
+-- * reso-pulse (jmcc) #1
 
 reso_pulse :: UGen
 reso_pulse =
@@ -236,7 +239,7 @@ reso_pulse_pp z =
 reso_pulse_ot :: IO ()
 reso_pulse_ot = O.overlapTextureU_pp (4,2,4,maxBound) reso_pulse 1 reso_pulse_pp
 
--- sprinkler (jmcc) #1
+-- * sprinkler (jmcc) #1
 
 sprinkler :: UGen
 sprinkler =
@@ -252,7 +255,7 @@ sprinkler_m = do
       t = lfPulse KR f 0 0.25 * 0.1
   return (bpz2 (n * t))
 
--- sprinkler mouse (jmcc) #1
+-- * sprinkler mouse (jmcc) #1
 
 sprinkler_mouse :: UGen
 sprinkler_mouse =
@@ -261,7 +264,7 @@ sprinkler_mouse =
         t = lfPulse KR f 0 0.25 * 0.1
     in bpz2 (n * t)
 
--- harmonic swimming (jmcc) #1
+-- * harmonic swimming (jmcc) #1
 
 harmonic_swimming :: UGen
 harmonic_swimming =
@@ -287,7 +290,7 @@ harmonic_swimming_m =
                  return (fSinOsc AR (f * (h + 1)) 0 * e)
     in fmap sum (mapM o [0..p])
 
--- harmonic tumbling (jmcc) #1
+-- * harmonic tumbling (jmcc) #1
 
 harmonic_tumbling :: UGen
 harmonic_tumbling =
@@ -311,7 +314,7 @@ harmonic_tumbling_m = do
                return (fSinOsc AR (f * (h + 1)) 0 * e)
   fmap sum (mapM o [0..p])
 
--- rails (jmcc) #2
+-- * rails (jmcc) #2
 
 rails :: UGen
 rails =
@@ -328,7 +331,7 @@ rails =
 rails_ot :: IO ()
 rails_ot = O.overlapTextureU (3,2,4,maxBound) rails
 
--- bouncing objects (jmcc) #2
+-- * bouncing objects (jmcc) #2
 
 bouncing_objects :: UGen
 bouncing_objects =
@@ -347,7 +350,7 @@ bouncing_objects =
 bouncing_objects_st :: IO ()
 bouncing_objects_st = O.spawnTextureU (\i -> R.rrand i 0.6 1.6,maxBound) bouncing_objects
 
--- lots-o-sins (jmcc) #2
+-- * lots-o-sins (jmcc) #2
 
 lots_o_sins :: UGen
 lots_o_sins =
@@ -362,7 +365,7 @@ lots_o_sins =
 lots_o_sins_xt :: IO ()
 lots_o_sins_xt = O.xfadeTextureU (4,4,maxBound) lots_o_sins
 
--- clustered sines (jmcc) #2
+-- * clustered sines (jmcc) #2
 
 cs :: UGen
 cs =
@@ -385,7 +388,7 @@ cs_m = do
   let sp = klangSpec y (map (f1 /) y) (replicate n 0)
   return (klang AR 1 0 sp * (0.3 / fromIntegral n))
 
--- resonators harmonic series (jmcc) #2
+-- * resonators harmonic series (jmcc) #2
 
 rhs :: UGen
 rhs =
@@ -403,7 +406,7 @@ rhs =
 rhs_xt :: IO ()
 rhs_xt = O.xfadeTextureU (1,7,maxBound) rhs
 
--- swept resonant noise (jmcc) #2
+-- * swept resonant noise (jmcc) #2
 
 srn :: UGen
 srn =
@@ -420,7 +423,7 @@ srn =
 srn_ot :: IO ()
 srn_ot = O.overlapTextureU (4,4,5,maxBound) srn
 
--- coolant (jmcc) #2
+-- * coolant (jmcc) #2
 
 coolant :: UGen
 coolant =
@@ -434,7 +437,7 @@ coolant =
 coolant_ot :: IO ()
 coolant_ot = O.overlapTextureU (4,4,2,maxBound) coolant
 
--- pulsing bottles (jmcc) #2
+-- * pulsing bottles (jmcc) #2
 
 pulsing_bottles :: UGen
 pulsing_bottles =
@@ -464,7 +467,7 @@ pulsing_bottles_m = do
       u = liftM2 (\x y -> pan2 x y 1) r s
   fmap sum (sequence (replicate 6 u))
 
--- what was i thinking? (jmcc) #2
+-- * what was i thinking? (jmcc) #2
 
 what_was_i_thinking_m :: UId m => m UGen
 what_was_i_thinking_m = do
@@ -486,7 +489,7 @@ what_was_i_thinking_m = do
 what_was_i_thinking :: UGen
 what_was_i_thinking = uid_st_eval what_was_i_thinking_m
 
--- narrow band filtered crackle noise (jmcc) #2
+-- * narrow band filtered crackle noise (jmcc) #2
 
 nbfcn :: UGen
 nbfcn =
@@ -500,7 +503,7 @@ nbfcn =
 nbfcn_st :: IO ()
 nbfcn_st = O.spawnTextureU (const 2,maxBound) nbfcn
 
--- resonant dust (jmcc) #2
+-- * resonant dust (jmcc) #2
 
 resonant_dust :: UGen
 resonant_dust =
@@ -513,7 +516,7 @@ resonant_dust =
 resonant_dust_ot :: IO ()
 resonant_dust_ot = O.overlapTextureU (5,2,9,maxBound) resonant_dust
 
--- police state (jmcc) #2
+-- * police state (jmcc) #2
 
 police_state_nd :: UGen
 police_state_nd =
@@ -550,7 +553,7 @@ police_state_m = do
   let e = n1 * (n2 * 0.15 + 0.18)
   return (combL (mix ns + e) 0.3 0.3 3)
 
--- uplink (jmcc) #2
+-- * uplink (jmcc) #2
 
 uplink :: UGen
 uplink =
@@ -563,7 +566,7 @@ uplink =
 uplink_ot :: IO ()
 uplink_ot = O.overlapTextureU (4,1,5,maxBound) uplink
 
--- data space (jmcc) #2
+-- * data space (jmcc) #2
 
 data_space :: UGen
 data_space =
@@ -583,7 +586,7 @@ data_space =
 data_space_ot :: IO ()
 data_space_ot = O.overlapTextureU (1,6,4,maxBound) data_space
 
--- cymbalism (jmcc) #2
+-- * cymbalism (jmcc) #2
 
 cymbalism_m :: UId m => m UGen
 cymbalism_m = do
@@ -606,7 +609,7 @@ cymbalism = uid_st_eval cymbalism_m
 cymbalism_ot :: IO ()
 cymbalism_ot = O.overlapTextureU (3,6,6,maxBound) cymbalism
 
--- cymbalism accelerando (jmcc) #2
+-- * cymbalism accelerando (jmcc) #2
 
 enumFromN :: Enum a => a -> Int -> [Int]
 enumFromN e i = let j = fromEnum e in [j .. j + i]
@@ -628,7 +631,7 @@ cymbalism_accellerando =
 cymbalism_accellerando_ot :: IO ()
 cymbalism_accellerando_ot = O.overlapTextureU (4,4,4,maxBound) cymbalism_accellerando
 
--- ring modulated klank (jmcc) #2
+-- * ring modulated klank (jmcc) #2
 
 rmk :: UGen
 rmk =
@@ -643,7 +646,7 @@ rmk =
 rmk_ot :: IO ()
 rmk_ot = O.overlapTextureU (4,4,4,maxBound) rmk
 
--- analogue daze (jmcc) #3
+-- * analogue daze (jmcc) #3
 
 analogue_daze :: UGen
 analogue_daze =
@@ -662,7 +665,7 @@ analogue_daze =
         e = envLinen 2 56 2 1
     in z * envGen KR 1 1 0 1 RemoveSynth e
 
--- synthetic piano (jmcc) #3
+-- * synthetic piano (jmcc) #3
 
 synthetic_piano :: UGen
 synthetic_piano =
@@ -696,7 +699,7 @@ synthetic_piano_m = do
   c_ <- mixFillM 3 c
   return (pan2 c_ l 1)
 
--- reverberated sine percussion (jmcc) #3
+-- * reverberated sine percussion (jmcc) #3
 
 reverberated_sine_percussion_m :: UId m => m UGen
 reverberated_sine_percussion_m = do
@@ -719,7 +722,7 @@ reverberated_sine_percussion_m = do
 reverberated_sine_percussion :: UGen
 reverberated_sine_percussion = uid_st_eval reverberated_sine_percussion_m
 
--- reverberated noise bursts (jmcc) #3
+-- * reverberated noise bursts (jmcc) #3
 
 rnb :: UGen
 rnb =
@@ -729,7 +732,7 @@ rnb =
         f = useq 'ζ' 4 (\i -> allpassN i 0.050 (uclone 'η' 2 (rand 'θ' 0 0.05)) 1)
     in s + f y
 
--- analog bubbles with mouse control (jmcc) #3
+-- * analog bubbles with mouse control (jmcc) #3
 
 analog_bubbles_mouse :: UGen
 analog_bubbles_mouse =
@@ -741,7 +744,7 @@ analog_bubbles_mouse =
       s = sinOsc AR f 0 * 0.04
   in combN s 0.2 0.2 4 {- echoing sine wave -}
 
--- berlin 1977 (jmcc) #4
+-- * berlin 1977 (jmcc) #4
 
 berlin_1977 :: UGen
 berlin_1977 =
@@ -760,7 +763,7 @@ berlin_1977 =
         s = pulse AR freq pw * amp
     in combN (rlpf s filt 0.15) 0.2 (mce2 0.2 0.17) 1.5
 
--- metal plate (jmcc) #4
+-- * metal plate (jmcc) #4
 
 metal_plate :: UGen
 metal_plate =
@@ -781,7 +784,7 @@ metal_plate =
         wr = zipWith wr_f buf flt {- write to delay lines -}
     in mrg (sum flt : wr)
 
--- sample and hold liquidities (jmcc) #4
+-- * sample and hold liquidities (jmcc) #4
 
 sample_and_hold_liquidities :: UGen
 sample_and_hold_liquidities =
@@ -794,7 +797,7 @@ sample_and_hold_liquidities =
         i = pan2 (sinOsc AR f 0 * decay2 c (t * 0.1) (t * 0.9)) p 1
     in combN i 0.3 0.3 2
 
--- random panning sines (jmcc) #4
+-- * random panning sines (jmcc) #4
 
 rps :: UGen
 rps =
@@ -817,14 +820,14 @@ rps_m = do
   r <- clone 8 nd
   return (mix r * (0.4 / 8))
 
--- distort input (jmcc) #5
+-- * distort input (jmcc) #5
 
 distort_input :: UGen
 distort_input =
     let gain = mouseX KR 1 100 Exponential 0.2 {- gain into distortion -}
     in distort (soundIn (mce2 0 1) * gain) * 0.4
 
--- ring modulate input (jmcc) #5
+-- * ring modulate input (jmcc) #5
 
 ring_modulate_input :: UGen
 ring_modulate_input =
@@ -833,7 +836,7 @@ ring_modulate_input =
         modulator = sinOsc AR x (mce2 0 (0.5 * pi)) {- offset phase of one osc by 90 degrees -}
     in input * modulator
 
--- filter input (jmcc) #5
+-- * filter input (jmcc) #5
 
 filter_input :: UGen
 filter_input =
@@ -842,7 +845,7 @@ filter_input =
         sg = soundIn (mce2 0 1) * 0.4 * sqrt rQ {- attenuate to offset resonance -}
     in rlpf sg cf rQ
 
--- sweepy noise (jmcc) #6
+-- * sweepy noise (jmcc) #6
 
 sweepy_noise :: UGen
 sweepy_noise =
@@ -853,7 +856,7 @@ sweepy_noise =
         filtered = rlpf (n * 0.03) freq 0.1
     in combN filtered 0.3 0.3 2 + filtered
 
--- string wander-cluster (jmcc) #6
+-- * string wander-cluster (jmcc) #6
 
 type SWC_ST = (Double,R.StdGen)
 
@@ -885,7 +888,7 @@ swc' =
 swc_ot' :: IO ()
 swc_ot' = O.overlapTextureU (4/3,4/3,6,maxBound) swc'
 
--- comb delay sweeps (jmcc) #6
+-- * comb delay sweeps (jmcc) #6
 
 type CDS_ST = (Double,Double,R.StdGen)
 
@@ -924,10 +927,10 @@ cds' =
 cds_ot' :: IO ()
 cds_ot' = O.overlapTextureU (4/3,4/3,9,maxBound) cds'
 
--- noise burst sweep (jmcc) #6
+-- * noise burst sweep (jmcc) #6
 
-nbs :: ID a => a -> UGen
-nbs e =
+nbs_z :: ID a => a -> UGen
+nbs_z e =
   let n = uclone e 2 (whiteNoise e AR)
       lfoRate = rand e (-1) 1 + mouseX KR 10 60 Exponential 0.2
       amp = max 0 (lfSaw KR lfoRate (-1))
@@ -935,10 +938,13 @@ nbs e =
       freq = sinOsc KR 0.2 0 * cfreq + (1.05 * cfreq)
   in resonz (n * amp) freq 0.1
 
-nbs_ot :: IO ()
-nbs_ot = O.overlapTextureU (4,2,4,maxBound) (nbs 'α')
+nbs :: UGen
+nbs = nbs_z 'α'
 
--- saucer base (jmcc) #6
+nbs_ot :: IO ()
+nbs_ot = O.overlapTextureU (4,2,4,maxBound) nbs
+
+-- * saucer base (jmcc) #6
 
 saucer_base :: UGen
 saucer_base =
@@ -953,7 +959,7 @@ saucer_base =
 saucer_base_ot :: IO ()
 saucer_base_ot = O.overlapTextureU (2,6,4,maxBound) saucer_base
 
--- alien meadow (jmcc) #6
+-- * alien meadow (jmcc) #6
 
 alien_meadow :: UGen
 alien_meadow =
@@ -964,7 +970,7 @@ alien_meadow =
 alien_meadow_ot :: IO ()
 alien_meadow_ot = O.overlapTextureU (2,6,6,maxBound) alien_meadow
 
--- birdies (jmcc) #6
+-- * birdies (jmcc) #6
 
 birdies :: UGen
 birdies =
@@ -979,7 +985,7 @@ birdies =
 birdies_ot :: IO ()
 birdies_ot = O.overlapTextureU (7,4,4,maxBound) birdies
 
--- phase modulation with slow beats (jmcc) #6
+-- * phase modulation with slow beats (jmcc) #6
 
 nrec :: (Num a, Ord a) => a -> (t -> t) -> t -> t
 nrec n f st = if n > 0 then nrec (n - 1) f (f st) else st
@@ -997,7 +1003,7 @@ pmwsb =
 pmwsb_ot :: IO ()
 pmwsb_ot = O.overlapTextureU (4,4,4,maxBound) pmwsb
 
--- hard sync sawtooth with lfo (jmcc) #6
+-- * hard sync sawtooth with lfo (jmcc) #6
 
 hsswl :: UGen
 hsswl =
@@ -1011,7 +1017,7 @@ hsswl_pp z = combN z 0.3 0.3 4 + mceReverse z
 hsswl_ot :: IO ()
 hsswl_ot = O.overlapTextureU_pp (4,4,4,maxBound) hsswl 2 hsswl_pp
 
--- noise modulated sines (jmcc) #6
+-- * noise modulated sines (jmcc) #6
 
 nms :: UGen
 nms =
@@ -1026,7 +1032,7 @@ nms_pp i = combN i 0.3 0.3 4 + mceReverse i
 nms_ot :: IO ()
 nms_ot = O.overlapTextureU_pp (4,4,4,maxBound) nms 2 nms_pp
 
--- noise modulated sawtooths (jmcc) #6
+-- * noise modulated sawtooths (jmcc) #6
 
 nmsw :: UGen
 nmsw =
@@ -1041,7 +1047,7 @@ nmsw_pp i = combN i 0.3 0.3 4 + mceReverse i
 nmsw_ot :: IO ()
 nmsw_ot = O.overlapTextureU_pp (4,4,4,maxBound) nmsw 2 nmsw_pp
 
--- aleatoric quartet (jmcc) #7
+-- * aleatoric quartet (jmcc) #7
 
 aleatoric_quartet_m :: UId m => m UGen
 aleatoric_quartet_m = do
@@ -1070,7 +1076,7 @@ aleatoric_quartet_m = do
 aleatoric_quartet :: UGen
 aleatoric_quartet = uid_st_eval aleatoric_quartet_m
 
--- slow beating sines (jmcc) #7
+-- * slow beating sines (jmcc) #7
 
 sbs_r_freq :: (MR.RandomGen g) => Int -> MR.Rand g [Double]
 sbs_r_freq i = do
@@ -1106,7 +1112,7 @@ sbs_ot = do
   g <- MR.getStdGen
   O.overlapTextureS (4,4,3,maxBound) (MR.runRand (sbs 20 0.4 3)) g
 
--- slow beating harmonic sines (jmcc) #7
+-- * slow beating harmonic sines (jmcc) #7
 
 sbhs_r_freq :: (MR.RandomGen g) => Int -> Int -> MR.Rand g [Double]
 sbhs_r_freq k i = do
@@ -1145,7 +1151,7 @@ sbhs_ot = do
   g <- MR.getStdGen
   O.overlapTextureS (3,6,3,maxBound) (MR.runRand (sbhs 8 0.4 5)) g
 
--- tapping tools (jmcc) #7
+-- * tapping tools (jmcc) #7
 
 tapping_tools :: UGen
 tapping_tools =
@@ -1166,7 +1172,7 @@ tapping_tools_pp z =
 tapping_tools_ot :: IO ()
 tapping_tools_ot = O.overlapTextureU_pp (2,1,3,maxBound) tapping_tools 2 tapping_tools_pp
 
--- modal space, using local buffer (jmcc) #8
+-- * modal space, using local buffer (jmcc) #8
 
 ms1 :: UGen -> UGen -> UGen
 ms1 n r =
@@ -1183,7 +1189,7 @@ ms1 n r =
 modal_space :: UGen
 modal_space = (ms1 (lfNoise1 'β' KR 3) 48 + ms1 (lfNoise1 'γ' KR 3) 72) * 0.25
 
--- landon rose (jmcc) #8
+-- * landon rose (jmcc) #8
 
 lr_nt :: Num n => [[n]]
 lr_nt =
@@ -1207,7 +1213,7 @@ lr_env i = abs (sinOsc AR (1 / 8) ((constant i / 2) * pi))
 landon_rose :: UGen
 landon_rose = sum (zipWith3 lr_nd "αβγδ" (map lr_env [0::Int .. 3]) lr_fr)
 
--- deep trip (jmcc) #9
+-- * deep trip (jmcc) #9
 
 deep_trip :: UGen
 deep_trip =
@@ -1224,7 +1230,7 @@ deep_trip =
 deep_trip_ot :: IO ()
 deep_trip_ot = O.overlapTextureU (4,12,4,maxBound) deep_trip
 
--- sawed cymbals (jmcc) #9
+-- * sawed cymbals (jmcc) #9
 
 sawed_cymbals :: UGen
 sawed_cymbals =
@@ -1240,7 +1246,7 @@ sawed_cymbals =
 sawed_cymbals_ot :: IO ()
 sawed_cymbals_ot = O.overlapTextureU (4,4,6,maxBound) sawed_cymbals
 
--- sidereal time (jmcc) #9
+-- * sidereal time (jmcc) #9
 
 sidereal_time :: UGen
 sidereal_time =
@@ -1258,7 +1264,7 @@ sidereal_time =
 sidereal_time_ot :: IO ()
 sidereal_time_ot = O.overlapTextureU (4,4,6,maxBound) sidereal_time
 
--- contamination zone (jmcc) #9
+-- * contamination zone (jmcc) #9
 
 cz :: UGen
 cz =
@@ -1282,7 +1288,7 @@ cz_pp =
 cz_ot :: IO ()
 cz_ot = O.overlapTextureU_pp (3,8,4,maxBound) cz 2 cz_pp
 
--- choip (jmcc) #10
+-- * choip (jmcc) #10
 
 choip :: UGen
 choip =
@@ -1302,7 +1308,7 @@ choip_pp =
 choip_ot :: IO ()
 choip_ot = O.overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp
 
--- strummable guitar (jmcc) #11
+-- * strummable guitar (jmcc) #11
 
 str_gtr_str :: UGen -> Double -> UGen
 str_gtr_str sc ix' =
@@ -1321,7 +1327,7 @@ str_gtr =
         strs = sum (zipWith str_gtr_str scale [0..])
     in leakDC (lpf strs 12000) 0.995
 
--- drone plus rhythm (jmcc) #12
+-- * drone plus rhythm (jmcc) #12
 
 dpr_scale :: Num a => [a]
 dpr_scale = [0, 2, 3, 5, 7, 9, 10]
@@ -1355,7 +1361,10 @@ dpr_ot = do
   t3 <- forkIO (O.overlapTextureU (4,6,3,maxBound) dpr_drone_2)
   return [t1,t2,t3]
 
--- early space music LP, side 2 (jmcc) #12
+dpr_ot_ :: IO ()
+dpr_ot_ = dpr_ot >> return ()
+
+-- * early space music LP, side 2 (jmcc) #12
 
 esmlp2_m1 :: UGen
 esmlp2_m1 =
@@ -1426,7 +1435,7 @@ esmlp2_ot = do
   let g = R.mkStdGen 0
   O.overlapTextureS_pp (4,2,6,maxBound) esmlp2 g 2 esmlp2_pp
 
--- blips 001 (jmcc) #SC3d1.5
+-- * blips 001 (jmcc) #SC3d1.5
 
 blip_001 :: ID a => a -> UGen
 blip_001 e =
@@ -1449,7 +1458,7 @@ blips_001_pp z =
 blips_001_ot :: IO ()
 blips_001_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_001_pp
 
--- zizle (jmcc) #SC3d1.5
+-- * zizle (jmcc) #SC3d1.5
 
 zizle :: UGen
 zizle =
@@ -1464,7 +1473,7 @@ zizle =
 zizle_ot :: IO ()
 zizle_ot = O.overlapTextureU (4,4,12,maxBound) zizle
 
--- babbling brook (jmcc) #SC3
+-- * babbling brook (jmcc) #SC3
 
 {- | http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html -}
 babbling_brook :: UGen
@@ -1487,7 +1496,7 @@ babbling_brook_m = do
   y <- clone 2 (b 20 800 1000 0.010)
   return (x + y)
 
--- mridangam (jmcc) #SPE3
+-- * mridangam (jmcc) #SPE3
 
 mri_mridangam :: UGen
 mri_mridangam =
@@ -1548,7 +1557,7 @@ mri_begin = do
 mri_run :: IO ()
 mri_run = withSC3 mri_begin
 
--- bowed string (jmcc)
+-- * bowed string (jmcc)
 
 bowed_string_m :: UId m => m UGen
 bowed_string_m = do
@@ -1574,7 +1583,7 @@ bowed_string = uid_st_eval bowed_string_m
 bowed_string_ot :: IO ()
 bowed_string_ot = O.overlapTextureU (5,2,12,maxBound) bowed_string
 
--- demanding studies (jmcc)
+-- * demanding studies (jmcc)
 
 demanding_studies :: UGen
 demanding_studies =
@@ -1589,7 +1598,7 @@ demanding_studies =
       o3 = cubed (distort (log (distort (o1 + o2))))
   in o3 * 0.1
 
--- impulse sequencer (jmcc) SC2
+-- * impulse sequencer (jmcc) SC2
 
 impulse_sequencer :: UGen
 impulse_sequencer =
@@ -1604,7 +1613,7 @@ impulse_sequencer =
         b = decay2 b_sq 0.001 0.5 * fSinOsc AR 100 0 * 0.2
     in c + d + n + b
 
--- wind metals (jmcc)
+-- * wind metals (jmcc)
 
 wind_metals_m :: UId m => m UGen
 wind_metals_m = do
@@ -1627,7 +1636,7 @@ wind_metals = uid_st_eval wind_metals_m
 wind_metals_ot :: IO ()
 wind_metals_ot = O.overlapTextureU (5,2,12,maxBound) wind_metals
 
--- tank (jmcc)
+-- * tank (jmcc)
 
 tank_pling :: UGen
 tank_pling =
@@ -1711,7 +1720,7 @@ mix_replicate_m n = mixFillM n . (const :: m UGen -> Int -> m UGen)
 tank_m :: UId m => m UGen
 tank_m = tank_f_m =<< SC3.chainM 4 r_allpass_m =<< tank_bang_m .+. mix_replicate_m 8 tank_pling_m
 
--- plucked strings (jmcc)
+-- * plucked strings (jmcc)
 
 plucked_strings_m :: UId m => m UGen
 plucked_strings_m = do
@@ -1737,7 +1746,7 @@ plucked_strings_m = do
 plucked_strings :: UGen
 plucked_strings = uid_st_eval plucked_strings_m
 
--- theremin (jmcc)
+-- * theremin (jmcc)
 
 theremin :: UGen
 theremin =
@@ -1750,7 +1759,7 @@ theremin =
       a = sinOsc AR f' 0 * x
   in pan2 a 0 1
 
--- snare-909 (jmcc)
+-- * snare-909 (jmcc)
 
 snare_909 :: UGen -> UGen
 snare_909 tr =
@@ -1776,7 +1785,7 @@ snare_909_mouse =
         t = impulse KR (3 * x) 0
     in pan2 (snare_909 t) 0 y
 
--- birds (jmcc)
+-- * birds (jmcc)
 
 birds_node :: UGen
 birds_node =
@@ -1813,3 +1822,108 @@ birds_m = do
   d <- return . sum =<< sequence (replicate 6 node)
   w <- SC3.chainM 12 apf_r d
   return (d * 0.7 + w * 0.3)
+
+-- * spe (jmcc) / rd
+
+spe_m :: UId m => m UGen
+spe_m = do
+  let rapf i = do r <- clone 2 (randM 0 0.05)
+                  return (allpassN i 0.05 r 4)
+      src = do let t = impulse KR 9 0
+                   e = envGen KR t 0.1 0 1 DoNothing (envPerc 0.1 1)
+                   s = mce [00,03,02,07
+                           ,08,32,16,18
+                           ,00,12,24,32]
+               n <- lfNoise1M KR 1
+               m <- dseqM dinf s
+               let f = midiCPS (demand t 0 m + 32)
+                   o = lfSaw AR f 0 * e
+                   rq = midiCPS (n * 36 + 110)
+               return (rlpf o rq 0.1)
+  SC3.chainM 4 rapf =<< src
+
+spe :: UGen
+spe = uid_st_eval spe_m
+
+-- * TABLE
+
+jmcc_sc2 :: [[(String,Maybe UGen,Maybe (IO ()))]]
+jmcc_sc2 =
+    -- SC2
+    [[("why supercollider",Just why_supercollider,Nothing)]
+    ,[("analog bubbles",Just analog_bubbles,Nothing)
+     ,("lfo modulation",Just lfo_modulation,Nothing)
+     ,("hell is busy",Just hib,Just hib_ot)
+     ,("pond life",Just pond_life,Just pond_life_ot)
+     ,("alien froggies",Just alien_froggies_11,Just alien_froggies_ot)
+     ,("random sine waves",Just rsw,Just rsw_ot)
+     ,("random pulsations",Just rp,Just rp_st)
+     ,("moto rev",Just moto_rev,Nothing)
+     ,("scratchy",Just scratchy,Nothing)
+     ,("tremulate",Just tremulate,Just tremulate_xt)
+     ,("reso pulse",Just reso_pulse,Just reso_pulse_ot)
+     ,("sprinkler",Just sprinkler,Nothing)
+     ,("sprinkler mouse",Just sprinkler_mouse,Nothing)
+     ,("harmonic swimming",Just harmonic_swimming,Nothing)
+     ,("harmonic tumbling",Just harmonic_tumbling,Nothing)]
+    ,[("rails",Just rails,Just rails_ot)
+     ,("bouncing objects",Just bouncing_objects,Just bouncing_objects_st)
+     ,("lots-o-sines",Just lots_o_sins,Just lots_o_sins_xt)
+     ,("clustered sines",Just cs,Just cs_xt)
+     ,("resonators harmonic series",Just rhs,Just rhs_xt)
+     ,("swept resonant noise",Just srn,Just srn_ot)
+     ,("coolant",Just coolant,Just coolant_ot)
+     ,("pulsing bottles",Just pulsing_bottles,Just pulsing_bottles_ot)
+     ,("what was i thinking",Just what_was_i_thinking,Nothing)
+     ,("narrow band filtered crackle noise",Just nbfcn,Just nbfcn_st)
+     ,("resonant dust",Just resonant_dust,Just resonant_dust_ot)
+     ,("police state",Just police_state,Nothing)
+     ,("uplink",Just uplink,Just uplink_ot)
+     ,("data space",Just data_space,Just data_space_ot)
+     ,("cymbalism",Just cymbalism,Just cymbalism_ot)
+     ,("cymbalism accelerando",Just cymbalism_accellerando,Just cymbalism_accellerando_ot)
+     ,("ring modulated klank",Just rmk,Just rmk_ot)]
+    ,[("analogue daze",Just analogue_daze,Nothing)
+     ,("synthetic piano",Just synthetic_piano,Just synthetic_piano_ot)
+     ,("reverberated sine percussion",Just reverberated_sine_percussion,Nothing)
+     ,("reverberated noise bursts",Just rnb,Nothing)
+     ,("analog bubbles mouse",Just analog_bubbles_mouse,Nothing)]
+    ,[("berlin 1977",Just berlin_1977,Nothing)
+     ,("metal plate",Just metal_plate,Nothing)
+     ,("sample and hold liquidities",Just sample_and_hold_liquidities,Nothing)
+     ,("random panning sines",Just rps,Just rps_ot)]
+    ,[("distort input",Just distort_input,Nothing)
+     ,("ring modulate input",Just ring_modulate_input,Nothing)
+     ,("filter input",Just filter_input,Nothing)]
+    ,[("sweepy noise",Just sweepy_noise,Nothing)
+     ,("string wander-cluster",Just swc',Just swc_ot)
+     ,("comb delay sweeps",Just cds',Just cds_ot)
+     ,("noise burst sweep",Just nbs,Just nbs_ot)
+     ,("saucer base",Just saucer_base,Just saucer_base_ot)
+     ,("alien meadow",Just alien_meadow,Just alien_meadow_ot)
+     ,("birdies",Just birdies,Just birdies_ot)
+     ,("phase modulation",Just pmwsb,Just pmwsb_ot)
+     ,("hard sync sawtooth with lfo",Just hsswl,Just hsswl_ot)
+     ,("noise modulated sines",Just nms,Just nms_ot)
+     ,("noise modulated sawtooths",Just nmsw,Just nmsw_ot)]
+    ,[("aleatoric quartet",Just aleatoric_quartet,Nothing)
+     ,("slow beating sines",Nothing,Just sbs_ot)
+     ,("slow beating harmonic sines",Nothing,Just sbhs_ot)
+     ,("tapping tools",Just tapping_tools,Just tapping_tools_ot)]
+    ,[("modal space",Just modal_space,Nothing)
+     ,("landon rose",Just landon_rose,Nothing)]
+    ,[("deep trip",Just deep_trip,Just deep_trip_ot)
+     ,("sawed cymbals",Just sawed_cymbals,Just sawed_cymbals_ot)
+     ,("sidereal time",Just sidereal_time,Just sidereal_time_ot)
+     ,("contamination zone",Just cz,Just cz_ot)]
+    ,[]
+    ,[("strummable guitar",Just str_gtr,Nothing)
+     ,("drone plus rhythm",Nothing,Just dpr_ot_)
+     ,("early space music lp side one",Nothing,Nothing)
+     ,("early space music lp side two",Nothing,Just esmlp2_ot)]
+    -- SC3d1.5
+    ,[("blips 001",Just blips_001,Just blips_001_ot)
+     ,("zizle",Just zizle,Just zizle_ot)]
+    -- SC3
+    ,[("babbling brook",Just babbling_brook,Nothing)]
+    ,[("mridangam",Nothing,Just mri_run)]]

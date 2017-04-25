@@ -12,7 +12,7 @@ GRAPHS= 1-1Ni\
  adc-16-6-2\
  adso\
  after-goeyvaerts\
- aleatoric-quartet-m\
+ aleatoric-quartet\
  alien-froggies\
  alien-froggies-rec\
  alien-meadow\
@@ -40,7 +40,7 @@ GRAPHS= 1-1Ni\
  bottle-m\
  bouncing-objects\
  bouncing-objects-r\
- bowed-string-m\
+ bowed-string\
  bs-070705-m\
  buffer-display\
  ccomb-m\
@@ -58,7 +58,7 @@ GRAPHS= 1-1Ni\
  crotale-sine\
  cut-outs-m\
  cymbalism-accelerando\
- cymbalism-m\
+ cymbalism\
  dark-sea-horns-hp\
  dark-sea-horns\
  data-space-hp\
@@ -188,7 +188,7 @@ GRAPHS= 1-1Ni\
  pkt-07\
  pkt-26\
  pkt-28\
- plucked-strings-m\
+ plucked-strings\
  police-state\
  pond-life-ha\
  pond-life-hp\
@@ -212,7 +212,7 @@ GRAPHS= 1-1Ni\
  reso-pulse\
  reverberated-noise-bursts\
  reverberated-sine-percussion-hp\
- reverberated-sine-percussion-m\
+ reverberated-sine-percussion\
  ring-modulated-klank\
  ring-modulate-input\
  rm-octaver\
@@ -240,9 +240,10 @@ GRAPHS= 1-1Ni\
  slow-beating-sines\
  snare-909\
  sosc-lp-m\
- spe-m\
+ spe\
  spe-p\
  sprinkler\
+ sprinkler-mouse\
  sprinkler-r\
  string-wander-cluster\
  strummable-guitar\
@@ -282,7 +283,7 @@ GRAPHS= 1-1Ni\
  voscil\
  voscil-u\
  waveset\
- what-was-i-thinking-m\
+ what-was-i-thinking\
  why-supercollider\
  wial-m\
  wind-metals-m\
