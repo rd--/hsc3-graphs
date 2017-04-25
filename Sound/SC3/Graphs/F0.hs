@@ -1,5 +1,6 @@
 module Sound.SC3.Graphs.F0 where
 
+import Data.Bits {- base -}
 import Data.List {- base -}
 
 import Sound.OSC {- hosc -}
@@ -7,7 +8,7 @@ import Sound.SC3 {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
--- 454598285861617665
+-- * 454598285861617665
 
 f0_454598285861617665 :: UGen
 f0_454598285861617665 =
@@ -18,7 +19,7 @@ f0_454598285861617665 =
         o = grainSin 2 c d f 0 (-1) 512
     in splay (tanh o) 1 1 0 True / 2
 
--- 456384156159574016
+-- * 456384156159574016
 
 f0_456384156159574016 :: UGen
 f0_456384156159574016 =
@@ -81,7 +82,7 @@ chipwave =
              ,("out",repeat 1)])
     in nrt_merge (P.sbind1 b) (P.sbind1 a)
 
--- feedback
+-- * feedback
 
 feedback4 :: UGen
 feedback4 =
@@ -113,7 +114,7 @@ f0_fb_param =
 f0_fb_au :: Param -> IO ()
 f0_fb_au p = audition_at (-1,AddToHead,1,p) feedback4 >> pauseThread (2::Double)
 
--- http://fredrikolofsson.com/f0blog/?q=node/478 (f0)
+-- * http://fredrikolofsson.com/f0blog/?q=node/478 (f0)
 
 f0_tw0014 :: UGen
 f0_tw0014 =
@@ -129,7 +130,7 @@ f0_tw0014 =
         s = sum (map f [0..9])
     in out 0 (mce2 s s)
 
--- http://fredrikolofsson.com/f0blog/?q=node/478 (f0)
+-- * http://fredrikolofsson.com/f0blog/?q=node/478 (f0)
 
 f0_tw0020 :: UGen
 f0_tw0020 =
@@ -145,7 +146,205 @@ f0_tw0020 =
         s = mix a7 / 8
     in out 0 (mce2 s s)
 
--- http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
+
+fib :: Integral i => [i]
+fib = 0 : scanl (+) 1 fib
+
+{-
+sc3_fib 16 == [1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987]
+-}
+sc3_fib :: Integral a => Int -> [a]
+sc3_fib n = take n (tail fib)
+
+f0_0028 :: UGen
+f0_0028 =
+    let n = map ((* 99) . (`mod` 8)) (sc3_fib 16)
+        p = dseq 'α' dinf (dshuf 'β' 8 (mce (map fromInteger n)))
+        q = combN (duty AR (1/8) 0 DoNothing p) 4 4 16
+        o = lfTri AR q 0 / 4
+        f = lfTri KR (1/16) 0 * 2e3 + 3e3
+    in out 0 (pan2 (moogFF o f 2 0) 0 1)
+
+-- * www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
+
+f0_0030 :: UGen
+f0_0030 =
+    let a i j k l = lfPar AR i j * k + l
+        f = a 1 0 5 (a (mce2 0.05 0.04) 0 50 160 `roundTo` 50)
+        w = a 0.2 0 0.5 (a 3 0 0.2 0.5)
+        o = varSaw AR f 0 w / 8
+    in out 0 (gVerb o 80 3 0.5 0.5 15 1 0.7 0.5 300 * 0.1)
+
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
+
+f0_0033 :: UGen
+f0_0033 =
+    let f = roundE (lfPar AR (1/14) 0) * 20 + 80
+        a = pulse AR (mce [1..4]) 0.35
+        n = uclone 'α' 4 (brownNoise 'α' AR) * a
+        z i = mce2 (i + 1 * f) (i * f + (i + 1 / 3))
+        o = lfPar AR (mce (map z [0..3])) 0
+    in out 0 (splay ((o >* n) / 3) 1 1 0 True * 0.1)
+
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
+
+f0_tw0041 :: UGen
+f0_tw0041 =
+    let s = sweep (localIn' 6 AR) 1
+        i = impulse AR (mce [1,0.749,6,12,3,4]) 0
+        o = sinOsc AR (1 / runningMax s i) 0
+    in mrg [tanh (splay o 1 1 0 True) / 2 * 0.1
+           ,localOut o]
+
+-- * www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
+
+f0_0045 :: UGen
+f0_0045 =
+    let a i j k l = sinOsc AR i j * k + l
+        f = a (a 0.11 0 1 0) 0 1 0
+        p_f = a (95 * a 0.01 0 1 1) 0 (a 5e-3 0 50 0) 100
+        p = a p_f (a (mce2 98 97) 0 1 0) (pi + a 5e-4 0 1 0) 0
+    in tanh (a f p 1 0) * 0.1
+
+-- * https://www.listarc.bham.ac.uk/lists/sc-users/msg18379.html (f0)
+
+f0_0049 :: UGen
+f0_0049 =
+    let t = t2A 0 0
+        o0 = lfSaw AR 3 0 * 9 + 99
+        s0 = sweep t (mce [3..9]) `modE` o0
+        s1 = sweep t (mce [33,32..3]) `modE` 128 .&. s0
+        o1 = sinOsc AR (midiCPS (s1+33)) 0 * pi
+    in out 0 (splay (sinOsc AR 9 o1) 1 1 0 True / 3)
+
+-- * http://sccode.org/1-4Qy (f0)
+
+{-
+> ascii_u "sunday" == mce (map constant [115,117,110,100,97,121])
+-}
+ascii_u :: String -> UGen
+ascii_u = mce . map (constant.fromEnum)
+
+f0_tw0051 :: UGen
+f0_tw0051 =
+    let i = a (ascii_u "sunday")
+        f = a (9 / ascii_u "slow") * 400 + 500
+        w = a (7 / ascii_u "coding") + 1.1
+        a = saw AR
+        l = splay (bBandPass i f w / 5) 1 1 0 True
+    in gVerb l 10 3 0.5 0.5 15 1 0.7 0.5 300
+
+-- * http://sccode.org/1-4Qy (f0)
+
+f0_tw0077 :: UGen
+f0_tw0077 =
+    let a = sinOsc AR
+        f = a (1 / mce2 5 6) 0 + mce2 798 912
+        p = (a (1 / 16) 0 * 19 + 99) * a (mce2 9 8) 0
+        m = a (a 6 0 * a 0.009 0) 0
+        b = a f p * m
+    in tanh (a (mce2 201 301) b)
+
+-- * http://sccode.org/1-4Qy (f0)
+
+f0_tw0084 :: UGen
+f0_tw0084 =
+    let a = saw AR
+        f = a (mce [5,7..15] * 19) * 99 + 199
+        g = a (mce [1,3..13] * 29) * 199 + 299
+        w = a (mce [3,5..11] * (a 3 * 2 + 3)) * 299 + 399
+    in splay (formant AR f g w) 1 1 0 True / 3
+
+-- * http://sccode.org/1-4Qy (f0)
+
+f0_tw0120 :: UGen
+f0_tw0120 =
+    let a = lfTri
+        z = a KR (1 / mce2 7 8) 0 * a KR (1 / 9) 0 * 99
+        l = midiCPS (mce [60 .. 79])
+        f = select z l
+        w = a KR (1 / mce2 3 4) 0 `modE` 1
+        o = varSaw AR f 0 w
+    in combN o 1 (1 / mce2 5 6) 8 / 4
+
+-- * http://sccode.org/1-4Qy (f0)
+
+f0_tw0121 :: UGen
+f0_tw0121 =
+    let a = sinOsc
+        z = a KR (1 / mce2 8 7) 0 * a KR (1 / 30) 0 * 9
+        l = midiCPS (mce [56,62 .. 98])
+        m = a AR (1 / mce2 4 3) 0
+        o = a AR (select z l) 0 * m
+    in tanh (combN o 1 (1 / mce2 6 5) 9)
+
+-- * http://sccode.org/1-4Qy (f0)
+
+f0_tw0125 :: UGen
+f0_tw0125 =
+    let a = sinOsc AR
+        f = a (1 / mce [8,9]) 0 * 4 + mce [400,202]
+        u = (a (1/9) 0 + 1) / 88
+        d = (a (1/8) 0 + 1) / 99
+        i = inFeedback 1 (mce [1,0])
+        p = combC (lagUD i u d) 1 0.08 9
+    in a f p
+
+-- * http://sccode.org/1-4Qy (f0)
+
+mean :: Fractional a => [a] -> a
+mean l = sum l / fromIntegral (length l)
+
+{- scsynth -u 57110 -w 512 -}
+f0_tw0134 :: UGen
+f0_tw0134 =
+    let a = lfSaw AR
+        n' = 50
+        n = constant n'
+        z i = let o1 = a ((i + 1) / mce [3,4]) 0
+                  o2 = a ((i + 1) / 8) 0 + 1
+                  f0 = o1 >* o2 * (n / 2) + n
+                  m = a ((i + 1) / n) (i / (n / 2))
+                  o3 = blip AR f0 (i + mce [2,3]) * m
+              in ringz o3 ((i + 1) * (n * 2 - 1)) 0.1
+    in mean (map z [0 .. n'])  / 5
+
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
+
+f0_tw0220 :: UGen
+f0_tw0220 =
+    let c = inFeedback 1 0
+        b = clearBuf (localBuf 'α' 1 90000)
+        g = tGrains 2 (sinOsc AR 3 0) b (c + 3) 2 12 0 0.1 4
+        r = recordBuf AR b 0 1 0 1 Loop 1 DoNothing c
+    in mrg2 (hpf (sinOsc AR 99 (c * 6) / 9 + g) 9) r
+
+{-
+2014-10-11: tgrains needs a patch to work with localbuf
+http://article.gmane.org/gmane.comp.audio.supercollider.user/110110
+main = withSC3 (async (b_alloc bufnum 90000 1) >> play (out 0 f0_tw0220))
+-}
+
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
+
+f0_tw0224 :: UGen
+f0_tw0224 =
+    let c = 200000
+        b = clearBuf (localBuf 'α' 2 c)
+        d = bufRd 2 AR b (sinOsc AR (mce2 2 3 * 9) 0 * c) NoLoop LinearInterpolation
+        w = bufWr b (abs (sinOsc AR (mce2 99 145) 0) * c) Loop (sinOsc AR (3 / mce2 2 3) 0 / 3)
+    in mrg2 d w
+
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
+
+f0_tw0225 :: UGen
+f0_tw0225 =
+    let b = mce [1..8] * 99
+        o = blip AR (b / 2 + lfSaw KR ((-8) / b) 1 * 99) (b / 4 + (lfSaw KR (1 / b) 1 * 99))
+    in sin (splay (combN (o * sinOsc AR (8 / b) (lfSaw AR (99 / b) 0)) 0.2 0.2 1) 1 1 0 True)
+
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
 
 pkt_00 :: UGen
 pkt_00 =
@@ -158,7 +357,7 @@ pkt_00 =
         s = splay i w 0.7 (sosc 1.2 * 0.6) True
     in out 0 (gVerb s 20 5 1 0.5 25 0 1 1 30)
 
--- http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
 
 pkt_26_grid :: UGen -> UGen -> UGen
 pkt_26_grid n i =
@@ -178,7 +377,7 @@ pkt_26_grid n i =
 pkt_26 :: UGen
 pkt_26 = mixFill 8 (pkt_26_grid 8)
 
--- http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
 
 pkt_28_rnd :: UGen -> UGen -> UGen
 pkt_28_rnd n i =
@@ -201,11 +400,10 @@ pkt_28 =
     let y = limiter (leakDC (mixFill 28 (pkt_28_rnd 28)) 0.995) 1 0.01
     in gVerb y 3 5 0.2 0.8 20 0.1 0.7 0.5 300
 
--- http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
+-- * http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
 
 type T4 a = (a,a,a,a)
 
--- > pkt_07_param 6
 pkt_07_param :: Fractional n => Int -> [T4 n]
 pkt_07_param n =
     let f g z = take n (iterate g z)
@@ -214,10 +412,69 @@ pkt_07_param n =
 pkt_07_gen :: UGen -> T4 UGen -> UGen
 pkt_07_gen f0 (m,f1,l,r) = sinOsc AR f0 0 * m + linExp (sinOsc AR f1 0) (-1) 1 l r
 
--- > let p6 = pkt_07 6
--- > let p12 = pkt_07 12
 pkt_07 :: Int -> UGen
 pkt_07 n =
     let c = foldl pkt_07_gen 1 (pkt_07_param n)
         o = sinOsc AR c 0 * 0.1
     in gVerb (leakDC o 0.995) 16 8 0.75 0.5 15 1 0.7 0.5 16
+
+{-
+
+> pkt_07_param 6
+> let p6 = pkt_07 6
+> let p12 = pkt_07 12
+
+-}
+
+-- * http://sccode.org/1-4Q6 (f0)
+
+{-
+
+> audition risset
+
+> let set p = withSC3 (send (n_set (-1) p))
+> set [("trig",1)]
+> set [("freq",midiCPS 100),("sustain",3),("trig",1)]
+> set [("freq",midiCPS 60),("sustain",9),("trig",1)]
+> set [("freq",midiCPS 40),("sustain",15),("trig",1)]
+
+> audition (P.nbind1 risset_p)
+
+-}
+
+risset_u :: UGen
+risset_u =
+    let k = control KR
+        pan = k "pan" 0
+        f = k "freq" 400
+        ampl = k "amp" 0.1
+        d = k "sustain" 2
+        tr = tr_control "trig" 1
+        amps = [1,0.67,1,1.8,2.67,1.67,1.46,1.33,1.33,1,1.33]
+        durs = [1,0.9,0.65,0.55,0.325,0.35,0.25,0.2,0.15,0.1,0.075]
+        frqs = [0.56,0.56,0.92,0.92,1.19,1.7,2,2.74,3,3.76,4.07]
+        dets = [0,1,0,1.7,0,0,0,0,0,0,0]
+        fn i =
+            let shp = let c = EnvNum (-4.5)
+                      in envPerc' 0.005 (d * durs!!i) (amps!!i) (c,c)
+                env = envGen AR tr 1 0 1 DoNothing shp
+            in sinOsc AR (f * frqs!!i + dets!!i) 0 * ampl * env
+        src = mixFill 11 fn
+    in pan2 src pan 1
+
+risset_s :: Synthdef
+risset_s = synthdef "risset" (out 0 risset_u)
+
+risset_p :: (Synthdef,Int,P.Param)
+risset_p =
+    let fr = let d = P.rand 'α' [0,2,5,7,11]
+                 o = P.rand 'β' [4,5,6,7,9]
+                 sc = [0,2,4,5,7,9,11]
+             in P.degree_to_cps' sc 12 d o
+        du = P.rand 'γ' [2,3,5,7]
+    in (risset_s,1000
+       ,[("freq",fr)
+        ,("dur",du)
+        ,("sustain",map (* 1.25) du)
+        ,("amp",P.white 'δ' 0.025 0.15)
+        ,("trig",repeat 1)])

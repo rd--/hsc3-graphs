@@ -1,16 +1,5 @@
 -- http://sccode.org/1-4Qy (f0)
-
 import Sound.SC3 {- hsc3 -}
-
-f0_tw0120 :: UGen
-f0_tw0120 =
-    let a = lfTri
-        z = a KR (1 / mce2 7 8) 0 * a KR (1 / 9) 0 * 99
-        l = midiCPS (mce [60 .. 79])
-        f = select z l
-        w = a KR (1 / mce2 3 4) 0 `modE` 1
-        o = varSaw AR f 0 w
-    in combN o 1 (1 / mce2 5 6) 8 / 4
-
+import Sound.SC3.Graphs.F0 {- hsc3-graphs -}
 main :: IO ()
 main = audition (out 0 f0_tw0120)
