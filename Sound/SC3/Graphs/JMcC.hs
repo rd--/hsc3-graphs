@@ -1078,30 +1078,30 @@ aleatoric_quartet = uid_st_eval aleatoric_quartet_m
 
 -- * slow beating sines (jmcc) #7
 
-sbs_r_freq :: (MR.RandomGen g) => Int -> MR.Rand g [Double]
-sbs_r_freq i = do
-  n <- MR.nrrand i 24 84
-  return (map midi_to_cps n)
+{-
+> MR.evalRand (sbs_r_param 20 0.4 3) (R.mkStdGen 121423)
+-}
 
-sbs_r_harmonics :: (MR.RandomGen g) => Double -> Int -> Double -> MR.Rand g [Double]
-sbs_r_harmonics d m f = fmap (map (+ f)) (MR.nrand2 m d)
+type SBS_PARAM n = (([[n]], [[n]], [[n]]), ([[n]], [[n]], [[n]]))
 
-sbs_r_harmonics' :: (MR.RandomGen g) => Double -> Int -> Double -> MR.Rand g [Double]
-sbs_r_harmonics' d m f = fmap ((f :)  . map (+ f)) (MR.nrand2 (m - 1) d)
-
-sbs_r_phase :: (MR.RandomGen g) => Int -> MR.Rand g [Double]
-sbs_r_phase m = MR.nrrand m 0 (2 * pi)
-
-sbs :: MR.RandomGen g => Int -> Double -> Int -> MR.Rand g UGen
-sbs n d m = do
-  f <- sbs_r_freq n
-  p_fr <- mapM (sbs_r_harmonics' d m) f
-  q_fr <- mapM (sbs_r_harmonics d m) f
-  p_ph <- replicateM n (sbs_r_phase m)
-  q_ph <- replicateM n (sbs_r_phase m)
+sbs_r_param :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g (SBS_PARAM Double)
+sbs_r_param n d m = do
+  let gen_hm k f = MR.nrrand k (f - d) (f + d)
+      gen_hm' k f = fmap (f :) (gen_hm k f)
+      gen_ph = MR.nrrand m 0 (2 * pi)
+  f <- MR.nrrand n (midi_to_cps 24) (midi_to_cps 84)
+  p_fr <- mapM (gen_hm' (m - 1)) f
+  q_fr <- mapM (gen_hm m) f
+  p_ph <- replicateM n gen_ph
+  q_ph <- replicateM n gen_ph
   let a = replicate n (replicate m 1)
-      p_sp = zipWith3 klangSpec' p_fr a p_ph
-      q_sp = zipWith3 klangSpec' q_fr a q_ph
+  return ((p_fr,a,p_ph),(q_fr,a,q_ph))
+
+sbs_r :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g UGen
+sbs_r n d m = do
+  ((p_fr,p_am,p_ph),(q_fr,q_am,q_ph)) <- sbs_r_param n d m
+  let p_sp = zipWith3 klangSpec' p_fr p_am p_ph
+      q_sp = zipWith3 klangSpec' q_fr q_am q_ph
       mk_u s = klang AR 1 0 s * (0.1 / fromIntegral n)
       p_u = sum (map mk_u p_sp)
       q_u = sum (map mk_u q_sp)
@@ -1109,38 +1109,46 @@ sbs n d m = do
 
 sbs_ot :: IO ()
 sbs_ot = do
-  g <- MR.getStdGen
-  O.overlapTextureS (4,4,3,maxBound) (MR.runRand (sbs 20 0.4 3)) g
+  g <- R.getStdGen
+  O.overlapTextureS (4,4,3,maxBound) (MR.runRand (sbs_r 20 0.4 3)) g
+
+sbs :: UGen
+sbs = MR.evalRand (sbs_r 20 0.4 3) (R.mkStdGen 123678141)
 
 -- * slow beating harmonic sines (jmcc) #7
 
-sbhs_r_freq :: (MR.RandomGen g) => Int -> Int -> MR.Rand g [Double]
+sbhs_r_freq :: R.RandomGen g => Int -> Int -> MR.Rand g [Double]
 sbhs_r_freq k i = do
   n <- MR.nchoose i [0,2,4,5,7,9]
   o <- MR.nrand i 7
   let f n' o' = midi_to_cps (n' + (o' * 12) + fromIntegral k)
   return (zipWith f n o)
 
-sbhs_r_harmonics :: (MR.RandomGen g) => Double -> Int -> Double -> MR.Rand g [Double]
+sbhs_r_harmonics :: R.RandomGen g => Double -> Int -> Double -> MR.Rand g [Double]
 sbhs_r_harmonics d m f = do
   d' <- MR.nrand2 m d
   return (zipWith (+) (map (* f) [1,2,4,5,6]) d')
 
-sbhs_r_phase :: (MR.RandomGen g) => Int -> MR.Rand g [Double]
-sbhs_r_phase m = MR.nrrand m 0 (2 * pi)
+type SBHS_PARAM n = (([[n]], [[n]], [[n]]), ([[n]], [[n]], [[n]]))
 
-sbhs :: (MR.RandomGen g) => Int -> Double -> Int -> MR.Rand g UGen
-sbhs n d m = do
+sbhs_r_param :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g (SBS_PARAM Double)
+sbhs_r_param n d m = do
   k' <- MR.rand 12
   let k = 24 + k'
+      gen_ph = MR.nrrand m 0 (2 * pi)
   f <- sbhs_r_freq k n
   p_fr <- mapM (sbhs_r_harmonics d m) f
   q_fr <- mapM (sbhs_r_harmonics d m) f
-  p_ph <- replicateM n (sbhs_r_phase m)
-  q_ph <- replicateM n (sbhs_r_phase m)
+  p_ph <- replicateM n gen_ph
+  q_ph <- replicateM n gen_ph
   let a = replicate n (replicate m 1)
-      p_sp = zipWith3 klangSpec' p_fr a p_ph
-      q_sp = zipWith3 klangSpec' q_fr a q_ph
+  return ((p_fr,a,p_ph),(q_fr,a,q_ph))
+
+sbhs_r :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g UGen
+sbhs_r n d m = do
+  ((p_fr,p_am,p_ph),(q_fr,q_am,q_ph)) <- sbhs_r_param n d m
+  let p_sp = zipWith3 klangSpec' p_fr p_am p_ph
+      q_sp = zipWith3 klangSpec' q_fr q_am q_ph
       mk_u s = klang AR 1 0 s * (0.1 / fromIntegral n)
       p_u = sum (map mk_u p_sp)
       q_u = sum (map mk_u q_sp)
@@ -1148,8 +1156,11 @@ sbhs n d m = do
 
 sbhs_ot :: IO ()
 sbhs_ot = do
-  g <- MR.getStdGen
-  O.overlapTextureS (3,6,3,maxBound) (MR.runRand (sbhs 8 0.4 5)) g
+  g <- R.getStdGen
+  O.overlapTextureS (3,6,3,maxBound) (MR.runRand (sbhs_r 8 0.4 5)) g
+
+sbhs :: UGen
+sbhs = MR.evalRand (sbs_r 8 0.4 5) (R.mkStdGen 123678141)
 
 -- * tapping tools (jmcc) #7
 
@@ -1517,41 +1528,41 @@ lseq l n = concat (replicate n l)
 lrand :: Enum e => e -> [[a]] -> Int -> [a]
 lrand e l n = concat (R.nchoose e n l)
 
-mri_a_seq :: Fractional n => Char -> [[n]]
-mri_a_seq e =
-    [lseq [0.0] 10
+mri_a_seq :: (Num i,Fractional n) => ([n] -> i -> t) -> ([[n]] -> i -> t) -> [t]
+mri_a_seq sq_f rnd_f =
+    [sq_f [0.0] 10
     {- intro -}
-    ,lseq [0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] 2
-    ,lseq [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.0] 2
-    ,lseq [0.9,0.0,0.0,0.2,0.0,0.2,0.0,0.2,0.0,0.0] 2
-    ,lseq [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.2] 2
+    ,sq_f [0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] 2
+    ,sq_f [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.0] 2
+    ,sq_f [0.9,0.0,0.0,0.2,0.0,0.2,0.0,0.2,0.0,0.0] 2
+    ,sq_f [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.2] 2
     {- solo -}
-    ,lrand e [[0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
-             ,[0.9,0.2,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
-             ,[0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.2]
-             ,[0.9,0.0,0.0,0.7,0.2,0.2,0.0,0.7,0.0,0.0]
-             ,[0.9,0.0,0.0,0.7,0.0,0.2,0.2,0.7,0.2,0.0]
-             ,[0.9,0.2,0.2,0.7,0.2,0.2,0.2,0.7,0.2,0.2]
-             ,[0.9,0.2,0.2,0.7,0.2,0.2,0.2,0.7,0.0,0.0]
-             ,[0.9,0.0,0.0,0.7,0.2,0.2,0.2,0.7,0.0,0.0]
-             ,[0.9,0.0,0.4,0.0,0.4,0.0,0.4,0.0,0.4,0.0]
-             ,[0.9,0.0,0.0,0.4,0.0,0.0,0.4,0.2,0.4,0.2]
-             ,[0.9,0.0,0.2,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
-             ,[0.9,0.0,0.0,0.7,0.0,0.0,0.0,0.7,0.0,0.0]
-             ,[0.9,0.7,0.7,0.0,0.0,0.2,0.2,0.2,0.0,0.0]
-             ,[0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]] 30
+    ,rnd_f [[0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
+           ,[0.9,0.2,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
+           ,[0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.2]
+           ,[0.9,0.0,0.0,0.7,0.2,0.2,0.0,0.7,0.0,0.0]
+           ,[0.9,0.0,0.0,0.7,0.0,0.2,0.2,0.7,0.2,0.0]
+           ,[0.9,0.2,0.2,0.7,0.2,0.2,0.2,0.7,0.2,0.2]
+           ,[0.9,0.2,0.2,0.7,0.2,0.2,0.2,0.7,0.0,0.0]
+           ,[0.9,0.0,0.0,0.7,0.2,0.2,0.2,0.7,0.0,0.0]
+           ,[0.9,0.0,0.4,0.0,0.4,0.0,0.4,0.0,0.4,0.0]
+           ,[0.9,0.0,0.0,0.4,0.0,0.0,0.4,0.2,0.4,0.2]
+           ,[0.9,0.0,0.2,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
+           ,[0.9,0.0,0.0,0.7,0.0,0.0,0.0,0.7,0.0,0.0]
+           ,[0.9,0.7,0.7,0.0,0.0,0.2,0.2,0.2,0.0,0.0]
+           ,[0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]] 30
     {- tehai -}
-    ,lseq [2.0,0.0,0.2,0.5,0.0,0.2,0.9
+    ,sq_f [2.0,0.0,0.2,0.5,0.0,0.2,0.9
           ,1.5,0.0,0.2,0.5,0.0,0.2,0.9
           ,1.5,0.0,0.2,0.5,0.0,0.2] 3
     {- sam -}
-    ,[5.0]]
+    ,sq_f [5.0] 1]
 
 mri_begin :: Transport m => m ()
 mri_begin = do
   play (out 0 mri_drone)
   let sy = synthdef "mridangam" (out 0 mri_mridangam)
-      a = concat (mri_a_seq 'α')
+      a = concat (mri_a_seq lseq (lrand 'α'))
   play (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
 
 mri_run :: IO ()
@@ -1907,8 +1918,8 @@ jmcc_sc2 =
      ,("noise modulated sines",Just nms,Just nms_ot)
      ,("noise modulated sawtooths",Just nmsw,Just nmsw_ot)]
     ,[("aleatoric quartet",Just aleatoric_quartet,Nothing)
-     ,("slow beating sines",Nothing,Just sbs_ot)
-     ,("slow beating harmonic sines",Nothing,Just sbhs_ot)
+     ,("slow beating sines",Just sbs,Just sbs_ot)
+     ,("slow beating harmonic sines",Just sbhs,Just sbhs_ot)
      ,("tapping tools",Just tapping_tools,Just tapping_tools_ot)]
     ,[("modal space",Just modal_space,Nothing)
      ,("landon rose",Just landon_rose,Nothing)]
