@@ -2,8 +2,8 @@
 
 import Sound.SC3 {- hsc3 -}
 
-wial :: UId m => m UGen
-wial = do
+wial_m :: UId m => m UGen
+wial_m = do
   let pls c d f = do let t = pulseDivider c d 0
                          e = decay2 t 0.05 0.75
                          o = sinOsc AR (toggleFF t * f + f * 2) 0
@@ -22,5 +22,8 @@ wial = do
   f <- tWChooseM n0 (mce2 (20 * 0.66) 20) (mce2 0.25 0.75) 0
   fmap sum (mapM (plss clk) (smpl f))
 
+wial :: UGen
+wial = uid_st_eval wial_m
+
 main :: IO ()
-main = audition . out 0 =<< wial
+main = audition (out 0 wial)

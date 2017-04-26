@@ -3,8 +3,8 @@
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
-fwalk' :: UId m => UGen -> m UGen
-fwalk' r = do
+fwalk_f :: UId m => UGen -> m UGen
+fwalk_f r = do
   t <- dustM KR 3
   r1 <- tIRandM 0 6 t
   r2 <- tRandM (-0.0001) 0.0001 t
@@ -14,11 +14,14 @@ fwalk' r = do
       o2 = blip AR (midiCPS (r + f')) 12
   return ((o1 + o2) * decay2 t 0.3 1.2 * 0.1)
 
-fwalk :: UId m => m UGen
-fwalk = do
-  f1 <- fwalk' 24
-  f2 <- fwalk' 36
+fwalk_m :: UId m => m UGen
+fwalk_m = do
+  f1 <- fwalk_f 24
+  f2 <- fwalk_f 36
   return (f1 + f2)
+
+fwalk :: UGen
+fwalk = uid_st_eval fwalk_m
 
 run :: (UId m,Transport m) => m ()
 run = do
@@ -32,8 +35,7 @@ run = do
           ,40,59,45,47,52]
   _ <- async (b_alloc_setn1 0 0 n)
   _ <- async (b_alloc_setn1 1 0 m)
-  f <- fwalk
-  play (out 0 f)
+  play (out 0 fwalk)
 
 main :: IO ()
 main = withSC3 run

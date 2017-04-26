@@ -3,8 +3,8 @@
 import Data.List {- base -}
 import Sound.SC3 {- hsc3 -}
 
-dial_history :: UId m => m UGen
-dial_history = do
+dial_history_m :: UId m => m UGen
+dial_history_m = do
   let mfv = [[697,770,852,941],[1209,1336,1477,1633]]
       numbers = [3,1] : [[a,b] | a <- [0..2],b <- [0..2]]
       mce_r = mce . map mce
@@ -28,5 +28,8 @@ dial_history = do
       hiss = g1 * 0.01 + hpf (g2 * 0.02) 3000
   return (dsig + hiss)
 
+dial_history :: UGen
+dial_history = uid_st_eval dial_history_m
+
 main :: IO ()
-main = audition . out 0 =<< dial_history
+main = audition (out 0 dial_history)

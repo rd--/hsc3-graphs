@@ -1,12 +1,10 @@
 -- bottle (sc)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad {- hsc3 -}
-
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
-bottle :: UId m => m UGen
-bottle = do
+bottle_m :: UId m => m UGen
+bottle_m = do
   freq <- randM 220 880
   wn <- whiteNoiseM AR
   pn <- pinkNoiseM AR
@@ -24,5 +22,8 @@ bottle = do
   f <- chainM 2 rapf flute
   return (cls f)
 
+bottle :: UGen
+bottle = uid_st_eval bottle_m
+
 main :: IO ()
-main = O.overlapTextureU (2,0,2,maxBound) =<< bottle
+main = O.overlapTextureU (2,0,2,maxBound) bottle

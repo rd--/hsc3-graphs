@@ -1,10 +1,14 @@
 -- | cds-070701 (rd)
---
--- The 'source' data are breakpoint sets normalized over the time
--- interval (0,1).  There are a fixed number of 'locations' per cycle.
--- The data sets are sampled at these locations and loaded into
--- buffers.  The buffers are read using dbufrd.  One of the data sets
--- gives the time interval to step forward.
+
+{-
+
+The 'source' data are breakpoint sets normalized over the time
+interval (0,1).  There are a fixed number of 'locations' per cycle.
+The data sets are sampled at these locations and loaded into
+buffers.  The buffers are read using dbufrd.  One of the data sets
+gives the time interval to step forward.
+
+-}
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

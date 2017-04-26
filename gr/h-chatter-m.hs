@@ -3,8 +3,8 @@
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
-h_chatter :: UId m => m UGen
-h_chatter = do
+h_chatter_m :: UId m => m UGen
+h_chatter_m = do
   let mma m a = return . (+ a)  . (* m)
       h0 = do n <- mma 5 5 =<< lfNoise0M KR 1
               a <- mma 0.2 1.2 =<< lfNoise2M KR n
@@ -25,5 +25,8 @@ h_chatter = do
               return (pan2 o l g * 0.35)
   h0 .+. h1
 
+h_chatter :: UGen
+h_chatter = uid_st_eval h_chatter_m
+
 main :: IO ()
-main = audition . out 0 =<< h_chatter
+main = audition (out 0 h_chatter)

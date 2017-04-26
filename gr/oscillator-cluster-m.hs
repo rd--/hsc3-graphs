@@ -3,8 +3,8 @@
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
-oscillator_cluster :: UId m => m UGen
-oscillator_cluster = do
+oscillator_cluster_m :: UId m => m UGen
+oscillator_cluster_m = do
   let ln a b d = line KR a b d RemoveSynth
       rln r a b d = fmap (\n -> ln (a + n) b d) (randM 0 r)
       prt d a cf = do r1 <- randM cf (cf + 2)
@@ -21,15 +21,16 @@ oscillator_cluster = do
   a <- randM 0.01 0.05
   fmap sum (mapM (prt d a) =<< fp)
 
+oscillator_cluster :: UGen
+oscillator_cluster = uid_st_eval oscillator_cluster_m
+
 main :: IO ()
 main = do
-  u <- oscillator_cluster
-  let s = synthdef "oscillator_cluster" (out 0 u)
+  let s = synthdef "oscillator_cluster" (out 0 oscillator_cluster)
       p = [("dur",P.rand 'α' [0.25,0.5,1,3,5])]
   audition (P.sbind1 (s,p))
 
 {-
-audition . (out 0) =<< oscillator_cluster
 let otu = Sound.SC3.Lang.Control.OverlapTexture.overlapTextureU
-otu (3,1,5,maxBound) =<< oscillator_cluster
+otu (3,1,5,maxBound) oscillator_cluster
 -}

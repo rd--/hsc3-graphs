@@ -2,8 +2,8 @@
 
 import Sound.SC3 {- hsc3 -}
 
-lg_timed :: UId m => m UGen
-lg_timed = do
+lg_timed_m :: UId m => m UGen
+lg_timed_m = do
   let timed r y p =
           do d0 <- dserM r p
              d1 <- dconsM 0 d0
@@ -19,6 +19,9 @@ lg_timed = do
   ta <- lg =<< timed dinf a (d * x)
   return (sinOsc AR (midiCPS tn) 0 * ta)
 
+lg_timed :: UGen
+lg_timed = uid_st_eval lg_timed_m
+
 main :: IO ()
-main = audition . out 0 =<< lg_timed
+main = audition (out 0 lg_timed)
 

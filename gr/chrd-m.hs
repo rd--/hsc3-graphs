@@ -2,8 +2,8 @@
 
 import Sound.SC3 {- hsc3 -}
 
-chrd :: UId m => m UGen
-chrd = do
+chrd_m :: UId m => m UGen
+chrd_m = do
   r0 <- randM 0.05 0.5
   [r1, r2] <- sequence (replicate 2 (randM (-1) 1))
   r3 <- randM 0.15 0.35
@@ -18,8 +18,11 @@ chrd = do
       o = fSinOsc AR f 0
   return (mix (pan2 o p e))
 
-chrd9 :: UId m => m UGen
-chrd9 = fmap mix (clone 9 chrd)
+chrd9_m :: UId m => m UGen
+chrd9_m = fmap mix (clone 9 chrd_m)
+
+chrd9 :: UGen
+chrd9 = uid_st_eval chrd9_m
 
 main :: IO ()
-main = audition . out 0 =<< chrd9
+main = audition (out 0 chrd9)

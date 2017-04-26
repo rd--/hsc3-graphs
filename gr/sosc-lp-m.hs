@@ -22,8 +22,8 @@ setup = do
 --b0 = asLocalBuf 'α' [60, 71, 89, 65, 36, 57, 92, 97, 92, 97]
 --b1 = asLocalBuf 'β' [71, 89, 60, 57, 65, 36, 95, 92, 93, 97]
 
-sosc_lp :: UGen -> UGen -> UGen
-sosc_lp t n =
+sosc_lp_f :: UGen -> UGen -> UGen
+sosc_lp_f t n =
     let d_env = decay2 t 0.002 2.5
         idx = stepper t 0 0 15 1 0
         f1 = let l = (bufRdL 1 KR 10 idx Loop - 24)
@@ -38,10 +38,13 @@ sosc_lp_m :: UId m => m UGen
 sosc_lp_m = do
   clk <- dustR' KR 0.2 0.9
   n <- lfNoise0M KR (mce2 1 3)
-  return (sosc_lp clk n)
+  return (sosc_lp_f clk n)
+
+sosc_lp :: UGen
+sosc_lp = uid_st_eval sosc_lp_m
 
 main :: IO ()
-main = withSC3 (setup >> sosc_lp_m >>= play . out 0)
+main = withSC3 (setup >> play (out 0 sosc_lp))
 
 -- > withSC3 resetter
 resetter :: Transport m => m ()

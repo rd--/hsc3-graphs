@@ -3,8 +3,8 @@
 import Control.Monad {- base -}
 import Sound.SC3 {- hsc3 -}
 
-diffraction ::UId m => m UGen
-diffraction = do
+diffraction_m ::UId m => m UGen
+diffraction_m = do
   let p = do let x = mouseX KR 0.001 0.02 Exponential 0.1
                  y = mouseY KR 120 400 Exponential 0.1
              f <- fmap (* mce2 32 64) (lfNoise0M KR 4)
@@ -25,5 +25,8 @@ diffraction = do
           in liftM2 mce2 (mixFillM 16 f) (mixFillM 12 f)
   fmap sum (sequence [p,q,r])
 
+diffraction :: UGen
+diffraction = uid_st_eval diffraction_m
+
 main :: IO ()
-main = audition . out 0 =<< diffraction
+main = audition (out 0 diffraction)

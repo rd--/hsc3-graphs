@@ -2,10 +2,11 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
 
-fm_kltr :: UId m => m UGen
-fm_kltr = do
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
+
+fm_kltr_m :: UId m => m UGen
+fm_kltr_m = do
   r1 <- randM 0.975 1.025
   r2 <- randM 0.5 1.5
   r3 <- randM 0.975 1.025
@@ -25,12 +26,15 @@ fm_kltr = do
       l = line KR p (p * r4) d DoNothing
   return (out o (pan2 (sinOsc AR m 0) l e))
 
+fm_kltr :: UGen
+fm_kltr = uid_st_eval fm_kltr_m
+
 type R = Double
 
 fm :: Transport m => R -> R -> R -> R -> R -> m ()
 fm f ff a d i = do
-  r1 <- rrand (-1) 1
-  r2 <- rrand (-1) 1
+  r1 <- R.rrand (-1) 1
+  r2 <- R.rrand (-1) 1
   let p = [("freq", midiCPS f)
           ,("freq2", midiCPS ff + r1)
           ,("amp", a)
@@ -41,17 +45,17 @@ fm f ff a d i = do
 
 nd :: Transport m => m ()
 nd = do
-  ff <- rrand 48 96
-  a <- rrand 0.1 0.4
-  d <- rrand 1.2 7.2
-  i <- rrand 240 1480
-  t <- rrand 0.15 1.25
+  ff <- R.rrand 48 96
+  a <- R.rrand 0.1 0.4
+  d <- R.rrand 1.2 7.2
+  i <- R.rrand 240 1480
+  t <- R.rrand 0.15 1.25
   fm 53 ff a d i
   wait t
 
 run :: (Transport m,UId m) => m ()
 run = do
-  u <- fm_kltr
+  u <- fm_kltr_m
   _ <- async (d_recv (synthdef "fm_kltr" u))
   sequence_ (replicate 32 nd)
 

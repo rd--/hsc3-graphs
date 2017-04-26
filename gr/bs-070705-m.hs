@@ -2,7 +2,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Random.IO {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Random.IO as R {- hsc3-lang -}
 
 -- | One step in a bubble sort with specified /greater than/ function.
 bubble_p :: (a -> a -> Bool) -> [a] -> [a]
@@ -45,9 +45,9 @@ play_data r = do
 --   /m/ steps, pause for i seconds between each step.
 run_data :: Transport m => ([Double] -> [Double]) -> Int -> Int -> Double -> m ()
 run_data s n m i = do
-  f <- nrrand n 32 96
-  a <- nrrand n 0.25 1
-  p <- nrrand n (-1) 1
+  f <- R.nrrand n 32 96
+  a <- R.nrrand n 0.25 1
+  p <- R.nrrand n (-1) 1
   let prepare l' = take m (iterate s l')
       f' = prepare f
       a' = prepare a

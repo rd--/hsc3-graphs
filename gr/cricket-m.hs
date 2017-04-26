@@ -1,10 +1,10 @@
 -- cricket (rd)
 
-import Sound.SC3.Lang.Control.OverlapTexture {- hsc3-lang -}
 import Sound.SC3 {- hsc3 -}
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
-cricket :: UId m => m UGen
-cricket = do
+cricket_m :: UId m => m UGen
+cricket_m = do
   r1 <- clone 2 (randM 10 13)
   r2 <- clone 2 (randM 10 13)
   r3 <- clone 2 (randM 4 7)
@@ -14,9 +14,8 @@ cricket = do
   r4 <- clone 2 (tRandM 2130 2230 t)
   return (sinOsc AR r4 0 * f * 0.25)
 
-main :: IO ()
-main = overlapTextureU (7,2,3,maxBound) =<< cricket
+cricket :: UGen
+cricket = uid_st_eval cricket_m
 
-{-
-audition . out 0 =<< cricket
--}
+main :: IO ()
+main = O.overlapTextureU (7,2,3,maxBound) cricket

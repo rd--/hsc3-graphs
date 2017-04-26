@@ -3,8 +3,8 @@
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
-tgb :: UId m => UGen -> UGen -> m UGen
-tgb b d = do
+tgb_f :: UId m => UGen -> UGen -> m UGen
+tgb_f b d = do
   let mkls bp t = envGen KR 1 1 0 1 RemoveSynth (envCoord bp t 1 EnvLin)
       pm_t l r du t = let le = mkls l du
                           re = mkls r du
@@ -29,14 +29,17 @@ tgb b d = do
   let cs' = cs * bufDur KR b
   return (tGrains 2 t b rt cs' du pn am 2)
 
-tgb_10_12 :: UId m => m UGen
-tgb_10_12 = tgb 10 12
+tgb_10_12_m :: UId m => m UGen
+tgb_10_12_m = tgb_f 10 12
+
+tgb_10_12 :: UGen
+tgb_10_12 = uid_st_eval tgb_10_12_m
 
 act :: (UId m,Transport m) => m ()
 act = do
   let fn = "/home/rohan/data/audio/pf-c5.aif"
   _ <- async (b_allocRead 10 fn 0 0)
-  play . out 0 =<< tgb_10_12
+  play (out 0 tgb_10_12)
 
 main :: IO ()
 main = withSC3 act

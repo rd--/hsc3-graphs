@@ -10,11 +10,11 @@ delayWr b = recordBuf AR b 0 1 0 1 Loop 0 DoNothing
 tap' :: Int -> UGen -> UGen -> UGen
 tap' nc b dt = playBuf nc AR b 1 0 (dt * (- sampleRate)) Loop DoNothing
 
-type State = (UGen,Double)
+-- (soundin channels,delay-line-length:seconds,number-of-taps)
+type Param = (UGen,Double,Int)
 
--- > u <- feedr (mce2 0 1,6) 18
-feedr :: (UId m) => State -> Int -> m UGen
-feedr (ch,dl) n = do
+feedr_gen :: UId m => Param -> m UGen
+feedr_gen (ch,dl,n) = do
   t <- sequence (replicate n (randM 0.0 (constant dl)))
   g <- sequence (replicate n (randM 0.4 1.0))
   f <- sequence (replicate n (randM 0.9 0.95))
@@ -25,13 +25,15 @@ feedr (ch,dl) n = do
       r = i + sum (map (* x) (zipWith (*) d f))
   return (mrg [out 0 s, delayWr 10 r])
 
-run :: Transport t => State -> t -> IO ()
-run (ch,dl) fd = do
+feedr_alloc :: Transport t => Param -> t -> IO ()
+feedr_alloc (_ch,dl,_n) fd = do
   nf <- fmap (* dl) (serverSampleRateActual fd)
   send fd (b_alloc 10 (floor nf) 2)
-  audition =<< feedr (ch,dl) 18
 
 main :: IO ()
-main = withSC3 (run (mce2 0 1,6))
+main = do
+  let p = (mce2 0 1,6,18)
+  withSC3 (feedr_alloc p)
+  audition =<< feedr_gen p
 
 -- withSC3 (\fd -> send fd (b_zero 10))

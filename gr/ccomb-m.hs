@@ -2,8 +2,8 @@
 
 import Sound.SC3 {- hsc3 -}
 
-ccomb :: UId m => m UGen
-ccomb = do
+ccomb_m :: UId m => m UGen
+ccomb_m = do
   let lwr = 48
       flwr = midiCPS lwr
       spart t = do n <- fmap (range lwr 72.0) (lfNoise2M KR 0.1)
@@ -16,5 +16,8 @@ ccomb = do
   t <- dustM KR (mce2 0.75 0.35)
   return . (* 0.1) . sum =<< sequence (replicate 12 (spart t))
 
+ccomb :: UGen
+ccomb = uid_st_eval ccomb_m
+
 main :: IO ()
-main = audition . out 0 =<< ccomb
+main = audition (out 0 ccomb)

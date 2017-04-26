@@ -70,7 +70,6 @@ GRAPHS= 1-1Ni\
  dial-history-m\
  diffraction-m\
  discretion\
- discretion-m\
  distort-input\
  doppler\
  drone-plus-rhythm\
@@ -78,7 +77,6 @@ GRAPHS= 1-1Ni\
  drummer-r\
  early-space-music-lp-side-two\
  eggcrate\
- eggcrate-m\
  e-lamell\
  e-lamell-p\
  ellipse-based-synthesis\
@@ -137,7 +135,6 @@ GRAPHS= 1-1Ni\
  karplus-strong\
  klink\
  k-ppr\
- k-ppr-m\
  landon-rose\
  laser-bubble\
  lfo-modulation\
@@ -156,7 +153,7 @@ GRAPHS= 1-1Ni\
  modal-space-buf\
  modal-space\
  moto-rev\
- mouse-clatter-m\
+ mouse-clatter\
  mouse\
  mridangam-dr\
  mridangam\
@@ -204,7 +201,7 @@ GRAPHS= 1-1Ni\
  random-sine-waves-hp\
  random-sine-waves\
  record-scratcher\
- red-frik-m\
+ red-frik\
  reset\
  resonant-dust-hp\
  resonant-dust\
@@ -261,7 +258,6 @@ GRAPHS= 1-1Ni\
  thb\
  theremin\
  three-cpsw\
- three-cpsw-m\
  thx\
  tipnso\
  train\
@@ -288,6 +284,5 @@ GRAPHS= 1-1Ni\
  wial-m\
  wind-metals-m\
  xy-interference\
- xy-interference-m\
  zizle-hp\
  zizle\

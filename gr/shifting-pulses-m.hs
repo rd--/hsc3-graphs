@@ -37,13 +37,16 @@ pulses = do
       rq = warp n2 2 9
   return (mrg2 (l * rlpf p f rq) (sendTrig t 0 t))
 
-shifting_pulses :: UId m => m UGen
-shifting_pulses = do
+shifting_pulses_m :: UId m => m UGen
+shifting_pulses_m = do
   p1 <- prts 2 900 0.008
   p2 <- prts 9 40 0.022
   f <- fmt
   s <- pulses
   return (p1 + p2 + f + s)
 
+shifting_pulses :: UGen
+shifting_pulses = uid_st_eval shifting_pulses_m
+
 main :: IO ()
-main = audition . out 0 =<< shifting_pulses
+main = audition (out 0 shifting_pulses)

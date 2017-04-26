@@ -17,8 +17,8 @@ pmr_n rt l0 l1 r0 r1 d = do
   n <- whiteNoiseM rt
   return (linLin_b n le re)
 
-implosion :: UId m => m UGen
-implosion = do
+implosion_m :: UId m => m UGen
+implosion_m = do
   n0 <- randM (-1) 0
   n1 <- randM 0 1
   d  <- randM 7.5 13.5
@@ -29,5 +29,8 @@ implosion = do
   a <- pmr_n KR 0.1 0.6 0 0 d
   return (pan2 (saw AR f) l a)
 
+implosion :: UGen
+implosion = uid_st_eval implosion_m
+
 main :: IO ()
-main = audition . out 0 =<< implosion
+main = audition (out 0 implosion)

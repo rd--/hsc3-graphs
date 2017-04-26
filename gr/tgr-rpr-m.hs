@@ -15,8 +15,8 @@ dustR' r lo hi = do
 rpr :: UId m => UGen -> UGen -> m UGen
 rpr n = tRandM (in' 1 KR n) (in' 1 KR (n + 1))
 
-tgr_rpr :: UId m => m UGen
-tgr_rpr = do
+tgr_rpr_m :: UId m => m UGen
+tgr_rpr_m = do
   clk <- dustR' AR (in' 1 KR 0) (in' 1 KR 1)
   rat <- rpr 2 clk
   dur <- rpr 4 clk
@@ -24,6 +24,9 @@ tgr_rpr = do
   pan <- rpr 10 clk
   amp <- rpr 6 clk
   return (tGrains 2 clk 10 rat pos dur pan amp 2)
+
+tgr_rpr :: UGen
+tgr_rpr = uid_st_eval tgr_rpr_m
 
 preset :: [Double]
 preset =
@@ -54,7 +57,7 @@ run = do
   let sf = "/home/rohan/data/audio/pf-c5.snd"
   _ <- async (b_allocRead 10 sf 0 0)
   send (c_setn [(0,preset)])
-  play . out 0 =<< tgr_rpr
+  play (out 0 tgr_rpr)
   wait 0.3
   _ <- sequence (replicate 64 edit)
   reset

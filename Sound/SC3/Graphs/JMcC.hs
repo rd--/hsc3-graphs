@@ -23,27 +23,24 @@ import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
 
 import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
 
-twopi :: Floating n => n
-twopi = 2 * pi
+-- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
+dsequ :: ID z => z -> [UGen] -> UGen -> UGen
+dsequ z s tr = demand tr 0 (dseq z dinf (mce s))
 
-rand2 :: ID a => a -> UGen -> UGen
-rand2 z n = rand z (negate n) n
+-- | 'demand' of 'dshuf' with 'dinf' repeat, ie. randomised 'dsequ'.
+dsequR :: ID z => z -> [UGen] -> UGen -> UGen
+dsequR z s tr = demand tr 0 (dshuf z dinf (mce s))
 
-rand0 :: ID a => a -> UGen -> UGen
-rand0 e = rand e 0
+-- | 'demand' of 'dxrand' with 'dinf' repeat, ie. alternate randomised 'dsequ'.
+dsequX :: ID z => z -> [UGen] -> UGen -> UGen
+dsequX z s tr = demand tr 0 (dxrand z dinf (mce s))
 
-sequ :: ID a => a -> [UGen] -> UGen -> UGen
-sequ e s tr = demand tr 0 (dseq e dinf (mce s))
+-- | 'dsequ' '*' /tr/, ie. impulse sequencer.
+isequ :: ID z => z -> [UGen] -> UGen -> UGen
+isequ z s tr = dsequ z s tr * tr
 
--- | Somewhat akin to SC2 Sequencer with random selection function as input.
-sequR :: ID a => a -> [UGen] -> UGen -> UGen
-sequR e s tr = demand tr 0 (dshuf e dinf (mce s))
-
-iseqr :: ID a => a -> [UGen] -> UGen -> UGen
-iseqr z s tr = tr * demand tr 0 (dxrand z dinf (mce s))
-
-isequ :: ID i => i -> [UGen] -> UGen -> UGen
-isequ z s tr = tr * demand tr 0 (dseq z dinf (mce s))
+isequX :: ID z => z -> [UGen] -> UGen -> UGen
+isequX z s tr = dsequX z s tr * tr
 
 -- * why supercollider (jmcc) #0
 
@@ -654,7 +651,7 @@ analogue_daze =
         f k octave clockRate pwmrate fltrate =
             let trg = impulse KR clockRate 0
                 pattern' = map (midiCPS .  (+ (12 * octave))) pattern
-                sq = sequ 'α' pattern' trg
+                sq = dsequ 'α' pattern' trg
                 pwm = sinOsc KR pwmrate (rand ('β' `joinID` k) 0 (2 * pi)) * 0.4 + 0.5
                 cf = sinOsc KR fltrate (rand ('γ' `joinID` k) 0 (2 * pi)) * 1400 + 2000
             in rlpf (lfPulse AR (lag sq 0.05) 0 pwm * 0.1) cf (1/15)
@@ -752,9 +749,9 @@ berlin_1977 =
         clock_time = 1 / clock_rate
         clock = impulse KR clock_rate 0 {- sequencer trigger -}
         patternList = [55,60,63,62,60,67,63,58]
-        note = sequ 'α' patternList clock {- midi note pattern sequencer -}
+        note = dsequ 'α' patternList clock {- midi note pattern sequencer -}
         clock_16 = pulseDivider clock 16 0 {- divide clock by 16 -}
-        note' = sequR 'β' [-12,-7,-5,0,2,5] clock_16 + note {- transpose somewhat randomly -}
+        note' = dsequR 'β' [-12,-7,-5,0,2,5] clock_16 + note {- transpose somewhat randomly -}
         freq = midiCPS note' {- convert midi note to cycles per second -}
         env = decay2 clock (0.05 * clock_time) (2 * clock_time)
         amp = env * 0.1 + 0.02 {- amplitude envelope -}
@@ -1358,7 +1355,7 @@ dpr_drone_2 =
 dpr_rhy :: UGen
 dpr_rhy =
     let m = lchoose 'λ' [48, 60, 72, 84] + lchoose 'μ' dpr_scale + uclone 'ν' 2 (rand2 'ξ' 0.03)
-        sq = iseqr 'ο' [0,1,0,1,1,0] (impulse AR (lchoose 'π' [1.5,3,6]) 0)
+        sq = isequX 'ο' [0,1,0,1,1,0] (impulse AR (lchoose 'π' [1.5,3,6]) 0)
         sg = lfPulse AR (midiCPS m) 0 0.4 * rand 'ρ' 0.03 0.08
     in rlpf (decay2 sq 0.004 (rand 'σ' 0.2 0.7) * sg) (expRand 'τ' 800 2000) 0.1
 
@@ -1474,11 +1471,11 @@ blips_001_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_001_pp
 zizle :: UGen
 zizle =
   let a e f = let fm = mce2 (rand 'α' 0.7 1.3) 1
-                  ph = mce2 (rand 'β' 0 twopi) (rand 'γ' 0 twopi)
+                  ph = mce2 (rand 'β' 0 two_pi) (rand 'γ' 0 two_pi)
               in uprotect e (mix (sinOsc AR (f * fm) ph * 0.1))
       a1 = max (a 'δ' (expRand 'ε' 0.3 8)) 0
       a2 = abs (a 'ζ' (expRand 'η' 6 24))
-      o = sinOsc AR (midiCPS (rand 'θ' 24 108)) (rand 'ι' 0 twopi)
+      o = sinOsc AR (midiCPS (rand 'θ' 24 108)) (rand 'ι' 0 two_pi)
   in pan2 (o * a1 * a2) (rand2 'κ' 1) 1
 
 zizle_ot :: IO ()
@@ -1614,13 +1611,13 @@ demanding_studies =
 impulse_sequencer :: UGen
 impulse_sequencer =
     let t = impulse AR 8 0 {- single sample impulse as trigger -}
-        c_sq = isequ 'α' [1,0,0,1,0,0,1,0,0,0,1,0,1,0,0,0] t {- clave rhythm -}
+        c_sq = dsequ 'α' [1,0,0,1,0,0,1,0,0,0,1,0,1,0,0,0] t * t {- clave rhythm -}
         c = decay2 c_sq 0.001 0.3 * fSinOsc AR 1700 0 * 0.1
-        d_sq = isequ 'β' [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0] t
+        d_sq = dsequ 'β' [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0] t * t
         d = decay2 d_sq 0.001 0.3 * fSinOsc AR 2400 0 * 0.04
-        n_sq = isequ 'γ' [1.0, 0.1, 0.1, 1.0, 0.1, 1.0, 0.1, 0.1] t {- noise drum -}
+        n_sq = dsequ 'γ' [1.0, 0.1, 0.1, 1.0, 0.1, 1.0, 0.1, 0.1] t * t {- noise drum -}
         n = decay2 n_sq 0.001 0.25 * brownNoise 'δ' AR * 0.1
-        b_sq = isequ 'ε' [1,0,0.2,0,0.2,0,0.2,0] t {- bass drum -}
+        b_sq = dsequ 'ε' [1,0,0.2,0,0.2,0,0.2,0] t * t {- bass drum -}
         b = decay2 b_sq 0.001 0.5 * fSinOsc AR 100 0 * 0.2
     in c + d + n + b
 

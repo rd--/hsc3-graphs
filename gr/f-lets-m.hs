@@ -2,8 +2,8 @@
 
 import Sound.SC3 {- hsc3 -}
 
-f_lets :: UId m => m UGen
-f_lets = do
+f_lets_m :: UId m => m UGen
+f_lets_m = do
   let f_let t g j n f = do
            let pd = pulseDivider t j 0
            r0 <- tIRandM (mce2 2 1) n pd
@@ -26,5 +26,8 @@ f_lets = do
   n <- lfNoise0M KR 2
   return . (* (n * 0.25 + 0.25)) . sum =<< mk_n tr
 
+f_lets :: UGen
+f_lets = uid_st_eval f_lets_m
+
 main :: IO ()
-main = audition . out 0 =<< f_lets
+main = audition (out 0 f_lets)
