@@ -2,6 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 
+-- > k 'a' 26 == [97 .. 123]
 k :: Enum a => a -> Int -> [Int]
 k c n = let i = fromEnum c in [i .. i + n]
 

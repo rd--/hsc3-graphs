@@ -430,7 +430,7 @@ pkt_07 n =
 
 {-
 
-> audition risset
+> audition risset_u
 
 > let set p = withSC3 (send (n_set (-1) p))
 > set [("trig",1)]
