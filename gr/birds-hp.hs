@@ -3,7 +3,6 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad {- hsc3 -}
 
 node :: UId m => m UGen
 node = do

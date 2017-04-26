@@ -1,7 +1,7 @@
 -- spe-p (jmcc)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad {- hsc3 -}
+
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Pattern.List as P {- hsc3-lang -}
