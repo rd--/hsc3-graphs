@@ -21,13 +21,13 @@ fb_090531 =
 
 -- | Constant reset.
 c_reset :: Transport m => Double -> m ()
-c_reset n = send (c_setn [(0,replicate 4 n)])
+c_reset n = sendMessage (c_setn [(0,replicate 4 n)])
 
 -- | Random reset.
 r_reset :: Transport m => m ()
 r_reset = do
   cs <- replicateM 4 (rrand (-1) 1)
-  send (c_setn [(0,cs)])
+  sendMessage (c_setn [(0,cs)])
 
 -- | Loop random reset.
 lr_reset :: Transport m => Double -> m b

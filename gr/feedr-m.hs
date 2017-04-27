@@ -28,7 +28,7 @@ feedr_gen (ch,dl,n) = do
 feedr_alloc :: Transport t => Param -> t -> IO ()
 feedr_alloc (_ch,dl,_n) fd = do
   nf <- fmap (* dl) (serverSampleRateActual fd)
-  send fd (b_alloc 10 (floor nf) 2)
+  sendMessage fd (b_alloc 10 (floor nf) 2)
 
 main :: IO ()
 main = do
@@ -36,4 +36,4 @@ main = do
   withSC3 (feedr_alloc p)
   audition =<< feedr_gen p
 
--- withSC3 (\fd -> send fd (b_zero 10))
+-- withSC3 (\fd -> sendMessage fd (b_zero 10))

@@ -93,4 +93,4 @@ main = do
   let sc = P.sbind [(pulse_s,pulse_p)
                    ,(drone_s,drone_p)
                    ,(bass_s,bass_p)]
-  audition sc
+  nrt_audition sc

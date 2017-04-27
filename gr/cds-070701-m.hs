@@ -62,10 +62,10 @@ alloc_data n = do
 load_data :: Int -> (D,D,D,D) -> IO ()
 load_data n (t,f,a,p) = do
   let setup d = map snd (rescale d n)
-  withSC3 (do send (b_setn 10 [(0,setup t)])
-              send (b_setn 11 [(0,setup f)])
-              send (b_setn 12 [(0,setup a)])
-              send (b_setn 13 [(0,setup p)]))
+  withSC3 (do mapM_ sendMessage [b_setn 10 [(0,setup t)]
+                                ,b_setn 11 [(0,setup f)]
+                                ,b_setn 12 [(0,setup a)]
+                                ,b_setn 13 [(0,setup p)]])
 
 -- | Simple synthesis of data.
 play_data :: IO ()

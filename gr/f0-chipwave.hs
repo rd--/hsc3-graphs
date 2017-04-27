@@ -2,4 +2,4 @@
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Graphs.F0 {- hsc3-graphs -}
 main :: IO ()
-main = audition chipwave
+main = nrt_audition chipwave

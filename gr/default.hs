@@ -14,4 +14,4 @@ pattern =
         ,("pan",L.brown 'ε' (-1) 1 0.25)])
 
 main :: IO ()
-main = audition (P.sbind1 pattern)
+main = nrt_audition (P.sbind1 pattern)

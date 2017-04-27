@@ -11,7 +11,6 @@ import qualified Control.Monad.Random as MR {- MonadRandom -}
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 as SC3 {- hsc3 -}
-import qualified Sound.SC3.Common.Monad as SC3 {- hsc3 -}
 import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
@@ -713,7 +712,7 @@ reverberated_sine_percussion_m = do
           r <- clone c (randM 0 0.1)
           n <- lfNoise1M KR r
           return (mix (combL z 0.1 (n * 0.04 + 0.05) 15))
-  x <- SC3.chainM a x_ y
+  x <- chainM a x_ y
   return (s + x * 0.2)
 
 reverberated_sine_percussion :: UGen
@@ -1067,7 +1066,7 @@ aleatoric_quartet_m = do
                         n1 <- lfNoise1M KR 8
                         return (n0 * max 0 (n1 * dmul + dadd))
                 return (pan2 (combL x 0.02 f 3) r 1)
-  g <- SC3.chainM 5 rapf =<< fmap sum (sequence (replicate 4 mk_s))
+  g <- chainM 5 rapf =<< fmap sum (sequence (replicate 4 mk_s))
   return (leakDC g 0.995)
 
 aleatoric_quartet :: UGen
@@ -1560,7 +1559,7 @@ mri_begin = do
   play (out 0 mri_drone)
   let sy = synthdef "mridangam" (out 0 mri_mridangam)
       a = concat (mri_a_seq lseq (lrand 'α'))
-  play (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
+  performNRT (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
 
 mri_run :: IO ()
 mri_run = withSC3 mri_begin
@@ -1726,7 +1725,7 @@ mix_replicate_m :: Monad m => Int -> m UGen -> m UGen
 mix_replicate_m n = mixFillM n . (const :: m UGen -> Int -> m UGen)
 
 tank_m :: UId m => m UGen
-tank_m = tank_f_m =<< SC3.chainM 4 r_allpass_m =<< tank_bang_m .+. mix_replicate_m 8 tank_pling_m
+tank_m = tank_f_m =<< chainM 4 r_allpass_m =<< tank_bang_m .+. mix_replicate_m 8 tank_pling_m
 
 -- * plucked strings (jmcc)
 
@@ -1828,7 +1827,7 @@ birds_m = do
                    r2 <- randM 0.7 2.0
                    return (allpassL i 0.07 r1 r2)
   d <- return . sum =<< sequence (replicate 6 node)
-  w <- SC3.chainM 12 apf_r d
+  w <- chainM 12 apf_r d
   return (d * 0.7 + w * 0.3)
 
 -- * spe (jmcc) / rd
@@ -1848,7 +1847,7 @@ spe_m = do
                    o = lfSaw AR f 0 * e
                    rq = midiCPS (n * 36 + 110)
                return (rlpf o rq 0.1)
-  SC3.chainM 4 rapf =<< src
+  chainM 4 rapf =<< src
 
 spe :: UGen
 spe = uid_st_eval spe_m

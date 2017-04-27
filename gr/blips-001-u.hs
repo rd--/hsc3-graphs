@@ -1,14 +1,11 @@
 -- blips 001 (jmcc) #SC3d1.5
 
-import Prelude hiding ((<*)) {- base -}
-
-import Sound.SC3 {- hsc3 -}
-
+import Sound.SC3 as SC3 {- hsc3 -}
 import qualified Sound.SC3.UGen.Unsafe as U {- hsc3-unsafe -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
-rand2 :: UGen -> UGen
-rand2 n = U.rand (-n) n
+u_rand2 :: UGen -> UGen
+u_rand2 n = U.rand (-n) n
 
 -- ghci 7.6.3 doesn't see through this...
 blip_001 :: t -> UGen
@@ -19,9 +16,9 @@ blip_001 _ =
 
 blips_001 :: UGen
 blips_001 =
-    let c = U.rand 0 1 <* 0.8
+    let c = U.rand 0 1 SC3.<* 0.8
         o = blip_001 'α' * blip_001 'β'
-    in (c * pan2 o (line KR (rand2 1) (rand2 1) 4 DoNothing) 0.3)
+    in (c * pan2 o (line KR (u_rand2 1) (u_rand2 1) 4 DoNothing) 0.3)
 
 iter :: (Num a, Ord a) => (t -> t) -> a -> t -> t
 iter f n st = if n > 0 then iter f (n - 1) (f st) else st

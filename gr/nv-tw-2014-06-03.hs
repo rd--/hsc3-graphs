@@ -2,6 +2,7 @@
 -- requires -m at scsynth
 -- inaccurate...
 
+import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
 -- > audition (out 0 p)
@@ -29,7 +30,7 @@ via_disk :: UGen -> IO ()
 via_disk u = do
   let sy = synthdef "nv" u
   synthdefWrite sy "/tmp"
-  withSC3 (async (d_load "/tmp/nv.scsyndef") >> send (s_new "nv" (-1) AddToHead 1 []))
+  withSC3 (async (d_load "/tmp/nv.scsyndef") >> sendMessage (s_new "nv" (-1) AddToHead 1 []))
 
 main :: IO ()
 main = audition (out 0 nv_opt)

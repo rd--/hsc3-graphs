@@ -106,7 +106,7 @@ run_waveset pr fn = do
       sr = fromIntegral (F.sampleRate hdr)
       b = cs !! 0
       w = zc_to_ws (prune pr (fzc 0 b))
-      pl s = play (NRT s) >> wait 1
+      pl s = performNRT (NRT s) >> wait 1
       post = liftIO . putStrLn
   post ("#f: " ++ show (nc, nf, sr))
   post ("#w: " ++ show (length w)) -- force w

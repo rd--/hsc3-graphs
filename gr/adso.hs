@@ -22,9 +22,9 @@ pattern n t = do
   z <- do l <- rrand 22 48
           r <- rrand 54 122
           sequence (replicate n (rrand l r))
-  send (b_setn1 0 0 z)
+  sendMessage (b_setn1 0 0 z)
   let rn i l r = do d <- nrrand n l r
-                    send (b_setn1 i 0 d)
+                    sendMessage (b_setn1 i 0 d)
   rn 1 0 0.1
   rn 2 (-1) 1
   rn 3 2 12

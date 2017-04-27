@@ -24,5 +24,5 @@ main :: IO ()
 main =
     let fn = "/home/rohan/data/audio/pf-c5.aif"
         ac = do _ <- async (b_allocRead 1 fn 0 0)
-                play (overlapTexture_nrt (1,0) (6,3,9,maxBound) nx102)
+                performNRT (overlapTexture_nrt (1,0) (6,3,9,maxBound) nx102)
     in withSC3 ac

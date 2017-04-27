@@ -10,7 +10,7 @@ graph =
         o = sinOsc AR f 0 * e
     in out 0 (pan2 o 0 g)
 
--- > audition score
+-- > nrt_audition score
 score :: NRT
 score =
     let mk_instr = d_recv (synthdef "test" graph)
@@ -28,4 +28,4 @@ render s = do
 main :: IO ()
 main = do
   render score
-  audition score
+  nrt_audition score

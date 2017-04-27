@@ -203,8 +203,8 @@ ao_init = do
   mapM_ async (map d_recv i)
   let acid_id = 10
       fx_id = 11
-  send (s_new "acid" acid_id AddToHead 1 [("gate",0)])
-  send (s_new "fx" fx_id AddToTail 1 [])
+  sendMessage (s_new "acid" acid_id AddToHead 1 [("gate",0)])
+  sendMessage (s_new "fx" fx_id AddToTail 1 [])
   return (acid_id,fx_id)
 
 dt_seq :: Double -> [Double]

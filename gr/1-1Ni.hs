@@ -28,7 +28,7 @@ c np =
         h n = (n - (n / 128),n + (n / 128))
     in synthdef "c" (out 0 (scr h np f 6))
 
--- > withSC3 (\fd -> send fd (c_setn [(0,x!!0)]))
+-- > withSC3 (\fd -> sendMessage fd (c_setn [(0,x!!0)]))
 x :: Num a => [[a]]
 x = [[72,69,64],[70,64,62],[67,60,70],[65,60,69],[64,60,67],[65,60,69]]
 
@@ -37,7 +37,7 @@ x = [[72,69,64],[70,64,62],[67,60,70],[65,60,69],[64,60,67],[65,60,69]]
 begin :: Int -> IO [ThreadId]
 begin n = do
   t0 <- forkIO (forever (audition (b n) >> wait 4))
-  t1 <- forkIO (let set f = withSC3 (send (c_setn [(0,f)]))
+  t1 <- forkIO (let set f = withSC3 (sendMessage (c_setn [(0,f)]))
                 in mapM_ (\f -> set f >> wait 10) (cycle x))
   t2 <- forkIO (wait 0.1 >> forever (audition (c n) >> wait 0.5))
   return [t0,t1,t2]

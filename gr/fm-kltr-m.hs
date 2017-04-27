@@ -41,7 +41,7 @@ fm f ff a d i = do
           ,("dur", d)
           ,("index", i)
           ,("pan", r2)]
-  send (s_new "fm_kltr" (-1) AddToTail 1 p)
+  sendMessage (s_new "fm_kltr" (-1) AddToTail 1 p)
 
 nd :: Transport m => m ()
 nd = do

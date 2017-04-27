@@ -29,7 +29,7 @@ s_alloc :: Transport m => (V.Fdata Double,Int) -> m ()
 s_alloc (s,b) = do
   let s_msg n (_,_,fr,am,bw) = b_setn1 n 0 (fr ++ am ++ bw)
   _ <- async (b_alloc b 15 1)
-  send (s_msg b s)
+  sendMessage (s_msg b s)
 
 s_init :: Transport m => m ()
 s_init = mapM_ s_alloc (zip V.fdata_table [0..])

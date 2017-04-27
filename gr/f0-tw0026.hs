@@ -31,4 +31,4 @@ pattern =
                ,("out",repeat 8)])
 
 main :: IO ()
-main = audition (out 0 post_proc) >> audition pattern
+main = audition (out 0 post_proc) >> nrt_audition pattern

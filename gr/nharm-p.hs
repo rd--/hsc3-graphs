@@ -31,6 +31,9 @@ pN n (m0,m1) (d0,d1) =
     in (s,[("freq",map midiCPS (P.white 'α' m0 m1))
           ,("dur",P.white 'β' d0 d1)])
 
+sc :: NRT
+sc = P.sbind [(pN 24 (90,92) (0.25,0.75))
+             ,(pN 54 (12,14) (1.25,1.76))]
+
 main :: IO ()
-main = audition (P.sbind [(pN 24 (90,92) (0.25,0.75))
-                         ,(pN 54 (12,14) (1.25,1.76))])
+main = nrt_audition sc

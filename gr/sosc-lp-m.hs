@@ -14,10 +14,10 @@ setup :: Transport m => m ()
 setup = do
   let a = [60, 71, 89, 65, 36, 57, 92, 97, 92, 97]
       b = [71, 89, 60, 57, 65, 36, 95, 92, 93, 97]
-  _ <- async (b_alloc 10 9 1)
-  _ <- async (b_alloc 11 9 1)
-  send (b_setn1 10 0 a)
-  send (b_setn1 11 0 b)
+  mapM_ maybe_async [b_alloc 10 9 1
+                    ,b_alloc 11 9 1
+                    ,b_setn1 10 0 a
+                    ,b_setn1 11 0 b]
 
 --b0 = asLocalBuf 'α' [60, 71, 89, 65, 36, 57, 92, 97, 92, 97]
 --b1 = asLocalBuf 'β' [71, 89, 60, 57, 65, 36, 95, 92, 93, 97]
@@ -51,5 +51,4 @@ resetter :: Transport m => m ()
 resetter = do
   let a = [71, 60, 65, 89, 36, 57, 95, 97, 92, 97]
       b = [89, 71, 60, 65, 57, 36, 92, 95, 93, 97]
-  send (b_setn1 10 0 a)
-  send (b_setn1 11 0 b)
+  mapM_ sendMessage [b_setn1 10 0 a,b_setn1 11 0 b]

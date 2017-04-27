@@ -53,9 +53,9 @@ run_data s n m i = do
       a' = prepare a
       p' = prepare p
       l i' (f'', a'', p'') = do
-                     send (b_setn 10 [(0, f'')])
-                     send (b_setn 11 [(0, a'')])
-                     send (b_setn 12 [(0, p'')])
+                     sendMessage (b_setn 10 [(0, f'')])
+                     sendMessage (b_setn 11 [(0, a'')])
+                     sendMessage (b_setn 12 [(0, p'')])
                      pauseThread i'
   mapM_ (l i) (zip3 f' a' p')
 

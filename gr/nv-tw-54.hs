@@ -40,4 +40,4 @@ main =
     let p = [("f",fS)
             ,("i",[0..])
             ,("dur",repeat 0.3)]
-    in audition (P.sbind1 (nvi,p))
+    in nrt_audition (P.sbind1 (nvi,p))

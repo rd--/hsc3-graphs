@@ -36,4 +36,4 @@ pattern =
     ,("pan",P.white 'ζ' (-1) 1)]
 
 main :: IO ()
-main = audition (P.sbind1 (synthdef "fm_kltr" fm_kltr,pattern))
+main = nrt_audition (P.sbind1 (synthdef "fm_kltr" fm_kltr,pattern))

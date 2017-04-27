@@ -132,11 +132,11 @@ fx :: UGen
 fx = replaceOut 0 (freeVerb (in' 2 AR 0) 0.33 1.5 0.5)
 
 ag_init :: Transport t => t -> IO ()
-ag_init fd = do
-  _ <- async fd (d_recv (synthdef "nd" nd))
-  _ <- async fd (d_recv (synthdef "fx" fx))
-  send fd (s_new "fx" (-1) AddToHead 1 [])
-  return ()
+ag_init fd =
+    let m = [d_recv (synthdef "nd" nd)
+            ,d_recv (synthdef "fx" fx)
+            ,s_new "fx" (-1) AddToHead 1 []]
+    in mapM_ (maybe_async fd) m
 
 nd_msg :: Double -> Double -> Double -> Double -> Message
 nd_msg f a s p =
@@ -320,7 +320,7 @@ ag_run_note fd o b a su pn (p,s,z) = do
   print ('γ',o,'δ',b)
   print ('ε',map (set_prec 2) (M.elems p))
   print ('ζ',M.elems s)
-  send fd (nd_msg (midiCPS (fromIntegral mn)) a su pn)
+  sendMessage fd (nd_msg (midiCPS (fromIntegral mn)) a su pn)
 
 ag_step :: Transport t => t -> AG -> IO AG
 ag_step fd r = do
@@ -358,7 +358,7 @@ main = do
 
 {-
 withSC3 ag_init
-withSC3 (\fd -> send fd (nd_msg 660 0.45 0.65 0))
+withSC3 (\fd -> sendMessage fd (nd_msg 660 0.45 0.65 0))
 r <- ag
 withSC3 (\fd -> ag_step fd r)
 withSC3 (\fd -> ag_run fd (Just 32))

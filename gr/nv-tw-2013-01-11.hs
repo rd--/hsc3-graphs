@@ -1,13 +1,14 @@
 -- https://twitter.com/headcube/status/289761321065541633 (nv)
 
+import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Lang.Collection {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 
 mce_concat :: [UGen] -> UGen
 mce_concat = mce . concat . map mceChannels
 
 mce_rotate :: Integral i => i -> UGen -> UGen
-mce_rotate n = mce . rotate n . mceChannels
+mce_rotate n = mce . C.rotate n . mceChannels
 
 -- > length (mceChannels nv_tw_2013_01_11) == 100
 nv_tw_2013_01_11 :: UGen
@@ -30,4 +31,4 @@ main_w = do
   let sy = synthdef "nv_tw_2013_01_11" (out 0 nv_tw_2013_01_11)
   synthdefWrite sy "/tmp"
   withSC3 (do _ <- async (d_load "/tmp/nv_tw_2013_01_11.scsyndef")
-              send (s_new "nv_tw_2013_01_11" (-1) AddToTail 1 []))
+              sendMessage (s_new "nv_tw_2013_01_11" (-1) AddToTail 1 []))

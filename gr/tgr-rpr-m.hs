@@ -49,14 +49,14 @@ rSet =
 edit :: Transport m => m ()
 edit = do
   s <- mapM (uncurry R.rrand) rSet
-  send (c_setn [(0,s)])
+  sendMessage (c_setn [(0,s)])
   wait 0.35
 
 run :: (UId m,Transport m) => m ()
 run = do
   let sf = "/home/rohan/data/audio/pf-c5.snd"
   _ <- async (b_allocRead 10 sf 0 0)
-  send (c_setn [(0,preset)])
+  sendMessage (c_setn [(0,preset)])
   play (out 0 tgr_rpr)
   wait 0.3
   _ <- sequence (replicate 64 edit)

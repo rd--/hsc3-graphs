@@ -36,4 +36,4 @@ score z =
     in NRT (bundle 0 i : map s [0,2.8 .. 669.2])
 
 main :: IO ()
-main = audition (score (sixth "just"))
+main = nrt_audition (score (sixth "just"))

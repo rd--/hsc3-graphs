@@ -44,22 +44,22 @@ pattern = do
   a <- L.rrand 0.05 0.1
   d <- L.rrand 0.001 0.005
   fl <- L.rrand 1 7
-  send (n_set 1002 [("freq",f)
-                   ,("iamp",ia)
-                   ,("buf",0)
-                   ,("loc",l)
-                   ,("ampl",a)
-                   ,("detune",d)
-                   ,("fall",fl)])
+  sendMessage (n_set 1002 [("freq",f)
+                          ,("iamp",ia)
+                          ,("buf",0)
+                          ,("loc",l)
+                          ,("ampl",a)
+                          ,("detune",d)
+                          ,("fall",fl)])
   wait =<< L.choose [0.25,0.5,0.75,1.5]
 
 run :: (Transport m,UId m) => m ()
 run = do
   _ <- async (b_alloc 0 (length vlc * 2) 1)
-  send (b_setn1 0 0 (concatMap prep vlc))
+  sendMessage (b_setn1 0 0 (concatMap prep vlc))
   let i = soundIn 0
   _ <- async . d_recv . synthdef "plyr48" =<< plyr i 48
-  send (s_new "plyr48" 1002 AddToTail 1 [])
+  sendMessage (s_new "plyr48" 1002 AddToTail 1 [])
   sequence_ (replicate 32 pattern)
 
 main :: IO ()

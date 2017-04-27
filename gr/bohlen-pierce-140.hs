@@ -14,4 +14,4 @@ bp140 :: Synthdef
 bp140 = synthdef "bp140" (out 0 bp140u)
 
 main :: IO ()
-main = audition (P.sbind1 (bp140,[("dur",P.rand 'δ' [1/6,1/3])]))
+main = nrt_audition (P.sbind1 (bp140,[("dur",P.rand 'δ' [1/6,1/3])]))

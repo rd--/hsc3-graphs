@@ -70,4 +70,4 @@ main = do
   _ <- forkIO (withSC3 (reset >> init_b >> forever update_g))
   let g = mk_g (lfNoise0 'α')
       sc = P.sbind (zip (repeat g) pb)
-  audition sc
+  nrt_audition sc

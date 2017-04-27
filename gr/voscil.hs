@@ -29,7 +29,7 @@ run = do
              j <- sequence (replicate m (rrand 0 bn))
              k <- sequence (replicate m (rrand (-1) 1))
              _ <- async (b_alloc i bn 1)
-             send (b_set i (zip j k))
+             sendMessage (b_set i (zip j k))
   mapM_ r_set [0 .. (b - 1)]
   play (out 0 (voscil b))
 

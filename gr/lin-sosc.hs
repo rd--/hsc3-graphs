@@ -70,9 +70,9 @@ update (f,a,l,t) = do
   a' <- R.choose a
   l' <- R.choose l
   t' <- R.choose t
-  send (b_setn 0 [(0,f')])
-  send (b_setn 1 [(0,a')])
-  send (c_set [(0,l')])
+  mapM_ sendMessage [b_setn 0 [(0,f')]
+                    ,b_setn 1 [(0,a')]
+                    ,c_set [(0,l')]]
   pauseThread t'
 
 do_update :: Double -> IO ()

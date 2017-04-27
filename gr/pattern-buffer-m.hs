@@ -28,13 +28,13 @@ set_pattern :: Transport m => Int -> Int -> m ()
 set_pattern nf c = do
   let rs = do r0 <- R.rrand 0 nf
               r1 <- R.rrand 0.0 1.0
-              send (b_set1 10 r0 r1)
+              sendMessage (b_set1 10 r0 r1)
   sequence_ (replicate c rs)
 
 fill_clr :: (Transport m) => Int -> Int -> Double -> Int -> m b
 fill_clr nf c dt n = do
   let go i = if i == 0
-             then do send (b_zero 10)
+             then do sendMessage (b_zero 10)
                      go n
              else do set_pattern nf c
                      pauseThread dt

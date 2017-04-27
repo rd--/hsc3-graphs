@@ -67,11 +67,11 @@ post nm nc b f = do
   let i = in' nc AR b
       s = synthdef nm (replaceOut b (f i))
   _ <- async (d_recv s)
-  send (s_new nm (-1) AddToTail 2 [])
+  sendMessage (s_new nm (-1) AddToTail 2 [])
 
 main :: IO ()
 main = do
   let sy = synthdef "ping" ping
   withSC3 (do post "amplitude_mod" 2 0 (amplitude_mod 'ρ')
-              post "limiting" 2 0 limiting)
-  audition (P.sbind1 (sy,pattern))
+              post "limiting" 2 0 limiting
+              performNRT (P.sbind1 (sy,pattern)))

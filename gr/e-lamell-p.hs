@@ -36,4 +36,4 @@ patterns =
             ,("l",P.white 'ν' (-1) 1)])]
 
 main :: IO ()
-main = audition (P.sbind patterns)
+main = nrt_audition (P.sbind patterns)

@@ -28,7 +28,7 @@ main :: IO ()
 main = do
   let s = synthdef "oscillator_cluster" (out 0 oscillator_cluster)
       p = [("dur",P.rand 'α' [0.25,0.5,1,3,5])]
-  audition (P.sbind1 (s,p))
+  nrt_audition (P.sbind1 (s,p))
 
 {-
 let otu = Sound.SC3.Lang.Control.OverlapTexture.overlapTextureU

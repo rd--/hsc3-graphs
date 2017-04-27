@@ -36,4 +36,4 @@ cells = [-1,-0.6,-0.5,0,0.2,0.5,0.4,1]
 main :: IO ()
 main =
     let c = zip cells (chunksOf 4 ['α'..])
-    in audition (P.sbind (map pattern c))
+    in nrt_audition (P.sbind (map pattern c))

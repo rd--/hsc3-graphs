@@ -40,7 +40,7 @@ act = do
            ,[0,-12,-30,-40,-64]
            ,[50,60, 170,180,200])
       cs (_,c1,c2,c3) = c1 ++ c2 ++ c3
-  send (c_setn [(0,cs aA),(15,cs aU)])
+  sendMessage (c_setn [(0,cs aA),(15,cs aU)])
   play karplus_strong
 
 main :: IO ()

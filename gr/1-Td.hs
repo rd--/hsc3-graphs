@@ -59,8 +59,8 @@ run :: Transport m => [Double] -> m ()
 run n = do
   _ <- async (d_recv postprocess_s)
   _ <- async (d_recv one_td_s)
-  send (s_new "postprocess" (-1) AddToTail 2 [])
-  mapM_ (\i -> send (s_new "one_td" (-1) AddToHead 1 [("base",i)])) n
+  sendMessage (s_new "postprocess" (-1) AddToTail 2 [])
+  mapM_ (\i -> sendMessage (s_new "one_td" (-1) AddToHead 1 [("base",i)])) n
 
 main :: IO ()
 main = withSC3 (run (replicate 8 2.6))

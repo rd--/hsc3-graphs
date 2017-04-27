@@ -51,9 +51,10 @@ plain :: Transport m => m ()
 plain = do
   _ <- async (d_recv defaultSynthdef)
   let fr = map P.octpc_to_cps (zip (concat hb_o .+ 1) (concat hb_k))
-  play (P.sbind1 (defaultSynthdef
-                 ,[("freq",fr)
-                  ,("dur",concat hb_t ./ 16)]))
+      sc = P.sbind1 (defaultSynthdef
+                    ,[("freq",fr)
+                     ,("dur",concat hb_t ./ 16)])
+  performNRT sc
 
 -- | Pitch classes
 --
@@ -179,7 +180,7 @@ hear blur x =
              ,("sustain",d .* blur)
              ,("amp",c .* 0.1 .+ 0.1)
              ,("loc",c .* 2 .- 1)]
-    in play (P.sbind1 (ins_s,pr))
+    in performNRT (P.sbind1 (ins_s,pr))
 
 main :: IO ()
 main = withSC3 (hear 9 ph)

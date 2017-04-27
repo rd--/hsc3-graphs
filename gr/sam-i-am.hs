@@ -53,4 +53,4 @@ main = do
           ,("freq2",f2)
           ,("freq3",f3)
           ,("dur",d)]
-  audition (P.sbind1 (sam,p))
+  nrt_audition (P.sbind1 (sam,p))
