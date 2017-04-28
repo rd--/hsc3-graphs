@@ -10,6 +10,7 @@ import Music.Theory.Tuple {- hmt -}
 
 epsilon :: Double
 epsilon = 1e-6
+
 -- * Time
 
 ms_to_sec :: Fractional n => n -> n
@@ -20,6 +21,7 @@ sec_to_ms = (* 1000)
 
 -- * UGen
 
+-- | ugen_if 1 x y is x, ugen_if 0 x y is y.
 ugen_if :: Num a => a -> a -> a -> a
 ugen_if a b c = (a * b) + ((1 - a) * c)
 
@@ -103,6 +105,19 @@ treatment_syn nc nm tr =
         o = ugen_if (bp >* 0) i m
     in synthdef nm (replaceOut b o)
 
+-- * Audition
+
+-- | nc = number of channels, mx = pre/post mix, u = process.
+add_t_opt :: (Group_Id,Int) -> Double -> Treatment -> IO ()
+add_t_opt (nc,grp) mx u = do
+  let mx' = mctl ("mx",0,1,mx,"amp","*")
+      b = mctl ("bus",0,31,0,"linear","bus")
+      i = in' nc AR b
+  audition_at (-1,AddToTail,grp,[]) (replaceOut b (pre_post_mix mx' i (u i)))
+
+add_t :: Double -> Treatment -> IO ()
+add_t = add_t_opt (1,2)
+
 -- * octave
 
 -- http://en.wikipedia.org/wiki/Octave_effect
@@ -137,6 +152,20 @@ octave3 i =
 
 octave3_syn :: Synthdef
 octave3_syn = treatment_syn 1 "octave3" octave3
+
+-- > add_t 1 octave4
+octave4 :: Treatment
+octave4 i =
+    let dv = pulseDivider i 4 0
+    in toggleFF dv * 2 - 1
+
+-- > add_t 1 octave5
+octave5 :: Treatment
+octave5 i =
+    let dv = pulseDivider i 4 0
+        sq = toggleFF dv * 2 - 1
+        fr = zeroCrossing i
+    in lpf (i * sq) fr
 
 -- * distortion
 
