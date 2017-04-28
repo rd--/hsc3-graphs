@@ -26,6 +26,7 @@ Source-Repository  head
 
 Library
   Build-Depends:   base >= 4.7,
+                   hmt == 0.16.*,
                    hosc == 0.16.*,
                    hsc3 == 0.16.*,
                    hsc3-lang == 0.16.*,
@@ -35,3 +36,4 @@ Library
   GHC-Options:     -Wall -fwarn-tabs
   Exposed-modules: Sound.SC3.Graphs.F0
                    Sound.SC3.Graphs.JMcC
+                   Sound.SC3.Graphs.Treatments
