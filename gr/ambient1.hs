@@ -49,12 +49,6 @@ bass_u =
         s = sinOsc AR f 0 * a * e
     in out 0 (pan2 s 0 1)
 
-{-
-audition pulse_u
-audition drone_u
-audition bass_u
--}
-
 pulse_s :: Synthdef
 pulse_s = synthdef "pulse" pulse_u
 
@@ -94,3 +88,8 @@ main = do
                    ,(drone_s,drone_p)
                    ,(bass_s,bass_p)]
   nrt_audition sc
+
+{-
+nrt_audition (P.sbind1 (pulse_s,pulse_p))
+nrt_audition (P.sbind1 (bass_s,bass_p))
+-}

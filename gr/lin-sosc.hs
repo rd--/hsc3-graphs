@@ -40,6 +40,14 @@ srng l r e =
 
 type Lin_Data = ([[Double]], [[Double]], [Double], [Double])
 
+{-
+
+import Sound.SC3.Plot {- hsc3-plot -}
+let (f,a,l,t) = lin_data 1024
+plot_table_displace_nrm f
+plot_table_displace_nrm a
+
+-}
 lin_data :: Double -> Lin_Data
 lin_data n =
     let f = [lineTo n 440.0 444.0
