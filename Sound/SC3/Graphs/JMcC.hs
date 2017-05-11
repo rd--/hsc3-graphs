@@ -1559,7 +1559,7 @@ mri_begin = do
   play (out 0 mri_drone)
   let sy = synthdef "mridangam" (out 0 mri_mridangam)
       a = concat (mri_a_seq lseq (lrand 'α'))
-  performNRT (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
+  nrt_play (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
 
 mri_run :: IO ()
 mri_run = withSC3 mri_begin
@@ -1664,7 +1664,7 @@ tank_f :: UGen -> UGen
 tank_f i =
     let l0 = localIn 2 AR (mce2 0 0) * 0.98
         l1 = onePole l0 0.33
-        (l1l,l1r) = mce2c l1
+        (l1l,l1r) = unmce2 l1
         l2 = rotate2 l1l l1r 0.23
         l3 = allpassN l2 0.05 (RDU.randN 2 'θ' 0.01 0.05) 2
         l4 = delayN l3 0.3 (mce2 0.17 0.23)
@@ -1683,8 +1683,8 @@ tank =
   let s = tank_bang + mix (uclone 'κ' 8 tank_pling)
   in tank_f (useq 'λ' 4 r_allpass s)
 
-tank_rev :: UGen
-tank_rev = tank_f (useq 'λ' 4 r_allpass (soundIn 0))
+tank_rev :: UGen -> UGen
+tank_rev = tank_f . useq 'λ' 4 r_allpass
 
 tank_pling_m :: UId m => m UGen
 tank_pling_m = do
@@ -1712,7 +1712,7 @@ tank_f_m i = do
   r2 <- clone 2 (randM 0.03 0.15)
   let l0 = localIn' 2 AR * 0.98
       l1 = onePole l0 0.33
-      [l1l,l1r] = mceChannels l1
+      (l1l,l1r) = unmce2 l1
       l2 = rotate2 l1l l1r 0.23
       l3 = allpassN l2 0.05 r1 2
       l4 = delayN l3 0.3 (mce [0.17,0.23])

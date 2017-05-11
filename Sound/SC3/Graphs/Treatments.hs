@@ -29,10 +29,7 @@ ugen_if a b c = (a * b) + ((1 - a) * c)
 ctl :: String -> Double -> UGen
 ctl = control KR
 
-un_mce2 :: UGen -> (UGen,UGen)
-un_mce2 = t2_from_list . mceChannels
-
--- | A /pre/ (@0@) & /post/ (@1@) mix operator.
+-- | A /pre/ (@0@) & /post/ (@1@) mix operator.  pre=dry & post=wet
 pre_post_mix :: Num a => a -> a -> a -> a
 pre_post_mix mx pre post = ((1 - mx) * pre) + (mx * post)
 
@@ -108,15 +105,15 @@ treatment_syn nc nm tr =
 -- * Audition
 
 -- | nc = number of channels, mx = pre/post mix, u = process.
-add_t_opt :: (Group_Id,Int) -> Double -> Treatment -> IO ()
-add_t_opt (nc,grp) mx u = do
-  let mx' = mctl ("mx",0,1,mx,"amp","*")
-      b = mctl ("bus",0,31,0,"linear","bus")
+add_t_opt :: (Int,Node_Id,Group_Id) -> Double -> Treatment -> IO ()
+add_t_opt (nc,nid,grp) mx u = do
+  let mx' = mctl ("mx",0,1,mx,"lin","*")
+      b = mctl ("bus",0,31,0,"lin","bus")
       i = in' nc AR b
-  audition_at (-1,AddToTail,grp,[]) (replaceOut b (pre_post_mix mx' i (u i)))
+  audition_at (nid,AddToTail,grp,[]) (replaceOut b (pre_post_mix mx' i (u i)))
 
 add_t :: Double -> Treatment -> IO ()
-add_t = add_t_opt (1,2)
+add_t = add_t_opt (1,-1,2)
 
 -- * octave
 
@@ -135,7 +132,7 @@ octave1_syn = treatment_syn 1 "octave1" octave1
 octave2 :: Treatment
 octave2 i =
     let p = pitch i 440 60 4000 100 16 1 0.01 0.5 1 0
-        [f,_] = mceChannels p
+        (f,_) = unmce2 p
     in sinOsc AR (f * 0.5) 0 * i
 
 octave2_syn :: Synthdef
@@ -145,7 +142,7 @@ octave2_syn = treatment_syn 1 "octave2" octave2
 octave3 :: Treatment
 octave3 i =
     let p = pitch i 440 60 4000 100 16 1 0.01 0.5 1 0
-        [f,tr] = mceChannels p
+        (f,tr) = unmce2 p
         n = cpsMIDI f
         f' = midiCPS (roundE n)
     in lag3 tr 0.1 * lfTri AR (f' * 0.5) 0 * i
@@ -296,7 +293,7 @@ ringmod4_syn = treatment_syn 1 "ringmod4" ringmod4_p
 -- > add_t 0.5 ringmod5
 ringmod5 :: Treatment
 ringmod5 i =
-    let f = mceChannel 0 (pitch i 440 60 4000 100 16 1 1e-2 0.5 1 0)
+    let (f,_) = unmce2 (pitch i 440 60 4000 100 16 1 1e-2 0.5 1 0)
         a = amplitude KR i 1e-2 1e-2
         f' = f + sinOsc AR (1/4) 0 * 9 - 4.5
         o = lfSaw AR (f' / 2) 0 * a * 0.5
@@ -483,6 +480,28 @@ reverb1 i = E.zitaRev1 i i 0.04 200 3 2 6000 160 0 2500 0 1 (-6)
 reverb2 :: Treatment
 reverb2 i = E.zitaRev1 i i 0.08 200 6 4 6000 190 (-6) 3500 6 1 0
 
+-- * tank/reverb
+
+{- <http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html> -}
+tank_f :: UGen -> UGen
+tank_f i =
+    let l0 = localIn 2 AR (mce2 0 0) * mctl ("fb_gain",0,0.98,0.98,"lin","*")
+        l1 = onePole l0 0.33
+        (l1l,l1r) = unmce2 l1
+        l2 = rotate2 l1l l1r 0.23
+        l3 = allpassN l2 0.05 (RDU.randN 2 'α' 0.01 0.05) 2
+        l4 = delayN l3 0.3 (mce2 0.17 0.23)
+        l5 = allpassN l4 0.05 (RDU.randN 2 'β' 0.03 0.15) 2
+        l6 = leakDC l5 0.995
+        l7 = l6 + i
+    in mrg [l7,localOut l7]
+
+r_allpass :: UGen -> UGen
+r_allpass i = allpassN i 0.03 (RDU.randN 2 'γ' 0.005 0.02) 1
+
+tank_rev :: Treatment
+tank_rev = tank_f . useq 'δ' 4 r_allpass
+
 -- * pitchshift
 
 -- > add_t 0.5 (pitchshift1 1.5 0 0)
@@ -604,7 +623,7 @@ mdelay1_meta =
 -- > add_t 1 (sdelay0 dt 0.15 0.15 (constant dt) (constant dt))
 sdelay0 :: Double -> UGen -> UGen -> UGen -> UGen -> Treatment
 sdelay0 dt_max fb0 fb1 d0 d1 i =
-    let [l0,l1] = mceChannels (localIn' 2 AR)
+    let (l0,l1) = unmce2 (localIn' 2 AR)
         d0' = delayC (i + (l0 * fb0)) (constant dt_max) d0
         d1' = delayC (i + (l1 * fb1)) (constant dt_max) d1
         m0 = i + d0'
@@ -856,7 +875,7 @@ wps0 b n z =
 s_ping_pong1 :: UGen -> UGen -> Treatment
 s_ping_pong1 dt fb z =
     let a = localIn' 2 AR + z
-        (b1,b2) = un_mce2 (delayC a dt dt)
+        (b1,b2) = unmce2 (delayC a dt dt)
         c = mce2 b2 b1 * fb
     in mrg [mce2 b1 b2,localOut c]
 
@@ -864,7 +883,7 @@ s_ping_pong1 dt fb z =
 s_ping_left1 :: UGen -> UGen -> Treatment
 s_ping_left1 dt fb z =
     let a = localIn' 2 AR + z
-        (b1,b2) = un_mce2 (delayC a dt dt)
+        (b1,b2) = unmce2 (delayC a dt dt)
         c = mce2 b1 b1 * fb
     in mrg [mce2 b1 b2,localOut c]
 
@@ -872,7 +891,7 @@ s_ping_left1 dt fb z =
 s_ping_right1 :: UGen -> UGen -> Treatment
 s_ping_right1 dt fb z =
     let a = localIn' 2 AR + z
-        (b1,b2) = un_mce2 (delayC a dt dt)
+        (b1,b2) = unmce2 (delayC a dt dt)
         c = mce2 b2 b2 * fb
     in mrg [mce2 b1 b2,localOut c]
 
