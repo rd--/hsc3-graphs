@@ -104,16 +104,19 @@ treatment_syn nc nm tr =
 
 -- * Audition
 
--- | nc = number of channels, mx = pre/post mix, u = process.
-add_t_opt :: (Int,Node_Id,Group_Id) -> Double -> Treatment -> IO ()
-add_t_opt (nc,nid,grp) mx u = do
-  let mx' = mctl ("mx",0,1,mx,"lin","*")
-      b = mctl ("bus",0,31,0,"lin","bus")
-      i = in' nc AR b
-  audition_at (nid,AddToTail,grp,[]) (replaceOut b (pre_post_mix mx' i (u i)))
+add_t_sig :: (Int,Double,Double) -> Treatment -> UGen
+add_t_sig (nc,bus,mx) ugen_f =
+  let mx_ctl = mctl ("mx",0,1,mx,"lin","*")
+      bus_ctl = mctl ("bus",0,31,bus,"lin","bus")
+      pre = in' nc AR bus_ctl
+  in replaceOut bus_ctl (pre_post_mix mx_ctl pre (ugen_f pre))
 
-add_t :: Double -> Treatment -> IO ()
-add_t = add_t_opt (1,-1,2)
+-- | nc = number of channels, bus = audio bus index, mx = pre/post mix, u = process.
+add_t_opt :: (Node_Id,Group_Id) -> (Int,Double,Double) -> Treatment -> IO ()
+add_t_opt (nid,grp) opt ugen_f = audition_at (nid,AddToTail,grp,[]) (add_t_sig opt ugen_f)
+
+add_t :: (Int,Double,Double) -> Treatment -> IO ()
+add_t = add_t_opt (-1,2)
 
 -- * octave
 
@@ -127,8 +130,8 @@ octave1_syn = treatment_syn 1 "octave1" octave1
 -- http://msp.ucsd.edu/techniques/latest/book-html/node82.html
 --
 -- > run_t 1 id
--- > add_t 1 octave2
--- > add_t 1 (stereo_tremolo1 4 1 6 . octave2)
+-- > add_t (1,0,1) octave2
+-- > add_t (1,0,1) (stereo_tremolo1 4 1 6 . octave2)
 octave2 :: Treatment
 octave2 i =
     let p = pitch i 440 60 4000 100 16 1 0.01 0.5 1 0
@@ -138,7 +141,7 @@ octave2 i =
 octave2_syn :: Synthdef
 octave2_syn = treatment_syn 1 "octave2" octave2
 
--- > add_t 1 octave3
+-- > add_t (1,0,1) octave3
 octave3 :: Treatment
 octave3 i =
     let p = pitch i 440 60 4000 100 16 1 0.01 0.5 1 0
@@ -150,13 +153,13 @@ octave3 i =
 octave3_syn :: Synthdef
 octave3_syn = treatment_syn 1 "octave3" octave3
 
--- > add_t 1 octave4
+-- > add_t (1,0,1) octave4
 octave4 :: Treatment
 octave4 i =
     let dv = pulseDivider i 4 0
     in toggleFF dv * 2 - 1
 
--- > add_t 1 octave5
+-- > add_t (1,0,1) octave5
 octave5 :: Treatment
 octave5 i =
     let dv = pulseDivider i 4 0
@@ -228,7 +231,7 @@ distort4_p = distort4 (t3_map mctl distort_aaf_meta)
 distort4_syn :: Synthdef
 distort4_syn = treatment_syn 1 "distort4" distort4_p
 
--- > add_t 1 (distort5 (rng_osc_kr(1,50,10),0.1,12000))
+-- > add_t (1,0,1) (distort5 (rng_osc_kr(1,50,10),0.1,12000))
 distort5 :: T3 UGen -> Treatment
 distort5 = distort_aaf (\z -> (atan (z * 25) * 2) / pi)
 
@@ -240,8 +243,8 @@ distort5_syn = treatment_syn 1 "distort5" distort5_p
 
 -- * ringmod
 
--- > add_t 1 (ringmod1 100)
--- > add_t 1 (ringmod1 3500)
+-- > add_t (1,0,1) (ringmod1 100)
+-- > add_t (1,0,1) (ringmod1 3500)
 ringmod1 :: UGen -> Treatment
 ringmod1 f = (*) (sinOsc AR f 0)
 
@@ -251,7 +254,7 @@ ringmod1_p = ringmod1 (mctl (freq_meta 100))
 ringmod1_syn :: Synthdef
 ringmod1_syn = treatment_syn 1 "ringmod1" ringmod1_p
 
--- > add_t 1 (ringmod2 500 3500)
+-- > add_t (1,0,1) (ringmod2 500 3500)
 ringmod2 :: UGen -> UGen -> Treatment
 ringmod2 f0 f1 =
     let f = range f0 f1 (sinOsc AR (1/25) 0)
@@ -263,7 +266,7 @@ ringmod2_p = ringmod2 (ctl "freq0" 500) (ctl "freq1" 3500)
 ringmod2_syn :: Synthdef
 ringmod2_syn = treatment_syn 1 "ringmod2" ringmod2_p
 
--- > add_t 1 (ringmod3 500 3500)
+-- > add_t (1,0,1) (ringmod3 500 3500)
 ringmod3 :: UGen -> UGen -> Treatment
 ringmod3 f0 f1 =
     let f = range f0 f1 (sinOsc AR (1/25) 0)
@@ -276,8 +279,8 @@ ringmod3_p = ringmod3 (ctl "freq0" 500) (ctl "freq1" 3500)
 ringmod3_syn :: Synthdef
 ringmod3_syn = treatment_syn 1 "ringmod3" ringmod3_p
 
--- > add_t 1 (ringmod4 500 3500 1 0)
--- > add_t 0.5 (ringmod4 2700 3100 0.25 2)
+-- > add_t (1,0,1) (ringmod4 500 3500 1 0)
+-- > add_t (1,0,0.5) (ringmod4 2700 3100 0.25 2)
 ringmod4 :: UGen -> UGen -> UGen -> UGen -> Treatment
 ringmod4 f0 f1 r l =
     let t = dust 'α' KR r
@@ -290,7 +293,7 @@ ringmod4_p = ringmod4 (ctl "freq0" 500) (ctl "freq1" 3500) (ctl "rate" 1) (ctl "
 ringmod4_syn :: Synthdef
 ringmod4_syn = treatment_syn 1 "ringmod4" ringmod4_p
 
--- > add_t 0.5 ringmod5
+-- > add_t (1,0,0.5) ringmod5
 ringmod5 :: Treatment
 ringmod5 i =
     let (f,_) = unmce2 (pitch i 440 60 4000 100 16 1 1e-2 0.5 1 0)
@@ -362,35 +365,35 @@ tremolo1_p = tremolo1 (t3_map mctl tremolo1_meta)
 tremolo1_syn :: Synthdef
 tremolo1_syn = treatment_syn 1 "tremolo1" tremolo1_p
 
--- > add_t 0.5 (tremolo2 4 8 (1/10) 0 1)
--- > add_t 0.5 (tremolo2 3 12 (1/16) 0 0.5)
+-- > add_t (1,0,0.5) (tremolo2 4 8 (1/10) 0 1)
+-- > add_t (1,0,0.5) (tremolo2 3 12 (1/16) 0 0.5)
 tremolo2 :: UGen -> UGen -> UGen -> UGen -> UGen -> Treatment
 tremolo2 f0 f1 ft a0 a1 =
     let f = range f0 f1 (sinOsc KR ft 0)
         a = range a0 a1 (sinOsc AR f 0)
     in (*) a
 
--- > add_t 1 (tremolo3 4 1)
+-- > add_t (1,0,1) (tremolo3 4 1)
 tremolo3 :: UGen -> UGen -> Treatment
 tremolo3 rt dp = (*) (range (1 - dp) 1 (sinOsc KR rt 0))
 
--- > add_t 1 (stereo_tremolo1 4 1 6)
--- > add_t 1 (stereo_tremolo1 4 1 6 . tremolo3 0.25 0.5)
+-- > add_t (1,0,1) (stereo_tremolo1 4 1 6)
+-- > add_t (1,0,1) (stereo_tremolo1 4 1 6 . tremolo3 0.25 0.5)
 stereo_tremolo1 :: UGen -> UGen -> UGen -> Treatment
 stereo_tremolo1 rt dp dv z =
     let l = range (-1) 1 (sinOsc KR (rt / dv) 0)
     in pan2 z l (tremolo3 rt dp 1)
 
--- > add_t 1 (stereo_tremolo2 (mce2 4 (1/6)) (mce2 1 0.1) (mce2 6 1))
+-- > add_t (1,0,1) (stereo_tremolo2 (mce2 4 (1/6)) (mce2 1 0.1) (mce2 6 1))
 stereo_tremolo2 :: UGen -> UGen -> UGen -> Treatment
 stereo_tremolo2 rt dp dv z =
     let a = mix (range 0 dp (sinOsc KR rt 0))
         l = range (-1) 1 (mix (sinOsc KR (rt / dv) 0))
     in pan2 z l a
 
--- > add_t 1 (tremolo4 0 9 1)
--- > add_t 1 (tremolo4 1 9 1)
--- > add_t 1 (tremolo4 (rng_osc_kr (0,1,3)) 4 1)
+-- > add_t (1,0,1) (tremolo4 0 9 1)
+-- > add_t (1,0,1) (tremolo4 1 9 1)
+-- > add_t (1,0,1) (tremolo4 (rng_osc_kr (0,1,3)) 4 1)
 tremolo4 :: UGen -> UGen -> UGen -> Treatment
 tremolo4 shp rt dp =
     let tr = lfTri KR rt 0
@@ -405,8 +408,8 @@ shp_osc cr shp rt =
         sn = sinOsc cr rt pi
     in (shp - 1) * tr + shp * sn
 
--- > add_t 1 (stereo_tremolo3 0.5 4 1 6)
--- > add_t 1 (stereo_tremolo3 (rng_osc_kr (0,1,3)) 4 1 6)
+-- > add_t (1,0,1) (stereo_tremolo3 0.5 4 1 6)
+-- > add_t (1,0,1) (stereo_tremolo3 (rng_osc_kr (0,1,3)) 4 1 6)
 stereo_tremolo3 :: UGen -> UGen -> UGen -> UGen -> Treatment
 stereo_tremolo3 shp rt dp dv z =
     let l = range (-1) 1 (shp_osc KR shp (rt / dv))
@@ -425,11 +428,11 @@ stereo_tremolo3_syn = treatment_syn 1 "stereo-tremolo3" stereo_tremolo3_p
 
 -- * flanger
 
--- > add_t 1 (flanger1' 0.013 0.1 0.08 0.06 0 0)
--- > add_t 1 (flanger1' 0.013 0.04 0.04 0.01 0.08 0.01)
--- > add_t 1 (flanger1' 0.013 0.04 0.04 1 0.08 0.01)
--- > add_t 1 (flanger1' 0.013 0.43 0.2 0.1 0.08 0)
--- > add_t 1 (flanger1' 0.013 0.93 0.9 0.8 0.8 0)
+-- > add_t (1,0,1) (flanger1' 0.013 0.1 0.08 0.06 0 0)
+-- > add_t (1,0,1) (flanger1' 0.013 0.04 0.04 0.01 0.08 0.01)
+-- > add_t (1,0,1) (flanger1' 0.013 0.04 0.04 1 0.08 0.01)
+-- > add_t (1,0,1) (flanger1' 0.013 0.43 0.2 0.1 0.08 0)
+-- > add_t (1,0,1) (flanger1' 0.013 0.93 0.9 0.8 0.8 0)
 flanger1' :: Double -> UGen -> UGen -> UGen -> UGen -> UGen -> Treatment
 flanger1' dt_max delay depth rate fb dcy i =
     let l = localIn' 1 AR
@@ -452,13 +455,13 @@ flanger1_p = flanger1 (t5_map param1_to_ctl flanger1_param)
 flanger1_syn :: Synthdef
 flanger1_syn = treatment_syn 1 "flanger1" flanger1_p
 
--- > add_t 0.65 hf_flanger1
--- > add_t 0.35 hf_flanger1
+-- > add_t (1,0,0.65) hf_flanger1
+-- > add_t (1,0,0.35) hf_flanger1
 hf_flanger1 :: Treatment
 hf_flanger1 i = pitchShift i 0.2 2 0.005 0.005
 
--- > add_t 0.15 (hf_flanger2 0.1 0.08 0.06 0 0)
--- > add_t 0.35 (hf_flanger2 0.04 0.04 1 0.08 0.01)
+-- > add_t (1,0,0.15) (hf_flanger2 0.1 0.08 0.06 0 0)
+-- > add_t (1,0,0.35) (hf_flanger2 0.04 0.04 1 0.08 0.01)
 hf_flanger2 :: UGen -> UGen -> UGen -> UGen -> UGen -> Treatment
 hf_flanger2 delay depth rate fb dcy i =
     let i' = pitchShift i 0.2 2.0 0.005 0.005
@@ -472,11 +475,11 @@ hf_flanger2 delay depth rate fb dcy i =
 
 -- * reverb
 
--- > add_t 0.5 reverb1
+-- > add_t (1,0,0.5) reverb1
 reverb1 :: Treatment
 reverb1 i = E.zitaRev1 i i 0.04 200 3 2 6000 160 0 2500 0 1 (-6)
 
--- > add_t 0.5 reverb2
+-- > add_t (1,0,0.5) reverb2
 reverb2 :: Treatment
 reverb2 i = E.zitaRev1 i i 0.08 200 6 4 6000 190 (-6) 3500 6 1 0
 
@@ -504,26 +507,26 @@ tank_rev = tank_f . useq 'δ' 4 r_allpass
 
 -- * pitchshift
 
--- > add_t 0.5 (pitchshift1 1.5 0 0)
--- > add_t 0.5 (pitchshift1 1.01 0 0)
+-- > add_t (1,0,0.5) (pitchshift1 1.5 0 0)
+-- > add_t (1,0,0.5) (pitchshift1 1.01 0 0)
 pitchshift1 :: UGen -> UGen -> UGen -> Treatment
 pitchshift1 pr pd td i = pitchShift i 0.2 pr pd td
 
--- > add_t 0.5 (pitchshift2 0.95 1.05 0.25 0 0)
--- > add_t 0.5 (pitchshift2 (2/3) (3/2) 5 0 0)
+-- > add_t (1,0,0.5) (pitchshift2 0.95 1.05 0.25 0 0)
+-- > add_t (1,0,0.5) (pitchshift2 (2/3) (3/2) 5 0 0)
 pitchshift2 :: UGen -> UGen -> UGen -> UGen -> UGen -> Treatment
 pitchshift2 pr0 pr1 prt pd td i =
     let pr = range pr0 pr1 (sinOsc KR (1/prt) 0)
     in pitchShift i 0.2 pr pd td
 
--- > add_t 1 pps1
+-- > add_t (1,0,1) pps1
 pps1 :: Treatment
 pps1 z =
     let pd = mouseX KR 0.0 0.05 Linear 0.1
         td = mouseY KR 0.0 0.05 Linear 0.1
     in pitchShift z 0.2 (mce2 1.0 1.5) pd td
 
--- > add_t 1 (pps2 (0.025,0.025))
+-- > add_t (1,0,1) (pps2 (0.025,0.025))
 pps2 :: T2 UGen -> Treatment
 pps2 (pd,td) s = pitchShift s 0.2 (mce2 1.0 1.5) pd td
 
@@ -536,8 +539,8 @@ pps2_p = pps2 (t2_map param1_to_ctl pps2_param)
 pps2_syn :: Synthdef
 pps2_syn = treatment_syn 1 "pps2" pps2_p
 
--- > add_t 1 (pps3 (1,3/2,0.005,3,0.025,0.025))
--- > add_t 1 (pps3 (3/2,2,0.005,3,0.025,0.025))
+-- > add_t (1,0,1) (pps3 (1,3/2,0.005,3,0.025,0.025))
+-- > add_t (1,0,1) (pps3 (3/2,2,0.005,3,0.025,0.025))
 pps3 :: T6 UGen -> Treatment
 pps3 (r1,r2,dr,dt,pd,td) s =
     let f n = rng_osc_kr (n-dr,n+dr,dt)
@@ -558,26 +561,26 @@ pps3_p = pps3 (t6_map param1_to_ctl pps3_param)
 pps3_syn :: Synthdef
 pps3_syn = treatment_syn 1 "pps3" pps3_p
 
--- > add_t 1 (vibrato1 0.95 1.05 0.75 0 0)
--- > add_t 1 (vibrato1 0.995 1.005 0.75 0 0)
--- > add_t 1 (vibrato1 0.995 1.005 (range 0.25 0.75 (sinOsc KR (1/6) 0)) 0 0)
+-- > add_t (1,0,1) (vibrato1 0.95 1.05 0.75 0 0)
+-- > add_t (1,0,1) (vibrato1 0.995 1.005 0.75 0 0)
+-- > add_t (1,0,1) (vibrato1 0.995 1.005 (range 0.25 0.75 (sinOsc KR (1/6) 0)) 0 0)
 vibrato1 :: UGen -> UGen -> UGen -> UGen -> UGen -> Treatment
 vibrato1 pr0 pr1 prt pd td i =
     let pr = range pr0 pr1 (sinOsc KR (1/prt) 0)
     in pitchShift i 0.2 pr pd td
 
--- > add_t 1 (rfilter1 100 3500 12 0.1 1 9)
--- > add_t 1 (rfilter1 120 3300 13 0.05 1.35 13)
--- > add_t 1 (rfilter1 200 2300 7 0.1 2 4)
+-- > add_t (1,0,1) (rfilter1 100 3500 12 0.1 1 9)
+-- > add_t (1,0,1) (rfilter1 120 3300 13 0.05 1.35 13)
+-- > add_t (1,0,1) (rfilter1 200 2300 7 0.1 2 4)
 rfilter1 :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> Treatment
 rfilter1 f0 f1 ft w0 w1 wt i =
     let f = range f0 f1 (sinOsc KR (1/ft) 0)
         w = range w0 w1 (sinOsc KR (1/wt) 0)
     in resonz i f w
 
--- > add_t 1 (ashape1 0.5 0.5 0.1 0.3 0.5 0.3 1)
--- > add_t 1 (ashape1 0.25 0.75 0.1 0.3 0.5 0.3 1)
--- > add_t 1 (ashape1 0.25 0.75 0.01 0.15 0.75 0.5 1)
+-- > add_t (1,0,1) (ashape1 0.5 0.5 0.1 0.3 0.5 0.3 1)
+-- > add_t (1,0,1) (ashape1 0.25 0.75 0.1 0.3 0.5 0.3 1)
+-- > add_t (1,0,1) (ashape1 0.25 0.75 0.01 0.15 0.75 0.5 1)
 ashape1 :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> Treatment
 ashape1 t w aT dT sL rT pL =
     let t' = t * w
@@ -596,10 +599,17 @@ ashape2 t w aT dT sL rT pL =
 
 -- * delays
 
+mdelay0 :: Double -> UGen -> UGen -> Treatment
+mdelay0 dt_max fb dt i =
+    let l = localIn 1 AR 0
+        d = delayC (i + (l * fb)) (constant dt_max) dt
+        m = i + d
+    in mrg2 m (localOut m)
+
 -- the most changed of the delay times wins
 --
--- > add_t 1 (mdelay1 2 (1,0.65,12.5,50,200))
--- > add_t 1 (mdelay1 2 (1,rng_osc_kr (0.5,1,12),12.5,rng_osc_kr (50,200,10),200))
+-- > add_t (1,0,1) (mdelay1 2 (1,0.65,12.5,50,200))
+-- > add_t (1,0,1) (mdelay1 2 (1,rng_osc_kr (0.5,1,12),12.5,rng_osc_kr (50,200,10),200))
 mdelay1 :: UGen -> T5 UGen -> Treatment
 mdelay1 dt_max (gain,fb,dt1,dt2,dt3) z =
     let l = localIn' 1 AR
@@ -615,12 +625,12 @@ mdelay1_meta =
     ,("dtM",50,200,50,"lin","ms")
     ,("dtL",200,800,200,"lin","ms"))
 
--- > add_t 1 (sdelay0 2 0.65 0.75 0.75 1.25)
--- > add_t 1 (sdelay0 30 0.65 0.75 17.5 22.5)
+-- > add_t (1,0,1) (sdelay0 2 0.65 0.75 0.75 1.25)
+-- > add_t (1,0,1) (sdelay0 30 0.65 0.75 17.5 22.5)
 --
 -- > let dt = 60 / 72 :: Double
 -- > let fb = 0.25 :: UGen
--- > add_t 1 (sdelay0 dt 0.15 0.15 (constant dt) (constant dt))
+-- > add_t (1,0,1) (sdelay0 dt 0.15 0.15 (constant dt) (constant dt))
 sdelay0 :: Double -> UGen -> UGen -> UGen -> UGen -> Treatment
 sdelay0 dt_max fb0 fb1 d0 d1 i =
     let (l0,l1) = unmce2 (localIn' 2 AR)
@@ -631,14 +641,14 @@ sdelay0 dt_max fb0 fb1 d0 d1 i =
         m = mce2 m1 m0
     in mrg2 m (localOut m)
 
--- > add_t 1 (sdelay1 2 (0.65,0.95,7) (0.75,0.90,11) (0.750,0.751,3) (1.250,1.251,7))
+-- > add_t (1,0,1) (sdelay1 2 (0.65,0.95,7) (0.75,0.90,11) (0.750,0.751,3) (1.250,1.251,7))
 sdelay1 :: Double -> T3 UGen -> T3 UGen -> T3 UGen -> T3 UGen -> Treatment
 sdelay1 dt_max fb0 fb1 d0 d1 =
     let f = rng_osc
     in sdelay0 dt_max (f fb0) (f fb1) (f d0) (f d1)
 
--- > add_t 0.5 (pingpong1 0.25 0.85)
--- > add_t 0.5 (pingpong1 (60 / 72) 0.15)
+-- > add_t (1,0,0.5) (pingpong1 0.25 0.85)
+-- > add_t (1,0,0.5) (pingpong1 (60 / 72) 0.15)
 pingpong1 :: UGen -> UGen -> Treatment
 pingpong1 dt fb i =
     let a1 = localIn' 2 AR + mce [i,0]
@@ -652,10 +662,10 @@ pingpong1_p = pingpong1 (ctl "delay" 0.25) (ctl "feedback" 0.85)
 pingpong1_syn :: Synthdef
 pingpong1_syn = treatment_syn 1 "pingpong1" pingpong1_p
 
--- > add_t 0.5 (pingpong2 2 (0.250,0.251,3) (0.85,0.95,7))
--- > add_t 0.5 (pingpong2 2 (0.1500,0.1525,7) (0.925,0.975,11))
--- > add_t 0.5 (pingpong2 2 (0.1475,0.1525,23) (0.935,0.985,7))
--- > add_t 0.45 (pingpong2 25 (15,15.05,7) (0.15,0.95,9))
+-- > add_t (1,0,0.5) (pingpong2 2 (0.250,0.251,3) (0.85,0.95,7))
+-- > add_t (1,0,0.5) (pingpong2 2 (0.1500,0.1525,7) (0.925,0.975,11))
+-- > add_t (1,0,0.5) (pingpong2 2 (0.1475,0.1525,23) (0.935,0.985,7))
+-- > add_t (1,0,0.45) (pingpong2 25 (15,15.05,7) (0.15,0.95,9))
 pingpong2 :: Double -> T3 UGen -> T3 UGen -> Treatment
 pingpong2 dt_max dt fb i =
     let dt' = rng_osc dt
@@ -692,8 +702,8 @@ pingpong2_p dt_max = pingpong2' dt_max (t6_map mctl (pingpong2_meta dt_max))
 pingpong2_syn :: Double -> Synthdef
 pingpong2_syn dt_max = treatment_syn 1 "pingpong2" (pingpong2_p dt_max)
 
--- > add_t 1 (pingpong3 2 1.25 0.125 12 (0.250,0.251,3) (0.85,0.95,7))
--- > add_t 1 (pingpong3 2 1.25 0.125 36 (0.250,0.251,3) (0.85,0.95,7))
+-- > add_t (1,0,1) (pingpong3 2 1.25 0.125 12 (0.250,0.251,3) (0.85,0.95,7))
+-- > add_t (1,0,1) (pingpong3 2 1.25 0.125 36 (0.250,0.251,3) (0.85,0.95,7))
 pingpong3 :: Double -> UGen -> UGen -> UGen -> T3 UGen -> T3 UGen -> Treatment
 pingpong3 dt_max aT rT g dt fb i =
     let i' = i * amplitude AR i aT rT * g
@@ -707,21 +717,21 @@ pingpong3 dt_max aT rT g dt fb i =
 select2 :: Num a => a -> a -> a -> a
 select2 p s1 s2 = (p * s1) + ((1 - p) * s2)
 
--- > add_t 1 (gate1 (-45))
+-- > add_t (1,0,1) (gate1 (-45))
 gate1 :: UGen -> Treatment
 gate1 l i =
     let a = amplitude AR i 0.01 0.01
     in select2 (a >* dbAmp l) i (silent 1)
 
--- > add_t 1 (gate2 0.001 0.5 (-45))
+-- > add_t (1,0,1) (gate2 0.001 0.5 (-45))
 gate2 :: UGen -> UGen -> UGen -> Treatment
 gate2 aT rT l i =
     let a = amplitude AR i 0.01 0.01
     in lag3UD (a >* dbAmp l) aT rT * i
 
--- > add_t 1 (pingpong4' 2 1.25 0.125 (-45) (0.250,0.251,3) (0.85,0.95,7))
--- > add_t 1 (pingpong4' 2 1.25 0.125 (-45) (0.350,0.355,3) (0.875,0.975,7))
--- > add_t 1 (pingpong4' 2 1.25 0.250 (-45) (0.150,0.152,3) (0.925,0.975,7))
+-- > add_t (1,0,1) (pingpong4' 2 1.25 0.125 (-45) (0.250,0.251,3) (0.85,0.95,7))
+-- > add_t (1,0,1) (pingpong4' 2 1.25 0.125 (-45) (0.350,0.355,3) (0.875,0.975,7))
+-- > add_t (1,0,1) (pingpong4' 2 1.25 0.250 (-45) (0.150,0.152,3) (0.925,0.975,7))
 pingpong4' :: Double -> UGen -> UGen -> UGen -> T3 UGen -> T3 UGen -> Treatment
 pingpong4' dt_max aT rT g dt fb i =
     let i' = gate2 aT rT g i
@@ -760,9 +770,9 @@ zappa1 z =
         f' = lag f 0.1
     in rlpf z f' 0.07
 
--- > add_t 1 (zappa2 7 0.1 200)
--- > add_t 1 (zappa2 3 0.3 5)
--- > add_t 1 (zappa2 (rng_osc (5,9,9)) (rng_osc (0.1,0.2,5)) (rng_osc (150,200,13)))
+-- > add_t (1,0,1) (zappa2 7 0.1 200)
+-- > add_t (1,0,1) (zappa2 3 0.3 5)
+-- > add_t (1,0,1) (zappa2 (rng_osc (5,9,9)) (rng_osc (0.1,0.2,5)) (rng_osc (150,200,13)))
 zappa2 :: UGen -> UGen -> UGen -> Treatment
 zappa2 nf lt g z =
     let f = lfNoise0 'α' AR nf * 500 + 1000
@@ -818,9 +828,9 @@ eh1 aT rT g cf rq pk i =
     let a = amplitude AR i aT rT
     in bPeakEQ i cf rq (a * g * pk)
 
--- > add_t 1 (arp1 0.15)
--- > add_t 1 (arp1 (mce2 0.15 0.6))
--- > add_t 1 (arp1 (mce2 0.15 0.6 * 0.75))
+-- > add_t (1,0,1) (arp1 0.15)
+-- > add_t (1,0,1) (arp1 (mce2 0.15 0.6))
+-- > add_t (1,0,1) (arp1 (mce2 0.15 0.6 * 0.75))
 arp1 :: UGen -> Treatment
 arp1 t z =
     let q = midiRatio (mce [0,3,7,10,9,14,15,14])
@@ -895,8 +905,8 @@ s_ping_right1 dt fb z =
         c = mce2 b2 b2 * fb
     in mrg [mce2 b1 b2,localOut c]
 
--- > add_t 0.75 (fshift1 2)
--- > add_t (5/6) (fshift1 (rsinosc KR (2,5,1/7)))
+-- > add_t (1,0,0.75) (fshift1 2)
+-- > add_t (1,0,5/6) (fshift1 (rsinosc KR (2,5,1/7)))
 fshift1 :: UGen -> Treatment
 fshift1 env_dur z =
     let e = lfGauss AR env_dur (1/8) 0 Loop DoNothing
@@ -906,11 +916,11 @@ fshift1 env_dur z =
         d = delayC s 1 0.1 * 0.9
     in mrg2 s (localOut d)
 
--- > add_t (3/7) (ph_shift1 (1/2))
+-- > add_t (1,0,3/7) (ph_shift1 (1/2))
 ph_shift1 :: UGen -> Treatment
 ph_shift1 rt z = freqShift z 0 (rsinosc KR(0,pi,rt))
 
--- > add_t (2/3) (fshift2 1 (1/2))
+-- > add_t (1,0,2/3) (fshift2 1 (1/2))
 fshift2 :: UGen -> UGen -> Treatment
 fshift2 depth rate z = freqShift z (rsinosc KR (-depth,depth,rate)) 0
 
