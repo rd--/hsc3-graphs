@@ -83,6 +83,7 @@ update (f,a,l,t) = do
                     ,c_set [(0,l')]]
   pauseThread t'
 
+-- > do_update 1024
 do_update :: Double -> IO ()
 do_update n = withSC3 (replicateM_ 128 (update (lin_data n)))
 
