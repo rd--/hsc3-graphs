@@ -1,6 +1,6 @@
 // slow beating harmonic sines (jmcc) #7
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~xfade_texture.({
     var n = 8; // number of notes

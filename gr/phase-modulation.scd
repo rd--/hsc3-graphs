@@ -1,6 +1,6 @@
 // phase modulation with slow beats (jmcc) #6
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
 	var x = MouseX.kr(100, 6000, 'exponential'); // random freq of new events

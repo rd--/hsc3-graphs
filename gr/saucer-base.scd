@@ -1,6 +1,6 @@
 // saucer base (jmcc) #6
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var a = 20.0.rand;

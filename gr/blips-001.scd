@@ -1,6 +1,6 @@
 // blips 001 (jmcc) #SC3d1.5
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     if(0.8.coin, {

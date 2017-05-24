@@ -1,6 +1,6 @@
 // tremulate (jmcc) #1
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var f = 500 + 400.rand;

@@ -1,6 +1,6 @@
 // bouncing objects (jmcc) #2
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~spawn.({
     // impulses trigger decay envelope

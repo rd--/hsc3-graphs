@@ -1,6 +1,6 @@
 // hard sync sawtooth with lfo (jmcc) #6
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var f = (30 + 50.rand).midicps;

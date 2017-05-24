@@ -1,6 +1,6 @@
 // random pulsations (jmcc) #1
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~spawn.({
     var env = Env.linen(2, 5, 2, 0.02);

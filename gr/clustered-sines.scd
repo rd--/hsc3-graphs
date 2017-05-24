@@ -1,6 +1,6 @@
 // clustered sines (jmcc) #2
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~xfade_texture.({
     var n = 80;

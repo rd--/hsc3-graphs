@@ -1,6 +1,6 @@
 // zizle (jmcc) #SC3d1.5
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var a = {arg f; Mix.ar(SinOsc.ar(f * [rrand(0.7,1.3),1], [2pi.rand,2pi.rand], 0.1))};

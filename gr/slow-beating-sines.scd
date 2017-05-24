@@ -1,6 +1,6 @@
 // slow beating sines (jmcc) #7
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~xfade_texture.({
     var n = 20; // n*3 components in each channel

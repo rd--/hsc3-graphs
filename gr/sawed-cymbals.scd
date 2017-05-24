@@ -1,6 +1,6 @@
 // sawed cymbals (jmcc) #9
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var p = 15;	// number of partials per channel per 'cymbal'.

@@ -1,6 +1,6 @@
 // swept resonant noise (jmcc) #2
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var p = 10; // number of partials

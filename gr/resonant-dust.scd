@@ -1,6 +1,6 @@
 // resonant dust (jmcc) #2
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~spawn.({
     var e = Env.linen(2, 5, 2);

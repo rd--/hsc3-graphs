@@ -1,6 +1,6 @@
 // string wander-cluster (jmcc) #6
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var note = 50 + 50.rand;

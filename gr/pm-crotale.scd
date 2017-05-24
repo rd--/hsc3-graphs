@@ -1,6 +1,6 @@
 // pm-crotale (dmc) #1.7
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~spawn.(
 {var midi = IRand(48,72)

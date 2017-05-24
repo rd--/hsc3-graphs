@@ -1,6 +1,6 @@
 // pond life (jmcc) #1
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var f = FSinOsc.kr(20+30.0.rand,0,100+300.0.rand,500 + 2000.0.linrand);

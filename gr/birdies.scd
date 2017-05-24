@@ -1,6 +1,6 @@
 // birdies (jmcc) #6
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var p1 = LFPulse.kr(0.4 + 1.0.rand, 0, 0.8.rand + 0.1, 3.0.rand + 4, 2);

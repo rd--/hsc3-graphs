@@ -1,6 +1,6 @@
 // drone plus rhythm (jmcc) #12
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~scale = #[0, 2, 3, 5, 7, 9, 10];
 

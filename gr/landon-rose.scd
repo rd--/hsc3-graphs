@@ -1,6 +1,6 @@
 // landon rose (jmcc) #8
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~spawn.({
     arg i;

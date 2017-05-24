@@ -1,6 +1,6 @@
 // tapping tools (jmcc) #7
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~spawn.({
     var e = Env.linen(1, 4, 1);

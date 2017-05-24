@@ -1,6 +1,6 @@
 // early space music lp side one (jmcc) #12
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
 	var scale = [0, 2, 4, 5, 7, 9, 11];

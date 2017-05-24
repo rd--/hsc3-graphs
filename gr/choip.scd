@@ -1,6 +1,6 @@
 // choip (jmcc) #10
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~overlap_texture.({
     var t = 12;

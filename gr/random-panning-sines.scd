@@ -1,6 +1,6 @@
 // random panning sines (jmcc) #4
 
-"/home/rohan/sw/hsc3-graphs/gr/overlap-texture.scd".load;
+"overlap-texture.scd".loadRelative;
 
 ~xfade_texture.({
     var n = 8;
