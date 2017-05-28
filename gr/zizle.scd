@@ -7,4 +7,4 @@
 ;var a1 = a.(exprand(0.3,8)).max(0)
 ;var a2 = a.(exprand(6,24)).abs
 ;Pan2.ar(SinOsc.ar(rrand(24,108).midicps, 2pi.rand) * a1 * a2,1.0.rand2)}
-, 4, 4, 12)
+,4, 4, 12)
