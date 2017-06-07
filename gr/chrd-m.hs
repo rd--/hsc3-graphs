@@ -5,7 +5,8 @@ import Sound.SC3 {- hsc3 -}
 chrd_m :: UId m => m UGen
 chrd_m = do
   r0 <- randM 0.05 0.5
-  [r1, r2] <- sequence (replicate 2 (randM (-1) 1))
+  r1 <- randM (-1) 1
+  r2 <- randM (-1) 1
   r3 <- randM 0.15 0.35
   r4 <- randM 0.005 0.01
   let m = mce [60, 65, 72, 77, 79, 84]
