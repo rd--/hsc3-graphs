@@ -74,4 +74,4 @@ main = do
   let sy = synthdef "ping" ping
   withSC3 (do post "amplitude_mod" 2 0 (amplitude_mod 'ρ')
               post "limiting" 2 0 limiting
-              performNRT (P.sbind1 (sy,pattern)))
+              nrt_play (P.sbind1 (sy,pattern)))

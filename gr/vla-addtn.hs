@@ -42,7 +42,7 @@ main = O.spawnTextureU (const 3,maxBound) plyr36
 
 -- q = quantised
 vla_q :: RealFrac n => [(n,n)]
-vla_q = let f (a,p) = (roundTo_ a 0.1,roundTo_ p 0.1) in map f vla
+vla_q = let f (a,p) = (sc3_round_to a 0.1,sc3_round_to p 0.1) in map f vla
 
 -- ampl (DB) and phase data
 vla :: Fractional n => [(n,n)]

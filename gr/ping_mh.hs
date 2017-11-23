@@ -1,6 +1,7 @@
 -- https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/ping_mh.scd
 
 import Sound.SC3
+import qualified Sound.SC3.Lang.Pattern as P {- hsc3-lang -}
 
 ping_mh :: UGen
 ping_mh =
@@ -20,6 +21,12 @@ ping_mh =
 -- > withSC3 (async (d_recv ping_mh_syn))
 ping_mh_syn :: Synthdef
 ping_mh_syn = synthdef "ping_mh" ping_mh
+
+main :: IO ()
+main =
+  P.paudition (P.pbind [(P.K_instr,P.psynth ping_mh_syn)
+                       ,(P.K_degree,P.toP [0,2,4,7])
+                       ,(P.K_dur,0.25)])
 
 {-
 import Sound.SC3.RW.PSynth

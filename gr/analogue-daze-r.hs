@@ -1,5 +1,6 @@
 -- analogue daze (jmcc) #3
 
+import Sound.SC3.Common {- hsc3 -}
 import Sound.SC3.UGen.Record.CRU {- hsc3-rec -}
 
 -- > draw analogue_daze

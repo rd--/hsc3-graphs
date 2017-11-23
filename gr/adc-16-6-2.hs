@@ -47,4 +47,4 @@ main :: IO ()
 main = withSC3 $ do
   let fn = "/home/rohan/opt/src/supercollider/sounds/a11wlk01-44_1.aiff"
   _ <- async (b_allocRead 0 fn 0 0)
-  performNRT (P.sbind [(constQ,p 0),(constQ,p' 0)])
+  nrt_play (P.sbind [(constQ,p 0),(constQ,p' 0)])

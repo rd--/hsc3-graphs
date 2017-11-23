@@ -4,7 +4,7 @@ import Control.Monad {- base -}
 import System.Directory {- directory -}
 import qualified System.FilePath as P {- filepath -}
 
-import Graphics.PS {- hps -}
+import Data.CG.Minus.Types {- hps -}
 import qualified LSystem.LSystem as L {- hls -}
 import qualified LSystem.Systems as L {- hls -}
 import qualified LSystem.Turtle as L {- hls -}
@@ -28,7 +28,7 @@ plain d (Pt x0 y0) (Pt x1 y1) = [x0,y0,x1,y1] ++ d
 -- | Render 'L.LSystem' to 'plain' data.
 lsys_run :: (L.LSystem,Double,Double) -> Int -> [Double]
 lsys_run (l,ta,lls) i =
-    let a = L.Turtle (radians ta) 1 (Pt 0 0) (pi/2) 1 lls []
+    let a = L.Turtle ta (Pt 0 0) (pi/2) 1 lls []
     in L.render [] plain (L.expand l i) a
 
 -- | 'normalise' '.' 'lsys_run'

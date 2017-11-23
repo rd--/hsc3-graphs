@@ -22,6 +22,7 @@ GRAPHS= 1-1Ni\
  analog-bubbles-r\
  analogue-daze\
  analogue-daze-r\
+ apad_mh\
  arpeggio\
  babbling-brook\
  berlin-1977\
@@ -181,6 +182,7 @@ GRAPHS= 1-1Ni\
  pattern-buffer-m\
  pebble-beach\
  phase-modulation\
+ ping_mh\
  pkt-00\
  pkt-07\
  pkt-26\
@@ -236,6 +238,7 @@ GRAPHS= 1-1Ni\
  slow-beating-harmonic-sines\
  slow-beating-sines\
  snare-909\
+ sos_bell\
  sosc-lp-m\
  spe\
  spe-p\

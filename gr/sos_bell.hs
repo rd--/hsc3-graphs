@@ -2,6 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.Lang.Pattern as P {- hsc3-lang -}
 
 mce_mean :: UGen -> UGen
 mce_mean x = mceSum x / fromIntegral (mceDegree_err x)
@@ -27,6 +28,15 @@ sos_bell =
                   e = envGen AR 1 1 0 1 RemoveSynth e_dat
               in mce_mean (sinOsc AR (mce2 (freq * 1.01) (freq * 0.47)) 0 * e)
     in out out_ (pan2 ((son4 + strike + hum) * 4 * amp) pan 1)
+
+sos_bell_syn :: Synthdef
+sos_bell_syn = synthdef "sos_bell" sos_bell
+
+main :: IO ()
+main =
+  P.paudition (P.pbind [(P.K_instr,P.psynth sos_bell_syn)
+                       ,(P.K_degree,P.toP [0,2,4,7])
+                       ,(P.K_dur,0.5)])
 
 {-
 import Sound.SC3.RW.PSynth

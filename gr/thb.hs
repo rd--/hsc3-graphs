@@ -54,7 +54,7 @@ plain = do
       sc = P.sbind1 (defaultSynthdef
                     ,[("freq",fr)
                      ,("dur",concat hb_t ./ 16)])
-  performNRT sc
+  nrt_play sc
 
 -- | Pitch classes
 --
@@ -67,7 +67,7 @@ hb_k =
 -- | Midi note numbers
 --
 -- > tail hb_m == [[55,55,57,55,62,60],[55,55,67,64,60,59,57],[65,65,64,60,62,60]]
-hb_m :: [[Integer]]
+hb_m :: [[Int]]
 hb_m = zipWith (\p q -> map T.octpc_to_midi (zip p q)) hb_o hb_k
 
 -- | Transposition predicate.
@@ -180,7 +180,7 @@ hear blur x =
              ,("sustain",d .* blur)
              ,("amp",c .* 0.1 .+ 0.1)
              ,("loc",c .* 2 .- 1)]
-    in performNRT (P.sbind1 (ins_s,pr))
+    in nrt_play (P.sbind1 (ins_s,pr))
 
 main :: IO ()
 main = withSC3 (hear 9 ph)
