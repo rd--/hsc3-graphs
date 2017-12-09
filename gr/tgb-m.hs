@@ -35,11 +35,17 @@ tgb_10_12_m = tgb_f 10 12
 tgb_10_12 :: UGen
 tgb_10_12 = uid_st_eval tgb_10_12_m
 
-act :: (UId m,Transport m) => m ()
-act = do
-  let fn = "/home/rohan/data/audio/pf-c5.aif"
-  _ <- async (b_allocRead 10 fn 0 0)
+act :: (UId m,Transport m) => (FilePath,Int,Int) -> m ()
+act (fn,frame0,n_frames) = do
+  _ <- async (b_allocRead 10 fn frame0 n_frames)
   play (out 0 tgb_10_12)
 
 main :: IO ()
-main = withSC3 act
+main = do
+  let fn = "/home/rohan/data/audio/pf-c5.aif"
+  withSC3 (act (fn,0,0))
+
+{-
+let fn = "/home/rohan/data/audio/instr/farfisa/aad/principale-8.flac"
+withSC3 (act (fn,48000 * 9,48000 * 2))
+-}
