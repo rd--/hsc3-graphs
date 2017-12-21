@@ -6,7 +6,7 @@ import Sound.SC3 {- hsc3 -}
 fwalk_f :: UId m => UGen -> m UGen
 fwalk_f r = do
   t <- dustM KR 3
-  r1 <- tIRandM 0 6 t
+  r1 <- tiRandM 0 6 t
   r2 <- tRandM (-0.0001) 0.0001 t
   let f = bufRdL 1 KR (mce2 0 1) r1 NoLoop
       f' = f + r2

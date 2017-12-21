@@ -6,7 +6,7 @@ f_lets_m :: UId m => m UGen
 f_lets_m = do
   let f_let t g j n f = do
            let pd = pulseDivider t j 0
-           r0 <- tIRandM (mce2 2 1) n pd
+           r0 <- tiRandM (mce2 2 1) n pd
            r1 <- tRandM 0.01 0.04 pd
            r2 <- tRandM 0.05 0.10 pd
            return (formlet pd (f * r0) r1 r2 * g)

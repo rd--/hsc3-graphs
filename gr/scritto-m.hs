@@ -17,8 +17,8 @@ main =
         n <- lfNoise2M KR 3
         let t = impulse AR (n * 9 + 9) 0
             i d = do n1 <- tRandM 0.02 0.06 t
-                     n2 <- tIRandM 30 52 t
-                     n3 <- tIRandM 16 32 t
+                     n2 <- tiRandM 30 52 t
+                     n3 <- tiRandM 16 32 t
                      let p = pulseDivider t d 0
                          b = blip AR (midiCPS n2) n3
                      return (decay2 p 0.01 n1 * b * 12)

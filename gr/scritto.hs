@@ -17,8 +17,8 @@ scritto_i bx =
         t = impulse AR (n0 * 9 + 9) 0
         ble (e,d) =
             let n1 = tRand e 0.02 0.06 t
-                n2 = tIRand e 30 52 t
-                n3 = tIRand e 16 32 t
+                n2 = tiRand e 30 52 t
+                n3 = tiRand e 16 32 t
                 p = pulseDivider t d 0
                 b = blip AR (midiCPS n2) n3
             in (decay2 p 0.01 n1 * b * 12)

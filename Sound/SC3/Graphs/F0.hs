@@ -211,7 +211,7 @@ f0_0045 =
 
 f0_0049 :: UGen
 f0_0049 =
-    let t = t2A 0 0
+    let t = t2a 0 0
         o0 = lfSaw AR 3 0 * 9 + 99
         s0 = sweep t (mce [3..9]) `modE` o0
         s1 = sweep t (mce [33,32..3]) `modE` 128 .&. s0

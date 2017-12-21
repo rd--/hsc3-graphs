@@ -10,7 +10,7 @@ s_chirp =
       t = dust 'α' KR 9
       b = tChoose 'β' t (mce [36,48,60,72])
       n = lfNoise1 'γ' KR (mce2 3 3.05) * 0.04
-      d = tIRand 'δ' x y t
+      d = tiRand 'δ' x y t
       e = decay2 t 0.005 (tRand 'ε' 0.02 0.15 t)
       o = let k = degreeToKey 0 d 12
               f = midiCPS (b + k + n)

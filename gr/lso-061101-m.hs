@@ -87,7 +87,7 @@ oi :: IO UGen
 oi = do
   c <- R.choose [0.25, 0.55, 0.75, 1.25]
   let t = impulse KR c 0
-  b <- tIRandM 0 12 t
+  b <- tiRandM 0 12 t
   let n  = bufFrames KR b
       m  = n / 4
       i  = floorE (linLin_b (lfSaw AR c 0) 0 m) * 4

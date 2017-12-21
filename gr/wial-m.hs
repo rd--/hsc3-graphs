@@ -7,7 +7,7 @@ wial_m = do
   let pls c d f = do let t = pulseDivider c d 0
                          e = decay2 t 0.05 0.75
                          o = sinOsc AR (toggleFF t * f + f * 2) 0
-                     n0 <- tIRandM 0 1 t
+                     n0 <- tiRandM 0 1 t
                      return (o * e * n0 * 0.5)
       smpl f = [(4,6,f,0.0075)
                ,(2,6,f * 2,0.0175)

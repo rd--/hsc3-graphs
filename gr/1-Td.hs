@@ -22,7 +22,7 @@ one_td_u =
             in gbmanL AR x (rand_sym 'δ' 3) (rand_sym 'ε' 3) / 3
         c = let y = mouseY KR 0 (lchoose 'ζ' z1) Linear 0.2
                 fr = gbmanL AR y (rand_sym 'η' 3) (rand_sym 'θ' 3)
-            in impulse AR (a2K fr * base / 4) 0 / 4
+            in impulse AR (a2k fr * base / 4) 0 / 4
         d = dust 'ι' AR (lchoose 'κ' z2) / 4
         e = impulse AR (lchoose 'λ' z2) 0 / 4
         g = let n = lfdNoise3 'μ' KR base
@@ -31,7 +31,7 @@ one_td_u =
         amp = let n = dxrand 'ο' dinf (mce z3)
                   fr = demand (impulse KR (base / 16) 0) 0 n
                   g_f = lchoose 'π' z4
-                  am = a2K (gbmanL AR g_f (rand_sym 'ρ' 3) (rand_sym 'σ' 3))
+                  am = a2k (gbmanL AR g_f (rand_sym 'ρ' 3) (rand_sym 'σ' 3))
               in sinOsc KR fr 0 * 0.1 * am + 0.1
         loc = let mu = rand 'τ' 0.2 0.7
                   ad = rand 'υ' 0 0.3
