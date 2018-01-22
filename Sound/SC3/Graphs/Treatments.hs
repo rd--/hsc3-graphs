@@ -2,9 +2,10 @@ module Sound.SC3.Graphs.Treatments where
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
+import qualified Sound.SC3.UGen.Bindings.DB.External as E {- hsc3 -}
 import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
 
-import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 import Music.Theory.Tuple {- hmt -}
 
@@ -97,7 +98,7 @@ treatment_syn nc nm tr =
     let b = mctl (bus_meta 0)
         i = in' nc AR b
         mx = mctl ("mx",0,1,1,"lin","*")
-        m = pre_post_mix mx i (tr i) * envGate'
+        m = pre_post_mix mx i (tr i) * envGate_def
         bp = mctl ("bypass",0,1,0,"lin","*")
         o = ugen_if (bp >* 0) i m
     in synthdef nm (replaceOut b o)

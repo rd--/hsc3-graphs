@@ -20,7 +20,7 @@ import qualified Sound.SC3.Lang.Random.Gen as R.Gen {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
 
-import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 -- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
 dsequ :: ID z => z -> [UGen] -> UGen -> UGen
@@ -340,7 +340,7 @@ bouncing_objects =
       flt_rtm = RDU.randN 4 'δ' 0.01 0.11
       flt = klank exc 1 0 1 (klankSpec_mce flt_frq flt_amp flt_rtm)
       loc = pan2 flt (rand 'ε' (-1) 1) 1
-      e = Envelope [1,1,0] [3,0.001] (replicate 2 EnvLin) Nothing Nothing
+      e = Envelope [1,1,0] [3,0.001] (replicate 2 EnvLin) Nothing Nothing 0
   in loc * envGen KR 1 1 0 1 RemoveSynth e
 
 bouncing_objects_st :: IO ()
