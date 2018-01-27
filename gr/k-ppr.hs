@@ -1,6 +1,7 @@
 -- k-ppr (rd)
 
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3 -}
 import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
 k_ppr :: UGen

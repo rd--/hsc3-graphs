@@ -2,10 +2,10 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.UGen.Bindings.DB.External {- hsc3 -}
 
-import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
-import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 one_td_u :: UGen
 one_td_u =
@@ -17,7 +17,7 @@ one_td_u =
         z5 = [4,6..24]
         rand_sym z n = rand z (- n) n
         a = let fr = range 20 10000 (lfdNoise3 'α' KR (base / 4))
-            in E.lfBrownNoise2 'β' AR fr 0.005 0
+            in lfBrownNoise2 'β' AR fr 0.005 0
         b = let x = mouseX KR 0 (lchoose 'γ' z1) Linear 0.2
             in gbmanL AR x (rand_sym 'δ' 3) (rand_sym 'ε' 3) / 3
         c = let y = mouseY KR 0 (lchoose 'ζ' z1) Linear 0.2

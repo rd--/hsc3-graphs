@@ -2,7 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 
-import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 randN_l :: ID z => Int -> z -> UGen -> UGen -> [UGen]
 randN_l k z l = mceChannels . RDU.randN k z l
@@ -14,7 +14,7 @@ pm :: UGen
 pm =
     let e = let l = randN_l 11 'α' (-1) 1
                 t = randN_l 10 'β' 0 1
-            in Envelope l t [EnvNum 0] (Just 9) (Just 0)
+            in Envelope l t [EnvNum 0] (Just 9) (Just 0) 0
         env = envGen KR 1 1 0 1 DoNothing e
         p = midiRatio (env * mce [1, 0.33, -1] * 19) * 250
         o = formant AR p (iScramble 'γ' p * 2) (iScramble 'δ' p)

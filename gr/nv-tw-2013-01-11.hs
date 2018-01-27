@@ -2,6 +2,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3 -}
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 
 mce_concat :: [UGen] -> UGen

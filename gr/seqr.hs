@@ -2,7 +2,7 @@
 
 import Sound.SC3 {- hsc3 -}
 
-import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 nrand :: ID z => Int -> z -> UGen -> UGen -> [UGen]
 nrand n e l = mceChannels . RDU.randN n e l

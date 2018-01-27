@@ -1,6 +1,7 @@
 -- http://sccode.org/1-V (nv)
 
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3 -}
 
 nv_tw_1 :: UGen
 nv_tw_1 =

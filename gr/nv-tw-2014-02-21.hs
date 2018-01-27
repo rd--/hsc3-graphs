@@ -2,6 +2,7 @@
 -- requires -m at scsynth
 
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3 -}
 
 x :: UGen
 x = impulse AR 0.05 0

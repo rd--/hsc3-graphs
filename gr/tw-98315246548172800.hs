@@ -1,6 +1,7 @@
 -- https://twitter.com/rukano/status/98315246548172800
 
 import Sound.SC3 {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 

@@ -3,7 +3,7 @@
 import Sound.SC3 {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
-import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 seqr_f :: UGen -> UGen -> UGen
 seqr_f f e =

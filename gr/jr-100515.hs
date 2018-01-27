@@ -5,7 +5,7 @@ import qualified System.Random as R {- random -}
 import Sound.SC3 {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
-import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 pat :: UGen
 pat = panAz 32 (sinOscFB AR 18 1.4) (sinOscFB AR 0.2 1.4) 1 2 0.5

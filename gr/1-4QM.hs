@@ -4,9 +4,9 @@ import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
-import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
+import qualified Sound.SC3.UGen.Bindings.DB.External as E {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.IO as L {- hsc3-lang -}
-import qualified Sound.SC3.UGen.External.RDU as RDU {- sc3-rdu -}
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 type ST = (UGen,UGen,UGen)
 
