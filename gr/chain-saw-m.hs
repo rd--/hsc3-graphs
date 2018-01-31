@@ -18,8 +18,10 @@ coinIf n a b = do
   r <- R.coin n
   return (if r then a else b)
 
+{-
 exprange :: UGen -> UGen -> UGen -> UGen
 exprange s = linExp s (-1) 1
+-}
 
 mceProduct :: UGen -> UGen
 mceProduct = mceEdit (\l -> [product l])

@@ -34,12 +34,12 @@ microhelix =
                 ph' = wrap ph (-pi) pi
                 mean u = mceSum u / fromIntegral (mceDegree_err u)
                 o = tanh (mean (sinOsc AR 0 ph' * mce2 2 0.05))
-                d = Envelope [0, 0.5, 0.4, 0] [0, 0.2, 0.01] [EnvNum (-5)] Nothing Nothing
+                d = Envelope [0, 0.5, 0.4, 0] [0, 0.2, 0.01] [EnvNum (-5)] Nothing Nothing 0
                 e = envGen AR (abs t) 1 0 1 DoNothing d
             in o * e * 0.25
         snd1' =
             let t = mceChannel 0 ctrigs
-                d = Envelope [0, 1, 0.6, 0] [0.0001, 0.4, 0.01] [EnvNum (-4)] Nothing Nothing
+                d = Envelope [0, 1, 0.6, 0] [0.0001, 0.4, 0.01] [EnvNum (-4)] Nothing Nothing 0
                 e = envGen AR (t * lfNoise0 'ν' AR 8) 1 0 1 DoNothing d
             in pan2 (snd1 * e) (tRand 'ξ' (-1) 1 t) 1
     in limiter (midEQ (clicks + snd1' + hiNoise + bass) 14000 0.7 8) 1 0.01

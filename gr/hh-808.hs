@@ -7,7 +7,7 @@ hh_808 :: UGen
 hh_808 =
   let time = 250
       fr = [205.35,304.41,369.64,522.71,540.54,812.21]
-      env i j k = Envelope i j k Nothing Nothing
+      env i j k = Envelope i j k Nothing Nothing 0
       pulseEnv = let e = env [1.0,0.6] [time] [EnvNum (-0.5)]
                  in envGen AR 1 1 0 (1/1000) DoNothing e
       s = mix (lfPulse AR (mce (map (* 4.09) fr)) 0 0.5)

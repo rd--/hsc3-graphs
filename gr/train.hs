@@ -15,14 +15,14 @@ whistle time n3 =
         s = klankSpec f [1,1,1,1] [1,1,1,1]
         t = [0,0,1,1,0,0,1,1,0,0,1,0]
         l = [2,0,0.2,0,0.2,0,0.8,0,4,0,3]
-        d = Envelope t l (repeat EnvLin) Nothing Nothing
+        d = Envelope t l (repeat EnvLin) Nothing Nothing 0
         e = envGen AR 1 1 0 (time/10) DoNothing d
     in klank (n3 * 0.004) 1 0 1 s * e
 
 train :: UGen
 train =
     let time = 24
-        loc = let e = Envelope [-0.8,0.8] [time + 2] [EnvSin,EnvSin] Nothing Nothing
+        loc = let e = Envelope [-0.8,0.8] [time + 2] [EnvSin,EnvSin] Nothing Nothing 0
               in envGen AR 1 1 0 1 RemoveSynth e
         n1 = whiteNoise 'α' AR
         n2 = pinkNoise 'β' AR

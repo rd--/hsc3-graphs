@@ -15,7 +15,7 @@ bird_call ((freq,atk,dcy)
           ,(amod2,atka2,dcya2)) =
     let mk_env a aT dT g lS md =
             let x = EnvNum (-4)
-                c = Envelope [0,a,0] [aT,dT] [x,x] Nothing Nothing
+                c = Envelope [0,a,0] [aT,dT] [x,x] Nothing Nothing 0
             in envGen AR g lS 0 1 md c
         e = mk_env 0.5 atk dcy 1 1 RemoveSynth
         freq1 = mk_env fmod1 atkf1 dcyf1 1 3000 DoNothing

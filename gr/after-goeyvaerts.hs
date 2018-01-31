@@ -120,11 +120,11 @@ nd =
         s = let p = mix (lfPar AR (freq * mce [0.999,1.001]) 0 * amp)
                 l = [10000,2000,4000,1000]
                 t = [0.005,rand 'α' 0.009 0.05,0.005]
-                d = Envelope l t (replicate 3 EnvLin) Nothing Nothing
+                d = Envelope l t (replicate 3 EnvLin) Nothing Nothing 0
             in lpf (distort p) (envGen KR 1 1 0 1 DoNothing d)
         e = let l = [0,1,0.4,0.7,0]
                 t = [rand 'β' 0.001 0.005,0.005,0.005,sustain]
-                d = Envelope l t (replicate 4 EnvLin) Nothing Nothing
+                d = Envelope l t (replicate 4 EnvLin) Nothing Nothing 0
             in envGen KR 1 1 0 1 RemoveSynth d
     in out 0 (pan2 (s * e) pan 1)
 

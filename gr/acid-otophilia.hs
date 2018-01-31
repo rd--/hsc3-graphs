@@ -12,7 +12,7 @@ mk_ec :: [UGen] -> [EnvCurve]
 mk_ec = map EnvNum
 
 mk_env :: [UGen] -> [UGen] -> [UGen] -> Envelope UGen
-mk_env l t c = Envelope l t (mk_ec c) Nothing Nothing
+mk_env l t c = Envelope l t (mk_ec c) Nothing Nothing 0
 
 kick :: Synthdef
 kick =
@@ -100,7 +100,7 @@ acid =
         pitch' = control KR "pitch" 50
         amp = control KR "amp" 0.3
         pitch'' = lag pitch' 0.12 * (1 - trig gate' 0.001) * gate'
-        env1 = let d = Envelope [0,1,0,0] [0.001,2,0.04] (mk_ec [0,-4,-4]) (Just 2) (Just 0)
+        env1 = let d = Envelope [0,1,0,0] [0.001,2,0.04] (mk_ec [0,-4,-4]) (Just 2) (Just 0) 0
                in envGen AR gate' amp 0 1 DoNothing d
         env2 = let d = envADSR 0.001 0.8 0 0.8 70 (EnvNum (-4)) 0
                in envGen AR gate' 1 0 1 DoNothing d
@@ -114,7 +114,7 @@ fx =
     let bus = control KR "outBus" 0
         gate' = control KR "gate" 0
         i = in' 2 AR bus
-        e = let d = Envelope [0.02,0.3,0.02] [0.4,0.01] (mk_ec [3,-4]) (Just 1) (Just 0)
+        e = let d = Envelope [0.02,0.3,0.02] [0.4,0.01] (mk_ec [3,-4]) (Just 1) (Just 0) 0
             in envGen KR (1 - trig gate' 0.01) 1 0 1 DoNothing d
         r = let [i0,i1] = mceChannels i
             in freeVerb2 (bpf i0 3500 1.5) (bpf i1 3500 1.5) 1 0.95 0.15 * e

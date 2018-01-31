@@ -5,8 +5,10 @@
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Protect {- hsc3 -}
 
+{-
 exprange :: UGen -> UGen -> UGen -> UGen
 exprange l r i = linExp i (-1) 1 l r
+-}
 
 bg_f :: UGen -> UGen
 bg_f k =

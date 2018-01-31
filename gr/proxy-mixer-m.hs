@@ -8,7 +8,7 @@ mk_e :: IO (Envelope UGen)
 mk_e = do
   l <- replicateM 11 (L.rand2 1)
   t <- replicateM 10 (L.rand 1)
-  return (Envelope l t [EnvNum 0] (Just 9) (Just 0))
+  return (Envelope l t [EnvNum 0] (Just 9) (Just 0) 0)
 
 mce_scramble :: UGen -> IO UGen
 mce_scramble u = fmap mce (L.scramble (mceChannels u))

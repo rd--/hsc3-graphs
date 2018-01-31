@@ -2,7 +2,8 @@
 {-# OPTIONS_GHC -F -pgmF hsc3-hash-paren #-}
 
 import Sound.SC3 {- hsc3 -}
-import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
+
+import qualified Sound.SC3.UGen.Bindings.DB.RDU.Monadic as RDU {- sc3-rdu -}
 
 dark_sea_horns :: UId m => m UGen
 dark_sea_horns = do

@@ -61,7 +61,7 @@ waveset =
     let uparam = {bus=0,bufnum=0,start=0,end=0,rate=1,sustain=1,amp=0.2}
         rs = bufRateScale KR bufnum * rate
         ph = phasor AR 0 rs 0 (end - start) 0 + start -- see adc for rationale
-        e_data = Envelope [amp, amp, 0] [sustain, 0] [EnvLin] Nothing Nothing
+        e_data = Envelope [amp, amp, 0] [sustain, 0] [EnvLin] Nothing Nothing 0
         e_ugen = envGen AR 1 1 0 1 RemoveSynth e_data
     in offsetOut bus (bufRdL 1 AR bufnum ph Loop * e_ugen)
 

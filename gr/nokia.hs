@@ -9,7 +9,7 @@ grain :: Synthdef
 grain = psynth {bus=0,freq=100,attack=0,decay=1,sustain=0.1,distort=0,fTime=0.1,fFac=1.2,amp=1,delay=0} where
     let startFreq = fFac * freq
         endFreq = freq
-        env l t = Envelope l t [] Nothing Nothing
+        env l t = Envelope l t [] Nothing Nothing 0
         aEnv = let e = envPerc attack decay
                in envGen AR 1 amp 0 sustain RemoveSynth e
         fEnv = let e = env [startFreq,endFreq] [fTime]

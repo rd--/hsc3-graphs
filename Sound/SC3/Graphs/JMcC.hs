@@ -12,6 +12,7 @@ import qualified Control.Monad.Random as MR {- MonadRandom -}
 import Sound.OSC {- hosc -}
 import Sound.SC3 as SC3 {- hsc3 -}
 import Sound.SC3.Common.Monad.Operators {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
@@ -318,9 +319,9 @@ rails =
         e = dust 'α' AR 100 * 0.04 {- excitation -}
         f = xLine KR 3000 300 8 DoNothing {- sweep filter down -}
         l = line KR (rand2 'β' 1) (rand2 'γ' 1) 8 DoNothing {- sweep pan -}
-        r = uclone' 'δ' n (200 + linRand 'ε' 0 3000 0) {- resonant frequencies -}
+        r = uclone_seq 'δ' n (200 + linRand 'ε' 0 3000 0) {- resonant frequencies -}
         a = replicate n 1
-        t = uclone' 'ζ' n (0.2 + rand 'η' 0 1) {- ring times -}
+        t = uclone_seq 'ζ' n (0.2 + rand 'η' 0 1) {- ring times -}
         k = klank (resonz e f 0.2) 1 0 1 (klankSpec r a t)
     in pan2 k l 1
 
@@ -368,7 +369,7 @@ cs =
     let n = 80
         f1 = rand 'α' 100 1100
         f2 = 4 * f1
-        sp = let y = uclone' 'β' n (f1 + rand 'γ' 0 f2)
+        sp = let y = uclone_seq 'β' n (f1 + rand 'γ' 0 f2)
              in klangSpec y (map (f1 /) y) (replicate n 0)
     in uclone 'δ' 2 (klang AR 1 0 sp * (0.3 / fromIntegral n))
 
@@ -392,11 +393,11 @@ rhs =
         noise = brownNoise 'α' AR * 0.001
         rat = [1.0,1.125,1.25,1.333,1.5,1.667,1.875,2.0,2.25,2.5,2.667,3.0,3.333,3.75,4.0]
         freq = lchoose 'β' rat * 120
-        resFreqs = zipWith (+) (C.series p freq freq) (uclone' 'γ' p (rand2 'δ' 0.5))
+        resFreqs = zipWith (+) (C.series p freq freq) (uclone_seq 'γ' p (rand2 'δ' 0.5))
         spec = klankSpec
                resFreqs
                (map (\i -> 1 / (constant i + 1)) [0 .. p - 1])
-               (uclone' 'ε' p (rand 'ζ' 0.5 4.5))
+               (uclone_seq 'ε' p (rand 'ζ' 0.5 4.5))
     in uclone 'η' 2 (klank noise 1 0 1 spec)
 
 rhs_xt :: IO ()
@@ -426,8 +427,8 @@ coolant =
     let p = 20
         s = onePole (uclone 'α' p (brownNoise 'β' AR) * 0.0015) 0.95
         n = replicate p 1
-        sp = mce [klankSpec (uclone' 'γ' p (rand 'δ' 40 2400)) n n
-                 ,klankSpec (uclone' 'ε' p (rand 'ζ' 40 2400)) n n]
+        sp = mce [klankSpec (uclone_seq 'γ' p (rand 'δ' 40 2400)) n n
+                 ,klankSpec (uclone_seq 'ε' p (rand 'ζ' 40 2400)) n n]
     in klank s 1 0 1 (mceTranspose sp)
 
 coolant_ot :: IO ()
@@ -445,7 +446,7 @@ pulsing_bottles =
         s = let f = rand 'β' 0.1 0.5
                 p = rand 'β' 0 (pi * 2)
              in sinOsc KR f p
-    in sum (zipWith3 pan2 (uclone' 'α' 6 r) (uclone' 'β' 6 s) (repeat 1))
+    in sum (zipWith3 pan2 (uclone_seq 'α' 6 r) (uclone_seq 'β' 6 s) (repeat 1))
 
 pulsing_bottles_ot :: IO ()
 pulsing_bottles_ot = O.overlapTextureU (4,4,4,maxBound) pulsing_bottles
@@ -651,8 +652,8 @@ analogue_daze =
             let trg = impulse KR clockRate 0
                 pattern' = map (midiCPS .  (+ (12 * octave))) pattern
                 sq = dsequ 'α' pattern' trg
-                pwm = sinOsc KR pwmrate (rand ('β' `joinID` k) 0 (2 * pi)) * 0.4 + 0.5
-                cf = sinOsc KR fltrate (rand ('γ' `joinID` k) 0 (2 * pi)) * 1400 + 2000
+                pwm = sinOsc KR pwmrate (rand (k,'β') 0 (2 * pi)) * 0.4 + 0.5
+                cf = sinOsc KR fltrate (rand (k,'γ') 0 (2 * pi)) * 1400 + 2000
             in rlpf (lfPulse AR (lag sq 0.05) 0 pwm * 0.1) cf (1/15)
         a = lfNoise0 'δ' AR (lfNoise1 'ε' KR 0.3 * 6000 + 8000) * (mce2 0.07 0.08)
         x = decay (impulse AR 2 0) 0.15 * a
@@ -769,7 +770,7 @@ metal_plate =
         maxdt = ceiling (sr * 0.03) {- maximum delay time -}
         mk_buf k = asLocalBuf k (replicate maxdt 0)
         buf = map mk_buf [0 .. n - 1] {- buffers for delay lines -}
-        tap_tm = uclone' 'α' n (rand 'β' 0.015 0.03) {- random tap times -}
+        tap_tm = uclone_seq 'α' n (rand 'β' 0.015 0.03) {- random tap times -}
         exc_freq = mouseY KR 10 8000 Linear 0.2
         exc_trig = impulse AR 0.5 0 * 0.2
         exc = decay2 exc_trig 0.01 0.2 * lfNoise2 'γ' AR exc_freq {- excitation -}
@@ -1243,8 +1244,8 @@ sawed_cymbals :: UGen
 sawed_cymbals =
     let y = let f1 = rand 'α' 500 2500
                 f2 = rand 'α' 0 8000
-                f = uclone' 'α' 15 (rand 'α' f1 (f1 + f2))
-                rt = uclone' 'α' 15 (rand 'α' 2 6)
+                f = uclone_seq 'α' 15 (rand 'α' f1 (f1 + f2))
+                rt = uclone_seq 'α' 15 (rand 'α' 2 6)
           in klankSpec f (replicate 15 1) rt
         z = uclone 'α' 2 y
         fS = xLine KR (rand 'α' 0 600) (rand 'β' 0 600) 12 DoNothing
@@ -1258,8 +1259,8 @@ sawed_cymbals_ot = O.overlapTextureU (4,4,6,maxBound) sawed_cymbals
 sidereal_time :: UGen
 sidereal_time =
   let p = 15
-      z = let y = let fr = uclone' 'α' p (expRand 'β' 100 6000)
-                      rt = uclone' 'γ' p (rand 'δ' 2 6)
+      z = let y = let fr = uclone_seq 'α' p (expRand 'β' 100 6000)
+                      rt = uclone_seq 'γ' p (rand 'δ' 2 6)
                   in klankSpec fr (replicate p 1) rt
           in uclone 'ε' 2 y
       f = xLine KR (expRand 'ζ' 40 300) (expRand 'η' 40 300) 12 DoNothing
@@ -1317,7 +1318,7 @@ choip_ot = O.overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp
 
 -- * strummable guitar (jmcc) #11
 
-str_gtr_str :: UGen -> Double -> UGen
+str_gtr_str :: UGen -> Int -> UGen
 str_gtr_str sc ix' =
     let ix = constant ix'
         x = mouseX KR 0 1 Linear 0.2

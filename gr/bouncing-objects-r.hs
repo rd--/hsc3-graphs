@@ -19,7 +19,7 @@ bouncing_objects =
       flt_rtm = RandN 4 'δ' 0.01 0.11
       flt = Klank exc 1 0 1 (klankSpec_mce flt_frq flt_amp flt_rtm)
       loc = Pan2 flt (Rand 'ε' (-1) 1) 1
-      e = Envelope [1,1,0] [3,0.001] (replicate 2 EnvLin) Nothing Nothing
+      e = Envelope [1,1,0] [3,0.001] (replicate 2 EnvLin) Nothing Nothing 0
   in loc * envGen {rate = KR, doneAction = RemoveSynth, envelope_ = e}
 
 main :: IO ()

@@ -11,12 +11,12 @@ fF i f =
     let n = (((modE (2 * i) 6) + 1) + floorE f) / ((modE i 5) + 1)
     in modE (f + log2 n) 2
 
--- > import Sound.SC3.Plot
+-- > import Sound.SC3.Plot {- hsc3-plot -}
 -- > let fS' = map (2 **) fS
 -- > plotImpulses [take 600 (drop 0 fS')] -- 32 128 250 500 750
 --
--- > import Music.Theory.Diagram.Sequencer
--- > import Music.Theory.Pitch
+-- > import Music.Theory.Diagram.Sequencer {- hmt-diagrams -}
+-- > import Music.Theory.Pitch {- hmt -}
 -- > let k = 450
 -- > let mnn = take k (map (\x -> cps_to_fmidi ((2 ** x) * 99)) fS)
 -- > let opt = ([],((1024,256),(0,k),(20,80)))

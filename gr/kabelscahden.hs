@@ -13,7 +13,7 @@ kabelScahden =
                   m = trig t (tRand 'θ' 0 0.01 (coinGate 'ι' 0.4 t)) * brownNoise 'κ' AR
                   k = trig t (lfNoise1 'λ' KR (mce2 4 4.2) * 0.1 + 0.11) * lfClipNoise 'μ' AR (lfNoise0 'ν' KR 7 * 30 + 40)
               in distort (leakDC ((h + n + m + k) * 10) 0.995)
-        e = envGen KR 1 1 0 1 RemoveSynth (Envelope [amp,amp,0] [sustain,0] [] Nothing Nothing)
+        e = envGen KR 1 1 0 1 RemoveSynth (Envelope [amp,amp,0] [sustain,0] [] Nothing Nothing 0)
     in out 0 (clip2 hum 1 * e * 0.25)
 
 main :: IO ()
