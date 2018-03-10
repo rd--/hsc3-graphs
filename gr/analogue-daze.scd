@@ -18,4 +18,4 @@ var g = [f.(1,8,0.31,0.2), f.(0,2,0.13,0.11)] + x;
 var z = 0.4 * (CombN.ar(g, 0.375, 0.375, 5) + g.reverse);
 var e = Env.linen(2, 56, 2);
 z * EnvGen.kr(e,doneAction:2);
-}.draw;
+}.play;
