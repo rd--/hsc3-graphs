@@ -58,12 +58,13 @@ lsys_data =
     ,gen_d L.lBd 6
     ,gen_d L.lCd 5]
 
+{-
 -- | Exceeds UDP limits.
 lsys_send :: IO ()
 lsys_send = do
   let alloc (n,d) = async (b_alloc_setn1 n 0 d)
   withSC3 (mapM_ alloc (zip [0..] lsys_data))
-
+-}
 
 -- | Filename for 'lsys_data'.
 lsys_fn :: FilePath  -> [FilePath]

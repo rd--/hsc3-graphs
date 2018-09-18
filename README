@@ -42,8 +42,8 @@ Extended operation requires:
 
 [hs]: http://haskell.org/
 [sc3]: http://audiosynth.com/
-[hsc3]: http://rd.slavepianos.org/?t=hsc3
-[gr]: http://rd.slavepianos.org/?t=hsc3-graphs
+[hsc3]: http://rohandrape.net/?t=hsc3
+[gr]: http://rohandrape.net/?t=hsc3-graphs
 [gr-ix]: ?t=hsc3-graphs&e=md/ix.md
 
 [adc]: http://medienhaus.udk-berlin.de/pages/Dr._Alberto_De_Campo
@@ -63,7 +63,7 @@ Extended operation requires:
 [tb]: http://www.lfsaw.de/
 [tm]: http://www.sussex.ac.uk/Users/thm21/
 
-© [rohan drape][rd] and others, 2006-2017, [gpl]
+© [rohan drape][rd] and others, 2006-2018, [gpl]
 
-[rd]: http://rd.slavepianos.org/
+[rd]: http://rohandrape.net/
 [gpl]: http://gnu.org/copyleft/

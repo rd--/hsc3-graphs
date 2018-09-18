@@ -1,6 +1,5 @@
 -- http://article.gmane.org/gmane.comp.lang.haskell.art/993
 
-import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
 lp :: Synthdef
@@ -28,15 +27,18 @@ lp =
 node_id :: Int
 node_id = 1000
 
-set :: String -> Double -> IO ()
-set k v = withSC3 (sendMessage (n_set1 node_id k v))
-
 main :: IO ()
 main = withSC3 $ do
   _ <- async (b_alloc 0 (48000 * 2) 1)
   play_at (node_id,AddToHead,1,[]) lp
 
 {-
+
+import Sound.OSC {- hosc -}
+
+set :: String -> Double -> IO ()
+set k v = withSC3 (sendMessage (n_set1 node_id k v))
+
 set "oct" 1.0
 set "dir" 1.0
 set "mute" 0.0
@@ -44,4 +46,5 @@ set "t_reset" 1.0
 set "lp_frames" (48000 * 2.0)
 set "rec_level" 1
 set "latency" 300
+
 -}

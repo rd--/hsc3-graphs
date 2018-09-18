@@ -22,7 +22,7 @@ mk-lib:
 append-exec:
 	hsc3-setup cabal print-exec hsc3- gr/*.hs >> hsc3-graphs.cabal
 
-# mk-pdf fails at sp.org, html is quasi obsolete
+# mk-pdf fails at rd.net, html is quasi obsolete
 all: mk-svg mk-ix
 
 clean:
@@ -34,11 +34,11 @@ clean:
 	rm -f lib/*.o lib/*.hi lib/*.hs lib/hsc3-graphs
 	rm -f html/*.html html/*.htm html/*.fs html/*.css
 
-push-sp:
-	darcs push -a rd@slavepianos.org:sw/hsc3-graphs
+push-rd:
+	darcs push -a rd@rohandrape.net:sw/hsc3-graphs
 
-pull-sp:
-	darcs pull -a http://rd.slavepianos.org/sw/hsc3-graphs
+pull-rd:
+	darcs pull -a http://rohandrape.net/sw/hsc3-graphs
 
 remote-update:
-	ssh rd@slavepianos.org "(cd sw/hsc3-graphs; make all)"
+	ssh rd@rohandrape.net "(cd sw/hsc3-graphs; make all)"

@@ -4,12 +4,12 @@ Synopsis:          Haskell SuperCollider Graphs
 Description:       illustrative unit generator graphs for hsc3.
 License:           GPL
 Category:          Sound
-Copyright:         (c) Rohan Drape and others, 2006-2017
+Copyright:         (c) Rohan Drape and others, 2006-2018
 Author:            Rohan Drape
-Maintainer:        rd@slavepianos.org
+Maintainer:        rd@rohandrape.net
 Stability:         Experimental
-Homepage:          http://rd.slavepianos.org/t/hsc3-graphs
-Tested-With:       GHC == 8.0.1
+Homepage:          http://rohandrape.net/t/hsc3-graphs
+Tested-With:       GHC == 8.2.2
 Build-Type:        Simple
 Cabal-Version:     >= 1.8
 
@@ -22,7 +22,7 @@ Data-Files:        README
 
 Source-Repository  head
   Type:            darcs
-  Location:        http://rd.slavepianos.org/sw/hsc3-graphs/
+  Location:        http://rohandrape.net/sw/hsc3-graphs/
 
 Library
   Build-Depends:   base >= 4.7,

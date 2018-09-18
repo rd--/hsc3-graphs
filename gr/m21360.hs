@@ -3,7 +3,7 @@
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
-import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
+import qualified Sound.SC3.UGen.Bindings.DB.External as E {- hsc3 -}
 
 -- > withSC3 (reset >> init_b [0,1])
 init_b :: Transport m => [Int] -> m ()

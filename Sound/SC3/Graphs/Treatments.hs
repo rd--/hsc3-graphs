@@ -106,6 +106,7 @@ treatment_syn nc nm tr =
 
 -- * Audition
 
+-- | nc = number of channels, bus = audio bus index, mx = pre/post mix, ugen_f = process
 add_t_sig :: (Int,Double,Double) -> Treatment -> UGen
 add_t_sig (nc,bus,mx) ugen_f =
   let mx_ctl = mctl ("mx",0,1,mx,"lin","*")
@@ -113,7 +114,6 @@ add_t_sig (nc,bus,mx) ugen_f =
       pre = in' nc AR bus_ctl
   in replaceOut bus_ctl (pre_post_mix mx_ctl pre (ugen_f pre))
 
--- | nc = number of channels, bus = audio bus index, mx = pre/post mix, u = process.
 add_t_opt :: (Node_Id,Group_Id) -> (Int,Double,Double) -> Treatment -> IO ()
 add_t_opt (nid,grp) opt ugen_f = audition_at (nid,AddToTail,grp,[]) (add_t_sig opt ugen_f)
 
