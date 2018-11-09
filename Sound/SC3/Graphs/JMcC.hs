@@ -11,8 +11,8 @@ import qualified Control.Monad.Random as MR {- MonadRandom -}
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 as SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Operators {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators ((+.),(.+.)) {- hsc3 -}
+import qualified Sound.SC3.UGen.Protect as Protect {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
@@ -47,12 +47,12 @@ isequX z s tr = dsequX z s tr * tr
 why_supercollider :: UGen
 why_supercollider =
     let r = resonz (dust 'α' AR 0.2 * 50) (rand 'β' 200 3200) 0.003
-        s = mix (uclone 'γ' 10 r)
+        s = mix (Protect.uclone 'γ' 10 r)
         z = delayN s 0.048 0.048
         c = combL z 0.1 (lfNoise1 'δ' KR (rand 'ε' 0 0.1) * 0.04 + 0.05) 15
-        y = mix (uclone 'ζ' 7 c)
+        y = mix (Protect.uclone 'ζ' 7 c)
         f i = allpassN i 0.05 (RDU.randN 2 'η' 0 0.05) 1
-        x = useq 'θ' 4 f y
+        x = Protect.useq 'θ' 4 f y
     in s + 0.2 * x
 
 {-
@@ -179,7 +179,7 @@ moto_rev =
 scratchy :: UGen
 scratchy =
   let n = brownNoise 'α' AR * 0.5 - 0.49
-      n' = uclone 'β' 2 n
+      n' = Protect.uclone 'β' 2 n
   in rhpf (max n' 0 * 20) 5000 1
 
 scratchy_m :: UId m => m UGen
@@ -319,9 +319,9 @@ rails =
         e = dust 'α' AR 100 * 0.04 {- excitation -}
         f = xLine KR 3000 300 8 DoNothing {- sweep filter down -}
         l = line KR (rand2 'β' 1) (rand2 'γ' 1) 8 DoNothing {- sweep pan -}
-        r = uclone_seq 'δ' n (200 + linRand 'ε' 0 3000 0) {- resonant frequencies -}
+        r = Protect.uclone_seq 'δ' n (200 + linRand 'ε' 0 3000 0) {- resonant frequencies -}
         a = replicate n 1
-        t = uclone_seq 'ζ' n (0.2 + rand 'η' 0 1) {- ring times -}
+        t = Protect.uclone_seq 'ζ' n (0.2 + rand 'η' 0 1) {- ring times -}
         k = klank (resonz e f 0.2) 1 0 1 (klankSpec r a t)
     in pan2 k l 1
 
@@ -369,9 +369,9 @@ cs =
     let n = 80
         f1 = rand 'α' 100 1100
         f2 = 4 * f1
-        sp = let y = uclone_seq 'β' n (f1 + rand 'γ' 0 f2)
+        sp = let y = Protect.uclone_seq 'β' n (f1 + rand 'γ' 0 f2)
              in klangSpec y (map (f1 /) y) (replicate n 0)
-    in uclone 'δ' 2 (klang AR 1 0 sp * (0.3 / fromIntegral n))
+    in Protect.uclone 'δ' 2 (klang AR 1 0 sp * (0.3 / fromIntegral n))
 
 cs_xt :: IO ()
 cs_xt = O.xfadeTextureU (4,4,maxBound) cs
@@ -393,12 +393,12 @@ rhs =
         noise = brownNoise 'α' AR * 0.001
         rat = [1.0,1.125,1.25,1.333,1.5,1.667,1.875,2.0,2.25,2.5,2.667,3.0,3.333,3.75,4.0]
         freq = lchoose 'β' rat * 120
-        resFreqs = zipWith (+) (C.series p freq freq) (uclone_seq 'γ' p (rand2 'δ' 0.5))
+        resFreqs = zipWith (+) (C.series p freq freq) (Protect.uclone_seq 'γ' p (rand2 'δ' 0.5))
         spec = klankSpec
                resFreqs
                (map (\i -> 1 / (constant i + 1)) [0 .. p - 1])
-               (uclone_seq 'ε' p (rand 'ζ' 0.5 4.5))
-    in uclone 'η' 2 (klank noise 1 0 1 spec)
+               (Protect.uclone_seq 'ε' p (rand 'ζ' 0.5 4.5))
+    in Protect.uclone 'η' 2 (klank noise 1 0 1 spec)
 
 rhs_xt :: IO ()
 rhs_xt = O.xfadeTextureU (1,7,maxBound) rhs
@@ -415,7 +415,7 @@ srn =
              (RDU.linRandN p 'ε' 80 10080 0)
              (mce (replicate p 1))
              (RDU.randN p 'ζ' 0.5 2.5)
-  in uclone 'η' 2 (klank sw 1 0 1 spec)
+  in Protect.uclone 'η' 2 (klank sw 1 0 1 spec)
 
 srn_ot :: IO ()
 srn_ot = O.overlapTextureU (4,4,5,maxBound) srn
@@ -425,10 +425,10 @@ srn_ot = O.overlapTextureU (4,4,5,maxBound) srn
 coolant :: UGen
 coolant =
     let p = 20
-        s = onePole (uclone 'α' p (brownNoise 'β' AR) * 0.0015) 0.95
+        s = onePole (Protect.uclone 'α' p (brownNoise 'β' AR) * 0.0015) 0.95
         n = replicate p 1
-        sp = mce [klankSpec (uclone_seq 'γ' p (rand 'δ' 40 2400)) n n
-                 ,klankSpec (uclone_seq 'ε' p (rand 'ζ' 40 2400)) n n]
+        sp = mce [klankSpec (Protect.uclone_seq 'γ' p (rand 'δ' 40 2400)) n n
+                 ,klankSpec (Protect.uclone_seq 'ε' p (rand 'ζ' 40 2400)) n n]
     in klank s 1 0 1 (mceTranspose sp)
 
 coolant_ot :: IO ()
@@ -446,7 +446,7 @@ pulsing_bottles =
         s = let f = rand 'β' 0.1 0.5
                 p = rand 'β' 0 (pi * 2)
              in sinOsc KR f p
-    in sum (zipWith3 pan2 (uclone_seq 'α' 6 r) (uclone_seq 'β' 6 s) (repeat 1))
+    in sum (zipWith3 pan2 (Protect.uclone_seq 'α' 6 r) (Protect.uclone_seq 'β' 6 s) (repeat 1))
 
 pulsing_bottles_ot :: IO ()
 pulsing_bottles_ot = O.overlapTextureU (4,4,4,maxBound) pulsing_bottles
@@ -525,8 +525,8 @@ police_state_nd =
 
 police_state :: UGen
 police_state =
-  let ns = uclone 'θ' 4 police_state_nd
-      n0 = uclone 'ι' 2 (lfNoise2 'κ' KR 0.4)
+  let ns = Protect.uclone 'θ' 4 police_state_nd
+      n0 = Protect.uclone 'ι' 2 (lfNoise2 'κ' KR 0.4)
       n1 = lfNoise2 'λ' AR (n0 * 90 + 620)
       n2 = lfNoise2 'μ' KR (mce2 0.3 0.301)
       e = n1 * (n2 * 0.15 + 0.18)
@@ -557,7 +557,7 @@ uplink =
     let r = rand0
         p0 = lfPulse KR (r 'α' 20) 0 (r 'β' 1)
         p1 = lfPulse KR (r 'γ' 4) 0 (r 'δ' 1) * r 'ε' 8000 + r 'ζ' 2000
-        f = mix (uclone 'η' 2 (p0 * p1))
+        f = mix (Protect.uclone 'η' 2 (p0 * p1))
     in pan2 (lfPulse AR f 0 0.5 * 0.04) (rand 'θ' (-0.8) 0.8) 1
 
 uplink_ot :: IO ()
@@ -725,8 +725,8 @@ rnb :: UGen
 rnb =
     let s = decay (dust 'α' AR 0.6 * 0.2) 0.15 * pinkNoise 'β' AR
         z = delayN s 0.048 0.048
-        y = mix (combL z 0.1 (lfNoise1 'γ' KR (uclone 'δ' 6 (rand 'ε' 0 0.1)) * 0.04 + 0.05) 15)
-        f = useq 'ζ' 4 (\i -> allpassN i 0.050 (uclone 'η' 2 (rand 'θ' 0 0.05)) 1)
+        y = mix (combL z 0.1 (lfNoise1 'γ' KR (Protect.uclone 'δ' 6 (rand 'ε' 0 0.1)) * 0.04 + 0.05) 15)
+        f = Protect.useq 'ζ' 4 (\i -> allpassN i 0.050 (Protect.uclone 'η' 2 (rand 'θ' 0 0.05)) 1)
     in s + f y
 
 -- * analog bubbles with mouse control (jmcc) #3
@@ -770,7 +770,7 @@ metal_plate =
         maxdt = ceiling (sr * 0.03) {- maximum delay time -}
         mk_buf k = asLocalBuf k (replicate maxdt 0)
         buf = map mk_buf [0 .. n - 1] {- buffers for delay lines -}
-        tap_tm = uclone_seq 'α' n (rand 'β' 0.015 0.03) {- random tap times -}
+        tap_tm = Protect.uclone_seq 'α' n (rand 'β' 0.015 0.03) {- random tap times -}
         exc_freq = mouseY KR 10 8000 Linear 0.2
         exc_trig = impulse AR 0.5 0 * 0.2
         exc = decay2 exc_trig 0.01 0.2 * lfNoise2 'γ' AR exc_freq {- excitation -}
@@ -802,7 +802,7 @@ rps =
                  l = lfNoise1 'β' KR (rand 'γ' 0.8 1.2)
                  a = lfNoise1 'δ' KR (rand 'ε' 0.82 0.98)
              in pan2 o l a
-    in mix (uclone 'ζ' 8 nd) * (0.4 / 8)
+    in mix (Protect.uclone 'ζ' 8 nd) * (0.4 / 8)
 
 rps_ot :: IO ()
 rps_ot = O.overlapTextureU (8,8,2,maxBound) rps
@@ -846,7 +846,7 @@ filter_input =
 
 sweepy_noise :: UGen
 sweepy_noise =
-    let n = uclone 'α' 2 (whiteNoise 'α' AR)
+    let n = Protect.uclone 'α' 2 (whiteNoise 'α' AR)
         lfoDepth = mouseY KR 200 8000 Exponential 0.1
         lfoRate = mouseX KR 4 60 Exponential 0.1
         freq = lfSaw KR lfoRate 0 * lfoDepth + (lfoDepth * 1.2)
@@ -928,7 +928,7 @@ cds_ot' = O.overlapTextureU (4/3,4/3,9,maxBound) cds'
 
 nbs_z :: ID a => a -> UGen
 nbs_z e =
-  let n = uclone e 2 (whiteNoise e AR)
+  let n = Protect.uclone e 2 (whiteNoise e AR)
       lfoRate = rand e (-1) 1 + mouseX KR 10 60 Exponential 0.2
       amp = max 0 (lfSaw KR lfoRate (-1))
       cfreq = mouseY KR 400 8000 Exponential 0.2
@@ -1175,7 +1175,7 @@ tapping_tools =
 tapping_tools_pp :: UGen -> UGen
 tapping_tools_pp z =
     let f x = allpassN x 0.05 (mce2 (rand 'ε' 0 0.05) (rand 'ζ' 0 0.05)) 2
-    in useq 'η' 3 f z
+    in Protect.useq 'η' 3 f z
 
 tapping_tools_ot :: IO ()
 tapping_tools_ot = O.overlapTextureU_pp (2,1,3,maxBound) tapping_tools 2 tapping_tools_pp
@@ -1244,10 +1244,10 @@ sawed_cymbals :: UGen
 sawed_cymbals =
     let y = let f1 = rand 'α' 500 2500
                 f2 = rand 'α' 0 8000
-                f = uclone_seq 'α' 15 (rand 'α' f1 (f1 + f2))
-                rt = uclone_seq 'α' 15 (rand 'α' 2 6)
+                f = Protect.uclone_seq 'α' 15 (rand 'α' f1 (f1 + f2))
+                rt = Protect.uclone_seq 'α' 15 (rand 'α' 2 6)
           in klankSpec f (replicate 15 1) rt
-        z = uclone 'α' 2 y
+        z = Protect.uclone 'α' 2 y
         fS = xLine KR (rand 'α' 0 600) (rand 'β' 0 600) 12 DoNothing
     in klank (lfSaw AR fS 0 * 0.0005) 1 0 1 (mceTranspose z)
 
@@ -1259,10 +1259,10 @@ sawed_cymbals_ot = O.overlapTextureU (4,4,6,maxBound) sawed_cymbals
 sidereal_time :: UGen
 sidereal_time =
   let p = 15
-      z = let y = let fr = uclone_seq 'α' p (expRand 'β' 100 6000)
-                      rt = uclone_seq 'γ' p (rand 'δ' 2 6)
+      z = let y = let fr = Protect.uclone_seq 'α' p (expRand 'β' 100 6000)
+                      rt = Protect.uclone_seq 'γ' p (rand 'δ' 2 6)
                   in klankSpec fr (replicate p 1) rt
-          in uclone 'ε' 2 y
+          in Protect.uclone 'ε' 2 y
       f = xLine KR (expRand 'ζ' 40 300) (expRand 'η' 40 300) 12 DoNothing
       t = let e = lfNoise2 'θ' KR (rand 'ι' 0 8)
           in lfPulse AR f 0 (rand 'κ' 0.1 0.9) * 0.002 * max 0 e
@@ -1291,7 +1291,7 @@ cz =
 cz_pp :: UGen -> UGen
 cz_pp =
     let f x = allpassN x 0.04 (RDU.randN 2 'ν' 0 0.04) 16
-    in useq 'ξ' 6 f
+    in Protect.useq 'ξ' 6 f
 
 cz_ot :: IO ()
 cz_ot = O.overlapTextureU_pp (3,8,4,maxBound) cz 2 cz_pp
@@ -1311,7 +1311,7 @@ choip =
 choip_pp :: UGen -> UGen
 choip_pp =
     let f x = allpassN x 0.1 (RDU.randN 2 'ι' 0 0.05) 4
-    in useq 'κ' 4 f
+    in Protect.useq 'κ' 4 f
 
 choip_ot :: IO ()
 choip_ot = O.overlapTextureU_pp (10,1,8,maxBound) choip 2 choip_pp
@@ -1349,12 +1349,12 @@ dpr_drone_1 =
 dpr_drone_2 :: UGen
 dpr_drone_2 =
     let x = rand 'ε' 0 1 >* 0.8
-        m = lchoose 'ζ' [60,72] + lchoose 'η' dpr_scale + uclone 'θ' 2 (rand2 'ι' 0.05)
+        m = lchoose 'ζ' [60,72] + lchoose 'η' dpr_scale + Protect.uclone 'θ' 2 (rand2 'ι' 0.05)
     in sinOsc AR (midiCPS m) 0 * x * rand 'κ' 0.04 0.07
 
 dpr_rhy :: UGen
 dpr_rhy =
-    let m = lchoose 'λ' [48, 60, 72, 84] + lchoose 'μ' dpr_scale + uclone 'ν' 2 (rand2 'ξ' 0.03)
+    let m = lchoose 'λ' [48, 60, 72, 84] + lchoose 'μ' dpr_scale + Protect.uclone 'ν' 2 (rand2 'ξ' 0.03)
         sq = isequX 'ο' [0,1,0,1,1,0] (impulse AR (lchoose 'π' [1.5,3,6]) 0)
         sg = lfPulse AR (midiCPS m) 0 0.4 * rand 'ρ' 0.03 0.08
     in rlpf (decay2 sq 0.004 (rand 'σ' 0.2 0.7) * sg) (expRand 'τ' 800 2000) 0.1
@@ -1449,7 +1449,7 @@ blip_001 :: ID a => a -> UGen
 blip_001 e =
     let f = xLine KR (expRand 'α' 0.25 400) (expRand 'β' 0.25 400) 4 DoNothing
         nh = xLine KR (expRand 'γ' 2 100) (expRand 'δ' 2 100) 4 DoNothing
-    in uprotect e (blip AR f nh)
+    in Protect.uprotect e (blip AR f nh)
 
 blips_001 :: UGen
 blips_001 =
@@ -1461,7 +1461,7 @@ blips_001_pp :: UGen -> UGen
 blips_001_pp z =
     let z' = distort z
         f x = allpassN x 0.05 (mce2 (rand 'κ' 0 0.05) (rand 'λ' 0 0.05)) 4
-    in useq 'μ' 6 f z'
+    in Protect.useq 'μ' 6 f z'
 
 blips_001_ot :: IO ()
 blips_001_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_001_pp
@@ -1472,7 +1472,7 @@ zizle :: UGen
 zizle =
   let a e f = let fm = mce2 (rand 'α' 0.7 1.3) 1
                   ph = mce2 (rand 'β' 0 two_pi) (rand 'γ' 0 two_pi)
-              in uprotect e (mix (sinOsc AR (f * fm) ph * 0.1))
+              in Protect.uprotect e (mix (sinOsc AR (f * fm) ph * 0.1))
       a1 = max (a 'δ' (expRand 'ε' 0.3 8)) 0
       a2 = abs (a 'ζ' (expRand 'η' 6 24))
       o = sinOsc AR (midiCPS (rand 'θ' 24 108)) (rand 'ι' 0 two_pi)
@@ -1489,8 +1489,8 @@ babbling_brook =
   let b f m a g = let n3 = lpf (brownNoise 'α' AR) f * m + a
                       n4 = onePole (brownNoise 'β' AR) 0.99
                   in rhpf n4 n3 0.03 * g
-      x = uclone 'γ' 2 (b 14 400 500 0.006)
-      y = uclone 'δ' 2 (b 20 800 1000 0.010)
+      x = Protect.uclone 'γ' 2 (b 14 400 500 0.006)
+      y = Protect.uclone 'δ' 2 (b 20 800 1000 0.010)
   in x + y
 
 babbling_brook_m :: UId m => m UGen
@@ -1674,18 +1674,18 @@ tank_f i =
         l7 = l6 + i
     in mrg [l7,localOut l7]
 
-{- > let u = useq 'λ' 4 r_allpass (soundIn 0) -}
+{- > let u = Protect.useq 'λ' 4 r_allpass (soundIn 0) -}
 r_allpass :: UGen -> UGen
 r_allpass i = allpassN i 0.03 (RDU.randN 2 'ζ' 0.005 0.02) 1
 
 {- <http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html> -}
 tank :: UGen
 tank =
-  let s = tank_bang + mix (uclone 'κ' 8 tank_pling)
-  in tank_f (useq 'λ' 4 r_allpass s)
+  let s = tank_bang + mix (Protect.uclone 'κ' 8 tank_pling)
+  in tank_f (Protect.useq 'λ' 4 r_allpass s)
 
 tank_rev :: UGen -> UGen
-tank_rev = tank_f . useq 'λ' 4 r_allpass
+tank_rev = tank_f . Protect.useq 'λ' 4 r_allpass
 
 tank_pling_m :: UId m => m UGen
 tank_pling_m = do
@@ -1805,9 +1805,9 @@ birds_node =
 
 birds :: UGen
 birds =
-  let d = mix (uclone 'α' 6 birds_node)
+  let d = mix (Protect.uclone 'α' 6 birds_node)
       f i = allpassL i 0.07 (rand 'β' 0 0.06) (rand 'γ' 0.7 2.0)
-      w = useq 'δ' 12 f d
+      w = Protect.useq 'δ' 12 f d
   in d * 0.7 + w * 0.3
 
 birds_m :: UId m => m UGen

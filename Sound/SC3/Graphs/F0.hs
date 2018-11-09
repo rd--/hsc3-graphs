@@ -5,7 +5,7 @@ import Data.List {- base -}
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import qualified Sound.SC3.UGen.Protect as Protect {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
@@ -51,7 +51,7 @@ cw_ioscs ws_def ps_def =
         rel = k "rel" 0.2
         ws = k_n "ws" ws_def
         ps = k_n "ps" ps_def
-        e = envGen AR gt amp 0 1 RemoveSynth (envADSR' atk dec sus rel)
+        e = envGen AR gt amp 0 1 RemoveSynth (envADSR_def atk dec sus rel)
         w = duty AR 0.025 0 DoNothing (dseq 'α' 1 ws)
         p = duty AR 0.025 0 DoNothing (dseq 'β' 1 ps)
         freq' = freq * midiRatio p
@@ -183,7 +183,7 @@ f0_0033 :: UGen
 f0_0033 =
     let f = roundE (lfPar AR (1/14) 0) * 20 + 80
         a = pulse AR (mce [1..4]) 0.35
-        n = uclone 'α' 4 (brownNoise 'α' AR) * a
+        n = Protect.uclone 'α' 4 (brownNoise 'α' AR) * a
         z i = mce2 (i + 1 * f) (i * f + (i + 1 / 3))
         o = lfPar AR (mce (map z [0..3])) 0
     in out 0 (splay ((o >* n) / 3) 1 1 0 True * 0.1)
@@ -457,7 +457,7 @@ risset_u =
         dets = [0,1,0,1.7,0,0,0,0,0,0,0]
         fn i =
             let shp = let c = EnvNum (-4.5)
-                      in envPerc' 0.005 (d * durs!!i) (amps!!i) (c,c)
+                      in envPerc_c 0.005 (d * durs!!i) (amps!!i) (c,c)
                 env = envGen AR tr 1 0 1 DoNothing shp
             in sinOsc AR (f * frqs!!i + dets!!i) 0 * ampl * env
         src = mixFill 11 fn
