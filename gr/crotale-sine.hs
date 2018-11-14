@@ -34,6 +34,7 @@ main = do
   let s = synthdef "crotale-sine" (out 0 crotale_sine)
   nrt_audition (P.sbind1 (s,pattern))
 
+-- | (freq,ampl,decay)
 crotale_data :: ([Double],[Double])
 crotale_data =
     ([35.45676040649414

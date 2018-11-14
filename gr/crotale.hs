@@ -14,14 +14,14 @@ crotale =
         ds = tRand 'ζ' 2 7 t
         p = tRand 'η' (-1) 1 t
         s = decay2 t 0.06 0.01 * n * g
-        ks = klankSpec' cf ca (map recip cd)
+        ks = klankSpec_k cf ca (map recip cd)
         k = dynKlank s (midiRatio fs) fo ds ks
     in pan2 k p 1
 
 main :: IO ()
 main = audition (out 0 crotale)
 
--- (freq,ampl,decay)
+-- | (freq,ampl,decay)
 crotale_data :: ([Double],[Double],[Double])
 crotale_data =
     ([35.45676040649414
