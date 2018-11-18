@@ -2,4 +2,4 @@
 import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
 import Sound.SC3 {- hsc3 -}
 main :: IO ()
-main = audition (out 0 why_supercollider)
+main = audition (out 0 why_supercollider_plain)
