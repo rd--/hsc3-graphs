@@ -1097,8 +1097,8 @@ sbs_r_param n d m = do
 sbs_r :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g UGen
 sbs_r n d m = do
   ((p_fr,p_am,p_ph),(q_fr,q_am,q_ph)) <- sbs_r_param n d m
-  let p_sp = zipWith3 klangSpec' p_fr p_am p_ph
-      q_sp = zipWith3 klangSpec' q_fr q_am q_ph
+  let p_sp = zipWith3 klangSpec_k p_fr p_am p_ph
+      q_sp = zipWith3 klangSpec_k q_fr q_am q_ph
       mk_u s = klang AR 1 0 s * (0.1 / fromIntegral n)
       p_u = sum (map mk_u p_sp)
       q_u = sum (map mk_u q_sp)
@@ -1144,8 +1144,8 @@ sbhs_r_param n d m = do
 sbhs_r :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g UGen
 sbhs_r n d m = do
   ((p_fr,p_am,p_ph),(q_fr,q_am,q_ph)) <- sbhs_r_param n d m
-  let p_sp = zipWith3 klangSpec' p_fr p_am p_ph
-      q_sp = zipWith3 klangSpec' q_fr q_am q_ph
+  let p_sp = zipWith3 klangSpec_k p_fr p_am p_ph
+      q_sp = zipWith3 klangSpec_k q_fr q_am q_ph
       mk_u s = klang AR 1 0 s * (0.1 / fromIntegral n)
       p_u = sum (map mk_u p_sp)
       q_u = sum (map mk_u q_sp)
