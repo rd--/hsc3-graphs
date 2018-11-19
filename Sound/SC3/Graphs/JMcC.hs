@@ -3,7 +3,7 @@ module Sound.SC3.Graphs.JMcC where
 import Control.Applicative {- base -}
 import Control.Concurrent {- base -}
 import Control.Monad {- base -}
-import Prelude {- base -}
+import Data.List {- base -}
 
 import qualified System.Random as R {- random -}
 
@@ -11,6 +11,7 @@ import qualified Control.Monad.Random as MR {- MonadRandom -}
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 as SC3 {- hsc3 -}
+import Sound.SC3.Common.Base {- hsc3 -}
 import Sound.SC3.Common.Monad.Operators ((+.),(.+.)) {- hsc3 -}
 import qualified Sound.SC3.UGen.Protect as Protect {- hsc3 -}
 
@@ -22,17 +23,6 @@ import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
 
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
-
--- | Enumerate /n/ values from /x/.
-enum_n_from :: Enum a => Int -> a -> [a]
-enum_n_from n x = take n [x ..]
-
--- | Iterate list of functions.
-iterate_list :: [t -> t] -> t -> t
-iterate_list l x =
-  case l of
-    [] -> x
-    f:l' -> iterate_list l' (f x)
 
 -- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
 dsequ :: ID z => z -> [UGen] -> UGen -> UGen
@@ -55,6 +45,17 @@ isequX z s tr = dsequX z s tr * tr
 
 -- * why supercollider (jmcc) #0
 
+-- > putStrLn $ synthstat why_supercollider
+why_supercollider :: UGen
+why_supercollider =
+    let r z = resonz (dust z AR 0.2 * 50) (rand z 200 3200) 0.003
+        s = sum (map r (id_seq 10 'α'))
+        c z = combL (delayN s 0.048 0.048) 0.1 (lfNoise1 z KR (rand z 0 0.1) * 0.04 + 0.05) 15
+        y = sum (map c (id_seq 7 'β'))
+        f z i = allpassN i 0.05 (RDU.randN 2 z 0 0.05) 1
+        x = compose_l (map f (id_seq 4 'γ')) y
+    in s + 0.2 * x
+
 -- > putStrLn $ synthstat why_supercollider_protect
 why_supercollider_protect :: UGen
 why_supercollider_protect =
@@ -66,24 +67,6 @@ why_supercollider_protect =
         f i = allpassN i 0.05 (RDU.randN 2 'η' 0 0.05) 1
         x = Protect.useq 'θ' 4 f y
     in s + 0.2 * x
-
--- > putStrLn $ synthstat why_supercollider_plain
-why_supercollider_plain :: UGen
-why_supercollider_plain =
-    let r z = resonz (dust z AR 0.2 * 50) (rand z 200 3200) 0.003
-        s = sum (map r (enum_n_from 10 'α'))
-        c z = combL (delayN s 0.048 0.048) 0.1 (lfNoise1 z KR (rand z 0 0.1) * 0.04 + 0.05) 15
-        y = sum (map c (enum_n_from 7 'β'))
-        f z i = allpassN i 0.05 (RDU.randN 2 z 0 0.05) 1
-        x = iterate_list (map f (enum_n_from 4 'γ')) y
-    in s + 0.2 * x
-
-{-
-
-> let dir = "/home/rohan/sw/hsc3-graphs/scsyndef"
-> synthdefWrite (synthdef "why-supercollider" (out 0 why_supercollider)) dir
-
--}
 
 -- * analog bubbles (jmcc) #1
 
@@ -98,11 +81,8 @@ analog_bubbles =
 
 > putStrLn $ synthstat analog_bubbles
 > let g = synthdef_to_graphdef (synthdef "analog-bubbles" (out 0 analog_bubbles))
-> import qualified Sound.SC3.Server.Graphdef as G
-> putStrLn $ G.graphdef_stat g
-
-> let dir = "/home/rohan/sw/hsc3-graphs/scsyndef"
-> synthdefWrite (synthdef "analog-bubbles" (out 0 analog_bubbles)) dir
+> import qualified Sound.SC3.Server.Graphdef as Graphdef
+> putStrLn $ Graphdef.graphdef_stat g
 
 -}
 
@@ -199,11 +179,11 @@ moto_rev =
 
 -- * scratchy (jmcc) #1
 
+-- > putStrLn $ synthstat scratchy
 scratchy :: UGen
 scratchy =
-  let n = brownNoise 'α' AR * 0.5 - 0.49
-      n' = Protect.uclone 'β' 2 n
-  in rhpf (max n' 0 * 20) 5000 1
+  let n = mce (map (\z -> brownNoise z AR * 0.5 - 0.49) (id_seq 2 'α'))
+  in rhpf (max n 0 * 20) 5000 1
 
 scratchy_m :: UId m => m UGen
 scratchy_m = do
@@ -336,15 +316,16 @@ harmonic_tumbling_m = do
 
 -- * rails (jmcc) #2
 
+-- > putStrLn $ synthstat rails
 rails :: UGen
 rails =
     let n = 20 {- resonant modes -}
         e = dust 'α' AR 100 * 0.04 {- excitation -}
         f = xLine KR 3000 300 8 DoNothing {- sweep filter down -}
         l = line KR (rand2 'β' 1) (rand2 'γ' 1) 8 DoNothing {- sweep pan -}
-        r = Protect.uclone_seq 'δ' n (200 + linRand 'ε' 0 3000 0) {- resonant frequencies -}
+        r = map (\z -> 200 + linRand z 0 3000 0) (id_seq n 'δ')
         a = replicate n 1
-        t = Protect.uclone_seq 'ζ' n (0.2 + rand 'η' 0 1) {- ring times -}
+        t = map (\z -> 0.2 + rand z 0 1) (id_seq n 'ε')  {- ring times -}
         k = klank (resonz e f 0.2) 1 0 1 (klankSpec r a t)
     in pan2 k l 1
 
@@ -387,8 +368,23 @@ lots_o_sins_xt = O.xfadeTextureU (4,4,maxBound) lots_o_sins
 
 -- * clustered sines (jmcc) #2
 
+-- > putStrLn $ synthstat_concise (cs1 'α')
+cs1 :: ID z => z -> UGen
+cs1 z =
+    let n = 80
+        f1 = rand 'α' 100 1100
+        f2 = 4 * f1
+        sp = let y = map (\zz -> f1 + rand (z,zz) 0 f2) (id_seq n 'β')
+             in klangSpec y (map (f1 /) y) (replicate n 0)
+    in klang AR 1 0 sp * (0.3 / fromIntegral n)
+
+-- > putStrLn $ synthstat_concise cs
 cs :: UGen
-cs =
+cs = mce (map cs1 (id_seq 2 'δ'))
+
+-- > putStrLn $ synthstat_concise cs_protect
+cs_protect :: UGen
+cs_protect =
     let n = 80
         f1 = rand 'α' 100 1100
         f2 = 4 * f1
@@ -399,6 +395,7 @@ cs =
 cs_xt :: IO ()
 cs_xt = O.xfadeTextureU (4,4,maxBound) cs
 
+-- > putStrLn $ synthstat_concise (uid_st_eval cs_m)
 cs_m :: UId m => m UGen
 cs_m = do
   let n = 80
@@ -428,48 +425,54 @@ rhs_xt = O.xfadeTextureU (1,7,maxBound) rhs
 
 -- * swept resonant noise (jmcc) #2
 
+srn_flt :: ID z => UGen -> z -> UGen
+srn_flt src z =
+  let p = 10
+      spec = klankSpec_mce
+             (RDU.linRandN p z 80 10080 0)
+             (mce (replicate p 1))
+             (RDU.randN p z 0.5 2.5)
+  in klank src 1 0 1 spec
+
+-- > putStrLn $ synthstat srn
 srn :: UGen
 srn =
-  let p = 10
-      n = whiteNoise 'α' AR * 0.007
+  let n = whiteNoise 'α' AR * 0.007
       f = midiCPS (fSinOsc KR (rand 'β' 0.1 0.3) 0 * rand 'γ' 0 24 + rand 'δ' 36 84)
       sw = resonz n f 0.1
-      spec = klankSpec_mce
-             (RDU.linRandN p 'ε' 80 10080 0)
-             (mce (replicate p 1))
-             (RDU.randN p 'ζ' 0.5 2.5)
-  in Protect.uclone 'η' 2 (klank sw 1 0 1 spec)
+  in mce (map (srn_flt sw) ['ε','ζ'])
 
 srn_ot :: IO ()
 srn_ot = O.overlapTextureU (4,4,5,maxBound) srn
 
 -- * coolant (jmcc) #2
 
+-- > putStrLn $ synthstat coolant
 coolant :: UGen
 coolant =
     let p = 20
-        s = onePole (Protect.uclone 'α' p (brownNoise 'β' AR) * 0.0015) 0.95
+        s = onePole (mce (map (\z -> brownNoise z AR * 0.0015) (id_seq p 'α'))) 0.95
         n = replicate p 1
-        sp = mce [klankSpec (Protect.uclone_seq 'γ' p (rand 'δ' 40 2400)) n n
-                 ,klankSpec (Protect.uclone_seq 'ε' p (rand 'ζ' 40 2400)) n n]
-    in klank s 1 0 1 (mceTranspose sp)
+        sp z = klanx_spec_f id id (map (\z' -> rand (z,z') 40 2400) (id_seq p 'β')) n n
+    in klank s 1 0 1 (mce (map mce (transpose (map sp ['γ','δ']))))
 
 coolant_ot :: IO ()
 coolant_ot = O.overlapTextureU (4,4,2,maxBound) coolant
 
 -- * pulsing bottles (jmcc) #2
 
+-- > putStrLn $ synthstat pulsing_bottles
 pulsing_bottles :: UGen
 pulsing_bottles =
-    let r = let n = whiteNoise 'α' AR
-                r0 = rand 'α' 4 14
-                r1 = rand 'α' 0 0.7
-                r2 = rand 'α' 400 7400
-            in resonz (n * lfPulse KR r0 0 0.25 * r1) r2 0.01
-        s = let f = rand 'β' 0.1 0.5
-                p = rand 'β' 0 (pi * 2)
-             in sinOsc KR f p
-    in sum (zipWith3 pan2 (Protect.uclone_seq 'α' 6 r) (Protect.uclone_seq 'β' 6 s) (repeat 1))
+    let r z = let n = whiteNoise z AR
+                  r0 = rand z 4 14
+                  r1 = rand z 0 0.7
+                  r2 = rand z 400 7400
+              in resonz (n * lfPulse KR r0 0 0.25 * r1) r2 0.01
+        s z = let f = rand z 0.1 0.5
+                  p = rand z 0 (pi * 2)
+              in sinOsc KR f p
+    in sum (zipWith3 pan2 (map r (id_seq 6 'α')) (map s (id_seq 6 'β')) (repeat 1))
 
 pulsing_bottles_ot :: IO ()
 pulsing_bottles_ot = O.overlapTextureU (4,4,4,maxBound) pulsing_bottles
@@ -1419,9 +1422,6 @@ esmlp2_m3 =
     let f = midiCPS (rand 'λ' 60 100)
     in fSinOsc AR (mce2 f (f + 0.2)) 0 * lfNoise2 'μ' KR (f * mce2 0.15 0.16) * 0.1
 
-id_seq :: Enum a => a -> Int -> [Int]
-id_seq c n = let c' = fromEnum c in [c' .. c' + n - 1]
-
 esmlp2_m4 :: UGen
 esmlp2_m4 =
     let a = lfPulse KR (expRand 'ν' 0.2 1.2) 0 (rand 'ξ' 0.1 0.2)
@@ -1432,7 +1432,7 @@ esmlp2_m4 =
                   e = max 0 (sinOsc KR (r * rand z 0.9 1.1) (rand z 0 (2 * pi)) * 0.1 - 0.05)
                   s = fSinOsc AR (f * i + f) 0 * e * (1 / (i + 1))
               in pan2 s (rand z (-1) 1) 1
-    in sum (map o (id_seq (0::Int) 12)) * a
+    in sum (map o (id_seq 12 'ο')) * a
 
 esmlp2_m6 :: UGen
 esmlp2_m6 =
@@ -1459,7 +1459,7 @@ esmlp2 = R.Gen.choose (map (* 0.3) [esmlp2_m1,esmlp2_m2,esmlp2_m3,esmlp2_m4,esml
 esmlp2_pp :: UGen -> UGen
 esmlp2_pp i =
     let c z = combN i 0.3 (mce2 (rand z 0.1 0.3) (rand z 0.12 0.32)) 8
-    in sum (map c (id_seq 'Θ' 5)) * 0.3
+    in sum (map c (id_seq 5 'Θ')) * 0.3
 
 esmlp2_ot :: IO ()
 esmlp2_ot = do
@@ -1881,7 +1881,7 @@ spe = uid_st_eval spe_m
 jmcc_sc2 :: [[(String,Maybe UGen,Maybe (IO ()))]]
 jmcc_sc2 =
     -- SC2
-    [[("why supercollider",Just why_supercollider_plain,Nothing)]
+    [[("why supercollider",Just why_supercollider,Nothing)]
     ,[("analog bubbles",Just analog_bubbles,Nothing)
      ,("lfo modulation",Just lfo_modulation,Nothing)
      ,("hell is busy",Just hib,Just hib_ot)
