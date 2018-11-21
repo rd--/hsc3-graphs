@@ -4,7 +4,5 @@ dist
 ^html/hscolour\.css$
 ^html/.*\.fs$
 ^md$
-^pdf$
-^svg$
 ^gr/.*\.hi$
 ^gr/.*\.o$

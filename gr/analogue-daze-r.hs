@@ -1,6 +1,6 @@
 -- analogue daze (jmcc) #3
 
-import Sound.SC3.Common {- hsc3 -}
+import qualified Sound.SC3.Common as Common {- hsc3 -}
 import Sound.SC3.UGen.Record.CRU {- hsc3-rec -}
 
 -- > draw analogue_daze
@@ -19,7 +19,7 @@ analogue_daze =
         x = Decay (Impulse AR 2 0) 0.15 * a
         g = mce [f 'δ' 'ε' 1 8 0.31 0.2,f 'ζ' 'η' 0 2 0.13 0.11] + x
         z = 0.4 * (CombN g 0.375 0.375 5 + mceReverse g)
-        e = envLinen 2 56 2 1
+        e = Common.envLinen 2 56 2 1
     in z * envGen {rate = KR, doneAction = RemoveSynth, envelope_ = e}
 
 main :: IO ()

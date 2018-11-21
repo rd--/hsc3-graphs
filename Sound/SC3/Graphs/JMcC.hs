@@ -673,11 +673,11 @@ rmk_ot = O.overlapTextureU (4,4,4,maxBound) rmk
 
 analogue_daze :: UGen
 analogue_daze =
-    let pattern = [55,63,60,63,57,65,62,65]
+    let patternList = [55,63,60,63,57,65,62,65]
         f k octave clockRate pwmrate fltrate =
             let trg = impulse KR clockRate 0
-                pattern' = map (midiCPS .  (+ (12 * octave))) pattern
-                sq = dsequ 'α' pattern' trg
+                freq = map (midiCPS .  (+ (12 * octave))) patternList
+                sq = dsequ 'α' freq trg
                 pwm = sinOsc KR pwmrate (rand (k,'β') 0 (2 * pi)) * 0.4 + 0.5
                 cf = sinOsc KR fltrate (rand (k,'γ') 0 (2 * pi)) * 1400 + 2000
             in rlpf (lfPulse AR (lag sq 0.05) 0 pwm * 0.1) cf (1/15)
