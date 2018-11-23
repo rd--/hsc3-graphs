@@ -481,11 +481,11 @@ hf_flanger2 delay depth rate fb dcy i =
 
 -- > add_t (1,0,0.5) reverb1
 reverb1 :: Treatment
-reverb1 i = E.zitaRev1 i i 0.04 200 3 2 6000 160 0 2500 0 1 (-6)
+reverb1 i = E.zitaRev i i 0.04 200 3 2 6000 160 0 2500 0 1 (-6)
 
 -- > add_t (1,0,0.5) reverb2
 reverb2 :: Treatment
-reverb2 i = E.zitaRev1 i i 0.08 200 6 4 6000 190 (-6) 3500 6 1 0
+reverb2 i = E.zitaRev i i 0.08 200 6 4 6000 190 (-6) 3500 6 1 0
 
 -- * tank/reverb
 
