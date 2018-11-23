@@ -11,6 +11,5 @@ f = {var r = {Resonz.ar(Dust.ar(0.2,50),200 + 3000.0.rand,0.003)}
 z = f.play;
 z.trace;
 
-d = "/home/rohan/sw/hsc3-graphs/scsyndef";
-SynthDef("why-supercollider.sc",{Out.ar(0,SynthDef.wrap(f))}).writeDefFile(d);
-
+"mk.scd".loadRelative;
+~wr_scsyndef.("why-supercollider.sc",f);

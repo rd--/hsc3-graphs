@@ -21,5 +21,6 @@ f =
 z = f.play;
 z.trace;
 
-d = "/home/rohan/sw/hsc3-graphs/scsyndef";
-SynthDef("berlin-1977.sc",{Out.ar(0,SynthDef.wrap(f))}).writeDefFile(d);
+"mk.scd".loadRelative;
+~wr_scsyndef.("berlin-1977.sc",f);
+
