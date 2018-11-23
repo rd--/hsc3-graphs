@@ -1,7 +1,7 @@
 %.svg : %.dot
 	dot -T svg $< -o $@
 
-all: why-supercollider.sc.svg berlin-1977.sc.svg
+all: analog-bubbles.sc.svg berlin-1977.sc.svg why-supercollider.sc.svg
 
 install:
 	cp *.svg ../svg
