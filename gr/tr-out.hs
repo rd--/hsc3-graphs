@@ -12,6 +12,7 @@ sig_1 _stp mnn = sig_0 mnn * control KR "amp" 0.1
 tr_0 :: UGen -> UGen -> (UGen, UGen, UGen) -> UGen
 tr_0 t n (mnn,_loc,_amp) = sendTrig t n mnn
 
+-- prepends node-id and trigger-id to argument list
 tr_1 :: UGen -> UGen -> (UGen, UGen, UGen, UGen) -> UGen
 tr_1 t n (mnn,loc,amp,stp) = sendReply t n "/tr_out" [mnn,loc,amp,stp]
 
