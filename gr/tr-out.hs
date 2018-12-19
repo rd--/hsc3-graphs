@@ -57,7 +57,7 @@ act = do
 main :: IO ()
 main = withSC3 act
 
--- > set_master 0.075 -- 0.075 0.1 0.115
+-- > set_master 0.5 -- 0.075 0.1 0.115 0.25 0.5
 set_master :: Double -> IO ()
 set_master n = withSC3 (sendMessage (n_set1 tr_out_nid "amp" n))
 
