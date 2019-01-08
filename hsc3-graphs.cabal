@@ -37,4 +37,5 @@ Library
   Exposed-modules: Sound.SC3.Graphs.F0
                    Sound.SC3.Graphs.JMcC
                    Sound.SC3.Graphs.JMcC.Why_SuperCollider
+                   Sound.SC3.Graphs.JMcC.Why_SuperCollider.Protect
                    Sound.SC3.Graphs.Treatments
