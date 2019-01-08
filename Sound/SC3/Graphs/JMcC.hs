@@ -11,7 +11,6 @@ import qualified Control.Monad.Random as MR {- MonadRandom -}
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 as SC3 {- hsc3 -}
-import Sound.SC3.Common.Base {- hsc3 -}
 import Sound.SC3.Common.Monad.Operators ((+.),(.+.)) {- hsc3 -}
 import qualified Sound.SC3.UGen.Protect as Protect {- hsc3 -}
 
@@ -23,6 +22,8 @@ import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
 
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
+
+import Sound.SC3.Graphs.JMcC.Why_SuperCollider {- hsc3-graphs -}
 
 -- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
 dsequ :: ID z => z -> [UGen] -> UGen -> UGen
@@ -42,31 +43,6 @@ isequ z s tr = dsequ z s tr * tr
 
 isequX :: ID z => z -> [UGen] -> UGen -> UGen
 isequX z s tr = dsequX z s tr * tr
-
--- * why supercollider (jmcc) #0
-
--- > putStrLn $ synthstat why_supercollider
-why_supercollider :: UGen
-why_supercollider =
-    let r z = resonz (dust z AR 0.2 * 50) (rand z 200 3200) 0.003
-        s = sum (map r (id_seq 10 'α'))
-        c z = combL (delayN s 0.048 0.048) 0.1 (lfNoise1 z KR (rand z 0 0.1) * 0.04 + 0.05) 15
-        y = sum (map c (id_seq 7 'β'))
-        f z i = allpassN i 0.05 (RDU.randN 2 z 0 0.05) 1
-        x = compose_l (map f (id_seq 4 'γ')) y
-    in s + 0.2 * x
-
--- > putStrLn $ synthstat why_supercollider_protect
-why_supercollider_protect :: UGen
-why_supercollider_protect =
-    let r = resonz (dust 'α' AR 0.2 * 50) (rand 'β' 200 3200) 0.003
-        s = mix (Protect.uclone 'γ' 10 r)
-        z = delayN s 0.048 0.048
-        c = combL z 0.1 (lfNoise1 'δ' KR (rand 'ε' 0 0.1) * 0.04 + 0.05) 15
-        y = mix (Protect.uclone 'ζ' 7 c)
-        f i = allpassN i 0.05 (RDU.randN 2 'η' 0 0.05) 1
-        x = Protect.useq 'θ' 4 f y
-    in s + 0.2 * x
 
 -- * analog bubbles (jmcc) #1
 
@@ -1881,7 +1857,7 @@ spe = uid_st_eval spe_m
 jmcc_sc2 :: [[(String,Maybe UGen,Maybe (IO ()))]]
 jmcc_sc2 =
     -- SC2
-    [[("why supercollider",Just why_supercollider,Nothing)]
+    [[("why supercollider",Just why_supercollider_plain,Nothing)]
     ,[("analog bubbles",Just analog_bubbles,Nothing)
      ,("lfo modulation",Just lfo_modulation,Nothing)
      ,("hell is busy",Just hib,Just hib_ot)

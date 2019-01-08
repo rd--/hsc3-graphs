@@ -1,7 +1,7 @@
-import Sound.SC3.Common.UId {- hsc3 -}
-import Sound.SC3.UGen.Rate {- hsc3 -}
-import Sound.SC3.UGen.M {- hsc3 -}
+import Sound.SC3.Common {- hsc3 -}
+import Sound.SC3.UGen.M {- hsc3-m -}
 
+-- > draw scratchy
 scratchy :: UId m => UGen m
 scratchy =
   let dup2 x = mce2 x x

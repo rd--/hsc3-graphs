@@ -1,7 +1,5 @@
-import Sound.SC3.Common.Base {- hsc3 -}
-import Sound.SC3.Common.UId {- hsc3 -}
-import Sound.SC3.UGen.Rate {- hsc3 -}
-import Sound.SC3.UGen.M {- hsc3 -}
+import Sound.SC3.Common {- hsc3 -}
+import Sound.SC3.UGen.M {- hsc3-m -}
 
 -- > draw why_supercollider
 why_supercollider :: UId m => UGen m
