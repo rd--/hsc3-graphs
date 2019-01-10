@@ -2,6 +2,7 @@ import Sound.SC3.Common {- hsc3 -}
 import Sound.SC3.Common.Base {- hsc3 -}
 import Sound.SC3.UGen.M {- hsc3-m -}
 
+-- > putStrLn $ synthstat why_supercollider
 -- > draw why_supercollider
 why_supercollider :: UGen UId_ST
 why_supercollider =
