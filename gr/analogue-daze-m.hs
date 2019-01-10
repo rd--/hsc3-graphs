@@ -5,6 +5,7 @@ import Sound.SC3.UGen.M {- hsc3-m -}
 dsequ :: UId m => [UGen m] -> UGen m -> UGen m
 dsequ s tr = demand tr 0 (dseq dinf (mce s))
 
+-- > draw analogue_daze
 analogue_daze :: UId m => UGen m
 analogue_daze =
     let patternList = [55,63,60,63,57,65,62,65]
