@@ -103,7 +103,7 @@ treatment_syn nc nm tr =
         mx = mctl ("mx",0,1,1,"lin","*")
         m = pre_post_mix mx i (tr i) * envGate_def
         bp = mctl ("bypass",0,1,0,"lin","*")
-        o = ugen_if (bp >* 0) i m
+        o = ugen_if (bp >** 0) i m
     in synthdef nm (replaceOut b o)
 
 -- * Audition
@@ -725,13 +725,13 @@ select2 p s1 s2 = (p * s1) + ((1 - p) * s2)
 gate1 :: UGen -> Treatment
 gate1 l i =
     let a = amplitude AR i 0.01 0.01
-    in select2 (a >* dbAmp l) i (silent 1)
+    in select2 (a >** dbAmp l) i (silent 1)
 
 -- > add_t (1,0,1) (gate2 0.001 0.5 (-45))
 gate2 :: UGen -> UGen -> UGen -> Treatment
 gate2 aT rT l i =
     let a = amplitude AR i 0.01 0.01
-    in lag3UD (a >* dbAmp l) aT rT * i
+    in lag3UD (a >** dbAmp l) aT rT * i
 
 -- > add_t (1,0,1) (pingpong4' 2 1.25 0.125 (-45) (0.250,0.251,3) (0.85,0.95,7))
 -- > add_t (1,0,1) (pingpong4' 2 1.25 0.125 (-45) (0.350,0.355,3) (0.875,0.975,7))

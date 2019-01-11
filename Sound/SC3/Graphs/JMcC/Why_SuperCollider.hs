@@ -6,7 +6,7 @@ import qualified Sound.SC3.Common.Base as Base {- hsc3 -}
 
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
--- > putStrLn $ synthstat why_supercollider_plain
+-- > synthstat_wr why_supercollider_plain
 why_supercollider_plain :: UGen
 why_supercollider_plain =
   let r z = resonz (dust z AR 0.2 * 50) (rand z 200 3200) 0.003

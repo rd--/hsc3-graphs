@@ -26,7 +26,7 @@ f0_456384156159574016 :: UGen
 f0_456384156159574016 =
     let a = 1 / mce [3,12,4,1,6,2]
         s = lag3 (sinOsc AR a 0) (abs (sinOsc AR (2.67 ** a) 0)) * 99
-        f = ((sinOsc AR ((1 / a) / 9) a >* 0) * 20 + 99) / a
+        f = ((sinOsc AR ((1 / a) / 9) a `greater_than` 0) * 20 + 99) / a
     in splay (sinOsc AR (hpf (ringz s f 1) 440) 0) 1 1 0 True * 0.25
 
 -- * chipwave
@@ -186,7 +186,7 @@ f0_0033 =
         n = Protect.uclone 'α' 4 (brownNoise 'α' AR) * a
         z i = mce2 (i + 1 * f) (i * f + (i + 1 / 3))
         o = lfPar AR (mce (map z [0..3])) 0
-    in out 0 (splay ((o >* n) / 3) 1 1 0 True * 0.1)
+    in out 0 (splay ((o `greater_than` n) / 3) 1 1 0 True * 0.1)
 
 -- * http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
 
@@ -305,7 +305,7 @@ f0_tw0134 =
         n = constant n'
         z i = let o1 = a ((i + 1) / mce [3,4]) 0
                   o2 = a ((i + 1) / 8) 0 + 1
-                  f0 = o1 >* o2 * (n / 2) + n
+                  f0 = o1 `greater_than` o2 * (n / 2) + n
                   m = a ((i + 1) / n) (i / (n / 2))
                   o3 = blip AR f0 (i + mce [2,3]) * m
               in ringz o3 ((i + 1) * (n * 2 - 1)) 0.1

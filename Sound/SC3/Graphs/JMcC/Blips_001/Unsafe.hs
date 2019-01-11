@@ -1,7 +1,7 @@
 -- blips 001 (jmcc) #SC3d1.5
 module Sound.SC3.Graphs.JMcC.Blips_001.Unsafe where
 
-import Sound.SC3 as SC3 {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.UGen.Unsafe as U {- hsc3-unsafe -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
@@ -18,7 +18,7 @@ blip_001 _ =
 -- > putStrLn$ synthstat blips_001
 blips_001 :: UGen
 blips_001 =
-    let c = U.rand 0 1 SC3.<* 0.8
+    let c = U.rand 0 1 `less_than` 0.8
         o = blip_001 'α' * blip_001 'β'
     in (c * pan2 o (line KR (u_rand2 1) (u_rand2 1) 4 DoNothing) 0.3)
 

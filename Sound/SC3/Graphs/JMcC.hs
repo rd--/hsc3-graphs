@@ -1325,7 +1325,7 @@ str_gtr_str :: UGen -> Int -> UGen
 str_gtr_str sc ix' =
     let ix = constant ix'
         x = mouseX KR 0 1 Linear 0.2
-        t = abs (hpz1 (x >* (0.25 + ix * 0.1)))
+        t = abs (hpz1 (x `greater_than` (0.25 + ix * 0.1)))
         e = decay t 0.05
         n = pinkNoise ix' AR * e
         dt = 1 / midiCPS sc
@@ -1351,7 +1351,7 @@ dpr_drone_1 =
 
 dpr_drone_2 :: UGen
 dpr_drone_2 =
-    let x = rand 'ε' 0 1 >* 0.8
+    let x = rand 'ε' 0 1 `greater_than` 0.8
         m = lchoose 'ζ' [60,72] + lchoose 'η' dpr_scale + Protect.uclone 'θ' 2 (rand2 'ι' 0.05)
     in sinOsc AR (midiCPS m) 0 * x * rand 'κ' 0.04 0.07
 
