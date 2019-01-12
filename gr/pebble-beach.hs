@@ -3,7 +3,7 @@
 -- requires 'scsynth -u 57110 -m 32768'
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
 {-
 exprange :: UGen -> UGen -> UGen -> UGen
@@ -31,10 +31,10 @@ pebble_beach' :: ID a => a -> UGen
 pebble_beach' j =
     let bg' = let am = range 0 1 (lag (lfNoise0 'α' KR 34) 1.4)
               in brownNoise 'α' AR * 0.06 * am
-        bg = bg' + sum (uprotect_seq j (map bg_f [0..19])) * 0.6
+        bg = bg' + sum (uprotect_seq (const False) j (map bg_f [0..19])) * 0.6
         tf = range 0.122 0.24 (sinOsc KR 0.17 0)
         df = exprange 1 700 (lfTri KR tf 0) * exprange 1 0.2 (lfTri KR tf 0)
-        fg = mix (uclone j 50 (fg_f df tf)) * 0.2
+        fg = mix (uclone_all j 50 (fg_f df tf)) * 0.2
     in (bg + fg) * line KR 0 1 1.2 DoNothing
 
 pebble_beach :: UGen

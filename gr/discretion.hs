@@ -1,7 +1,7 @@
 -- discretion (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
 discretion :: UGen
@@ -15,7 +15,7 @@ discretion =
                  f_ = mkls [(0,f1),(0.33,f2),(1,f3)] t
                  a_ = mkls [(0,0),(0.33,a),(1,0)] t
              in (saw AR f_ * a_)
-  in mix (uclone 'ε' 8 part)
+  in mix (uclone_all 'ε' 8 part)
 
 discretion_m :: UId m => m UGen
 discretion_m = do

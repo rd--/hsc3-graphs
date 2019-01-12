@@ -1,7 +1,7 @@
 -- k-ppr (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 import Sound.SC3.Common.Monad.Operators {- hsc3 -}
 
 k_ppr :: UGen
@@ -19,7 +19,7 @@ k_ppr =
           in ringz (decay2 t' 0.01 0.5) r2 (r3 * y) * g
       s1 = stream 'α' 3140 6240 0.050 0.005 0.15
       s2 = stream 'β' 0400 9000 0.005 0.005 0.15
-  in uclone 'γ' 2 s1 + uclone 'δ' 2 s2
+  in uclone_all 'γ' 2 s1 + uclone_all 'δ' 2 s2
 
 k_ppr_m :: UId m => m UGen
 k_ppr_m = do

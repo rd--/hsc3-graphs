@@ -1,8 +1,9 @@
 -- xy-interference (rd)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
+-- > synthstat_wr xy_interference
 xy_interference :: UGen
 xy_interference =
   let x = mouseX KR 20 22000 Linear (mce2 0.005 0.025)
@@ -11,7 +12,7 @@ xy_interference =
                a = sinOsc AR (x + n) 0
                b = sinOsc AR y 0
            in a * b
-  in mix (uclone 'β' 3 nd) * 0.1
+  in mix (uclone_all 'β' 3 nd)
 
 xy_interference_m :: UId m => m UGen
 xy_interference_m = do
@@ -21,8 +22,9 @@ xy_interference_m = do
               let a = sinOsc AR (x + n) 0
                   b = sinOsc AR y 0
               return (a * b)
-  fmap sum (sequence (replicate 3 nd))
+  fmap sum_opt (sequence (replicate 3 nd))
 
+-- > synthstat_wr xy_interference'
 xy_interference' :: UGen
 xy_interference' = uid_st_eval xy_interference_m
 

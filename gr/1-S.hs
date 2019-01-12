@@ -1,7 +1,7 @@
 -- http://sccode.org/1-S (nv)
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
 -- | fb, as given in the feedback quark, but requires number of
 -- channels to be given directly.
@@ -17,12 +17,12 @@ fb nc z f =
 
 up :: UGen
 up =
-    let x = bpf (uclone 'α' 2 (pinkNoise 'β' AR) * 0.2) 100 0.2 * line KR 1 0 1 DoNothing
+    let x = bpf (uclone_all 'α' 2 (pinkNoise 'β' AR) * 0.2) 100 0.2 * line KR 1 0 1 DoNothing
     in fb 2 'γ' (\z -> freqShift (z + x) 5 0)
 
 down :: UGen
 down =
-    let x = bpf (uclone 'α' 2 (pinkNoise 'β' AR) * 0.2) 8000 0.2 * line KR 1 0 1 DoNothing
+    let x = bpf (uclone_all 'α' 2 (pinkNoise 'β' AR) * 0.2) 8000 0.2 * line KR 1 0 1 DoNothing
     in fb 2 'γ' (\z -> freqShift (z + x) (-4) 0)
 
 main :: IO ()

@@ -4,23 +4,23 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
 -- > audition (out 0 p)
 p :: UGen
 p = lfPulse AR (2 ** rand 'α' (-9) 1) (rand 'β' 0 2 / 2) 0.5
 
 q :: Int -> UGen
-q i = product (uclone_seq 'γ' (i + 2) p) / (1 + constant i) + 1
+q i = product (uclone_seq (const False) 'γ' (i + 2) p) / (1 + constant i) + 1
 
 -- > audition (out 0 s)
 s :: UGen
 s =
-    let f = product (uprotect_seq 'δ' (map q [0 .. 7])) * 86
+    let f = product (uprotect_seq (const False) 'δ' (map q [0 .. 7])) * 86
     in pluck (sin (bpf f f 1)) (saw AR 440) 1 (1 / f) 9 0.5
 
 nv :: UGen
-nv = splay (uclone 'ε' 9 s) 1 1 0 True
+nv = splay (uclone_all 'ε' 9 s) 1 1 0 True
 
 -- > audition (out 0 nv_opt)
 nv_opt :: UGen

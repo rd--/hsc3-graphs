@@ -5,7 +5,7 @@ import System.Random {- random -}
 import System.Random.Shuffle {- random-shuffle -}
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
 nth_prime :: Integral a => Int -> a
 nth_prime j = primes !! j
@@ -34,9 +34,9 @@ c = constant
 
 bac :: UGen
 bac =
-  let x = let ph = i yn * uclone 'α' 2 (lfdNoise3 'β' KR 1)
+  let x = let ph = i yn * uclone_all 'α' 2 (lfdNoise3 'β' KR 1)
           in out xn (mceReverse (sinOsc AR (60 * 2) ph))
-      y = let ph = i xn * uclone 'γ' 2 (lfdNoise3 'δ' KR 0.3) * 4
+      y = let ph = i xn * uclone_all 'γ' 2 (lfdNoise3 'δ' KR 0.3) * 4
           in out yn (sinOsc AR (50 * 2) ph)
   in mrg [inFeedback 2 xn,y,x]
 
@@ -46,10 +46,10 @@ main = audition (out 0 bac)
 bac' :: UGen
 bac' =
   let x = let f = c (nth_prime 23)
-              ph = i yn * uclone 'ε' 2 (lfdNoise3 'ζ' KR (sqrt 2))
+              ph = i yn * uclone_all 'ε' 2 (lfdNoise3 'ζ' KR (sqrt 2))
           in out xn (mceReverse (sinOsc AR f ph))
       y = let f = c (chain 3 nth_prime 1)
-              ph = i xn * uclone 'η' 2 (lfdNoise3 'θ' KR (sqrt pi)) * pi
+              ph = i xn * uclone_all 'η' 2 (lfdNoise3 'θ' KR (sqrt pi)) * pi
           in out yn (tanh (sinOsc AR f ph))
   in mrg [inFeedback 2 xn,y,x]
 

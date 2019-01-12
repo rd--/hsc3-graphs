@@ -2,7 +2,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 
 mce_concat :: [UGen] -> UGen
@@ -16,9 +16,9 @@ nv_tw_2013_01_11 :: UGen
 nv_tw_2013_01_11 =
     let nc = 80
         i = inFeedback nc 20
-        n = (uclone 'α' nc (lfNoise1 'β' KR 1e-3 + 1)) / constant nc
+        n = (uclone_all 'α' nc (lfNoise1 'β' KR 1e-3 + 1)) / constant nc
         j = combL (lpf i 2e3) 1 n 0.05
-        d = uclone 'γ' nc (dust2 'δ' AR 0.01)
+        d = uclone_all 'γ' nc (dust2 'δ' AR 0.01)
         x = sin (j + d)
     in mce_concat [splay x 1 1 0 True
                   ,mce (replicate 18 0)

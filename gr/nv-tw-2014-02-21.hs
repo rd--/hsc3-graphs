@@ -2,7 +2,7 @@
 -- requires -m at scsynth
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
 x :: UGen
 x = impulse AR 0.05 0
@@ -16,11 +16,11 @@ f i =
 
 -- > audition (out 0 y)
 y :: UGen
-y = useq 'ε' 20 f x * 5
+y = useq_all 'ε' 20 f x * 5
 
 -- > audition (out 0 z)
 z :: UGen
-z = mix (uclone 'ζ' 4 y)
+z = mix (uclone_all 'ζ' 4 y)
 
 z_opt :: UGen
 z_opt = ugen_optimise_ir_rand z

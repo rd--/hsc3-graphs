@@ -1,7 +1,7 @@
 -- https://twitter.com/thormagnusson/status/463992770596577280
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
@@ -12,7 +12,7 @@ f z =
     in sinOsc AR (30 * x + linLin_b (lfNoise2 z AR 0.1) (-2) 2) 0 * e
 
 g :: UGen
-g = uclone 'α' 2 (sum (map f [0 .. 23]))
+g = uclone_all 'α' 2 (sum (map f [0 .. 23]))
 
 main :: IO ()
 main = O.overlapTextureU (60,15,3,maxBound) g

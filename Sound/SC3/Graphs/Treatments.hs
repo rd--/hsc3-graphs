@@ -2,7 +2,7 @@ module Sound.SC3.Graphs.Treatments where
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 import qualified Sound.SC3.UGen.Bindings.DB.External as E {- hsc3 -}
 import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
 
@@ -507,7 +507,7 @@ r_allpass :: UGen -> UGen
 r_allpass i = allpassN i 0.03 (RDU.randN 2 'γ' 0.005 0.02) 1
 
 tank_rev :: Treatment
-tank_rev = tank_f . useq 'δ' 4 r_allpass
+tank_rev = tank_f . useq_all 'δ' 4 r_allpass
 
 -- * pitchshift
 

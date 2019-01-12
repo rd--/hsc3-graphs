@@ -2,7 +2,7 @@
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3 -}
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
 ms :: UGen -> UGen -> UGen
 ms n r =
@@ -17,7 +17,7 @@ ms n r =
 
 modal_space :: UGen
 modal_space =
-    let n = uclone 'α' 2 (lfNoise1 'β' KR 3)
+    let n = uclone_all 'α' 2 (lfNoise1 'β' KR 3)
     in (ms n 48 + ms n 72) * 0.25
 
 run :: Transport m => m ()
