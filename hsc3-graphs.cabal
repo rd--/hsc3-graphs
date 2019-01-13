@@ -30,6 +30,8 @@ Library
                    hosc == 0.18.*,
                    hsc3 == 0.18.*,
                    hsc3-lang == 0.18.*,
+                   hsc3-m == 0.18.*,
+                   hsc3-rw == 0.18.*,
                    hsc3-unsafe == 0.18.*,
                    sc3-rdu == 0.18.*,
                    MonadRandom,

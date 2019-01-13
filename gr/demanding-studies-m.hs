@@ -1,8 +1,7 @@
 import Sound.SC3.Common {- hsc3 -}
 import Sound.SC3.UGen.M {- hsc3-m -}
 
--- > draw demanding_studies
-demanding_studies :: UId m => UGen m
+demanding_studies :: UGen
 demanding_studies =
   let s1 = drand dinf (mce [72, 75, 79, 82])
       s2 = drand 1 (mce [82, 84, 86])
@@ -16,4 +15,4 @@ demanding_studies =
   in o3 * 0.1
 
 main :: IO ()
-main = audition demanding_studies
+main = audition_st demanding_studies

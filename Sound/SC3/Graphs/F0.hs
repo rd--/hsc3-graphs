@@ -183,7 +183,7 @@ f0_0033 :: UGen
 f0_0033 =
     let f = roundE (lfPar AR (1/14) 0) * 20 + 80
         a = pulse AR (mce [1..4]) 0.35
-        n = Protect.uclone 'α' 4 (brownNoise 'α' AR) * a
+        n = Protect.uclone_all 'α' 4 (brownNoise 'α' AR) * a
         z i = mce2 (i + 1 * f) (i * f + (i + 1 / 3))
         o = lfPar AR (mce (map z [0..3])) 0
     in out 0 (splay ((o `greater_than` n) / 3) 1 1 0 True * 0.1)

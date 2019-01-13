@@ -1,3 +1,6 @@
+-- | why supercollider (jmcc) #0
+module Sound.SC3.Graphs.JMcC.Why_SuperCollider.M where
+
 import Sound.SC3.Common {- hsc3 -}
 import Sound.SC3.Common.Base {- hsc3 -}
 import Sound.SC3.UGen.M {- hsc3-m -}

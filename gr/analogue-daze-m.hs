@@ -2,11 +2,10 @@ import Sound.SC3.Common {- hsc3 -}
 import Sound.SC3.UGen.M {- hsc3-m -}
 
 -- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
-dsequ :: UId m => [UGen m] -> UGen m -> UGen m
+dsequ :: [UGen] -> UGen -> UGen
 dsequ s tr = demand tr 0 (dseq dinf (mce s))
 
--- > draw analogue_daze
-analogue_daze :: UId m => UGen m
+analogue_daze :: UGen
 analogue_daze =
     let patternList = [55,63,60,63,57,65,62,65]
         f octave clockRate pwmrate fltrate =
@@ -24,4 +23,4 @@ analogue_daze =
     in z * envGen KR 1 1 0 1 RemoveSynth e
 
 main :: IO ()
-main = audition analogue_daze
+main = audition_st analogue_daze
