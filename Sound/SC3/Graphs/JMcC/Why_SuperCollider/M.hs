@@ -15,6 +15,3 @@ why_supercollider =
         f i = allpassN i 0.05 (mce2 (rand 0 0.05) (rand 0 0.05)) 1
         x = compose_l (replicate 4 f) y
     in s + 0.2 * x
-
-main :: IO ()
-main = audition_st why_supercollider

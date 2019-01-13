@@ -1,14 +1,14 @@
 -- | why supercollider (jmcc) #0
-module Sound.SC3.Graphs.JMcC.Why_SuperCollider where
+module Sound.SC3.Graphs.JMcC.Why_SuperCollider.RDU where
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Common.Base as Base {- hsc3 -}
 
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
--- > synthstat_wr why_supercollider_plain
-why_supercollider_plain :: UGen
-why_supercollider_plain =
+-- > synthstat_wr why_supercollider
+why_supercollider :: UGen
+why_supercollider =
   let r z = resonz (dust z AR 0.2 * 50) (rand z 200 3200) 0.003
       s = sum_opt (map r (id_seq 10 'α'))
       c z = combL (delayN s 0.048 0.048) 0.1 (lfNoise1 z KR (rand z 0 0.1) * 0.04 + 0.05) 15

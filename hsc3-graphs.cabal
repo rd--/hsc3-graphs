@@ -39,10 +39,12 @@ Library
   GHC-Options:     -Wall -fwarn-tabs
   Exposed-modules: Sound.SC3.Graphs.F0
                    Sound.SC3.Graphs.JMcC
-                   Sound.SC3.Graphs.JMcC.Blips_001
+                   Sound.SC3.Graphs.JMcC.Blips_001.Plain
                    Sound.SC3.Graphs.JMcC.Blips_001.Protect
                    Sound.SC3.Graphs.JMcC.Blips_001.Unsafe
-                   Sound.SC3.Graphs.JMcC.Why_SuperCollider
+                   Sound.SC3.Graphs.JMcC.Why_SuperCollider.M
                    Sound.SC3.Graphs.JMcC.Why_SuperCollider.Monadic
+                   Sound.SC3.Graphs.JMcC.Why_SuperCollider.Plain
                    Sound.SC3.Graphs.JMcC.Why_SuperCollider.Protect
+                   Sound.SC3.Graphs.JMcC.Why_SuperCollider.RDU
                    Sound.SC3.Graphs.Treatments

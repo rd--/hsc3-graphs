@@ -24,8 +24,8 @@ import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
 
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
-import Sound.SC3.Graphs.JMcC.Blips_001 {- hsc3-graphs -}
-import Sound.SC3.Graphs.JMcC.Why_SuperCollider {- hsc3-graphs -}
+import Sound.SC3.Graphs.JMcC.Blips_001.Plain {- hsc3-graphs -}
+import Sound.SC3.Graphs.JMcC.Why_SuperCollider.Plain {- hsc3-graphs -}
 
 -- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
 dsequ :: ID z => z -> [UGen] -> UGen -> UGen
@@ -1838,7 +1838,7 @@ spe = uid_st_eval spe_m
 jmcc_sc2 :: [[(String,Maybe UGen,Maybe (IO ()))]]
 jmcc_sc2 =
     -- SC2
-    [[("why supercollider",Just why_supercollider_plain,Nothing)]
+    [[("why supercollider",Just why_supercollider,Nothing)]
     ,[("analog bubbles",Just analog_bubbles,Nothing)
      ,("lfo modulation",Just lfo_modulation,Nothing)
      ,("hell is busy",Just hib,Just hib_ot)

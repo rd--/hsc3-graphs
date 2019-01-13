@@ -1,4 +1,4 @@
-module Sound.SC3.Graphs.JMcC.Blips_001 where
+module Sound.SC3.Graphs.JMcC.Blips_001.Plain where
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Common.Base {- hsc3 -}

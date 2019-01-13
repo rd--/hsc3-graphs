@@ -5,9 +5,6 @@ import Control.Monad {- base -}
 
 import Sound.SC3 {- hsc3 -}
 
--- > audition =<< why_supercollider_m
--- > Sound.SC3.UGen.Dot.draw =<< why_supercollider_m
--- > putStrLn . synthstat =<< why_supercollider_m
 why_supercollider_m :: UId m => m UGen
 why_supercollider_m = do
   let r = do
@@ -26,3 +23,7 @@ why_supercollider_m = do
         return (allpassN i 0.05 (mce2 n1 n2) 1)
   x <- chainM 4 f y
   return (s + 0.2 * x)
+
+-- > synthstat_wr why_supercollider
+why_supercollider :: UGen
+why_supercollider = uid_st_eval why_supercollider_m
