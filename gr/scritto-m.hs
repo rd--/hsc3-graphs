@@ -1,9 +1,9 @@
--- scritto (rd)
+-- scritto-m (rd)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
-import qualified Sound.SC3.Data.Vowel as V {- hsc3-data -}
+import qualified Sound.SC3.Data.Vowel as Vowel {- hsc3-data -}
 
 main :: IO ()
 main =
@@ -25,6 +25,6 @@ main =
             bi = linLin_b n 0 bx
             voice = mix . v_filter_b bi
         return . out 0 . mce . map voice =<< mapM i [1,2]
-  in withSC3 (do mapM_ s_alloc (zip V.fdata_table [0 ..])
-                 let n = constant V.fdata_table_sz
+  in withSC3 (do mapM_ s_alloc (zip Vowel.fdata_table [0 ..])
+                 let n = constant Vowel.fdata_table_sz
                  play =<< mk_instr n)
