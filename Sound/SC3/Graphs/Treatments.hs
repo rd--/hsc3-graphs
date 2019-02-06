@@ -32,8 +32,10 @@ ctl :: String -> Double -> UGen
 ctl = control KR
 
 -- | A /pre/ (@0@) & /post/ (@1@) mix operator.  pre=dry & post=wet
+--
+-- > g = let x = soundIn 0 in pre_post_mix 0.5 x x
 pre_post_mix :: Num a => a -> a -> a -> a
-pre_post_mix mx pre post = ((1 - mx) * pre) + (mx * post)
+pre_post_mix mx pre post = (pre * (1 - mx)) + (post * mx)
 
 rsinosc :: Rate -> T3 UGen -> UGen
 rsinosc rt (z0,z1,fr) = range z0 z1 (sinOsc rt fr 0) -- rng_osc_kr (z0,z1,1/fr)
@@ -121,6 +123,18 @@ add_t_opt (nid,grp) opt ugen_f = audition_at (nid,AddToTail,grp,[]) (add_t_sig o
 
 add_t :: (Int,Double,Double) -> Treatment -> IO ()
 add_t = add_t_opt (-1,2)
+
+-- | nc = number of channels, mx = pre/post mix, u = process.
+--
+-- > run_t_nc (-1,0) 1 1 id
+run_t_nc :: (Node_Id,Group_Id) -> Int -> Double -> Treatment -> IO ()
+run_t_nc (nid,grp) nc mx u = do
+  let i = in' nc AR numOutputBuses
+  audition_at (nid,AddToTail,grp,[]) (out 0 (pre_post_mix (constant mx) i (u i)))
+
+-- > run_t 1 id
+run_t :: Double -> Treatment -> IO ()
+run_t = run_t_nc (-1,2) 1
 
 -- * octave
 
