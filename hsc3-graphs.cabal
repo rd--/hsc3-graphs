@@ -4,7 +4,7 @@ Synopsis:          Haskell SuperCollider Graphs
 Description:       illustrative unit generator graphs for hsc3.
 License:           GPL
 Category:          Sound
-Copyright:         (c) Rohan Drape and others, 2006-2018
+Copyright:         (c) Rohan Drape and others, 2006-2019
 Author:            Rohan Drape
 Maintainer:        rd@rohandrape.net
 Stability:         Experimental
