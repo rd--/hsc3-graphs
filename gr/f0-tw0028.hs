@@ -1,5 +1,4 @@
--- http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Graphs.F0 {- hsc3-graphs -}
+import F0
 main :: IO ()
-main = audition f0_0028
+main = audition f0_tw0028

@@ -1,33 +1,12 @@
-module Sound.SC3.Graphs.F0 where
+module F0 where
 
 import Data.Bits {- base -}
 import Data.List {- base -}
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import qualified Sound.SC3.UGen.Protect as Protect {- hsc3 -}
 
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
-
--- * 454598285861617665
-
-f0_454598285861617665 :: UGen
-f0_454598285861617665 =
-    let b = mce [9,8 .. 1]
-        c = lfTri AR (3 ** lfTri AR (1 / b) (b / 9)) 0
-        d = lfTri AR (1 / b) 0 `modE` 1 / 9 + 0.01
-        f = 2 ** roundE (lfTri AR (b / 99) 0) * 99 * b
-        o = grainSin 2 c d f 0 (-1) 512
-    in splay (tanh o) 1 1 0 True / 2
-
--- * 456384156159574016
-
-f0_456384156159574016 :: UGen
-f0_456384156159574016 =
-    let a = 1 / mce [3,12,4,1,6,2]
-        s = lag3 (sinOsc AR a 0) (abs (sinOsc AR (2.67 ** a) 0)) * 99
-        f = ((sinOsc AR ((1 / a) / 9) a `greater_than` 0) * 20 + 99) / a
-    in splay (sinOsc AR (hpf (ringz s f 1) 440) 0) 1 1 0 True * 0.25
 
 -- * chipwave
 
@@ -67,6 +46,7 @@ cw_ioscs_arp = synthdef "ioscs-arp" (cw_ioscs [0,2,2,3,2,2,2,2,2] [0,12,-12,0,7,
 cw_ioscs_bass :: Synthdef
 cw_ioscs_bass = synthdef "ioscs-bass" (cw_ioscs [0,1,1,1,1,1,1,1,1] [0,24,0,12,0,-1,1,-1,0])
 
+-- > nrt_audition chipwave
 chipwave :: NRT
 chipwave =
     let a = (cw_ioscs_arp
@@ -115,8 +95,44 @@ f0_fb_param =
 f0_fb_au :: Param -> IO ()
 f0_fb_au p = audition_at (-1,AddToHead,1,p) feedback4 >> pauseThread (2::Double)
 
--- * http://fredrikolofsson.com/f0blog/?q=node/478 (f0)
+-- * TW
 
+-- | <https://twitter.com/redFrik/status/1138498427241861122> (f0)
+f0_tw_1138498427241861122 :: UGen
+f0_tw_1138498427241861122 =
+  let f = sqrt 9
+      b = mce2 f 9.999
+      e = pitchShift
+      a = sinOscFB
+      d = max (a AR (b/99) 0) 0
+      t1 = ugen_if (a AR (a AR (9/999) 0) 0 `greater_than` a AR (9/99) 0) f (9/b)
+      t2 = ugen_if (a AR (9/99) 0 `less_than` a AR (99/9999) 0) (b/9) f
+      f1 = lag (9.9 * b * t1 * t2) 0.1
+      s1 = a AR f1 d * a AR (b/9) 0 * d
+      c = e s1 (9 / b) (9 / sqrt b) (b / 999) (b / 99)
+      s2 = gVerb (c * d * d * d) 99 9 (9/999) 0.5 15 1 0.7 0.5 300
+      s3 = s2 / 9 + e c (f/9) (f/9) 0 0
+  in hpf (splay s3 1 1 0 True) 9
+
+-- | <https://twitter.com/redFrik/status/454598285861617665> (f0)
+f0_tw_454598285861617665 :: UGen
+f0_tw_454598285861617665 =
+    let b = mce [9,8 .. 1]
+        c = lfTri AR (3 ** lfTri AR (1 / b) (b / 9)) 0
+        d = lfTri AR (1 / b) 0 `modE` 1 / 9 + 0.01
+        f = 2 ** roundE (lfTri AR (b / 99) 0) * 99 * b
+        o = grainSin 2 c d f 0 (-1) 512
+    in splay (tanh o) 1 1 0 True / 2
+
+-- | <https://twitter.com/redFrik/status/456384156159574016> (f0)
+f0_tw_456384156159574016 :: UGen
+f0_tw_456384156159574016 =
+    let a = 1 / mce [3,12,4,1,6,2]
+        s = lag3 (sinOsc AR a 0) (abs (sinOsc AR (2.67 ** a) 0)) * 99
+        f = ((sinOsc AR ((1 / a) / 9) a `greater_than` 0) * 20 + 99) / a
+    in splay (sinOsc AR (hpf (ringz s f 1) 440) 0) 1 1 0 True * 0.25
+
+-- | <http://fredrikolofsson.com/f0blog/?q=node/478> (f0)
 f0_tw0014 :: UGen
 f0_tw0014 =
     let a = sinOscFB AR
@@ -131,8 +147,7 @@ f0_tw0014 =
         s = sum (map f [0..9])
     in out 0 (mce2 s s)
 
--- * http://fredrikolofsson.com/f0blog/?q=node/478 (f0)
-
+-- | <http://fredrikolofsson.com/f0blog/?q=node/478> (f0)
 f0_tw0020 :: UGen
 f0_tw0020 =
     let a n = lfPulse AR n 0 0.5
@@ -147,8 +162,6 @@ f0_tw0020 =
         s = mix a7 / 8
     in out 0 (mce2 s s)
 
--- * http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
-
 fib :: Integral i => [i]
 fib = 0 : scanl (+) 1 fib
 
@@ -158,8 +171,9 @@ sc3_fib 16 == [1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987]
 sc3_fib :: Integral a => Int -> [a]
 sc3_fib n = take n (tail fib)
 
-f0_0028 :: UGen
-f0_0028 =
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/537> (f0)
+f0_tw0028 :: UGen
+f0_tw0028 =
     let n = map ((* 99) . (`mod` 8)) (sc3_fib 16)
         p = dseq 'α' dinf (dshuf 'β' 8 (mce (map fromInteger n)))
         q = combN (duty AR (1/8) 0 DoNothing p) 4 4 16
@@ -167,29 +181,27 @@ f0_0028 =
         f = lfTri KR (1/16) 0 * 2e3 + 3e3
     in out 0 (pan2 (moogFF o f 2 0) 0 1)
 
--- * www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
-
-f0_0030 :: UGen
-f0_0030 =
+-- | <www.fredrikolofsson.com/f0blog/?q=node/537> (f0)
+f0_tw0030 :: UGen
+f0_tw0030 =
     let a i j k l = lfPar AR i j * k + l
         f = a 1 0 5 (a (mce2 0.05 0.04) 0 50 160 `roundTo` 50)
         w = a 0.2 0 0.5 (a 3 0 0.2 0.5)
         o = varSaw AR f 0 w / 8
     in out 0 (gVerb o 80 3 0.5 0.5 15 1 0.7 0.5 300 * 0.1)
 
--- * http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
-
-f0_0033 :: UGen
-f0_0033 =
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/537> (f0)
+f0_tw0033 :: UGen
+f0_tw0033 =
     let f = roundE (lfPar AR (1/14) 0) * 20 + 80
         a = pulse AR (mce [1..4]) 0.35
-        n = Protect.uclone_all 'α' 4 (brownNoise 'α' AR) * a
-        z i = mce2 (i + 1 * f) (i * f + (i + 1 / 3))
+        n = mce (map (flip brownNoise AR) ['α','β','γ','δ']) * a
+        z i = mce2 ((i + 1) * f) ((i * f) + (i + 1 / 3))
         o = lfPar AR (mce (map z [0..3])) 0
-    in out 0 (splay ((o `greater_than` n) / 3) 1 1 0 True * 0.1)
+        (s1,_s2) = unmce2 (splay ((o `greater_than` n) / 3) 1 1 0 True)
+    in s1 * 0.1 -- (s1 + s2) CRASHES SCSYNTH?
 
--- * http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
-
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/537> (f0)
 f0_tw0041 :: UGen
 f0_tw0041 =
     let s = sweep (localIn' 6 AR) 1
@@ -198,20 +210,18 @@ f0_tw0041 =
     in mrg [tanh (splay o 1 1 0 True) / 2 * 0.1
            ,localOut o]
 
--- * www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
-
-f0_0045 :: UGen
-f0_0045 =
+-- | <www.fredrikolofsson.com/f0blog/?q=node/537> (f0)
+f0_tw0045 :: UGen
+f0_tw0045 =
     let a i j k l = sinOsc AR i j * k + l
         f = a (a 0.11 0 1 0) 0 1 0
         p_f = a (95 * a 0.01 0 1 1) 0 (a 5e-3 0 50 0) 100
         p = a p_f (a (mce2 98 97) 0 1 0) (pi + a 5e-4 0 1 0) 0
     in tanh (a f p 1 0) * 0.1
 
--- * https://www.listarc.bham.ac.uk/lists/sc-users/msg18379.html (f0)
-
-f0_0049 :: UGen
-f0_0049 =
+-- | <https://www.listarc.bham.ac.uk/lists/sc-users/msg18379.html> (f0)
+f0_tw0049 :: UGen
+f0_tw0049 =
     let t = t2a 0 0
         o0 = lfSaw AR 3 0 * 9 + 99
         s0 = sweep t (mce [3..9]) `modE` o0
@@ -219,14 +229,13 @@ f0_0049 =
         o1 = sinOsc AR (midiCPS (s1+33)) 0 * pi
     in out 0 (splay (sinOsc AR 9 o1) 1 1 0 True / 3)
 
--- * http://sccode.org/1-4Qy (f0)
-
 {-
 > ascii_u "sunday" == mce (map constant [115,117,110,100,97,121])
 -}
 ascii_u :: String -> UGen
 ascii_u = mce . map (constant.fromEnum)
 
+-- | <http://sccode.org/1-4Qy> (f0)
 f0_tw0051 :: UGen
 f0_tw0051 =
     let i = a (ascii_u "sunday")
@@ -236,8 +245,7 @@ f0_tw0051 =
         l = splay (bBandPass i f w / 5) 1 1 0 True
     in gVerb l 10 3 0.5 0.5 15 1 0.7 0.5 300
 
--- * http://sccode.org/1-4Qy (f0)
-
+-- | <http://sccode.org/1-4Qy> (f0)
 f0_tw0077 :: UGen
 f0_tw0077 =
     let a = sinOsc AR
@@ -247,8 +255,7 @@ f0_tw0077 =
         b = a f p * m
     in tanh (a (mce2 201 301) b)
 
--- * http://sccode.org/1-4Qy (f0)
-
+-- | <http://sccode.org/1-4Qy> (f0)
 f0_tw0084 :: UGen
 f0_tw0084 =
     let a = saw AR
@@ -257,8 +264,7 @@ f0_tw0084 =
         w = a (mce [3,5..11] * (a 3 * 2 + 3)) * 299 + 399
     in splay (formant AR f g w) 1 1 0 True / 3
 
--- * http://sccode.org/1-4Qy (f0)
-
+-- | <http://sccode.org/1-4Qy> (f0)
 f0_tw0120 :: UGen
 f0_tw0120 =
     let a = lfTri
@@ -269,8 +275,7 @@ f0_tw0120 =
         o = varSaw AR f 0 w
     in combN o 1 (1 / mce2 5 6) 8 / 4
 
--- * http://sccode.org/1-4Qy (f0)
-
+-- | <http://sccode.org/1-4Qy> (f0)
 f0_tw0121 :: UGen
 f0_tw0121 =
     let a = sinOsc
@@ -280,8 +285,7 @@ f0_tw0121 =
         o = a AR (select z l) 0 * m
     in tanh (combN o 1 (1 / mce2 6 5) 9)
 
--- * http://sccode.org/1-4Qy (f0)
-
+-- | <http://sccode.org/1-4Qy> (f0)
 f0_tw0125 :: UGen
 f0_tw0125 =
     let a = sinOsc AR
@@ -292,12 +296,10 @@ f0_tw0125 =
         p = combC (lagUD i u d) 1 0.08 9
     in a f p
 
--- * http://sccode.org/1-4Qy (f0)
-
 mean :: Fractional a => [a] -> a
 mean l = sum l / fromIntegral (length l)
 
-{- scsynth -u 57110 -w 512 -}
+-- | <http://sccode.org/1-4Qy> (f0) (requires -w 512)
 f0_tw0134 :: UGen
 f0_tw0134 =
     let a = lfSaw AR
@@ -311,8 +313,7 @@ f0_tw0134 =
               in ringz o3 ((i + 1) * (n * 2 - 1)) 0.1
     in mean (map z [0 .. n'])  / 5
 
--- * http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
-
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/617> (f0)
 f0_tw0220 :: UGen
 f0_tw0220 =
     let c = inFeedback 1 0
@@ -321,14 +322,7 @@ f0_tw0220 =
         r = recordBuf AR b 0 1 0 1 Loop 1 DoNothing c
     in mrg2 (hpf (sinOsc AR 99 (c * 6) / 9 + g) 9) r
 
-{-
-2014-10-11: tgrains needs a patch to work with localbuf
-http://article.gmane.org/gmane.comp.audio.supercollider.user/110110
-main = withSC3 (async (b_alloc bufnum 90000 1) >> play (out 0 f0_tw0220))
--}
-
--- * http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
-
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/617> (f0)
 f0_tw0224 :: UGen
 f0_tw0224 =
     let c = 200000
@@ -337,8 +331,7 @@ f0_tw0224 =
         w = bufWr b (abs (sinOsc AR (mce2 99 145) 0) * c) Loop (sinOsc AR (3 / mce2 2 3) 0 / 3)
     in mrg2 d w
 
--- * http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
-
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/617> (f0)
 f0_tw0225 :: UGen
 f0_tw0225 =
     let b = mce [1..8] * 99
@@ -480,8 +473,7 @@ risset_p =
         ,("amp",P.white 'δ' 0.025 0.15)
         ,("trig",repeat 1)])
 
--- * https://www.listarc.bham.ac.uk/lists/sc-users/msg17536.html (f0)
-
+-- | <https://www.listarc.bham.ac.uk/lists/sc-users/msg17536.html> (f0)
 f0_17536 :: UGen
 f0_17536 =
     let s0 = lfSaw AR 10 0 * 0.01

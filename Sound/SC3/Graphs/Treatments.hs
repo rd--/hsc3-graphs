@@ -23,10 +23,6 @@ sec_to_ms = (* 1000)
 
 -- * UGen
 
--- | ugen_if 1 x y is x, ugen_if 0 x y is y.
-ugen_if :: Num a => a -> a -> a -> a
-ugen_if a b c = (a * b) + ((1 - a) * c)
-
 -- | Abbreviation, equal to 'control' 'KR'.
 ctl :: String -> Double -> UGen
 ctl = control KR
