@@ -3,97 +3,7 @@ module F0 where
 import Data.Bits {- base -}
 import Data.List {- base -}
 
-import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-
-import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
-
--- * chipwave
-
-control_n :: Rate -> String -> [Double] -> UGen
-control_n rt nm =
-    let f n = control rt (if n == 0 then nm else nm ++ show n)
-    in mce . zipWith f [0::Int ..]
-
-cw_ioscs :: [Double] -> [Double] -> UGen
-cw_ioscs ws_def ps_def =
-    let k = control KR
-        k_n = control_n KR
-        bus = k "out" 0
-        amp = k "amp" 0.5
-        freq = k "freq" 400
-        width = k "width" 0.25
-        gt = k "gate" 1
-        atk = k "atk" 0.002
-        dec = k "dec" 0
-        sus = k "sus" 1
-        rel = k "rel" 0.2
-        ws = k_n "ws" ws_def
-        ps = k_n "ps" ps_def
-        e = envGen AR gt amp 0 1 RemoveSynth (envADSR_def atk dec sus rel)
-        w = duty AR 0.025 0 DoNothing (dseq 'α' 1 ws)
-        p = duty AR 0.025 0 DoNothing (dseq 'β' 1 ps)
-        freq' = freq * midiRatio p
-        ti = lfTri AR freq' 0 * 0.5 + 0.5
-        sq = lfPulse AR freq' 0 (width * 0.5) * 2 - 1
-        ns = lfNoise0 'γ' AR (freq' * 10)
-        z = select w (mce [dc AR 0, ti, sq, ns])
-    in out bus (leakDC (z * e) 0.995)
-
-cw_ioscs_arp :: Synthdef
-cw_ioscs_arp = synthdef "ioscs-arp" (cw_ioscs [0,2,2,3,2,2,2,2,2] [0,12,-12,0,7,0,7,0,7])
-
-cw_ioscs_bass :: Synthdef
-cw_ioscs_bass = synthdef "ioscs-bass" (cw_ioscs [0,1,1,1,1,1,1,1,1] [0,24,0,12,0,-1,1,-1,0])
-
--- > nrt_audition chipwave
-chipwave :: NRT
-chipwave =
-    let a = (cw_ioscs_arp
-            ,[("freq",cycle (map midiCPS [60,60,70,60,65,63]))
-             ,("amp",repeat 0.15)
-             ,("dur",repeat 0.25)
-             ,("width",cycle [0,0.05 .. 1])])
-        b = (cw_ioscs_bass
-            ,[("freq",cycle (map midiCPS [40,48,48,60]))
-             ,("amp",repeat 0.5)
-             ,("rel",repeat 0.3)
-             ,("dur",repeat 0.5)
-             ,("width",repeat 0.5)
-             ,("out",repeat 1)])
-    in nrt_merge (P.sbind1 b) (P.sbind1 a)
-
--- * feedback
-
-feedback4 :: UGen
-feedback4 =
-    let k = control KR
-        freq = k "freq" 400
-        amp = k "amp" 0.1
-        fb = k "fb" 2
-        del = k "del" 0.1
-        lfo = k "lfo" 1
-        rate = k "rate" 2
-        cutoff = k "cutoff" 500
-        env = envGen KR 1 1 0 1 RemoveSynth (envPerc 1  4)
-        lin = delayN (hpf (localIn 1 AR 0) cutoff) 1 del
-        src = sinOsc AR (freq + sinOsc AR rate 0 * lfo) (lin * 2 * pi * fb) * amp * env
-    in mrg2 (out 0 (pan2 src 0 1)) (localOut src)
-
-type Param = [(String, Double)]
-
-f0_fb_param :: [Param]
-f0_fb_param =
-    [[]
-    ,[("del",0.5)]
-    ,[("del",0.1),("cutoff",100)]
-    ,[("del",0.1),("fb",3),("cutoff",100)]
-    ,[("del",0.1),("fb",2),("lfo",15),("cutoff",100)]
-    ,[("del",0.2),("fb",3),("lfo",100),("freq",100),("cutoff",100)]
-    ,[("del",0.5),("fb",1),("lfo",200),("freq",300),("rate",0.01),("cutoff",100)]]
-
-f0_fb_au :: Param -> IO ()
-f0_fb_au p = audition_at (-1,AddToHead,1,p) feedback4 >> pauseThread (2::Double)
 
 -- * TW
 
@@ -338,8 +248,9 @@ f0_tw0225 =
         o = blip AR (b / 2 + lfSaw KR ((-8) / b) 1 * 99) (b / 4 + (lfSaw KR (1 / b) 1 * 99))
     in sin (splay (combN (o * sinOsc AR (8 / b) (lfSaw AR (99 / b) 0)) 0.2 0.2 1) 1 1 0 True)
 
--- * http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
+-- * PACT
 
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/490> (f0)
 pkt_00 :: UGen
 pkt_00 =
     let sosc fr = sinOsc AR fr 0
@@ -351,8 +262,7 @@ pkt_00 =
         s = splay i w 0.7 (sosc 1.2 * 0.6) True
     in out 0 (gVerb s 20 5 1 0.5 25 0 1 1 30)
 
--- * http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
-
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/490> (f0)
 pkt_26_grid :: UGen -> UGen -> UGen
 pkt_26_grid n i =
     let t = i / n
@@ -371,8 +281,7 @@ pkt_26_grid n i =
 pkt_26 :: UGen
 pkt_26 = mixFill 8 (pkt_26_grid 8)
 
--- * http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
-
+-- | <http://www.fredrikolofsson.com/f0blog/?q=node/490> (f0)
 pkt_28_rnd :: UGen -> UGen -> UGen
 pkt_28_rnd n i =
     let a = lfSaw AR ((i + 1) * 5) 0 * 0.5 * pi
@@ -420,59 +329,6 @@ pkt_07 n =
 
 -}
 
--- * http://sccode.org/1-4Q6 (f0)
-
-{-
-
-> audition risset_u
-
-> let set p = withSC3 (send (n_set (-1) p))
-> set [("trig",1)]
-> set [("freq",midiCPS 100),("sustain",3),("trig",1)]
-> set [("freq",midiCPS 60),("sustain",9),("trig",1)]
-> set [("freq",midiCPS 40),("sustain",15),("trig",1)]
-
-> audition (P.nbind1 risset_p)
-
--}
-
-risset_u :: UGen
-risset_u =
-    let k = control KR
-        pan = k "pan" 0
-        f = k "freq" 400
-        ampl = k "amp" 0.1
-        d = k "sustain" 2
-        tr = tr_control "trig" 1
-        amps = [1,0.67,1,1.8,2.67,1.67,1.46,1.33,1.33,1,1.33]
-        durs = [1,0.9,0.65,0.55,0.325,0.35,0.25,0.2,0.15,0.1,0.075]
-        frqs = [0.56,0.56,0.92,0.92,1.19,1.7,2,2.74,3,3.76,4.07]
-        dets = [0,1,0,1.7,0,0,0,0,0,0,0]
-        fn i =
-            let shp = let c = EnvNum (-4.5)
-                      in envPerc_c 0.005 (d * durs!!i) (amps!!i) (c,c)
-                env = envGen AR tr 1 0 1 DoNothing shp
-            in sinOsc AR (f * frqs!!i + dets!!i) 0 * ampl * env
-        src = mixFill 11 fn
-    in pan2 src pan 1
-
-risset_s :: Synthdef
-risset_s = synthdef "risset" (out 0 risset_u)
-
-risset_p :: (Synthdef,Int,P.Param)
-risset_p =
-    let fr = let d = P.rand 'α' [0,2,5,7,11]
-                 o = P.rand 'β' [4,5,6,7,9]
-                 sc = [0,2,4,5,7,9,11]
-             in P.degree_to_cps' sc 12 d o
-        du = P.rand 'γ' [2,3,5,7]
-    in (risset_s,1000
-       ,[("freq",fr)
-        ,("dur",du)
-        ,("sustain",map (* 1.25) du)
-        ,("amp",P.white 'δ' 0.025 0.15)
-        ,("trig",repeat 1)])
-
 -- | <https://www.listarc.bham.ac.uk/lists/sc-users/msg17536.html> (f0)
 f0_17536 :: UGen
 f0_17536 =
@@ -482,26 +338,3 @@ f0_17536 =
         s1 = limiter (brf s0 t0 1) 1 0.01
         o = combN s1 0.1 (roundTo t1 0.01) 1
     in o * 0.1
-
--- * red_frik (f0)
-
-red :: UId m => UGen -> UGen -> m UGen
-red tr n = do
-  r1 <- tRandM 0.3 3 tr
-  r2 <- tRandM 0.3 5 tr
-  r3 <- tRandM 0 0.5 tr
-  r4 <- tRandM 0.49 0.56 tr
-  r5 <- tRandM 0.3 0.6 tr
-  r6 <- tRandM 0.3 0.5 tr
-  let o1 = fSinOsc KR r2 0 * r3 + r4
-      o2 = fSinOsc KR o1 0 * r5 + r6
-  return (rhpf n r1 o2)
-
-red_frik_m :: UId m => m UGen
-red_frik_m = do
-  n <- clone 2 (brownNoiseM AR)
-  let tr = impulse KR 0.1 0
-  red tr n
-
-red_frik :: UGen
-red_frik = uid_st_eval red_frik_m
