@@ -1,5 +1,4 @@
--- sprinkler (jmcc) #1
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2
 main :: IO ()
 main = audition (out 0 sprinkler)

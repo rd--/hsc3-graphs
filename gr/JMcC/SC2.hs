@@ -1,12 +1,8 @@
 module JMcC.SC2 where
 
-import Control.Concurrent {- base -}
-import Control.Monad {- base -}
 import Data.List {- base -}
 
 import qualified System.Random as R {- random -}
-
-import qualified Control.Monad.Random as MR {- MonadRandom -}
 
 import Sound.SC3 as SC3 {- hsc3 -}
 
@@ -14,38 +10,11 @@ import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}
 
 import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.Gen as R.Gen {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
 
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
--- * UTIL
-
--- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
-dsequ :: ID z => z -> [UGen] -> UGen -> UGen
-dsequ z s tr = demand tr 0 (dseq z dinf (mce s))
-
--- | 'demand' of 'dshuf' with 'dinf' repeat, ie. randomised 'dsequ'.
-dsequR :: ID z => z -> [UGen] -> UGen -> UGen
-dsequR z s tr = demand tr 0 (dshuf z dinf (mce s))
-
--- | 'demand' of 'dxrand' with 'dinf' repeat, ie. alternate randomised 'dsequ'.
-dsequX :: ID z => z -> [UGen] -> UGen -> UGen
-dsequX z s tr = demand tr 0 (dxrand z dinf (mce s))
-
--- | 'dsequ' '*' /tr/, ie. impulse sequencer.
-isequ :: ID z => z -> [UGen] -> UGen -> UGen
-isequ z s tr = dsequ z s tr * tr
-
-isequX :: ID z => z -> [UGen] -> UGen -> UGen
-isequX z s tr = dsequX z s tr * tr
-
-enumFromN :: Enum a => a -> Int -> [Int]
-enumFromN e i = let j = fromEnum e in [j .. j + i]
-
-nrec :: (Num a, Ord a) => a -> (t -> t) -> t -> t
-nrec n f st = if n > 0 then nrec (n - 1) f (f st) else st
+import JMcC.Util
 
 -- * SC2-1
 
@@ -56,15 +25,6 @@ analog_bubbles =
       f = lfSaw KR 0.4 0 * 24 + o
       s = sinOsc AR (midiCPS f) 0 * 0.04
   in combN s 0.2 0.2 4
-
-{-
-
-> putStrLn $ synthstat analog_bubbles
-> let g = synthdef_to_graphdef (synthdef "analog-bubbles" (out 0 analog_bubbles))
-> import qualified Sound.SC3.Server.Graphdef as Graphdef
-> putStrLn $ Graphdef.graphdef_stat g
-
--}
 
 -- | lfo modulation (jmcc) #1
 lfo_modulation :: UGen
@@ -118,7 +78,7 @@ random_sine_waves =
 random_sine_waves_ot :: IO ()
 random_sine_waves_ot = O.overlapTextureU (2,5,12,maxBound) random_sine_waves
 
--- * random pulsations (jmcc) #1
+-- | random pulsations (jmcc) #1
 random_pulsations :: UGen
 random_pulsations =
     let e = envLinen 2 5 2 0.02
@@ -153,11 +113,10 @@ tremulate =
         l = RDU.randN 4 'δ' (-1) 1
     in mix (pan2 o l a)
 
-tremulate_pp :: UGen -> UGen
-tremulate_pp i = combN i 0.1 0.1 1
-
 tremulate_xt :: IO ()
-tremulate_xt = O.xfadeTextureU_pp (0.5,2,maxBound) tremulate 2 tremulate_pp
+tremulate_xt =
+  let pp i = combN i 0.1 0.1 1
+  in O.xfadeTextureU_pp (0.5,2,maxBound) tremulate 2 pp
 
 -- | reso-pulse (jmcc) #1
 reso_pulse :: UGen
@@ -371,7 +330,7 @@ what_was_i_thinking_m = do
 what_was_i_thinking :: UGen
 what_was_i_thinking = uid_st_eval what_was_i_thinking_m
 
--- * narrow band filtered crackle noise (jmcc) #2
+-- | narrow band filtered crackle noise (jmcc) #2
 narrow_band_filtered_crackle_noise :: UGen
 narrow_band_filtered_crackle_noise =
     let e = envLinen 2 5 2 1
@@ -524,7 +483,7 @@ analogue_daze =
         e = envLinen 2 56 2 1
     in z * envGen KR 1 1 0 1 RemoveSynth e
 
--- * synthetic piano (jmcc) #3
+-- | synthetic piano (jmcc) #3
 synthetic_piano :: UGen
 synthetic_piano =
   let n = iRand 'α' 36 90
@@ -542,7 +501,7 @@ synthetic_piano =
 synthetic_piano_ot :: IO ()
 synthetic_piano_ot = O.overlapTextureU (6,0,6,maxBound) synthetic_piano
 
--- * reverberated_sine_percussion (jmcc) #3
+-- | reverberated_sine_percussion (jmcc) #3
 reverberated_sine_percussion_m :: UId m => m UGen
 reverberated_sine_percussion_m = do
   let d = 6
@@ -764,8 +723,8 @@ birdies_ot :: IO ()
 birdies_ot = O.overlapTextureU (7,4,4,maxBound) birdies
 
 -- | phase modulation with slow beats (jmcc) #6
-pmwsb :: UGen
-pmwsb =
+phase_modulation_with_slow_beats :: UGen
+phase_modulation_with_slow_beats =
     let x = mouseX KR 100 6000 Exponential 0.2 {- random freq of new events -}
         y = mouseY KR 0 2 Linear 0.2 {- modulation index -}
         o (e,a) = let f = rand e 0 x
@@ -774,49 +733,47 @@ pmwsb =
         freq = rand 'γ' 0 x
     in sinOsc AR (mce [freq, freq + rand2 'δ' 1]) ph * 0.1
 
-pmwsb_ot :: IO ()
-pmwsb_ot = O.overlapTextureU (4,4,4,maxBound) pmwsb
+phase_modulation_with_slow_beats_ot :: IO ()
+phase_modulation_with_slow_beats_ot =
+  O.overlapTextureU (4,4,4,maxBound) phase_modulation_with_slow_beats
 
 -- | hard sync sawtooth with lfo (jmcc) #6
-hsswl :: UGen
-hsswl =
+hard_sync_sawtooth_with_lfo :: UGen
+hard_sync_sawtooth_with_lfo =
     let f = midiCPS (30 + iRand 'α' 0 50)
         o = sinOsc KR 0.2 (mce [0, rand 'β' 0 (2 * pi)]) * (2 * f) + (3 * f)
     in syncSaw AR (mce [f, f + 0.2]) o * 0.05
 
-hsswl_pp :: UGen -> UGen
-hsswl_pp z = combN z 0.3 0.3 4 + mceReverse z
-
-hsswl_ot :: IO ()
-hsswl_ot = O.overlapTextureU_pp (4,4,4,maxBound) hsswl 2 hsswl_pp
+hard_sync_sawtooth_with_lfo_ot :: IO ()
+hard_sync_sawtooth_with_lfo_ot =
+  let pp z = combN z 0.3 0.3 4 + mceReverse z
+  in O.overlapTextureU_pp (4,4,4,maxBound) hard_sync_sawtooth_with_lfo 2 pp
 
 -- | noise modulated sines (jmcc) #6
-nms :: UGen
-nms =
+noise_modulated_sines :: UGen
+noise_modulated_sines =
     let f = midiCPS (rand 'α' 60 100)
         o = fSinOsc AR (mce2 f (f + 0.2)) 0
         a = lfNoise2 'β' KR (f * mce2 0.15 0.16) * 0.1
     in o * a
 
-nms_pp :: (UGen -> UGen)
-nms_pp i = combN i 0.3 0.3 4 + mceReverse i
-
-nms_ot :: IO ()
-nms_ot = O.overlapTextureU_pp (4,4,4,maxBound) nms 2 nms_pp
+noise_modulated_sines_ot :: IO ()
+noise_modulated_sines_ot =
+  let pp i = combN i 0.3 0.3 4 + mceReverse i
+  in O.overlapTextureU_pp (4,4,4,maxBound) noise_modulated_sines 2 pp
 
 -- | noise modulated sawtooths (jmcc) #6
-nmsw :: UGen
-nmsw =
+noise_modulated_sawtooths :: UGen
+noise_modulated_sawtooths =
     let f = midiCPS (rand 'α' 60 100)
         o = lfSaw AR (mce2 f (f + 0.2)) 0
         a = lfNoise2 'β' KR (f * mce2 0.15 0.16) * 0.1
     in o * a
 
-nmsw_pp :: (UGen -> UGen)
-nmsw_pp i = combN i 0.3 0.3 4 + mceReverse i
-
-nmsw_ot :: IO ()
-nmsw_ot = O.overlapTextureU_pp (4,4,4,maxBound) nmsw 2 nmsw_pp
+noise_modulated_sawtooths_ot :: IO ()
+noise_modulated_sawtooths_ot =
+  let pp i = combN i 0.3 0.3 4 + mceReverse i
+  in O.overlapTextureU_pp (4,4,4,maxBound) noise_modulated_sawtooths 2 pp
 
 -- * SC2-7
 
@@ -848,92 +805,6 @@ aleatoric_quartet_m = do
 aleatoric_quartet :: UGen
 aleatoric_quartet = uid_st_eval aleatoric_quartet_m
 
--- * slow beating sines (jmcc) #7
-
-{-
-> MR.evalRand (sbs_r_param 20 0.4 3) (R.mkStdGen 121423)
--}
-
-type SBS_PARAM n = (([[n]], [[n]], [[n]]), ([[n]], [[n]], [[n]]))
-
-sbs_r_param :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g (SBS_PARAM Double)
-sbs_r_param n d m = do
-  let gen_hm k f = MR.nrrand k (f - d) (f + d)
-      gen_hm' k f = fmap (f :) (gen_hm k f)
-      gen_ph = MR.nrrand m 0 (2 * pi)
-  f <- MR.nrrand n (midi_to_cps 24) (midi_to_cps 84)
-  p_fr <- mapM (gen_hm' (m - 1)) f
-  q_fr <- mapM (gen_hm m) f
-  p_ph <- replicateM n gen_ph
-  q_ph <- replicateM n gen_ph
-  let a = replicate n (replicate m 1)
-  return ((p_fr,a,p_ph),(q_fr,a,q_ph))
-
-sbs_r :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g UGen
-sbs_r n d m = do
-  ((p_fr,p_am,p_ph),(q_fr,q_am,q_ph)) <- sbs_r_param n d m
-  let p_sp = zipWith3 klangSpec_k p_fr p_am p_ph
-      q_sp = zipWith3 klangSpec_k q_fr q_am q_ph
-      mk_u s = klang AR 1 0 s * (0.1 / fromIntegral n)
-      p_u = sum (map mk_u p_sp)
-      q_u = sum (map mk_u q_sp)
-  return (mce2 p_u q_u)
-
-sbs_ot :: IO ()
-sbs_ot = do
-  g <- R.getStdGen
-  O.overlapTextureS (4,4,3,maxBound) (MR.runRand (sbs_r 20 0.4 3)) g
-
-sbs :: UGen
-sbs = MR.evalRand (sbs_r 20 0.4 3) (R.mkStdGen 123678141)
-
--- * slow beating harmonic sines (jmcc) #7
-
-sbhs_r_freq :: R.RandomGen g => Int -> Int -> MR.Rand g [Double]
-sbhs_r_freq k i = do
-  n <- MR.nchoose i [0,2,4,5,7,9]
-  o <- MR.nrand i 7
-  let f n' o' = midi_to_cps (n' + (o' * 12) + fromIntegral k)
-  return (zipWith f n o)
-
-sbhs_r_harmonics :: R.RandomGen g => Double -> Int -> Double -> MR.Rand g [Double]
-sbhs_r_harmonics d m f = do
-  d' <- MR.nrand2 m d
-  return (zipWith (+) (map (* f) [1,2,4,5,6]) d')
-
-type SBHS_PARAM n = (([[n]], [[n]], [[n]]), ([[n]], [[n]], [[n]]))
-
-sbhs_r_param :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g (SBS_PARAM Double)
-sbhs_r_param n d m = do
-  k' <- MR.rand 12
-  let k = 24 + k'
-      gen_ph = MR.nrrand m 0 (2 * pi)
-  f <- sbhs_r_freq k n
-  p_fr <- mapM (sbhs_r_harmonics d m) f
-  q_fr <- mapM (sbhs_r_harmonics d m) f
-  p_ph <- replicateM n gen_ph
-  q_ph <- replicateM n gen_ph
-  let a = replicate n (replicate m 1)
-  return ((p_fr,a,p_ph),(q_fr,a,q_ph))
-
-sbhs_r :: R.RandomGen g => Int -> Double -> Int -> MR.Rand g UGen
-sbhs_r n d m = do
-  ((p_fr,p_am,p_ph),(q_fr,q_am,q_ph)) <- sbhs_r_param n d m
-  let p_sp = zipWith3 klangSpec_k p_fr p_am p_ph
-      q_sp = zipWith3 klangSpec_k q_fr q_am q_ph
-      mk_u s = klang AR 1 0 s * (0.1 / fromIntegral n)
-      p_u = sum (map mk_u p_sp)
-      q_u = sum (map mk_u q_sp)
-  return (mce2 p_u q_u)
-
-sbhs_ot :: IO ()
-sbhs_ot = do
-  g <- R.getStdGen
-  O.overlapTextureS (3,6,3,maxBound) (MR.runRand (sbhs_r 8 0.4 5)) g
-
-sbhs :: UGen
-sbhs = MR.evalRand (sbs_r 8 0.4 5) (R.mkStdGen 123678141)
-
 -- | tapping tools (jmcc) #7
 tapping_tools :: UGen
 tapping_tools =
@@ -957,43 +828,35 @@ tapping_tools_ot = O.overlapTextureU_pp (2,1,3,maxBound) tapping_tools 2 tapping
 -- * SC2-8
 
 -- | modal space, using local buffer (jmcc) #8
-ms1 :: UGen -> UGen -> UGen
-ms1 n r =
-    let b = asLocalBuf 'α' [0,2,3.2,5,7,9,10] {- dorian scale -}
-        x = mouseX KR 0 15 Linear 0.1 {- mouse indexes into scale -}
-        k = degreeToKey b x 12 {- 12 notes per octave -}
-        o = sinOsc AR (midiCPS (r + k + n * 0.04)) 0 * 0.1
-        t = lfPulse AR (midiCPS (mce2 48 55)) 0 0.15
-        f = midiCPS (sinOsc KR 0.1 0 * 10 + r)
-        d = rlpf t f 0.1 * 0.1
-        m = o + d
-    in combN m 0.31 0.31 2 + m
-
 modal_space :: UGen
-modal_space = (ms1 (lfNoise1 'β' KR 3) 48 + ms1 (lfNoise1 'γ' KR 3) 72) * 0.25
+modal_space =
+  let ms1 n r =
+        let b = asLocalBuf 'α' [0,2,3.2,5,7,9,10] {- dorian scale -}
+            x = mouseX KR 0 15 Linear 0.1 {- mouse indexes into scale -}
+            k = degreeToKey b x 12 {- 12 notes per octave -}
+            o = sinOsc AR (midiCPS (r + k + n * 0.04)) 0 * 0.1
+            t = lfPulse AR (midiCPS (mce2 48 55)) 0 0.15
+            f = midiCPS (sinOsc KR 0.1 0 * 10 + r)
+            d = rlpf t f 0.1 * 0.1
+            m = o + d
+        in combN m 0.31 0.31 2 + m
+  in ms1 (lfNoise1 'β' KR 3) 48 + ms1 (lfNoise1 'γ' KR 3) 72 * 0.25
 
 -- | landon rose (jmcc) #8
-lr_nt :: Num n => [[n]]
-lr_nt =
-    [[32,43,54, 89]
-    ,[10,34,80,120]
-    ,[67,88,90,100]
-    ,[76,88,99,124]]
-
-lr_fr :: Floating n => [[n]]
-lr_fr = map (map midi_to_cps) lr_nt
-
-lr_nd :: ID a => a -> UGen -> [UGen] -> UGen
-lr_nd z e f =
-    let p = klankSpec f (replicate 4 1) (replicate 4 3)
-        x = e * pinkNoise z AR * mce2 0.0011 0.0012
-    in klank x 1 0 1 p
-
-lr_env :: Real n => n -> UGen
-lr_env i = abs (sinOsc AR (1 / 8) ((constant i / 2) * pi))
-
 landon_rose :: UGen
-landon_rose = sum (zipWith3 lr_nd "αβγδ" (map lr_env [0::Int .. 3]) lr_fr)
+landon_rose =
+  let nt =
+        [[32,43,54, 89]
+        ,[10,34,80,120]
+        ,[67,88,90,100]
+        ,[76,88,99,124]]
+      fr = map (map midi_to_cps) nt
+      nd z e f =
+        let p = klankSpec f (replicate 4 1) (replicate 4 3)
+            x = e * pinkNoise z AR * mce2 0.0011 0.0012
+        in klank x 1 0 1 p
+      env i = abs (sinOsc AR (1 / 8) ((constant i / 2) * pi))
+  in sum (zipWith3 nd "αβγδ" (map env [0::Int .. 3]) fr)
 
 -- * SC2-9
 
@@ -1111,109 +974,6 @@ strummable_guitar =
     in leakDC (lpf strs 12000) 0.995
 
 -- * SC2-12
-
--- * drone plus rhythm (jmcc) #12
-dpr_scale :: Num a => [a]
-dpr_scale = [0, 2, 3, 5, 7, 9, 10]
-
-dpr_drone_1 :: UGen
-dpr_drone_1 =
-    let f0 = midiCPS (lchoose 'α' [24,36] + rand2 'β' 0.08)
-        f1 = lfSaw AR (mce2 f0 (f0 + 0.2)) 0 * lfNoise2 'γ' KR (f0 * mce2 0.05 0.04) * 0.06
-    in lpf f1 (rand 'δ' 1000 3000)
-
-dpr_drone_2 :: UGen
-dpr_drone_2 =
-    let x = rand 'ε' 0 1 `greater_than` 0.8
-        m = lchoose 'ζ' [60,72] + lchoose 'η' dpr_scale + Protect.uclone_all 'θ' 2 (rand2 'ι' 0.05)
-    in sinOsc AR (midiCPS m) 0 * x * rand 'κ' 0.04 0.07
-
-dpr_rhy :: UGen
-dpr_rhy =
-    let m = lchoose 'λ' [48, 60, 72, 84] + lchoose 'μ' dpr_scale + Protect.uclone_all 'ν' 2 (rand2 'ξ' 0.03)
-        sq = isequX 'ο' [0,1,0,1,1,0] (impulse AR (lchoose 'π' [1.5,3,6]) 0)
-        sg = lfPulse AR (midiCPS m) 0 0.4 * rand 'ρ' 0.03 0.08
-    in rlpf (decay2 sq 0.004 (rand 'σ' 0.2 0.7) * sg) (expRand 'τ' 800 2000) 0.1
-
-dpr_rhy_pp :: UGen -> UGen
-dpr_rhy_pp z = combN z 0.5 0.5 6 + mceReverse z
-
-dpr_ot :: IO [ThreadId]
-dpr_ot = do
-  t1 <- forkIO (O.overlapTextureU_pp (6,6,6,maxBound) dpr_rhy 2 dpr_rhy_pp)
-  t2 <- forkIO (O.overlapTextureU (4,4,8,maxBound) dpr_drone_1)
-  t3 <- forkIO (O.overlapTextureU (4,6,3,maxBound) dpr_drone_2)
-  return [t1,t2,t3]
-
-dpr_ot_ :: IO ()
-dpr_ot_ = dpr_ot >> return ()
-
--- | early space music LP, side 2 (jmcc) #12
-esmlp2_m1 :: UGen
-esmlp2_m1 =
-    let a = rand 'α' 0 20
-        b = rand 'β' 0 5000
-        c = rand 'γ' 0 20
-        p = rand 'δ' (-1) 1
-    in pan2 (sinOsc AR (sinOsc AR a 0 * 0.1 * b + b) 0 * sinOsc KR c 0 * 0.08 + 0.08) p 1
-
-esmlp2_m2 :: UGen
-esmlp2_m2 =
-    let a0 = rand 'ε' 40 240
-        a1 = a0 + rand 'ζ' (-1) 1
-        a = mce2 a0 a1
-        b = expRand 'η' 50 2400
-        c = mce2 (a0 + rand 'θ' (-1) 1) (a1 + rand 'ι' (-1) 1)
-    in sinOsc AR (sinOsc AR a 0 * rand 'κ' 0 1 * b + b) 0 * sinOsc KR c 0 * 0.025 + 0.025
-
-esmlp2_m3 :: UGen
-esmlp2_m3 =
-    let f = midiCPS (rand 'λ' 60 100)
-    in fSinOsc AR (mce2 f (f + 0.2)) 0 * lfNoise2 'μ' KR (f * mce2 0.15 0.16) * 0.1
-
-esmlp2_m4 :: UGen
-esmlp2_m4 =
-    let a = lfPulse KR (expRand 'ν' 0.2 1.2) 0 (rand 'ξ' 0.1 0.2)
-        o z = let i = constant z
-                  r = let (p,q) = mce2c (RDU.expRandN 2 z 0.1 20)
-                      in xLine KR p q 25.6 DoNothing
-                  f = midiCPS (rand z 24 96)
-                  e = max 0 (sinOsc KR (r * rand z 0.9 1.1) (rand z 0 (2 * pi)) * 0.1 - 0.05)
-                  s = fSinOsc AR (f * i + f) 0 * e * (1 / (i + 1))
-              in pan2 s (rand z (-1) 1) 1
-    in sum (map o (id_seq 12 'ο')) * a
-
-esmlp2_m6 :: UGen
-esmlp2_m6 =
-    let f = midiCPS (lfNoise1 'π' KR (rand 'ρ' 0 0.3) * 60 + 70)
-        a0 = lfNoise2 'σ' AR (f * rand 'τ' 0 0.5)
-        a1 = max 0 (lfNoise1 'υ' KR (rand 'φ' 0 8) * sinOsc KR (rand 'χ' 0 40) 0 * 0.1)
-        z = sinOsc AR f 0 * a0 * a1
-    in pan2 z (lfNoise1 'ψ' KR (rand 'ω' 0 5)) 1
-
-esmlp2_m7 :: UGen
-esmlp2_m7 =
-    let p = 15
-        k = let y z = let fr = mceChannels (RDU.expRandN p z 100 6000)
-                          rt = mceChannels (RDU.randN p z 2 6)
-                      in klankSpec fr (replicate p 1) rt
-            in mce2 (y 'Α') (y 'Β')
-        f = xLine KR (expRand 'Γ' 40 300) (expRand 'Δ' 40 300) 12 DoNothing
-        t = lfPulse AR f 0 (rand 'Ε' 0.1 0.9) * 0.002 * max 0 (lfNoise2 'Ζ' KR (rand 'Η' 0 8))
-    in distort (klank t 1 0 1 (mceTranspose k)) * 0.3
-
-esmlp2 :: R.RandomGen g => g -> (UGen, g)
-esmlp2 = R.Gen.choose (map (* 0.3) [esmlp2_m1,esmlp2_m2,esmlp2_m3,esmlp2_m4,esmlp2_m6,esmlp2_m7])
-
-esmlp2_pp :: UGen -> UGen
-esmlp2_pp i =
-    let c z = combN i 0.3 (mce2 (rand z 0.1 0.3) (rand z 0.12 0.32)) 8
-    in sum (map c (id_seq 5 'Θ')) * 0.3
-
-esmlp2_ot :: IO ()
-esmlp2_ot = do
-  let g = R.mkStdGen 0
-  O.overlapTextureS_pp (4,2,6,maxBound) esmlp2 g 2 esmlp2_pp
 
 -- | impulse sequencer (jmcc) SC2
 impulse_sequencer :: UGen

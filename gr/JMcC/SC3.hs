@@ -1,58 +1,14 @@
 module JMcC.SC3 where
 
 import Control.Applicative {- base -}
-import Control.Concurrent {- base -}
-import Control.Monad {- base -}
-import Data.List {- base -}
 
-import qualified System.Random as R {- random -}
-
-import qualified Control.Monad.Random as MR {- MonadRandom -}
-
-import Sound.OSC {- hosc -}
 import Sound.SC3 as SC3 {- hsc3 -}
-import Sound.SC3.Common.Monad.Operators ((+.),(.+.)) {- hsc3 -}
 
 import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}
 
-import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Pattern.Bind as P {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.Gen as R.Gen {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.Monad as MR {- hsc3-lang -}
 
-import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
-
--- * UTIL
-
--- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
-dsequ :: ID z => z -> [UGen] -> UGen -> UGen
-dsequ z s tr = demand tr 0 (dseq z dinf (mce s))
-
--- | 'demand' of 'dshuf' with 'dinf' repeat, ie. randomised 'dsequ'.
-dsequR :: ID z => z -> [UGen] -> UGen -> UGen
-dsequR z s tr = demand tr 0 (dshuf z dinf (mce s))
-
--- | 'demand' of 'dxrand' with 'dinf' repeat, ie. alternate randomised 'dsequ'.
-dsequX :: ID z => z -> [UGen] -> UGen -> UGen
-dsequX z s tr = demand tr 0 (dxrand z dinf (mce s))
-
--- | 'dsequ' '*' /tr/, ie. impulse sequencer.
-isequ :: ID z => z -> [UGen] -> UGen -> UGen
-isequ z s tr = dsequ z s tr * tr
-
-isequX :: ID z => z -> [UGen] -> UGen -> UGen
-isequX z s tr = dsequX z s tr * tr
-
-enumFromN :: Enum a => a -> Int -> [Int]
-enumFromN e i = let j = fromEnum e in [j .. j + i]
-
-nrec :: (Num a, Ord a) => a -> (t -> t) -> t -> t
-nrec n f st = if n > 0 then nrec (n - 1) f (f st) else st
-
--- * zizle (jmcc) #SC3d1.5
-
+-- | zizle (jmcc) #SC3d1.5
 zizle :: UGen
 zizle =
   let a e f = let fm = mce2 (rand 'α' 0.7 1.3) 1
@@ -66,18 +22,7 @@ zizle =
 zizle_ot :: IO ()
 zizle_ot = O.overlapTextureU (4,4,12,maxBound) zizle
 
--- * babbling brook (jmcc) #SC3
-
-{- | http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html -}
-babbling_brook :: UGen
-babbling_brook =
-  let b f m a g = let n3 = lpf (brownNoise 'α' AR) f * m + a
-                      n4 = onePole (brownNoise 'β' AR) 0.99
-                  in rhpf n4 n3 0.03 * g
-      x = Protect.uclone_all 'γ' 2 (b 14 400 500 0.006)
-      y = Protect.uclone_all 'δ' 2 (b 20 800 1000 0.010)
-  in x + y
-
+-- | babbling brook (jmcc) #SC3
 babbling_brook_m :: UId m => m UGen
 babbling_brook_m = do
   let b f m a g = do n1 <- brownNoiseM AR
@@ -89,69 +34,10 @@ babbling_brook_m = do
   y <- clone 2 (b 20 800 1000 0.010)
   return (x + y)
 
--- * mridangam (jmcc) #SPE3
+babbling_brook :: UGen
+babbling_brook = uid_st_eval babbling_brook_m
 
-mri_mridangam :: UGen
-mri_mridangam =
-    let a = tr_control "amp" 1
-        n = whiteNoise 'α' AR * 70
-        e = decay2 a 0.002 0.1
-    in distort (resonz (n * e) (midiCPS 60) 0.02 * 4) * 0.4
-
-mri_drone :: UGen
-mri_drone =
-    let s1 = saw AR (midiCPS (mce2 60 60.04))
-        s2 = saw AR (midiCPS (mce2 67 67.04))
-    in lpf (s1 + s2) (midiCPS 108) * 0.007
-
-lseq :: [a] -> Int -> [a]
-lseq l n = concat (replicate n l)
-
-lrand :: Enum e => e -> [[a]] -> Int -> [a]
-lrand e l n = concat (R.nchoose e n l)
-
-mri_a_seq :: (Num i,Fractional n) => ([n] -> i -> t) -> ([[n]] -> i -> t) -> [t]
-mri_a_seq sq_f rnd_f =
-    [sq_f [0.0] 10
-    {- intro -}
-    ,sq_f [0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] 2
-    ,sq_f [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.0] 2
-    ,sq_f [0.9,0.0,0.0,0.2,0.0,0.2,0.0,0.2,0.0,0.0] 2
-    ,sq_f [0.9,0.0,0.0,0.2,0.0,0.0,0.0,0.2,0.0,0.2] 2
-    {- solo -}
-    ,rnd_f [[0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
-           ,[0.9,0.2,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
-           ,[0.9,0.0,0.0,0.7,0.0,0.2,0.0,0.7,0.0,0.2]
-           ,[0.9,0.0,0.0,0.7,0.2,0.2,0.0,0.7,0.0,0.0]
-           ,[0.9,0.0,0.0,0.7,0.0,0.2,0.2,0.7,0.2,0.0]
-           ,[0.9,0.2,0.2,0.7,0.2,0.2,0.2,0.7,0.2,0.2]
-           ,[0.9,0.2,0.2,0.7,0.2,0.2,0.2,0.7,0.0,0.0]
-           ,[0.9,0.0,0.0,0.7,0.2,0.2,0.2,0.7,0.0,0.0]
-           ,[0.9,0.0,0.4,0.0,0.4,0.0,0.4,0.0,0.4,0.0]
-           ,[0.9,0.0,0.0,0.4,0.0,0.0,0.4,0.2,0.4,0.2]
-           ,[0.9,0.0,0.2,0.7,0.0,0.2,0.0,0.7,0.0,0.0]
-           ,[0.9,0.0,0.0,0.7,0.0,0.0,0.0,0.7,0.0,0.0]
-           ,[0.9,0.7,0.7,0.0,0.0,0.2,0.2,0.2,0.0,0.0]
-           ,[0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]] 30
-    {- tehai -}
-    ,sq_f [2.0,0.0,0.2,0.5,0.0,0.2,0.9
-          ,1.5,0.0,0.2,0.5,0.0,0.2,0.9
-          ,1.5,0.0,0.2,0.5,0.0,0.2] 3
-    {- sam -}
-    ,sq_f [5.0] 1]
-
-mri_begin :: Transport m => m ()
-mri_begin = do
-  play (out 0 mri_drone)
-  let sy = synthdef "mridangam" (out 0 mri_mridangam)
-      a = concat (mri_a_seq lseq (lrand 'α'))
-  nrt_play (P.nbind1 (sy,100,[("amp",a),("dur",repeat (1/8))]))
-
-mri_run :: IO ()
-mri_run = withSC3 mri_begin
-
--- * bowed string (jmcc)
-
+-- | bowed string (jmcc)
 bowed_string_m :: UId m => m UGen
 bowed_string_m = do
   let root = 5
@@ -176,8 +62,7 @@ bowed_string = uid_st_eval bowed_string_m
 bowed_string_ot :: IO ()
 bowed_string_ot = O.overlapTextureU (5,2,12,maxBound) bowed_string
 
--- * demanding studies (jmcc)
-
+-- | demanding studies (jmcc)
 demanding_studies :: UGen
 demanding_studies =
   let s1 = drand 'α' dinf (mce [72, 75, 79, 82])
@@ -191,8 +76,7 @@ demanding_studies =
       o3 = cubed (distort (log (distort (o1 + o2))))
   in o3 * 0.1
 
--- * wind metals (jmcc)
-
+-- | wind metals (jmcc)
 wind_metals_m :: UId m => m UGen
 wind_metals_m = do
   let n = 6
@@ -214,92 +98,7 @@ wind_metals = uid_st_eval wind_metals_m
 wind_metals_ot :: IO ()
 wind_metals_ot = O.overlapTextureU (5,2,12,maxBound) wind_metals
 
--- * tank (jmcc)
-
-tank_pling :: UGen
-tank_pling =
-    let d = dust 'α' AR 0.2
-        f = expRand 'β' 300 2200
-        p = rand 'γ' (-1) 1
-        s1 = cubed (fSinOsc AR f 0)
-        s2 = decay2 d 0.1 0.5 * 0.1 * s1
-    in pan2 s2 p 1
-
-tank_bang :: UGen
-tank_bang =
-    let d = dust 'δ' AR 0.01
-        n = brownNoise 'ε' AR
-    in pan2 (decay2 d 0.04 0.3 * n) 0 1
-
-tank_f :: UGen -> UGen
-tank_f i =
-    let l0 = localIn 2 AR (mce2 0 0) * 0.98
-        l1 = onePole l0 0.33
-        (l1l,l1r) = unmce2 l1
-        l2 = rotate2 l1l l1r 0.23
-        l3 = allpassN l2 0.05 (RDU.randN 2 'θ' 0.01 0.05) 2
-        l4 = delayN l3 0.3 (mce2 0.17 0.23)
-        l5 = allpassN l4 0.05 (RDU.randN 2 'ι' 0.03 0.15) 2
-        l6 = leakDC l5 0.995
-        l7 = l6 + i
-    in mrg [l7,localOut l7]
-
-{- > let u = Protect.useq 'λ' 4 r_allpass (soundIn 0) -}
-r_allpass :: UGen -> UGen
-r_allpass i = allpassN i 0.03 (RDU.randN 2 'ζ' 0.005 0.02) 1
-
-{- <http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html> -}
-tank :: UGen
-tank =
-  let s = tank_bang + mix (Protect.uclone_all 'κ' 8 tank_pling)
-  in tank_f (Protect.useq_all 'λ' 4 r_allpass s)
-
-tank_rev :: UGen -> UGen
-tank_rev = tank_f . Protect.useq_all 'λ' 4 r_allpass
-
-tank_pling_m :: UId m => m UGen
-tank_pling_m = do
-  d <- dustM AR 0.2
-  f <- expRandM 300 2200
-  p <- randM (-1) 1
-  let s1 = cubed (fSinOsc AR f 0)
-      s2 = decay2 d 0.1 0.5 * 0.1 * s1
-  return (pan2 s2 p 1)
-
-tank_bang_m :: UId m => m UGen
-tank_bang_m = do
-  d <- dustM AR 0.01
-  n <- brownNoiseM AR
-  return (pan2 (decay2 d 0.04 0.3 * n) 0 1)
-
-r_allpass_m :: UId m => UGen -> m UGen
-r_allpass_m i = do
-  r <- clone 2 (randM 0.005 0.02)
-  return (allpassN i 0.03 r 1)
-
-tank_f_m :: UId m => UGen -> m UGen
-tank_f_m i = do
-  r1 <- clone 2 (randM 0.01 0.05)
-  r2 <- clone 2 (randM 0.03 0.15)
-  let l0 = localIn' 2 AR * 0.98
-      l1 = onePole l0 0.33
-      (l1l,l1r) = unmce2 l1
-      l2 = rotate2 l1l l1r 0.23
-      l3 = allpassN l2 0.05 r1 2
-      l4 = delayN l3 0.3 (mce [0.17,0.23])
-      l5 = allpassN l4 0.05 r2 2
-      l6 = leakDC l5 0.995
-      l7 = l6 + i
-  return (mrg [l7,localOut l7])
-
-mix_replicate_m :: Monad m => Int -> m UGen -> m UGen
-mix_replicate_m n = mixFillM n . (const :: m UGen -> Int -> m UGen)
-
-tank_m :: UId m => m UGen
-tank_m = tank_f_m =<< chainM 4 r_allpass_m =<< tank_bang_m .+. mix_replicate_m 8 tank_pling_m
-
 -- * plucked strings (jmcc)
-
 plucked_strings_m :: UId m => m UGen
 plucked_strings_m = do
   let dt = do r0 <- randM 60 90
@@ -325,7 +124,6 @@ plucked_strings :: UGen
 plucked_strings = uid_st_eval plucked_strings_m
 
 -- * theremin (jmcc)
-
 theremin :: UGen
 theremin =
   let m = 7
@@ -338,7 +136,6 @@ theremin =
   in pan2 a 0 1
 
 -- * snare-909 (jmcc)
-
 snare_909 :: UGen -> UGen
 snare_909 tr =
   let n = whiteNoise 'α' AR
@@ -364,7 +161,6 @@ snare_909_mouse =
     in pan2 (snare_909 t) 0 y
 
 -- * birds (jmcc)
-
 birds_m :: UId m => m UGen
 birds_m = do
   let node = do r1 <- randM 94.0 102.0
@@ -389,8 +185,7 @@ birds_m = do
 birds :: UGen
 birds = uid_st_eval birds_m
 
--- * spe (jmcc) / rd
-
+-- * spe (jmcc)
 spe_m :: UId m => m UGen
 spe_m = do
   let rapf i = do r <- clone 2 (randM 0 0.05)

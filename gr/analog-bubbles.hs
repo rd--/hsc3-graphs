@@ -1,7 +1,5 @@
--- analog bubbles (jmcc) #1
-
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2
 
 main :: IO ()
 main = audition (out 0 analog_bubbles)
@@ -9,4 +7,13 @@ main = audition (out 0 analog_bubbles)
 wr :: IO ()
 wr = do
   let dir = "/home/rohan/sw/hsc3-graphs/scsyndef"
-  synthdefWrite (synthdef "analog-bubbles.hs" (out 0 analog_bubbles)) dir
+  synthdefWrite_dir dir (synthdef "analog-bubbles.hs" (out 0 analog_bubbles))
+
+{-
+
+> putStrLn $ synthstat analog_bubbles
+> let g = synthdef_to_graphdef (synthdef "analog-bubbles" (out 0 analog_bubbles))
+> import qualified Sound.SC3.Server.Graphdef as Graphdef
+> putStrLn $ Graphdef.graphdef_stat g
+
+-}

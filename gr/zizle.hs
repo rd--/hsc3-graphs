@@ -1,4 +1,3 @@
--- zizle (jmcc) #SC3d1.5
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC3
 main :: IO ()
 main = zizle_ot

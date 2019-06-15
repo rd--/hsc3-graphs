@@ -192,3 +192,53 @@ birds =
       w = Protect.useq_all 'δ' 12 f d
   in d * 0.7 + w * 0.3
 
+{- | http://lists.create.ucsb.edu/pipermail/sc-users/2007-April/033239.html -}
+babbling_brook :: UGen
+babbling_brook =
+  let b f m a g = let n3 = lpf (brownNoise 'α' AR) f * m + a
+                      n4 = onePole (brownNoise 'β' AR) 0.99
+                  in rhpf n4 n3 0.03 * g
+      x = Protect.uclone_all 'γ' 2 (b 14 400 500 0.006)
+      y = Protect.uclone_all 'δ' 2 (b 20 800 1000 0.010)
+  in x + y
+
+tank_pling_m :: UId m => m UGen
+tank_pling_m = do
+  d <- dustM AR 0.2
+  f <- expRandM 300 2200
+  p <- randM (-1) 1
+  let s1 = cubed (fSinOsc AR f 0)
+      s2 = decay2 d 0.1 0.5 * 0.1 * s1
+  return (pan2 s2 p 1)
+
+tank_bang_m :: UId m => m UGen
+tank_bang_m = do
+  d <- dustM AR 0.01
+  n <- brownNoiseM AR
+  return (pan2 (decay2 d 0.04 0.3 * n) 0 1)
+
+r_allpass_m :: UId m => UGen -> m UGen
+r_allpass_m i = do
+  r <- clone 2 (randM 0.005 0.02)
+  return (allpassN i 0.03 r 1)
+
+tank_f_m :: UId m => UGen -> m UGen
+tank_f_m i = do
+  r1 <- clone 2 (randM 0.01 0.05)
+  r2 <- clone 2 (randM 0.03 0.15)
+  let l0 = localIn' 2 AR * 0.98
+      l1 = onePole l0 0.33
+      (l1l,l1r) = unmce2 l1
+      l2 = rotate2 l1l l1r 0.23
+      l3 = allpassN l2 0.05 r1 2
+      l4 = delayN l3 0.3 (mce [0.17,0.23])
+      l5 = allpassN l4 0.05 r2 2
+      l6 = leakDC l5 0.995
+      l7 = l6 + i
+  return (mrg [l7,localOut l7])
+
+mix_replicate_m :: Monad m => Int -> m UGen -> m UGen
+mix_replicate_m n = mixFillM n . (const :: m UGen -> Int -> m UGen)
+
+tank_m :: UId m => m UGen
+tank_m = tank_f_m =<< chainM 4 r_allpass_m =<< tank_bang_m .+. mix_replicate_m 8 tank_pling_m

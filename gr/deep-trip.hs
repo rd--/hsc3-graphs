@@ -1,4 +1,3 @@
--- deep trip (jmcc) #9
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2
 main :: IO ()
 main = deep_trip_ot

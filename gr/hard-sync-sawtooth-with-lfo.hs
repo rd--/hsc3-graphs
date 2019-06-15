@@ -1,4 +1,3 @@
--- hard sync sawtooth with lfo (jmcc) #6
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2
 main :: IO ()
-main = hsswl_ot
+main = hard_sync_sawtooth_with_lfo_ot

@@ -1,4 +1,3 @@
--- random panning sines (jmcc) #4
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2
 main :: IO ()
-main = rps_ot
+main = random_panning_sines_ot

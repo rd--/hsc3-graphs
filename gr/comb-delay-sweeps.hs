@@ -1,4 +1,3 @@
--- comb delay sweeps (jmcc) #6
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2
 main :: IO ()
-main = cds_ot
+main = comb_delay_sweeps_ot
