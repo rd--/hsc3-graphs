@@ -60,7 +60,7 @@ tb_rtime freqscale =
 maybe_lag3 :: UGen -> UGen -> UGen
 maybe_lag3 i t = if rateOf i == IR then i else lag3 i t
 
-prayer_bell :: UGen -> UGen -> UGen -> UGen -> DoneAction -> UGen
+prayer_bell :: UGen -> UGen -> UGen -> UGen -> DoneAction UGen -> UGen
 prayer_bell exc freq decayscale lagTime doneAction =
     let freqscale = maybe_lag3 (freq / 2434) lagTime
         decayscale' = maybe_lag3 decayscale lagTime

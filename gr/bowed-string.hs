@@ -1,4 +1,3 @@
--- bowed string (jmcc)
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC3
 main :: IO ()
 main = bowed_string_ot

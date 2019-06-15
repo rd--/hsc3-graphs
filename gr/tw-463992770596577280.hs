@@ -1,4 +1,4 @@
--- https://twitter.com/thormagnusson/status/463992770596577280
+-- https://twitter.com/thormagnusson/status/463992770596577280 (tm)
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Protect {- hsc3-rw -}

@@ -1,4 +1,4 @@
-\ spe (jmcc)/(rd)
+\ spe (jmcc)
 
 : seq 0 3 2 7 8 32 16 18 0 12 24 32 12 mce ;
 : env 0.1 0 1 do-nothing 0.1 1 env-perc EnvGen.kr ;

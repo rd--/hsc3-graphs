@@ -1,4 +1,4 @@
--- doppler (jmcc)/(rd)
+-- doppler (jmcc)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

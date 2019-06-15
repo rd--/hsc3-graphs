@@ -1,5 +1,5 @@
 -- blips 001 (jmcc) #SC3d1.5
-module Sound.SC3.Graphs.JMcC.Blips_001.Unsafe where
+module JMcC.Blips_001.Unsafe where
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}

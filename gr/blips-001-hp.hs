@@ -7,7 +7,7 @@ import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 blips_001 :: UId m => m UGen
 blips_001 = do
-  let c = #(randM 0 1) SC3.<* 0.8
+  let c = #(randM 0 1) `less_than` 0.8
   let b = do
         let f = xLine KR #(expRandM 0.25 400) #(expRandM 0.25 400) 4 DoNothing
         let nh = xLine KR #(expRandM 2 100) #(expRandM 2 100) 4 DoNothing

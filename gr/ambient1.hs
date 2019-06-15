@@ -1,5 +1,4 @@
--- http://sccode.org/1-1y
--- some edits......
+-- http://sccode.org/1-1y (some edits...)
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
@@ -45,7 +44,7 @@ bass_u =
     let k = control KR
         f = k "freq" 96
         a = k "amp" 0.1
-        e = envGen KR 1 1 0 1 RemoveSynth (envPerc' 0.5 1 1 (EnvLin,EnvLin))
+        e = envGen KR 1 1 0 1 RemoveSynth (envPerc_c 0.5 1 1 (EnvLin,EnvLin))
         s = sinOsc AR f 0 * a * e
     in out 0 (pan2 s 0 1)
 

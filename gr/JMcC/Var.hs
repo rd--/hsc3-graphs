@@ -1,3 +1,21 @@
+module JMcC.Var where
+
+import Control.Applicative {- base -}
+import Control.Monad {- base -}
+import Data.List {- base -}
+
+import qualified System.Random as R {- random -}
+
+import Sound.SC3 as SC3 {- hsc3 -}
+
+import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}
+
+import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
+
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
+
 import Sound.SC3.Common.Monad.Operators ((+.),(.+.)) {- hsc3 -}
 
 pond_life_m :: UId m => m UGen
@@ -13,13 +31,12 @@ pond_life_m = do
   n5 <- randM (-1) 1
   return (pan2 (sinOsc AR f1 0 * a) n5 0.5)
 
--- > putStrLn $ synthstat scratchy
+-- > (putStrLn . synthstat) =<< scratchy_m
 scratchy_m :: UId m => m UGen
 scratchy_m = do
   n <- clone 2 (brownNoiseM AR)
   let f = max (n * 0.5 - 0.49) 0 * 20
   return (rhpf f 5000 1)
-
 
 tremulate_m :: UId m => m UGen
 tremulate_m = do
@@ -61,8 +78,6 @@ harmonic_tumbling_m = do
                return (fSinOsc AR (f * (h + 1)) 0 * e)
   fmap sum (mapM o [0..p])
 
-
-
 -- > putStrLn $ synthstat_concise (cs1 'α')
 -- > putStrLn $ synthstat_concise cs_protect
 cs_protect :: UGen
@@ -75,7 +90,6 @@ cs_protect =
     in Protect.uclone_all 'δ' 2 (klang AR 1 0 sp * (0.3 / fromIntegral n))
 
 -- > putStrLn $ synthstat_concise cs
-
 -- > putStrLn $ synthstat_concise (uid_st_eval cs_m)
 cs_m :: UId m => m UGen
 cs_m = do
@@ -85,7 +99,6 @@ cs_m = do
   y <- replicateM n (f1 +. randM 0 f2)
   let sp = klangSpec y (map (f1 /) y) (replicate n 0)
   return (klang AR 1 0 sp * (0.3 / fromIntegral n))
-
 
 pulsing_bottles_m :: UId m => m UGen
 pulsing_bottles_m = do
@@ -116,7 +129,6 @@ police_state =
       n2 = lfNoise2 'μ' KR (mce2 0.3 0.301)
       e = n1 * (n2 * 0.15 + 0.18)
   in combL (mix ns + e) 0.3 0.3 3
-
 
 synthetic_piano_m :: UId m => m UGen
 synthetic_piano_m = do

@@ -16,7 +16,7 @@ bottle_m = do
       rapf i = do x <- linRandM 0.001 0.1 (-1)
                   return (i + allpassN i 0.1 x 1.0 * 0.5)
       cls i = let en = let c = EnvNum (-4) in (c,c,c)
-                  l = envLinen' 0.01 3.0 1.0 1 en
+                  l = envLinen_c 0.01 3.0 1.0 1 en
                   z = (breath + i) * envGen KR 1 1 0 1 RemoveSynth l
               in mce2 z z
   f <- chainM 2 rapf flute

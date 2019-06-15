@@ -1,4 +1,3 @@
--- wind metals (jmcc)
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC3
 main :: IO ()
 main = wind_metals_ot

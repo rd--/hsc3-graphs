@@ -1,4 +1,3 @@
--- uplink (jmcc) #2
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2
 main :: IO ()
 main = uplink_ot

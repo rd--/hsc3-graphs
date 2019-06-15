@@ -1,4 +1,4 @@
--- after goeyvaerts, nick collins (nc), 2007
+-- after goeyvaerts (nc), 2007
 
 import Control.Concurrent.MVar {- base -}
 import Data.List {- base -}

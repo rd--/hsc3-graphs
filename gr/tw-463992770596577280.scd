@@ -1,4 +1,4 @@
-// https://twitter.com/thormagnusson/status/463992770596577280
+// https://twitter.com/thormagnusson/status/463992770596577280 (tm)
 
 var f = {
     arg i;
