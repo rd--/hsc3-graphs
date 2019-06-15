@@ -1,4 +1,3 @@
--- narrow band filtered crackle noise (jmcc) #2
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2
 main :: IO ()
-main = nbfcn_st
+main = narrow_band_filtered_crackle_noise_st -- BROKEN (?)
