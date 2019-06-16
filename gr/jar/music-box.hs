@@ -1,4 +1,4 @@
--- http://sccode.org/1-1Kl
+-- http://sccode.org/1-1Kl (jar)
 -- partial...
 
 import Sound.OSC {- hosc -}

@@ -11,9 +11,9 @@ hh_808 =
       pulseEnv = let e = env [1.0,0.6] [time] [EnvNum (-0.5)]
                  in envGen AR 1 1 0 (1/1000) DoNothing e
       s = mix (lfPulse AR (mce (map (* 4.09) fr)) 0 0.5)
-      f = [\a -> ((a ==* 6.0) * 0.6) +
-                 ((a ==* 2.0) * 0.2) +
-                 ((a ==* 1.0) * 0.9)
+      f = [\a -> ((a `equal_to` 6.0) * 0.6) +
+                 ((a `equal_to` 2.0) * 0.2) +
+                 ((a `equal_to` 1.0) * 0.9)
           ,\a -> (a * pulseEnv) + (mix (lfPulse AR (mce fr) 0 0.55)) * 0.9
           ,\a -> rlpf a 7000 0.6
           ,\a -> rhpf a 6800 1.5

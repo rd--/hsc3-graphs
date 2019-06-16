@@ -1,4 +1,4 @@
--- https://twitter.com/rukano/status/98315246548172800
+-- https://twitter.com/rukano/status/98315246548172800 (jar)
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Protect {- hsc3-rw -}

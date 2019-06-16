@@ -1,10 +1,11 @@
--- http://sccode.org/1-4QM
+-- http://sccode.org/1-4QM (jc)
 
 import Control.Monad {- base -}
+
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
-import qualified Sound.SC3.UGen.Bindings.DB.External as E {- hsc3 -}
+import qualified Sound.SC3.UGen.Bindings.DB.External as X {- hsc3 -}
 import qualified Sound.SC3.Lang.Random.IO as L {- hsc3-lang -}
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
@@ -19,7 +20,7 @@ n1 (s1,s2,s3) a =
         ta = midiCPS x * a * choose 'γ' s1
         tb = x * midiCPS (choose 'δ' s2)
         tc = a * midiCPS (choose 'ε' s3)
-    in out 0 (e * E.ay ta tb tc 0.25 3 15 10 7 4 1 0)
+    in out 0 (e * X.ay ta tb tc 0.25 3 15 10 7 4 1 0)
 
 mk_e :: UGen -> UGen -> UGen
 mk_e m k =

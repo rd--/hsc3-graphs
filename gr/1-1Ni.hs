@@ -1,4 +1,4 @@
--- http://sccode.org/1-1Ni
+-- http://sccode.org/1-1Ni (a4n)
 
 import Control.Concurrent {- base -}
 import Control.Monad {- base -}

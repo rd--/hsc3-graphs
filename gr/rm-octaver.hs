@@ -1,7 +1,6 @@
 -- rm-octaver (av), courtesy miller puckette
 -- http://crca.ucsd.edu/~msp/techniques/latest/book-html/node77.html
 
-
 import Sound.SC3 {- hsc3 -}
 
 defaultPitch :: UGen -> UGen

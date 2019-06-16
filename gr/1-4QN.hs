@@ -1,4 +1,4 @@
--- http://sccode.org/1-4QN
+-- http://sccode.org/1-4QN (wmd)
 
 import Control.Concurrent {- base -}
 import Control.Monad {- base -}

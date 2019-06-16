@@ -1,4 +1,4 @@
--- http://permalink.gmane.org/gmane.comp.audio.supercollider.user/100515 (jr)
+-- http://permalink.gmane.org/gmane.comp.audio.supercollider.user/100515 (jrhb)
 
 import qualified System.Random as R {- random -}
 

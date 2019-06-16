@@ -1,4 +1,4 @@
--- http://sccode.org/1-1y (some edits...)
+-- http://sccode.org/1-1y (ww)
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}

@@ -1,4 +1,4 @@
--- http://sccode.org/1-9
+-- http://sccode.org/1-9 (jl)
 
 import Sound.SC3 {- hsc3 -}
 

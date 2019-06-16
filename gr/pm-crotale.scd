@@ -1,6 +1,6 @@
 // pm-crotale (dmc) #1.7
 
-"overlap-texture.scd".loadRelative;
+"jmcc/overlap-texture.scd".loadRelative;
 
 ~spawn.(
 {var midi = IRand(48,72)

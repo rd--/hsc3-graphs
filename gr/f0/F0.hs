@@ -5,6 +5,24 @@ import Data.List {- base -}
 
 import Sound.SC3 {- hsc3 -}
 
+-- * UTIL
+
+fib :: Integral i => [i]
+fib = 0 : scanl (+) 1 fib
+
+-- > sc3_fib 16 == [1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987]
+sc3_fib :: Integral a => Int -> [a]
+sc3_fib n = take n (tail fib)
+
+{-
+> ascii_u "sunday" == mce (map constant [115,117,110,100,97,121])
+-}
+ascii_u :: String -> UGen
+ascii_u = mce . map (constant . fromEnum)
+
+mean :: Fractional a => [a] -> a
+mean l = sum l / fromIntegral (length l)
+
 -- * TW
 
 -- | <https://twitter.com/redFrik/status/1125557217086857216> (f0)
@@ -97,15 +115,6 @@ f0_tw0020 =
         s = mix a7 / 8
     in out 0 (mce2 s s)
 
-fib :: Integral i => [i]
-fib = 0 : scanl (+) 1 fib
-
-{-
-sc3_fib 16 == [1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987]
--}
-sc3_fib :: Integral a => Int -> [a]
-sc3_fib n = take n (tail fib)
-
 -- | <http://www.fredrikolofsson.com/f0blog/?q=node/537> (f0)
 f0_tw0028 :: UGen
 f0_tw0028 =
@@ -163,12 +172,6 @@ f0_tw0049 =
         s1 = sweep t (mce [33,32..3]) `modE` 128 .&. s0
         o1 = sinOsc AR (midiCPS (s1+33)) 0 * pi
     in out 0 (splay (sinOsc AR 9 o1) 1 1 0 True / 3)
-
-{-
-> ascii_u "sunday" == mce (map constant [115,117,110,100,97,121])
--}
-ascii_u :: String -> UGen
-ascii_u = mce . map (constant.fromEnum)
 
 -- | <http://sccode.org/1-4Qy> (f0)
 f0_tw0051 :: UGen
@@ -230,9 +233,6 @@ f0_tw0125 =
         i = inFeedback 1 (mce [1,0])
         p = combC (lagUD i u d) 1 0.08 9
     in a f p
-
-mean :: Fractional a => [a] -> a
-mean l = sum l / fromIntegral (length l)
 
 -- | <http://sccode.org/1-4Qy> (f0) (requires -w 512)
 f0_tw0134 :: UGen

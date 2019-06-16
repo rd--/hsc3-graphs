@@ -1,4 +1,4 @@
--- Batuhan Bozkurt 2009 http://www.earslap.com
+-- Batuhan Bozkurt 2009 http://www.earslap.com (bb)
 
 import Sound.SC3 {- hsc3 -}
 
@@ -32,7 +32,7 @@ microhelix =
             let t = mceChannel 0 ctrigs * trigMod
                 ph = sweep t (2 * pi * mce2 52.8 740) + (pi/3)
                 ph' = wrap ph (-pi) pi
-                mean u = mceSum u / fromIntegral (mceDegree_err u)
+                mean u = sum (mceChannels u) / fromIntegral (mceDegree_err u)
                 o = tanh (mean (sinOsc AR 0 ph' * mce2 2 0.05))
                 d = Envelope [0, 0.5, 0.4, 0] [0, 0.2, 0.01] [EnvNum (-5)] Nothing Nothing 0
                 e = envGen AR (abs t) 1 0 1 DoNothing d

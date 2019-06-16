@@ -1,4 +1,4 @@
--- http://tai-studio.org/index.php/2012/02/alarm-clock-sound/
+-- http://tai-studio.org/index.php/2012/02/alarm-clock-sound/ (tb)
 {-# OPTIONS_GHC -F -pgmF hsc3-psynth #-}
 -- partial...
 

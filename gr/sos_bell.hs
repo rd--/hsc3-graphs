@@ -5,7 +5,7 @@ import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 import qualified Sound.SC3.Lang.Pattern as P {- hsc3-lang -}
 
 mce_mean :: UGen -> UGen
-mce_mean x = mceSum x / fromIntegral (mceDegree_err x)
+mce_mean x = sum (mceChannels x) / fromIntegral (mceDegree_err x)
 
 sos_bell :: UGen
 sos_bell =

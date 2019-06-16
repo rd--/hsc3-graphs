@@ -1,4 +1,4 @@
--- http://sccode.org/1-4VL
+-- http://sccode.org/1-4VL (es)
 
 import Sound.SC3 {- hsc3 -}
 
