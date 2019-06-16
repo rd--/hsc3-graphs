@@ -1,7 +1,6 @@
 -- birds-am-fm (af)
 -- http://www.obiwannabe.co.uk/tutorials/html/tutorial_birds.html
 -- perhaps some mis-translations...
--- CRASHES SCSYNTH
 
 -- import Debug.Trace {- base -}
 import System.Random {- random -}

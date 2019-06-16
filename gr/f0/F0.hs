@@ -142,8 +142,8 @@ f0_tw0033 =
         n = mce (map (flip brownNoise AR) ['α','β','γ','δ']) * a
         z i = mce2 ((i + 1) * f) ((i * f) + (i + 1 / 3))
         o = lfPar AR (mce (map z [0..3])) 0
-        (s1,_s2) = unmce2 (splay ((o `greater_than` n) / 3) 1 1 0 True)
-    in s1 * 0.1 -- (s1 + s2) CRASHES SCSYNTH?
+        (s1,s2) = unmce2 (splay ((o `greater_than` n) / 3) 1 1 0 True)
+    in (s1 + s2) * 0.1
 
 -- | <http://www.fredrikolofsson.com/f0blog/?q=node/537> (f0)
 f0_tw0041 :: UGen

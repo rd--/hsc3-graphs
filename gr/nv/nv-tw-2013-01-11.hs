@@ -1,5 +1,4 @@
 -- https://twitter.com/headcube/status/289761321065541633 (nv)
--- CRASHES
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
@@ -26,7 +25,7 @@ nv_tw_2013_01_11 =
                   ,(x - mce_rotate (1::Int) x) / 2]
 
 main :: IO ()
-main = audition (out 0 nv_tw_2013_01_11)
+main = audition nv_tw_2013_01_11 -- WRITING (out 0 ...) CRASHES
 
 main_w :: IO ()
 main_w = do
