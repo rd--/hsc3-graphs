@@ -1,11 +1,9 @@
-module Sound.SC3.Graphs.JMcC.Blips_001.Protect where
+-- * blips 001 (jmcc) #SC3d1.5
 
 import Sound.SC3 {- hsc3 -}
 
 import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
-
--- * blips 001 (jmcc) #SC3d1.5
 
 blip_001 :: ID a => a -> UGen
 blip_001 e =
@@ -29,4 +27,3 @@ blips_001_pp z =
 
 blips_001_ot :: IO ()
 blips_001_ot = O.overlapTextureU_pp (2,1,12,maxBound) blips_001 2 blips_001_pp
-

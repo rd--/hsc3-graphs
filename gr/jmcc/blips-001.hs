@@ -1,3 +1,3 @@
-import JMcC.Blips_001.Plain
+import JMcC.SC3
 main :: IO ()
 main = blips_001_ot

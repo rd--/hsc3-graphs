@@ -1,4 +1,4 @@
--- march 2003 (adc) / (jrhb)
+-- https://swiki.hfbk-hamburg.de/MusicTechnology/851 march 2003 (adc) / (jrhb)
 
 import Sound.SC3 {- hsc3 -}
 

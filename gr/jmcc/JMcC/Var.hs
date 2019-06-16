@@ -1,22 +1,13 @@
 module JMcC.Var where
 
-import Control.Applicative {- base -}
 import Control.Monad {- base -}
-import Data.List {- base -}
 
-import qualified System.Random as R {- random -}
-
-import Sound.SC3 as SC3 {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
+import Sound.SC3.Common.Monad.Operators ((+.),(.+.)) {- hsc3 -}
 
 import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}
 
-import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
-
-import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
-
-import Sound.SC3.Common.Monad.Operators ((+.),(.+.)) {- hsc3 -}
 
 pond_life_m :: UId m => m UGen
 pond_life_m = do

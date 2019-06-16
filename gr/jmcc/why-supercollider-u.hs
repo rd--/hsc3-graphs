@@ -1,5 +1,4 @@
 -- | why supercollider (jmcc) #0
-module Sound.SC3.Graphs.JMcC.Why_SuperCollider.Unsafe where
 
 import Data.Function {- base -}
 import Sound.SC3 {- hsc3 -}

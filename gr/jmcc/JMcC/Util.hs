@@ -1,6 +1,6 @@
 module JMcC.Util where
 
-import Sound.SC3 as SC3 {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 -- * UTIL
 

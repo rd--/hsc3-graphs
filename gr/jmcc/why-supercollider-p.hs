@@ -1,5 +1,4 @@
 -- | why supercollider (jmcc) #0
-module Sound.SC3.Graphs.JMcC.Why_SuperCollider.Protect where
 
 import Sound.SC3 {- hsc3 -}
 

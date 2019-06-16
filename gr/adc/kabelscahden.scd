@@ -1,3 +1,5 @@
+// https://swiki.hfbk-hamburg.de/MusicTechnology/851
+
 SynthDef(\kabelScahden,{
 arg out,freq = 50,sustain = 1,amp = 1;
 var h,n,m,k,trig,hum;

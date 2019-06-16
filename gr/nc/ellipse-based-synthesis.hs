@@ -2,25 +2,22 @@
 
 import Sound.SC3 {- hsc3 -}
 
-ifU :: Num a => a -> a -> a -> a
-ifU t i j = (t * i) + ((1 - t) * j)
-
 ebs_nc :: UGen -> UGen -> UGen -> UGen
 ebs_nc wd fr sc =
     let ph = phasor AR 0 (fr * 2 * pi * sampleDur) 0 (2 * pi) 0
-        sg = ifU ((ph `modE` (1.5 * pi)) >* (0.5 * pi)) (-1) 1
+        sg = ugen_if ((ph `modE` (1.5 * pi)) `greater_than` (0.5 * pi)) (-1) 1
     in cos (atan (wd + sc * tan ph)) * sg
 
 ebs_jr :: UGen -> UGen -> UGen -> UGen
 ebs_jr wd fr sc =
     let ph = range 0 (2 * pi) (lfSaw AR fr 0)
-        sg = ifU ((ph `modE` (1.5 * pi)) >* (0.5 * pi)) (-1) 1
+        sg = ugen_if ((ph `modE` (1.5 * pi)) `greater_than` (0.5 * pi)) (-1) 1
     in cos (atan (wd + sc * tan ph)) * sg
 
 ebs_jmcc :: UGen -> UGen -> UGen -> UGen
 ebs_jmcc wd fr sc =
     let ph = phasor AR 0 (fr * 2 * pi * sampleDur) 0 (2* pi) 0
-        sg = ifU ((ph `modE` (1.5 * pi)) >* (0.5 * pi)) (-1) 1
+        sg = ugen_if ((ph `modE` (1.5 * pi)) `greater_than` (0.5 * pi)) (-1) 1
     in cos (atan(wd + sc * tan ph)) * sg
 
 ctl :: (UGen -> UGen -> UGen -> t) -> t
