@@ -1,4 +1,5 @@
 -- https://twitter.com/headcube/status/289761321065541633 (nv)
+-- CRASHES
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
@@ -30,6 +31,6 @@ main = audition (out 0 nv_tw_2013_01_11)
 main_w :: IO ()
 main_w = do
   let sy = synthdef "nv_tw_2013_01_11" (out 0 nv_tw_2013_01_11)
-  synthdefWrite sy "/tmp"
+  synthdefWrite_dir "/tmp" sy
   withSC3 (do _ <- async (d_load "/tmp/nv_tw_2013_01_11.scsyndef")
               sendMessage (s_new "nv_tw_2013_01_11" (-1) AddToTail 1 []))

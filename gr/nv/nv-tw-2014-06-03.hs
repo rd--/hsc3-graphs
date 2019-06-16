@@ -1,4 +1,5 @@
 -- https://twitter.com/headcube/status/474064500564324352 (nv)
+-- https://soundcloud.com/nathaniel-virgo/supercollider-tweet-from-4614
 -- requires -m at scsynth
 -- inaccurate...
 
@@ -30,7 +31,7 @@ nv_opt = ugen_optimise_const_operator (ugen_optimise_ir_rand nv)
 via_disk :: UGen -> IO ()
 via_disk u = do
   let sy = synthdef "nv" u
-  synthdefWrite sy "/tmp"
+  synthdefWrite_dir "/tmp" sy
   withSC3 (async (d_load "/tmp/nv.scsyndef") >> sendMessage (s_new "nv" (-1) AddToHead 1 []))
 
 main :: IO ()

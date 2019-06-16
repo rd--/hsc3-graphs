@@ -1,4 +1,5 @@
 // https://twitter.com/headcube/status/437094206767513600
+// https://soundcloud.com/nathaniel-virgo/supercollider-tweet-from-22-02
 
 {{var x = Impulse.ar(0.05)
  ;20.do{var n = LFNoise2

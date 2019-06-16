@@ -1,4 +1,5 @@
-// https://twitter.com/headcube/status/474064500564324352
+// https://twitter.com/headcube/status/474064500564324352 (nv)
+// https://soundcloud.com/nathaniel-virgo/supercollider-tweet-from-4614
 
 {var p = {LFPulse.ar(2 ** rrand(-9,1), 2.rand / 2)}
 ;var q = {arg i; product(p ! (i + 2)) / (1 + i) + 1}

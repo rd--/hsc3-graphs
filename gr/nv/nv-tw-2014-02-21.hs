@@ -1,4 +1,5 @@
 -- https://twitter.com/headcube/status/437094206767513600 (nv)
+-- https://soundcloud.com/nathaniel-virgo/supercollider-tweet-from-22-02
 -- requires -m at scsynth
 
 import Sound.SC3 {- hsc3 -}

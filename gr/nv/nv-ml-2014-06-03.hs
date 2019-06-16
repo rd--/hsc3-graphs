@@ -1,4 +1,5 @@
 -- sc-users, 2014-06-03 (nv)
+-- https://twitter.com/headcube/status/474064500564324352 (nv)
 
 import Sound.SC3 {- hsc3 -}
 

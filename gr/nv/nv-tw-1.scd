@@ -1,3 +1,5 @@
+// http://sccode.org/1-V (nv)
+
 {a = PinkNoise.ar(1 ! 2)
 ;50.do(
  {f = LFNoise1.kr(0.05.rand).exprange(40,15000)
