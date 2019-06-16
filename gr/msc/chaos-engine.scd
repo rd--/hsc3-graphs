@@ -1,4 +1,4 @@
-// chaos engine hum
+// http://sccode.org/1-5aJ - chaos engine hum
 
 (
 {

@@ -9,5 +9,8 @@ rk_20120422 =
       gen = lfSaw AR freq 0 * 0.1
       fmod = range 1 (mouseX KR 2 16 Linear 0.2) (lfCub KR (1/12) 0) -- modulate filter with mouse
       rqmod = range 0.1 1.0 (lfNoise2 'β' KR (1/8))
-      snd = rlpf gen (freq * fmod) rqmod
-  in splay snd 1 1 0 True
+      sig = rlpf gen (freq * fmod) rqmod
+  in splay sig 1 1 0 True
+
+main :: IO ()
+main = audition (out 0 rk_20120422)
