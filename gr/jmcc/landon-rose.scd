@@ -15,4 +15,4 @@
     var e = Env.sine(4,1);
     var n = PinkNoise.ar([0.001,0.001]);
     Klank.ar(specList.wrapAt(i),n) * EnvGen.ar(e,doneAction:2);
-}, 2);
+}, nextTime: 2);

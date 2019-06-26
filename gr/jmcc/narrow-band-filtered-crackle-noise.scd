@@ -10,6 +10,6 @@ u =
 
 "overlap-texture.scd".loadRelative;
 
-~spawn.(u, 2)
+~spawn.(u, nextTime: 2)
 
 u.draw

@@ -8,7 +8,7 @@
 ;var imp_amp = XLine.kr(0.09, 0.000009, 4) /* decaying impulse amplitude */
 ;var imp = Impulse.ar(imp_frq, 0) * imp_amp
 /* decays excite filter bank */
-;var exc = Decay.ar(imp, 0.001)
+;var exc = Decay.ar(imp, 0.001) /* decay time - very short */
 /* resonant filter bank simulates resonant modes of bouncing objects */
 ;var flt_frq = Array.fill(4, {400 + 8000.0.rand}) /* resonant frequencies */
 ;var flt_amp = Array.fill(4, {1.0.rand})

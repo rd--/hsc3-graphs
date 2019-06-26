@@ -9,7 +9,7 @@
 };
 
 ~spawn = {
-    arg newEventFunc, nextTime, maxRepeats = inf;
+    arg newEventFunc, numChannels = 2 /* unused */, nextTime, maxRepeats = inf;
     Task({
         maxRepeats.do({
             arg i;
@@ -20,7 +20,9 @@
 };
 
 ~xfade_texture = {
-    arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, maxRepeats = inf;
+    arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0,
+        numChannels = 2, maxRepeats = inf,
+        postProcess = nil, bus = 0;
     var period = sustainTime + transitionTime;
     Task({
         maxRepeats.do({
@@ -31,11 +33,13 @@
             period.wait;
         });
     }).play;
+    if(postProcess.notNil,{~post_process.(postProcess,bus,numChannels)});
 };
 
 ~overlap_texture = {
-    arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2, maxRepeats = inf,
-        postProcess = nil, bus = 0, numChannels = 2;
+    arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2,
+        numChannels = 2, maxRepeats = inf,
+        postProcess = nil, bus = 0;
     var period = (sustainTime + (transitionTime * 2)) / overlap;
     Task({
         maxRepeats.do({
