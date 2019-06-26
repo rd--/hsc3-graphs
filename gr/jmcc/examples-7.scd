@@ -16,7 +16,7 @@ There are no samples or sound files in this example file, this is all synthesize
 //////////////////////////////////////////////////////////////////////////
 
 (
-// interaural time delay panning   ("Griot modeling" variant)
+// UNTRANS interaural time delay panning   ("Griot modeling" variant)
 // To hear this you'll need to wear headphones.
 
 // This patch demonstrates using ONLY interaural time delay as the panning mechanism.
@@ -197,7 +197,7 @@ play({
 //////////////////////////////////////////////////////////////////////////
 
 (
-// a variant of "analog daze" that changes the pattern occasionally
+// UNTRANS a variant of "analog daze" that changes the pattern occasionally
 
 { arg synth;
 	var seqref, f, x, g;
@@ -243,7 +243,7 @@ play({
 //////////////////////////////////////////////////////////////////////////
 
 (
-// Berlin 1977 + bass
+// UNTRANS Berlin 1977 + bass
 // mouse x controls clock rate
 // mouse y controls wet/dry
 {
@@ -307,7 +307,7 @@ play({
 //////////////////////////////////////////////////////////////////////////
 
 (
-// yet another "Griot modeling" variant, much more taxing on CPU: requires a G3
+// UNTRANS yet another "Griot modeling" variant, much more taxing on CPU: requires a G3
 // this one is a two instrument duet, one playing in half time a half length pattern.
 // In addition each string pitch is modeled twice, once for each channel, to give a richer sound.
 // mouse x controls damping, mouse y controls excitation
@@ -379,12 +379,9 @@ Mix.ar(Array.fill(2, { arg j;
 (
 // tapping tools
 // mouse x controls impulse rate
-var e;
-e = Env.linen(1, 4, 1);
-play({
-	var sound, rate;
-	rate = XLine.kr(64, 0.125, 60);
-	sound = Spawn.ar({
+var e = Env.linen(1, 4, 1);
+	~spawn.({
+	var rate = XLine.kr(64, 0.125, 60);
 		Pan2.ar(
 			// resonant filter bank simulates resonant modes of bouncing objects
 			Klank.ar(
@@ -397,18 +394,16 @@ play({
 				Decay.ar( // each impulse triggers a decay
 					Impulse.ar(			// impulses trigger decay envelope
 						(1 + 20.0.linrand) * rate,
+                        0,
 						0.03
 					),
 					0.001		// decay time - very short
 				)
 			),
 			1.0.rand2, // place each object at a random position in the stereo field
-			EnvGen.kr(e)
+			EnvGen.kr(e,doneAction:2)
 		)
-	}, 2, 1);
-	3.do({ sound = AllpassN.ar(sound, 0.05, [0.05.rand,0.05.rand], 2); });
-	sound
-})
+	}, 2, 1, postProcess: {arg z;3.do({z = AllpassN.ar(z, 0.05, [0.05.rand,0.05.rand], 2)});z})
 )
 
 //////////////////////////////////////////////////////////////////////////

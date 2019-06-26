@@ -9,7 +9,8 @@
 };
 
 ~spawn = {
-    arg newEventFunc, numChannels = 2 /* unused */, nextTime, maxRepeats = inf;
+    arg newEventFunc, numChannels = 2, nextTime, maxRepeats = inf,
+        postProcess = nil, bus = 0;
     Task({
         maxRepeats.do({
             arg i;
@@ -17,6 +18,7 @@
             nextTime.value.wait;
         });
     }).play;
+    if(postProcess.notNil,{~post_process.(postProcess,bus,numChannels)});
 };
 
 ~xfade_texture = {

@@ -84,7 +84,7 @@ n = 12; // number of simultaneous events
 env = Env.linen(2, 5, 2);
 	~spawn.({
 		Pan2.ar(
-			FSinOsc.ar(2000.0.rand, 0, EnvGen.kr(env, 1, 0, 0.02, 1, 2)),
+			FSinOsc.ar(2000.0.rand, 0, EnvGen.kr(env, levelScale: 0.02, doneAction: 2)),
 			1.0.rand2)
 	}, 2, 9/n)
 )

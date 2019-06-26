@@ -30,7 +30,7 @@ anaSynFunc = { arg octave, clockRate, pwmrate, fltrate;
 
 	// use a sequencer to step through the list of frequencies
 	var freq = sequ.(
-			freqList, 		// pass a reference to the list (see MultiChannel.help)
+			freqList,
 			Impulse.kr(clockRate)	// sequencer steps at each trigger from this oscillator
 		);
 
@@ -83,7 +83,7 @@ play({
 		+ g.reverse );  		// add dry stereo pair with the channels reversed
 	e = Env.linen(2, 56, 2); // one minute trapezoid envelope
 
-	z * EnvGen.kr(e) 	// wrap a one minute envelope around entire sound
+	z * EnvGen.kr(e,doneAction:2) 	// wrap a one minute envelope around entire sound
 });
 )
 
@@ -115,7 +115,7 @@ play({
 	g = [f.value(1,8,0.31,0.2), f.value(0,2,0.13,0.11)] + x;
 	z = 0.4 * (CombN.ar(g, 0.375, 0.375, 5) + g.reverse);
 	e = Env.linen(2, 56, 2); // one minute trapezoid envelope
-	z * EnvGen.kr(e)
+	z * EnvGen.kr(e,doneAction:2)
 });
 )
 
@@ -124,40 +124,37 @@ play({
 
 (
 // native algorhythms
-var n, pat, texture;
-n = 8; 	// n = number of partials for percussion instruments
+var imp_seq = {arg s, tr; Demand.ar(tr, 0, s) * tr};
+var n = 8; 	// n = number of partials for percussion instruments
+
+	~overlap_texture.({ // make an overlapping texture
 
 // create an algorhythmic rhythm pattern
-pat = Prand([ // choose one of the following patterns at random
-		Pseq(#[2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 1.0, 1.0]),
-		Pseq(#[2.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0]),
-		Pseq(#[2.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0]),
-		Pseq(#[2.0, 0.3, 0.3, 1.0, 0.3, 0.3, 1.0, 0.3]),
-		Pseq(#[2.0, 0.0, 0.3, 0.0, 0.3, 0.0, 0.3, 0.0]),
-		Pseq(#[2.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
-		Pseq(#[2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
-		Pseq(#[0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0]),
-		Pseq(#[1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
-				0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0])
-	], inf
-);
+var pat = Drand([ // choose one of the following patterns at random
+		Dseq([2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 1.0, 1.0],1),
+		Dseq([2.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0],1),
+		Dseq([2.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0],1),
+		Dseq([2.0, 0.3, 0.3, 1.0, 0.3, 0.3, 1.0, 0.3],1),
+		Dseq([2.0, 0.0, 0.3, 0.0, 0.3, 0.0, 0.3, 0.0],1),
+		Dseq([2.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0],1),
+		Dseq([2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],1),
+		Dseq([0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0],1),
+		Dseq([1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
+			  0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0],1)
+	], inf);
 
-play({
-	OverlapTexture.ar({ // make an overlapping texture
-		var freq, seq, excitation, resonator;
+		var freq = 40 + 300.0.rand; 		// random base frequency
 
-		freq = 40 + 300.0.rand; 		// random base frequency
-
-		seq = ImpulseSequencer.ar(		// outputs a sequence of single sample triggers
-				pat.asStream,	// create a stream to iterate over pattern
+		var seq = imp_seq.(		// outputs a sequence of single sample triggers
+				pat,
 				Impulse.ar(10) 		// a clock for the sequencer at 10 beats per second
 			);
-		excitation = Decay.ar( 	// a decaying envelope for the noise
+		var excitation = Decay.ar( 	// a decaying envelope for the noise
 					seq, 			// impulse sequence triggers decay envelopes
 					0.1, 			// 60 dB decay time
 					PinkNoise.ar(0.01)	// noise is the exciter
 			);
-		resonator = Klank.ar( 		// use Klank as a percussion resonator
+		var resonator = Klank.ar( 		// use Klank as a percussion resonator
 					`[	// filter bank specification array:
 						Array.fill(n, { freq + (4.0*freq).linrand }), // resonant frequencies
 						nil,							// amplitudes default to 1.0
@@ -168,7 +165,6 @@ play({
 		Pan2.ar(resonator, 1.0.rand2) // random pan position
 		// return the Pan2
 	}, 8, 4, 4, 2); // sustainTime, fadeTime, overlapDensity, number of channels
-});
 )
 
 //////////////////////////////////////////////////////////////////////////

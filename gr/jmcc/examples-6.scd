@@ -147,7 +147,6 @@ There are no samples or sound files in this example file, this is all synthesize
 // noise burst sweep
 {
 	var lfoRate, amp, cfreq, filt;
-
 	lfoRate = MouseX.kr(10, 60, 'exponential');
 	amp = max(0, LFSaw.kr(lfoRate, -1));
 	cfreq = MouseY.kr(400, 8000, 'exponential');
@@ -280,7 +279,7 @@ There are no samples or sound files in this example file, this is all synthesize
 //////////////////////////////////////////////////////////////////////////
 
 (
-// RLPF4 - 4th order resonant lowpass filter
+// UNTRANS RLPF4 - 4th order resonant lowpass filter
 // mouse X controls lfofreq, mouse Y controls resonance
 {
 	var lfofreq;
@@ -299,7 +298,7 @@ There are no samples or sound files in this example file, this is all synthesize
 //////////////////////////////////////////////////////////////////////////
 
 (
-// RLPF4 - 4th order resonant lowpass filter
+// UNTRANS RLPF4 - 4th order resonant lowpass filter
 // MIDI channel 1 most recent note controls pitch
 // mouse X controls lfofreq, mouse Y controls resonance
 {

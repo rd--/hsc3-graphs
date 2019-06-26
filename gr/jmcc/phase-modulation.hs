@@ -1,4 +1,4 @@
 -- phase modulation with slow beats (jmcc) #6
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2 {- hsc3-graphs -}
 main :: IO ()
-main = pmwsb_ot
+main = phase_modulation_with_slow_beats_ot

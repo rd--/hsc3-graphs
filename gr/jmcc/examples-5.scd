@@ -13,14 +13,14 @@ to test these with a CD playing.
 
 (
 // input thru
-Synth.scope({ AudioIn.ar([1,2]) })
+scope({ AudioIn.ar([1,2]) })
 )
 
 //////////////////////////////////////////////////////////////////////////
 
 (
 // distort input
-Synth.scope({
+scope({
 	var gain;
 	gain = MouseX.kr(1,100,'exponential');	// mouse x controls gain into distortion
 	AudioIn.ar([1,2], gain).distort * 0.4
@@ -44,7 +44,7 @@ Synth.scope({
 
 (
 // ring modulate input using ring1
-Synth.scope({
+scope({
 	var input, modulator;
 	input = AudioIn.ar([1,2], 0.5);
 	modulator = SinOsc.ar(
@@ -58,7 +58,7 @@ Synth.scope({
 
 (
 // filter the input
-Synth.scope({
+scope({
 	var rQ;
 	rQ = MouseY.kr(0.01, 1, 'exponential'); // bandwidth ratio = 1/Q
 	RLPF.ar(
@@ -72,22 +72,20 @@ Synth.scope({
 
 (
 // input limiter
-Synth.scope({
+scope({
 	CompanderD.ar(
 		AudioIn.ar([1,2]),
 		MouseX.kr(0.01, 0.5), 		// threshold
 		1, 		// below threshold slope
 		0.1		// above threshold slope
 	)
-},
-0.1	// scope buf size
-))
+}))
 
 //////////////////////////////////////////////////////////////////////////
 
 (
 // input noise gate
-Synth.scope({
+scope({
 	var input;
 	input = AudioIn.ar([1,2]);
 	Compander.ar(
@@ -96,9 +94,7 @@ Synth.scope({
 		10, 		// below threshold slope
 		1		// above threshold slope
 	)
-},
-0.1	// scope buf size
-))
+}))
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -169,7 +165,7 @@ play({
 
 (
 // ring modulated and resonant filtered input
-Synth.scope({
+scope({
 	var input, modulator;
 	input = AudioIn.ar([1,2],0.2);
 	modulator = SinOsc.ar(
@@ -186,7 +182,7 @@ Synth.scope({
 
 (
 // distort, ring modulate & echo input - a real noise fest
-Synth.scope({
+scope({
 	var in;
 	in = AudioIn.ar([1,2], 20).distort.ring1(
 			SinOsc.ar(MouseX.kr(10,2000,'exponential'), [0,0.5pi])
@@ -203,11 +199,11 @@ Synth.scope({
 
 //////////////////////////////////////////////////////////////////////////
 
-// this one is better to use with a microphone and headphones.
+// UNTRANS this one is better to use with a microphone and headphones.
 
 (
 // loop recorder - previous delay contents are ducked when there is new input
-Synth.play({ arg synth;
+play({ arg synth;
 	var bufL, bufR, maxCycleTime, input, recycle, threshhold, inputAmp, chanSelect, output;
 
 	maxCycleTime = 1;	// buffer loop length

@@ -64,31 +64,29 @@ There are no samples or sound files in this example file, this is all synthesize
 // metal plate
 // mouse x controls damping, mouse y controls excitation
 {
-	var n, buffers, tapTimes, excitation, delayedSignals, filteredDelays, output;
+	var n = 4; // number of delay lines
 
-	n = 4; // number of delay lines
+    var maxdt = Server.default.sampleRate * 0.03; // maximum delay time
 
 	// allocate buffers for the delay lines
-	buffers = Array.fill(n, { Signal.new(Synth.sampleRate * 0.03); });
+	var buffers = Array.fill(n, {LocalBuf.newFrom(Array.fill(maxdt,0))});
 
 	// assign random tap times
-	tapTimes = Array.rand(n, 0.015, 0.03);
+	var tapTimes = Array.rand(n, 0.015, 0.03);
 
 	// excitation
-	excitation = Decay2.ar(Impulse.ar(0.5, 0.2), 0.01, 0.2, LFNoise2.ar(MouseY.kr(10, 8000)));
+	var excitation = Decay2.ar(Impulse.ar(0.5, 0, 0.2), 0.01, 0.2, LFNoise2.ar(MouseY.kr(10, 8000)));
 
 	// tap the delay lines
-	delayedSignals = TapN.ar(buffers, tapTimes);
+	var delayedSignals = n.collect({arg i; Tap.ar(buffers[i], 1, tapTimes[i])});
 
 	// filter the taps
-	filteredDelays = LPF.ar(delayedSignals, MouseX.kr(10, 5000), 0.98);
+	var filteredDelays = LPF.ar(delayedSignals, MouseX.kr(10, 5000), 0.98);
 
 	// write to delay lines
-	DelayWr.ar(buffers, filteredDelays + excitation);	// write the mixed signal to the delay line
+	n.do({arg i; RecordBuf.ar(filteredDelays[i] + excitation,buffers[i])});	// write the mixed signal to the delay line
 
-	output = Mix.ar(filteredDelays);	// mix 5 channels to one
-
-	output
+	Mix.ar(filteredDelays);	// mix 5 channels to one
 }.play
 // mouse x controls damping, mouse y controls excitation
 )
@@ -99,51 +97,34 @@ There are no samples or sound files in this example file, this is all synthesize
 // Griot modeling
 // mouse x controls damping, mouse y controls excitation
 {
-	var n, buffers, tapTimes, excitation, delayedSignals, filteredDelays, output, dummy,
-	melody, melodyFunc, env;
+    var maxdt = Server.default.sampleRate * 0.03; // maximum delay time
 
-	n = 5; // number of delay lines
-
-	melodyFunc = {
-		// this function creates a list of channel numbers.
-		// each channel is a different string.
-		var chan = 2;
-		melody = [];
-		12.do({
-			if ( 0.4.coin, {
-				chan = (chan + 1.xrand2).wrap(0, n-1);
-			});
-			melody = melody.add(chan);
-		});
-	};
-	melodyFunc.value;
+	var n = 5; // number of delay lines
 
 	// allocate buffers for the delay lines
-	buffers = Array.fill(n, { Signal.new(Synth.sampleRate * 0.01); });
+	var buffers = Array.fill(n, {LocalBuf.newFrom(Array.fill(maxdt,0))});
 
 	// assign tap times which determine the string pitches
-	tapTimes = Array.series(n, 0.003, 0.0005);
+	var tapTimes = Array.series(n, 0.003, 0.0005);
 
-	// excitation
-	env = Env.new([0,1,0], [0.01, 0.2], -2);
-	excitation = Spawn.ar({ arg spawn, i, synth;
-		if ((i % 144) == 0, { melodyFunc.value }); // new melody every 144 notes
-		synth.channelOffset = melody @@ i;
-		LFNoise2.ar(MouseY.kr(10, 10000), EnvGen.kr(env, 1, 0, 0.1.rand));
-	}, n, 0.1);
+	// excitation (simplified!)
+	var env = Env.new([0,1,0], [0.01, 0.2], -2);
+	var excitation = n.collect({
+        arg i;
+        LFNoise2.ar(MouseY.kr(10, 10000), EnvGen.kr(env,Impulse.kr(n,0),levelScale:0.1.rand)) *
+        ((Demand.kr(Impulse.kr(n,0),0,Dbrown(0,n-1,1,inf)) - i).abs < 1);
+    });
 
 	// tap the delay lines
-	delayedSignals = TapN.ar(buffers, tapTimes);
+	var delayedSignals = n.collect({arg i; Tap.ar(buffers[i], 1, tapTimes[i])});
 
 	// filter the taps
-	filteredDelays = LPF.ar(delayedSignals, MouseX.kr(10, 10000), 0.98);
+	var filteredDelays = LPF.ar(delayedSignals, MouseX.kr(10, 10000), 0.98);
 
 	// write to delay lines
-	DelayWr.ar(buffers, filteredDelays + excitation);	// write the mixed signal to the delay line
+	n.do({arg i; RecordBuf.ar(filteredDelays[i] + excitation[i],buffers[i])});
 
-	output = Mix.ar(filteredDelays);	// mix 5 channels to one
-
-	[output,output]
+	Mix.ar(filteredDelays).dup;	// mix 5 channels to one
 }.play
 // mouse x controls damping, mouse y controls excitation
 )
