@@ -1,14 +1,5 @@
 "overlap-texture.scd".loadRelative; /* SC3 variants of OverlapTexture &etc. - rd */
 
-/*
-These examples are all surrounded by parentheses. You can double click to the right
-of the first open paren to select the entire example. Then press the 'enter' key to
-execute it. To stop execution, press cmd-period (i.e. the Apple key and the '.' key).
-
-These  examples all demonstrate sound input processing, so you might want
-to test these with a CD playing.
-*/
-
 //////////////////////////////////////////////////////////////////////////
 
 (
@@ -30,7 +21,7 @@ scope({
 
 (
 // ring modulate input
-Synth.scope({
+scope({
 	var input, modulator;
 	input = AudioIn.ar([1,2]);
 	modulator = SinOsc.ar(
@@ -199,80 +190,41 @@ scope({
 
 //////////////////////////////////////////////////////////////////////////
 
-// UNTRANS this one is better to use with a microphone and headphones.
-
-(
-// loop recorder - previous delay contents are ducked when there is new input
-play({ arg synth;
-	var bufL, bufR, maxCycleTime, input, recycle, threshhold, inputAmp, chanSelect, output;
-
-	maxCycleTime = 1;	// buffer loop length
-	threshhold = 0.05;	// noise gating threshold
-
-	// allocate delay lines
-	bufL = Signal.new(Synth.sampleRate * maxCycleTime + synth.blockSize);
-	bufR = Signal.new(Synth.sampleRate * maxCycleTime + synth.blockSize);
-
-	input = AudioIn.ar([1,2]);
-	recycle = TapN.ar([bufL, bufR], maxCycleTime);
-
-	// select between rerecording previous delay line data or new input
-	// depending on input amplitude
-	inputAmp = Amplitude.kr(input);
-	chanSelect = Lag.kr(inputAmp > threshhold, 0.1);
-	output = (input * chanSelect) + (recycle * (1 - chanSelect));
-
-	DelayWr.ar([bufL, bufR], output);
-	output
-}))
+// UNTRANS - loop recorder - previous delay contents are ducked when there is new input
 
 //////////////////////////////////////////////////////////////////////////
 
 (
 // sweep verb
-
 play({
 	var s, z, y;
-
 	s = AudioIn.ar([1,2], 0.01) ;
-
 		// reverb predelay time :
 	z = DelayN.ar(Mix.ar(s), 0.048);
-
 		// 6 modulated comb delays in parallel :
 	y = Mix.ar(CombL.ar(z, 0.1, LFNoise1.kr(Array.fill(6,{0.1.rand}), 0.04, 0.05), 15));
-
 		// chain of 4 allpass delays on each of two channels (8 total) :
 	4.do({ y = AllpassN.ar(y, 0.050, [0.050.rand,0.050.rand], 1) });
-
 	// eliminate DC
 	LeakDC.ar(y)
 }))
-
 
 //////////////////////////////////////////////////////////////////////////
 
 (
 // monastic resonance
 // mouse controls size and reverb time
-
 play({
 	var s, z, y, decayTime, delayScale;
-
 	decayTime = MouseX.kr(0,16);
 	delayScale = MouseY.kr(0.01, 1);
-
 	s = AudioIn.ar([1,2], 0.005) ;
-
 		// reverb predelay time :
 	z = DelayN.ar(Mix.ar(s), 0.048);
-
 		// 8 comb delays in parallel :
 	y = Mix.ar(CombL.ar(z, 0.1, Array.fill(8,{0.04.rand2 + 0.05}) * delayScale, decayTime));
-
 		// chain of 5 allpass delays on each of two channels (10 total) :
 	5.do({ y = AllpassN.ar(y, 0.050, [0.050.rand,0.050.rand], 1) });
-
 	// eliminate DC
 	LeakDC.ar(y)
 }))

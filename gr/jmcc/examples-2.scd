@@ -1,17 +1,5 @@
 "overlap-texture.scd".loadRelative; /* SC3 variants of OverlapTexture &etc. - rd */
 
-/*
-These examples are all surrounded by parentheses. You can double click to the right
-of the first open paren to select the entire example. Then press the 'enter' key to
-execute it. To stop execution, press cmd-period (i.e. the Apple key and the '.' key).
-
-Some examples may be too CPU intensive for slower computers. In some examples there
-are parameter variables you can change to alter the number of voices in the patch to
-fit your machine.
-
-There are no samples or sound files in this example file, this is all synthesized.
-*/
-
 //////////////////////////////////////////////////////////////////////////
 
 (
@@ -176,12 +164,10 @@ p = 12;	// number of overtones
 	~xfade_texture.({
 		var noise, spec, freq, resFreqs;
 		noise = BrownNoise.ar(0.001);
-
 		// a list representing a just diatonic scale expressed as ratios.
 		// one value is chosen at random and multiplied by a 120 Hz fundamental
 		freq = #[ 1.0, 1.125, 1.25, 1.333, 1.5, 1.667, 1.875, 2.0,
 			2.25, 2.5, 2.667, 3.0, 3.333, 3.75, 4.0 ].choose * 120.0;
-
 		spec = Array.fill(2, {
 				`[ 	// filter bank specification
 					resFreqs = Array.series(p, freq, freq ) + Array.fill(p, { 0.5.rand2 }),
@@ -203,12 +189,10 @@ p = 12;	// number of overtones
 	~xfade_texture.({
 		var noise, spec, freq, resFreqs;
 		noise = LFNoise2.ar(8000, 0.004);
-
 		// a list representing a just diatonic scale expressed as ratios.
 		// one value is chosen at random and multiplied by a 120 Hz fundamental
 		freq = #[ 1.0, 1.125, 1.25, 1.333, 1.5, 1.667, 1.875, 2.0,
 			2.25, 2.5, 2.667, 3.0, 3.333, 3.75, 4.0 ].choose * 120.0;
-
 		spec = Array.fill(2, {
 				`[
 					resFreqs = Array.series(p, freq, 2*freq ) + Array.fill(p, { 0.5.rand2 }),
@@ -243,7 +227,6 @@ p = 10;	// number of partials
 		Klank.ar(spec, sweep)
 	}, 4, 4, n, 2)
 )
-
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -309,7 +292,6 @@ play({
 			+ CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
 		]
 }))
-
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -380,9 +362,7 @@ n = 5;
 	}, 4, 1, n, 2)
 )
 
-
 //////////////////////////////////////////////////////////////////////////
-
 
 (
 // data space

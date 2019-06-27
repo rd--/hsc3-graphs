@@ -1,22 +1,9 @@
 "overlap-texture.scd".loadRelative; /* SC3 variants of OverlapTexture &etc. - rd */
 
-/*
-These examples are all surrounded by parentheses. You can double click to the right
-of the first open paren to select the entire example. Then press the 'enter' key to
-execute it. To stop execution, press cmd-period (i.e. the Apple key and the '.' key).
-
-Some examples may be too CPU intensive for slower computers. In some examples there
-are parameter variables you can change to alter the number of voices in the patch to
-fit your machine.
-
-There are no samples or sound files in this example file, this is all synthesized.
-*/
-
 //////////////////////////////////////////////////////////////////////////
 
 (
 // analogue daze
-
 var anaSynFunc, snare, e, g, z;
 // define a function so that I can make a couple of copies of this instrument:
 anaSynFunc = { arg octave, clockRate, pwmrate, fltrate;
@@ -25,15 +12,12 @@ anaSynFunc = { arg octave, clockRate, pwmrate, fltrate;
 		#[55,63,60,63,57,65,62,65]			// specify in MIDI notes
 		+ (12 * octave)					// offset by octaves argument
 		).midicps;						// convert to cycles per second
-
     var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
-
 	// use a sequencer to step through the list of frequencies
 	var freq = sequ.(
 			freqList,
 			Impulse.kr(clockRate)	// sequencer steps at each trigger from this oscillator
 		);
-
  	// analog VCO->VCF voice:
 	RLPF.ar(			// resonant lowpass filter
 		LFPulse.ar(	// pulse wave oscillator input to filter
@@ -54,7 +38,6 @@ anaSynFunc = { arg octave, clockRate, pwmrate, fltrate;
 		1/15 // 1/Q
 	)
 }; // end of function definition f
-
 play({
 	// analogue snare drum
 	snare = Decay.ar(		// an exponential decay envelope
@@ -65,14 +48,12 @@ play({
 			[0.07, 0.07])		// amplitude (in stereo, causes whole snare subpatch to be stereo
 							//               see MultiChannel.help)
 		);
-
 	// create two copies of sequencer patch in separate channels
 	g = [								// call function f to create each instrument
 		anaSynFunc.value(1, 8, 0.31, 0.2),  	// +1 octave,  8 clocks per second, PWM rate, RLPF rate
 		anaSynFunc.value(0, 2, 0.13, 0.11)  	// +0 octaves, 2 clocks per second, PWM rate, RLPF rate
 		]
 		+ snare; // add to snares
-
 	// comb delay of input plus dry stereo pair reversed
 	z = 0.4 * (				// scale delayed part down
 			CombN.ar(			// feedback delay
@@ -82,7 +63,6 @@ play({
 			)
 		+ g.reverse );  		// add dry stereo pair with the channels reversed
 	e = Env.linen(2, 56, 2); // one minute trapezoid envelope
-
 	z * EnvGen.kr(e,doneAction:2) 	// wrap a one minute envelope around entire sound
 });
 )
@@ -92,7 +72,6 @@ play({
 // The above program is heavily commented - almost one line per parameter.
 // Just to show how concise your programs can be here is a more condensed version
 // of the same patch.
-
 (
 var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
 var pattern = #[55,63,60,63,57,65,62,65];
@@ -119,16 +98,13 @@ play({
 });
 )
 
-
 //////////////////////////////////////////////////////////////////////////
 
 (
 // native algorhythms
 var imp_seq = {arg s, tr; Demand.ar(tr, 0, s) * tr};
 var n = 8; 	// n = number of partials for percussion instruments
-
-	~overlap_texture.({ // make an overlapping texture
-
+~overlap_texture.({ // make an overlapping texture
 // create an algorhythmic rhythm pattern
 var pat = Drand([ // choose one of the following patterns at random
 		Dseq([2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 1.0, 1.0],1),
@@ -142,9 +118,7 @@ var pat = Drand([ // choose one of the following patterns at random
 		Dseq([1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
 			  0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0],1)
 	], inf);
-
 		var freq = 40 + 300.0.rand; 		// random base frequency
-
 		var seq = imp_seq.(		// outputs a sequence of single sample triggers
 				pat,
 				Impulse.ar(10) 		// a clock for the sequencer at 10 beats per second
@@ -169,9 +143,6 @@ var pat = Drand([ // choose one of the following patterns at random
 
 //////////////////////////////////////////////////////////////////////////
 
-// this one is rather CPU intensive. Uses up to 76% of a PB 3400/180.
-// On slower machines you can reduce the number of notes n.
-
 (
 // synthetic piano
 var n;
@@ -179,7 +150,6 @@ n = 6;	// number of keys playing
 play({
 	Mix.ar(Array.fill(n, {	// mix an array of notes
 		var delayTime, pitch, detune, strike, hammerEnv, hammer;
-
 		// calculate delay based on a random note
 		pitch = (36 + 54.rand);
 		strike = Impulse.ar(0.1+0.4.rand, 0, 0.1); // random period for each key
@@ -216,7 +186,6 @@ plot({
 }, 0.04);
 )
 
-
 //////////////////////////////////////////////////////////////////////////
 
 (
@@ -224,20 +193,15 @@ plot({
 d = 10; // number of percolators
 c = 7; // number of comb delays
 a = 4; // number of allpass delays
-
 play({
 		// sine percolation sound :
 	s = Mix.ar(Array.fill(d, { Resonz.ar(Dust.ar(2/d, 50), 200 + 3000.0.rand, 0.003)}) );
-
 		// reverb predelay time :
 	z = DelayN.ar(s, 0.048);
-
 		// 7 length modulated comb delays in parallel :
 	y = Mix.ar(CombL.ar(z, 0.1, LFNoise1.kr(Array.fill(c,{0.1.rand}), 0.04, 0.05), 15));
-
 		// chain of 4 allpass delays on each of two channels (8 total) :
 	a.do({ y = AllpassN.ar(y, 0.050, [0.050.rand,0.050.rand], 1) });
-
 		// add original sound to reverb and play it :
 	s+(0.2*y)
 }))
@@ -246,20 +210,15 @@ play({
 
 (
 // reverberated noise bursts
-
 play({
 		// pink noise percussion sound :
 	s = Decay.ar(Dust.ar(0.6, 0.2), 0.15, PinkNoise.ar);
-
 		// reverb predelay time :
 	z = DelayN.ar(s, 0.048);
-
 		// 6 modulated comb delays in parallel :
 	y = Mix.ar(CombL.ar(z, 0.1, LFNoise1.kr(Array.fill(6,{0.1.rand}), 0.04, 0.05), 15));
-
 		// chain of 4 allpass delays on each of two channels (8 total) :
 	4.do({ y = AllpassN.ar(y, 0.050, [0.050.rand,0.050.rand], 1) });
-
 		// add original sound to reverb and play it :
 	s+y
 }))

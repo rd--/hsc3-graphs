@@ -1,21 +1,5 @@
 "overlap-texture.scd".loadRelative; /* SC3 variants of OverlapTexture &etc. - rd */
 
-/*
-These examples are all surrounded by parentheses. You can double click to the right
-of the first open paren to select the entire example. Then press the 'enter' key to
-execute it. To stop execution, press cmd-period (i.e. the Apple key and the '.' key).
-
-Some examples may be too CPU intensive for slower computers. In some examples there
-are parameter variables you can change to alter the number of voices in the patch to
-fit your machine's speed.
-
-There are no samples or sound files in this example file, this is all synthesized.
-*/
-
-//////////////////////////////////////////////////////////////////////////
-
-// Even simpler examples can be found throughout the help files.
-
 //////////////////////////////////////////////////////////////////////////
 
 (
@@ -37,7 +21,6 @@ play({
 }))
 
 //////////////////////////////////////////////////////////////////////////
-
 
 (
 // hell is busy
@@ -155,7 +138,6 @@ play({  RHPF.ar(BrownNoise.ar([0.5,0.5], -0.49).max(0) * 20, 5000, 1)  })
 	right = DelayN.ar(left, delayTime, delayTime); // delay right channel by two beats
 	[left,right]
 }))
-
 
 //////////////////////////////////////////////////////////////////////////
 

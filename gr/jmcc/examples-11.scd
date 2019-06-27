@@ -23,7 +23,6 @@
 }.play;
 )
 
-
 //////////////////////////////////////////////////////////////////////
 
 (
@@ -39,15 +38,12 @@
 		// place trigger points from 0.25 to 0.75
 		pos = 0.25 + (i * 0.1);
 		period = pitch.at(i).midicps.reciprocal;
-
 		trigger1 = HPZ1.kr(mousex > pos).abs;
 		pluck1 = PinkNoise.ar(Decay.kr(trigger1, 0.05));
 		string1 = CombL.ar(pluck1, period, period, 4);
-
 		trigger2 = HPZ1.kr(mousex > (pos + 0.015)).abs;
 		pluck2 = PinkNoise.ar(Decay.kr(trigger2, 0.05));
 		string2 = CombL.ar(pluck2, period/2, period/2, 4);
-
 		Pan2.ar(string1 + string2, i * 0.2 - 0.5);
 	});
 	LPF.ar(out, 12000);
@@ -70,15 +66,12 @@
 		var trigger, pluck1, pluck2, period1, period2, string1, string2;
 		// place trigger points from 0.25 to 0.75
 		trigger = HPZ1.kr(mousex > (0.25 + (i * 0.1)));
-
 		pluck1 = PinkNoise.ar(Decay.kr(trigger.max(0), 0.05));
 		period1 = pitch1.at(i).midicps.reciprocal;
 		string1 = CombL.ar(pluck1, period1, period1, 4);
-
 		pluck2 = BrownNoise.ar(Decay.kr(trigger.neg.max(0), 0.05));
 		period2 = pitch2.at(i).midicps.reciprocal;
 		string2 = CombL.ar(pluck2, period2, period2, -4);
-
 		Pan2.ar(string1 + string2, i * 0.2 - 0.5);
 	});
 	LPF.ar(out, 12000);
@@ -126,7 +119,6 @@
 		// place trigger points from 0.25 to 0.75
 		trigger = HPZ1.kr(mousex > (0.25 + (i * 0.07))).abs;
 		pluck = PinkNoise.ar(Decay.kr(trigger, 0.05, 0.04));
-
 		z = `[	// filter bank specification :
 				y = Array.fill(n, { (300 * i) + 8000.0.linrand} ), // frequencies
 				nil, 							// amplitudes default to 1.0

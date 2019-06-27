@@ -1,17 +1,5 @@
 "overlap-texture.scd".loadRelative; /* SC3 variants of OverlapTexture &etc. - rd */
 
-/*
-These examples are all surrounded by parentheses. You can double click to the right
-of the first open paren to select the entire example. Then press the 'enter' key to
-execute it. To stop execution, press cmd-period (i.e. the Apple key and the '.' key).
-
-Some examples may be too CPU intensive for slower computers. In some examples there
-are parameter variables you can change to alter the number of voices in the patch to
-fit your machine's speed.
-
-There are no samples or sound files in this example file, this is all synthesized.
-*/
-
 //////////////////////////////////////////////////////////////////////////
 
 (
@@ -278,41 +266,10 @@ There are no samples or sound files in this example file, this is all synthesize
 
 //////////////////////////////////////////////////////////////////////////
 
-(
 // UNTRANS RLPF4 - 4th order resonant lowpass filter
-// mouse X controls lfofreq, mouse Y controls resonance
-{
-	var lfofreq;
-	lfofreq = MouseX.kr(0.04, 40, 'exponential');
-	z = RLPF4.ar(
-		LFSaw.ar(LFNoise0.kr(0.2,7,40).round(1).midicps*[1,1.5]), // input signal = perfect 5ths
-		LinExp.kr(
-			LFSaw.kr([lfofreq, lfofreq*2],-1),
-			-1, 1, 0.01, 0.4), 			// cutoff
-		MouseY.kr(0,0.99)				// resonance
-		) * 0.1;
-	PingPongN.ar(z.at(0), z.at(1), 0.16, 0.16, 0.6)
-}.scope(0.1)
-)
 
 //////////////////////////////////////////////////////////////////////////
 
-(
 // UNTRANS RLPF4 - 4th order resonant lowpass filter
-// MIDI channel 1 most recent note controls pitch
-// mouse X controls lfofreq, mouse Y controls resonance
-{
-	var lfofreq;
-	lfofreq = MouseX.kr(0.04, 40, 'exponential');
-	z = RLPF4.ar(
-		LFSaw.ar(MIDIMostRecentNote.kr(1).midicps*[1,1.5]), // input signal = perfect 5ths
-		LinExp.kr(
-			LFSaw.kr([lfofreq, lfofreq*2],-1),
-			-1, 1, 0.01, 0.4), 			// cutoff
-		MouseY.kr(0,0.99)				// resonance
-		) * 0.1;
-	PingPongN.ar(z.at(0), z.at(1), 0.16, 0.16, 0.6)
-}.scope(0.1)
-)
 
 //////////////////////////////////////////////////////////////////////////

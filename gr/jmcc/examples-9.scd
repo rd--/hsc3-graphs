@@ -20,66 +20,7 @@
 
 //////////////////////////////////////////////////////////////////////
 
-(
-// SEE MRIDIGAM percussion solo in 10/8
-var stream, pat;
-
-pat = Pseq([
-		Pseq(#[0.0], 10),
-
-		// intro
-		Pseq(#[0.9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 2),
-		Pseq(#[0.9, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0], 2),
-		Pseq(#[0.9, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.0], 2),
-		Pseq(#[0.9, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.2, 0.0, 0.2], 2),
-
-		// solo
-		Prand([
-			Pseq(#[0.9, 0.0, 0.0, 0.7, 0.0, 0.2, 0.0, 0.7, 0.0, 0.0]),
-			Pseq(#[0.9, 0.2, 0.0, 0.7, 0.0, 0.2, 0.0, 0.7, 0.0, 0.0]),
-			Pseq(#[0.9, 0.0, 0.0, 0.7, 0.0, 0.2, 0.0, 0.7, 0.0, 0.2]),
-			Pseq(#[0.9, 0.0, 0.0, 0.7, 0.2, 0.2, 0.0, 0.7, 0.0, 0.0]),
-			Pseq(#[0.9, 0.0, 0.0, 0.7, 0.0, 0.2, 0.2, 0.7, 0.2, 0.0]),
-			Pseq(#[0.9, 0.2, 0.2, 0.7, 0.2, 0.2, 0.2, 0.7, 0.2, 0.2]),
-			Pseq(#[0.9, 0.2, 0.2, 0.7, 0.2, 0.2, 0.2, 0.7, 0.0, 0.0]),
-			Pseq(#[0.9, 0.0, 0.0, 0.7, 0.2, 0.2, 0.2, 0.7, 0.0, 0.0]),
-			Pseq(#[0.9, 0.0, 0.4, 0.0, 0.4, 0.0, 0.4, 0.0, 0.4, 0.0]),
-			Pseq(#[0.9, 0.0, 0.0, 0.4, 0.0, 0.0, 0.4, 0.2, 0.4, 0.2]),
-			Pseq(#[0.9, 0.0, 0.2, 0.7, 0.0, 0.2, 0.0, 0.7, 0.0, 0.0]),
-			Pseq(#[0.9, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.7, 0.0, 0.0]),
-			Pseq(#[0.9, 0.7, 0.7, 0.0, 0.0, 0.2, 0.2, 0.2, 0.0, 0.0]),
-			Pseq(#[0.9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-		], 30),
-
-		// tehai : 7 beat motif 3 times sharing 1st beat with next 7x3 and again the third time:
-		//   123456712345671234567                   123456712345671234567
-		//                       123456712345671234567
-		//   !                   !                   !                   !
-		//   1234567890123456789012345678901234567890123456789012345678901
-		Pseq(#[2.0, 0.0, 0.2, 0.5, 0.0, 0.2, 0.9,
-			 1.5, 0.0, 0.2, 0.5, 0.0, 0.2, 0.9,
-			 1.5, 0.0, 0.2, 0.5, 0.0, 0.2], 3),
-		Pseq(#[5], 1), // sam
-
-		Pseq(#[0.0], inf)
-	]);
-
-stream = pat.asStream;
-
-Synth.scope({ arg synth;
-	var trig;
-
-	trig = Plug.kr(0);
-
-	synth.repeat(0, 1/8, { trig.gate(stream.next, 0.0) });
-
-	(Resonz.ar(Decay2.kr(		// mridangam?
-			trig,
-			0.002, 0.1) *  WhiteNoise.ar(70), 60.midicps, 0.02, 4).distort * 0.4)
-		+ LPF.ar(Saw.ar([60, 60.04].midicps) + Saw.ar([67, 67.04].midicps), 108.midicps, 0.007);
-}, 10/8);
-
-)
+// SEE MRIDIGAM
 
 //////////////////////////////////////////////////////////////////////
 
@@ -166,11 +107,9 @@ root = 81 + 6.rand2;
 major = #[0, 2, 4, 5, 7, 9, 11];
 	~overlap_texture.({
 		var f, offset, sequence, trig;
-
 		offset = 16.rand2;
 		sequence = ((#[0, 1, 2, 3] + offset).scramble.degreeToKey(major) + root).midicps;
 		trig = Impulse.kr(XLine.kr(exprand(4.0, 24.0), exprand(4.0, 24.0), 12));
-
 		f = sequ.(sequence, trig);
 		Pan2.ar(
 			LFTri.ar(f, 0, Decay2.kr(trig, 0.004, 0.3, 0.1)),
@@ -214,7 +153,6 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 // contamination zone
 ~overlap_texture.({
 		var f;
-
 		f = exprand(800, 8000);
 		Pan2.ar(
 	            RLPF.ar(
@@ -246,7 +184,6 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 // array manipulation of multi channel audio
 	~xfade_texture.({
 		var a, b, c, d, e;
-
 		// 2 channels each of 3 different processes:
 		a = Array.fill(2, {
 				FSinOsc.ar(2000.0.rand,0,
@@ -268,25 +205,18 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 					Dust.ar(2, 0.1)
 				)
 			});
-
 		a = a ++ b ++ c;	   // concatenate all channels
 		a = a.scramble;		// scramble channels
-
 		d = a.copyRange(0, 2);	// copy first half, assign to d
 		e = a.copyRange(3, 5);	// copy second half, assign to e
-
 		// echo elements of d
 		d = CombN.ar(d, 0.3, Array.rand(3, 0.1, 0.3), 4, 1, d);
-
 		// absolute value distortion on elements of e
 		e = e.abs;
-
 		f = (d ++ e).scramble;	// concatenate, scramble
 		f = f.clump(2);			// make into groups of 2 channels
-
 		Mix.ar(f);				// mix stereo pairs to one pair
 	}, 9, 1, 2);
-
 )
 
 //////////////////////////////////////////////////////////////////////
