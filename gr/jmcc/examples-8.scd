@@ -134,7 +134,7 @@ e = Env.sine(4,1);
 //////////////////////////////////////////////////////////////////////////
 
 (
-// screen zones
+// UNTRANS screen zones
 // screen is divided into 4 quadrants with a different process in each one.
 var zone;
 // a function to create screen zones:
@@ -165,34 +165,27 @@ Synth.play({
 // slight mod of "phase mod with slow beats"
 // mouse x controls random freq of new events
 // mouse y controls modulation index
-var e;
-e = Env.adsr(0.001, 0.01, 0.25, 0.04, 1, -4);
-{
-	var n, mx, my;
-	n = 4;		// number of simultaneous events
-	mx = MouseX.kr(100, 6000, 'exponential');
-	my = MouseY.kr(0, 2);
-	OverlapTexture.ar({
-		var a, f, x, gate, rate;
-		x = mx.poll;
-		a = 0;
+var e = Env.adsr(0.001, 0.01, 0.25, 0.04, 1, -4);
+	var n = 4;		// number of simultaneous events
+	~overlap_texture.({
+	var x = MouseX.kr(100, 6000, 'exponential');
+	var y = MouseY.kr(0, 2);
+		var ph = 0;
+		var f1 = Rand(0,x);
+		var rate = ExpRand(10.0, 40.0);
+		var gate = Impulse.kr(XLine.kr(rate, [3,0.3].choose * rate, 12,doneAction:2));
 		3.do({
-			f = x.rand;
-			a = FSinOsc.ar([f, f+1.0.rand2], my, a);
+			var f2 = Rand(0,x);
+			ph = FSinOsc.ar([f2, f2 + 1.0.rand2], 0, y, ph);
 		});
-		f = x.rand;
-		rate = exprand(10.0, 40.0);
-		gate = Impulse.kr(XLine.kr(rate, [3,0.3].choose * rate, 12));
-		EnvGen.ar(e, SinOsc.ar([f, f+1.0.rand2], a, 0.1),
-			0, 1, 0, 1, gate)
-	}, 4, 4, n, 2, nil)
-}.play
+		EnvGen.ar(e, gate) * SinOsc.ar([f1, f1 + 1.0.rand2], ph, 0.1)
+	}, 4, 4, n, 2)
 )
 
 //////////////////////////////////////////////////////////////////////////
 
 (
-// using Sequencer to generate a chaotic waveform
+// UNTRANS using Sequencer to generate a chaotic waveform
 // MouseY controls chaos parameter
 // MouseX controls sequencer clock frequency
 { arg synth;
@@ -215,7 +208,7 @@ e = Env.adsr(0.001, 0.01, 0.25, 0.04, 1, -4);
 //////////////////////////////////////////////////////////////////////////
 
 (
-// making rhythms out of sampled voice
+// UNTRANS making rhythms out of sampled voice
 var filename, sound, signal;
 filename = ":Sounds:floating_1";
 sound = SoundFile.new;
