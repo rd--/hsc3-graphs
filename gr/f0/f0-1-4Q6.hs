@@ -1,43 +1,12 @@
--- * http://sccode.org/1-4Q6 (f0)
+-- http://sccode.org/1-4Q6 (f0)
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}
 
-{-
-
-> import Sound.OSC
-> let set p = withSC3 (sendMessage (n_set (-1) p))
-> set [("trig",1)]
-> set [("freq",midiCPS 100),("sustain",3),("trig",1)]
-> set [("freq",midiCPS 60),("sustain",9),("trig",1)]
-> set [("freq",midiCPS 40),("sustain",15),("trig",1)]
-
-> nrt_audition (P.nbind1 risset_p)
-
--}
-
-risset_u :: UGen
-risset_u =
-    let k = control KR
-        pan = k "pan" 0
-        f = k "freq" 400
-        ampl = k "amp" 0.1
-        d = k "sustain" 2
-        tr = tr_control "trig" 1
-        amps = [1,0.67,1,1.8,2.67,1.67,1.46,1.33,1.33,1,1.33]
-        durs = [1,0.9,0.65,0.55,0.325,0.35,0.25,0.2,0.15,0.1,0.075]
-        frqs = [0.56,0.56,0.92,0.92,1.19,1.7,2,2.74,3,3.76,4.07]
-        dets = [0,1,0,1.7,0,0,0,0,0,0,0]
-        fn i =
-            let shp = let c = EnvNum (-4.5)
-                      in envPerc_c 0.005 (d * durs!!i) (amps!!i) (c,c)
-                env = envGen AR tr 1 0 1 DoNothing shp
-            in sinOsc AR (f * frqs!!i + dets!!i) 0 * ampl * env
-        src = mixFill 11 fn
-    in pan2 src pan 1
+import F0
 
 risset_s :: Synthdef
-risset_s = synthdef "risset" (out 0 risset_u)
+risset_s = synthdef "risset" (out 0 risset)
 
 risset_p :: (Synthdef,Int,P.Param)
 risset_p =

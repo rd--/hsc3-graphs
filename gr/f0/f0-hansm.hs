@@ -7,7 +7,7 @@ import Sound.SC3 {- hsc3 -}
 type T3 a = (a,a,a)
 type Bird_Call_Param a = (T3 a,T3 a,T3 a,T3 a,T3 a)
 
-bird_call :: Transport m => Bird_Call_Param UGen -> m ()
+bird_call :: Bird_Call_Param UGen -> UGen
 bird_call ((freq,atk,dcy)
           ,(fmod1,atkf1,dcyf1)
           ,(fmod2,atkf2,dcyf2)
@@ -25,7 +25,7 @@ bird_call ((freq,atk,dcy)
         fmodc = sinOsc AR freq1 0 * amp1 + 1
         amod = 1 - sinOsc AR freq2 0 * amp2
         z = sinOsc AR ((freq * 7000 + 300) * fmodc) 0 * amod
-    in play (out 0 (pan2 z 0 e))
+    in pan2 z 0 e
 
 triple_tailed_tree_troubler :: (Fractional a) => Bird_Call_Param a
 triple_tailed_tree_troubler =
@@ -101,5 +101,18 @@ main = do
            ,pointy_beaked_beetlefiend
            ,african_boojuboolubala
            ,common_muckoink]
-      fn x = bird_call x >> wait 1.25
+      fn x = (play . bird_call) x >> wait 1.25
   withSC3 (mapM_ fn xs)
+
+{-
+> let u = bird_call bird_call_ctl
+> Sound.SC3.UGen.Dot.draw u
+-}
+bird_call_ctl :: Bird_Call_Param UGen
+bird_call_ctl =
+  let k nm = control KR nm 0
+  in ((k "freq",k "atk",k "dcy")
+     ,(k "fmod1",k "atkf1",k "dcyf1")
+     ,(k "fmod2",k "atkf2",k "dcyf2")
+     ,(k "amod1",k "atka1",k "dcya1")
+     ,(k "amod2",k "atka2",k "dcya2"))
