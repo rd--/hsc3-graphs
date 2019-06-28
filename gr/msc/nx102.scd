@@ -1,4 +1,4 @@
-// http://sccode.org/1-4QO
+// <http://sccode.org/1-4QO> (cmn)
 
 b = Buffer.read(s,Platform.resourceDir +/+ "sounds/a11wlk01.wav",bufnum:1);
 

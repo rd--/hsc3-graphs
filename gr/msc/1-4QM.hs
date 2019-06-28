@@ -1,4 +1,4 @@
--- http://sccode.org/1-4QM (jc)
+-- <http://sccode.org/1-4QM> (jc)
 
 import Control.Monad {- base -}
 

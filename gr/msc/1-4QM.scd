@@ -1,4 +1,6 @@
-// http://sccode.org/1-4QM
+// <http://sccode.org/1-4QM>
+
+// AY = external
 
 {var s1 = [8,12,16,20]
 ;var s2 = 2 / s1.scramble
