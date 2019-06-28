@@ -1,3 +1,5 @@
+// <https://twitter.com/headcube/status/474064500564324352> (nv)
+
 {var y = MouseY.kr(1,100)
 ;var x = MouseX.kr(50,400,\exponential)
 ;var i = Decay.ar(Impulse.ar(0.5),0.1)

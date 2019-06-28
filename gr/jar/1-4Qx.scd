@@ -1,4 +1,4 @@
-// http://sccode.org/1-4Qx
+// <http://sccode.org/1-4Qx> (jar)
 
 {var l = LFCub
 ;var f = l.kr(9.1,0,100,(200,300..500))

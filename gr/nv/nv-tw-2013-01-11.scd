@@ -1,4 +1,4 @@
-// https://twitter.com/headcube/status/289761321065541633 (nv)
+// <https://twitter.com/headcube/status/289761321065541633> (nv)
 
 {var i = InFeedback.ar(20,99)
 ;var n = (LFNoise1.kr(1e-3 ! 99) + 1) / 99

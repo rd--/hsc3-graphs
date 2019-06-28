@@ -1,6 +1,6 @@
 // pm-crotale (dmc) #1.7
 
-"jmcc/overlap-texture.scd".loadRelative;
+"../jmcc/overlap-texture.scd".loadRelative;
 
 ~spawn.(
 {var midi = IRand(48,72)
@@ -14,7 +14,7 @@
 ;var amp_1 = EnvGen.kr(env,1,0.3,0,art,0)
 ;var amp_2 = EnvGen.kr(env,1,Rand(0.1,0.5),0,1.3 * art,2)
 ;var sig = PMOsc.ar(freq,mod * freq,EnvGen.kr(env,1,tone,0,art,0),0)
-;Pan2.ar(sig,pan,amp_1 * amp_2)},{rrand(0.25,4)});
+;Pan2.ar(sig,pan,amp_1 * amp_2)},2,{rrand(0.25,4)});
 
 // the graph as given in the book is odd.
 // amp_1 is applied pre pan2, amp_2 is applied post.
