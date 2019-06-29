@@ -70,17 +70,17 @@ pond_life_ot :: IO ()
 pond_life_ot = O.overlapTextureU (8,8,4,maxBound) pond_life
 
 -- | alien froggies (jmcc) #1
-alien_froggies :: UGen -> UGen
-alien_froggies r =
+alien_froggies_n :: UGen -> UGen
+alien_froggies_n r =
     let r' = fold (r * exp (linRand 'α' (-0.2) 0.2 0)) 1 30
         o = formant AR r' (expRand 'β' 200 3000) (rand 'γ' 0 9 * r' + r')
     in o * 0.05
 
-alien_froggies_11 :: UGen
-alien_froggies_11 = alien_froggies 11
+alien_froggies :: UGen
+alien_froggies = alien_froggies_n 11
 
 alien_froggies_ot :: IO ()
-alien_froggies_ot = O.overlapTextureU (0.25,0.5,5,maxBound) alien_froggies_11
+alien_froggies_ot = O.overlapTextureU (0.25,0.5,5,maxBound) alien_froggies
 
 -- | random sine waves (jmcc) #1
 random_sine_waves :: UGen

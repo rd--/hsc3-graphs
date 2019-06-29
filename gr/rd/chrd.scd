@@ -1,6 +1,6 @@
 // chrd (rd)
 
-"overlap-texture.scd".loadRelative;
+"../jmcc/overlap-texture.scd".loadRelative;
 
 ~overlap_texture.(
 {var chrd =

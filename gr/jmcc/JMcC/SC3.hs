@@ -122,7 +122,7 @@ wind_metals = uid_st_eval wind_metals_m
 wind_metals_ot :: IO ()
 wind_metals_ot = O.overlapTextureU (5,2,12,maxBound) wind_metals
 
--- * plucked strings (jmcc)
+-- | plucked strings (jmcc)
 plucked_strings_m :: UId m => m UGen
 plucked_strings_m = do
   let dt = do r0 <- randM 60 90
@@ -147,7 +147,7 @@ plucked_strings_m = do
 plucked_strings :: UGen
 plucked_strings = uid_st_eval plucked_strings_m
 
--- * theremin (jmcc)
+-- | theremin (jmcc)
 theremin :: UGen
 theremin =
   let m = 7
@@ -159,7 +159,7 @@ theremin =
       a = sinOsc AR f' 0 * x
   in pan2 a 0 1
 
--- * snare-909 (jmcc)
+-- | snare-909 (jmcc)
 snare_909 :: UGen -> UGen
 snare_909 tr =
   let n = whiteNoise 'α' AR
@@ -184,7 +184,7 @@ snare_909_mouse =
         t = impulse KR (3 * x) 0
     in pan2 (snare_909 t) 0 y
 
--- * birds (jmcc)
+-- | birds (jmcc)
 birds_m :: UId m => m UGen
 birds_m = do
   let node = do r1 <- randM 94.0 102.0
@@ -209,7 +209,7 @@ birds_m = do
 birds :: UGen
 birds = uid_st_eval birds_m
 
--- * spe (jmcc)
+-- | spe (jmcc)
 spe_m :: UId m => m UGen
 spe_m = do
   let rapf i = do r <- clone 2 (randM 0 0.05)
