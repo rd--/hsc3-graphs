@@ -4,7 +4,7 @@ import Control.Monad {- base -}
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
-import qualified Sound.SC3.Data.Vowel as Vowel {- hsc3-lang -}
+import qualified Sound.SC3.Data.Speech.CS as CS {- hsc3-data -}
 
 scritto_i :: UGen -> UGen
 scritto_i bx =
@@ -25,19 +25,19 @@ scritto_i bx =
         voice = mix . v_filter_b
     in out 0 (mce (map (voice . ble) (zip ['β','γ'] [1,2])))
 
-s_alloc :: Transport m => (Vowel.Fdata Double,Int) -> m ()
+s_alloc :: Transport m => (CS.Fdata Double,Int) -> m ()
 s_alloc (s,b) = do
   let s_msg n (_,_,fr,am,bw) = b_setn1 n 0 (fr ++ am ++ bw)
   _ <- async (b_alloc b 15 1)
   sendMessage (s_msg b s)
 
 s_init :: Transport m => m ()
-s_init = mapM_ s_alloc (zip Vowel.fdata_table [0..])
+s_init = mapM_ s_alloc (zip CS.fdata_table [0..])
 
 act :: Transport m => Bool -> m ()
 act i = do
   when i s_init
-  let n = constant (length (Vowel.fdata_table::[Vowel.Fdata Int]))
+  let n = constant (CS.fdata_table_sz)
   play (scritto_i n)
 
 main :: IO ()

@@ -9,3 +9,4 @@ play(u =
 ;HPF.ar(((s / 127) - 1) * 3, 20).tanh * 0.02})
 
 u.draw
+
