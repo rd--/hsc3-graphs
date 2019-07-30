@@ -15,10 +15,6 @@ Cabal-Version:     >= 1.8
 
 Data-Files:        README
                    Makefile
-                   css/*.css
-                   gr/*.scd
-                   hs/*.hs
-                   sh/*.sh
 
 Source-Repository  head
   Type:            darcs
