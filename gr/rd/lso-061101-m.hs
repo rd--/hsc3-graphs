@@ -39,7 +39,7 @@ gen_d l = normalise . lsys_run l
 
 -- | Write 'gen_d' to 'FilePath' as /NeXT/ sound file.
 gen_f :: FilePath -> [Double] -> IO ()
-gen_f nm d = F.au_write nm (F.Header (length d) F.Float 44100 1) [d]
+gen_f nm d = F.au_write nm (F.SF_Header (length d) F.Float 44100 1) [d]
 
 -- | Rendered L-system data sets.
 lsys_data :: [[Double]]
