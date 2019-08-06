@@ -17,7 +17,7 @@ tgrn b =
 
 run :: Transport m => m ()
 run = do
-  let fn = "/home/rohan/data/audio/pf-c5.snd"
+  let fn = "/home/rohan/sw/hsc3-graphs/snd/2006-10-05.snd"
   _ <- async (b_allocRead 10 fn 0 0)
   play (out 0 (tgrn 10))
 

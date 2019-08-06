@@ -1,4 +1,4 @@
--- nharm (rd)
+-- nharm (rd, 2006-10-26)
 
 import Control.Concurrent {- base -}
 import Control.Monad {- base -}

@@ -1,4 +1,4 @@
--- feedr (rd)
+-- feedr (rd, 2006-09-12)
 -- warning: input/output feedback loop
 
 import Sound.OSC.FD {- hosc -}

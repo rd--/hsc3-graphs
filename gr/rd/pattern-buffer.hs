@@ -1,4 +1,4 @@
--- pattern buffer (rd)
+-- pattern buffer (rd, 2006-09-26)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

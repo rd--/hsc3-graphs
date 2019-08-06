@@ -1,4 +1,4 @@
--- lin-sosc (rd)
+-- lin-sosc (rd, 2006-10-12)
 
 import Control.Concurrent {- base -}
 import Control.Monad {- base -}

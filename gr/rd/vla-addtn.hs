@@ -1,4 +1,4 @@
--- vla-adttn (rd)
+-- vla-adttn (rd, 2006-10-09)
 
 import Sound.SC3 {- hsc3 -}
 

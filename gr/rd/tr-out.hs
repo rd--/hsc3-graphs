@@ -46,16 +46,15 @@ tr_out =
 tr_out_nid :: Node_Id
 tr_out_nid = 100
 
-act :: (UId m,Transport m) => m ()
-act = do
-  _ <- async (b_alloc_setn1 0 0 [60,62,64,65,67,69])
-  _ <- async (b_alloc_setn1 1 0 [-1,-0.5,0,0.25,0.75,1.0])
-  _ <- async (b_alloc_setn1 2 0 [0.01,0.05,0.1,0.15,0.25,0.35])
-  _ <- async (b_alloc_setn1 3 0 [0,0,0,0,0,0])
-  play_at (tr_out_nid,AddToHead,1,[]) (out 0 tr_out)
+b_init :: (UId m,Transport m) => m ()
+b_init = do
+  async_ (b_alloc_setn1 0 0 [60,62,64,65,67,69])
+  async_ (b_alloc_setn1 1 0 [-1,-0.5,0,0.25,0.75,1.0])
+  async_ (b_alloc_setn1 2 0 [0.01,0.05,0.1,0.15,0.25,0.35])
+  async_ (b_alloc_setn1 3 0 [0,0,0,0,0,0])
 
 main :: IO ()
-main = withSC3 act
+main = withSC3 (b_init >> play_at (tr_out_nid,AddToHead,1,[]) (out 0 tr_out))
 
 -- > set_master 0.5 -- 0.075 0.1 0.115 0.25 0.5
 set_master :: Double -> IO ()
@@ -123,3 +122,28 @@ wr_stp [0,1,2,3,4,5]
 wr_stp [0,0,0,0,0,4]
 
 -}
+
+-- * M
+
+tr_nd_m :: UId m => UGen -> m (UGen,UGen)
+tr_nd_m n = do
+  t <- dustM KR 1.6
+  r1 <- tRandM 0 6 t
+  r2 <- tRandM 0 6 t
+  r3 <- tRandM 0 6 t
+  r4 <- tRandM 0 6 t
+  let mnn = bufRdN 1 KR 0 r1 NoLoop
+      loc = bufRdN 1 KR 1 r2 NoLoop
+      amp = bufRdN 1 KR 2 r3 NoLoop
+      stp = bufRdN 1 KR 3 r4 NoLoop
+  return (pan2 (sig_1 stp mnn) loc amp
+         ,tr_1 t n (mnn,loc,amp,stp))
+
+tr_out_m :: UId m => m UGen
+tr_out_m = do
+  ns <- mapM tr_nd_m [1 .. tr_out_degree]
+  let o = sum (map fst ns)
+  return (mrg (o : map snd ns))
+
+main_m :: IO ()
+main_m = withSC3 (b_init >> play_at (tr_out_nid,AddToHead,1,[]) (out 0 (uid_st_eval tr_out_m)))

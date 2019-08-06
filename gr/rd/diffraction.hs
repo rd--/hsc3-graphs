@@ -1,4 +1,4 @@
--- diffraction (rd)
+-- diffraction (rd, 2006-09-09)
 
 import Control.Monad {- base -}
 import Sound.SC3 {- hsc3 -}

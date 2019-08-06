@@ -1,4 +1,4 @@
--- fb-090531 (rd)
+-- fb-090531 (rd, 2009-05-31)
 
 import Control.Monad {- base -}
 import Sound.OSC {- hosc -}

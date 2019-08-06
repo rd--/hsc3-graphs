@@ -1,4 +1,4 @@
--- tipnso (rd)
+-- tipnso (rd, 2006-10-04)
 
 import Sound.SC3 {- hsc3 -}
 

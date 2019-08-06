@@ -1,4 +1,4 @@
--- tgr-rpr (rd)
+-- tgr-rpr (rd, 2006-10-05)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
@@ -54,7 +54,7 @@ edit = do
 
 run :: (UId m,Transport m) => m ()
 run = do
-  let sf = "/home/rohan/data/audio/pf-c5.snd"
+  let sf = "/home/rohan/sw/hsc3-graphs/snd/2006-10-05.snd"
   _ <- async (b_allocRead 10 sf 0 0)
   sendMessage (c_setn [(0,preset)])
   play (out 0 tgr_rpr)

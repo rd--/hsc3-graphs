@@ -1,4 +1,4 @@
--- e-lamell (rd)
+-- e-lamell (rd, 2006-09-29)
 
 import Control.Monad
 import Sound.OSC {- hosc -}

@@ -1,4 +1,4 @@
--- crotale (rd)
+-- crotale (rd, 2006-10-17)
 
 import Sound.SC3 {- hsc3 -}
 

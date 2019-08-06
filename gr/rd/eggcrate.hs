@@ -1,4 +1,4 @@
--- eggcrate (rd)
+-- eggcrate (rd, 2007-04-23)
 
 import Sound.SC3 {- hsc3 -}
 

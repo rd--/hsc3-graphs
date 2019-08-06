@@ -1,4 +1,4 @@
--- ccomb (rd)
+-- ccomb (rd, 2006-10-07)
 
 import Sound.SC3 {- hsc3 -}
 

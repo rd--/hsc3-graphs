@@ -1,4 +1,4 @@
--- k-ppr (rd)
+-- k-ppr (rd, 2006-10-29)
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Protect {- hsc3-rw -}

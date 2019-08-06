@@ -1,4 +1,4 @@
--- voscil (rd)
+-- voscil (rd, 2006-09-30)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

@@ -1,4 +1,4 @@
--- mouse clatter (rd)
+-- mouse clatter (rd, 2006-09-25)
 
 import Sound.SC3 {- hsc3 -}
 

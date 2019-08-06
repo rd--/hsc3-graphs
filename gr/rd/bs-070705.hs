@@ -1,4 +1,4 @@
--- bs-070705 (rd)
+-- bs-070705 (rd, 2007-07-05)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

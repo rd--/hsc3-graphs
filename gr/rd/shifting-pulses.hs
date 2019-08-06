@@ -1,4 +1,4 @@
--- shifting pulses (rd)
+-- shifting pulses (rd, 2006-09-18)
 
 import Sound.SC3 {- hsc3 -}
 

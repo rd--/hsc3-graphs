@@ -1,4 +1,4 @@
--- cricket (rd)
+-- cricket (rd, 2006-09-27)
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}

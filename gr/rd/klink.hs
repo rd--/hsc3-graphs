@@ -1,4 +1,4 @@
--- klink (rd)
+-- klink (rd, 2006-10-23)
 
 import Sound.SC3 {- hsc3 -}
 

@@ -1,4 +1,4 @@
--- xy-interference (rd)
+-- xy-interference (rd, 2006-10-28)
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.UGen.Protect {- hsc3-rw -}

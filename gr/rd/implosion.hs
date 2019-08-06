@@ -1,4 +1,4 @@
--- implosion (rd)
+-- implosion (rd, 2006-10-18)
 
 import Sound.SC3 {- hsc3 -}
 

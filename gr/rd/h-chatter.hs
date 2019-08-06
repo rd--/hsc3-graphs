@@ -1,4 +1,4 @@
--- h-chatter (rd)
+-- h-chatter (rd, 2006-10-27)
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Common.Monad.Operators {- hsc3 -}

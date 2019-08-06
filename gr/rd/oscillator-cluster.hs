@@ -1,4 +1,4 @@
--- oscillator cluster (rd)
+-- oscillator cluster (rd, 2006-09-15)
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.Lang.Pattern.Plain as P {- hsc3-lang -}

@@ -1,4 +1,4 @@
--- f-lets (rd)
+-- f-lets (rd. 2006-09-28)
 
 import Sound.SC3 {- hsc3 -}
 

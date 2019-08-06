@@ -1,4 +1,4 @@
--- s-chirp (rd)
+-- s-chirp (rd, 2006-10-08)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

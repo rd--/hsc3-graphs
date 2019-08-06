@@ -1,4 +1,4 @@
--- tgb (rd)
+-- tgb (rd, 2006-10-16)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

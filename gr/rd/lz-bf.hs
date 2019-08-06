@@ -1,4 +1,4 @@
--- lz-bf (rd)
+-- lz-bf (rd, 2006-10-24)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
@@ -21,4 +21,4 @@ lz_bf fn = do
   play (out 0 lz_bf_u)
 
 main :: IO ()
-main = withSC3 (lz_bf "/home/rohan/data/audio/pf-c5.aif")
+main = withSC3 (lz_bf "/home/rohan/sw/hsc3-graphs/snd/2006-10-05.snd")

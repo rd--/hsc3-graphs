@@ -1,4 +1,4 @@
--- lf pulses (rd)
+-- lf pulses (rd, 2006-09-20)
 
 import Sound.SC3 {- hsc3 -}
 

@@ -1,4 +1,4 @@
--- wial (rd)
+-- wial (rd, 2006-09-21)
 
 import Sound.SC3 {- hsc3 -}
 

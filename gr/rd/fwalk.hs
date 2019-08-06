@@ -1,4 +1,4 @@
--- fwalk (rd)
+-- fwalk (rd, 2006-09-19)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

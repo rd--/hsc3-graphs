@@ -1,4 +1,4 @@
--- three-cpsw (rd)
+-- three-cpsw (rd, 2006-10-30)
 
 import Sound.SC3 {- hsc3 -}
 

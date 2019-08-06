@@ -1,4 +1,4 @@
--- chrd (rd)
+-- chrd (rd, 2006-09-14)
 
 import Sound.SC3 {- hsc3 -}
 

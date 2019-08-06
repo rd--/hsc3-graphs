@@ -1,4 +1,4 @@
--- cut-outs (rd)
+-- cut-outs (rd, 2006-09-11)
 
 import Sound.SC3 {- hsc3 -}
 
