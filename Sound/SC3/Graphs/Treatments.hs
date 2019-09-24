@@ -45,8 +45,6 @@ rng_osc_kr (z0,z1,t) = rsinosc KR (z0,z1,1/t) -- range z0 z1 (sinOsc KR (1/t) 0)
 -- * Param
 
 -- | (name,value)
-type Param1 = (String,Double)
-type Param = [Param1]
 type Param2 = T2 Param1
 type Param3 = T3 Param1
 type Param5 = T5 Param1
