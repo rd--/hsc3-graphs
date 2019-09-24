@@ -18,8 +18,6 @@ feedback4 =
         src = sinOsc AR (freq + sinOsc AR rate 0 * lfo) (lin * 2 * pi * fb) * amp * env
     in mrg2 (out 0 (pan2 src 0 1)) (localOut src)
 
-type Param = [(String, Double)]
-
 f0_fb_param :: [Param]
 f0_fb_param =
     [[]

@@ -11,9 +11,9 @@ tap' :: Int -> UGen -> UGen -> UGen
 tap' nc b dt = playBuf nc AR b 1 0 (dt * (- sampleRate)) Loop DoNothing
 
 -- (soundin channels,delay-line-length:seconds,number-of-taps)
-type Param = (UGen,Double,Int)
+type Opt = (UGen,Double,Int)
 
-feedr_gen :: UId m => Param -> m UGen
+feedr_gen :: UId m => Opt -> m UGen
 feedr_gen (ch,dl,n) = do
   t <- sequence (replicate n (randM 0.0 (constant dl)))
   g <- sequence (replicate n (randM 0.4 1.0))
@@ -25,7 +25,7 @@ feedr_gen (ch,dl,n) = do
       r = i + sum (map (* x) (zipWith (*) d f))
   return (mrg [out 0 s, delayWr 10 r])
 
-feedr_alloc :: Transport t => Param -> t -> IO ()
+feedr_alloc :: Transport t => Opt -> t -> IO ()
 feedr_alloc (_ch,dl,_n) fd = do
   nf <- fmap (* dl) (serverSampleRateActual fd)
   sendMessage fd (b_alloc 10 (floor nf) 2)
