@@ -2,9 +2,11 @@ module Sound.SC3.Graphs.Treatments where
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Protect {- hsc3-rw -}
+
 import qualified Sound.SC3.UGen.Bindings.DB.External as E {- hsc3 -}
 import qualified Sound.SC3.UGen.Bindings.HW.External as E {- hsc3 -}
+
+import Sound.SC3.UGen.Protect {- hsc3-rw -}
 
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 

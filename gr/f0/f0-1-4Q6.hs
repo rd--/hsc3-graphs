@@ -8,7 +8,7 @@ import F0
 risset_s :: Synthdef
 risset_s = synthdef "risset" (out 0 risset)
 
-risset_p :: (Synthdef,Int,P.Param)
+risset_p :: (Synthdef,Int,P.Param_MCE)
 risset_p =
     let fr = let d = P.rand 'α' [0,2,5,7,11]
                  o = P.rand 'β' [4,5,6,7,9]

@@ -16,3 +16,6 @@ es_tw_570012853274615808 =
       a = lfNoise2 'γ' AR o * 9 + 9
       s = varSaw AR (tExpRand 'δ' 9 5000 t) 0 0.5 * decay t 1
   in greyhole s a 0 o (lfNoise2 'ε' AR 1) (lfNoise2 'ζ' AR 1 + 1) 2 a
+
+main :: IO ()
+main = audition es_tw_570012853274615808

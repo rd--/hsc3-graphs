@@ -19,7 +19,7 @@ constQ =
         filtered = bpf grain freq rq * ampcomp
     in synthdef "constQ" (offsetOut bus (pan2 filtered pan cutoffEnv))
 
-p :: Double -> P.Param
+p :: Double -> P.Param_MCE
 p b =
     [("bufnum",repeat b)
     ,("sustain",P.white 'α' 0.02 0.04)
@@ -31,7 +31,7 @@ p b =
     ,("pan",P.white 'ζ' (-1) 1)
     ,("rq",P.white 'η' 0.03 0.15)]
 
-p' :: Double -> P.Param
+p' :: Double -> P.Param_MCE
 p' b =
     [("bufnum",repeat b)
     ,("sustain",P.white 'θ' 0.02 0.04)
