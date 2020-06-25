@@ -1,5 +1,5 @@
 Name:              hsc3-graphs
-Version:           0.18
+Version:           0.19
 Synopsis:          Haskell SuperCollider Graphs
 Description:       illustrative unit generator graphs for hsc3.
 License:           GPL
@@ -22,14 +22,14 @@ Source-Repository  head
 
 Library
   Build-Depends:   base >= 4.7 && < 5,
-                   hmt == 0.18.*,
-                   hosc == 0.18.*,
-                   hsc3 == 0.18.*,
-                   hsc3-lang == 0.18.*,
-                   hsc3-m == 0.18.*,
-                   hsc3-rw == 0.18.*,
-                   hsc3-unsafe == 0.18.*,
-                   sc3-rdu == 0.18.*,
+                   hmt == 0.19.*,
+                   hosc == 0.19.*,
+                   hsc3 == 0.19.*,
+                   hsc3-lang == 0.19.*,
+                   hsc3-m == 0.19.*,
+                   hsc3-rw == 0.19.*,
+                   hsc3-unsafe == 0.19.*,
+                   sc3-rdu == 0.19.*,
                    MonadRandom,
                    random
   GHC-Options:     -Wall -fwarn-tabs
