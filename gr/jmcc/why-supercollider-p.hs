@@ -16,4 +16,3 @@ why_supercollider_protect =
         f i = allpassN i 0.05 (RDU.randN 2 'η' 0 0.05) 1
         x = Protect.useq (== y) 'θ' 4 f y
     in s + 0.2 * x
-

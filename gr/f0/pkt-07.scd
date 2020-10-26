@@ -1,3 +1,5 @@
+// https://fredrikolofsson.com/f0blog/pact-februari/
+
 {GVerb.ar(
  LeakDC.ar(
   SinOsc.ar(

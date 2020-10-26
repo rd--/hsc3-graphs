@@ -12,7 +12,7 @@ red tr n = do
   r6 <- tRandM 0.3 0.5 tr
   let o1 = fSinOsc KR r2 0 * r3 + r4
       o2 = fSinOsc KR o1 0 * r5 + r6
-  return (rhpf n r1 o2)
+  return (rhpf n r1 o2 * 0.1)
 
 red_frik_m :: UId m => m UGen
 red_frik_m = do

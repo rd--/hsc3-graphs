@@ -1,4 +1,4 @@
 -- resonators harmonic series (jmcc) #2
-import Sound.SC3.Graphs.JMcC {- hsc3-graphs -}
+import JMcC.SC2 {- hsc3-graphs -}
 main :: IO ()
-main = rhs_xt
+main = resonators_harmonic_series_xt

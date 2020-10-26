@@ -3,11 +3,12 @@
 
 import qualified Data.Array as A {- array -}
 import Data.List {- base -}
-import qualified Sound.File.NeXT as F {- hsc3-sf -}
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 import System.Environment {- base -}
 import System.Random {- random -}
+
+import qualified Sound.File.NeXT as F {- hsc3-sf -}
 
 -- * Waveset analysis
 
