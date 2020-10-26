@@ -34,7 +34,7 @@ mk_g o =
         g = grainBuf 2 t (1 / l) b r p 2 0 (-1) 512
     in synthdef "g" (out 0 (g * e))
 
-pb :: [P.Param]
+pb :: [P.Param_MCE]
 pb =
     [[("dur",repeat 4)
      ,("sdens",cycle [9000,1000,500] ./ 100)

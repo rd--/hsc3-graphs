@@ -33,7 +33,7 @@ ping =
                            in s * envGen AR 1 1 0 1 RemoveSynth e]
     in out (k "out" 0) (r * mce2 a a)
 
-pattern :: P.Param
+pattern :: P.Param_MCE
 pattern =
     let octave = P.rand 'ζ' [6,7]
         degree = P.lace [[0,1,2,3,4]
