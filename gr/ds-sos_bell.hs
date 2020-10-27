@@ -1,4 +1,4 @@
--- https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/sos_bell.scd
+-- https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/sos_bell.scd (ds)
 
 import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
