@@ -1,4 +1,4 @@
-// <http://sccode.org/1-1Ni> (a4n)
+// <http://sccode.org/1-1Ni> (an)
 
 {var f =
  {var h = [40,45,52].choose.midicps

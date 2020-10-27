@@ -1,4 +1,4 @@
--- https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/apad_mh.scd
+-- https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/apad_mh.scd (Mike Hairston)
 
 import Sound.SC3 {- hsc3 -}
 import Sound.SC3.Lang.Pattern {- hsc3-lang -}

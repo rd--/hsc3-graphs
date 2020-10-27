@@ -60,7 +60,7 @@ bass_s = synthdef "bass" bass_u
 dur_p :: Fractional a => [a]
 dur_p = P.rand 'β' [3,0.7,1,0.5]
 
-pulse_p :: P.Param
+pulse_p :: P.Param_MCE
 pulse_p =
     [("dur",map (* 10) dur_p)
     ,("freq",fmap midiCPS (P.rand 'α' [59,72,76,79,81,88,90]))
@@ -68,14 +68,14 @@ pulse_p =
     ,("attackTime",P.white 'γ' 0 7)
     ,("delayTime",repeat 0.02)]
 
-drone_p :: P.Param
+drone_p :: P.Param_MCE
 drone_p =
     [("dur",dur_p)
     ,("freq",fmap midiCPS (P.rand 'α' [31,40,45,64,68,69]))
     ,("amp",P.white 'β' 0.02 0.06)
     ,("phase",P.rand 'γ' [0,4.7123])]
 
-bass_p :: P.Param
+bass_p :: P.Param_MCE
 bass_p =
     [("dur",dur_p)
     ,("freq",repeat (midiCPS 31))

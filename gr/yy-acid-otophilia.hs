@@ -1,4 +1,4 @@
--- 08091500Acid309 by_otophilia
+-- 08091500Acid309 by_otophilia (yamato yoshioka) <https://ja.wikipedia.org/wiki/Imoutoid>
 
 import Data.List {- base -}
 import Data.Maybe

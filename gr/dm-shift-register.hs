@@ -1,3 +1,5 @@
+-- https://sccode.org/1-590 (dm)
+
 import Sound.SC3 {- hsc3 -}
 
 shift_register_f :: UGen -> UGen -> UGen -> UGen
@@ -12,9 +14,9 @@ shift_register :: UGen
 shift_register =
   let amp = 0.1
       ip = impulse KR (1/16) 0
-      rt = tChoose 'δ' ip (mce [3,5,40])
-      trs = tChoose 'ε' ip (mce [0,12,-2,7,-15])
-      tr = trig1 (cuspL AR (rt * 12) 1 1.9 0.0) 0.001
+      rt = tChoose 'δ' ip (mce [3,5,10])
+      trs = tChoose 'ε' ip (mce [0,2,-2,7,-5])
+      tr = trig1 (cuspL AR (rt * 3) 1 1.9 0.0) 0.001
       tr4 = pulseDivider tr 4 0
       oct = demand tr4 0 (drand 'ζ' dinf (mce [12,-12]))
       note = demand tr 0 (dseq 'η' dinf (mceMap (+ trs) (mce [42,46,51,54,59,63,66])) + oct) -- scramble

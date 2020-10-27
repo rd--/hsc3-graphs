@@ -15,7 +15,7 @@ k2ws =
         rq = rng (0.5,10) (lfNoise1 'ε' AR 1)
         a = rlpf x rf rq
         ph = a * rng (1.0,4.0) (lfNoise1 'ζ' AR 0.1) * 4 * pi
-    in sinOsc AR 0.2 ph * 0.5
+    in sinOsc AR 0.2 ph * 0.1
 
 main :: IO ()
 main = audition (out 0 k2ws)

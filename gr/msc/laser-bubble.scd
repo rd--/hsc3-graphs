@@ -8,5 +8,4 @@
   ;pha.linexp(0, 1, rrand(50,100), rrand(500,2000))}
 ;var freqs = 8.collect(fn)
 ;var sig = Splay.ar(SinOsc.ar(freqs))
-;Limiter.ar(Rotate2.ar(sig[0],sig[1],LFSaw.kr(0.1)))}.play
-
+;Limiter.ar(Rotate2.ar(sig[0],sig[1],LFSaw.kr(0.1))) * 0.1}.play

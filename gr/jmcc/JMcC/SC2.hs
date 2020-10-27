@@ -928,7 +928,7 @@ contamination_zone =
     let f = expRand 'α' 800 8000
         p = let e = lfNoise1 'β' KR (rand 'γ' 0 3) * 0.0008 + 0.0022
             in pinkNoise 'δ' AR * e
-        s = sinOsc KR (linRand 'ε' 0 1 0) 0 * (0.7 * f) + f
+        s = sinOsc KR (linRand 'ε' 0 1 0) 0 * 0.7 * f + f
         k = let sp = klankSpec_mce (RDU.randN 4 'ζ' 50 2000)
                                    (mce [1,1,1,1])
                                    (RDU.randN 4 'η' 0.2 4)

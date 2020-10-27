@@ -1,4 +1,4 @@
--- https://mohayonao.github.io/CoffeeCollider/#mouse.coffee (mohayonao)
+-- https://mohayonao.github.io/CoffeeCollider/#mouse.coffee (mohayonao) http://the.mohayonao.com/
 
 import Sound.SC3 {- hsc3 -}
 
