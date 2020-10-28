@@ -1,8 +1,5 @@
 // cymbalism (jmcc) #2
-
-"overlap-texture.scd".loadRelative;
-
-~xfade_texture.(
+Texture.xfade(
 {var p = 15
 ;var f1 = Rand(500,2500)
 ;var f2 = Rand(0,8000)
@@ -13,4 +10,4 @@
 ;var t = Impulse.ar(Rand(0,3) + 0.5,0)
 ;var n = WhiteNoise.ar * 0.03
 ;var s = Decay.ar(t,0.004) * n
-;Klank.ar(z,s)},4,4);
+;Klank.ar(z,s)},4,4)

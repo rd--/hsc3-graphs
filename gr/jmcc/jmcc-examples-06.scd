@@ -1,5 +1,3 @@
-"overlap-texture.scd".loadRelative; /* SC3 variants of OverlapTexture &etc. - rd */
-
 //////////////////////////////////////////////////////////////////////////
 
 (
@@ -23,7 +21,7 @@
 	t = 4;
 	t3 = t / 3;
 	note = 50 + 50.rand;
-	~overlap_texture.({
+	Texture.overlap({
 		note = (note + 15.rand - 7).fold(50,120);
 		delay = 1/note.midicps;
 		Pan2.ar(CombC.ar(WhiteNoise.ar(0.008), 0.01, delay, delay * 1000), 1.0.rand2)
@@ -39,7 +37,7 @@
 	t = 4;
 	t3 = t / 3;
 	note = 60 + 50.rand;
-	~overlap_texture.({
+	Texture.overlap({
 		note = (note + 15.rand - 7).fold(60,110);
 		freq = note.midicps;
 		decayTime = 1/freq * 1000;
@@ -58,7 +56,7 @@
 	t = 4;
 	t3 = t / 3;
 	note = 80 + 40.rand;
-	~overlap_texture.({
+	Texture.overlap({
 		note = (note + 15.rand - 7).fold(80,120);
 		delay = 1/note.midicps;
 		Pan2.ar(CombL.ar(LPZ2.ar(WhiteNoise.ar(0.01)), 0.01, delay, -0.4), 1.0.rand2)
@@ -75,7 +73,7 @@
 	t3 = t / 3;
 	note = 50 + 70.rand;
 	endNote = (note + 15.rand - 7).fold(50,120);
-	~overlap_texture.({
+	Texture.overlap({
 		note = (note + 15.rand - 7).fold(50,120);
 		endNote = (endNote + 15.rand - 7).fold(50,120);
 		noteSweep = Line.kr(note, endNote, t);
@@ -93,7 +91,7 @@
 	var n, p;
 	n = 4;	// number of simultaneous events
 	p = 8;	// number of partials per channel
-	~overlap_texture.({
+	Texture.overlap({
 		s = Decay.ar(Dust.ar(0.8, 0.01), 3.4, LFSaw.ar(40.0.linrand));
 		f = #[400,500,600,700,800,900,1000,1200,1400,1500,1600].choose;
 		[
@@ -115,7 +113,7 @@
 	var n, p;
 	n = 4;	// number of simultaneous events
 	p = 8;	// number of partials per channel
-	~overlap_texture.({
+	Texture.overlap({
 		s = Decay.ar(Dust.ar(0.8, 0.004), 3.4, LFSaw.ar(40.0.linrand));
 		[
 			(z = Array.fill(p, { 80 + 10000.0.linrand} );
@@ -148,7 +146,7 @@
 (
 // saucer base
 	var n = 4;		// number of simultaneous events
-	~overlap_texture.({
+	Texture.overlap({
 		var a, b, c, pan;
 		a = 20.0.rand;
 		b = 1000.0.rand;
@@ -163,7 +161,7 @@
 (
 // alien meadow
 	var n = 6;		// number of simultaneous events
-	~overlap_texture.({
+	Texture.overlap({
 		var a, b, c, pan;
 		a = 20.0.rand;
 		b = 5000.0.rand;
@@ -178,7 +176,7 @@
 (
 // fast LFOs with slow beats
 	var n = 4;		// number of simultaneous events
-	~overlap_texture.({
+	Texture.overlap({
 		var a, a0, a1, b, c, pan;
 		a0 = 200.0.rand + 40;
 		a1 = a0 + 1.0.rand2;
@@ -194,7 +192,7 @@
 (
 // birdies
 	var n = 4;		// number of simultaneous events
-	~overlap_texture.({
+	Texture.overlap({
 		Pan2.ar(SinOsc.ar(
 			Lag.kr(LFSaw.kr(
 				LFPulse.kr(0.4 + 1.0.rand, 0, 0.8.rand + 0.1, 3.0.rand + 4, 2)
@@ -212,7 +210,7 @@
 // mouse y controls modulation index
 	var n;
 	n = 4;		// number of simultaneous events
-	~overlap_texture.({
+	Texture.overlap({
         var x = MouseX.kr(100, 6000, 'exponential');
         var y = MouseY.kr(0, 2);
 		var a = 0;
@@ -231,7 +229,7 @@
 // hard sync sawtooth with LFO
 	var a, n;
 	n = 4;	// number of simultaneous events
-	a = ~overlap_texture.({
+	a = Texture.overlap({
 		f = (30 + 50.rand).midicps;
 		SyncSaw.ar([f, f + 0.2], SinOsc.kr(0.2, [0, 2pi.rand], 2*f, 3*f), 0.05);
 	}, 4, 4, n, 2);
@@ -244,7 +242,7 @@
 // noise modulated sines
 	var a, n;
 	n = 4;	// number of simultaneous events
-	a = ~overlap_texture.({
+	a = Texture.overlap({
 		f = (60 + 40.rand).midicps;
 		FSinOsc.ar([f, f + 0.2], 0, LFNoise2.kr(f*[0.15, 0.16], 0.1));
 	}, 4, 4, n, 2);
@@ -257,7 +255,7 @@
 // noise modulated sawtooths
 	var a, n;
 	n = 4;	// number of simultaneous events
-	a = ~overlap_texture.({
+	a = Texture.overlap({
 		f = (60 + 40.rand).midicps;
 		LFSaw.ar([f, f + 0.2], 0, LFNoise2.kr(f*[0.15, 0.16], 0.1));
 	}, 4, 4, n, 2);

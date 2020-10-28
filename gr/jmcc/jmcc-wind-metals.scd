@@ -1,8 +1,5 @@
 // wind metals (jmcc)
-
-"overlap-texture.scd".loadRelative;
-
-~overlap_texture.(
+Texture.overlap(
 {var n = 6
 ;var base = ExpRand(60,4000)
 ;var rng = Rand(500.0,8000.0)
@@ -14,4 +11,4 @@
 ;var dt = Array.fill(n,{Rand(0.1,2.0)})
 ;var s = Klank.ar(`[f,nil,dt],exc)
 ;(s * 0.1).softclip
-},5,2,12);
+},5,2,12)

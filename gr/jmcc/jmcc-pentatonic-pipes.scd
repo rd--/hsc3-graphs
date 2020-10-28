@@ -1,12 +1,9 @@
-/* pentatonic pipes (jmcc) #9 */
-
-"overlap-texture.scd".loadRelative
-
+// pentatonic pipes (jmcc) #9
 (var n = 5
 ;var env = Env.linen(0.2,8,1,20,'sine')
 ;var mode = [0,3,5,7,10]
 ;var root = 36 + 12.rand
-;~overlap_texture.(
+;Texture.overlap(
  {arg i
  ;var amp = EnvGen.kr(env)
  ;var f = nil

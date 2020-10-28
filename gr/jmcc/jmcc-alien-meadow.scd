@@ -1,8 +1,5 @@
 // alien meadow (jmcc) #6
-
-"overlap-texture.scd".loadRelative;
-
-~overlap_texture.(
+Texture.overlap(
 {var a = 20.0.rand
 ;var b = 5000.0.rand
 ;var c = 20.0.rand

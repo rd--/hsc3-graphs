@@ -1,8 +1,5 @@
 // early space music lp side one (jmcc) #12
-
-"overlap-texture.scd".loadRelative;
-
-~overlap_texture.({
+Texture.overlap({
 	var scale = [0, 2, 4, 5, 7, 9, 11];
 	var octave = [24, 36, 48, 60, 72, 84, 96] - 3;
     var s1 = {
@@ -13,7 +10,7 @@
         };
         var x = LPZ2.ar(LPZ2.ar(Mix.arFill(10, z)));
         if (0.3.coin && (f < 1400), {
-            x = RLPF.ar(x, SinOsc.kr(rrand(0.3,0.8),0,f*rrand(0.5,3), f * rrand(4,12)), 0.1)
+            x = RLPF.ar(x, SinOsc.kr(rrand(0.3,0.8),0,f * rrand(0.5,3), f * rrand(4,12)), 0.1)
         });
         x
     };
@@ -28,4 +25,4 @@
 }, 4, 4, 6, postProcess: {
     arg z;
     CombN.ar(z, 0.5, [0.5,0.47], 7, 1, z.reverse)
-});
+})

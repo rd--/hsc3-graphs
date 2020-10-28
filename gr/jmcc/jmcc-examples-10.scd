@@ -1,5 +1,3 @@
-"overlap-texture.scd".loadRelative; /* SC3 variants of OverlapTexture &etc. - rd */
-
 //////////////////////////////////////////////////////////////////////
 
 // UNTRANS - mix of three other examples...
@@ -12,7 +10,7 @@
 
 (
 // tarmac
-~overlap_texture.({arg i;
+Texture.overlap({arg i;
         var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf)) * tr};
 		var t, d;
 		t = Impulse.kr(8);
@@ -47,7 +45,7 @@
 	            	t), 0.004, d)
 	      )
 }, 12, 3, 6, 2);
-~overlap_texture.({
+Texture.overlap({
 		Pan2.ar(
 	            Klank.ar(
 	                `[
@@ -77,7 +75,7 @@
 (
 // choip choip choip
 	var t = 12;
-	~overlap_texture.({
+	Texture.overlap({
 		var impulses = Impulse.ar(
 			XLine.kr(exprand(1,30), exprand(1,30), t)
 		);

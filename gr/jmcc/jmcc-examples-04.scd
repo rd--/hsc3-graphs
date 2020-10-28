@@ -1,5 +1,3 @@
-"overlap-texture.scd".loadRelative; /* SC3 variants of OverlapTexture &etc. - rd */
-
 //////////////////////////////////////////////////////////////////////////
 
 (
@@ -129,7 +127,7 @@
 (
 // random panning sines
 var n = 8;
-	~xfade_texture.({
+	Texture.xfade({
 		Mix.ar(Array.fill(n, {
 			Pan2.ar(
 				FSinOsc.ar(80 + 2000.0.linrand),

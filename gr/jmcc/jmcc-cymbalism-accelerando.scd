@@ -1,8 +1,5 @@
 // cymbalism accelerando (jmcc) #2
-
-"overlap-texture.scd".loadRelative;
-
-~xfade_texture.({
+Texture.xfade({
     var p = 15; // number of partials per channel per 'cymbal'.
     var f1 = 500 + 2000.0.rand;
     var f2 = 8000.0.rand;
@@ -16,4 +13,4 @@
     var tf = XLine.kr(4.0.linrand + 0.5, 35.0.rand + 0.5, 12);
     var t = Impulse.ar(tf);
     Klank.ar(z, Decay.ar(t, 0.004, WhiteNoise.ar(0.02)));
-}, 4, 4);
+}, 4, 4)

@@ -1,8 +1,5 @@
 // bouncing objects (jmcc) #2
-
-"overlap-texture.scd".loadRelative;
-
-~spawn.(
+Texture.spawn(
 /* impulses trigger decay envelope */
 {var imp_frq = XLine.kr(5 + 2.0.rand2, 600, 4) /* accelerating frequency */
 ;var imp_amp = XLine.kr(0.09, 0.000009, 4) /* decaying impulse amplitude */
@@ -19,5 +16,4 @@
 /* 3 second cut off envelope to end sound */
 ;var e = Env([1, 1, 0], [3, 0.001])
 ;loc * EnvGen.kr(e,doneAction:2)}, nextTime: {0.6 + 0.6.rand})
-
 /* lightbulbs, pencils, cans, and other assorted objects */

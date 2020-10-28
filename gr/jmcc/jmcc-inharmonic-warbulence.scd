@@ -1,8 +1,5 @@
 // inharmonic warbulence (jmcc) #12
-
-"overlap-texture.scd".loadRelative
-
-~overlap_texture.(
+Texture.overlap(
 {var f = rrand(24,96).midicps
 ;var a = min(1,500/f)
 ;var r = XLine.kr(exprand(0.1,20),exprand(0.1,20),25.6)

@@ -1,8 +1,5 @@
-// slow beating sines (jmcc) #7
-
-"overlap-texture.scd".loadRelative;
-
-~xfade_texture.(
+// slow beating sines (jmcc) #7 - ritual hymn in praise of the god of the LS-3000 life support unit
+Texture.xfade(
 {var n = 20 /* n * 3 components in each channel */
 ;var d = 5.0 /* beating frequency deviation */
 ;var p = Array(3 * n)
@@ -22,5 +19,3 @@
 ;z = [`[p, nil, Array.rand(3 * n, 0, 2 * pi)],
       `[q, nil, Array.rand(3 * n, 0, 2 * pi)]]
 ;Klang.ar(z) * (0.1 / n)}, 4, 4)
-
-/* ritual hymn in praise of the god of the LS-3000 life support unit */

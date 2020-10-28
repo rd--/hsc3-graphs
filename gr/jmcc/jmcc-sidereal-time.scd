@@ -1,8 +1,5 @@
 // sidereal time (jmcc) #9
-
-"overlap-texture.scd".loadRelative;
-
-~overlap_texture.(
+Texture.overlap(
 {var p = 15
 ;var h = {`[Array.fill(p,{exprand(100.0,6000.0)}),nil,Array.fill(p,{2.0 + 4.0.rand})]}
 ;var z = Array.fill(2,h)

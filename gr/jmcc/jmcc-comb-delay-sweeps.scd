@@ -1,8 +1,5 @@
 // comb delay sweeps (jmcc) #6
-
-"overlap-texture.scd".loadRelative;
-
-~overlap_texture.(
+Texture.overlap(
 {arg dur = 4
 ;var note = 50 + 70.rand
 ;var endNote = (note + 15.rand - 7).fold(50,120)

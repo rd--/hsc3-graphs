@@ -1,8 +1,5 @@
 // early space music lp side two (jmcc) #12
-
-"overlap-texture.scd".loadRelative;
-
-~overlap_texture.({
+Texture.overlap({
     [{
         var a = 20.0.rand;
         var b = 5000.0.rand;
@@ -49,4 +46,4 @@
     arg z;
     var fn = {CombN.ar(z, 0.3, [rrand(0.1,0.3),rrand(0.1,0.3)], 8)};
     Mix.arFill(5,fn) * 0.3;
-});
+})

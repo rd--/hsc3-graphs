@@ -1,7 +1,4 @@
 // blips 001 (jmcc) #SC3d1.5
-
-"overlap-texture.scd".loadRelative;
-
 {var blip_f =
   {var f = XLine.kr(exprand(0.25, 400), exprand(0.25, 400), 4)
   ;var nh = XLine.kr(exprand(2, 100), exprand(2, 100), 4)
@@ -13,4 +10,4 @@
   ;z = z.distort
   ;6.do({z = AllpassN.ar(z, 0.05, [0.05.rand, 0.05.rand], 4)})
   ;z}
-;~overlap_texture.(gen_f, 2, 1, 12, postProcess: pp_f)}.()
+;Texture.overlap(gen_f, 2, 1, 12, postProcess: pp_f)}.()
