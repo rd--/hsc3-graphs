@@ -1,5 +1,4 @@
 // theremin (jmcc)
-
 {var mod = 7
 ;var detune = 0
 ;var x = MouseX.kr(0, 0.9, 'linear', 0.2)

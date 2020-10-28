@@ -1,5 +1,4 @@
 // analog bubbles with mouse control (jmcc) #3
-
 {var y = MouseY.kr(0.1,10,'exponential') /* lfo 1 rate */
 ;var x = MouseX.kr(2,40,'exponential')  /* lfo 2 rate */
 ;var lfo_2 = LFSaw.kr(x,0,-3,80) /* depth & offset in semitones */

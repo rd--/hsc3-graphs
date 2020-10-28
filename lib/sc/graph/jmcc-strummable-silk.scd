@@ -1,5 +1,4 @@
 // strummable silk (jmcc) #11
-
 {var mousex = MouseX.kr
 ;var out = Mix.arFill(8,
  {arg i

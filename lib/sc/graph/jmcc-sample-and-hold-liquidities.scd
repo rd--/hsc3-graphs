@@ -1,5 +1,4 @@
 // sample and hold liquidities (jmcc) #4
-
 {var r = MouseX.kr(1,200,'exponential',0.1)
 ;var t = r.reciprocal
 ;var c = Impulse.kr(r,0,0.4)

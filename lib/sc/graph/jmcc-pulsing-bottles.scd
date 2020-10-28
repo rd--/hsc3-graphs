@@ -1,5 +1,4 @@
 // pulsing bottles (jmcc) #2
-
 {var n = 6 /* number of 'bottles' */
 ;var f =
   {var a = LFPulse.kr(4 + 10.0.rand, 0, 0.7.rand, 0.8/n)

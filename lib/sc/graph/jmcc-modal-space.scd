@@ -1,5 +1,4 @@
 // modal space (jmcc) #8
-
 {var b = LocalBuf.newFrom([0,2,3.2,5,7,9,10])
 ;var x = MouseX.kr(0,15,'linear',0.1)
 ;var k = DegreeToKey.kr(b,x,12)

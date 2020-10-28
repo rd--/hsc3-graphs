@@ -1,7 +1,4 @@
 // https://twitter.com/redFrik/status/1319946903711338496
-
-fork{inf.do{a={|i|c=Scale.minor.tuning_(Tuning.mean5);z=sum({ar(Pan2,ar(SinOscFB,kr(o=LFTri,1/99)*9+midicps(12*(3..6).choose+c[c.degrees.choose]),kr(o,1+i/50)+1/2),kr(o,i/70))/2}!d=9.rand);ar(CombN,z).tanh}.play(s,0,9);wait(d*9+3);a.release(12)}}
-
 fork{
  inf.do{
   a={

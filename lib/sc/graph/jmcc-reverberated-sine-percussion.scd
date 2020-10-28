@@ -1,5 +1,4 @@
 // reverberated sine percussion (jmcc) #3
-
 {{arg d, c, a
  ;var s = Mix.ar(Array.fill(d,{Resonz.ar(Dust.ar(2 / d) * 50,200 + Rand(0,3000),0.003)}))
  ;var z = DelayN.ar(s,0.048,0.048)

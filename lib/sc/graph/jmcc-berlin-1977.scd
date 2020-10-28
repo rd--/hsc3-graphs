@@ -1,6 +1,4 @@
 // berlin 1977 (jmcc) #4
-
-f =
 {var sequ = {arg s,tr; Demand.kr(tr,0,Dseq(s,inf))} // somewhat akin to SC2 Sequencer
 ;var sequR = {arg s,tr; Demand.kr(tr,0,Dshuf(s,inf))} // sequ with random selection function
 ;var clock_rate = MouseX.kr(5,20,'exponential',0.2) // mouse x controls clock rate
@@ -16,11 +14,5 @@ f =
 ;var filt = env * (FSinOsc.kr(0.17,0) * 800) + 1400 // filter frequency
 ;var pw = SinOsc.kr(0.08,[0,0.5 * pi]) * 0.45 + 0.5 // pulse width LFO(s)
 ;var s = Pulse.ar(freq,pw) * amp
-;CombN.ar(RLPF.ar(s,filt,0.15),0.2,[0.2,0.17],1.5)};
-
-z = f.play;
-z.trace;
-
-"mk.scd".loadRelative;
-~wr_scsyndef.("berlin-1977.sc",f);
+;CombN.ar(RLPF.ar(s,filt,0.15),0.2,[0.2,0.17],1.5)}.play
 

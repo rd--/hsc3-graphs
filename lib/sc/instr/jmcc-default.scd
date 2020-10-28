@@ -1,5 +1,4 @@
 // default (jmcc)
-
 SynthDef(\default, {
     arg out=0,freq=440,amp=0.1,pan=0,gate=1;
     var e = Linen.kr(gate, 0.01, 0.7, 0.3, 2);

@@ -1,7 +1,4 @@
 // https://twitter.com/redFrik/status/1138498427241861122 (f0)
-
-play{b=[f=9.sqrt,9.999];c=ar(e=PitchShift,ar(a=SinOscFB,lag(9.9*b*if(ar(a,ar(a,9/999))>ar(a,9/99),f,9/b)*if(ar(a,9/99)<ar(a,99/9999),b/9,f)),d=ar(a,b/99).max,ar(a,b/9)*d),9/b,9/b.sqrt,b/999,b/99);ar(HPF,ar(Splay,ar(GVerb,c*d*d*d,99,9,9/999)/9+ar(e,c,f/9,f/9)),9)}
-
 {var f = sqrt(9)
 ;var b = [f,9.999]
 ;var e = PitchShift
@@ -14,5 +11,4 @@ play{b=[f=9.sqrt,9.999];c=ar(e=PitchShift,ar(a=SinOscFB,lag(9.9*b*if(ar(a,ar(a,9
 ;var c = ar(e,s1,9/b,9/sqrt(b),b/999,b/99)
 ;var s2 = ar(GVerb,c * d * d * d,99,9,9/999)
 ;var s3 = s2/9 + ar(e,c,f/9,f/9)
-;ar(HPF,ar(Splay,s3),9)
-}.play
+;ar(HPF,ar(Splay,s3),9) * 0.5}.play

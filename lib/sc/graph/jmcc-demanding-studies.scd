@@ -1,5 +1,4 @@
 // demanding studies (jmcc)
-
 {var s1 = Drand([72,75,79,82],inf)
 ;var s2 = Drand([82,84,86],1)
 ;var s3 = Dseq([72,75,79,s2],inf)

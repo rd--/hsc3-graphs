@@ -1,5 +1,4 @@
 // http://www.fredrikolofsson.com/f0blog/?q=node/619
-
 SynthDef(\feedback4, {
     arg freq = 400, amp = 0.1, fb = 2, del = 0.1, lfo = 1, rate = 2, cutoff = 500;
     var env = EnvGen.kr(Env.perc(1, 4), doneAction:2);

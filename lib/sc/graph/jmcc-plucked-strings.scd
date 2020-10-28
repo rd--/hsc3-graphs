@@ -1,5 +1,4 @@
 // plucked strings (jmcc)
-
 {var dt = {1 / rrand(60,90).floor.midicps}
 ;var i =
   {var s0 = Impulse.ar(rrand(2,2.2),0,0.3)

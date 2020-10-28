@@ -5,4 +5,4 @@
 ;var d = a.ar(1/8)+1/99
 ;var i = InFeedback.ar([1,0])
 ;var p = CombC.ar(i.lagud(u,d),1,0.08,9)
-;a.ar(f,p)}.play
+;a.ar(f,p) * 0.25}.play

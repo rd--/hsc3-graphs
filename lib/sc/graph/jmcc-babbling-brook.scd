@@ -1,5 +1,4 @@
 // babbling brook (jmcc) #SC3
-
 {var b = {arg f, m, a, g
          ;{var n1 = OnePole.ar(BrownNoise.ar, 0.99)
           ;var n2 = LPF.ar(BrownNoise.ar, f)

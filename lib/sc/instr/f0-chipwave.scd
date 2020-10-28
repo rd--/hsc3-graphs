@@ -16,7 +16,7 @@ SynthDef(\ioscs,{
 a = Pbind(\instrument, \ioscs,
     \midinote, Pseq([60, 60, 70, 60, 65, 63], inf),
     \amp, 0.25,
-    \dur, 0.25);
+    \dur, 0.25).play;
 
 a.stop
 

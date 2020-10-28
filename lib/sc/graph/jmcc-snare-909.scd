@@ -1,5 +1,4 @@
 // snare-909 (jmcc)
-
 {var snr =
   {arg tr, n, v
   ;var e = {arg a, b; EnvGen.ar(Env.perc(a, b), tr, 1, 0, 1, 0)}

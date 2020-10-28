@@ -1,5 +1,4 @@
 // mridangam (jmcc) #SPE3
-
 {var m = {
     arg t_amp = 1;
     var n = WhiteNoise.ar(70) * Decay2.kr(t_amp, 0.002, 0.1);

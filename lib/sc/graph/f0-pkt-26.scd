@@ -1,5 +1,4 @@
 // http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
-
 {var n = 8
 ;var x =
  {arg i

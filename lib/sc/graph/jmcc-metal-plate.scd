@@ -1,5 +1,4 @@
 // metal plate (jmcc) #4
-
 {var n = 4 // number of delay lines
 ;var maxdt = Server.default.sampleRate * 0.03 // maximum delay time
 ;var buf = Array.fill(n, {LocalBuf.new(maxdt,1).clear}) // allocate buffers for delay lines

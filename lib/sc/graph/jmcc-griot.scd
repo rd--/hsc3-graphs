@@ -1,5 +1,4 @@
 // griot modeling (jmcc)
-
 {var maxdt = Server.default.sampleRate * 0.03 // maximum delay time
 ;var n = 5 // number of delay lines
 ;var buf = Array.fill(n,{LocalBuf.newFrom(Array.fill(maxdt,0))}) // allocate buffers for delay lines

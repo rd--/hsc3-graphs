@@ -1,5 +1,4 @@
-// <http://www.fredrikolofsson.com/f0blog/?q=node/490> (f0)
-
+// http://www.fredrikolofsson.com/f0blog/?q=node/490 (f0)
 {var f0 = [100,200,300] + SinOsc.ar([0.11,0.22,0.33])
 ;var ph0 = SinOsc.ar([0.1,0.2,0.3],0,2pi)
 ;var a0 = 0.1 + SinOsc.ar([0.01,0.02,0.03],0,0.05)

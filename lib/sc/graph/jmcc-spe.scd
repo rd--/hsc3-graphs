@@ -1,5 +1,4 @@
 // spe (jmcc)
-
 {var t = Impulse.kr(9,0)
 ;var s = [00,03,02,07,08,32,16,18,00,12,24,32]
 ;var m = Dseq(s,inf)

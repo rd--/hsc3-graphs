@@ -1,5 +1,4 @@
 // synthetic piano (jmcc) #3
-
 {var p =
   {var n = IRand(36,90)
   ;var f = Rand(0.1,0.5)
