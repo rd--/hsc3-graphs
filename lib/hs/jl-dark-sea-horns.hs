@@ -12,7 +12,4 @@ dark_sea_horns =
         a = tanh (sinOsc AR 65 (x * n 'α' AR 0.1 * 3) * n 'β' AR 3 * 6)
         f i = allpassN i 0.3 (RDU.randN 2 'γ' 0.1 0.3) 5
         o = tanh (useq_all 'δ' 9 f a)
-    in mrg2 o (localOut o)
-
-main :: IO ()
-main = audition (out 0 dark_sea_horns)
+    in mrg2 (o * 0.2) (localOut o)

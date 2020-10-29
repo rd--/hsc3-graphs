@@ -13,7 +13,4 @@ rain_thunder =
         f1 = linExp (lfNoise1 'θ' KR 1) (-1) 1 100 2500
         e1 = line KR 0 0.7 30 DoNothing
         p1 = gVerb (tanh (lpf (10 * hpf n1 20) f1)) 270 30 0.7 0.5 15 0.5 0.7 0.5 300 * e1
-    in limiter (p0 + p1) 1 0.01
-
-main :: IO ()
-main = audition (out 0 rain_thunder)
+    in limiter (p0 + p1) 1 0.01 * 0.2

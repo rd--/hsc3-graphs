@@ -15,10 +15,3 @@ kabelScahden =
               in distort (leakDC ((h + n + m + k) * 10) 0.995)
         e = envGen KR 1 1 0 1 RemoveSynth (Envelope [amp,amp,0] [sustain,0] [] Nothing Nothing 0)
     in out 0 (clip2 hum 1 * e * 0.25)
-
-main :: IO ()
-main = audition kabelScahden
-
--- Local Variables:
--- truncate-lines:t
--- End:

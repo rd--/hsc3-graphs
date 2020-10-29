@@ -1,4 +1,4 @@
-module JMcC.SC2 where
+module SC2 where
 
 import Data.Function {- base -}
 import Data.List {- base -}
@@ -15,7 +15,7 @@ import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 
 import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
-import JMcC.Util
+import Util
 
 -- * SC2-0
 

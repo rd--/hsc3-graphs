@@ -1,39 +1,23 @@
 -- shepard tones, alberto de campo (adc)
 
-import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
-
-interp :: (Fractional t,Enum t) => t -> t -> t -> [t]
-interp n l r =
-    let i = (r - l) / n
-    in [l,l + i .. r - i]
-
-hanningWindow :: (Floating b,Enum b) => b -> [b]
-hanningWindow n =
-    let lp = pi * (-0.5)
-        rp = lp + 2 * pi
-        hf i = sin i * 0.5 + 0.5
-    in map hf (interp n lp rp)
 
 shepard_tones :: UGen
 shepard_tones =
-    let ratescale = 1024 / 44100 / 10
-        rate = 0.1
-        ph = phasor AR 0 (rate * ratescale) 0 1024 0
-        phases = mce (map (\n -> n * 0.1 * 1024 + ph) [0..9])
-        freqs = bufRdC 1 AR 1 phases Loop
-        amps = bufRdC 1 AR 2 phases Loop
-    in mix (sinOsc AR freqs 0 * amps) * 0.1
-
-run :: Transport m => m ()
-run = do
-  let square x = x * x
-      ampTable = map square (hanningWindow 1024)
-      amp_f i = (0.5 ** i) * 20000
-      freqTable = map amp_f (interp 1024 0 10)
-  _ <- async (b_alloc_setn1 1 0 freqTable)
-  _ <- async (b_alloc_setn1 2 0 ampTable)
-  play (out 0 shepard_tones)
-
-main :: IO ()
-main = withSC3 run
+  let interp n l r = let i = (r - l) / n in [l,l + i .. r - i]
+      hanning_window n =
+        let lp = pi * (-0.5)
+            rp = lp + 2 * pi
+            hf i = sin i * 0.5 + 0.5
+        in map hf (interp n lp rp)
+      freq_tbl = let amp_f i = (0.5 ** i) * 20000 in map amp_f (interp 1024 0 10)
+      amp_tbl = let square x = x * x in map square (hanning_window 1024)
+      b0 = asLocalBuf 'α' freq_tbl
+      b1 = asLocalBuf 'β' amp_tbl
+      rate = 0.1
+      ratescale = 1024 / 48000 / 10 -- sample-rate
+      ph = phasor AR 0 (rate * ratescale) 0 1024 0
+      phases = mce (map (\n -> n * 0.1 * 1024 + ph) [0..9])
+      freqs = bufRdC 1 AR b0 phases Loop
+      amps = bufRdC 1 AR b1 phases Loop
+  in mix (sinOsc AR freqs 0 * amps) * 0.05

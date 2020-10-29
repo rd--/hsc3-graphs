@@ -11,6 +11,3 @@ bitwise_operators =
               ((t *  2) .&. (t .>>. 9)) .|.
               ((t *  8) .&. (t .>>. 11))) - 3) `modE` 256
     in tanh (hpf (((s / 127) - 1) * 3) 20) * 0.02
-
-main :: IO ()
-main = audition (out 0 bitwise_operators)

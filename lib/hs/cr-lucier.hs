@@ -7,9 +7,10 @@ http://www.listarc.bham.ac.uk/lists/sc-users/msg47540.html
 
 import Sound.SC3 {- hsc3 -}
 
-lucier_wire :: UGen -> UGen
-lucier_wire freq =
-    let block_size = recip controlRate
+lucier_wire :: UGen
+lucier_wire =
+    let freq = control KR "freq" 60
+        block_size = recip controlRate
         mk_dt f = recip f - block_size
         string_delay = mk_dt freq
         pk1_pos = 0.1 -- pickup one position
@@ -55,6 +56,3 @@ lucier_wire freq =
         outL = pk1_L + pk1_R
         outR = pk2_L + pk2_R
     in mrg [mce2 outL outR, drv, source, l_out]
-
-main :: IO ()
-main = audition (out 0 (lucier_wire 60))

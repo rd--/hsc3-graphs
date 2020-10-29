@@ -1,4 +1,4 @@
-module JMcC.Util where
+module Util where
 
 import Sound.SC3 {- hsc3 -}
 

@@ -21,7 +21,4 @@ red_frik_m = do
   red tr n
 
 red_frik :: UGen
-red_frik = uid_st_eval red_frik_m
-
-main :: IO ()
-main = audition (out 0 red_frik)
+red_frik = uid_st_eval red_frik_m * 0.1

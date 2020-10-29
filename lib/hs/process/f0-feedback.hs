@@ -1,4 +1,4 @@
--- <http://www.fredrikolofsson.com/f0blog/?q=node/619> (f0)
+-- http://www.fredrikolofsson.com/f0blog/?q=node/619 (f0)
 
 import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}

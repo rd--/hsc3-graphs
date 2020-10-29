@@ -1,14 +1,12 @@
--- Batuhan Bozkurt 2009 http://www.earslap.com (bb)
+-- batuhan bozkurt 2009 http://www.earslap.com (bb) - mce...........................
 
 import Sound.SC3 {- hsc3 -}
 
-offset_id :: Enum a => Int -> a -> Int
-offset_id n e = n + fromEnum e
-
--- mce...........................
 microhelix :: UGen
 microhelix =
     let rp = replicate
+        offset_id :: Enum a => Int -> a -> Int
+        offset_id n e = n + fromEnum e
         ctrigs_ z_ =
             let z = offset_id z_
                 i = mce (rp 8 (1/8) ++
@@ -43,6 +41,3 @@ microhelix =
                 e = envGen AR (t * lfNoise0 'ν' AR 8) 1 0 1 DoNothing d
             in pan2 (snd1 * e) (tRand 'ξ' (-1) 1 t) 1
     in limiter (midEQ (clicks + snd1' + hiNoise + bass) 14000 0.7 8) 1 0.01
-
-main :: IO ()
-main = audition (out 0 microhelix)

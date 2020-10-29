@@ -10,7 +10,4 @@ jl_z_1 =
         d = lag (impulse KR 2 0 + impulse KR 4 0.5) 0.1
         e = blip AR 4.9 7 * 0.4
         f = d * e
-    in tanh (c + gVerb f 1 1 0.5 0.5 15 1 0.7 0.5 300 * 5) * 2
-
-main :: IO ()
-main = audition (out 0 jl_z_1)
+    in tanh (c + gVerb f 1 1 0.5 0.5 15 1 0.7 0.5 300 * 5) * 0.5
