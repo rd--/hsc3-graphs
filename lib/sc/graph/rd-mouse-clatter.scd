@@ -11,4 +11,4 @@
 ;var o = {var e = Decay2.kr(t,0.01,n2)
          ;BPF.ar(n3 * e,n4,n5)}
 ;var n7 = PV_RandComb(FFT(b,o),n6,t)
-;(o * 0.05) + IFFT(n7)}.play
+;(o * 0.05) + IFFT(n7)}

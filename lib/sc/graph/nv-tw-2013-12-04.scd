@@ -7,4 +7,4 @@
  ;var x = (0.5 ** i) * p
  ;var o = SinOsc.ar(2) + [4,9]
 ;CombC.ar(x, 1, o * 0.001, 0) - x}
-;mean(f ! 9) / 9}.play
+;mean(f ! 9) / 9}

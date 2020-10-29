@@ -19,4 +19,4 @@
 ; var g2 = GrayNoise.ar
 ; var z = Silent.ar(1)
 ; var hiss = g1 * 0.01 + HPF.ar(g2 * 0.02, 3000)
-; [z, dsig + hiss] }.play
+; [z, dsig + hiss] }

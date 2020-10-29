@@ -7,4 +7,4 @@
  };
 var gen_f = {FFT(LocalBuf(fft_size), DC.ar(0)).pvcollect(fft_size, bin_f)};
 IFFT(gen_f ! 2, 1);
-}.play
+}

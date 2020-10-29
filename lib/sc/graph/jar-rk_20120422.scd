@@ -4,4 +4,4 @@
 ;var fmod = LFCub.kr(1/12).range(1, MouseX.kr(2,16)) /* modulate filter with mouse */
 ;var rqmod = LFNoise2.kr(1/8).range(0.1,1.0)
 ;var snd = RLPF.ar(gen, freq * fmod, rqmod)
-;Splay.ar(snd)}.play
+;Splay.ar(snd)}

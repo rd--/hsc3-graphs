@@ -8,4 +8,4 @@
 ;var o = ar(a,w * x + y * z,b,kr(a,b)+5/15,kr(a,5-b,b,b,5,5)>1.515)
 ;var f = 1515**(kr(a,1-b/5)/15+1+b)
 ;var rq = 1.5**kr(a,b)/5
-;ar(Splay,ar(BLowPass,o,f,rq)/5)}.play
+;ar(Splay,ar(BLowPass,o,f,rq)/5)}

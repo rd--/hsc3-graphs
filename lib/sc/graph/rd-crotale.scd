@@ -161,4 +161,4 @@
 ; var p = TRand.kr(-1, 1, t)
 ; var s = Decay2.kr(t, 0.06, 0.01) * n * g
 ; var k = DynKlank.ar(`[cf, ca, cd.reciprocal], s, fs.midiratio, fo, ds)
-; Pan2.ar(k, p, 1) }.play
+; Pan2.ar(k, p, 1) }

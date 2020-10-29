@@ -6,4 +6,4 @@
 ;var f = y + detune
 ;var f_ = f + (f * SinOsc.ar(mod, 0) * 0.02)
 ;var a = SinOsc.ar(f_, 0) * x
-;Pan2.ar(a, 0, 1)}.play
+;Pan2.ar(a, 0, 1)}

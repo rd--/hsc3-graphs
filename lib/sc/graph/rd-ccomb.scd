@@ -9,4 +9,4 @@
   ;var f = Lag.kr(n.midicps,0.25)
   ;CombC.ar(x,flwr.reciprocal,f.reciprocal,m.range(1,8))}}
 ;var t = Dust.kr([0.75,0.35])
-;Mix.fill(12,spart.(t)) * 0.1}.play
+;Mix.fill(12,spart.(t)) * 0.1}

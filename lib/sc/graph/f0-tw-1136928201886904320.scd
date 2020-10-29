@@ -8,4 +8,4 @@
   ;var x = ar(AllpassC,s,1,wrap(c,0.5,1),2)
   ;var y = ar(BPF,x,i * 99 + 400,0.001,ar(a,0.04,i) + 1 * 9)
   ;ar(Splay,x + y) / 3}}
-;Mix(collect([LFTri,LFSaw,LFPar],f))}.play
+;Mix(collect([LFTri,LFSaw,LFPar],f))}

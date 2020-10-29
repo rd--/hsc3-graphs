@@ -4,4 +4,4 @@
 ;9.do{a=AllpassL.ar(a,0.3,{0.2.rand+0.1}!2,5)}
 ;a = a.tanh
 ;LocalOut.ar(a)
-;a}.play
+;a}

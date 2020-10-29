@@ -5,4 +5,4 @@
 ;var z = ar(HPF,ar(LFSaw,ar(LFSaw,1/b).round+1/2)>0,ar(LFSaw,b/33)*4+8)
 ;var d = ar(MoogFF,ar(Splay,y*z),ar(LFSaw,1/9)+2*4e3)
 ;ar(LocalOut,d)
-;d}.play
+;d}

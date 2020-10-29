@@ -5,4 +5,4 @@
 ;var f = Select.kr(z,l)
 ;var w = a.kr(1/[3,4])%1
 ;var o = VarSaw.ar(f,0,w)
-;CombN.ar(o,1,1/[5,6],8)/8}.play
+;CombN.ar(o,1,1/[5,6],8)/8}

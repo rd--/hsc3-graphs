@@ -4,4 +4,4 @@
 ;var d = LFTri.ar(1 / b) % 1 / 9 + 0.01
 ;var f = 2 ** LFTri.ar(b / 99).round * 99 * b
 ;var o = GrainSin.ar(2,c,d,f)
-;Splay.ar(o.tanh) / 2}.play
+;Splay.ar(o.tanh) / 2}

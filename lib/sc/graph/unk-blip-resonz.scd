@@ -15,4 +15,4 @@ var f = {
  Resonz.ar(Blip.ar(Line.kr(f1,f2,t1)) * 0.5,Line.kr(f3,f4,t2), q)
 };
 p.collect(f).sum;
-}.play
+}

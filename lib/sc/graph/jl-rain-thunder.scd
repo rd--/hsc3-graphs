@@ -6,4 +6,4 @@
 ;var f1 = LFNoise1.kr(1).exprange(100,2500)
 ;var e1 = Line.kr(0,0.7,30)
 ;var p1 = GVerb.ar(LPF.ar(10 * HPF.ar(n1, 20),f1).tanh,270,30,0.7,drylevel:0.5) * e1
-;Limiter.ar(p0 + p1)}.play
+;Limiter.ar(p0 + p1)}

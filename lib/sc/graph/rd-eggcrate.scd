@@ -7,4 +7,4 @@
 ;var f1 = TChoose.kr(t,p)
 ;var f = LinLin.kr(eggcrate.(x,y),-1,1,f0,f1)
 ;var a = LinLin.kr(x,-1,1,0,0.1)
-;Pan2.ar(Mix.ar(SinOsc.ar(f,0)),y,a)}.play
+;Pan2.ar(Mix.ar(SinOsc.ar(f,0)),y,a)}

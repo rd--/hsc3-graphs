@@ -4,4 +4,4 @@
 ;var j = CombL.ar(LPF.ar(i,2000),1,n,0.05)
 ;var d = Dust2.ar(0.01 ! 99)
 ;var x = sin(j + d)
-;Splay.ar(x) ++ (0 ! 18) ++ ((x - x.rotate) / 2)}.play
+;Splay.ar(x) ++ (0 ! 18) ++ ((x - x.rotate) / 2)}

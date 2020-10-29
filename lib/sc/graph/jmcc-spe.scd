@@ -8,4 +8,4 @@
 ;var rq = LFNoise1.kr(1, 36, 110).midicps
 ;var z = RLPF.ar(o, rq, 0.1)
 ;4.do({z = AllpassN.ar(z, 0.05, [0.05.rand, 0.05.rand], 4)})
-;z}.play
+;z}

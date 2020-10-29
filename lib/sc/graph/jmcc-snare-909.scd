@@ -18,4 +18,4 @@
 ;var t = Impulse.kr(3 * x, 0)
 ;var n = WhiteNoise.ar
 ;var v = TRand.kr(0.25, 1.0, t)
-;Pan2.ar(snr.(t, n, v), 0, y) }.play
+;Pan2.ar(snr.(t, n, v), 0, y) }

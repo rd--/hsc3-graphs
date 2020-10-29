@@ -14,4 +14,4 @@
 // bass drum
 ;var b_sq = isequ.([1,0,0.2,0,0.2,0,0.2,0], t)
 ;var b = Decay2.ar(b_sq, 0.001, 0.5, FSinOsc.ar(100, 0, 0.2))
-;c + d + n + b}.play
+;c + d + n + b}

@@ -5,4 +5,4 @@
 ;var lfo_1 = LFSaw.kr(y,0,24,lfo_2) /* depth in semitones, offset is lfo_2 */
 ;var freq = lfo_1.midicps /* convert to frequency */
 ;CombN.ar(SinOsc.ar(freq, 0, 0.04), 0.2, 0.2, 2) /* echoing sine wave */
-}.play
+}

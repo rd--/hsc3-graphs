@@ -16,6 +16,8 @@ graph_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 graph_db_fn :: FilePath -> FilePath
 graph_db_fn = (++) graph_db_dir
 
+-- * HS
+
 hs_graph_dir :: FilePath
 hs_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/hs/graph/"
 
@@ -39,8 +41,8 @@ hs_graph_fragment_rw txt =
             ,printf "  synthdefWrite \"%s\" sy" (graph_db_fn (z <.> ".scsyndef"))]
   in (z,unlines (concat [pfx,ln,sfx]))
 
-hw_graph_fragment_process :: FilePath -> IO ()
-hw_graph_fragment_process fn = do
+hs_graph_fragment_process :: FilePath -> IO ()
+hs_graph_fragment_process fn = do
   txt <- readFile (hs_graph_fn fn)
   let (z,txt_rw) = hs_graph_fragment_rw txt
   writeFile (graph_db_fn (z <.> "hs")) txt
@@ -49,12 +51,55 @@ hw_graph_fragment_process fn = do
   _ <- rawSystem "runhaskell" [hs_rw_fn]
   return ()
 
-hw_graph_fragment_process_dir :: IO ()
-hw_graph_fragment_process_dir = do
+hs_graph_fragment_process_dir :: IO ()
+hs_graph_fragment_process_dir = do
   fn <- T.dir_subset_rel [".hs"] hs_graph_dir
-  mapM_ hw_graph_fragment_process fn
+  mapM_ hs_graph_fragment_process fn
 
 {-
-hw_graph_fragment_process_dir
+hs_graph_fragment_process_dir
+-}
+
+-- * SC
+
+sc_graph_dir :: FilePath
+sc_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/sc/graph/"
+
+sc_graph_fn :: FilePath -> FilePath
+sc_graph_fn = (++) sc_graph_dir
+
+sc_graph_fragment_rw :: String -> (String,String)
+sc_graph_fragment_rw txt =
+  let z = txt_hash_str txt
+      pfx = []
+      ln = lines txt
+      sfx = [printf ".asSynthDef(name:\"%s\").writeDefFile(dir:\"%s\");" z graph_db_dir
+            ,printf "\"%s\".postln;" z]
+  in (z,unlines (concat [pfx,ln,sfx]))
+
+sc_graph_fragment_process :: FilePath -> IO ()
+sc_graph_fragment_process fn = do
+  txt <- readFile (sc_graph_fn fn)
+  let (z,txt_rw) = sc_graph_fragment_rw txt
+  writeFile (graph_db_fn (z <.> "scd")) txt
+  let sc_rw_fn = "/tmp" </> z <.> "scd"
+  writeFile sc_rw_fn txt_rw
+  return ()
+
+sc_graph_fragment_process_dir :: IO ()
+sc_graph_fragment_process_dir = do
+  fn <- T.dir_subset_rel [".scd"] sc_graph_dir
+  mapM_ sc_graph_fragment_process fn
+
+{-
+sc_graph_fragment_process "jmcc-strummable-guitar.scd"
+sc_graph_fragment_process_dir
+
+SC - Generate all files, concatenate and run sclang once (it is otherwise very slow)
+
+This is likewise possible for SC3 (generate one HS file with all definitions)
+
+
+_ <- rawSystem "sclang" [sc_rw_fn]
 -}
 

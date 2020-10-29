@@ -9,4 +9,4 @@
 ;var o = ar(a,2.2**ar(t,ar(p,2,[2.2,2],e))*22*2.22,ar(t,c-e).lag*g)*ar(p,2,f)
 ;var d = ar(Splay,ar(RLPF,o,g**ar(a,e/2/2)*2222/2,ar(a,e)+2/2pi)+c).tanh
 ;ar(LocalOut,d)
-;d * 0.25}.play
+;d * 0.25}

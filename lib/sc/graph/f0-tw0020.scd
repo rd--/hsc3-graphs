@@ -7,4 +7,4 @@
 ;var a5=a.ar(4/b)
 ;var a6=a.ar(a2)
 ;var a7=a.ar((a6 + ((Mix(a3) + a5) * a4)) * 100)
-;(Mix(a7)/8)!2}.play
+;(Mix(a7)/8)!2}

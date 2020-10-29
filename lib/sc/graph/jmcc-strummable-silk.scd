@@ -11,4 +11,4 @@
  ;Pan2.ar(metal,i * 0.2 - 0.5)})
 ;out = LeakDC.ar(LPF.ar(out,12000))
 ;6.do({out = AllpassN.ar(out,0.1,[0.05.rand,0.05.rand],4)}) // rvb
-;out}.play
+;out}

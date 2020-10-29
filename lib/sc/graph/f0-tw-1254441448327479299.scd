@@ -7,4 +7,4 @@
 ;var j = ar(Duty,e/(12**ar(a,b*c)),0,ar(a,b*c)*7+20+Dseq(b%(ar(a,b*c)*5+6),inf))
 ;var f = ar(DegreeToKey,as(b,LocalBuf),j).midicps
 ;var o = ar(SinOscFB,f,ar(a,c/b)+1/3,ar(Decay2,ar(Impulse,e@@b),c,d)*d)
-;ar(FreeVerb,ar(Splay,o),0.1,1)}.play
+;ar(FreeVerb,ar(Splay,o),0.1,1)}

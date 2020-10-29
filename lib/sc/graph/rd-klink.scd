@@ -7,4 +7,4 @@
 ;var y = MouseY.kr(0.5,2.0,'linear',0.2)
 ;var n2 = TRand.ar(x,3940,t)
 ;var n3 = TRand.ar(0.005,0.275,t)
-;Ringz.ar(i,n2,n3 * y)}.play
+;Ringz.ar(i,n2,n3 * y)}

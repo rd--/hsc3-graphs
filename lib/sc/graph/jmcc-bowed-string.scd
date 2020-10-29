@@ -11,4 +11,4 @@
 ; var x = n0 * 0.007 * max(0,n1 * 0.6 + 0.4)
 ; var d = `[Array.series(12,f,f),Array.geom(12,1,r1),r2]
 ; var k = Klank.ar(d,x)
-; (k * 0.1).softclip }.play
+; (k * 0.1).softclip }

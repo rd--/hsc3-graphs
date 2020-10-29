@@ -9,4 +9,4 @@
   {var dt_ = dt.()
   ;var t = Decay.ar(i.(),0.1) * PinkNoise.ar * 0.1
   ;Pan2.ar(CombL.ar(t,dt_,dt_,4),rrand(-1,1),1)}
-;Mix.fill(5,s)}.play
+;Mix.fill(5,s)}

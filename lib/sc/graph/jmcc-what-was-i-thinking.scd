@@ -11,4 +11,4 @@
          ;var n = LFNoise1.kr(r,0.025,0.035)
          ;CombL.ar(i,0.06,n,1)}
 ;var y = z * 0.6
-;z + [c.(y) + c.(y),c.(y) + c.(y)]}.play
+;z + [c.(y) + c.(y),c.(y) + c.(y)]}

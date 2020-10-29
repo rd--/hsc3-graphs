@@ -18,4 +18,4 @@
 ; var ff = g.(f, 4).(inp)
 ; var c_saw = Saw.ar(ff.exprange(6, 11000)).product
 ; var b_saw = BPF.ar(c_saw, b_freq, 0.2).sum.dup
-; b_saw * 0.3 }.play
+; b_saw * 0.3 }

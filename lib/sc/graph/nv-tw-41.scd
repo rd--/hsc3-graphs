@@ -6,4 +6,4 @@
  ;RLPF.ar(t,f,0.005).sin}
 ;var x = Splay.ar(f ! 8)
 ;2.do({x = FreeVerb2.ar(*x ++ [0.1,1,1])})
-;x}.play
+;x}

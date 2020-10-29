@@ -24,4 +24,4 @@
 ;var src_n = {var a = Amplitude.kr(drv).min(1.0)
              ;Normalizer.ar(src, 0.7) * (1.0 - a)}
 ;LocalOut.ar(src * 0.2 + strR)
-;[pk1_L + pk1_R, pk2_L + pk2_R, drv, src]}.play
+;[pk1_L + pk1_R, pk2_L + pk2_R, drv, src]}

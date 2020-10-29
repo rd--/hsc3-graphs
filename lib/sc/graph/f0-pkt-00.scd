@@ -5,4 +5,4 @@
 ;var i = SinOsc.ar(f0,ph0,a0)
 ;var w = SinOsc.ar(SinOsc.ar(SinOsc.ar(0.13,0,5,6),0,8,50),0,1,1)
 ;var s = Splay.ar(i,w,0.7,SinOsc.ar(1.2,0,0.6))
-;GVerb.ar(s,20,5,1,0.5,25,0,1,1)}.play
+;GVerb.ar(s,20,5,1,0.5,25,0,1,1)}

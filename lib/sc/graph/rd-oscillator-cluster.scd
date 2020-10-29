@@ -20,4 +20,4 @@
 ;var fp = Array.fill(np,{Rand(220,660)})
 ;var d = Rand(4,7)
 ;var a = Rand(0.01,0.05)
-;fp.collect(prt.(d,a)).sum}.play
+;fp.collect(prt.(d,a)).sum}

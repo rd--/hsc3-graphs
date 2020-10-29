@@ -16,4 +16,4 @@
 ; var x = MouseX.kr(0.5, 1.25, 'linear', 0.2)
 ; var tn = lg.(timed.(inf, n, d * x))
 ; var ta = lg.(timed.(inf, a, d * x))
-; SinOsc.ar(tn.midicps, 0) * ta }.play
+; SinOsc.ar(tn.midicps, 0) * ta }

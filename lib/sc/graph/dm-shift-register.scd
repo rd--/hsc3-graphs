@@ -1,5 +1,4 @@
 // https://sccode.org/1-590 (dm)
-
 {var shift_register =
  {arg length = 5, trig, in
  ;var buf = LocalBuf(length)
@@ -19,4 +18,4 @@
 ;var mf = chord_cps * LFPulse.kr(1/8).range(1.01, 2.01)
 ;var sig = PMOsc.ar(cf,mf,Env([3,3,0],[0, 0.2], -4).kr(gate:trig))
 ;var cmp = (sig * AmpCompA.kr(chord_cps) * amp).sum
-;XFade2.ar(cmp!2, GVerb.ar(BPF.ar(cmp, 90.midicps), roomsize:50, revtime:8, drylevel:0), 0.2)}.play
+;XFade2.ar(cmp!2, GVerb.ar(BPF.ar(cmp, 90.midicps), roomsize:50, revtime:8, drylevel:0), 0.2)}

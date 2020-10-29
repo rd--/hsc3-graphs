@@ -10,4 +10,4 @@
             ; RHPF.ar(n, r1, o2) }
 ; var n = [BrownNoise.ar, BrownNoise.ar]
 ; var tr = Impulse.kr(0.1, 0)
-; red.(tr, n) * 0.1 }.play
+; red.(tr, n) * 0.1 }

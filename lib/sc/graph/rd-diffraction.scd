@@ -14,4 +14,4 @@
                   ;var am = Rand(0.04,0.16) * y1
                   ;SinOsc.ar(fr,0) * am}
          ;[Mix.fill(16,f),Mix.fill(12,f)]}
-;p.() + q.() + r.()}.play
+;p.() + q.() + r.()}

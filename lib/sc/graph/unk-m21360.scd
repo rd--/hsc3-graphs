@@ -1,5 +1,5 @@
 // https://www.listarc.bham.ac.uk/lists/sc-users/msg21360.html
-{var b = Array.fill(2,{LocalBuf(s.sampleRate,1)})
+{var b = Array.fill(2,{LocalBuf(48000,1)}) // s.sampleRate
 ;var del = [0.2,0.3,0.4,0.5] * Rand(0.15,0.35)
 ;var loc = [-1,-0.7,0.6,1]
 ;var hpf = [Rand(300,600),Rand(900,1200)]
@@ -17,4 +17,4 @@
 ;var n_fb = h_fb * (0.02 / (Lag.ar(ao,sdt / sr).clip(0.0001,1)))
 ;var l_fb = LPF.ar(n_fb,lpf)
 ;LocalOut.ar(l_fb)
-;l_fb}.play;
+;l_fb}

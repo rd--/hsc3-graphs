@@ -1,5 +1,5 @@
 // griot modeling (jmcc)
-{var maxdt = Server.default.sampleRate * 0.03 // maximum delay time
+{var maxdt = 48000 * 0.03 // maximum delay time -- Server.default.sampleRate
 ;var n = 5 // number of delay lines
 ;var buf = Array.fill(n,{LocalBuf.newFrom(Array.fill(maxdt,0))}) // allocate buffers for delay lines
 ;var tapTimes = Array.series(n, 0.003, 0.0005) // assign tap times which determine the string pitches
@@ -14,4 +14,4 @@
 ;var del = n.collect({arg i; Tap.ar(buf[i], 1, tapTimes[i])}) // tap the delay lines
 ;var flt = LPF.ar(del, MouseX.kr(10, 10000), 0.98) // filter the taps
 ;n.do({arg i; RecordBuf.ar(flt[i] + exc[i],buf[i])}) // write to delay lines
-;Mix.ar(flt).dup}.play
+;Mix.ar(flt).dup}

@@ -12,4 +12,4 @@
  ;var period2 = pitch2.at(i).midicps.reciprocal
  ;var string2 = CombL.ar(pluck2,period2,period2,-4)
  ;Pan2.ar(string1 + string2,i * 0.2 - 0.5)})
-;LeakDC.ar(LPF.ar(out,12000))}.play
+;LeakDC.ar(LPF.ar(out,12000))}

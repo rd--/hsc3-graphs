@@ -4,4 +4,4 @@
 ;var f = ar(a,5)*ar(a,0.015)+1*98
 ;var m = round(2**ar(a,4),0.5)*99
 ;var g = ar(GrainFM,1,t,16,f,m,2**ar(a,1/[8,9])*8)
-;tanh(g/2) * 0.25}.play
+;tanh(g/2) * 0.25}

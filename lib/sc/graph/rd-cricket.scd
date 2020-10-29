@@ -5,4 +5,4 @@
 ;var e = Decay2.kr(Impulse.kr(r1,0),0.001,0.005)
 ;var f = SinOsc.kr(r2,0) * e * r3
 ;var r4 = Array.fill(2,{TRand.kr(2220,2227,t)})
-;SinOsc.ar(r4,0) * f * 0.25}.play
+;SinOsc.ar(r4,0) * f * 0.25}

@@ -11,4 +11,4 @@
 ;var c = ar(e,s1,9/b,9/sqrt(b),b/999,b/99)
 ;var s2 = ar(GVerb,c * d * d * d,99,9,9/999)
 ;var s3 = s2/9 + ar(e,c,f/9,f/9)
-;ar(HPF,ar(Splay,s3),9) * 0.5}.play
+;ar(HPF,ar(Splay,s3),9) * 0.5}

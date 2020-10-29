@@ -5,4 +5,4 @@
 ;var c = {CombL.ar(z,0.1,LFNoise1.kr(Rand(0,0.1),0.04,0.05),15)}
 ;var x = Mix.ar(Array.fill(7,c))
 ;4.do({x = AllpassN.ar(x,0.050,[Rand(0,0.05),Rand(0,0.050)],1)})
-;s + (0.2*x)}.play
+;s + (0.2*x)}

@@ -23,4 +23,4 @@
   ;Pan2.ar(CombL.ar(x, 0.02, f, 3), r, 1)}
 ;var g = Mix.fill(4, mk_s)
 ;5.do({g = rapf.(g)})
-;LeakDC.ar(g, 0.995)}.play
+;LeakDC.ar(g, 0.995)}

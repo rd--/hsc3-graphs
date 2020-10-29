@@ -5,4 +5,4 @@
  {arg i
  ;var a = 0.9 ** i
  ;x = x + BAllPass.ar(x, 9 ** n.kr(a) * 2e3) + CombL.ar(x, 1, a, 8) / 2.1}
-;Splay.ar(f ! 9 @ 8)}.play
+;Splay.ar(f ! 9 @ 8)}

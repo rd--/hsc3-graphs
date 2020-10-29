@@ -11,4 +11,4 @@
  ;var period = pitch.at(i).midicps.reciprocal
  ;var string = CombL.ar(pluck,period,period,8)
  ;Pan2.ar(string,i * panSpacing - 0.75)})
-;LeakDC.ar(LPF.ar(out,12000))}.play
+;LeakDC.ar(LPF.ar(out,12000))}

@@ -7,4 +7,4 @@
 ;var snare = n * Decay2.ar(tr_2, 0.005, 0.5)
 ;var bass = SinOsc.ar(60, 0) * Decay2.ar(tr_4, 0.005, 0.5)
 ;var hihat = HPF.ar(n, 10000) * Decay2.ar(tr, 0.005, 0.5)
-;Out.ar(0, Pan2.ar(snare + bass + hihat, 0, 0.4))}.play
+;Out.ar(0, Pan2.ar(snare + bass + hihat, 0, 0.4))}

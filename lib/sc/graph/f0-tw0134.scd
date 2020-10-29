@@ -8,4 +8,4 @@
          ;var m = a.ar(i + 1 / n,i / (n / 2))
          ;var o3 = Blip.ar(f0,i + [2,3]) * m
          ;Ringz.ar(o3,i + 1 * (n * 2 - 1),0.1)}
-;mean(z ! n) / 5}.play
+;mean(z ! n) / 5}

@@ -4,4 +4,4 @@
 ;var o = 0.1
 ;var a = n.ar(o,9,9)
 ;var s = VarSaw.ar(TExpRand.ar(9,5000,t)) * Decay.ar(t)
-;Greyhole.ar(s,a,0,o,n.ar(1),n.ar(1,1,1),2,a) * 0.2}.play
+;Greyhole.ar(s,a,0,o,n.ar(1),n.ar(1,1,1),2,a) * 0.2}

@@ -6,4 +6,4 @@
  ;var y = Mix.ar(CombL.ar(z,0.1,y_,15))
  ;var x = y
  ;a.do({x = AllpassN.ar(x,0.050,[Rand(0,0.05),Rand(0,0.05)],1)})
- ;s + (0.2 * x)}.(6,5,4)}.play
+ ;s + (0.2 * x)}.(6,5,4)}

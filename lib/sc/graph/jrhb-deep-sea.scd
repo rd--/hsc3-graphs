@@ -12,4 +12,4 @@
 ; var freq2 = freq * ((count % LFNoise1.kr(1).range(2, 20)) + 1)
 ; var u2 = BPF.ar(u1, freq2, 1) * 0.2
 ; DetectSilence.ar(u2, 0.0001, 0.2, 2)
-; Pan2.ar(u2, pan, amp * 10) }.play
+; Pan2.ar(u2, pan, amp * 10) }

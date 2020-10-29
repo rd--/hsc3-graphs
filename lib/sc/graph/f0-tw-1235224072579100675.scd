@@ -8,5 +8,5 @@
 ;var o = ar(BPF,ar(Normalizer,j,e/e,c),ar(v,c).exprange(f,e**f*f))
 ;ar(Splay,o
 ;ar(LocalOut,o.rotate)
-;o).sin}.play
+;o).sin}
 

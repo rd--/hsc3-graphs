@@ -6,4 +6,4 @@
 ;var f = ar(Duty,b,0,Dseq("0 0 00 0 0 000  _0 0 0 00 00 00000+  !".ascii,inf))
 ;var o = ar(SinOscFB,f,ar(e,d).max*0.cos.sin)
 ;var c = ar(e,0,pi**o)
-;ar(LeakDC,ar(Splay,c+ar(PitchShift,c,g,b.reciprocal,d,d,b)))*g}.play
+;ar(LeakDC,ar(Splay,c+ar(PitchShift,c,g,b.reciprocal,d,d,b)))*g}

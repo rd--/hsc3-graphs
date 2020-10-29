@@ -3,4 +3,4 @@
 ;var b = LocalBuf(c,2).clear
 ;var d = BufRd.ar(2,b,SinOsc.ar([2,3] * 9) * c,0)
 ;BufWr.ar(SinOsc.ar(3 / [2,3]) / 3,b,SinOsc.ar([99,145]).abs * c)
-;d * 0.5}.play
+;d * 0.5}

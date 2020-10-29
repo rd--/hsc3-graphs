@@ -16,4 +16,4 @@
  ;var l = i.linlin(0,n - 1,-0.925,0.925)
  ;Pan2.ar(z,l,1 / n)}
 ;var y = Limiter.ar(LeakDC.ar(Mix(x ! n)))
-;GVerb.ar(y,3,5,0.2,0.8,20,0.1)}.play
+;GVerb.ar(y,3,5,0.2,0.8,20,0.1)}

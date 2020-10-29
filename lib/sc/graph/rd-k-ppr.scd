@@ -11,4 +11,4 @@
                  ; Ringz.ar(Decay2.ar(t_, 0.01, 0.5), r2, r3 * y) * g } }
 ; var s1 = stream.(3140, 6240, 0.050, 0.005, 0.15)
 ; var s2 = stream.(0400, 9000, 0.005, 0.005, 0.15)
-; Array.fill(2, s1) + Array.fill(2, s2) }.play
+; Array.fill(2, s1) + Array.fill(2, s2) }
