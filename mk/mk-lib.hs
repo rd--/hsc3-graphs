@@ -8,7 +8,14 @@ import System.IO {- base -}
 import Text.Printf {- base -}
 import Text.Regex {- regex-compat -}
 
-import L
+strip_suffix :: Eq a => [a] -> [a] -> Maybe [a]
+strip_suffix s l = fmap reverse (stripPrefix (reverse s) (reverse l))
+
+strip_suffix_or_id :: Eq a => [[a]] -> [a] -> [a]
+strip_suffix_or_id s l =
+    case s of
+      [] -> l
+      e:s' -> strip_suffix_or_id s' (fromMaybe l (strip_suffix e l))
 
 dir :: FilePath
 dir = "sw/hsc3-graphs"
@@ -21,7 +28,7 @@ gr_name h nm = h </> dir </> "gr" </> nm <.> "hs"
 
 author :: FilePath -> String -> IO (Maybe GR)
 author h nm = do
-  let nm' = fromMaybe (error "not hs") (stripSuffix ".hs" nm)
+  let nm' = fromMaybe (error "not hs") (strip_suffix ".hs" nm)
   fd <- openFile (gr_name h nm') ReadMode
   ln <- hGetLine fd
   hClose fd
