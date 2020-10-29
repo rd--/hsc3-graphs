@@ -9,6 +9,3 @@ one_4tw =
         g n i = sinOsc AR ((4000 + (i * 500))) 0 * decay2 n 0.01 0.2
         nd = zipWith g (iterate f im) [0..9]
     in splay (mce nd) 1 1 0 True
-
-main :: IO ()
-main = audition (out 0 one_4tw)

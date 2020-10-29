@@ -1,4 +1,4 @@
--- <http://sccode.org/1-V> (nv) [Line 41]
+-- http://sccode.org/1-V (nv) [Line 41]
 
 import Sound.SC3 {- hsc3 -}
 
@@ -12,6 +12,3 @@ nv_tw_41 =
         x = splay (mce (map nd [0::Int .. 7])) 1 1 0 True
         r u = let (p,q) = mce2c u in freeVerb2 p q 0.1 1 1
     in r (r x)
-
-main :: IO ()
-main = audition (out 0 nv_tw_41)

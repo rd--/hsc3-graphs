@@ -1,5 +1,3 @@
-module JMcC.Var where
-
 import Control.Monad {- base -}
 
 import Sound.SC3 {- hsc3 -}

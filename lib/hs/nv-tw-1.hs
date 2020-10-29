@@ -11,6 +11,3 @@ nv_tw_1 =
                 f = linExp n (-1) 1 40 15000
             in bBandStop z f (expRand 'ε' 0.1 2)
     in lpf (useq_all 'ζ' 50 nd a) 1e5
-
-main :: IO ()
-main = audition (out 0 nv_tw_1)

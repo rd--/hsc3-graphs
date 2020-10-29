@@ -13,6 +13,3 @@ drummer =
       bass = sinOsc AR 60 0 * decay2 tr_4 0.005 0.5
       hihat = hpf n 10000 * decay2 tr 0.005 0.5
   in pan2 (snare + bass + hihat) 0 0.4
-
-main :: IO ()
-main = audition (out 0 drummer)

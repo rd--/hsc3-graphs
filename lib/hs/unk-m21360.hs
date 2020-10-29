@@ -1,21 +1,14 @@
 -- https://www.listarc.bham.ac.uk/lists/sc-users/msg21360.html
 
-import Sound.OSC {- hosc -}
 import Sound.SC3 {- hsc3 -}
 
-import qualified Sound.SC3.UGen.Bindings.DB.External as E {- hsc3 -}
+import qualified Sound.SC3.UGen.Bindings.DB.External as X {- hsc3 -}
 
--- > withSC3 (reset >> init_b [0,1])
-init_b :: Transport m => [Int] -> m ()
-init_b b = do
-  sr <- serverSampleRateNominal
-  let f n = async (b_alloc n (floor sr) 1)
-  mapM_ f b
-
--- > audition (m21360 (mce [0,1]))
-m21360 :: UGen -> UGen
-m21360 b =
-    let del = mce [0.2,0.3,0.4,0.5] * rand 'α' 0.15 0.35
+m21360 :: UGen
+m21360 =
+    let k_sr = 48000
+        b = mce2 (localBuf 'a' 1 k_sr) (localBuf 'b' 1 k_sr)
+        del = mce [0.2,0.3,0.4,0.5] * rand 'α' 0.15 0.35
         loc = mce [-1,-0.7,0.6,1]
         hpp = mce [rand 'β' 300 600,rand 'γ' 900 1200]
         avg = mce [8000,14000]
@@ -28,10 +21,7 @@ m21360 b =
         fb = delTapRd b ph del 1
         p_fb = mix (pan2 fb loc 1)
         h_fb = hpf p_fb hpp
-        ao = E.averageOutput (abs h_fb) (impulse KR (recip (avg / sr)) 0) -- RFWUGens
+        ao = X.averageOutput (abs h_fb) (impulse KR (recip (avg / sr)) 0) -- RFWUGens
         n_fb = h_fb * (0.02 / clip (lag ao (sdt / sr)) 0.0001 1)
         l_fb = lpf n_fb lpp
     in mrg [localOut l_fb,out 0 l_fb]
-
-main :: IO ()
-main = withSC3 (reset >> init_b [0,1] >> play (m21360 (mce [0,1])))

@@ -2,13 +2,12 @@
 
 import Sound.SC3 {- hsc3 -}
 
-e_01 :: Envelope Double
-e_01 = envelope [0.0001,1,0.0001,0.01,0.0001] (map (* 512) (normalizeSum [1,2,2,50])) [EnvExp]
-
 -- > putStrLn $ synthstat_concise nif
 nif :: UGen
 nif =
-  let e_ix e n = constant (envelope_at e (fromIntegral n))
+  let e_01 :: Envelope Double
+      e_01 = envelope [0.0001,1,0.0001,0.01,0.0001] (map (* 512) (normalizeSum [1,2,2,50])) [EnvExp]
+      e_ix e n = constant (envelope_at e (fromIntegral n))
       fft_size = 1024
       fft_f z = fft (localBuf z 1 (constant fft_size)) (dc AR 0) 0.5 0 1 0
       bin_f z _mag phase bin =
