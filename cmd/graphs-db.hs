@@ -1,3 +1,6 @@
+import Data.List {- base -}
+import Data.List.Split {- split -}
+import Data.Maybe {- base -}
 import System.FilePath {- filepath -}
 import System.Process {- process -}
 import Text.Printf {- base -}
@@ -16,13 +19,41 @@ graph_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 graph_db_fn :: FilePath -> FilePath
 graph_db_fn = (++) graph_db_dir
 
+-- > split_multiple_fragments ";a\nb\n\n\n;c\nd" == [";a\nb\n",";c\nd\n"]
+split_multiple_fragments :: String -> [String]
+split_multiple_fragments = map unlines . filter (not . null) . splitOn [[]] . lines
+
+read_file_set_fragments :: [FilePath] -> IO [String]
+read_file_set_fragments = fmap concat . mapM (fmap split_multiple_fragments . readFile)
+
+newline_to_space :: Char -> Char
+newline_to_space x = if x == '\n' then ' ' else x
+
+-- > merge_multiple_spaces "x  y   z"
+merge_multiple_spaces :: String -> String
+merge_multiple_spaces =
+  catMaybes .
+  snd .
+  mapAccumL (\st x -> (x,if x == ' ' && st == ' ' then Nothing else Just x)) '.'
+
+-- > escape_double_quote "x\"y"
+escape_double_quote :: String -> String
+escape_double_quote = concatMap (\x -> if x == '"' then "\\\"" else [x])
+
+double_quote_to_single_quote :: Char -> Char
+double_quote_to_single_quote x = if x == '"' then '\'' else x
+
+text_prefix :: Int -> String -> String
+text_prefix k =
+  take k .
+  map double_quote_to_single_quote . -- not escape_double_quote since text may end with \
+  merge_multiple_spaces .
+  map newline_to_space
+
 -- * HS
 
 hs_graph_dir :: FilePath
 hs_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/hs/graph/"
-
-hs_graph_fn :: FilePath -> FilePath
-hs_graph_fn = (++) hs_graph_dir
 
 hs_graph_rw_pre :: [String]
 hs_graph_rw_pre =
@@ -39,7 +70,7 @@ hs_graph_fragment_rw (z,txt) =
       grw = map (" " ++ ) (lines txt)
       sfx = [printf "wr_%s :: IO ()" z
             ,printf "wr_%s = do" z
-            ,printf "  putStrLn \"%s\"" z
+            ,printf "  putStrLn \"%s %s\"" z (text_prefix 48 txt)
             ,printf "  let sy = synthdef \"%s\" (wrapOut Nothing gr_%s)" z z
             ,printf "  synthdefWrite \"%s\" sy" (graph_db_fn (z <.> ".scsyndef"))]
   in concat [pfx,grw,sfx]
@@ -53,7 +84,7 @@ hs_graph_rw_main z_seq =
 
 hs_graph_fragment_process :: [FilePath] -> IO ()
 hs_graph_fragment_process fn_seq = do
-  txt_seq <- mapM (readFile . hs_graph_fn) fn_seq
+  txt_seq <- read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map hs_graph_fragment_rw (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (graph_db_fn (z <.> "hs")) txt
@@ -63,9 +94,10 @@ hs_graph_fragment_process fn_seq = do
   _ <- rawSystem "runhaskell" [rw_fn]
   return ()
 
-hs_graph_fragment_process_dir :: IO ()
-hs_graph_fragment_process_dir = do
-  fn <- T.dir_subset_rel [".hs"] hs_graph_dir
+-- > hs_graph_fragment_process_dir hs_graph_dir
+hs_graph_fragment_process_dir :: FilePath -> IO ()
+hs_graph_fragment_process_dir dir = do
+  fn <- T.dir_subset [".hs"] dir
   hs_graph_fragment_process fn
 
 -- * SC
@@ -73,19 +105,16 @@ hs_graph_fragment_process_dir = do
 sc_graph_dir :: FilePath
 sc_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/sc/graph/"
 
-sc_graph_fn :: FilePath -> FilePath
-sc_graph_fn = (++) sc_graph_dir
-
 sc_graph_fragment_rw :: (String,String) -> [String]
 sc_graph_fragment_rw (z,txt) =
   let grw = lines txt
       sfx = [printf ".asSynthDef(name:\"%s\").writeDefFile(dir:\"%s\");" z graph_db_dir
-            ,printf "\"%s\".postln;" z]
+            ,printf "\"%s %s\".postln;" z (text_prefix 48 txt)]
   in concat [grw,sfx]
 
 sc_graph_fragment_process :: [FilePath] -> IO ()
 sc_graph_fragment_process fn_seq = do
-  txt_seq <- mapM (readFile . sc_graph_fn) fn_seq
+  txt_seq <- read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map sc_graph_fragment_rw (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (graph_db_fn (z <.> "scd")) txt
@@ -95,18 +124,19 @@ sc_graph_fragment_process fn_seq = do
   _ <- rawSystem "sclang" [rw_fn]
   return ()
 
-sc_graph_fragment_process_dir :: IO ()
-sc_graph_fragment_process_dir = do
-  fn <- T.dir_subset_rel [".scd"] sc_graph_dir
+-- > sc_graph_fragment_process_dir sc_graph_dir
+sc_graph_fragment_process_dir :: FilePath -> IO ()
+sc_graph_fragment_process_dir dir = do
+  fn <- T.dir_subset [".scd"] dir
   sc_graph_fragment_process fn
 
 -- * SCHEME/LISP
 
-lisp_graph_dir :: FilePath
-lisp_graph_dir = "/home/rohan/sw/rsc3/help/graph/"
+rsc3_help_graph_dir :: FilePath
+rsc3_help_graph_dir = "/home/rohan/sw/rsc3/help/graph/"
 
-lisp_graph_fn :: FilePath -> FilePath
-lisp_graph_fn = (++) lisp_graph_dir
+rsc3_help_ugen_dir :: FilePath
+rsc3_help_ugen_dir = "/home/rohan/sw/rsc3/help/ugen/"
 
 lisp_graph_rw_pre :: [String]
 lisp_graph_rw_pre =
@@ -114,13 +144,13 @@ lisp_graph_rw_pre =
 
 lisp_graph_fragment_rw :: (String,String) -> [String]
 lisp_graph_fragment_rw (z,txt) =
-  [printf "(display \"%s\")(newline)" z
+  [printf "(display \"%s %s\")(newline)" z (text_prefix 48 txt)
   ,printf "(synthdef-write (synthdef \"%s\" (out (ctl ir \"out\" 0)" z
   ,printf " %s)) \"%s\")" txt (graph_db_fn (z <.> ".scsyndef"))]
 
 lisp_graph_fragment_process :: [FilePath] -> IO ()
 lisp_graph_fragment_process fn_seq = do
-  txt_seq <- mapM (readFile . lisp_graph_fn) fn_seq
+  txt_seq <- read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map lisp_graph_fragment_rw (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (graph_db_fn (z <.> "lisp")) txt
@@ -130,7 +160,9 @@ lisp_graph_fragment_process fn_seq = do
   _ <- rawSystem "ikarus" [rw_fn]
   return ()
 
-lisp_graph_fragment_process_dir :: IO ()
-lisp_graph_fragment_process_dir = do
-  fn <- T.dir_subset_rel [".lisp"] lisp_graph_dir
+-- > lisp_graph_fragment_process_dir rsc3_help_graph_dir
+-- > lisp_graph_fragment_process_dir rsc3_help_ugen_dir
+lisp_graph_fragment_process_dir :: FilePath -> IO ()
+lisp_graph_fragment_process_dir dir = do
+  fn <- T.dir_subset [".lisp",".scm"] dir
   lisp_graph_fragment_process fn
