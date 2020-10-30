@@ -15,4 +15,3 @@
 ;var pw = SinOsc.kr(0.08,[0,0.5 * pi]) * 0.45 + 0.5 // pulse width LFO(s)
 ;var s = Pulse.ar(freq,pw) * amp
 ;CombN.ar(RLPF.ar(s,filt,0.15),0.2,[0.2,0.17],1.5)}
-
