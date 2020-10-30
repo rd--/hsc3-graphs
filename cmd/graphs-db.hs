@@ -166,3 +166,34 @@ lisp_graph_fragment_process_dir :: FilePath -> IO ()
 lisp_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".lisp",".scm"] dir
   lisp_graph_fragment_process fn
+
+-- * FS
+
+fs_help_graph_dir :: FilePath
+fs_help_graph_dir = "/home/rohan/sw/hsc3-forth/help/graph/"
+
+fs_graph_fragment_rw :: (String,String) -> [String]
+fs_graph_fragment_rw (z,txt) =
+  let grw = lines txt
+      sfx = [printf "s\" %s\" s\" %s\" write-synthdef" z (graph_db_dir </> z <.> "scsyndef")
+            ,printf "s\" %s %s\" type" z (text_prefix 48 txt)]
+  in concat [grw,sfx]
+
+fs_graph_fragment_process :: [FilePath] -> IO ()
+fs_graph_fragment_process fn_seq = do
+  txt_seq <- read_file_set_fragments fn_seq
+  let z_seq = map txt_hash_str txt_seq
+      rw_seq = map fs_graph_fragment_rw (zip z_seq txt_seq)
+      cpy (z,txt) = writeFile (graph_db_fn (z <.> "fs")) txt
+      rw_fn = "/tmp/rw.fs"
+  mapM_ cpy (zip z_seq txt_seq)
+  writeFile rw_fn (unlines (concat rw_seq ++ ["bye"]))
+  -- _ <- rawSystem "sclang" [rw_fn]
+  return ()
+
+-- > fs_graph_fragment_process_dir fs_help_graph_dir
+fs_graph_fragment_process_dir :: FilePath -> IO ()
+fs_graph_fragment_process_dir dir = do
+  fn <- T.dir_subset [".fs"] dir
+  fs_graph_fragment_process fn
+
