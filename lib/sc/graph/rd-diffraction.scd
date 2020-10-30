@@ -1,3 +1,4 @@
+// diffraction
 {var x = MouseX.kr(0.001,0.02,'exponential',0.1)
 ;var y = MouseY.kr(120,400,'exponential',0.1)
 ;var p = {var f = LFNoise0.kr(4) * [32,64]

@@ -1,3 +1,4 @@
+// oscillator cluster
 {var ln = {arg a,b,d;Line.kr(a,b,d,1)}
 ;var xln = {arg a,b,d;XLine.kr(a,b,d,1)}
 ;var rln = {arg r,a,b,d

@@ -1,3 +1,4 @@
+// h-chatter
 { var h0 = { var n = LFNoise0.kr(1, 5, 5)
            ; var a = LFNoise0.kr(1, 0.2, 1.2)
            ; var b = LFNoise0.kr(1, 0.15, 0.15)

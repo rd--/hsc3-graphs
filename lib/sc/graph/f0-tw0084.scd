@@ -1,4 +1,4 @@
-// http://sccode.org/1-4Qy
+// tw 0084 (f0) - http://sccode.org/1-4Qy
 {var a = Saw
 ;var f = a.ar((5,7..15) * 19) * 99 + 199
 ;var g = a.ar((1,3..13) * 29) * 199 + 299

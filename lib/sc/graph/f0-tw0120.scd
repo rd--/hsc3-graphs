@@ -1,4 +1,4 @@
-//--tweet0120
+// tw 0120 (f0)
 {var a = LFTri
 ;var z = a.kr(1/[7,8])*a.kr(1/9,0,99)
 ;var l = (60..79).midicps

@@ -1,4 +1,4 @@
-//--tweet0121
+// tw 0121 (f0)
 {var a = SinOsc
 ;var z = a.kr(1/[8,7]) * a.kr(1/30,0,9)
 ;var l = (56,62..98).midicps

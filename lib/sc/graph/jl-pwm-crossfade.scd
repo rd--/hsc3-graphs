@@ -1,3 +1,4 @@
+// pwm crossfade (jl)
 {var n = [400,500,450,376,600]
 ;var d = 1/20
 ;var f = Demand.kr(Impulse.kr(d,[0,0.5]),0,Dseq(n,inf))

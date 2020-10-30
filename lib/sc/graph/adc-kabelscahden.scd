@@ -1,4 +1,4 @@
-// https://swiki.hfbk-hamburg.de/MusicTechnology/851
+// kabelscahden (adc) - https://swiki.hfbk-hamburg.de/MusicTechnology/851
 {var h, n, m, k, trig;
 trig = Dust.kr(7 ** LFNoise1.kr(0.3));
 h = ToggleFF.kr(CoinGate.kr(0.4,trig)) * RLPF.ar(LFPulse.ar(50, 0, 0.5, 1, LFNoise1.kr(2, 0.5, -0.5)), 6000, 0.15);

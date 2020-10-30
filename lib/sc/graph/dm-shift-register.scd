@@ -1,4 +1,4 @@
-// https://sccode.org/1-590 (dm)
+// shift register (dm) - https://sccode.org/1-590
 {var shift_register =
  {arg length = 5, trig, in
  ;var buf = LocalBuf(length)

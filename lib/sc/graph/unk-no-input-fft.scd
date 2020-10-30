@@ -6,5 +6,4 @@
   e[bin] * SinOsc.kr(rand(0.05), rand(2pi)).range(10, 50);
  };
 var gen_f = {FFT(LocalBuf(fft_size), DC.ar(0)).pvcollect(fft_size, bin_f)};
-IFFT(gen_f ! 2, 1);
-}
+IFFT(gen_f ! 2, 1)}

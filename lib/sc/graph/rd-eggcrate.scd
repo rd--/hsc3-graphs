@@ -1,3 +1,4 @@
+// eggcrate
 {var eggcrate = {arg u,v; (u * pi).cos * (v * pi).sin}
 ;var p = [64,72,96,128,256,6400,7200,8400,9600]
 ;var x = BrownNoise.kr

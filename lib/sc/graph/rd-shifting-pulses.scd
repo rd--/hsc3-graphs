@@ -1,3 +1,4 @@
+// shifting pulses
 {var n0 = BrownNoise.kr.dup
 ;var n1 = BrownNoise.kr.dup
 ;var n2 = BrownNoise.kr.dup

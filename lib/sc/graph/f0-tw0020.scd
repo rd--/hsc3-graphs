@@ -1,3 +1,4 @@
+// tw 0020 (f0)
 {var a=LFPulse
 ;var b=(1..4)
 ;var a1=(a.ar(b/32) + 1) / 8

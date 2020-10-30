@@ -1,3 +1,4 @@
+// dial history (jrhb)
 { var mfv = [[697, 770, 852, 941], [1209, 1336, 1477, 1633]]
 ; var numbers = [[3, 1]] ++ {: [a, b], a <- (0..2), b <- (0..2) }.all
 ; var n = Dwhite(7, 12, inf)

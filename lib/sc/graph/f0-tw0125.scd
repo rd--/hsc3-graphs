@@ -1,4 +1,4 @@
-//--tweet0125
+// tw 0125 (f0)
 {var a = SinOsc
 ;var f = a.ar(1/[8,9])*4+[400,202]
 ;var u = a.ar(1/9)+1/88

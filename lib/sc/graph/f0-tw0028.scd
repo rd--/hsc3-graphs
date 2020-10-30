@@ -1,4 +1,4 @@
-// http://www.fredrikolofsson.com/f0blog/?q=node/537
+// tw 0028 (f0) - http://www.fredrikolofsson.com/f0blog/?q=node/537
 {var p = Dseq(Dshuf(List.fib(16) % 8 * 99,8),inf)
 ;var q = CombN.ar(Duty.ar(1/8,0,p),4,4,16)
 ;var o = LFTri.ar(q)/4

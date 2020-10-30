@@ -1,3 +1,4 @@
+// k-ppr
 { var x = MouseX.kr(0.05, 0.35, 'linear', 0.1)
 ; var y = MouseY.kr(0.15, 0.75, 'linear', 0.1)
 ; var ti = LFTri.kr(x, 0)

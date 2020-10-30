@@ -1,4 +1,4 @@
-// http://sccode.org/1-4Qy
+// tw 0051 (f0) - http://sccode.org/1-4Qy
 {var a = Saw
 ;var i = a.ar("sunday".ascii)
 ;var f = a.ar(9 / "slow".ascii) * 400 + 500

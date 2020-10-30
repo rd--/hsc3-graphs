@@ -1,3 +1,4 @@
+// cut outs
 { var t = Impulse.ar(22, 0) * (SinOsc.kr(0.5, 0) + 1)
 ; var x = MouseX.kr(0.005, 0.12, 'exponential', 0.1)
 ; var y = MouseY.kr(0.01, 0.52, 'exponential', 0.1)

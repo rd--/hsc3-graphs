@@ -1,4 +1,4 @@
-// https://www.listarc.bham.ac.uk/lists/sc-users/msg14775.html
+// laser bubble - https://www.listarc.bham.ac.uk/lists/sc-users/msg14775.html
 {var fn =
   {var lfo = Dstutter(2, Dxrand([0.1,0.2,0.3,0.4,0.5],inf))
   ;var dur = Duty.ar(lfo, 0, lfo)

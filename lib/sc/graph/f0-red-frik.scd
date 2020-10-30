@@ -1,3 +1,4 @@
+// red frik (f0)
 { var red = { arg tr, n
             ; var r1 = TRand.kr(0.3, 3, tr)
             ; var r2 = TRand.kr(0.3, 5, tr)

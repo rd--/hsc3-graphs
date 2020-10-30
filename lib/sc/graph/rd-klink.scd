@@ -1,3 +1,4 @@
+// klnk
 {var n1 = LFNoise0.kr([0.5,1.5])
 ;var o = SinOsc.kr(n1,0)
 ;var a = Slope.kr(o).abs * [2,3]

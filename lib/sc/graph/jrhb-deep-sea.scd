@@ -1,3 +1,4 @@
+// deep sea (jrhb)
 { var amp = 1
 ; var pan = 0
 ; var variation = 0.9

@@ -1,4 +1,4 @@
-// http://sccode.org/1-4Qy
+// tw 0077 (f0) - http://sccode.org/1-4Qy
 {var a = SinOsc
 ;var f = a.ar(1 / [5,6]) + [798,912]
 ;var p = a.ar(1 / 16) * 19 + 99 * a.ar([9,8])

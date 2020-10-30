@@ -1,3 +1,4 @@
+// lg timed
 { var dcons = { arg x, xs
               ; var i = Dseq([0, 1], 1)
               ; var a = Dseq([x, xs], 1)

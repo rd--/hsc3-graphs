@@ -1,3 +1,4 @@
+// cricket
 {var r1 = Array.fill(2,{Rand(10,13)})
 ;var r2 = Array.fill(2,{Rand(10,13)})
 ;var r3 = Array.fill(2,{Rand(4,7)})

@@ -1,3 +1,4 @@
+// three cpsw
 {var t = Dust.kr([12,18])
 ;var f0 = TRand.kr(1,64,t)
 ;var f1 = LFNoise0.kr(f0)

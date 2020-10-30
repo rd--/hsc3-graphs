@@ -1,3 +1,4 @@
+// mouse clatter
 {var b = LocalBuf(2048,1)
 ;var x = MouseX.kr(100,12000,'linear',0.1)
 ;var y = MouseY.kr(0.01,0.15,'linear',0.1)
