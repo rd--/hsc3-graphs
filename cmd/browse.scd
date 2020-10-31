@@ -5,6 +5,7 @@
 ;var is_forth_file = {arg fn; fn.extension == "fs"}
 ;var is_synthdef_file = {arg fn; fn.extension == "scsyndef"}
 ;var mk_synthdef_file_name = {arg z; (db_dir +/+ (z.asString ++ ".scsyndef")).fullPath}
+;var mk_dot_file_name = {arg z; (db_dir +/+ "dot" +/+ (z.asString ++ ".dot")).fullPath}
 ;var load_scsyndef_file = {arg fn; var fd = File.open(fn,"rb"); var sz = File.fileSize(fn); var ra = RawArray.new(sz) ; [fn,sz].postln; fd.read(ra); fd.close; ra}
 ;var db_univ = db_dir.files().collect({arg fn; fn.fileNameWithoutExtension.asSymbol}).asSet.asArray.sort // [Symbol]
 ;var db_text_file_name_set = db_dir.files().reject({arg fn; is_synthdef_file.(fn)}) // [Path]
@@ -18,11 +19,14 @@
 ;var t_code = TextView(w).minHeight_(12 * 12).font_(Font("monospace"))
 ;var v_play = Button(w).font_(Font("monospace")).states_([["PLAY", Color.black, Color.white]]).action_({cur_z.postln; cur_syn = Synth(cur_z)})
 ;var v_stop = Button(w).font_(Font("monospace")).states_([["STOP", Color.black, Color.white]]).action_({CmdPeriod.run})
+;var v_draw = Button(w).font_(Font("monospace")).states_([["DRAW", Color.black, Color.white]]).action_({var cmd = "dot -Txlib " ++ mk_dot_file_name.(cur_z); cmd.postln; cmd.unixCmd})
 ;l_univ.action_({arg i, e; cur_z = l_univ.items[i.value]; t_code.string = db_text_file_data[cur_z]})
-;w.layout = VLayout(t_search,l_univ,t_code,HLayout(v_play,v_stop))
+;w.layout = VLayout(t_search,l_univ,t_code,HLayout(v_play,v_stop,v_draw))
 ;db_univ.do({arg z; z.postln; SynthDescLib.global.read(mk_synthdef_file_name.(z)); SynthDescLib.global.at(z).def.send})
 ;t_search.action_({arg x; var univ_sel = if(x.value.isEmpty,{db_univ},{db_text_file_data.select({arg txt; txt.find(x.value,ignoreCase:true).notNil})}); l_univ.items_(univ_sel.keys.asArray)})
 )
+
+
 
 /*
 - scsynth synthdef limit (reset locally?)
@@ -31,4 +35,5 @@
 - graph drawing
 - buffer loading
 - wavetable assignment
+- controller derivation
 */
