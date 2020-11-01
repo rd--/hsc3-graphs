@@ -55,13 +55,21 @@ text_prefix k =
 hs_graph_dir :: FilePath
 hs_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/hs/graph/"
 
+hs_help_ugen_dir :: FilePath
+hs_help_ugen_dir = "/home/rohan/sw/hsc3/Help/UGen/"
+
 hs_graph_rw_pre :: [String]
 hs_graph_rw_pre =
   ["import Data.Bits {- base -}"
   ,"import Data.List {- base -}"
+  ,"import System.Random {- random -}"
   ,"import Sound.SC3 {- hsc3 -}"
   ,"import qualified Sound.SC3.UGen.Bindings.DB.External as X {- hsc3 -}"
-  ,"import qualified Sound.SC3.UGen.Bindings.DB.RDU as X {- sc3-rdu -}"]
+  ,"import qualified Sound.SC3.UGen.Bindings.Composite.External as X {- hsc3 -}"
+  ,"import qualified Sound.SC3.UGen.Bindings.HW.External.Zita as X {- hsc3 -}"
+  ,"import qualified Sound.SC3.UGen.Bindings.DB.RDU as X {- sc3-rdu -}"
+  ,"import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}"
+  ]
 
 hs_graph_fragment_rw :: (String,String) -> [String]
 hs_graph_fragment_rw (z,txt) =
@@ -95,6 +103,7 @@ hs_graph_fragment_process fn_seq = do
   return ()
 
 -- > hs_graph_fragment_process_dir hs_graph_dir
+-- > hs_graph_fragment_process_dir hs_help_ugen_dir
 hs_graph_fragment_process_dir :: FilePath -> IO ()
 hs_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".hs"] dir
