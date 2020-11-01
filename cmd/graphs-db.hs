@@ -195,9 +195,10 @@ fs_graph_fragment_process fn_seq = do
       rw_seq = map fs_graph_fragment_rw (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (graph_db_fn (z <.> "fs")) txt
       rw_fn = "/tmp/rw.fs"
+      rw_text = unlines (concat rw_seq ++ ["bye"])
   mapM_ cpy (zip z_seq txt_seq)
-  writeFile rw_fn (unlines (concat rw_seq ++ ["bye"]))
-  -- _ <- rawSystem "sclang" [rw_fn]
+  writeFile rw_fn rw_text
+  _ <- readCreateProcess (proc "hsc3-forth" []) rw_text
   return ()
 
 -- > fs_graph_fragment_process_dir fs_help_graph_dir

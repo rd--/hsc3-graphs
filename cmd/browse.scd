@@ -14,19 +14,27 @@
 ;var cur_z = db_univ[0]
 ;var cur_syn = nil
 ;var w = Window.new.front
-;var t_search = TextField(w).font_(Font("monospace"))
-;var l_univ = ListView(w).font_(Font("monospace")).items_(db_univ)
-;var t_code = TextView(w).minHeight_(12 * 12).font_(Font("monospace"))
-;var t_stat = TextView(w).minHeight_(12 * 12).font_(Font("monospace"))
-;var v_play = Button(w).font_(Font("monospace")).states_([["PLAY", Color.black, Color.white]]).action_({s.sendMsg("/s_new",cur_z,s.nextNodeID, 0, 1)})
-;var v_stop = Button(w).font_(Font("monospace")).states_([["STOP", Color.black, Color.white]]).action_({CmdPeriod.run})
-;var v_draw = Button(w).font_(Font("monospace")).states_([["DRAW", Color.black, Color.white]]).action_({var cmd = "hsc3-dot scsyndef-draw " ++ mk_synthdef_file_name.(cur_z); cmd.unixCmd})
+;var t_search = TextField(w).font_(Font.monospace)
+;var l_univ = ListView(w).font_(Font.monospace).items_(db_univ)
+;var t_code = TextView(w).minHeight_(12 * 12).font_(Font.monospace)
+;var t_stat = TextView(w).minHeight_(12 * 12).font_(Font.monospace)
+;var do_play = {s.sendMsg("/s_new",cur_z,s.nextNodeID, 0, 1)}
+;var do_stop = {CmdPeriod.run}
+;var do_draw = {var cmd = "hsc3-dot scsyndef-draw " ++ mk_synthdef_file_name.(cur_z); cmd.unixCmd}
+;var v_play = Button(w).font_(Font.monospace).states_([["PLAY", Color.black, Color.white]]).action_(do_play)
+;var v_stop = Button(w).font_(Font.monospace).states_([["STOP", Color.black, Color.white]]).action_(do_stop)
+;var v_draw = Button(w).font_(Font.monospace).states_([["DRAW", Color.black, Color.white]]).action_(do_draw)
 ;l_univ.action_({arg i, e; cur_z = l_univ.items[i.value]; t_code.string = db_text_file_data[cur_z]; t_stat.string = ("hsc3-scsynth scsyndef stat " ++ mk_synthdef_file_name.(cur_z)).unixCmdGetStdOut; s.sendMsg("/d_recv",db_syn_file_data[cur_z])})
+;l_univ.setContextMenuActions(MenuAction("PLAY",do_play).shortcut_("Ctrl+P"),MenuAction("STOP",do_stop).shortcut_("Ctrl+."),MenuAction("DRAW",do_draw).shortcut_("Ctrl+D"))
 ;w.layout = VLayout(t_search,l_univ,t_code,t_stat,HLayout(v_play,v_stop,v_draw))
 ;t_search.action_({arg x; var univ_sel = if(x.value.isEmpty,{db_univ},{db_text_file_data.select({arg txt; txt.find(x.value,ignoreCase:true).notNil})}); l_univ.items_(univ_sel.keys.asArray)})
 )
 
 /*
+
+RGraph { name_sym:Symbol syn_fn:Path syn_data:Int8Array src_fn:Path src_text:String src_lang={hs,lisp,scm,fs,scd} }
+
+RGraphDB { db_dir:Path db_graph_dict:Dict(Symbol,RGraph) }
 
 - l_univ: display prefix of code
 - t_stat: truncate lines (no-wrap)
@@ -35,4 +43,3 @@
 - controller derivation
 
 */
-
