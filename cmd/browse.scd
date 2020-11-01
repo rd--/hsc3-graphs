@@ -36,10 +36,23 @@ RGraph { name_sym:Symbol syn_fn:Path syn_data:Int8Array src_fn:Path src_text:Str
 
 RGraphDB { db_dir:Path db_graph_dict:Dict(Symbol,RGraph) }
 
+- multiple search terms
 - l_univ: display prefix of code
 - t_stat: truncate lines (no-wrap)
 - buffer loading
 - wavetable assignment
 - controller derivation
+
+# buffer browser
+ list of all known buffers, file selector to load buffer
+ at Buffer: bufnum, numFrames, numChannels, sampleRate, path=names of file loaded
+ + wavetable flag, associated b_gen message
+ + plot
+
+RBuffer { buf:Buffer is_wavetable:Bool gen_msg:OSC|nil } . plot
+
+RBufferSet { buf_set:[RBuffer] } . browse
+
+# menu to select ugen, category tree (ie. hsc3-db)
 
 */
