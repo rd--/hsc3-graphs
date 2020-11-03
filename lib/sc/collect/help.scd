@@ -13,6 +13,12 @@
 // Balance2
 {var o=SinOsc.ar(440);Out.ar(0,Balance2.ar(o,o,MouseX.kr(-1,1),0.2))}.play
 
+// CrossoverDistortion
+{CrossoverDistortion.ar(SinOsc.ar([400, 404], 0, 0.2), MouseX.kr(0, 1), MouseY.kr(0, 1))}.play
+
+// CrossoverDistortion
+{CrossoverDistortion.ar(SoundIn.ar, MouseX.kr(0, 1), MouseY.kr(0, 1))}.play
+
 // SinOscFB
 {SinOscFB.ar([400,301],MouseX.kr(0,4))*0.1}
 

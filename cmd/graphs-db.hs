@@ -19,12 +19,20 @@ graph_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 graph_db_fn :: FilePath -> FilePath
 graph_db_fn = (++) graph_db_dir
 
--- > split_multiple_fragments ";a\nb\n\n\n;c\nd" == [";a\nb\n",";c\nd\n"]
-split_multiple_fragments :: String -> [String]
-split_multiple_fragments = map unlines . filter (not . null) . splitOn [[]] . lines
+-- > proc_on_lines split_multiple_fragments ";a\nb\n\n\n;c\nd" == [";a\nb\n",";c\nd\n"]
+split_multiple_fragments :: [String] -> [[String]]
+split_multiple_fragments = filter (not . null) . splitOn [[]]
+
+drop_post_graph_section :: [String] -> [String]
+drop_post_graph_section = takeWhile (not . isInfixOf "----")
+
+proc_on_lines :: ([String] -> [[String]]) -> String -> [String]
+proc_on_lines f = map unlines . f . lines
 
 read_file_set_fragments :: [FilePath] -> IO [String]
-read_file_set_fragments = fmap concat . mapM (fmap split_multiple_fragments . readFile)
+read_file_set_fragments =
+  fmap concat .
+  mapM (fmap (proc_on_lines (split_multiple_fragments . drop_post_graph_section)) . readFile)
 
 newline_to_space :: Char -> Char
 newline_to_space x = if x == '\n' then ' ' else x
@@ -46,7 +54,7 @@ double_quote_to_single_quote x = if x == '"' then '\'' else x
 text_prefix :: Int -> String -> String
 text_prefix k =
   take k .
-  map double_quote_to_single_quote . -- not escape_double_quote since text may end with \
+  map double_quote_to_single_quote . -- not escape_double_quote since text may then end with \
   merge_multiple_spaces .
   map newline_to_space
 
@@ -64,6 +72,7 @@ hs_graph_rw_pre =
   ,"import Data.List {- base -}"
   ,"import System.Random {- random -}"
   ,"import Sound.SC3 {- hsc3 -}"
+  ,"import qualified Sound.SC3.Common.Buffer.Gen as Gen {- hsc3 -}"
   ,"import qualified Sound.SC3.UGen.Bindings.DB.External as X {- hsc3 -}"
   ,"import qualified Sound.SC3.UGen.Bindings.Composite.External as X {- hsc3 -}"
   ,"import qualified Sound.SC3.UGen.Bindings.HW.External.Zita as X {- hsc3 -}"
