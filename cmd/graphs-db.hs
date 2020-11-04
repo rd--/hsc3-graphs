@@ -218,4 +218,3 @@ fs_graph_fragment_process_dir :: FilePath -> IO ()
 fs_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".fs"] dir
   fs_graph_fragment_process fn
-

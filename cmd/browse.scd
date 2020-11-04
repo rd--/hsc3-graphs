@@ -26,8 +26,9 @@
 ;var do_draw = {var cmd = "hsc3-dot scsyndef-draw" + mk_synthdef_file_name.(cur_z); cmd.unixCmd}
 ;var do_get_stat = {arg z; ("hsc3-scsynth scsyndef stat" + mk_synthdef_file_name.(z)).unixCmdGetStdOut}
 ;var do_stat = {var w = Window(resizable:false,bounds:Rect(128, 64, 900, 300)).front; var t = TextView(w).font_(Font.monospace).string_(do_get_stat.(cur_z)); w.layout = VLayout(t);}
+;var do_texture = {var cmd = "hsc3-lang scsyndef-texture overlap 0.25 0.5 5 25" + mk_synthdef_file_name.(cur_z); cmd.unixCmd}
 ;l_univ.action_({arg i, e; cur_z = l_univ.items[i.value].split($ )[0].asSymbol; t_code.string = db_text_file_data[cur_z]; s.sendMsg("/d_recv",db_syn_file_data[cur_z])})
-;l_univ.setContextMenuActions(MenuAction("Play",do_play).shortcut_("Ctrl+P"),MenuAction("Stop",do_stop).shortcut_("Ctrl+."),MenuAction("Draw",do_draw).shortcut_("Ctrl+D"),MenuAction("Stat",do_stat).shortcut_("Ctrl+S"))
+;l_univ.setContextMenuActions(MenuAction("Play",do_play).shortcut_("Ctrl+P"),MenuAction("Stop",do_stop).shortcut_("Ctrl+."),MenuAction("Draw",do_draw).shortcut_("Ctrl+D"),MenuAction("Stat",do_stat).shortcut_("Ctrl+S"),MenuAction("Texture",do_texture).shortcut_("Ctrl+T"))
 ;w.layout = VLayout(HLayout(b_ugen_menu,t_search),l_univ,t_code)
 ;t_search.action_({arg x; var univ_sel = if(x.value.isEmpty,{db_univ},{db_text_file_data.select({arg txt; txt_contains_all_terms.(txt,x.value)}).keys.asArray}); l_univ.items_(univ_sel.collect(syn_to_entry_text))})
 )
@@ -38,7 +39,6 @@ RGraph { name_sym:Symbol syn_fn:Path syn_data:Int8Array src_fn:Path src_text:Str
 
 RGraphDB { db_dir:Path db_graph_dict:Dict(Symbol,RGraph) }
 
-- menu (xmenu, hsc3-db) for selecting UGens by category
 - search graphdef also so SinOsc will find lisp graphs where the UGen is called sin-osc
 - buffer loading
 - wavetable assignment
@@ -55,6 +55,7 @@ RBuffer { buf:Buffer is_wavetable:Bool gen_msg:OSC|nil } . plot
 RBufferSet { buf_set:[RBuffer] } . browse
 
 # menu to select ugen, category tree (ie. hsc3-db)
+  (xmenu, dmenu, hsc3-db) for selecting UGens by category, w/ completion
 
 # overlap-texture
  menu entry
