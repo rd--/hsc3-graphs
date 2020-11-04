@@ -26,23 +26,23 @@
 ;var do_draw = {var cmd = "hsc3-dot scsyndef-draw" + mk_synthdef_file_name.(cur_z); cmd.unixCmd}
 ;var do_get_stat = {arg z; ("hsc3-scsynth scsyndef stat" + mk_synthdef_file_name.(z)).unixCmdGetStdOut}
 ;var do_stat = {var w = Window(resizable:false,bounds:Rect(128, 64, 900, 300)).front; var t = TextView(w).font_(Font.monospace).string_(do_get_stat.(cur_z)); w.layout = VLayout(t);}
-;var do_texture = {var cmd = "hsc3-lang scsyndef-texture overlap 0.25 0.5 5 25" + mk_synthdef_file_name.(cur_z); cmd.unixCmd}
+;var lookup_texture_param = {arg str; var res = str.findRegexp("texture=[.,a-z0-9]*"); if(res.isNil,{"overlap=4,4,4,inf"},{res[0][1].drop(8)})}
+;var do_texture_proc =
+ {arg sy_name, tx_param
+ ;var sy_filename = mk_synthdef_file_name.(sy_name)
+ ;var w = Window(bounds: Rect(120, 480, 500, 20),resizable:false).front
+ ;var t_sy_name = StaticText(w).font_(Font.monospace).string_(sy_name)
+ ;var t_tx_param = TextField(w).font_(Font.monospace).string_(tx_param)
+ ;var p_proc = nil
+ ;var proc_end = {"proc_end".postln; if(p_proc.isNil,{},{p_proc.putChar($q); p_proc.close; p_proc = nil})}
+ ;var do_control = {arg x; var cmd = "hsc3-lang scsyndef-to-texture" + sy_filename + t_tx_param.string; if(x.value == 1,{p_proc=Pipe.new(cmd,"w")},proc_end)}
+ ;var b_control = Button(w).font_(Font.monospace).states_([["Start",Color.black,Color.white],["Stop",Color.black,Color.white]]).action_(do_control)
+ ;w.layout_(HLayout(t_sy_name,t_tx_param,b_control)).onClose_(proc_end)}
+;var do_texture = {do_texture_proc.(cur_z,lookup_texture_param.(db_text_file_data[cur_z]))}
 ;l_univ.action_({arg i, e; cur_z = l_univ.items[i.value].split($ )[0].asSymbol; t_code.string = db_text_file_data[cur_z]; s.sendMsg("/d_recv",db_syn_file_data[cur_z])})
 ;l_univ.setContextMenuActions(MenuAction("Play",do_play).shortcut_("Ctrl+P"),MenuAction("Stop",do_stop).shortcut_("Ctrl+."),MenuAction("Draw",do_draw).shortcut_("Ctrl+D"),MenuAction("Stat",do_stat).shortcut_("Ctrl+S"),MenuAction("Texture",do_texture).shortcut_("Ctrl+T"))
 ;w.layout = VLayout(HLayout(b_ugen_menu,t_search),l_univ,t_code)
-;t_search.action_({arg x; var univ_sel = if(x.value.isEmpty,{db_univ},{db_text_file_data.select({arg txt; txt_contains_all_terms.(txt,x.value)}).keys.asArray}); l_univ.items_(univ_sel.collect(syn_to_entry_text))})
-)
-
-(var w = Window(bounds: Rect(128, 64, 500, 20),resizable:false).front
-;var n_sustain = NumberBox(w).value_(4)
-;var n_transition = NumberBox(w).value_(4)
-;var n_overlaps = NumberBox(w).value_(2)
-;var n_nodes = NumberBox(w).value_(10000)
-;var m_type = PopUpMenu(w).items_(["Overlap","Spawn","XFade"]).font_(Font.monospace)
-;var do_start = {[m_type.value,n_sustain.value,n_transition.value,n_overlaps.value,n_nodes.value].postln}
-;var b_start = Button(w).font_(Font.monospace).states_([["Start",Color.black,Color.white]]).action_(do_start)
-;w.layout_(HLayout(m_type,n_sustain,n_transition,n_overlaps,n_nodes,b_start))
-)
+;t_search.action_({arg x; var univ_sel = if(x.value.isEmpty,{db_univ},{db_text_file_data.select({arg txt; txt_contains_all_terms.(txt,x.value)}).keys.asArray}); l_univ.items_(univ_sel.collect(syn_to_entry_text))}))
 
 /*
 
@@ -76,3 +76,13 @@ RBufferSet { buf_set:[RBuffer] } . browse
  closing window stops/kills process
 
 */
+
+(var w = Window(bounds: Rect(128, 64, 500, 20),resizable:true).front
+;var n_sustain = NumberBox(w).value_(4)
+;var n_transition = NumberBox(w).value_(4)
+;var n_overlaps = NumberBox(w).value_(2)
+;var n_nodes = NumberBox(w).value_(10000)
+;var m_type = PopUpMenu(w).items_(["Overlap","Spawn","XFade"]).font_(Font.monospace)
+;var do_start = {[m_type.value,n_sustain.value,n_transition.value,n_overlaps.value,n_nodes.value].postln}
+;var b_start = Button(w).font_(Font.monospace).states_([["Start",Color.black,Color.white]]).action_(do_start)
+;w.layout_(HLayout(m_type,n_sustain,n_transition,n_overlaps,n_nodes,b_start)))
