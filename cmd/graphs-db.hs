@@ -51,10 +51,13 @@ escape_double_quote = concatMap (\x -> if x == '"' then "\\\"" else [x])
 double_quote_to_single_quote :: Char -> Char
 double_quote_to_single_quote x = if x == '"' then '\'' else x
 
+question_mark_special_chars :: Char -> Char
+question_mark_special_chars x = if x `elem` "\"\\" then '?' else x
+
 text_prefix :: Int -> String -> String
 text_prefix k =
   take k .
-  map double_quote_to_single_quote . -- not escape_double_quote since text may then end with \
+  map question_mark_special_chars . -- not escape since text may then end with \
   merge_multiple_spaces .
   map newline_to_space
 

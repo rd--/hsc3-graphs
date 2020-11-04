@@ -56,4 +56,11 @@ RBufferSet { buf_set:[RBuffer] } . browse
 
 # menu to select ugen, category tree (ie. hsc3-db)
 
+# overlap-texture
+ menu entry
+ opens window (form) with scsyndef file pre-filled
+ form collects: texture-type (enum: overlap xfade spawn) & arguments (different for each)
+ "console" view gets stdout text (Pipe)
+ closing window stops/kills process
+
 */
