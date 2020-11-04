@@ -33,6 +33,17 @@
 ;t_search.action_({arg x; var univ_sel = if(x.value.isEmpty,{db_univ},{db_text_file_data.select({arg txt; txt_contains_all_terms.(txt,x.value)}).keys.asArray}); l_univ.items_(univ_sel.collect(syn_to_entry_text))})
 )
 
+(var w = Window(bounds: Rect(128, 64, 500, 20),resizable:false).front
+;var n_sustain = NumberBox(w).value_(4)
+;var n_transition = NumberBox(w).value_(4)
+;var n_overlaps = NumberBox(w).value_(2)
+;var n_nodes = NumberBox(w).value_(10000)
+;var m_type = PopUpMenu(w).items_(["Overlap","Spawn","XFade"]).font_(Font.monospace)
+;var do_start = {[m_type.value,n_sustain.value,n_transition.value,n_overlaps.value,n_nodes.value].postln}
+;var b_start = Button(w).font_(Font.monospace).states_([["Start",Color.black,Color.white]]).action_(do_start)
+;w.layout_(HLayout(m_type,n_sustain,n_transition,n_overlaps,n_nodes,b_start))
+)
+
 /*
 
 RGraph { name_sym:Symbol syn_fn:Path syn_data:Int8Array src_fn:Path src_text:String src_lang={hs,lisp,scm,fs,scd} }
