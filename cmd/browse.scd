@@ -70,9 +70,9 @@ RBufferSet { buf_set:[RBuffer] } . browse
 
 # overlap-texture
  menu entry
- opens window (form) with scsyndef file pre-filled
- form collects: texture-type (enum: overlap xfade spawn) & arguments (different for each)
- "console" view gets stdout text (Pipe)
+ read 'default' texture from comment texture=...
+ param in plain text (not in form)
+ open window with scsyndef file & default param pre-filled
  closing window stops/kills process
 
 */
