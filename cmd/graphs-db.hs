@@ -71,7 +71,8 @@ hs_help_ugen_dir = "/home/rohan/sw/hsc3/Help/UGen/"
 
 hs_graph_rw_pre :: [String]
 hs_graph_rw_pre =
-  ["import Data.Bits {- base -}"
+  ["import Control.Monad {- base -}"
+  ,"import Data.Bits {- base -}"
   ,"import Data.List {- base -}"
   ,"import System.Random {- random -}"
   ,"import Sound.SC3 {- hsc3 -}"
@@ -114,8 +115,6 @@ hs_graph_fragment_process fn_seq = do
   _ <- rawSystem "runhaskell" [rw_fn]
   return ()
 
--- > hs_graph_fragment_process_dir hs_graph_dir
--- > hs_graph_fragment_process_dir hs_help_ugen_dir
 hs_graph_fragment_process_dir :: FilePath -> IO ()
 hs_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".hs"] dir
@@ -145,7 +144,6 @@ sc_graph_fragment_process fn_seq = do
   _ <- rawSystem "sclang" [rw_fn]
   return ()
 
--- > sc_graph_fragment_process_dir sc_graph_dir
 sc_graph_fragment_process_dir :: FilePath -> IO ()
 sc_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".scd"] dir
@@ -181,8 +179,6 @@ lisp_graph_fragment_process fn_seq = do
   _ <- rawSystem "ikarus" [rw_fn]
   return ()
 
--- > lisp_graph_fragment_process_dir rsc3_help_graph_dir
--- > lisp_graph_fragment_process_dir rsc3_help_ugen_dir
 lisp_graph_fragment_process_dir :: FilePath -> IO ()
 lisp_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".lisp",".scm"] dir
@@ -213,8 +209,18 @@ fs_graph_fragment_process fn_seq = do
   _ <- readCreateProcess (proc "hsc3-forth" []) rw_text
   return ()
 
--- > fs_graph_fragment_process_dir fs_help_graph_dir
 fs_graph_fragment_process_dir :: FilePath -> IO ()
 fs_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".fs"] dir
   fs_graph_fragment_process fn
+
+-- * MAIN
+
+main :: IO ()
+main = do
+  hs_graph_fragment_process_dir hs_graph_dir
+  hs_graph_fragment_process_dir hs_help_ugen_dir
+  sc_graph_fragment_process_dir sc_graph_dir
+  lisp_graph_fragment_process_dir rsc3_help_graph_dir
+  lisp_graph_fragment_process_dir rsc3_help_ugen_dir
+  fs_graph_fragment_process_dir fs_help_graph_dir
