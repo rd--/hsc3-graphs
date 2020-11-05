@@ -24,4 +24,5 @@ Texture.xfade(
   ;q.add(freq * 6 + d.rand2)})
 ;z = [`[p, nil, Array.rand(m * n, 0, 2pi)],
       `[q, nil, Array.rand(m * n, 0, 2pi)]]
-;Klang.ar(z) * (0.1 / n)}, 6, 3)
+;Klang.ar(z) * (0.1 / n)}
+,6,3)

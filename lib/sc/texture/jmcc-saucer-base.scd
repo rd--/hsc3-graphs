@@ -7,4 +7,5 @@ Texture.overlap(
 ;var o1 = SinOsc.ar(a, 0) * b + (1.1 * b)
 ;var o2 = SinOsc.ar(o1, 0) * c + (1.1 * c)
 ;var o3 = SinOsc.ar(o2, 0) * 0.1
-;Pan2.ar(o3, p)}, 6, 2, 4)
+;Pan2.ar(o3, p)}
+,6,2,4)

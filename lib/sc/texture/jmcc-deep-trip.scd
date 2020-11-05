@@ -6,4 +6,5 @@ Texture.overlap(
 ;var s = Pan2.ar(z, LFNoise1.kr(5.0.rand))
 ;var c1 = CombN.ar(s, 0.5, [0.2.rand + 0.3, 0.2.rand + 0.3], 20)
 ;var c2 = CombN.ar(s, 0.5, [0.2.rand + 0.3, 0.2.rand + 0.3], 20)
-;s + c1 + c2}, 12, 4, 4)
+;s + c1 + c2}
+,12,4,4)

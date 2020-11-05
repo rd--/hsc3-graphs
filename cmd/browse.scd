@@ -26,7 +26,7 @@
 ;var do_draw = {var cmd = "hsc3-dot scsyndef-draw" + mk_synthdef_file_name.(cur_z); cmd.unixCmd}
 ;var do_get_stat = {arg z; ("hsc3-scsynth scsyndef stat" + mk_synthdef_file_name.(z)).unixCmdGetStdOut}
 ;var do_stat = {var w = Window(resizable:false,bounds:Rect(128, 64, 900, 300)).front; var t = TextView(w).font_(Font.monospace).string_(do_get_stat.(cur_z)); w.layout = VLayout(t);}
-;var lookup_texture_param = {arg str; var res = str.findRegexp("texture=[.,a-z0-9]*"); if(res.isNil,{"overlap=4,4,4,inf"},{res[0][1].drop(8)})}
+;var lookup_texture_param = {arg str; var res = str.findRegexp("texture=[.,a-z0-9]*"); if(res == [],{"overlap,4,4,4,inf"},{res[0][1].drop(8)})}
 ;var do_texture_proc =
  {arg sy_name, tx_param
  ;var sy_filename = mk_synthdef_file_name.(sy_name)

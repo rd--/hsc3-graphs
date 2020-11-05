@@ -1,3 +1,4 @@
+// lf pulses (rd)
 { var n0 = LFNoise0.ar([20, 40])
 ; var n1 = LFNoise0.ar([5, 10])
 ; var x = MouseX.kr(0.012, 0.19, 'exponential', 0.1)
