@@ -19,6 +19,18 @@
 // CrossoverDistortion
 {CrossoverDistortion.ar(SoundIn.ar, MouseX.kr(0, 1), MouseY.kr(0, 1))}
 
+// DynKlank
+{s=`[[800,1071,1153,1723],nil,[1,1,1,1]];DynKlank.ar(s,Impulse.ar(2,0,0.1))}
+
+// DynKlank
+{s=`[[800,1071,1353,1723],nil,[1,1,1,1]];DynKlank.ar(s,Dust.ar(8,0.1))}
+
+// DynKlank
+{s=`[[800,1071,1353,1723],nil,[1,1,1,1]];DynKlank.ar(s,PinkNoise.ar(0.007))}
+
+// DynKlank
+{s=`[[200,671,1153,1723],nil,[1,1,1,1]];a=[0.007,0.007];DynKlank.ar(s,PinkNoise.ar(a))}
+
 // FreqShift
 {var a = Blip.ar(60,4,LFGauss.ar(4,1/8))
 ;var b = a / 4 + LocalIn.ar(2)
