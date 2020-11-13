@@ -9,9 +9,16 @@ import qualified Data.Digest.Murmur64 as Murmur64 {- murmur-hash -}
 
 import qualified Music.Theory.Directory as T {- hmt -}
 
+import qualified Sound.SC3 as SC3 {- hsc3 -}
+import qualified Sound.SC3.Server.Graphdef as Graphdef {- hsc3 -}
+
 -- > map txt_hash_str ["Digest.Murmur64","txt_hash_str"] == ["44e386f01d5298bf","4e12a613b9e47dbe"]
 txt_hash_str :: String -> String
 txt_hash_str = printf "%016x" . Murmur64.asWord64 . Murmur64.hash64
+
+-- > txt_file_hash_str "/tmp/st.hs"
+txt_file_hash_str :: FilePath -> IO String
+txt_file_hash_str = fmap txt_hash_str . readFile
 
 graph_db_dir :: FilePath
 graph_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
@@ -63,31 +70,21 @@ text_prefix k =
 
 -- * HS
 
+hs_hsc3_dir :: FilePath
+hs_hsc3_dir = "/home/rohan/sw/hsc3/"
+
 hs_graph_dir :: FilePath
 hs_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/hs/graph/"
 
 hs_help_ugen_dir :: FilePath
 hs_help_ugen_dir = "/home/rohan/sw/hsc3/Help/UGen/"
 
-hs_graph_rw_pre :: [String]
-hs_graph_rw_pre =
-  ["import Control.Monad {- base -}"
-  ,"import Data.Bits {- base -}"
-  ,"import Data.List {- base -}"
-  ,"import System.Random {- random -}"
-  ,"import Sound.SC3 {- hsc3 -}"
-  ,"import qualified Sound.SC3.Common.Buffer.Gen as Gen {- hsc3 -}"
-  ,"import qualified Sound.SC3.Common.Math.Filter.BEQ {- hsc3 -}"
-  ,"import qualified Sound.SC3.UGen.Bindings.DB.External as X {- hsc3 -}"
-  ,"import qualified Sound.SC3.UGen.Bindings.Composite.External as X {- hsc3 -}"
-  ,"import qualified Sound.SC3.UGen.Bindings.HW.External.F0 as X {- hsc3 -}"
-  ,"import qualified Sound.SC3.UGen.Bindings.HW.External.Zita as X {- hsc3 -}"
-  ,"import qualified Sound.SC3.UGen.Bindings.DB.RDU as X {- sc3-rdu -}"
-  ,"import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}"
-  ]
+hs_graph_rw_pre :: IO [String]
+hs_graph_rw_pre = fmap lines (readFile (hs_hsc3_dir ++ "lib/hsc3-std-imports.hs"))
 
-hs_graph_fragment_rw :: (String,String) -> [String]
-hs_graph_fragment_rw (z,txt) =
+-- | z = fragment ID, txt = fragment
+hs_graph_fragment_rw :: FilePath -> (String,String) -> [String]
+hs_graph_fragment_rw out_dir (z,txt) =
   let pfx = [printf "gr_%s :: UGen" z
             ,printf "gr_%s =" z]
       grw = map (" " ++ ) (lines txt)
@@ -95,7 +92,7 @@ hs_graph_fragment_rw (z,txt) =
             ,printf "wr_%s = do" z
             ,printf "  putStrLn \"%s %s\"" z (text_prefix 48 txt)
             ,printf "  let sy = synthdef \"%s\" (wrapOut Nothing gr_%s)" z z
-            ,printf "  synthdefWrite \"%s\" sy" (graph_db_fn (z <.> ".scsyndef"))]
+            ,printf "  synthdefWrite \"%s\" sy" (out_dir </> z <.> ".scsyndef")]
   in concat [pfx,grw,sfx]
 
 hs_graph_rw_main :: [String] -> [String]
@@ -105,22 +102,32 @@ hs_graph_rw_main z_seq =
       ent z = printf "  wr_%s" z
   in concat [pfx,map ent z_seq]
 
-hs_graph_fragment_process :: [FilePath] -> IO ()
-hs_graph_fragment_process fn_seq = do
+-- hs_graph_fragments_process ["/tmp/st.hs"] "/tmp/"
+hs_graph_fragments_process :: [FilePath] -> FilePath -> IO [String]
+hs_graph_fragments_process fn_seq out_dir = do
   txt_seq <- read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
-      rw_seq = map hs_graph_fragment_rw (zip z_seq txt_seq)
-      cpy (z,txt) = writeFile (graph_db_fn (z <.> "hs")) txt
+      rw_seq = map (hs_graph_fragment_rw out_dir) (zip z_seq txt_seq)
+      cpy (z,txt) = writeFile (out_dir </> z <.> "hs") txt
       rw_fn = "/tmp/rw.hs"
   mapM_ cpy (zip z_seq txt_seq)
-  writeFile rw_fn (unlines (hs_graph_rw_pre ++ concat rw_seq ++ hs_graph_rw_main z_seq))
+  pre <- hs_graph_rw_pre
+  writeFile rw_fn (unlines (pre ++ concat rw_seq ++ hs_graph_rw_main z_seq))
   _ <- rawSystem "runhaskell" [rw_fn]
-  return ()
+  return z_seq
 
-hs_graph_fragment_process_dir :: FilePath -> IO ()
-hs_graph_fragment_process_dir dir = do
-  fn <- T.dir_subset [".hs"] dir
-  hs_graph_fragment_process fn
+hs_graph_fragments_process_dir :: FilePath -> FilePath -> IO [String]
+hs_graph_fragments_process_dir in_dir out_dir = do
+  fn <- T.dir_subset [".hs"] in_dir
+  hs_graph_fragments_process fn out_dir
+
+-- hs_graph_fragments_process_play "/tmp/st.hs"
+hs_graph_fragments_process_play :: FilePath -> IO ()
+hs_graph_fragments_process_play fn = do
+  z <- hs_graph_fragments_process [fn] "/tmp/"
+  let gr_load k = Graphdef.read_graphdef_file ("/tmp" </> k <.> "scsyndef")
+  gr <- mapM gr_load z
+  mapM_ SC3.audition gr
 
 -- * SC
 
@@ -220,8 +227,8 @@ fs_graph_fragment_process_dir dir = do
 
 main :: IO ()
 main = do
-  hs_graph_fragment_process_dir hs_graph_dir
-  hs_graph_fragment_process_dir hs_help_ugen_dir
+  _ <- hs_graph_fragments_process_dir hs_graph_dir graph_db_dir
+  _ <- hs_graph_fragments_process_dir hs_help_ugen_dir graph_db_dir
   sc_graph_fragment_process_dir sc_graph_dir
   lisp_graph_fragment_process_dir rsc3_help_graph_dir
   lisp_graph_fragment_process_dir rsc3_help_ugen_dir

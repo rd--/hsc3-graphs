@@ -47,6 +47,9 @@
 // Klang
 {Klang.ar(`[Array.rand(12,600.0,1000.0),nil,nil],1,0)*0.05}
 
+// Line - NOTE: doneAction input is placed AFTER mul and add inputs
+{SinOsc.ar(Line.kr(200,17000,10,doneAction: 1),0) * 0.1}
+
 // LinExp
 {var mod = SinOsc.kr(Line.kr(1, 10, 10))
 ;[SinOsc.ar(mod * 400 + 500),SinOsc.ar(LinExp.kr(mod, -1,1, 100, 900))] * 0.1}
