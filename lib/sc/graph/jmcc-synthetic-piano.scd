@@ -1,8 +1,8 @@
 // synthetic piano (jmcc) #3
 {var p =
-  {var n = IRand(36,90)
-  ;var f = Rand(0.1,0.5)
-  ;var ph = Rand(0,1)
+  {var n = rrand(36,90)
+  ;var f = rrand(0.1,0.5)
+  ;var ph = rrand(0.0,1.0)
   ;var s = Impulse.ar(f,ph) * 0.1
   ;var e = Decay2.ar(s,0.008,0.04)
   ;var c =
@@ -14,4 +14,4 @@
   ;var l = ((n - 36) / 27) - 1
   ;var c_ = Mix.fill(3,c)
   ;Pan2.ar(c_,l,1)}
-;Mix.fill(6,p)}
+;Mix.fill(2,p)}

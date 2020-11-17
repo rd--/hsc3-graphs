@@ -13,6 +13,8 @@ import qualified Music.Theory.Directory as T {- hmt -}
 
 import qualified Sound.SC3 as SC3 {- hsc3 -}
 import qualified Sound.SC3.Server.Graphdef as Graphdef {- hsc3 -}
+import qualified Sound.SC3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
+import qualified Sound.SC3.UGen.Dot as Dot {- hsc3-dot -}
 
 -- * Util
 
@@ -130,14 +132,19 @@ hs_graph_fragments_process_dir in_dir out_dir = do
   fn <- T.dir_subset [".hs"] in_dir
   hs_graph_fragments_process fn out_dir
 
--- hs_graph_fragments_process_play "/tmp/st.hs"
-hs_graph_fragments_process_play :: FilePath -> IO ()
-hs_graph_fragments_process_play fn = do
+hs_graph_fragments_process_load :: FilePath -> IO [Graphdef.Graphdef]
+hs_graph_fragments_process_load fn = do
   tmp <- getTemporaryDirectory
   z <- hs_graph_fragments_process [fn] tmp
   let gr_load k = Graphdef.read_graphdef_file (tmp </> k <.> "scsyndef")
-  gr <- mapM gr_load z
-  mapM_ SC3.audition gr
+  mapM gr_load z
+
+hs_graph_fragments_process_play :: FilePath -> IO ()
+hs_graph_fragments_process_play fn = hs_graph_fragments_process_load fn >>= mapM_ SC3.audition
+
+hs_graph_fragments_process_draw :: FilePath -> IO ()
+hs_graph_fragments_process_draw fn =
+  hs_graph_fragments_process_load fn >>= mapM_ (Dot.draw . snd . Graphdef.Read.graphdef_to_graph)
 
 -- * SuperCollider
 
@@ -261,4 +268,5 @@ main = do
   case a of
     ["db","polyglot","autogen"] -> graphs_db_polyglot_autogen
     ["fragments","hs","play",fn] -> hs_graph_fragments_process_play fn
+    ["fragments","hs","draw",fn] -> hs_graph_fragments_process_draw fn
     _ -> putStrLn (unlines help)
