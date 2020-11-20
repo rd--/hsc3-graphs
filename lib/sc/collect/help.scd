@@ -31,6 +31,9 @@
 // DynKlank
 {s=`[[200,671,1153,1723],nil,[1,1,1,1]];a=[0.007,0.007];DynKlank.ar(s,PinkNoise.ar(a))}
 
+// Env.adsr
+{SinOsc.ar * EnvGen.kr(Env.adsr(0.75, 2.75, 0.1, 7.25, 1, -4, 0))}
+
 // FreqShift
 {var a = Blip.ar(60,4,LFGauss.ar(4,1/8))
 ;var b = a / 4 + LocalIn.ar(2)

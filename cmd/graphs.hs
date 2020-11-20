@@ -243,6 +243,43 @@ fs_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".fs"] dir
   fs_graph_fragment_process fn
 
+-- * Smalltalk
+
+st_stsc3_dir :: FilePath
+st_stsc3_dir = "/home/rohan/sw/stsc3/"
+
+st_help_graph_dir :: FilePath
+st_help_graph_dir = st_stsc3_dir </> "help/graph/"
+
+st_help_ugen_dir :: FilePath
+st_help_ugen_dir = st_stsc3_dir </> "help/ugen/"
+
+-- | z = fragment ID, txt = fragment
+st_graph_fragment_rw :: FilePath -> (String,String) -> [String]
+st_graph_fragment_rw out_dir (z,txt) =
+  let pfx = ["["]
+      sfx = [printf "] value writeHaskellTo: '%s/%s.hs' ." out_dir z]
+  in concat [pfx,lines txt,sfx]
+
+st_graph_fragment_process :: [FilePath] -> IO ()
+st_graph_fragment_process fn_seq = do
+  tmp <- getTemporaryDirectory
+  txt_seq <- read_file_set_fragments fn_seq
+  let z_seq = map txt_hash_str txt_seq
+      rw_seq = map (st_graph_fragment_rw tmp) (zip z_seq txt_seq)
+      cpy (z,txt) = writeFile (graphs_db_fn (z <.> "st")) txt
+      rw_fn = tmp </> "rw.st"
+      rw_text = unlines (concat rw_seq)
+  mapM_ cpy (zip z_seq txt_seq)
+  writeFile rw_fn rw_text
+  _ <- rawSystem "pharo-cli.sh" [rw_fn]
+  return ()
+
+st_graph_fragment_process_dir :: FilePath -> IO ()
+st_graph_fragment_process_dir dir = do
+  fn <- T.dir_subset [".st"] dir
+  st_graph_fragment_process fn
+
 -- * Polyglot
 
 graphs_db_polyglot_autogen :: IO ()
@@ -253,6 +290,8 @@ graphs_db_polyglot_autogen = do
   lisp_graph_fragment_process_dir rsc3_help_graph_dir
   lisp_graph_fragment_process_dir rsc3_help_ugen_dir
   fs_graph_fragment_process_dir fs_help_graph_dir
+  st_graph_fragment_process_dir st_help_graph_dir
+  st_graph_fragment_process_dir st_help_ugen_dir
 
 -- * Main
 
