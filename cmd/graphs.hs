@@ -92,9 +92,9 @@ hs_help_ugen_dir = "/home/rohan/sw/hsc3/Help/UGen/"
 hs_graph_rw_pre :: IO [String]
 hs_graph_rw_pre = fmap lines (readFile (hs_hsc3_dir ++ "lib/hsc3-std-imports.hs"))
 
--- | z = fragment ID, txt = fragment
+-- | sy_dir = scsyndef directory, z = fragment ID, txt = fragment
 hs_graph_fragment_rw :: FilePath -> (String,String) -> [String]
-hs_graph_fragment_rw out_dir (z,txt) =
+hs_graph_fragment_rw sy_dir (z,txt) =
   let pfx = [printf "gr_%s :: UGen" z
             ,printf "gr_%s =" z]
       grw = map (" " ++ ) (lines txt)
@@ -102,7 +102,7 @@ hs_graph_fragment_rw out_dir (z,txt) =
             ,printf "wr_%s = do" z
             ,printf "  putStrLn \"%s %s\"" z (text_prefix 48 txt)
             ,printf "  let sy = synthdef \"%s\" (wrapOut Nothing gr_%s)" z z
-            ,printf "  synthdefWrite \"%s\" sy" (out_dir </> z <.> ".scsyndef")]
+            ,printf "  synthdefWrite \"%s\" sy" (sy_dir </> z <.> ".scsyndef")]
   in concat [pfx,grw,sfx]
 
 hs_graph_rw_main :: [String] -> [String]
@@ -112,19 +112,25 @@ hs_graph_rw_main z_seq =
       ent z = printf "  wr_%s" z
   in concat [pfx,map ent z_seq]
 
--- hs_graph_fragments_process ["/tmp/st.hs"] "/tmp/"
-hs_graph_fragments_process :: [FilePath] -> FilePath -> IO [String]
-hs_graph_fragments_process fn_seq out_dir = do
+-- | ztxt is [(src-text-hash,src-text)]
+hs_graph_fragments_process_z :: [(String,String)] -> FilePath -> IO ()
+hs_graph_fragments_process_z ztxt sy_dir = do
   tmp <- getTemporaryDirectory
-  txt_seq <- read_file_set_fragments fn_seq
-  let z_seq = map txt_hash_str txt_seq
-      rw_seq = map (hs_graph_fragment_rw out_dir) (zip z_seq txt_seq)
-      cpy (z,txt) = writeFile (out_dir </> z <.> "hs") txt
+  let z_seq = map fst ztxt
+      rw_seq = map (hs_graph_fragment_rw sy_dir) ztxt
       rw_fn = tmp </> "rw.hs"
-  mapM_ cpy (zip z_seq txt_seq)
   pre <- hs_graph_rw_pre
   writeFile rw_fn (unlines (pre ++ concat rw_seq ++ hs_graph_rw_main z_seq))
   _ <- rawSystem "runhaskell" [rw_fn]
+  return ()
+
+hs_graph_fragments_process :: [FilePath] -> FilePath -> IO [String]
+hs_graph_fragments_process fn_seq out_dir = do
+  txt_seq <- read_file_set_fragments fn_seq
+  let z_seq = map txt_hash_str txt_seq
+      cpy (z,txt) = writeFile (out_dir </> z <.> "hs") txt
+  mapM_ cpy (zip z_seq txt_seq)
+  hs_graph_fragments_process_z (zip z_seq txt_seq) out_dir
   return z_seq
 
 hs_graph_fragments_process_dir :: FilePath -> FilePath -> IO [String]
@@ -261,7 +267,7 @@ st_graph_fragment_rw out_dir (z,txt) =
       sfx = [printf "] value writeHaskellTo: '%s/%s.hs' ." out_dir z]
   in concat [pfx,lines txt,sfx]
 
-st_graph_fragment_process :: [FilePath] -> IO ()
+st_graph_fragment_process :: [FilePath] -> IO [String]
 st_graph_fragment_process fn_seq = do
   tmp <- getTemporaryDirectory
   txt_seq <- read_file_set_fragments fn_seq
@@ -273,12 +279,19 @@ st_graph_fragment_process fn_seq = do
   mapM_ cpy (zip z_seq txt_seq)
   writeFile rw_fn rw_text
   _ <- rawSystem "pharo-cli.sh" [rw_fn]
-  return ()
+  return z_seq
+
+st_proc_hs_files :: [String] -> FilePath -> IO ()
+st_proc_hs_files z_seq sy_dir = do
+  tmp <- getTemporaryDirectory
+  txt_seq <- mapM (\z -> readFile (tmp </> z <.> "hs")) z_seq
+  hs_graph_fragments_process_z (zip z_seq txt_seq) sy_dir
 
 st_graph_fragment_process_dir :: FilePath -> IO ()
 st_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".st"] dir
-  st_graph_fragment_process fn
+  z_seq <- st_graph_fragment_process fn
+  st_proc_hs_files z_seq graphs_db_dir
 
 -- * Polyglot
 
@@ -290,8 +303,9 @@ graphs_db_polyglot_autogen = do
   lisp_graph_fragment_process_dir rsc3_help_graph_dir
   lisp_graph_fragment_process_dir rsc3_help_ugen_dir
   fs_graph_fragment_process_dir fs_help_graph_dir
-  st_graph_fragment_process_dir st_help_graph_dir
-  st_graph_fragment_process_dir st_help_ugen_dir
+  _ <- st_graph_fragment_process_dir st_help_graph_dir
+  _ <- st_graph_fragment_process_dir st_help_ugen_dir
+  return ()
 
 -- * Main
 
