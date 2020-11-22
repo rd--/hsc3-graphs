@@ -155,6 +155,88 @@
  var tex = LFNoise1.kr(0.3,0.5,0.5);
  MiClouds.ar(input, 0, 0, size, dens, tex, drywet: 1, rvb: 0.6, fb: 0.6, lofi: 1, mode: 3) * 0.25}
 
+// MiElements ; basic
+{var input = PinkNoise.ar(0.3);
+ var gate = LFPulse.kr(2);
+ var pitch = 45;
+ MiElements.ar(input, 0, gate, pitch)}
+
+// MiElements ; ringing ; use 'blow' input and contour set to 0.5
+{var input = PinkNoise.ar(0.3);
+ var gate = 1;
+ MiElements.ar(input, 0, gate, 48, contour:0.5)}
+
+// MiElements ; ringing ; use the 'strike' input (which bypasses the exciter section)
+{var input = PinkNoise.ar(0.3);
+ MiElements.ar(0, input, 0, 48)}
+
+// MiElements ; bow
+{var mod = LFNoise1.kr(0.3,0.5,0.5);
+ MiElements.ar(gate: 1, pit: 32, contour: 0.5, bow_level: 1, bow_timb: mod) * 0.25}
+
+// MiElements ; blow
+{var mod1 = LFNoise1.kr(0.4,0.5,0.5);
+ var mod2 = LFNoise1.kr(0.2,0.5,0.5);
+ var pit = LFNoise0.kr(0.1).range(32,44);
+ MiElements.ar(gate: 1, pit: pit, contour: 0.5, blow_level: 0.6, flow: mod1, blow_timb: mod2) * 0.2}
+
+// MiElements ; blow ; contour
+{var gate = LFPulse.kr(1, 0.01);
+ var pitch = SinOsc.kr(5,0,0.1, 53);
+ var cont = SinOsc.kr(0.8).range(0,1);
+ var flow = LFNoise1.kr(0.1).range(0,1);
+ MiElements.ar(gate: gate, pit: pitch, contour: cont, blow_level:0.5, flow: flow, blow_timb: 0.3, bright:0.3, damp:0.8)}
+
+// MiElements ; metal, bells
+{var trig = Dust.ar(2.5);
+ var input = Decay.ar(trig, 0.01);
+ var g = TBrownRand.ar(0.5, 0.9, 0.2, trig: CoinGate.ar(0.05, trig));
+ var space = LFNoise1.kr(0.1).range(0.5, 1);
+ MiElements.ar(0, input, 0, 40, geom: g, bright:0.4, damp:0.9, space: space)}
+
+// MiElements ; strike input ; playing chords ; model=strings
+{var input = Decay.ar(Dust.ar(1), 0.01);
+ var g = LFNoise1.kr(0.1,0.5,0.5);
+ MiElements.ar(0, input, pit: 53, geom: g, bright:0.5, damp:0.9, model:2)}
+
+// MiElements ; mallets ; strength
+{var gate = CoinGate.kr(0.4, Impulse.kr(6));
+ var stren = TRand.kr(trig: gate);
+ var strike_timbre = LFNoise1.kr(0.3,0.5,0.5);
+ MiElements.ar(gate: gate, pit:40, strength: stren, strike_level: 0.5, mallet:0.7, strike_timb: strike_timbre, bright: 0.3, damp: 0.85, space: 0.6)}
+
+// MiElements ; mallets ; particles
+{var strike_timbre = LFNoise1.kr(0.3,0.5,0.5);
+ var g = LFNoise2.kr(0.1).range(0.4,0.7);
+ var maltype = 1;     // mallet type: 1 --> uses internal model of bouncing particles
+ MiElements.ar(gate: 1, pit:40, geom: g, contour:0.5, strike_level: 0.5, mallet: maltype, strike_timb: strike_timbre)}
+
+// MiElements ; easteregg: 2x2-op FM synth
+{var mod = LFNoise1.kr(0.3,0.5,0.5);
+ var ratio = 0.25;
+ var ratio2 = 0.25;
+ var ratio3 = 0.51;
+ MiElements.ar(gate:1, contour: 0.5, pit: 48, bow_level: ratio, blow_level: 0.6, strike_level: 0.5, flow: ratio2, mallet: ratio3, bow_timb: mod, blow_timb: 0.3, strike_timb: 0.6, strength: 0.9, geom: 0.12, bright: 0.6, damp: 0.5, space: 0.7, easteregg: 1)}
+
+// MiOmi ; basic
+{MiOmi.ar(pit: 50, level1:1, level2:0.5, ratio1:0.49, fm1:0.5) * 0.25}
+
+// MiOmi ; external FM
+{var fmfreq = MouseX.kr(2, 1000);
+ var fmamp = MouseY.kr(0, 1);
+ var extFM = SinOsc.ar(fmfreq,0,fmamp);
+ MiOmi.ar(extFM, pit: 40, fm1: 0.5, fm2: 0.5, xfb: 0.1, cutoff: 0.9)}
+
+// MiOmi ; filter and cutoff modulation
+{var filtmod = LFTri.kr(0.23).range(0,1);
+ var gate = LFPulse.kr(6,0,0.2);
+ var cf = LFTri.kr(0.2).range(0,0.5);
+ MiOmi.ar(0, gate, pit: 48, contour: 0.1, fm1: 0.5, fm2: 0.5, fb:0.5, strength: 0, filter_mode: filtmod, cutoff: cf, env: 0.5)}
+
+// MiOmi ; cross feedback
+{var xfb = LFTri.kr(0.2).range(0,1);
+ MiOmi.ar(pit: 43, xfb: xfb) * 0.25}
+
 // MiPlaits ; basics
 {MiPlaits.ar(35, 0, harm: 0.252, morph: 0.2, mul: 0.1)}
 
@@ -321,6 +403,107 @@
  var brightness = LFNoise1.kr(0.5).range(0,1);
  MiRings.ar(pit: 40, struct: struct, bright: brightness, pos: 0.9, damp: 1.0, poly: 2, model: 2, easteregg: 1) * 0.25}
 
+// MiRipples ; basic
+{MiRipples.ar(Saw.ar(60), 0.4, 0.3)}
+
+// MiRipples
+{var cf = LFNoise0.kr(4).range(0, 1);
+ MiRipples.ar(Saw.ar(60), cf, 0.6, mul: 0.5)}
+
+// MiRipples ; filter sweep + distortion
+{var cf = LFTri.kr(0.03).range(0.1,0.9);
+MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
+
+// MiRipples
+{var trig = Impulse.ar(4);
+ var input = Decay.ar(trig, 0.1);
+ var cf = TRand.ar(0.1, 0.6, trig);
+ var filt = RLPF.ar(cf, 80, 0.3);
+ MiRipples.ar(input, filt, 0.8, drive: 3, mul: 0.5)}
+
+// MiTides ; shape
+{var shape = LFTri.ar(0.11).range(0,1);
+ MiTides.ar(100, shape, output_mode: 2, mul: 0.5)[0]}
+
+// MiTides ; slope
+{var slope = LFTri.ar(0.11).range(0,1);
+ MiTides.ar(100, 0.5, slope, output_mode: 2, mul: 0.5)[0]}
+
+// MiTides ; phasing
+{var shape = 0.2;
+ var slope = 0.0;
+ var shift = LFNoise1.ar(0.3).range(0,1);  // slightly shift phases
+ var smooth = LFNoise1.kr(0.02).range(0.1, 0.9);
+ var out = MiTides.ar(70, shape, slope, smooth, shift, output_mode: 2) * 0.15;
+ Splay.ar(out)}
+
+// MiTides ;chords ; tremolo
+{var shape = LFTri.ar(0.11).range(0,1);
+ var slope = LFTri.ar(0.2).range(0,1);
+ var chord = LFNoise1.ar(0.1).range(0.5,1);
+ var smooth = SinOsc.ar(LFNoise1.kr(0.2).range(0.1,10)).range(0,0.5);
+ var out = MiTides.ar(200, shape, slope, smooth, chord, output_mode: 3, mul: 0.25);
+ Splay.ar(out)}
+
+// MiTides ; amplitude mode
+{var freq = 0.15;
+ var shape = 0.2;
+ var slope = 0.2;
+ var level = LFTri.ar(0.1).range(0,1);
+ var env = MiTides.ar(freq, shape, slope, 0.3, level, output_mode: 1, ramp_mode: 1);
+ var sines = SinOsc.ar([200,300,500,900]);
+ Splay.ar(sines * env)}
+
+// MiTides ; amplitude ; trigger input
+{var freq = LFNoise1.ar(0.8).range(0.2,10);
+ var shape = 0.2;
+ var slope = 0.2;
+ var level = LFNoise1.ar(0.3).range(0,1);
+ var trig = LFPulse.ar(2);
+ var env = MiTides.ar(freq, shape, slope, 0.3, level, trig: trig, output_mode: 1, ramp_mode: 0);
+ var sines = SinOsc.ar([200,300,500,700]);
+ Splay.ar(sines * env * 0.5)}
+
+// MiTides ; phasing envs
+{var freq = 10;
+ var shape = 0.2;
+ var slope = 0.5;
+ var shift = LFTri.ar(0.1).range(0,1);
+ var trig = LFPulse.ar(5);
+ var env = MiTides.ar(freq, shape, slope, 0.5, shift, trig: trig, output_mode: 2, ramp_mode: 0);
+ var sines = SinOsc.ar([200,300,500,700]);
+ Splay.ar(sines * env * 0.25)}
+
+// MiTides ; gate
+{var freq = 5;  // attack rate
+ var shape = LFTri.ar(0.13).range(0,1);
+ var slope = 0.5;
+ var smooth = LFTri.ar(0.1).range(0,1);
+ var trig = LFPulse.ar(1);
+ var env = MiTides.ar(freq, shape, slope, smooth, 0.8, trig: trig, output_mode: 0, ramp_mode: 0);
+ var sine = PMOsc.ar(150, 300, 2);
+ sine * env[0]}
+
+// MiTides ; Lightbath -- Loom 4
+{var bpm = 140;
+ var period = (60 / bpm) * 6;
+ var speed = 1.0 / period;
+ var del_times = period / [6, 8];
+ var trig = Impulse.kr(speed);
+ var clock = Phasor.kr(trig);
+ var pit = TChoose.kr(trig, [67, 60, 65]);
+ var shape = LFTri.kr(0.11).range(0,1);
+ var slope = LFTri.kr(0.11).range(0.5,0.8);
+ var smooth = LFNoise1.kr(0.07).range(0.25,0.7);
+ var chord = LFNoise1.kr(0.03).range(0.0,0.5);
+ var oscs = MiTides.ar(pit.midicps, shape, slope, smooth, chord);
+ var envs = MiTides.ar(speed, 0.35, 0, 0.46, 0.92, clock: clock, ratio: 9, rate: 0);
+ var scaler = LFNoise1.kr( [0.1, 0.07, 0.11, 0.05] );
+ var mix = oscs * envs * scaler;
+ var out = Splay.ar(mix, center: LFTri.kr(0.1));
+ var del = CombL.ar(out, 2, del_times, 6, mul: 0.5);
+ out + del}
+
 // PlayBuf
 {arg buf = 0
 ;var scl = BufRateScale.kr(buf)
@@ -391,3 +574,11 @@
 ;y=MouseY.kr(0.0,1.0)
 ;v=Vibrato.ar(DC.ar(400.0),n,x,1.0,1.0,y,0.1)
 ;SinOsc.ar(v)}
+
+// ---- ; drawings
+
+// MiTides ; mode=FREQUENCIES
+{MiTides.ar(10, 0.2, 0.7, output_mode: 3)}.plot(1)
+
+// MiTides ; mode=PHASES
+{MiTides.ar(3, 0.2, output_mode: 2)}.plot(1)
