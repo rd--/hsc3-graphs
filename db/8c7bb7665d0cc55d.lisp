@@ -1,0 +1,6 @@
+; free-verb2 ; process input signal (FEEDBACK)
+(let* ((i (sound-in (mce2 0 1)))
+       (c (lambda (u n) (mce-channel u n)))
+       (x (mouse-x kr 0 1 0 0.1))
+       (y (mouse-y kr 0 1 0 0.1)))
+  (free-verb2 (c i 0) (c i 1) y x 0.5))

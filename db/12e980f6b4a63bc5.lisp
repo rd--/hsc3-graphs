@@ -1,0 +1,10 @@
+; pv-mag-above
+(let* ((b (ctl kr "buf" 0))
+       (a (play-buf 1 ar b (buf-rate-scale kr b) 0 0 loop do-nothing))
+       (x (mouse-x kr 1 100 0 0.1))
+       (y (mouse-y kr 0 1 0 0.1))
+       (c1 (fft* (local-buf 1 2048) a))
+       (c2 (pv-copy c1 (local-buf 1 2048)))
+       (c3 (pv-mag-below c1 x))
+       (c4 (pv-mag-above c2 x)))
+  (mul (mce2 (ifft* c3) (ifft* c4)) (mce2 y (sub 1 y))))

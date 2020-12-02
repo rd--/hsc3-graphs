@@ -1,0 +1,15 @@
+; shifting pulses (rd)
+(let* ((wrp (lambda (i l r) (lin-lin i -1 1 l r)))
+       (n1 (clone 2 (lambda () (brown-noise kr))))
+       (n2 (clone 2 (lambda () (brown-noise kr))))
+       (n3 (clone 2 (lambda () (brown-noise kr))))
+       (t (dust kr 0.75))
+       (l (latch t t))
+       (p (mul (pulse ar (wrp n1 2 (mce2 11 15)) 0.01) 0.05))
+       (f (wrp n2 300 1800))
+       (rq (wrp n3 0.25 2)))
+  (mrg2
+   (add
+    (mul (formant ar (mce2 20 21) (wrp (lf-noise2 kr 2) 10 100) 200) 0.15)
+    (mul l (rlpf p f rq)))
+   (send-trig t 0 t)))

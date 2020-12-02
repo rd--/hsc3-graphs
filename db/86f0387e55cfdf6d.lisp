@@ -1,0 +1,12 @@
+; sidereal time (jmcc) #9 ; texture=overlap,4,4,6,inf
+(let* ((p 15)
+       (z (let ((mk-y (lambda ()
+                        (let ((fr (exp-rand-n p 100 6000))
+                              (rt (rand-n p 2 6)))
+                          (klank-data-mce fr (make-mce (replicate p 1)) rt)))))
+            (clone 2 mk-y)))
+       (f (x-line kr (exp-rand 40 300) (exp-rand 40 300) 12 do-nothing))
+       (t (let ((e (lf-noise2 kr (rand 0 8))))
+            (mul (mul (lf-pulse ar f 0 (rand 0.1 0.9)) 0.002) (u:max 0 e))))
+       (o (mul (distort (klank t 1 0 1 (mce-transpose z))) 0.1)))
+  (add (comb-n o 0.6 (rand 0.1 0.6) 8) (mce-reverse o)))

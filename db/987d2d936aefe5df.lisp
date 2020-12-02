@@ -1,0 +1,6 @@
+; amp-comp-a ; amplitude compensation in frequency modulation (Fletscher-Munson curve)
+(let* ((x (mouse-x kr 300 15000 1 0.1))
+       (y (mouse-y kr 3 200 1 0.1))
+       (m (mul x (mul-add (sin-osc ar y 0) 0.5 1)))
+       (a (amp-comp-a kr m 300 (db-amp -10) 1)))
+  (mul3 (sin-osc ar m 0) 0.1 a))

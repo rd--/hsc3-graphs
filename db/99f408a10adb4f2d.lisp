@@ -1,0 +1,7 @@
+; r-delay-map ; simple delay (static)
+(let* ((b (clear-buf (local-buf 1 88200)))
+       (x (mouse-x* kr 110 440 0 0.1))
+       (y (mouse-y* kr 0.0 0.2 0 0.1))
+       (s (mul (sin-osc ar x 0) y))
+       (d (make-mce (list -1 0 0 0.5 1 -1 1 1))))
+  (mce2 (r-delay-map b s 0 d) s))

@@ -1,0 +1,6 @@
+; amp-comp-a ; adjust minimum and root (flatten out the curve for higher amplitudes)
+(let* ((x (mouse-x kr 300 18000 1 0.1))
+       (y (mouse-y kr 0 1 0 0.1))
+       (o (mul (formant ar 300 x 20) 0.1))
+       (c (amp-comp-a kr o 300 0.6 0.3)))
+  (mce2 (mul o y) (mul3 o (sub 1 y) c)))
