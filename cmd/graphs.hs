@@ -157,6 +157,9 @@ hs_graph_fragments_process_draw fn =
 sc_graph_dir :: FilePath
 sc_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/sc/graph/"
 
+sc_collect_help :: FilePath
+sc_collect_help = "/home/rohan/sw/hsc3-graphs/lib/sc/collect/help.scd"
+
 sc_graph_fragment_rw :: (String,String) -> [String]
 sc_graph_fragment_rw (z,txt) =
   let grw = lines txt
@@ -300,6 +303,7 @@ graphs_db_polyglot_autogen = do
   _ <- hs_graph_fragments_process_dir hs_graph_dir graphs_db_dir
   _ <- hs_graph_fragments_process_dir hs_help_ugen_dir graphs_db_dir
   sc_graph_fragment_process_dir sc_graph_dir
+  sc_graph_fragment_process [sc_collect_help]
   lisp_graph_fragment_process_dir rsc3_help_graph_dir
   lisp_graph_fragment_process_dir rsc3_help_ugen_dir
   fs_graph_fragment_process_dir fs_help_graph_dir
