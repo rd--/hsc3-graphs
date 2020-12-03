@@ -24,70 +24,69 @@ import qualified Sound.SC3.UGen.Dot as Dot {- hsc3-dot -}
 txt_hash_str :: String -> String
 txt_hash_str = printf "%016x" . Murmur64.asWord64 . Murmur64.hash64
 
-{-
-txt_file_hash_str :: FilePath -> IO String
-txt_file_hash_str = fmap txt_hash_str . readFile
--}
+-- * Fragments
 
+-- | Apply line function at string.
+on_lines :: ([String] -> [[String]]) -> String -> [String]
+on_lines f = map unlines . f . lines
+
+-- | Split text into fragments at empty lines.
+--
+-- > on_lines split_multiple_fragments ";a\nb\n\n\n;c\nd" == [";a\nb\n",";c\nd\n"]
+split_multiple_fragments :: [String] -> [[String]]
+split_multiple_fragments = filter (not . null) . splitOn [[]]
+
+-- | The text ---- indicates the end of graph fragments.
+drop_post_graph_section :: [String] -> [String]
+drop_post_graph_section = takeWhile (not . isInfixOf "----")
+
+-- | Read text fragments from file.
+read_file_fragments :: FilePath -> IO [String]
+read_file_fragments = fmap (on_lines (split_multiple_fragments . drop_post_graph_section)) . readFile
+
+-- | Read text fragments from set of files.
+read_file_set_fragments :: [FilePath] -> IO [String]
+read_file_set_fragments = fmap concat . mapM read_file_fragments
+
+-- * Text prefix
+
+-- | '\n' to ' ' else id
+newline_to_space :: Char -> Char
+newline_to_space x = if x == '\n' then ' ' else x
+
+-- | Replace sequences of consecutive spaces with single spaces.
+--
+-- > merge_multiple_spaces "x  y   z" == "x y z"
+merge_multiple_spaces :: String -> String
+merge_multiple_spaces =
+  let f st x = (x,if x == ' ' && st == ' ' then Nothing else Just x)
+  in catMaybes . snd . mapAccumL f '.'
+
+-- | Replace special characers with '?'
+question_mark_special_chars :: Char -> Char
+question_mark_special_chars x = if x `elem` "\"\\" then '?' else x
+
+-- | Make prefix summary string of text file.
+text_prefix :: Int -> String -> String
+text_prefix k =
+  take k .
+  map question_mark_special_chars .
+  merge_multiple_spaces .
+  map newline_to_space
+
+-- * DB
+
+-- | DB directory
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 
 graphs_db_fn :: FilePath -> FilePath
 graphs_db_fn = (++) graphs_db_dir
 
--- > proc_on_lines split_multiple_fragments ";a\nb\n\n\n;c\nd" == [";a\nb\n",";c\nd\n"]
-split_multiple_fragments :: [String] -> [[String]]
-split_multiple_fragments = filter (not . null) . splitOn [[]]
-
-drop_post_graph_section :: [String] -> [String]
-drop_post_graph_section = takeWhile (not . isInfixOf "----")
-
-proc_on_lines :: ([String] -> [[String]]) -> String -> [String]
-proc_on_lines f = map unlines . f . lines
-
-read_file_set_fragments :: [FilePath] -> IO [String]
-read_file_set_fragments =
-  fmap concat .
-  mapM (fmap (proc_on_lines (split_multiple_fragments . drop_post_graph_section)) . readFile)
-
-newline_to_space :: Char -> Char
-newline_to_space x = if x == '\n' then ' ' else x
-
--- > merge_multiple_spaces "x  y   z"
-merge_multiple_spaces :: String -> String
-merge_multiple_spaces =
-  catMaybes .
-  snd .
-  mapAccumL (\st x -> (x,if x == ' ' && st == ' ' then Nothing else Just x)) '.'
-
-{-
-escape_double_quote :: String -> String
-escape_double_quote = concatMap (\x -> if x == '"' then "\\\"" else [x])
-
-double_quote_to_single_quote :: Char -> Char
-double_quote_to_single_quote x = if x == '"' then '\'' else x
--}
-
-question_mark_special_chars :: Char -> Char
-question_mark_special_chars x = if x `elem` "\"\\" then '?' else x
-
-text_prefix :: Int -> String -> String
-text_prefix k =
-  take k .
-  map question_mark_special_chars . -- not escape since text may then end with \
-  merge_multiple_spaces .
-  map newline_to_space
-
 -- * Haskell
 
 hs_hsc3_dir :: FilePath
 hs_hsc3_dir = "/home/rohan/sw/hsc3/"
-
-hs_graph_dir :: FilePath
-hs_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/hs/graph/"
-
-hs_help_ugen_dir :: FilePath
-hs_help_ugen_dir = "/home/rohan/sw/hsc3/Help/UGen/"
 
 hs_graph_rw_pre :: IO [String]
 hs_graph_rw_pre = fmap lines (readFile (hs_hsc3_dir ++ "lib/hsc3-std-imports.hs"))
@@ -133,10 +132,10 @@ hs_graph_fragments_process fn_seq out_dir = do
   hs_graph_fragments_process_z (zip z_seq txt_seq) out_dir
   return z_seq
 
-hs_graph_fragments_process_dir :: FilePath -> FilePath -> IO [String]
-hs_graph_fragments_process_dir in_dir out_dir = do
+hs_graph_fragments_process_dir :: FilePath -> IO [String]
+hs_graph_fragments_process_dir in_dir = do
   fn <- T.dir_subset [".hs"] in_dir
-  hs_graph_fragments_process fn out_dir
+  hs_graph_fragments_process fn graphs_db_dir
 
 hs_graph_fragments_process_load :: FilePath -> IO [Graphdef.Graphdef]
 hs_graph_fragments_process_load fn = do
@@ -153,12 +152,6 @@ hs_graph_fragments_process_draw fn =
   hs_graph_fragments_process_load fn >>= mapM_ (Dot.draw . snd . Graphdef.Read.graphdef_to_graph)
 
 -- * SuperCollider
-
-sc_graph_dir :: FilePath
-sc_graph_dir = "/home/rohan/sw/hsc3-graphs/lib/sc/graph/"
-
-sc_collect_help :: FilePath
-sc_collect_help = "/home/rohan/sw/hsc3-graphs/lib/sc/collect/help.scd"
 
 sc_graph_fragment_rw :: (String,String) -> [String]
 sc_graph_fragment_rw (z,txt) =
@@ -187,15 +180,9 @@ sc_graph_fragment_process_dir dir = do
 
 -- * Scheme/Lisp
 
-rsc3_help_graph_dir :: FilePath
-rsc3_help_graph_dir = "/home/rohan/sw/rsc3/help/graph/"
-
-rsc3_help_ugen_dir :: FilePath
-rsc3_help_ugen_dir = "/home/rohan/sw/rsc3/help/ugen/"
-
 lisp_graph_rw_pre :: [String]
 lisp_graph_rw_pre =
-  ["(import (rhs) (sosc) (rsc3) (rsc3 lang))"]
+  ["(import (rhs) (sosc) (rsc3) (rsc3 lang) (rsc3 arf))"]
 
 lisp_graph_fragment_rw :: (String,String) -> [String]
 lisp_graph_fragment_rw (z,txt) =
@@ -222,9 +209,6 @@ lisp_graph_fragment_process_dir dir = do
   lisp_graph_fragment_process fn
 
 -- * Forth
-
-fs_help_graph_dir :: FilePath
-fs_help_graph_dir = "/home/rohan/sw/hsc3-forth/help/graph/"
 
 fs_graph_fragment_rw :: (String,String) -> [String]
 fs_graph_fragment_rw (z,txt) =
@@ -253,15 +237,6 @@ fs_graph_fragment_process_dir dir = do
   fs_graph_fragment_process fn
 
 -- * Smalltalk
-
-st_stsc3_dir :: FilePath
-st_stsc3_dir = "/home/rohan/sw/stsc3/"
-
-st_help_graph_dir :: FilePath
-st_help_graph_dir = st_stsc3_dir </> "help/graph/"
-
-st_help_ugen_dir :: FilePath
-st_help_ugen_dir = st_stsc3_dir </> "help/ugen/"
 
 -- | z = fragment ID, txt = fragment
 st_graph_fragment_rw :: FilePath -> (String,String) -> [String]
@@ -300,15 +275,17 @@ st_graph_fragment_process_dir dir = do
 
 graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
-  _ <- hs_graph_fragments_process_dir hs_graph_dir graphs_db_dir
-  _ <- hs_graph_fragments_process_dir hs_help_ugen_dir graphs_db_dir
-  sc_graph_fragment_process_dir sc_graph_dir
-  sc_graph_fragment_process [sc_collect_help]
-  lisp_graph_fragment_process_dir rsc3_help_graph_dir
-  lisp_graph_fragment_process_dir rsc3_help_ugen_dir
-  fs_graph_fragment_process_dir fs_help_graph_dir
-  _ <- st_graph_fragment_process_dir st_help_graph_dir
-  _ <- st_graph_fragment_process_dir st_help_ugen_dir
+  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3-graphs/lib/hs/graph/"
+  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/UGen/"
+  sc_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/sc/graph/"
+  sc_graph_fragment_process ["/home/rohan/sw/hsc3-graphs/lib/sc/collect/help.scd"]
+  lisp_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/graph/"
+  lisp_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/ugen/"
+  lisp_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/graph/"
+  lisp_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
+  fs_graph_fragment_process_dir "/home/rohan/sw/hsc3-forth/help/graph/"
+  _ <- st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/graph/"
+  _ <- st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/ugen/"
   return ()
 
 -- * Main
