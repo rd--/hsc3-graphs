@@ -275,7 +275,7 @@ st_graph_fragment_process_dir dir = do
 
 graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
-  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3-graphs/lib/hs/graph/"
+  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/Graph/"
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/UGen/"
   sc_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/sc/graph/"
   sc_graph_fragment_process ["/home/rohan/sw/hsc3-graphs/lib/sc/collect/help.scd"]
