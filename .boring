@@ -1,8 +1,1 @@
 dist
-^fs/gen\.fs$
-^html/[-\.a-zA-Z0-9]*\.htm.?$
-^html/hscolour\.css$
-^html/.*\.fs$
-^md$
-^gr/.*\.hi$
-^gr/.*\.o$
