@@ -23,7 +23,7 @@ crotale_sine =
             in pan2 o (sinOsc KR r2 r3) e'
     in sum (zipWith (fn m) cf ca) * 0.1
 
-pattern :: P.Param
+pattern :: P.Param_MCE
 pattern =
     [("m",map roundE (P.white 'α' 0 12))
     ,("dur",P.xrand 'β' [1,2,3])

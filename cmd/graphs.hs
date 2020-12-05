@@ -7,6 +7,8 @@ import System.FilePath {- filepath -}
 import System.Process {- process -}
 import Text.Printf {- base -}
 
+import qualified System.IO.Strict as Strict {- strict -}
+
 import qualified Data.Digest.Murmur64 as Murmur64 {- murmur-hash -}
 
 import qualified Music.Theory.Directory as T {- hmt -}
@@ -74,9 +76,19 @@ text_prefix k =
   merge_multiple_spaces .
   map newline_to_space
 
+text_file_prefix :: Int -> FilePath -> IO String
+text_file_prefix k = fmap (text_prefix k) . Strict.readFile
+
 -- * DB
 
+graphs_db_fext :: [String]
+graphs_db_fext = words ".fs .hs .lisp .scd .scm .st"
+
 -- | DB directory
+--
+-- > fn <- T.dir_subset graphs_db_fext graphs_db_dir
+-- > length fn == 2373
+-- > pfx <- mapM (text_file_prefix 48) fn
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 
