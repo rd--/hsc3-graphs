@@ -1,70 +1,161 @@
--- why supercollider (jmcc) #0
-let r z = resonz (dust z AR 0.2 * 50) (rand z 200 3200) 0.003
-    s = mix (mce_gen r 10 'α')
-    c z = combL (delayN s 0.048 0.048) 0.1 (lfNoise1 z KR (rand z 0 0.1) * 0.04 + 0.05) 15
-    y = mix (mce_gen c 7 'β')
-    f z i = allpassN i 0.05 (mce2 (rand (z,'γ') 0 0.05) (rand (z,'δ') 0 0.05)) 1
-    x = foldl (&) y (map f (id_seq 4 'ε'))
-in s + 0.2 * x
+import Control.Applicative {- base -}
+import Data.Function {- base -}
+import Data.List {- base -}
 
--- analog bubbles (jmcc) #1
-let o = lfSaw KR (mce2 8 7.23) 0 * 3 + 80
-    f = lfSaw KR 0.4 0 * 24 + o
-    s = sinOsc AR (midiCPS f) 0 * 0.04
-in combN s 0.2 0.2 4
+import qualified System.Random as R {- random -}
 
--- lfo modulation (jmcc) #1
-let o = fSinOsc KR 0.05 0 * 80 + 160
-    p = fSinOsc KR (mce2 0.6 0.7) 0 * 3600 + 4000
-    s = rlpf (lfPulse AR o 0 0.4 * 0.05) p 0.2
-in combL s 0.3 (mce2 0.2 0.25) 2
+import Sound.SC3 as SC3 {- hsc3 -}
+import Sound.SC3.Common.Base {- hsc3 -}
 
--- hell is busy (jmcc) #1 ; texture=overlap,4,4,8,inf
-let o = fSinOsc AR (400 + rand 'α' 0 2000) 0
-    a = lfPulse KR (1 + rand 'β' 0 10.0) 0 (rand 'γ' 0 0.7) * 0.04
-in pan2 (o * a) (rand 'δ' (-1) 1) 1
+import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}
 
--- pond life (jmcc) #1 ; texture=overlap,8,8,4,inf
-let f0 = 20 + rand 'α' 0 30
-    f1 = fSinOsc KR f0 0 * rand 'β' 100 400 + linRand 'γ' 500 2500 0
-    a = lfPulse KR (3 / rand 'δ' 1 9) 0 (rand 'ε' 0.2 0.5) * 0.04
-in pan2 (sinOsc AR f1 0 * a) (rand 'ζ' (-1) 1) 0.5
+import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
+import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
 
--- alien froggies (jmcc) #1 ; texture=overlap,0.25,0.5,5,inf
-let alien_froggies_n r =
-      let r' = fold (r * exp (linRand 'α' (-0.2) 0.2 0)) 1 30
-          o = formant AR r' (expRand 'β' 200 3000) (rand 'γ' 0 9 * r' + r')
-      in o * 0.05
-in alien_froggies_n 11
+import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
 
--- random sine waves (jmcc) #1 ; texture=overlap,2,5,12,inf
-let f = rand 'α' 0 2000
-    o = fSinOsc AR f 0 * 0.02
-in pan2 o (rand 'β' (-1) 1) 1
+-- * UTIL
 
--- random pulsations (jmcc) #1 ; texture=spawn,1.25,inf
-let e = envLinen 2 5 2 0.02
-    o1 = fSinOsc AR (rand 'α' 0 2000) 0 * envGen KR 1 1 0 1 DoNothing e
-    o2 = sinOsc AR (linRand 'β' 8 88 0) 0
-    o3 = sinOsc KR (rand 'γ' 0.3 0.8) (rand 'δ' 0 (2 * pi)) * 0.7
-in pan2 (o1 `amClip` o2) o3 1
+-- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
+dsequ :: ID z => z -> [UGen] -> UGen -> UGen
+dsequ z s tr = demand tr 0 (dseq z dinf (mce s))
 
--- moto rev (jmcc) #1
-let f = sinOsc KR 0.2 0 * 10 + 21
-    s = lfPulse AR f (mce2 0 0.1) 0.1
-in clip2 (rlpf s 100 0.1) 0.4
+-- | 'demand' of 'dshuf' with 'dinf' repeat, ie. randomised 'dsequ'.
+dsequR :: ID z => z -> [UGen] -> UGen -> UGen
+dsequR z s tr = demand tr 0 (dshuf z dinf (mce s))
 
--- scratchy (jmcc) #1
-let n = mce (map (\z -> brownNoise z AR * 0.5 - 0.49) (id_seq 2 'α'))
-in rhpf (max n 0 * 20) 5000 1
+-- | 'demand' of 'dxrand' with 'dinf' repeat, ie. alternate randomised 'dsequ'.
+dsequX :: ID z => z -> [UGen] -> UGen -> UGen
+dsequX z s tr = demand tr 0 (dxrand z dinf (mce s))
 
--- tremulate (jmcc) #1 ; texture=xfade,0.5,2,inf
-let f = rand 'α' 500 900
-    o = fSinOsc AR (f * mce [1,1.2,1.5,1.8]) 0
-    r = X.randN 4 'β' 30 90
-    a = max 0 (lfNoise2 'γ' KR r) * 0.1
-    l = X.randN 4 'δ' (-1) 1
-in mix (pan2 o l a)
+-- | 'dsequ' '*' /tr/, ie. impulse sequencer.
+isequ :: ID z => z -> [UGen] -> UGen -> UGen
+isequ z s tr = dsequ z s tr * tr
+
+isequX :: ID z => z -> [UGen] -> UGen -> UGen
+isequX z s tr = dsequX z s tr * tr
+
+enumFromN :: Enum a => a -> Int -> [Int]
+enumFromN e i = let j = fromEnum e in [j .. j + i]
+
+nrec :: (Num a, Ord a) => a -> (t -> t) -> t -> t
+nrec n f st = if n > 0 then nrec (n - 1) f (f st) else st
+
+-- * SC2-0
+
+-- | why supercollider (jmcc) #0
+why_supercollider :: UGen
+why_supercollider =
+  let r z = resonz (dust z AR 0.2 * 50) (rand z 200 3200) 0.003
+      s = mix (mce_gen r 10 'α')
+      c z = combL (delayN s 0.048 0.048) 0.1 (lfNoise1 z KR (rand z 0 0.1) * 0.04 + 0.05) 15
+      y = mix (mce_gen c 7 'β')
+      f z i = allpassN i 0.05 (mce2 (rand (z,'γ') 0 0.05) (rand (z,'δ') 0 0.05)) 1
+      x = foldl (&) y (map f (id_seq 4 'ε'))
+  in s + 0.2 * x
+
+-- * SC2-1
+
+-- | analog bubbles (jmcc) #1
+analog_bubbles :: UGen
+analog_bubbles =
+  let o = lfSaw KR (mce2 8 7.23) 0 * 3 + 80
+      f = lfSaw KR 0.4 0 * 24 + o
+      s = sinOsc AR (midiCPS f) 0 * 0.04
+  in combN s 0.2 0.2 4
+
+-- | lfo modulation (jmcc) #1
+lfo_modulation :: UGen
+lfo_modulation =
+  let o = fSinOsc KR 0.05 0 * 80 + 160
+      p = fSinOsc KR (mce2 0.6 0.7) 0 * 3600 + 4000
+      s = rlpf (lfPulse AR o 0 0.4 * 0.05) p 0.2
+  in combL s 0.3 (mce2 0.2 0.25) 2
+
+-- | hell is busy (jmcc) #1
+hell_is_busy :: UGen
+hell_is_busy =
+    let o = fSinOsc AR (400 + rand 'α' 0 2000) 0
+        a = lfPulse KR (1 + rand 'β' 0 10.0) 0 (rand 'γ' 0 0.7) * 0.04
+    in pan2 (o * a) (rand 'δ' (-1) 1) 1
+
+hell_is_busy_ot :: IO ()
+hell_is_busy_ot = O.overlapTextureU (4,4,8,maxBound) hell_is_busy
+
+-- | pond life (jmcc) #1
+pond_life :: UGen
+pond_life =
+    let f0 = 20 + rand 'α' 0 30
+        f1 = fSinOsc KR f0 0 * rand 'β' 100 400 + linRand 'γ' 500 2500 0
+        a = lfPulse KR (3 / rand 'δ' 1 9) 0 (rand 'ε' 0.2 0.5) * 0.04
+    in pan2 (sinOsc AR f1 0 * a) (rand 'ζ' (-1) 1) 0.5
+
+pond_life_ot :: IO ()
+pond_life_ot = O.overlapTextureU (8,8,4,maxBound) pond_life
+
+-- | alien froggies (jmcc) #1
+alien_froggies_n :: UGen -> UGen
+alien_froggies_n r =
+    let r' = fold (r * exp (linRand 'α' (-0.2) 0.2 0)) 1 30
+        o = formant AR r' (expRand 'β' 200 3000) (rand 'γ' 0 9 * r' + r')
+    in o * 0.05
+
+alien_froggies :: UGen
+alien_froggies = alien_froggies_n 11
+
+alien_froggies_ot :: IO ()
+alien_froggies_ot = O.overlapTextureU (0.25,0.5,5,maxBound) alien_froggies
+
+-- | random sine waves (jmcc) #1
+random_sine_waves :: UGen
+random_sine_waves =
+    let f = rand 'α' 0 2000
+        o = fSinOsc AR f 0 * 0.02
+    in pan2 o (rand 'β' (-1) 1) 1
+
+random_sine_waves_ot :: IO ()
+random_sine_waves_ot = O.overlapTextureU (2,5,12,maxBound) random_sine_waves
+
+-- | random pulsations (jmcc) #1
+random_pulsations :: UGen
+random_pulsations =
+    let e = envLinen 2 5 2 0.02
+        o1 = fSinOsc AR (rand 'α' 0 2000) 0 * envGen KR 1 1 0 1 DoNothing e
+        o2 = sinOsc AR (linRand 'β' 8 88 0) 0
+        o3 = sinOsc KR (rand 'γ' 0.3 0.8) (rand 'δ' 0 (2 * pi)) * 0.7
+    in pan2 (o1 `amClip` o2) o3 1
+
+random_pulsations_st :: IO ()
+random_pulsations_st = O.spawnTextureU (const (9/8),maxBound) random_pulsations
+
+-- | moto rev (jmcc) #1
+moto_rev :: UGen
+moto_rev =
+  let f = sinOsc KR 0.2 0 * 10 + 21
+      s = lfPulse AR f (mce2 0 0.1) 0.1
+  in clip2 (rlpf s 100 0.1) 0.4
+
+-- | scratchy (jmcc) #1
+scratchy :: UGen
+scratchy =
+  let n = mce (map (\z -> brownNoise z AR * 0.5 - 0.49) (id_seq 2 'α'))
+  in rhpf (max n 0 * 20) 5000 1
+
+-- | tremulate (jmcc) #1
+tremulate :: UGen
+tremulate =
+    let f = rand 'α' 500 900
+        o = fSinOsc AR (f * mce [1,1.2,1.5,1.8]) 0
+        r = RDU.randN 4 'β' 30 90
+        a = max 0 (lfNoise2 'γ' KR r) * 0.1
+        l = RDU.randN 4 'δ' (-1) 1
+    in mix (pan2 o l a)
+
+tremulate_xt :: IO ()
+tremulate_xt =
+  let pp i = combN i 0.1 0.1 1
+  in O.xfadeTextureU_pp (0.5,2,maxBound) tremulate 2 pp
 
 -- | reso-pulse (jmcc) #1
 reso_pulse :: UGen
@@ -1293,52 +1384,5 @@ jmcc_scm = jmcc_concat "scm" id
 -- > writeFile "/home/rohan/sw/hsc3-forth/help/jmcc.fs" . unlines =<< jmcc_fs
 jmcc_fs :: IO [String]
 jmcc_fs = jmcc_concat "fs" id
-
--}
-
-{-
-import Control.Applicative {- base -}
-import Data.Function {- base -}
-import Data.List {- base -}
-
-import qualified System.Random as R {- random -}
-
-import Sound.SC3 as SC3 {- hsc3 -}
-import Sound.SC3.Common.Base {- hsc3 -}
-
-import qualified Sound.SC3.UGen.Protect as Protect {- hsc3-rw -}
-
-import qualified Sound.SC3.Lang.Collection as C {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
-import qualified Sound.SC3.Lang.Random.ID as R {- hsc3-lang -}
-
-import qualified Sound.SC3.UGen.Bindings.DB.RDU as RDU {- sc3-rdu -}
-
--- * UTIL
-
--- | 'demand' of 'dseq', somewhat akin to SC2 Sequencer.
-dsequ :: ID z => z -> [UGen] -> UGen -> UGen
-dsequ z s tr = demand tr 0 (dseq z dinf (mce s))
-
--- | 'demand' of 'dshuf' with 'dinf' repeat, ie. randomised 'dsequ'.
-dsequR :: ID z => z -> [UGen] -> UGen -> UGen
-dsequR z s tr = demand tr 0 (dshuf z dinf (mce s))
-
--- | 'demand' of 'dxrand' with 'dinf' repeat, ie. alternate randomised 'dsequ'.
-dsequX :: ID z => z -> [UGen] -> UGen -> UGen
-dsequX z s tr = demand tr 0 (dxrand z dinf (mce s))
-
--- | 'dsequ' '*' /tr/, ie. impulse sequencer.
-isequ :: ID z => z -> [UGen] -> UGen -> UGen
-isequ z s tr = dsequ z s tr * tr
-
-isequX :: ID z => z -> [UGen] -> UGen -> UGen
-isequX z s tr = dsequX z s tr * tr
-
-enumFromN :: Enum a => a -> Int -> [Int]
-enumFromN e i = let j = fromEnum e in [j .. j + i]
-
-nrec :: (Num a, Ord a) => a -> (t -> t) -> t -> t
-nrec n f st = if n > 0 then nrec (n - 1) f (f st) else st
 
 -}
