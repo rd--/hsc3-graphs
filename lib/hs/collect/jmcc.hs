@@ -86,180 +86,131 @@ reso_pulse_pp z =
 reso_pulse_ot :: IO ()
 reso_pulse_ot = O.overlapTextureU_pp (4,2,4,maxBound) reso_pulse 1 reso_pulse_pp
 
--- | sprinkler (jmcc) #1
-sprinkler :: UGen
-sprinkler =
-  let f = lfPulse KR 0.09 0 0.16 * 10 + 7
-      t = lfPulse KR f 0 0.25 * 0.1
-      n = whiteNoise 'α' AR
-  in bpz2 (n * t)
+-- sprinkler (jmcc) #1
+let f = lfPulse KR 0.09 0 0.16 * 10 + 7
+    t = lfPulse KR f 0 0.25 * 0.1
+    n = whiteNoise 'α' AR
+in bpz2 (n * t)
 
--- | sprinkler mouse (jmcc) #1
-sprinkler_mouse :: UGen
-sprinkler_mouse =
-    let n = whiteNoise 'α' AR
-        f = mouseX KR 0.2 50 Linear 0.2
-        t = lfPulse KR f 0 0.25 * 0.1
-    in bpz2 (n * t)
+-- sprinkler mouse (jmcc) #1
+let n = whiteNoise 'α' AR
+    f = mouseX KR 0.2 50 Linear 0.2
+    t = lfPulse KR f 0 0.25 * 0.1
+in bpz2 (n * t)
 
--- | harmonic swimming (jmcc) #1
-harmonic_swimming :: UGen
-harmonic_swimming =
-  let a = 0.02
-      f = 50
-      p = 20::Int
-      l = line KR 0 (- a) 60 DoNothing
-      o h = let r = RDU.randN 2 h 2 8
-                n = lfNoise1 h KR r
-                e = max 0 (n * a + l)
-            in fSinOsc AR (f * (fromIntegral h + 1)) 0 * e
-  in sum (map o [0..p])
+-- harmonic swimming (jmcc) #1
+let a = 0.02
+    f = 50
+    p = 20::Int
+    l = line KR 0 (- a) 60 DoNothing
+    o h = let r = X.randN 2 h 2 8
+              n = lfNoise1 h KR r
+              e = max 0 (n * a + l)
+          in fSinOsc AR (f * (fromIntegral h + 1)) 0 * e
+in sum (map o [0..p])
 
--- | harmonic tumbling (jmcc) #1
-harmonic_tumbling :: UGen
-harmonic_tumbling =
-  let f = 80
-      p = 10::Int
-      t = xLine KR (mce2 10 11) 0.1 60 DoNothing
-      o h = let n = dust h KR t
-                r = rand h 0.25 0.5
-                e = decay2 (n * 0.02) 0.005 r
-            in fSinOsc AR (f * (fromIntegral h + 1)) 0 * e
-  in sum (map o [0..p])
+-- harmonic tumbling (jmcc) #1
+let f = 80
+    p = 10::Int
+    t = xLine KR (mce2 10 11) 0.1 60 DoNothing
+    o z = let n = dust z KR t
+              r = rand z 0.25 0.5
+              e = decay2 (n * 0.02) 0.005 r
+          in fSinOsc AR (f * (constant z + 1)) 0 * e
+in sum (map o [0 .. p])
 
--- * SC2-2
+-- rails (jmcc) #2 ; texture=overlap,3,2,4,inf
+let n = 20 {- resonant modes -}
+    e = dust 'α' AR 100 * 0.04 {- excitation -}
+    f = xLine KR 3000 300 8 DoNothing {- sweep filter down -}
+    l = line KR (rand2 'β' 1) (rand2 'γ' 1) 8 DoNothing {- sweep pan -}
+    r = map (\z -> 200 + linRand z 0 3000 0) (id_seq n 'δ')
+    a = replicate n 1
+    t = map (\z -> 0.2 + rand z 0 1) (id_seq n 'ε')  {- ring times -}
+    k = klank (resonz e f 0.2) 1 0 1 (klankSpec r a t)
+in pan2 k l 1
 
--- | rails (jmcc) #2
-rails :: UGen
-rails =
-    let n = 20 {- resonant modes -}
-        e = dust 'α' AR 100 * 0.04 {- excitation -}
-        f = xLine KR 3000 300 8 DoNothing {- sweep filter down -}
-        l = line KR (rand2 'β' 1) (rand2 'γ' 1) 8 DoNothing {- sweep pan -}
-        r = map (\z -> 200 + linRand z 0 3000 0) (id_seq n 'δ')
-        a = replicate n 1
-        t = map (\z -> 0.2 + rand z 0 1) (id_seq n 'ε')  {- ring times -}
-        k = klank (resonz e f 0.2) 1 0 1 (klankSpec r a t)
-    in pan2 k l 1
+-- bouncing objects (jmcc) #2 ; texture=spawn,1,inf
+let imp_frq = xLine KR (5 + rand 'α' (-2) 2) 600 4 DoNothing
+    imp_amp = xLine KR 0.09 0.000009 4 DoNothing
+    imp = impulse AR imp_frq 0 * imp_amp
+    exc = decay imp 0.001
+    flt_frq = X.randN 4 'β' 400 8400
+    flt_amp = X.randN 4 'γ' 0 1
+    flt_rtm = X.randN 4 'δ' 0.01 0.11
+    flt = klank exc 1 0 1 (klankSpec_mce flt_frq flt_amp flt_rtm)
+    loc = pan2 flt (rand 'ε' (-1) 1) 1
+    e = Envelope [1,1,0] [3,0.001] (replicate 2 EnvLin) Nothing Nothing 0
+in loc * envGen KR 1 1 0 1 RemoveSynth e
 
-rails_ot :: IO ()
-rails_ot = O.overlapTextureU (3,2,4,maxBound) rails
+-- lots-o-sins (jmcc) #2 ; texture=xfade,4,4,inf
+let n = 60 {- n sines in each channel (twice as many during cross-fade) -}
+    f0 = X.randN n 'α' 40 10000
+    f1 = X.randN n 'β' 40 10000
+    mk_k x = mce (replicate n x)
+    o1 = klang AR 1 0 (klangSpec_mce f0 (mk_k 1) (mk_k 0))
+    o2 = klang AR 1 0 (klangSpec_mce f1 (mk_k 1) (mk_k 0))
+in mce2 o1 o2 * (0.1 / constant n)
 
--- | bouncing objects (jmcc) #2
-bouncing_objects :: UGen
-bouncing_objects =
-  let imp_frq = xLine KR (5 + rand 'α' (-2) 2) 600 4 DoNothing
-      imp_amp = xLine KR 0.09 0.000009 4 DoNothing
-      imp = impulse AR imp_frq 0 * imp_amp
-      exc = decay imp 0.001
-      flt_frq = RDU.randN 4 'β' 400 8400
-      flt_amp = RDU.randN 4 'γ' 0 1
-      flt_rtm = RDU.randN 4 'δ' 0.01 0.11
-      flt = klank exc 1 0 1 (klankSpec_mce flt_frq flt_amp flt_rtm)
-      loc = pan2 flt (rand 'ε' (-1) 1) 1
-      e = Envelope [1,1,0] [3,0.001] (replicate 2 EnvLin) Nothing Nothing 0
-  in loc * envGen KR 1 1 0 1 RemoveSynth e
+-- clustered sines (jmcc) #2 ; texture=xfade,4,4,inf
+let cs z =
+      let n = 80
+          f1 = rand 'α' 100 1100
+          f2 = 4 * f1
+          sp = let y = map (\zz -> f1 + rand (z,zz) 0 f2) (id_seq n 'β')
+               in klangSpec y (map (f1 /) y) (replicate n 0)
+      in klang AR 1 0 sp * (0.3 / fromIntegral n)
+in mce (map cs (id_seq 2 'δ'))
 
-bouncing_objects_st :: IO ()
-bouncing_objects_st = O.spawnTextureU (\i -> R.rrand i 0.6 1.6,maxBound) bouncing_objects
+-- resonators harmonic series (jmcc) #2 ; texture=xfade,1,7,inf
+let series n i j = case n of {0 -> []; _ -> i : series (n - 1) (i + j) j}
+    enumFromN e i = let j = fromEnum e in [j .. j + i]
+    p = 12
+    noise = brownNoise 'α' AR * 0.001
+    rat = [1.0,1.125,1.25,1.333,1.5,1.667,1.875,2.0,2.25,2.5,2.667,3.0,3.333,3.75,4.0]
+    freq = lchoose 'β' rat * 120
+    resFreqs = zipWith (+)
+               (series p freq freq)
+               (map (\z -> rand2 ('γ',z) 0.5) (enumFromN 'δ' p))
+    spec = klankSpec
+           resFreqs
+           (map (\i -> 1 / (constant i + 1)) [0 .. p - 1])
+           (map (\z -> rand ('ε',z) 0.5 4.5) (enumFromN 'ζ' p))
+in Protect.uclone_all 'η' 2 (klank noise 1 0 1 spec)
 
--- | lots-o-sins (jmcc) #2
-lots_o_sins :: UGen
-lots_o_sins =
-    let n = 60 {- n sines in each channel (twice as many during cross-fade) -}
-        f0 = RDU.randN n 'a' 40 10000
-        f1 = RDU.randN n 'b' 40 10000
-        mk_k x = mce (replicate n x)
-        o1 = klang AR 1 0 (klangSpec_mce f0 (mk_k 1) (mk_k 0))
-        o2 = klang AR 1 0 (klangSpec_mce f1 (mk_k 1) (mk_k 0))
-    in mce2 o1 o2 * (0.1 / constant n)
+-- swept resonant noise (jmcc) #2 ; texture=overlap,4,5,5,inf
+let flt src z =
+      let p = 10
+          spec = klankSpec_mce
+                 (X.linRandN p z 80 10080 0)
+                 (mce (replicate p 1))
+                 (X.randN p z 0.5 2.5)
+      in klank src 1 0 1 spec
+    n = whiteNoise 'α' AR * 0.007
+    f = midiCPS (fSinOsc KR (rand 'β' 0.1 0.3) 0 * rand 'γ' 0 24 + rand 'δ' 36 84)
+    sw = resonz n f 0.1
+in mce (map (flt sw) ['ε','ζ'])
 
-lots_o_sins_xt :: IO ()
-lots_o_sins_xt = O.xfadeTextureU (4,4,maxBound) lots_o_sins
+-- coolant (jmcc) #2 ; texture=overlap,4,4,2,inf
+let p = 20
+    s = onePole (mce (map (\z -> brownNoise z AR * 0.0015) (id_seq p 'α'))) 0.95
+    n = replicate p 1
+    sp z = klanx_spec_f id id (map (\z' -> rand (z,z') 40 2400) (id_seq p 'β')) n n
+in klank s 1 0 1 (mce (map mce (transpose (map sp ['γ','δ']))))
 
--- | clustered sines (jmcc) #2
-clustered_sines :: UGen
-clustered_sines =
-  let cs z =
-        let n = 80
-            f1 = rand 'α' 100 1100
-            f2 = 4 * f1
-            sp = let y = map (\zz -> f1 + rand (z,zz) 0 f2) (id_seq n 'β')
-                 in klangSpec y (map (f1 /) y) (replicate n 0)
-        in klang AR 1 0 sp * (0.3 / fromIntegral n)
-  in mce (map cs (id_seq 2 'δ'))
+-- pulsing bottles (jmcc) #2 ; texture=overlap,4,4,4,maxBound
+let r z = let n = whiteNoise z AR
+              r0 = rand z 4 14
+              r1 = rand z 0 0.7
+              r2 = rand z 400 7400
+          in resonz (n * lfPulse KR r0 0 0.25 * r1) r2 0.01
+    s z = let f = rand z 0.1 0.5
+              p = rand z 0 (pi * 2)
+          in sinOsc KR f p
+  in sum (zipWith3 pan2 (map r (id_seq 6 'α')) (map s (id_seq 6 'β')) (repeat 1))
 
-clustered_sines_xt :: IO ()
-clustered_sines_xt = O.xfadeTextureU (4,4,maxBound) clustered_sines
-
--- | resonators harmonic series (jmcc) #2
-resonators_harmonic_series :: UGen
-resonators_harmonic_series =
-    let p = 12
-        noise = brownNoise 'α' AR * 0.001
-        rat = [1.0,1.125,1.25,1.333,1.5,1.667,1.875,2.0,2.25,2.5,2.667,3.0,3.333,3.75,4.0]
-        freq = lchoose 'β' rat * 120
-        resFreqs = zipWith (+)
-                   (C.series p freq freq)
-                   (map (\z -> rand2 ('γ',z) 0.5) (enumFromN 'δ' p))
-        spec = klankSpec
-               resFreqs
-               (map (\i -> 1 / (constant i + 1)) [0 .. p - 1])
-               (map (\z -> rand ('ε',z) 0.5 4.5) (enumFromN 'ζ' p))
-    in Protect.uclone_all 'η' 2 (klank noise 1 0 1 spec)
-
-resonators_harmonic_series_xt :: IO ()
-resonators_harmonic_series_xt = O.xfadeTextureU (1,7,maxBound) resonators_harmonic_series
-
--- | swept resonant noise (jmcc) #2
-swept_resonant_noise :: UGen
-swept_resonant_noise =
-  let flt src z =
-        let p = 10
-            spec = klankSpec_mce
-                   (RDU.linRandN p z 80 10080 0)
-                   (mce (replicate p 1))
-                   (RDU.randN p z 0.5 2.5)
-        in klank src 1 0 1 spec
-      n = whiteNoise 'α' AR * 0.007
-      f = midiCPS (fSinOsc KR (rand 'β' 0.1 0.3) 0 * rand 'γ' 0 24 + rand 'δ' 36 84)
-      sw = resonz n f 0.1
-  in mce (map (flt sw) ['ε','ζ'])
-
-swept_resonant_noise_ot :: IO ()
-swept_resonant_noise_ot = O.overlapTextureU (4,4,5,maxBound) swept_resonant_noise
-
--- | coolant (jmcc) #2
-coolant :: UGen
-coolant =
-    let p = 20
-        s = onePole (mce (map (\z -> brownNoise z AR * 0.0015) (id_seq p 'α'))) 0.95
-        n = replicate p 1
-        sp z = klanx_spec_f id id (map (\z' -> rand (z,z') 40 2400) (id_seq p 'β')) n n
-    in klank s 1 0 1 (mce (map mce (transpose (map sp ['γ','δ']))))
-
-coolant_ot :: IO ()
-coolant_ot = O.overlapTextureU (4,4,2,maxBound) coolant
-
--- | pulsing bottles (jmcc) #2
-pulsing_bottles :: UGen
-pulsing_bottles =
-    let r z = let n = whiteNoise z AR
-                  r0 = rand z 4 14
-                  r1 = rand z 0 0.7
-                  r2 = rand z 400 7400
-              in resonz (n * lfPulse KR r0 0 0.25 * r1) r2 0.01
-        s z = let f = rand z 0.1 0.5
-                  p = rand z 0 (pi * 2)
-              in sinOsc KR f p
-    in sum (zipWith3 pan2 (map r (id_seq 6 'α')) (map s (id_seq 6 'β')) (repeat 1))
-
-pulsing_bottles_ot :: IO ()
-pulsing_bottles_ot = O.overlapTextureU (4,4,4,maxBound) pulsing_bottles
-
--- | what was i thinking? (jmcc) #2
-what_was_i_thinking_m :: UId m => m UGen
-what_was_i_thinking_m = do
+-- what was i thinking? (jmcc) #2
+uid_st_eval (do
   n0 <- lfNoise1M KR 0.2
   n1 <- lfNoise1M KR 0.157
   let p = pulse AR f (n1 * 0.4 + 0.5) * 0.04
@@ -273,40 +224,25 @@ what_was_i_thinking_m = do
       y = z * 0.6
   z0 <- clone 2 (c y)
   z1 <- clone 2 (c y)
-  return (z + mce [mix z0,mix z1])
+  return (z + mce [mix z0,mix z1]))
 
-what_was_i_thinking :: UGen
-what_was_i_thinking = uid_st_eval what_was_i_thinking_m
+-- narrow band filtered crackle noise (jmcc) #2 ; texture=spawn,2,inf
+let e = envLinen 2 5 2 1
+    rf1 = rand 'α' 0 2000 + 80
+    rf2 = rf1 + (rand2 'β' 0.2 * rf1)
+    rf = xLine KR rf1 rf2 9 DoNothing
+    c = crackle AR (1.97 + rand 'γ' 0 0.03) * 0.15
+in pan2 (resonz c rf 0.2) (rand2 'δ' 1) (envGen AR 1 1 0 1 RemoveSynth e)
 
--- | narrow band filtered crackle noise (jmcc) #2
-narrow_band_filtered_crackle_noise :: UGen
-narrow_band_filtered_crackle_noise =
-    let e = envLinen 2 5 2 1
-        rf1 = rand 'α' 0 2000 + 80
-        rf2 = rf1 + (rand2 'β' 0.2 * rf1)
-        rf = xLine KR rf1 rf2 9 DoNothing
-        c = crackle AR (1.97 + rand 'γ' 0 0.03) * 0.15
-    in pan2 (resonz c rf 0.2) (rand2 'δ' 1) (envGen AR 1 1 0 1 RemoveSynth e)
+-- resonant dust (jmcc) #2 ; texture=overlap,5,2,9,inf
+let rf = let st = rand 'α' 80 2080
+             en = st + (rand 'β' (-0.5) 0.5 * st)
+         in xLine KR st en 9 DoNothing
+    d = dust 'γ' AR (rand 'δ' 50 850) * 0.3
+in pan2 (resonz d rf 0.1) (rand 'ε' (-1) 1) 1
 
-narrow_band_filtered_crackle_noise_st :: IO ()
-narrow_band_filtered_crackle_noise_st =
-  O.spawnTextureU (const 2,maxBound) narrow_band_filtered_crackle_noise
-
--- | resonant dust (jmcc) #2
-resonant_dust :: UGen
-resonant_dust =
-    let rf = let st = rand 'α' 80 2080
-                 en = st + (rand 'β' (-0.5) 0.5 * st)
-             in xLine KR st en 9 DoNothing
-        d = dust 'γ' AR (rand 'δ' 50 850) * 0.3
-    in pan2 (resonz d rf 0.1) (rand 'ε' (-1) 1) 1
-
-resonant_dust_ot :: IO ()
-resonant_dust_ot = O.overlapTextureU (5,2,9,maxBound) resonant_dust
-
--- | police state (jmcc) #2
-police_state_m :: UId m => m UGen
-police_state_m = do
+-- police state (jmcc) #2
+uid_st_eval (do
   let nd = do r0 <- randM 0.02 0.12
               r1 <- randM 0 (pi * 2)
               r2 <- randM 0 600
@@ -321,45 +257,31 @@ police_state_m = do
   n1 <- lfNoise2M AR (n0 * 90 + 620)
   n2 <- lfNoise2M KR (mce2 0.3 0.301)
   let e = n1 * (n2 * 0.15 + 0.18)
-  return (combL (mix ns + e) 0.3 0.3 3)
+  return (combL (mix ns + e) 0.3 0.3 3))
 
-police_state :: UGen
-police_state = uid_st_eval police_state_m
+-- uplink (jmcc) #2 ; texture=overlap,4,1,5,inf
+let r = rand0
+    p0 = lfPulse KR (r 'α' 20) 0 (r 'β' 1)
+    p1 = lfPulse KR (r 'γ' 4) 0 (r 'δ' 1) * r 'ε' 8000 + r 'ζ' 2000
+    f = mix (Protect.uclone_all 'η' 2 (p0 * p1))
+in pan2 (lfPulse AR f 0 0.5 * 0.04) (rand 'θ' (-0.8) 0.8) 1
 
--- | uplink (jmcc) #2
-uplink :: UGen
-uplink =
-    let r = rand0
-        p0 = lfPulse KR (r 'α' 20) 0 (r 'β' 1)
-        p1 = lfPulse KR (r 'γ' 4) 0 (r 'δ' 1) * r 'ε' 8000 + r 'ζ' 2000
-        f = mix (Protect.uclone_all 'η' 2 (p0 * p1))
-    in pan2 (lfPulse AR f 0 0.5 * 0.04) (rand 'θ' (-0.8) 0.8) 1
+-- data space (jmcc) #2 ; texture=overlap,1,6,4,inf
+let r e = rand e 0
+    p0 = lfPulse KR (r 'α' 200) 0 (r 'β' 1)
+    p1 = lfPulse KR (r 'γ' 40) 0 (r 'δ' 1) * r 'ε' 8000 + r 'ζ' 2000
+    p2 = lfPulse KR (r 'η' 20) 0 (r 'θ' 1)
+    p3 = lfPulse KR (r 'ι' 4) 0 (r 'κ' 1) * r 'λ' 8000 + r 'μ'  2000
+    p4 = lfPulse KR (r 'ν' 20) 0 (r 'ξ' 1)
+    p5 = lfPulse KR (r 'ο' 4) 0 (r 'π' 1) * r 'ρ' 8000 + r 'σ'  2000
+    f = p0 * p1 + p2 * p3 + p4 * p5
+    dt = rand 'τ' 0.15 0.35
+    o = lfPulse AR f 0 0.5 * 0.04
+    l = lfNoise0 'υ' KR (r 'φ' 3) * 0.8
+in combL (pan2 o l 1) dt dt 3
 
-uplink_ot :: IO ()
-uplink_ot = O.overlapTextureU (4,1,5,maxBound) uplink
-
--- | data space (jmcc) #2
-data_space :: UGen
-data_space =
-    let r e = rand e 0
-        p0 = lfPulse KR (r 'α' 200) 0 (r 'β' 1)
-        p1 = lfPulse KR (r 'γ' 40) 0 (r 'δ' 1) * r 'ε' 8000 + r 'ζ' 2000
-        p2 = lfPulse KR (r 'η' 20) 0 (r 'θ' 1)
-        p3 = lfPulse KR (r 'ι' 4) 0 (r 'κ' 1) * r 'λ' 8000 + r 'μ'  2000
-        p4 = lfPulse KR (r 'ν' 20) 0 (r 'ξ' 1)
-        p5 = lfPulse KR (r 'ο' 4) 0 (r 'π' 1) * r 'ρ' 8000 + r 'σ'  2000
-        f = p0 * p1 + p2 * p3 + p4 * p5
-        dt = rand 'τ' 0.15 0.35
-        o = lfPulse AR f 0 0.5 * 0.04
-        l = lfNoise0 'υ' KR (r 'φ' 3) * 0.8
-    in combL (pan2 o l 1) dt dt 3
-
-data_space_ot :: IO ()
-data_space_ot = O.overlapTextureU (1,6,4,maxBound) data_space
-
--- | cymbalism (jmcc) #2
-cymbalism_m :: UId m => m UGen
-cymbalism_m = do
+-- cymbalism (jmcc) #2 ; texture=overlap,3,6,6,inf
+uid_st_eval (do
   let p = replicate 15
   f1 <- randM 500 2500
   f2 <- randM 0 8000
@@ -371,31 +293,21 @@ cymbalism_m = do
   tf <- randM 0.5 3.5
   let t = impulse AR tf 0
       s = decay t 0.004 * n
-  return (klank s 1 0 1 (mceTranspose z))
+  return (klank s 1 0 1 (mceTranspose z)))
 
-cymbalism :: UGen
-cymbalism = uid_st_eval cymbalism_m
-
-cymbalism_ot :: IO ()
-cymbalism_ot = O.overlapTextureU (3,6,6,maxBound) cymbalism
-
--- | cymbalism accelerando (jmcc) #2
-cymbalism_accellerando :: UGen
-cymbalism_accellerando =
-  let y n = let f1 = rand n 500 2500
-                f2 = rand n 0 8000
-                f = map (\e -> rand e f1 (f1 + f2)) (enumFromN n 15)
-                rt = map (\e -> rand e 1 5) (enumFromN n 15)
-          in klankSpec f (replicate 15 1) rt
-      z = mce2 (y 'α') (y 'β')
-      w = whiteNoise 'γ' AR * 0.02
-      tf = xLine KR (linRand 'δ' 0.5 4.5 0) (rand 'ε' 0.5 35.5) 12 DoNothing
-      t = impulse AR tf 0
-      s = decay t 0.004 * w
-  in klank s 1 0 1 (mceTranspose z)
-
-cymbalism_accellerando_ot :: IO ()
-cymbalism_accellerando_ot = O.overlapTextureU (4,4,4,maxBound) cymbalism_accellerando
+-- cymbalism accelerando (jmcc) #2 ; texture=overlap,4,4,4,inf
+let enumFromN e i = let j = fromEnum e in [j .. j + i]
+    y n = let f1 = rand n 500 2500
+              f2 = rand n 0 8000
+              f = map (\e -> rand e f1 (f1 + f2)) (enumFromN n 15)
+              rt = map (\e -> rand e 1 5) (enumFromN n 15)
+        in klankSpec f (replicate 15 1) rt
+    z = mce2 (y 'α') (y 'β')
+    w = whiteNoise 'γ' AR * 0.02
+    tf = xLine KR (linRand 'δ' 0.5 4.5 0) (rand 'ε' 0.5 35.5) 12 DoNothing
+    t = impulse AR tf 0
+    s = decay t 0.004 * w
+in klank s 1 0 1 (mceTranspose z)
 
 -- | ring modulated klank (jmcc) #2
 ring_modulated_klank :: UGen
