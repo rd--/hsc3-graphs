@@ -309,61 +309,47 @@ let enumFromN e i = let j = fromEnum e in [j .. j + i]
     s = decay t 0.004 * w
 in klank s 1 0 1 (mceTranspose z)
 
--- | ring modulated klank (jmcc) #2
-ring_modulated_klank :: UGen
-ring_modulated_klank =
-    let p = 8
-        k = let sp = klankSpec_mce (RDU.randN p 'α' 100 10000)
-                                   (mce (replicate p 1))
-                                   (RDU.randN p 'α' 0.2 1)
-            in klank (dust 'α' AR 20 * 0.02) 1 0 1 sp
-        f = lfNoise2 'α' KR (rand 'α' 0.1 0.4) * 200 + rand 'α' 350 400
-    in pan2 (sinOsc AR f 0 * k) (rand 'α' (-1) 1) 1
+-- ring modulated klank (jmcc) #2 ; texture=overlap,4,4,4,inf
+let p = 8
+    k = let sp = klankSpec_mce (X.randN p 'α' 100 10000)
+                               (mce (replicate p 1))
+                               (X.randN p 'α' 0.2 1)
+        in klank (dust 'α' AR 20 * 0.02) 1 0 1 sp
+    f = lfNoise2 'α' KR (rand 'α' 0.1 0.4) * 200 + rand 'α' 350 400
+in pan2 (sinOsc AR f 0 * k) (rand 'α' (-1) 1) 1
 
-ring_modulated_klank_ot :: IO ()
-ring_modulated_klank_ot = O.overlapTextureU (4,4,4,maxBound) ring_modulated_klank
+-- ; analogue daze (jmcc) #3
+let dsequ k s tr = demand tr 0 (dseq k dinf (mce s))
+    patternList = [55,63,60,63,57,65,62,65]
+    f k octave clockRate pwmrate fltrate =
+        let trg = impulse KR clockRate 0
+            freq = map (midiCPS .  (+ (12 * octave))) patternList
+            sq = dsequ 'α' freq trg
+            pwm = sinOsc KR pwmrate (rand (k,'β') 0 (2 * pi)) * 0.4 + 0.5
+            cf = sinOsc KR fltrate (rand (k,'γ') 0 (2 * pi)) * 1400 + 2000
+        in rlpf (lfPulse AR (lag sq 0.05) 0 pwm * 0.1) cf (1/15)
+    a = lfNoise0 'δ' AR (lfNoise1 'ε' KR 0.3 * 6000 + 8000) * (mce2 0.07 0.08)
+    x = decay (impulse AR 2 0) 0.15 * a
+    g = mce [f 'ζ' 1 8 0.31 0.2,f 'η' 0 2 0.13 0.11] + x
+    z = 0.4 * (combN g 0.375 0.375 5 + mceReverse g)
+    e = envLinen 2 56 2 1
+in z * envGen KR 1 1 0 1 RemoveSynth e
 
--- * SC2-3
+-- synthetic piano (jmcc) #3 ; texture=overlap,6,0,6,inf
+let n = iRand 'α' 36 90
+    f = rand 'β' 0.1 0.5
+    ph = rand 'γ' 0 1
+    s = impulse AR f ph * 0.1
+    e = decay2 s 0.008 0.04
+    c z o = let n0 = lfNoise2 z AR 3000
+                dt = 1 / midiCPS (n + o)
+            in combL (n0 * e) dt dt 6
+    l = ((n - 36) / 27) - 1
+    c_ = sum_opt (zipWith c ['δ'..] [-0.05,0,0.04])
+in pan2 c_ l 1
 
--- | analogue daze (jmcc) #3
-analogue_daze :: UGen
-analogue_daze =
-    let patternList = [55,63,60,63,57,65,62,65]
-        f k octave clockRate pwmrate fltrate =
-            let trg = impulse KR clockRate 0
-                freq = map (midiCPS .  (+ (12 * octave))) patternList
-                sq = dsequ 'α' freq trg
-                pwm = sinOsc KR pwmrate (rand (k,'β') 0 (2 * pi)) * 0.4 + 0.5
-                cf = sinOsc KR fltrate (rand (k,'γ') 0 (2 * pi)) * 1400 + 2000
-            in rlpf (lfPulse AR (lag sq 0.05) 0 pwm * 0.1) cf (1/15)
-        a = lfNoise0 'δ' AR (lfNoise1 'ε' KR 0.3 * 6000 + 8000) * (mce2 0.07 0.08)
-        x = decay (impulse AR 2 0) 0.15 * a
-        g = mce [f 'ζ' 1 8 0.31 0.2,f 'η' 0 2 0.13 0.11] + x
-        z = 0.4 * (combN g 0.375 0.375 5 + mceReverse g)
-        e = envLinen 2 56 2 1
-    in z * envGen KR 1 1 0 1 RemoveSynth e
-
--- | synthetic piano (jmcc) #3
-synthetic_piano :: UGen
-synthetic_piano =
-  let n = iRand 'α' 36 90
-      f = rand 'β' 0.1 0.5
-      ph = rand 'γ' 0 1
-      s = impulse AR f ph * 0.1
-      e = decay2 s 0.008 0.04
-      c z o = let n0 = lfNoise2 z AR 3000
-                  dt = 1 / midiCPS (n + o)
-              in combL (n0 * e) dt dt 6
-      l = ((n - 36) / 27) - 1
-      c_ = sum_opt (zipWith c ['δ'..] [-0.05,0,0.04])
-  in pan2 c_ l 1
-
-synthetic_piano_ot :: IO ()
-synthetic_piano_ot = O.overlapTextureU (6,0,6,maxBound) synthetic_piano
-
--- | reverberated_sine_percussion (jmcc) #3
-reverberated_sine_percussion_m :: UId m => m UGen
-reverberated_sine_percussion_m = do
+-- reverberated_sine_percussion (jmcc) #3
+uid_st_eval (do
   let d = 6
       c = 5
       a = 4
@@ -378,90 +364,73 @@ reverberated_sine_percussion_m = do
           n <- lfNoise1M KR r
           return (mix (combL z 0.1 (n * 0.04 + 0.05) 15))
   x <- chainM a x_ y
-  return (s + x * 0.2)
+  return (s + x * 0.2))
 
-reverberated_sine_percussion :: UGen
-reverberated_sine_percussion = uid_st_eval reverberated_sine_percussion_m
+-- analog bubbles with mouse control (jmcc) #3
+let y = mouseY KR 0.1 10 Exponential 0.2 {- lfo 1 rate -}
+    x = mouseX KR 2 40 Exponential 0.2  {- lfo 2 rate -}
+    o2 = lfSaw KR x 0 * (-3) + 80 {- depth & offset in semitones -}
+    o1 = lfSaw KR y 0 * 24 + o2 {- depth in semitones, offset is lfo_2 -}
+    f = midiCPS o1 {- convert to frequency -}
+    s = sinOsc AR f 0 * 0.04
+in combN s 0.2 0.2 4 {- echoing sine wave -}
 
--- | analog bubbles with mouse control (jmcc) #3
-analog_bubbles_mouse :: UGen
-analog_bubbles_mouse =
-  let y = mouseY KR 0.1 10 Exponential 0.2 {- lfo 1 rate -}
-      x = mouseX KR 2 40 Exponential 0.2  {- lfo 2 rate -}
-      o2 = lfSaw KR x 0 * (-3) + 80 {- depth & offset in semitones -}
-      o1 = lfSaw KR y 0 * 24 + o2 {- depth in semitones, offset is lfo_2 -}
-      f = midiCPS o1 {- convert to frequency -}
-      s = sinOsc AR f 0 * 0.04
-  in combN s 0.2 0.2 4 {- echoing sine wave -}
+-- ; berlin 1977 (jmcc) #4
+let dsequ z s tr = demand tr 0 (dseq z dinf (mce s))
+    dsequR z s tr = demand tr 0 (dshuf z dinf (mce s))
+    clock_rate = mouseX KR 5 20 Exponential 0.2 {- mouse x controls clock rate -}
+    clock_time = 1 / clock_rate
+    clock = impulse KR clock_rate 0 {- sequencer trigger -}
+    patternList = [55,60,63,62,60,67,63,58]
+    note = dsequ 'α' patternList clock {- midi note pattern sequencer -}
+    clock_16 = pulseDivider clock 16 0 {- divide clock by 16 -}
+    note' = dsequR 'β' [-12,-7,-5,0,2,5] clock_16 + note {- transpose somewhat randomly -}
+    freq = midiCPS note' {- convert midi note to cycles per second -}
+    env = decay2 clock (0.05 * clock_time) (2 * clock_time)
+    amp = env * 0.1 + 0.02 {- amplitude envelope -}
+    filt = env * (fSinOsc KR 0.17 0 * 800) + 1400 {- filter frequency -}
+    pw = sinOsc KR 0.08 (mce2 0 (0.5 * pi)) * 0.45 + 0.5 {- pulse width LFO(s) -}
+    s = pulse AR freq pw * amp
+in combN (rlpf s filt 0.15) 0.2 (mce2 0.2 0.17) 1.5
 
--- * SC2-4
+-- metal plate (jmcc) #4
+let
+    enumFromN e i = let j = fromEnum e in [j .. j + i]
+    sr = 48000::Double
+    n = 4 :: Int {- number of delay lines -}
+    maxdt = ceiling (sr * 0.03) :: Int {- maximum delay time -}
+    mk_buf k = asLocalBuf k (replicate maxdt 0)
+    buf = map mk_buf [0 .. n - 1] {- buffers for delay lines -}
+    tap_tm = map (\z -> rand ('α',z) 0.015 0.03) (enumFromN 'β' n) {- random tap times -}
+    exc_freq = mouseY KR 10 8000 Linear 0.2
+    exc_trig = impulse AR 0.5 0 * 0.2
+    exc = decay2 exc_trig 0.01 0.2 * lfNoise2 'γ' AR exc_freq {- excitation -}
+    del = zipWith (tap 1 AR) buf tap_tm {- delay line taps -}
+    flt_freq = mouseX KR 10 5000 Linear 0.2
+    flt = map (\i -> lpf i flt_freq * 0.98) del {- tap filters -}
+    wr_f b f = recordBuf AR b 0 1 0 1 Loop 1 DoNothing (f + exc)
+    wr = zipWith wr_f buf flt {- write to delay lines -}
+in mrg (sum flt : wr)
 
--- | berlin 1977 (jmcc) #4
-berlin_1977 :: UGen
-berlin_1977 =
-    let clock_rate = mouseX KR 5 20 Exponential 0.2 {- mouse x controls clock rate -}
-        clock_time = 1 / clock_rate
-        clock = impulse KR clock_rate 0 {- sequencer trigger -}
-        patternList = [55,60,63,62,60,67,63,58]
-        note = dsequ 'α' patternList clock {- midi note pattern sequencer -}
-        clock_16 = pulseDivider clock 16 0 {- divide clock by 16 -}
-        note' = dsequR 'β' [-12,-7,-5,0,2,5] clock_16 + note {- transpose somewhat randomly -}
-        freq = midiCPS note' {- convert midi note to cycles per second -}
-        env = decay2 clock (0.05 * clock_time) (2 * clock_time)
-        amp = env * 0.1 + 0.02 {- amplitude envelope -}
-        filt = env * (fSinOsc KR 0.17 0 * 800) + 1400 {- filter frequency -}
-        pw = sinOsc KR 0.08 (mce2 0 (0.5 * pi)) * 0.45 + 0.5 {- pulse width LFO(s) -}
-        s = pulse AR freq pw * amp
-    in combN (rlpf s filt 0.15) 0.2 (mce2 0.2 0.17) 1.5
+-- sample and hold liquidities (jmcc) #4
+let r = mouseX KR 1 200 Exponential 0.1
+    t = recip r
+    c = impulse KR r 0 * 0.4
+    cf = mouseY KR 100 8000 Exponential 0.1
+    f = latch (whiteNoise 'α' KR * cf * 0.5 + cf) c
+    p = latch (whiteNoise 'β' KR) c
+    i = pan2 (sinOsc AR f 0 * decay2 c (t * 0.1) (t * 0.9)) p 1
+in combN i 0.3 0.3 2
 
--- | metal plate (jmcc) #4
-metal_plate :: UGen
-metal_plate =
-    let
-        sr = 48000::Double
-        n = 4 {- number of delay lines -}
-        maxdt = ceiling (sr * 0.03) {- maximum delay time -}
-        mk_buf k = asLocalBuf k (replicate maxdt 0)
-        buf = map mk_buf [0 .. n - 1] {- buffers for delay lines -}
-        tap_tm = map (\z -> rand ('α',z) 0.015 0.03) (enumFromN 'β' n) {- random tap times -}
-        exc_freq = mouseY KR 10 8000 Linear 0.2
-        exc_trig = impulse AR 0.5 0 * 0.2
-        exc = decay2 exc_trig 0.01 0.2 * lfNoise2 'γ' AR exc_freq {- excitation -}
-        del = zipWith (tap 1 AR) buf tap_tm {- delay line taps -}
-        flt_freq = mouseX KR 10 5000 Linear 0.2
-        flt = map (\i -> lpf i flt_freq * 0.98) del {- tap filters -}
-        wr_f b f = recordBuf AR b 0 1 0 1 Loop 1 DoNothing (f + exc)
-        wr = zipWith wr_f buf flt {- write to delay lines -}
-    in mrg (sum flt : wr)
-
--- | sample and hold liquidities (jmcc) #4
-sample_and_hold_liquidities :: UGen
-sample_and_hold_liquidities =
-    let r = mouseX KR 1 200 Exponential 0.1
-        t = recip r
-        c = impulse KR r 0 * 0.4
-        cf = mouseY KR 100 8000 Exponential 0.1
-        f = latch (whiteNoise 'α' KR * cf * 0.5 + cf) c
-        p = latch (whiteNoise 'β' KR) c
-        i = pan2 (sinOsc AR f 0 * decay2 c (t * 0.1) (t * 0.9)) p 1
-    in combN i 0.3 0.3 2
-
--- | random panning sines (jmcc) #4
-random_panning_sines_m :: UId m => m UGen
-random_panning_sines_m = do
+-- random panning sines (jmcc) #4 ; texture=overlap,8,8,2,inf
+uid_st_eval (do
   let nd = do r0 <- linRandM 80 2000 0
               let o = fSinOsc AR r0 0
               l <- lfNoise1M KR =<< randM 0.8 1.2
               a <- lfNoise1M KR =<< randM 0.82 0.98
               return (pan2 o l a)
   r <- clone 8 nd
-  return (mix r * (0.4 / 8))
-
-random_panning_sines :: UGen
-random_panning_sines = uid_st_eval random_panning_sines_m
-
-random_panning_sines_ot :: IO ()
-random_panning_sines_ot = O.overlapTextureU (8,8,2,maxBound) random_panning_sines
+  return (mix r * (0.4 / 8)))
 
 -- * SC2-5
 
@@ -487,17 +456,13 @@ filter_input =
         sg = soundIn (mce2 0 1) * 0.4 * sqrt rQ {- attenuate to offset resonance -}
     in rlpf sg cf rQ
 
--- * SC2-6
-
--- | sweepy noise (jmcc) #6
-sweepy_noise :: UGen
-sweepy_noise =
-    let n = mce2 (whiteNoise 'α' AR) (whiteNoise 'β' AR)
-        lfoDepth = mouseY KR 200 8000 Exponential 0.1
-        lfoRate = mouseX KR 4 60 Exponential 0.1
-        freq = lfSaw KR lfoRate 0 * lfoDepth + (lfoDepth * 1.2)
-        filtered = rlpf (n * 0.03) freq 0.1
-    in combN filtered 0.3 0.3 2 + filtered
+-- sweepy noise (jmcc) #6
+let n = mce2 (whiteNoise 'α' AR) (whiteNoise 'β' AR)
+    lfoDepth = mouseY KR 200 8000 Exponential 0.1
+    lfoRate = mouseX KR 4 60 Exponential 0.1
+    freq = lfSaw KR lfoRate 0 * lfoDepth + (lfoDepth * 1.2)
+    filtered = rlpf (n * 0.03) freq 0.1
+in combN filtered 0.3 0.3 2 + filtered
 
 -- | string wander-cluster (jmcc) #6
 string_wander_cluster :: (Double,R.StdGen) -> (UGen,(Double,R.StdGen))
@@ -531,56 +496,36 @@ comb_delay_sweeps_ot :: IO ()
 comb_delay_sweeps_ot =
   O.overlapTextureS (4/3,4/3,9,maxBound) comb_delay_sweeps (60,61,R.mkStdGen 3567824)
 
--- | noise burst sweep (jmcc) #6
-noise_burst_sweep :: UGen
-noise_burst_sweep =
-  let n = mce2 (whiteNoise 'α' AR) (whiteNoise 'β' AR)
-      lfoRate = rand 'γ' (-1) 1 + mouseX KR 10 60 Exponential 0.2
-      amp = max 0 (lfSaw KR lfoRate (-1))
-      cfreq = mouseY KR 400 8000 Exponential 0.2
-      freq = sinOsc KR 0.2 0 * cfreq + (1.05 * cfreq)
-  in resonz (n * amp) freq 0.1
+-- noise burst sweep (jmcc) #6 ; texture=overlap,4,2,4,inf
+let n = mce2 (whiteNoise 'α' AR) (whiteNoise 'β' AR)
+    lfoRate = rand 'γ' (-1) 1 + mouseX KR 10 60 Exponential 0.2
+    amp = max 0 (lfSaw KR lfoRate (-1))
+    cfreq = mouseY KR 400 8000 Exponential 0.2
+    freq = sinOsc KR 0.2 0 * cfreq + (1.05 * cfreq)
+in resonz (n * amp) freq 0.1
 
-noise_burst_sweep_ot :: IO ()
-noise_burst_sweep_ot = O.overlapTextureU (4,2,4,maxBound) noise_burst_sweep
+-- saucer base (jmcc) #6 ; texture=overlap,2,6,4,inf
+let a = rand 'α' 0 20
+    b = rand 'β' 0 1000
+    c = rand 'γ' 0 5000
+    p = rand 'δ' (-1) 1
+    o = sinOsc AR a 0 * b + (1.1 * b)
+    o' = sinOsc AR o 0 * c + (1.1 * c)
+in pan2 (sinOsc AR o' 0 * 0.1) p 1
 
--- | saucer base (jmcc) #6
-saucer_base :: UGen
-saucer_base =
-    let a = rand 'α' 0 20
-        b = rand 'β' 0 1000
-        c = rand 'γ' 0 5000
-        p = rand 'δ' (-1) 1
-        o = sinOsc AR a 0 * b + (1.1 * b)
-        o' = sinOsc AR o 0 * c + (1.1 * c)
-    in pan2 (sinOsc AR o' 0 * 0.1) p 1
+-- alien meadow (jmcc) #6 ; texture=overlap,2,6,6,inf
+let b = rand 'α' 0 5000
+    f = sinOsc AR (rand 'β' 0 20) 0 * b * 0.1 + b
+in pan2 (sinOsc AR f 0) (rand 'γ' (-1) 1) (sinOsc AR (rand 'δ' 0 20) 0 * 0.05 + 0.05)
 
-saucer_base_ot :: IO ()
-saucer_base_ot = O.overlapTextureU (2,6,4,maxBound) saucer_base
-
--- | alien meadow (jmcc) #6
-alien_meadow :: UGen
-alien_meadow =
-    let b = rand 'α' 0 5000
-        f = sinOsc AR (rand 'β' 0 20) 0 * b * 0.1 + b
-    in pan2 (sinOsc AR f 0) (rand 'γ' (-1) 1) (sinOsc AR (rand 'δ' 0 20) 0 * 0.05 + 0.05)
-
-alien_meadow_ot :: IO ()
-alien_meadow_ot = O.overlapTextureU (2,6,6,maxBound) alien_meadow
-
--- | birdies (jmcc) #6
-birdies :: UGen
-birdies =
-    let p1 = lfPulse KR (0.4 + rand 'α' 0 1) 0 (rand 'β' 0 0.8 + 0.1) * (rand 'γ' 0 3 + 4) + 2
-        p2 = lfPulse KR (0.4 + rand 'δ' 0 1) 0 (rand 'ε' 0 0.8 + 0.1) * (rand 'ζ' 0 3 + 4)
-        p3 = lfPulse KR (0.2 + rand 'η' 0 0.5) 0 0.4 * 0.02
-        sw = lfSaw KR (p1 + p2) 0 * (- (1000 + rand 'θ' 0 800)) + (4000 + rand2 'ι' 1200)
-        freq = lag sw 0.05
-        amp = lag p3 0.3
-    in pan2 (sinOsc AR freq 0 * amp) (rand2 'κ' 1) 1
-
-birdies_ot :: IO ()
-birdies_ot = O.overlapTextureU (7,4,4,maxBound) birdies
+-- birdies (jmcc) #6 ; texture=overlap,7,4,4,inf
+let p1 = lfPulse KR (0.4 + rand 'α' 0 1) 0 (rand 'β' 0 0.8 + 0.1) * (rand 'γ' 0 3 + 4) + 2
+    p2 = lfPulse KR (0.4 + rand 'δ' 0 1) 0 (rand 'ε' 0 0.8 + 0.1) * (rand 'ζ' 0 3 + 4)
+    p3 = lfPulse KR (0.2 + rand 'η' 0 0.5) 0 0.4 * 0.02
+    sw = lfSaw KR (p1 + p2) 0 * (- (1000 + rand 'θ' 0 800)) + (4000 + rand2 'ι' 1200)
+    freq = lag sw 0.05
+    amp = lag p3 0.3
+in pan2 (sinOsc AR freq 0 * amp) (rand2 'κ' 1) 1
 
 -- | phase modulation with slow beats (jmcc) #6
 phase_modulation_with_slow_beats :: UGen
