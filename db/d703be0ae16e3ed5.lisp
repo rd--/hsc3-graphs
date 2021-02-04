@@ -1,0 +1,30 @@
+; pattern localbuf (rd)
+(let*
+  ((tseq
+    (lambda (l)
+      (let ((n (/ (length l) 2)))
+        (select (mul-add (lf-saw kr 0.5 0) n n) (make-mce l)))))
+   (mk-pattern
+    (lambda (nf c)
+      (let ((v (make-vector (* nf 2) 0)))
+        (replicate-m
+         c
+         (lambda ()
+           (let ((r0 (s:i-rand 0 nf))
+                 (r1 (s:rand 0 1)))
+             (vector-set! v r0 r1))))
+        (vector->list v))))
+   (nf (* 2 480))
+   (c 24)
+   (b (as-local-buf (mk-pattern nf c)))
+   (p (phasor ar 0 (mul (buf-rate-scale kr b) 0.5) 0 (buf-frames kr b) 0))
+   (t (buf-rd-c 1 ar b p 1))
+   (r1 (replicate-m c (lambda () (s:rand 36 96))))
+   (r2 (replicate-m c (lambda () (s:rand -1 1))))
+   (r3 (s:i-rand 0 2))
+   (n1 (t-rand 0.02 0.08 t))
+   (e (decay2 t 0.01 n1))
+   (f (midi-cps (tseq r1)))
+   (l (tseq r2))
+   (o (list-ref (list (sin-osc ar f 0) (saw ar f)) r3)))
+  (pan2 o l (mul e 0.1)))

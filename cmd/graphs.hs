@@ -194,7 +194,7 @@ sc_graph_fragment_process_dir dir = do
 
 lisp_graph_rw_pre :: [String]
 lisp_graph_rw_pre =
-  ["(import (rhs) (sosc) (rsc3) (rsc3 lang) (rsc3 arf))"]
+  ["(import (rhs core) (sosc core) (rsc3 core) (rsc3 arf) (rsc3 lang))"]
 
 lisp_graph_fragment_rw :: (String,String) -> [String]
 lisp_graph_fragment_rw (z,txt) =
@@ -212,7 +212,8 @@ lisp_graph_fragment_process fn_seq = do
       rw_fn = tmp </> "rw.lisp"
   mapM_ cpy (zip z_seq txt_seq)
   writeFile rw_fn (unlines (lisp_graph_rw_pre ++ concat rw_seq ++ ["(exit)"]))
-  _ <- rawSystem "ikarus" [rw_fn]
+  _ <- rawSystem "guile" ["--r6rs",rw_fn] -- "--no-auto-compile" -- this alters results...
+  --_ <- rawSystem "ikarus" [rw_fn]
   return ()
 
 lisp_graph_fragment_process_dir :: FilePath -> IO ()
