@@ -6,7 +6,9 @@ and
 [supercollider](http://audiosynth.com/)
 graphs
 
-a collection of illustrative unit generator supercollider graphs.
+a polyglot database of illustrative supercollider unit generator graphs.
+
+cli: [graphs](?t=hsc3-graphs&e=md/graphs.md)
 
 © [rd](http://rohandrape.net/) and others,
   2006-2021,

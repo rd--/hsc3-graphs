@@ -306,8 +306,9 @@ graphs_db_polyglot_autogen = do
 help :: [String]
 help =
     ["hsc3-graphs command [arguments]"
-    ," fragments {hs} play HS-FILE-NAME"
-    ," graphs-db polyglot autogen"]
+    ," db polyglot autogen"
+    ," fragments {hs} {play | draw} FILE-NAME"
+    ]
 
 main :: IO ()
 main = do
