@@ -529,6 +529,17 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
  var damp = LFNoise2.kr(0.2).range(0, 0.7);
  MiVerb.ar(input, time, 0.9, damp, 0.1, mul: 0.5)}
 
+// Mix ; summing ; phase cancellation (silence)
+{Mix([SinOsc.ar([440,441],[0,pi]),SinOsc.ar([440,441],[pi,0])])}
+
+// Mix ; phase-shifting ; mouseX delay control
+{Mix(
+ [SinOsc.ar([440,441],[0,pi]) * 0.1
+ ,DelayN.ar(SinOsc.ar([440,441],[pi,0]),ControlDur.ir*2,MouseX.kr(0,ControlDur.ir*2)) * 0.1])}
+
+// Out ; summing ; non phase cancellation
+{[SinOsc.ar([440,441],[0,pi]) * 0.1,SinOsc.ar([440,441],[pi,0]) * 0.1]}
+
 // PlayBuf
 {arg buf = 0
 ;var scl = BufRateScale.kr(buf)
@@ -538,6 +549,9 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
 {var b = MouseX.kr(32,64,0,0.2)
 ;var r = BufRateScale.kr(b)
 ;PlayBuf.ar(1,b,r,1,0,1,0)}
+
+// SinOsc ; phase cancellation
+{Mix(SinOsc.ar(440,[0,pi]))}
 
 // SinOscFB
 {SinOscFB.ar([400,301],MouseX.kr(0,4))*0.1}
