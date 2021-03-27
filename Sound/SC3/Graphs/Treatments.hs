@@ -59,32 +59,32 @@ param1_to_ctl (nm,df) = control KR nm df
 
 -- * Meta
 
--- | Input meta-data, @(name,min,max,def,warp,units)@.
-type Meta1 = (String,Double,Double,Double,String,String)
+-- | Input meta-data, @(name,min,max,def,warp)@.
+type Meta1 = (String,Double,Double,Double,String)
 type Meta = [Meta1]
 
 meta1_to_param1 :: Meta1 -> Param1
-meta1_to_param1 (nm,_,_,df,_,_) = (nm,df)
+meta1_to_param1 (nm,_,_,df,_) = (nm,df)
 
 mctl :: Meta1 -> UGen
-mctl (nm,l,r,df,w,u) =
-    let m = (l,r,w,0,u)
-    in meta_control KR nm df m
+mctl (nm,l,r,df,w) =
+    let m = (l,r,w)
+    in control_m KR nm df m
 
 bus_meta :: Double -> Meta1
-bus_meta n = ("bus",0,100,n,"lin","#")
+bus_meta n = ("bus",0,100,n,"lin")
 
 k_meta :: Maybe Int -> Meta1 -> Meta1
-k_meta k (nm,l,r,d,w,u) = (nm ++ maybe "" show k,l,r,d,w,u)
+k_meta k (nm,l,r,d,w) = (nm ++ maybe "" show k,l,r,d,w)
 
 freqk_meta :: Maybe Int -> Double -> Meta1
-freqk_meta k n = k_meta k ("freq",20,20000,n,"exp","hz")
+freqk_meta k n = k_meta k ("freq",20,20000,n,"exp")
 
 freq_meta :: Double -> Meta1
 freq_meta = freqk_meta Nothing
 
 ampk_meta :: Maybe Int -> Double -> Meta1
-ampk_meta k n = k_meta k ("amp",0,1,n,"amp","*")
+ampk_meta k n = k_meta k ("amp",0,1,n,"amp")
 
 amp_meta :: Double -> Meta1
 amp_meta = ampk_meta Nothing
@@ -98,9 +98,9 @@ treatment_syn :: Int -> String -> Treatment -> Synthdef
 treatment_syn nc nm tr =
     let b = mctl (bus_meta 0)
         i = in' nc AR b
-        mx = mctl ("mx",0,1,1,"lin","*")
+        mx = mctl ("mx",0,1,1,"lin")
         m = pre_post_mix mx i (tr i) * envGate_def
-        bp = mctl ("bypass",0,1,0,"lin","*")
+        bp = mctl ("bypass",0,1,0,"lin")
         o = ugen_if (bp >** 0) i m
     in synthdef nm (replaceOut b o)
 
@@ -109,13 +109,13 @@ treatment_syn nc nm tr =
 -- | nc = number of channels, bus = audio bus index, mx = pre/post mix, ugen_f = process
 add_t_sig :: (Int,Double,Double) -> Treatment -> UGen
 add_t_sig (nc,bus,mx) ugen_f =
-  let mx_ctl = mctl ("mx",0,1,mx,"lin","*")
-      bus_ctl = mctl ("bus",0,31,bus,"lin","bus")
+  let mx_ctl = mctl ("mx",0,1,mx,"lin")
+      bus_ctl = mctl ("bus",0,31,bus,"lin")
       pre = in' nc AR bus_ctl
   in replaceOut bus_ctl (pre_post_mix mx_ctl pre (ugen_f pre))
 
 add_t_opt :: (Node_Id,Group_Id) -> (Int,Double,Double) -> Treatment -> IO ()
-add_t_opt (nid,grp) opt ugen_f = audition_at (nid,AddToTail,grp,[]) (add_t_sig opt ugen_f)
+add_t_opt (nid,grp) opt ugen_f = audition_at sc3_default_udp (nid,AddToTail,grp,[]) (add_t_sig opt ugen_f)
 
 add_t :: (Int,Double,Double) -> Treatment -> IO ()
 add_t = add_t_opt (-1,2)
@@ -126,7 +126,7 @@ add_t = add_t_opt (-1,2)
 run_t_nc :: (Node_Id,Group_Id) -> Int -> Double -> Treatment -> IO ()
 run_t_nc (nid,grp) nc mx u = do
   let i = in' nc AR numOutputBuses
-  audition_at (nid,AddToTail,grp,[]) (out 0 (pre_post_mix (constant mx) i (u i)))
+  audition_at sc3_default_udp (nid,AddToTail,grp,[]) (out 0 (pre_post_mix (constant mx) i (u i)))
 
 -- > run_t 1 id
 run_t :: Double -> Treatment -> IO ()
@@ -192,9 +192,9 @@ distort1 = distort_aaf distort
 
 distort_aaf_meta :: T3 Meta1
 distort_aaf_meta =
-    (("pre-gain",0,16,1,"amp","*")
-    ,("post-gain",0,1,1,"amp","*")
-    ,("tone",1000,20000,12000,"exp","hz"))
+    (("pre-gain",0,16,1,"amp")
+    ,("post-gain",0,1,1,"amp")
+    ,("tone",1000,20000,12000,"exp"))
 
 distort1_p :: Treatment
 distort1_p = distort1 (t3_map mctl distort_aaf_meta)
@@ -221,14 +221,14 @@ distort3 (hp_freq,gain0,amount,lp_freq,gain1,p_freq,p_rq,p_db) z =
 
 distort3_meta :: T8 Meta1
 distort3_meta =
-    (("hp_freq",100,10000,400,"exp","hz")
-    ,("gain0",0,20,5,"amp","*")
-    ,("amount",(-1),1,0.99,"lin","")
-    ,("lp_freq",1000,20000,3800,"exp","hz")
-    ,("gain1",0,1,0.5,"amp","*")
-    ,("p_freq",100,6000,120,"exp","hz")
-    ,("p_rq",0,1,0.7,"lin","1/Q")
-    ,("p_db",-24,24,8,"lin","db"))
+    (("hp_freq",100,10000,400,"exp")
+    ,("gain0",0,20,5,"amp")
+    ,("amount",(-1),1,0.99,"lin")
+    ,("lp_freq",1000,20000,3800,"exp")
+    ,("gain1",0,1,0.5,"amp")
+    ,("p_freq",100,6000,120,"exp")
+    ,("p_rq",0,1,0.7,"lin")
+    ,("p_db",-24,24,8,"lin"))
 
 distort3_p :: Treatment
 distort3_p = distort3 (t8_map mctl distort3_meta)
@@ -323,9 +323,9 @@ ringmod5_syn = treatment_syn 1 "ringmod5" ringmod5
 
 chorus0_meta :: T3 Meta1
 chorus0_meta =
-    (("predelay",1,40,20,"lin","ms")
-    ,("speed",0.01,1,0.05,"exp","hz")
-    ,("depth",0,20,100,"lin","ms"))
+    (("predelay",1,40,20,"lin") -- ms
+    ,("speed",0.01,1,0.05,"exp")
+    ,("depth",0,20,100,"lin")) -- ms
 
 chorus0 :: Double -> Double -> T3 UGen -> Treatment
 chorus0 max_dt iphase (predelay,speed,depth) i =
@@ -341,10 +341,10 @@ chorus0_syn max_dt = treatment_syn 1 "chorus0" (chorus0_p max_dt)
 
 chorus1_meta :: T4 Meta1
 chorus1_meta =
-    (("predelay",1,100,80,"lin","ms")
-    ,("speed",0.01,10,0.05,"exp","hz")
-    ,("depth",0,150,100,"lin","ms")
-    ,("ph_diff",0,pi,0.5,"lin","radians"))
+    (("predelay",1,100,80,"lin")
+    ,("speed",0.01,10,0.05,"exp")
+    ,("depth",0,150,100,"lin")
+    ,("ph_diff",0,pi,0.5,"lin"))
 
 chorus1 :: Int -> Double -> T4 UGen -> Treatment
 chorus1 numDelays max_dt (predelay,speed,depth,ph_diff) i =
@@ -369,7 +369,7 @@ tremolo1 (f,a0,a1) = (*) (range a0 a1 (sinOsc AR f 0))
 
 tremolo1_meta :: T3 Meta1
 tremolo1_meta =
-    (("freq",0.01,10,1,"exp","hz")
+    (("freq",0.01,10,1,"exp")
     ,ampk_meta (Just 0) 0
     ,ampk_meta (Just 1) 1)
 
@@ -502,19 +502,19 @@ reverb2 i = E.zitaRev i i 0.08 200 6 4 6000 190 (-6) 3500 6 1 0
 {- <http://create.ucsb.edu/pipermail/sc-users/2004-April/009692.html> -}
 tank_f :: UGen -> UGen
 tank_f i =
-    let l0 = localIn 2 AR (mce2 0 0) * mctl ("fb_gain",0,0.98,0.98,"lin","*")
+    let l0 = localIn 2 AR (mce2 0 0) * mctl ("fb_gain",0,0.98,0.98,"lin")
         l1 = onePole l0 0.33
         (l1l,l1r) = unmce2 l1
         l2 = rotate2 l1l l1r 0.23
-        l3 = allpassN l2 0.05 (RDU.randN 2 'α' 0.01 0.05) 2
+        l3 = allpassN l2 0.05 (RDU.rRandN 2 'α' 0.01 0.05) 2
         l4 = delayN l3 0.3 (mce2 0.17 0.23)
-        l5 = allpassN l4 0.05 (RDU.randN 2 'β' 0.03 0.15) 2
+        l5 = allpassN l4 0.05 (RDU.rRandN 2 'β' 0.03 0.15) 2
         l6 = leakDC l5 0.995
         l7 = l6 + i
     in mrg [l7,localOut l7]
 
 r_allpass :: UGen -> UGen
-r_allpass i = allpassN i 0.03 (RDU.randN 2 'γ' 0.005 0.02) 1
+r_allpass i = allpassN i 0.03 (RDU.rRandN 2 'γ' 0.005 0.02) 1
 
 tank_rev :: Treatment
 tank_rev = tank_f . useq_all 'δ' 4 r_allpass
@@ -633,11 +633,11 @@ mdelay1 dt_max (gain,fb,dt1,dt2,dt3) z =
 
 mdelay1_meta :: T5 Meta1
 mdelay1_meta =
-    (("gain",0,4,1,"amp","*")
-    ,("fb",0,1,0,"lin","*")
-    ,("dtS",12.5,50,12.5,"lin","ms")
-    ,("dtM",50,200,50,"lin","ms")
-    ,("dtL",200,800,200,"lin","ms"))
+    (("gain",0,4,1,"amp")
+    ,("fb",0,1,0,"lin")
+    ,("dtS",12.5,50,12.5,"lin")
+    ,("dtM",50,200,50,"lin")
+    ,("dtL",200,800,200,"lin"))
 
 -- > add_t (1,0,1) (sdelay0 2 0.65 0.75 0.75 1.25)
 -- > add_t (1,0,1) (sdelay0 30 0.65 0.75 17.5 22.5)
@@ -694,12 +694,12 @@ pingpong2' dt_max (a,b,c,d,e,f) = pingpong2 dt_max (a,b,c) (d,e,f)
 
 pingpong2_meta :: Double -> T6 Meta1
 pingpong2_meta dt_max =
-    (("delayL",0,dt_max,min dt_max 0.250,"lin","s")
-    ,("delayR",0,dt_max,min dt_max 0.251,"lin","s")
-    ,("delayT",epsilon,12,3,"lin","hz")
-    ,("feedbackL",0,1,0.850,"lin","*")
-    ,("feedbackR",0,1,0.950,"lin","*")
-    ,("feedbackT",epsilon,12,7,"lin","hz"))
+    (("delayL",0,dt_max,min dt_max 0.250,"lin")
+    ,("delayR",0,dt_max,min dt_max 0.251,"lin")
+    ,("delayT",epsilon,12,3,"lin")
+    ,("feedbackL",0,1,0.850,"lin")
+    ,("feedbackR",0,1,0.950,"lin")
+    ,("feedbackT",epsilon,12,7,"lin"))
 
 pingpong2_p :: Double -> Treatment
 pingpong2_p dt_max = pingpong2' dt_max (t6_map mctl (pingpong2_meta dt_max))
