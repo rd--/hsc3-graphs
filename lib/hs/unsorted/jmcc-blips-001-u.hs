@@ -1,7 +1,7 @@
 -- blips 001 (jmcc) #SC3d1.5
 
 import Sound.SC3 {- hsc3 -}
-import Sound.SC3.UGen.Unsafe {- hsc3-unsafe -}
+import Sound.SC3.UGen.Unsafe.Util {- hsc3-unsafe -}
 import qualified Sound.SC3.Lang.Control.OverlapTexture as O {- hsc3-lang -}
 
 rand2U :: UGen -> UGen

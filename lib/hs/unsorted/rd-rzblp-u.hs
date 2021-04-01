@@ -4,7 +4,7 @@ import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.UGen.Unsafe as U {- hsc3-unsafe -}
 
 lfn :: UGen -> UGen -> UGen -> UGen
-lfn f l r = range l r (U.lfNoise0 KR f)
+lfn f l r = range l r (U.lfNoise0U KR f)
 
 hpb :: UGen -> UGen
 hpb q =
@@ -29,7 +29,7 @@ mk_f d =
            ,blip AR (lfn q 16 36) 3 * mce2 0.03 0.09]
 
 rzblp :: UGen
-rzblp = mk_f U.drand + mk_f U.dxrand
+rzblp = mk_f U.drandU + mk_f U.dxrandU
 
 main :: IO ()
 main = audition (out 0 rzblp)

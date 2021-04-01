@@ -8,7 +8,7 @@ import qualified Sound.SC3.UGen.Unsafe as U {- hsc3-unsafe -}
 -- > Sound.SC3.UGen.Dot.draw (voscil 32)
 voscil :: Real a => a -> UGen
 voscil b =
-  let lfn = U.lfNoise0 KR
+  let lfn = U.lfNoise0U KR
       hb = (constant b - 1) / 2
       rt = 6
       f = 600
