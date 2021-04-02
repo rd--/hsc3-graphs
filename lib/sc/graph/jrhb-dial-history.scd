@@ -10,7 +10,7 @@
 ; var pat = Latch.kr(trig, trig)
 ; var x = MouseX.kr(0, 1, 'linear', 0.2)
 ; var h = Hasher.kr(pat * x)
-; var which = h.range(0, numbers.size).trunc.(1)
+; var which = h.range(0, numbers.size).trunc.value(1)
 ; var both = Select.kr(which, numbers)
 ; var dial = Select.kr(both, mfv.flop)
 ; var sig = SinOsc.ar(dial, 0) * 0.05 * trig

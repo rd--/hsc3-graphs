@@ -18,7 +18,7 @@
     var isequ = {arg s, tr; tr * Demand.ar(tr, 0, Dseq(s, inf))};
     if (i > 8, {
         var f = (#[48, 60, 72, 84].choose + scale.choose + [0.03.rand2, 0.03.rand2]).midicps;
-        var sq = isequ.([1,1,1,0,0,0].scramble,Impulse.ar([1.5,3,6].choose));
+        var sq = isequ.value([1,1,1,0,0,0].scramble,Impulse.ar([1.5,3,6].choose));
         var sg = LFPulse.ar(f, 0, 0.4, rrand(0.03,0.08));
         RLPF.ar(Decay2.ar(sq, 0.004, rrand(0.2, 0.7),sg),exprand(800,2000),0.1)
     },{ Silent.ar(2) });

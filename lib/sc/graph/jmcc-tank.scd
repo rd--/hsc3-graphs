@@ -28,6 +28,6 @@
   ;var l7 = l6 + i
   ;LocalOut.ar(l7)
   ;l7}
-;var signal = Mix.fill(12, pling) + bang.()
-;4.do({signal = r_allpass.(signal)})
-;tank.(signal)}
+;var signal = Mix.fill(12, pling) + bang.value
+;4.do({signal = r_allpass.value(signal)})
+;tank.value(signal)}

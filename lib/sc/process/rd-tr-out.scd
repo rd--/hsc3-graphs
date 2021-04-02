@@ -13,7 +13,7 @@ Pdefn(\s, Prand([0, 0, 0, 0, 0, 0], inf));
 (
 var mk_p = {arg k; Pmono(\sin, \k, k, \dur, Pdefn(\d), \midinote, Pdefn(\n), \loc, Pdefn(\l), \amp, Pdefn(\a), \stop, Pdefn(\s))};
 var proc_f = {arg e; (["/tr_out",-1] ++ [\k,\midinote,\loc,\amp,\stop].collect(e.at(_))).postln; e};
-6.do({arg k; mk_p.(k).collect(proc_f).play});
+6.do({arg k; mk_p.value(k).collect(proc_f).play});
 )
 
 Pdefn(\d, Pwhite(0.0, 2 * (1 / 0.25)));

@@ -11,7 +11,7 @@ RTexture.overlap(
   ,Dseq([0.0,1.0,0.0,1.0,0.0,1.0,0.0,1.0],1)
   ,Dseq([1.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,1.0,0.0],1)]
 ;var d2 = Drand(d1,inf)
-;var seq = imp_seq.(d2,Impulse.ar(10,0))
+;var seq = imp_seq.value(d2,Impulse.ar(10,0))
 ;var exc = Decay.ar(seq,0.1) * PinkNoise.ar(0.01)
 ;var f0 = 40 + 300.0.rand
 ;var n = 8

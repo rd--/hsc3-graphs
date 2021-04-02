@@ -1,5 +1,5 @@
 // http://sccode.org/1-1Ni (an)
-{var f =
+(var f =
  {var h = [40,45,52].choose.midicps
  ;var o = {SinOsc.ar(exprand(h,h + (h / 64)),0,0.2)}
  ;{Splay.ar(o ! 16) * LFGauss.ar(9,1/4,0,0,2)}.play
@@ -16,4 +16,4 @@
 ;var main =
  {5.do({ch.do({arg i;x = i;x.postln;10.wait})})
  ;10.wait;c.stop;4.wait;b.stop}
-;main.fork}.()
+;main.fork)

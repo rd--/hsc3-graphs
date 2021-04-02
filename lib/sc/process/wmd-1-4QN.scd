@@ -28,5 +28,5 @@
     \pos,Pfunc({-10.0.rrand(10)}),
     \bufnum,z.bufnum)
 ;{{var o = [LFNoise0,SinOsc,Impulse,LFPulse,LFSaw].choose
-  ;g.(o);[1,2,4,8,16,32].choose.postln.wait}.loop}.fork
+  ;g.value(o);[1,2,4,8,16,32].choose.postln.wait}.loop}.fork
 ;[b,c].do({arg p; p.play}))

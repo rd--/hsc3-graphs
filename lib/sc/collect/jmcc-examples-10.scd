@@ -30,7 +30,7 @@ RTexture.overlap({arg i;
 		       ),
 	            LFNoise1.kr(1.0.rand),
 	            Decay2.kr(
-	            	imp_seq.(
+	            	imp_seq.value(
 		            	(
 		            		#[
 		            			[1, 0, 0],

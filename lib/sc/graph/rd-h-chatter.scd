@@ -16,4 +16,4 @@
            ; var f = 40
            ; var o = Blip.ar(HenonN.ar(f, a, b, 0, 0).range(p, p * 2), h)
            ; Pan2.ar(o, l, g) * 0.35 }
-; h0.() + h1.() }
+; h0.value + h1.value }

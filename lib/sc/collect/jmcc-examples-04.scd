@@ -11,9 +11,9 @@
 	clockTime = clockRate.reciprocal;
 	clock = Impulse.kr(clockRate); // sequencer trigger
 	patternList = [55,60,63,62,60,67,63,58];
-	note = sequ.( patternList, clock ); // midi note pattern sequencer
+	note = sequ.value( patternList, clock ); // midi note pattern sequencer
 		// every 16 beats transpose somewhat randomly
-	note = sequR.(
+	note = sequR.value(
 			[-12,-7,-5,0,2,5], 	// function called at each trigger
 			PulseDivider.kr(clock,16))		// divide clock by 16
             +

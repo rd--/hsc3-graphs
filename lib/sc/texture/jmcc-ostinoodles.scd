@@ -6,7 +6,7 @@
  {var offset = 16.rand2
  ;var sequence = (([0,1,2,3] + offset).scramble.degreeToKey(major) + root).midicps
  ;var trig = Impulse.kr(XLine.kr(exprand(4.0,24.0),exprand(4.0,24.0),12))
- ;var f = sequ.(sequence,trig)
+ ;var f = sequ.value(sequence,trig)
  ;Pan2.ar(LFTri.ar(f,0,Decay2.kr(trig,0.004,0.3,0.1)),1.0.rand2)
 },6,3,6,2,postProcess:
  {arg z

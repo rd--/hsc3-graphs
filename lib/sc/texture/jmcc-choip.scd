@@ -1,5 +1,5 @@
 // choip (jmcc) #10
-{var gen_f =
+(var gen_f =
   {var t = 12
   ;var i = Impulse.ar(XLine.kr(exprand(1,30),exprand(1,30),t))
   ;var f = XLine.kr(exprand(600.0,8000.0),exprand(600.0,8000.0),t)
@@ -11,4 +11,5 @@
   {arg z
   ;4.do({z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4)})
   ;z}
-;RTexture.overlap(gen_f, postProcess:pp_f, sustainTime:10, transitionTime:1, overlap:8)}.()
+;RTexture.overlap(gen_f, postProcess:pp_f, sustainTime:10, transitionTime:1, overlap:8))
+

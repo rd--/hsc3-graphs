@@ -14,5 +14,5 @@ Buffer.read(s,Platform.resourceDir +/+ "sounds/a11wlk01.wav",bufnum:10);
 ;var s = RHPF.ar(RLPF.ar(o,lrf,lrq),hrf,hrq)
 ;var v = FreeVerb.ar(s,0,0,0)
 ;var pk = {|i,n,k| BPeakEQ.ar(i,n,6.0,k)}
-;var q = pk.(pk.(pk.(pk.(v,100,6),1000,0),5000,0),10000,6)
+;var q = pk.value(pk.value(pk.value(pk.value(v,100,6),1000,0),5000,0),10000,6)
 ;Pan2.ar(LeakDC.ar(Normalizer.ar(q,1.25,0.1)),0)}.play

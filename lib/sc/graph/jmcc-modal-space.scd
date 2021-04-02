@@ -11,4 +11,4 @@
  ;var m = o + d
  ;CombN.ar(m,0.31,0.31,2) + m}
 ;var n = LFNoise1.kr([3,3])
-;(c.(n,48) + c.(n,72)) * 0.25}
+;(c.value(n,48) + c.value(n,72)) * 0.25}

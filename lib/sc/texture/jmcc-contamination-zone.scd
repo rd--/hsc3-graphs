@@ -12,3 +12,5 @@ RTexture.overlap(
  {arg z
  ;6.do({ z = AllpassN.ar(z,0.1,[0.05.rand,0.05.rand],4)})
  ;z})
+
+{arg z; z.postln}.value(args: [4])

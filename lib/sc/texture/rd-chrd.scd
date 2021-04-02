@@ -20,5 +20,5 @@ RTexture.overlap(
 ;var octaves = [4, 5, 6, 7]
 ;var mnn = all {:n + (o * 12), n <- scale, o <- octaves}
 ;var chd = 6.collect({mnn.choose})
-;Mix.fill(9,{chrd.(chd)})}
+;Mix.fill(9,{chrd.value(chd)})}
 ,21, 0, 3)

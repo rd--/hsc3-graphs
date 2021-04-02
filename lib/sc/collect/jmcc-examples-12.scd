@@ -9,13 +9,13 @@ RTexture.overlap({
 		#p, pf = [[1,1],[1,1],[-1,2]].choose; // choose string or pipe
 		r = [8,4,2].choose;
 		c = Impulse.kr(r);
-		t = imp_seq.(([
+		t = imp_seq.value(([
 				[1,1,0,0,0,0,0,0],
 				[1,1,1,0,0,0,0,0],
 				[1,1,1,1,0,0,0,0]
 				].choose.scramble), c);
 		e = Trig.kr(t, rrand(0.3,0.9)/r);
-		f = pf*Lag.kr(sequ.((Array.fill([1,2,3,4].choose, { rrand(24,96).midicps })), t), 0.1/r);
+		f = pf*Lag.kr(sequ.value((Array.fill([1,2,3,4].choose, { rrand(24,96).midicps })), t), 0.1/r);
 		n = LPZ2.ar(LFNoise2.ar(min(f*24, 12000), 0.2 * e));
 		Pan2.ar( CombC.ar(n, 0.1, 1/f, min(0.5,exprand(90,240)/f) * p) * 0.2, 1.0.rand2);
 	}, 19, 0.5, 5, 2, postProcess: {arg signal;
@@ -45,7 +45,7 @@ RTexture.overlap({
 })
 )
 
-//////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
 
 (
 // clipped inharmonic warbulence

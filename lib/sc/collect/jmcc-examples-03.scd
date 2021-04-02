@@ -12,7 +12,7 @@ anaSynFunc = { arg octave, clockRate, pwmrate, fltrate;
 		).midicps;						// convert to cycles per second
     var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
 	// use a sequencer to step through the list of frequencies
-	var freq = sequ.(
+	var freq = sequ.value(
 			freqList,
 			Impulse.kr(clockRate)	// sequencer steps at each trigger from this oscillator
 		);
@@ -75,7 +75,7 @@ var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
 var pattern = #[55,63,60,63,57,65,62,65];
 f = { arg octave, clockRate, pwmrate, fltrate;
 	RLPF.ar( LFPulse.ar( Lag.kr(
-				sequ.(
+				sequ.value(
 					((pattern + (12 * octave)).midicps), // sequencer pattern
 					Impulse.kr(clockRate)	// sequencer trigger
 				),
@@ -117,7 +117,7 @@ var pat = Drand([ // choose one of the following patterns at random
 			  0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0],1)
 	], inf);
 		var freq = 40 + 300.0.rand; 		// random base frequency
-		var seq = imp_seq.(		// outputs a sequence of single sample triggers
+		var seq = imp_seq.value(		// outputs a sequence of single sample triggers
 				pat,
 				Impulse.ar(10) 		// a clock for the sequencer at 10 beats per second
 			);

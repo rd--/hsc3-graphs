@@ -12,7 +12,7 @@
 ;var trig = Trig1.kr(CuspL.ar(rate * 3), 0.001)
 ;var octave = Demand.kr(PulseDivider.kr(trig, 4), 0, Drand([12,-12], inf))
 ;var note = Demand.kr(trig, 0, Dseq([42,46,51,54,59,63,66].scramble + trans, inf) + octave)
-;var chord = shift_register.(5, trig, note)
+;var chord = shift_register.value(5, trig, note)
 ;var chord_cps = chord.midicps
 ;var cf = Vibrato.ar(K2A.ar(chord_cps))
 ;var mf = chord_cps * LFPulse.kr(1/8).range(1.01, 2.01)

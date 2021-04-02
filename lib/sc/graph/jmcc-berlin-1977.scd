@@ -5,9 +5,9 @@
 ;var clock_time = 1 / clock_rate
 ;var clock = Impulse.kr(clock_rate,0) // sequencer trigger
 ;var patternList = [55,60,63,62,60,67,63,58]
-;var note = sequ.(patternList,clock) // midi note pattern sequencer
+;var note = sequ.value(patternList,clock) // midi note pattern sequencer
 ;var clock_16 = PulseDivider.kr(clock,16,0) // divide clock by 16
-;var note_ = sequR.([-12,-7,-5,0,2,5],clock_16) + note // transpose somewhat randomly
+;var note_ = sequR.value([-12,-7,-5,0,2,5],clock_16) + note // transpose somewhat randomly
 ;var freq = note_.midicps // convert midi note to cycles per second
 ;var env = Decay2.kr(clock,0.05 * clock_time,2 * clock_time)
 ;var amp = env * 0.1 + 0.02 // amplitude envelope
