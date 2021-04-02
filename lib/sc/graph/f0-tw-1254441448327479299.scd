@@ -20,8 +20,8 @@
 ;var d = LFTri.ar(b / 999, 0) % 1
 ;var l = LFTri.ar(b * c, 0) * 7 + 20 + Dseq(b % (LFTri.ar(b * c, 0) * 5 + 6), inf)
 ;var j = Duty.ar(e / (12 ** LFTri.ar(b * c, 0)), 0, l)
-;var f = DegreeToKey.ar(LocalBuf.newFrom(b), j).midicps
-;var o = SinOscFB.ar(f, LFTri.ar(c / b + 1 / 3, Decay2.ar(Impulse.ar(e @@ b, 0), c, d)) * d)
+;var k = DegreeToKey.ar(LocalBuf.newFrom(b), j)
+;var o = SinOscFB.ar(k.midicps, LFTri.ar(c / b + 1 / 3, Decay2.ar(Impulse.ar(e @@ b, 0), c, d)) * d)
 ;FreeVerb.ar(Splay.ar(o,1,1,0,true), 0.1, 1, 0.5) * 0.2}
 
 //-----
