@@ -1,5 +1,5 @@
 // tapping tools (jmcc) #7
-Texture.spawn(
+RTexture.spawn(
 {var e = Env.linen(1, 4, 1)
 ;var rate = XLine.kr(64, 0.125, 60)
 ;var exc = Decay.ar(Impulse.ar((1 + 20.0.linrand) * rate, 0, 0.03), 0.001)

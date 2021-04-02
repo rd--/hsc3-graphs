@@ -1,5 +1,5 @@
 // early space music lp side two (jmcc) #12
-Texture.overlap({
+RTexture.overlap({
     [{
         var a = 20.0.rand;
         var b = 5000.0.rand;

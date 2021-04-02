@@ -2,7 +2,7 @@
 
 (
 // ERR arachnid espresso
-Texture.overlap({
+RTexture.overlap({
 		var t, c, e, f, n, r, p, pf;
         var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf)) * tr};
         var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
@@ -27,7 +27,7 @@ Texture.overlap({
 
 (
 // inharmonic warbulence
-Texture.overlap({
+RTexture.overlap({
 		var f, r, n, a;
 		f = rrand(24, 96).midicps;
 		a = min(1, (500/f));
@@ -49,7 +49,7 @@ Texture.overlap({
 
 (
 // clipped inharmonic warbulence
-Texture.overlap({
+RTexture.overlap({
 	var r = LinExp.kr(LFNoise1.kr(1/16), -1,1,0.1,20);
 		var f, n, a;
 		f = rrand(24, 96).midicps;
@@ -72,7 +72,7 @@ Texture.overlap({
 
 (
 // pulse harmonic warbulence
-Texture.overlap({
+RTexture.overlap({
 		var f, r, n;
 		f = rrand(24, 96).midicps;
 		r = XLine.kr(exprand(0.1,20),exprand(0.1,20), 25.6);

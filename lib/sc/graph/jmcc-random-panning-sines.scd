@@ -1,5 +1,5 @@
 // random panning sines (jmcc) #4
-{Texture.xfadeGraph({
+{RTexture.xfadeGraph({
     arg tr;
     var n = 8;
     Mix.ar(Array.fill(n, {

@@ -1,5 +1,5 @@
 // pm-crotale (dmc) #1.7 - the graph as given in the book is odd, amp_1 is pre pan2, amp_2 is post
-Texture.spawn(
+RTexture.spawn(
 {var midi = IRand(48,72)
 ;var tone = Rand(1,6)
 ;var art = Rand(2,6)

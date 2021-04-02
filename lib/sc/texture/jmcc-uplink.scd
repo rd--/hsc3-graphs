@@ -1,5 +1,5 @@
 // uplink (jmcc) #2
-Texture.overlap(
+RTexture.overlap(
 {var osc =
   {var e = LFPulse.kr(4.0.rand, 0, 1.0.rand) * 8000.rand + 2000.rand
   ;LFPulse.kr(20.0.rand, 0, 1.0.rand) * e}

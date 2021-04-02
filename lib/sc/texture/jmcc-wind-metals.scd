@@ -1,5 +1,5 @@
 // wind metals (jmcc)
-Texture.overlap(
+RTexture.overlap(
 {var n = 6
 ;var base = ExpRand(60,4000)
 ;var rng = Rand(500.0,8000.0)

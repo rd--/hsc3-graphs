@@ -1,5 +1,5 @@
 // data space (jmcc) #2
-Texture.overlap(
+RTexture.overlap(
 {var dt = 0.25.rand + 0.1
 ;var osc =
   {arg n, m

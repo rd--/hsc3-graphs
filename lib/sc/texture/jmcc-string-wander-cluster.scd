@@ -1,5 +1,5 @@
 // string wander-cluster (jmcc) #6
-Texture.overlap(
+RTexture.overlap(
 {var note = 50 + 50.rand
 ;var note_ = (note + 15.rand - 7).fold(50, 120)
 ;var delay = 1/note_.midicps
@@ -7,7 +7,7 @@ Texture.overlap(
 ,sustainTime:4/3, transitionTime:4/3, overlap:6)
 
 /* with vibrato */
-Texture.overlap(
+RTexture.overlap(
 {var note = 50 + 50.rand
 ;var note_ = (note + 15.rand - 7).fold(50, 120)
 ;var freq = note_.midicps

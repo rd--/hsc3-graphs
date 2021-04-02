@@ -10,7 +10,7 @@
 
 (
 // tarmac
-Texture.overlap({arg i;
+RTexture.overlap({arg i;
         var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf)) * tr};
 		var t, d;
 		t = Impulse.kr(8);
@@ -45,7 +45,7 @@ Texture.overlap({arg i;
 	            	t), 0.004, d)
 	      )
 }, 12, 3, 6, 2);
-Texture.overlap({
+RTexture.overlap({
 		Pan2.ar(
 	            Klank.ar(
 	                `[
@@ -75,7 +75,7 @@ Texture.overlap({
 (
 // choip choip choip
 	var t = 12;
-	Texture.overlap({
+	RTexture.overlap({
 		var impulses = Impulse.ar(
 			XLine.kr(exprand(1,30), exprand(1,30), t)
 		);

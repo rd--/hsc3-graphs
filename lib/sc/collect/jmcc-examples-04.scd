@@ -127,7 +127,7 @@
 (
 // random panning sines
 var n = 8;
-	Texture.xfade({
+	RTexture.xfade({
 		Mix.ar(Array.fill(n, {
 			Pan2.ar(
 				FSinOsc.ar(80 + 2000.0.linrand),

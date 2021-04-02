@@ -1,5 +1,5 @@
 // chrd (rd)
-Texture.overlap(
+RTexture.overlap(
 {var chrd =
   {arg m = [60, 65, 72, 77, 79, 84]
   ;var r0 = Rand(0.05, 0.5)

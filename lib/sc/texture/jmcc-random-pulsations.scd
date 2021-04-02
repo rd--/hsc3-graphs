@@ -1,5 +1,5 @@
 // random pulsations (jmcc) #1
-Texture.spawn(
+RTexture.spawn(
 {var env = EnvGen.kr(Env.linen(2, 5, 2, 0.02), doneAction:2)
 ;var o1 = FSinOsc.ar(2000.0.rand, 0) * env
 ;var o2 = SinOsc.ar(8 + 80.0.linrand, 0)

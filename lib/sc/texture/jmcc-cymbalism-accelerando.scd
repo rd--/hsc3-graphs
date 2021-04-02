@@ -1,5 +1,5 @@
 // cymbalism accelerando (jmcc) #2
-Texture.xfade({
+RTexture.xfade({
     var p = 15; // number of partials per channel per 'cymbal'.
     var f1 = 500 + 2000.0.rand;
     var f2 = 8000.0.rand;

@@ -1,5 +1,5 @@
 // resonant dust (jmcc) #2
-Texture.spawn(
+RTexture.spawn(
 {var e = Env.linen(2, 5, 2)
 ;var rf1 = 2000.0.rand + 80
 ;var rf2 = rf1 + (0.5.rand2 * rf1)

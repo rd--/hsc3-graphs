@@ -1,5 +1,5 @@
 // resonators harmonic series (jmcc) #2
-Texture.xfade(
+RTexture.xfade(
 {var p = 12 /* number of overtones */
 ;var noise = BrownNoise.ar(0.001)
 /* two octaves of a just diatonic scale expressed as ratios */

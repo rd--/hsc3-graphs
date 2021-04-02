@@ -11,4 +11,4 @@
   {arg z
   ;4.do({z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4)})
   ;z}
-;Texture.overlap(gen_f, postProcess:pp_f, sustainTime:10, transitionTime:1, overlap:8)}.()
+;RTexture.overlap(gen_f, postProcess:pp_f, sustainTime:10, transitionTime:1, overlap:8)}.()

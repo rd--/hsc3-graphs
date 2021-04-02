@@ -45,7 +45,7 @@ specList	= [
 			`[ [76,88,99,124].midicps, nil, tring ]
 		] ;
 e = Env.sine(4,1);
-    Texture.spawn({ arg  index;
+    RTexture.spawn({ arg  index;
         EnvGen.ar(
             e) *
             Klank.ar(
@@ -70,7 +70,7 @@ e = Env.sine(4,1);
 // mouse y controls modulation index
 var e = Env.adsr(0.001, 0.01, 0.25, 0.04, 1, -4);
 	var n = 4;		// number of simultaneous events
-	Texture.overlap({
+	RTexture.overlap({
 	var x = MouseX.kr(100, 6000, 'exponential');
 	var y = MouseY.kr(0, 2);
 		var ph = 0;

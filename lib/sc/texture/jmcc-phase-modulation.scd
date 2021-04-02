@@ -1,5 +1,5 @@
 // phase modulation with slow beats (jmcc) #6
-Texture.overlap(
+RTexture.overlap(
 {var x = MouseX.kr(100, 6000, 'exponential') /* random frequency of new events */
 ;var y = MouseY.kr(0, 2) /* modulation index */
 ;var f1 = Rand(0,x)

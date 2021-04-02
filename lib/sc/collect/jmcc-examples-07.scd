@@ -49,7 +49,7 @@ play({
 	var n, d;
 	n = 20;	// n*3 components in each channel
 	d = 5.0;	// beat freq deviation
-	Texture.xfade({
+	RTexture.xfade({
 		var z, p, q;
 		p = Array.new(3*n);
 		q = Array.new(3*n);
@@ -81,7 +81,7 @@ play({
 	n = 8;	// number of notes
 	d = 0.4;	// beat freq deviation
 	m = 5;	// harmonics per note
-	Texture.xfade({
+	RTexture.xfade({
 		var z, p, q, k;
 		p = Array.new(m*n);
 		q = Array.new(m*n);
@@ -127,7 +127,7 @@ play({
 // tapping tools
 // mouse x controls impulse rate
 var e = Env.linen(1, 4, 1);
-	Texture.spawn({
+	RTexture.spawn({
 	var rate = XLine.kr(64, 0.125, 60);
 		Pan2.ar(
 			// resonant filter bank simulates resonant modes of bouncing objects

@@ -5,7 +5,7 @@
 var p, n;
 p = 20;	// number of partials
 n = 4;	// number of overlapping events
-	Texture.overlap({
+	RTexture.overlap({
 		Pan2.ar(
 			Klank.ar( // p resonant modes
 				`[	// filter bank specification array:
@@ -30,7 +30,7 @@ n = 4;	// number of overlapping events
 // bouncing lightbulbs, pencils, cans, and other assorted objects
 var e;
 e = Env.new([1, 1, 0],[3, 0.001]); // 3 second cut off envelope to end sound
-	Texture.spawn({
+	RTexture.spawn({
 		Pan2.ar(
 			// resonant filter bank simulates resonant modes of bouncing objects
 			Klank.ar(
@@ -61,7 +61,7 @@ e = Env.new([1, 1, 0],[3, 0.001]); // 3 second cut off envelope to end sound
 // Klang - Lots-o-sines
 var n;
 n = 60; // n sines in each channel (twice as many during cross-fade)
-	Texture.xfade({
+	RTexture.xfade({
 		var z;
 		z = [`[Array.fill(n, { 40 + 10000.0.linrand} ), nil, nil],
 			`[Array.fill(n, { 40 + 10000.0.linrand} ), nil, nil]
@@ -76,7 +76,7 @@ n = 60; // n sines in each channel (twice as many during cross-fade)
 // clustered sines
 var n;
 n = 80;
-	Texture.xfade({
+	RTexture.xfade({
 		var z, f1, f2;
 		f1 = 100 + 1000.0.rand;
 		f2 = 4.0 * f1;
@@ -98,7 +98,7 @@ n = 80;
 var n, p;
 n = 5;	// number of simultaneous instruments
 p = 15;	// number of partials per instrument
-	Texture.overlap({
+	RTexture.overlap({
 		var z;
 		z = `[	// filter bank specification :
 				Array.fill(p, { 80 + 10000.0.linrand} ),	// frequencies
@@ -119,7 +119,7 @@ p = 15;	// number of partials per instrument
 var n, p;
 n = 5;	// number of simultaneous instruments
 p = 8;	// number of partials per instrument
-	Texture.overlap({
+	RTexture.overlap({
 		var exciter, spec;
 		exciter = Decay.ar(Dust.ar(0.6, 0.001), 3.1, WhiteNoise.ar);
 		spec = Array.fill(2, {
@@ -139,7 +139,7 @@ p = 8;	// number of partials per instrument
 // resonators at random frequencies excited by BrownNoise
 var p;
 p = 32; // number of partials per channel
-	Texture.xfade({
+	RTexture.xfade({
 		var noise, spec;
 		noise = BrownNoise.ar(0.001);
 		spec = Array.fill(2, {
@@ -159,7 +159,7 @@ p = 32; // number of partials per channel
 // resonators tuned in a harmonic series with pitch ratios from a just scale
 var p;
 p = 12;	// number of overtones
-	Texture.xfade({
+	RTexture.xfade({
 		var noise, spec, freq, resFreqs;
 		noise = BrownNoise.ar(0.001);
 		// a list representing a just diatonic scale expressed as ratios.
@@ -184,7 +184,7 @@ p = 12;	// number of overtones
 // and using a different noise source
 var p;
 p = 12;	// number of overtones
-	Texture.xfade({
+	RTexture.xfade({
 		var noise, spec, freq, resFreqs;
 		noise = LFNoise2.ar(8000, 0.004);
 		// a list representing a just diatonic scale expressed as ratios.
@@ -209,7 +209,7 @@ p = 12;	// number of overtones
 var n, p;
 n = 5;	// number of sweepers
 p = 10;	// number of partials
-	Texture.overlap({
+	RTexture.overlap({
 		var sweep, spec;
 		sweep = Resonz.ar(
 			WhiteNoise.ar(0.007),
@@ -232,7 +232,7 @@ p = 10;	// number of partials
 // coolant
 var p;
 p = 10;	// number of partials per channel
-	Texture.xfade({
+	RTexture.xfade({
 		Klank.ar(
 			[
 				`[Array.fill(p, { 40 + 2000.0.rand }),nil,nil],
@@ -297,7 +297,7 @@ play({
 // narrow band filtered Crackle noise
 var e;
 e = Env.linen(2, 5, 2);
-	Texture.spawn({
+	RTexture.spawn({
 		var rf, rf2;
 		rf = 2000.0.rand + 80;
 		rf2 = rf + (0.2.rand2 * rf);
@@ -312,7 +312,7 @@ e = Env.linen(2, 5, 2);
 (
 // resonant dust
 e = Env.linen(2, 5, 2);
-	Texture.spawn({
+	RTexture.spawn({
 		var rf, rf2;
 		rf = 2000.0.rand + 80;
 		rf2 = rf + (0.5.rand2 * rf);
@@ -350,7 +350,7 @@ play({
 // uplink
 var n;
 n = 5;
-	Texture.overlap({
+	RTexture.overlap({
 		var freq;
 		freq = LFPulse.kr(20.0.rand, 0, 1.0.rand,
 			LFPulse.kr(4.0.rand, 0, 1.0.rand, 8000.rand, 2000.rand));
@@ -366,7 +366,7 @@ n = 5;
 // data space
 var n;
 n = 4;
-	Texture.overlap({
+	RTexture.overlap({
 		var freq, dtime;
 		freq = LFPulse.kr(200.0.rand, 0, 1.0.rand, LFPulse.kr(40.0.rand, 0, 1.0.rand, 8000.rand, 2000.rand));
 		freq = freq + LFPulse.kr(20.0.rand, 0, 1.0.rand, LFPulse.kr(4.0.rand, 0, 1.0.rand, 8000.rand, 2000.rand));
@@ -382,7 +382,7 @@ n = 4;
 // cymbalism
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
-	Texture.xfade({
+	RTexture.xfade({
 		var z, f1, f2;
 		f1 = 500 + 2000.0.rand;
 		f2 = 8000.0.rand;
@@ -403,7 +403,7 @@ p = 15;	// number of partials per channel per 'cymbal'.
 // cymbalism accellerando
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
-	Texture.xfade({
+	RTexture.xfade({
 		var z, f1, f2;
 		f1 = 500 + 2000.0.rand;
 		f2 = 8000.0.rand;
@@ -426,7 +426,7 @@ p = 15;	// number of partials per channel per 'cymbal'.
 var n, p;
 n = 4;	// overlap
 p = 8;	// number of partials
-	Texture.overlap({
+	RTexture.overlap({
 		a = Klank.ar(`[Array.rand(p, 100, 10000), nil, Array.rand(p, 0.2, 1.0)],
 			Dust.ar(20, 0.02));
 		Pan2.ar(SinOsc.ar(LFNoise2.kr(1.0 + 0.3.rand2, 200, 350 + 50.rand), 0, a), 1.0.rand2);

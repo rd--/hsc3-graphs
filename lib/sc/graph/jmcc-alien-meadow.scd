@@ -1,5 +1,5 @@
 // alien meadow (jmcc) #6
-{Texture.overlapGraph(
+{RTexture.overlapGraph(
 {arg tr
 ;var a = TRand.kr(0,20,tr)
 ;var b = TRand.kr(0,5000,tr)

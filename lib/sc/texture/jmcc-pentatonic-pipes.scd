@@ -3,7 +3,7 @@
 ;var env = Env.linen(0.2,8,1,20,'sine')
 ;var mode = [0,3,5,7,10]
 ;var root = 36 + 12.rand
-;Texture.overlap(
+;RTexture.overlap(
  {arg i
  ;var amp = EnvGen.kr(env)
  ;var f = nil

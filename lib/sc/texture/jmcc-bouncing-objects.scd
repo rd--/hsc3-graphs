@@ -1,5 +1,5 @@
 // bouncing objects (jmcc) #2
-Texture.spawn(
+RTexture.spawn(
 /* impulses trigger decay envelope */
 {var imp_frq = XLine.kr(5 + 2.0.rand2, 600, 4) /* accelerating frequency */
 ;var imp_amp = XLine.kr(0.09, 0.000009, 4) /* decaying impulse amplitude */

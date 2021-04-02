@@ -1,5 +1,5 @@
 // pulse harmonic warbulence (jmcc) #12
-Texture.overlap(
+RTexture.overlap(
 {var f = rrand(24,96).midicps
 ;var r = XLine.kr(exprand(0.1,20),exprand(0.1,20),25.6)
 ;var n = 12

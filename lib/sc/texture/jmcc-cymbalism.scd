@@ -1,5 +1,5 @@
 // cymbalism (jmcc) #2
-Texture.xfade(
+RTexture.xfade(
 {var p = 15
 ;var f1 = Rand(500,2500)
 ;var f2 = Rand(0,8000)

@@ -10,4 +10,4 @@
   ;z = z.distort
   ;6.do({z = AllpassN.ar(z, 0.05, [0.05.rand, 0.05.rand], 4)})
   ;z}
-;Texture.overlap(gen_f, 2, 1, 12, postProcess: pp_f)}.()
+;RTexture.overlap(gen_f, 2, 1, 12, postProcess: pp_f)}.()

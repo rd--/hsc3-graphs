@@ -2,7 +2,7 @@
 
 (
 // deep trip
-	Texture.overlap( {
+	RTexture.overlap( {
 		f = LFNoise1.kr(0.3.rand, 60, 70).midicps;
 		z = SinOsc.ar(f, 0,
 			LFNoise2.ar(
@@ -26,7 +26,7 @@
 // sawed cymbals
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
-	Texture.overlap({
+	RTexture.overlap({
 		var z, f1, f2;
 		f1 = 500 + 2000.0.rand;
 		f2 = 8000.0.rand;
@@ -47,7 +47,7 @@ p = 15;	// number of partials per channel per 'cymbal'.
 // sidereal time
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
-	Texture.overlap({
+	RTexture.overlap({
 		var z, f1, f2, f3, in, out;
 		f1 = 100;
 		f2 = 6000.0;
@@ -75,7 +75,7 @@ n = 5;	// number of overlapped events
 env = Env.linen(0.2, 8, 1, 20, 'sine');
 mode = [0, 3, 5, 7, 10];
 root = 36 + 12.rand;
-Texture.overlap({arg i;
+RTexture.overlap({arg i;
 		var amp, f;
         if(i%20 == 0, {root = 36 + 12.rand; root.postln});
 		f = (20.rand.degreeToKey(mode, 12) + root).midicps;
@@ -103,7 +103,7 @@ Texture.overlap({arg i;
 var major, root;
 root = 81 + 6.rand2;
 major = #[0, 2, 4, 5, 7, 9, 11];
-	Texture.overlap({
+	RTexture.overlap({
 		var f, offset, sequence, trig;
 		offset = 16.rand2;
 		sequence = ((#[0, 1, 2, 3] + offset).scramble.degreeToKey(major) + root).midicps;
@@ -125,7 +125,7 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 
 (
 // bowed garage door springs
-	Texture.overlap({
+	RTexture.overlap({
 		Pan2.ar(
 	            Klank.ar(
 	                `[
@@ -149,7 +149,7 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 
 (
 // contamination zone
-Texture.overlap({
+RTexture.overlap({
 		var f;
 		f = exprand(800, 8000);
 		Pan2.ar(
@@ -180,7 +180,7 @@ Texture.overlap({
 
 (
 // array manipulation of multi channel audio
-	Texture.xfade({
+	RTexture.xfade({
 		var a, b, c, d, e;
 		// 2 channels each of 3 different processes:
 		a = Array.fill(2, {
