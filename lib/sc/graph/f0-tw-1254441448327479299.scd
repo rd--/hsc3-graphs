@@ -22,7 +22,8 @@
 ;var j = Duty.ar(e / (12 ** LFTri.ar(b * c, 0)), 0, l)
 ;var k = DegreeToKey.ar(LocalBuf.newFrom(b), j)
 ;var o = SinOscFB.ar(k.midicps, LFTri.ar(c / b + 1 / 3, Decay2.ar(Impulse.ar(e @@ b, 0), c, d)) * d)
+;Out.kr(bus: 90, channelsArray: A2K.kr(k))
 ;FreeVerb.ar(Splay.ar(o,1,1,0,true), 0.1, 1, 0.5) * 0.2}
 
-//-----
-[3,2/3,4,3/2,2] @@ [1,3,5,8,10]
+//---- ; drawings
+RCtlPlot.new(numFrames: 1200, numChannels: 5, indexZero: 90, plotFrames: 1200, delayTime: 1/20, drawRate: 5)
