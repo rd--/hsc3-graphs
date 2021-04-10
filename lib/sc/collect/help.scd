@@ -595,6 +595,9 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
         pan: Dseq([1, 1, 1, 0.5, 0.2, 0.1, 0, 0, 0], inf) * 2 - 1,
         amp: Dseq([1, 0, z.value, 0, 2, 1.0, 1, 0.1, 0.1], inf))}
 
+// UGen.linlin (note Clip UGen)
+{SinOsc.ar(freq: Sweep.kr(trig: 0, rate: 1).linlin(inMin: 0, inMax: 1, outMin: 110, outMax: 220, clip: 'minmax'), phase: 0)}
+
 // Vibrato
 {SinOsc.ar(Vibrato.ar(DC.ar(400.0),1,0.02))*0.1}
 
