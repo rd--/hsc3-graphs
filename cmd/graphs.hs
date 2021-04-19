@@ -149,6 +149,7 @@ hs_graph_fragments_process_dir in_dir = do
   fn <- T.dir_subset [".hs"] in_dir
   hs_graph_fragments_process fn graphs_db_dir
 
+-- > hs_graph_fragments_process_load "/tmp/st.hs"
 hs_graph_fragments_process_load :: FilePath -> IO [Graphdef.Graphdef]
 hs_graph_fragments_process_load fn = do
   tmp <- getTemporaryDirectory
@@ -162,6 +163,10 @@ hs_graph_fragments_process_play fn = hs_graph_fragments_process_load fn >>= mapM
 hs_graph_fragments_process_draw :: FilePath -> IO ()
 hs_graph_fragments_process_draw fn =
   hs_graph_fragments_process_load fn >>= mapM_ (Dot.draw . snd . Graphdef.Read.graphdef_to_graph)
+
+hs_graph_fragments_process_dump_ugens :: FilePath -> IO ()
+hs_graph_fragments_process_dump_ugens fn =
+  hs_graph_fragments_process_load fn >>= mapM_ Graphdef.graphdef_dump_ugens
 
 -- * SuperCollider
 
@@ -307,7 +312,7 @@ help :: [String]
 help =
     ["hsc3-graphs command [arguments]"
     ," db polyglot autogen"
-    ," fragments {hs} {play | draw} FILE-NAME"
+    ," fragments {hs} {play | draw | dump-ugens} FILE-NAME"
     ]
 
 main :: IO ()
@@ -317,4 +322,5 @@ main = do
     ["db","polyglot","autogen"] -> graphs_db_polyglot_autogen
     ["fragments","hs","play",fn] -> hs_graph_fragments_process_play fn
     ["fragments","hs","draw",fn] -> hs_graph_fragments_process_draw fn
+    ["fragments","hs","dump-ugens",fn] -> hs_graph_fragments_process_dump_ugens fn
     _ -> putStrLn (unlines help)
