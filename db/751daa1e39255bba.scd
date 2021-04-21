@@ -1,0 +1,8 @@
+// f0 <https://twitter.com/redFrik/status/1367656279926247427>
+{var f = {|x,y| ar(a,x,y?b).round}
+;var a = SinOsc
+;var b = 'TORSDAGKVÄLL'.ascii-64
+;var c = ar(GrainSin,1,ar(a,f.value(0.01,0)+10,b),0.85,f.value(0.4)+f.value(0.1)+2**f.value(1/b)+1*99)/5
+;var x = ar(HPF,ar(a,2,c*pi)+ar(PitchShift,c,0.5,f.value(1)*f.value(0.1)+2,0.05,1,0.15),5)
+;var y = ar(a,50,0,ar(HPF,f.value(1,[0,1]),1)/2)
+;ar(Splay,x+y).tanh}
