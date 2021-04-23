@@ -1,4 +1,4 @@
--- MiClouds ; using external grain trigger
+-- MiClouds ; using external grain trigger ; requires=buf (stereo)
 let buf = control KR "buf" 0
     nc = 2
     input = playBuf nc AR buf 1 1 0 Loop DoNothing

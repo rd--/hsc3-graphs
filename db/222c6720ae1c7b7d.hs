@@ -1,4 +1,4 @@
--- miElements ; mallets  strength
+-- miElements ; mallets, strength
 let gat = coinGate 'α' 0.4 (impulse KR 6 0)
     stren = tRand 'β' 0 1 gat
     strike_timbre = lfNoise1 'γ' KR 0.3 * 0.5 + 0.5
