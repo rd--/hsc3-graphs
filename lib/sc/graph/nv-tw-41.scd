@@ -1,9 +1,11 @@
-// http://sccode.org/1-V (nv) [Line 41]
-{var f =
+// https://swiki.hfbk-hamburg.de/MusicTechnology/899 (nv) [Line 41]
+{var n =
  {arg i
- ;var t = 0.6 ** i * 40 * Impulse.ar(2 ** i / 32,1 / 2)
- ;var f = 4 ** LFNoise0.kr(1 / 16) * 300
- ;RLPF.ar(t,f,0.005).sin}
-;var x = Splay.ar(f ! 8)
-;2.do({x = FreeVerb2.ar(*x ++ [0.1,1,1])})
-;x}
+ ;var f = 1.9 ** i / 128
+ ;var p = PinkNoise.ar(mul: 1 ! 2)
+ ;var b = 4 ** LFNoise2.kr(freq: 1.2 ** i / 16)
+ ;BPF.ar(in: p, freq: b * 300, rq: 0.15) * (5 ** LFNoise2.ar(freq: f) / (i + 8) * 20)}
+;Splay.ar(inArray: n ! 15, spread: 1, level: 1, center: 0, levelComp: true)}
+
+// https://swiki.hfbk-hamburg.de/MusicTechnology/899 (nv) [Line 41]
+{Splay.ar({|i|f=1.9**i/128;BPF.ar(PinkNoise.ar(1!2),4**LFNoise2.kr(1.2**i/16)*300,0.15)*(5**LFNoise2.ar(f)/(i+8)*20)}!15)}

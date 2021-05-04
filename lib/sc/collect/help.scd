@@ -550,6 +550,15 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
 ;var r = BufRateScale.kr(b)
 ;PlayBuf.ar(1,b,r,1,0,1,0)}
 
+// Rand (UGen)
+{SinOsc.ar(freq: Rand.new(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)}
+
+// Rand (UnaryOp)
+{var c = NamedControl.ir(name: "c", values: 220.0); SinOsc.ar(freq: c.rand + c, phase: 0, mul: 0.10)}
+
+// RandRange (BinaryOp)
+{var c = NamedControl.ir(name: "c", values: 220.0); SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)}
+
 // SinOsc ; phase cancellation
 {Mix(SinOsc.ar(440,[0,pi]))}
 
