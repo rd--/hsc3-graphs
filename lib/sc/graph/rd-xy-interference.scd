@@ -5,4 +5,4 @@
           ;var a = SinOsc.ar(x + n,0)
           ;var b = SinOsc.ar(y,0)
           ;a * b}
-;Mix.fill(3,nd) * 0.25}
+;Mix.fill(3,nd)}
