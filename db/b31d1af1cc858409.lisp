@@ -1,5 +1,0 @@
-; shaper ; requires=wave-table (see b-gen1)
-(let* ((b (ctl kr "tbl" 10))
-       (a (line kr 0 1 6 remove-synth))
-       (s (mul (sin-osc ar 300 0) a)))
-  (mul (shaper b s) 0.05))

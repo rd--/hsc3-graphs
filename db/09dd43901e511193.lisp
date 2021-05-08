@@ -1,0 +1,13 @@
+; landon-rose (jmcc)
+(let* ((nt (list
+            (list 32 43 54 89)
+            (list 10 34 80 120)
+            (list 67 88 90 100)
+            (list 76 88 99 124)))
+       (fr (map (lambda (x) (map s:midi-cps x)) nt))
+       (nd (lambda (e f)
+             (let ((p (klank-data f (replicate 4 1) (replicate 4 3)))
+                   (x (Mul (Mul e (PinkNoise ar)) (mce2 0.0011 0.0012))))
+               (Klank x 1 0 1 p))))
+       (env (lambda (i) (Abs (SinOsc ar (/ 1 8) (Mul (/ i 2) pi))))))
+  (foldr1 Add (zip-with nd (map env (enum-from-to 0 3)) fr)))

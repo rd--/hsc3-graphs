@@ -13,6 +13,10 @@
 // Balance2
 {var o=SinOsc.ar(440);Out.ar(0,Balance2.ar(o,o,MouseX.kr(-1,1),0.2))}
 
+// BlockSize (default=64)
+{var x = MouseX.kr(minval: 2, maxval: 8, warp: 0, lag: 0.2)
+;SinOsc.ar(freq: [BlockSize.ir,ControlDur.ir * SampleRate.ir] * x, phase: 0, mul: 0.05)}
+
 // CrossoverDistortion
 {CrossoverDistortion.ar(SinOsc.ar([400, 404], 0, 0.2), MouseX.kr(0, 1), MouseY.kr(0, 1))}
 

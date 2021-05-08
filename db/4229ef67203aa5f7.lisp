@@ -1,6 +1,0 @@
-; detect-index ; mouse-x gives index of pitch scalar in buffer (0->3 1->4 2->0 3->1 4->2 5->5)
-(let* ((b (as-local-buf (list 2 3 4 0 1 5)))
-       (n (buf-frames kr b))
-       (x (u:floor (mouse-x kr 0 n linear 0.1)))
-       (i (detect-index b x)))
-  (mul (sin-osc ar (lin-exp i 0 n 200 700) 0) 0.1))

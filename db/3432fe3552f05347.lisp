@@ -1,0 +1,12 @@
+; harmonic swimming (jmcc) #1
+(let* ((a 0.02)
+       (f 50)
+       (p 20)
+       (z 0)
+       (l (line 0 (- a) 60 0))
+       (o (lambda (h)
+            (let* ((r (mce-fill 2 (lambda (_) (s:rand 2 8))))
+                   (n (lfnoise1 r))
+                   (e (u:max 0 (muladd n a l))))
+              (mul (fsinosc (* f (+ h 1)) 0) (kr: e))))))
+  (mix-fill p o))

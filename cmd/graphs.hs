@@ -199,12 +199,12 @@ sc_graph_fragment_process_dir dir = do
 
 lisp_graph_rw_pre :: [String]
 lisp_graph_rw_pre =
-  ["(import (rnrs) (rhs core) (sosc core) (rsc3 core) (rsc3 server) (rsc3 ugen) (rsc3 arf) (rsc3 lang))"]
+  ["(import (rnrs) (rhs core) (sosc core) (rsc3 core) (rsc3 server) (rsc3 ugen) (rsc3 lang) (rsc3 arf))"]
 
 lisp_graph_fragment_rw :: (String,String) -> [String]
 lisp_graph_fragment_rw (z,txt) =
   [printf "(display \"%s %s\")(newline)" z (text_prefix 48 txt)
-  ,printf "(synthdef-write (synthdef \"%s\" (out (ctl ir \"out\" 0)" z
+  ,printf "(synthdef-write (synthdef \"%s\" (Out (ctl ir \"out\" 0)" z
   ,printf " %s)) \"%s\")" txt (graphs_db_fn (z <.> ".scsyndef"))]
 
 lisp_graph_fragment_process :: [FilePath] -> IO ()

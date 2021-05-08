@@ -1,0 +1,10 @@
+; sample and hold liquidities (jmcc) #2
+(let* ((r (MouseX kr 1 200 1 0.1))
+       (t (Recip r))
+       (c (Mul (Impulse kr r 0) 0.4))
+       (cf (MouseY kr 100 8000 1 0.1))
+       (f (Latch (MulAdd (WhiteNoise kr) (Mul cf 0.5) cf) c))
+       (p (Latch (WhiteNoise kr) c))
+       (e (Decay2 c (Mul 0.1 t) (Mul 0.9 t)))
+       (i (Pan2 (Mul (SinOsc ar f 0) e) p 1)))
+  (CombN i 0.3 0.3 2))
