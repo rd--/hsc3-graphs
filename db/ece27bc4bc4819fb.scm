@@ -1,0 +1,2 @@
+; KeyState ; the keycode 38 is the 'a' key on my keyboard ; under X11 see xev(1)
+(Mul (SinOsc ar 800 0) (KeyState kr 38 0 0.1 0.5))

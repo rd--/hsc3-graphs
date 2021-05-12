@@ -1,0 +1,5 @@
+; https://twitter.com/redFrik/status/456384156159574016 (f0)
+(let* ((a (FDiv 1 (make-mce (list 3 12 4 1 6 2))))
+       (s (Mul (Lag3 (SinOsc ar a 0) (Abs (SinOsc ar (Pow 2.67 a) 0))) 99))
+       (f (FDiv (Add (Mul (GT (SinOsc ar (FDiv (FDiv 1 a) 9) a) 0) 20) 99) a)))
+  (Mul (splay (SinOsc ar (HPF (Ringz s f 1) 440) 0) 1 1 0 #t) 0.25))

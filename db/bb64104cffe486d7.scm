@@ -1,0 +1,15 @@
+; bowed string (jmcc) ; texture=overlap,5,2,12,inf
+(let* ((root 5)
+       (scale (map (lambda (n) (+ n root)) (list 0 2 4 5 7 9 11)))
+       (oct (list 24 36 48 60 72 84))
+       (s:l-choose (lambda (l) (Select (IRand 0 (length l)) (make-mce l))))
+       (f (MIDICPS (Add (s:l-choose scale) (s:l-choose oct))))
+       (n0 (clone 2 (lambda () (BrownNoise ar))))
+       (r0 (ExpRand 0.125 0.5))
+       (n1 (LFNoise1 kr r0))
+       (r1 (Rand 0.7 0.9))
+       (r2 (replicate-m 12 (lambda () (Rand 1.0 3.0))))
+       (x (mul3 n0 0.007 (Max 0 (MulAdd n1 0.6 0.4))))
+       (d (klank-data ((series* Add) 12 f f) ((series* Mul) 12 1 r1) r2)) ; rsc3-lang:series*
+       (k (Klank x 1 0 1 d)))
+  (SoftClip (Mul k 0.1)))

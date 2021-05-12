@@ -1,0 +1,10 @@
+; dyn-klank
+(let* ((i (Mul (Impulse ar 3 0) 0.1))
+       (f (list 800 1071 1153 1723))
+       (r (list 1 1 1 1))
+       (x (MouseX kr 0.5 2 1 0.1))
+       (y (MouseY kr 0.1 10 1 0.1))
+       (d (klank-data (map (lambda (e) (Mul e x)) f)
+		      (replicate 4 1)
+		      (map (lambda (e) (Mul e y)) r))))
+  (dyn-klank i 1 0 1 d))
