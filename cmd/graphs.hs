@@ -82,7 +82,7 @@ text_file_prefix k = fmap (text_prefix k) . Strict.readFile
 -- * DB
 
 graphs_db_fext :: [String]
-graphs_db_fext = words ".fs .hs .lisp .scd .scm .st"
+graphs_db_fext = words ".fs .hs .scd .scm .st"
 
 -- | DB directory
 --
@@ -195,36 +195,36 @@ sc_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".scd"] dir
   sc_graph_fragment_process fn
 
--- * Scheme/Lisp
+-- * Scheme
 
-lisp_graph_rw_pre :: [String]
-lisp_graph_rw_pre =
+scheme_graph_rw_pre :: [String]
+scheme_graph_rw_pre =
   ["(import (rnrs) (rhs core) (sosc core) (rsc3 core) (rsc3 server) (rsc3 ugen) (rsc3 lang) (rsc3 arf))"]
 
-lisp_graph_fragment_rw :: (String,String) -> [String]
-lisp_graph_fragment_rw (z,txt) =
+scheme_graph_fragment_rw :: (String,String) -> [String]
+scheme_graph_fragment_rw (z,txt) =
   [printf "(display \"%s %s\")(newline)" z (text_prefix 48 txt)
   ,printf "(synthdef-write (synthdef \"%s\" (Out (ctl ir \"out\" 0)" z
   ,printf " %s)) \"%s\")" txt (graphs_db_fn (z <.> ".scsyndef"))]
 
-lisp_graph_fragment_process :: [FilePath] -> IO ()
-lisp_graph_fragment_process fn_seq = do
+scheme_graph_fragment_process :: [FilePath] -> IO ()
+scheme_graph_fragment_process fn_seq = do
   tmp <- getTemporaryDirectory
   txt_seq <- read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
-      rw_seq = map lisp_graph_fragment_rw (zip z_seq txt_seq)
-      cpy (z,txt) = writeFile (graphs_db_fn (z <.> "lisp")) txt
-      rw_fn = tmp </> "rw.lisp"
+      rw_seq = map scheme_graph_fragment_rw (zip z_seq txt_seq)
+      cpy (z,txt) = writeFile (graphs_db_fn (z <.> "scm")) txt
+      rw_fn = tmp </> "rw.scm"
   mapM_ cpy (zip z_seq txt_seq)
-  writeFile rw_fn (unlines (lisp_graph_rw_pre ++ concat rw_seq ++ ["(exit)"]))
+  writeFile rw_fn (unlines (scheme_graph_rw_pre ++ concat rw_seq ++ ["(exit)"]))
   --_ <- rawSystem "guile" ["--r6rs",rw_fn] -- "--no-auto-compile" -- this alters results...
   _ <- rawSystem "ikarus" [rw_fn]
   return ()
 
-lisp_graph_fragment_process_dir :: FilePath -> IO ()
-lisp_graph_fragment_process_dir dir = do
-  fn <- T.dir_subset [".lisp",".scm"] dir
-  lisp_graph_fragment_process fn
+scheme_graph_fragment_process_dir :: FilePath -> IO ()
+scheme_graph_fragment_process_dir dir = do
+  fn <- T.dir_subset [".scm"] dir
+  scheme_graph_fragment_process fn
 
 -- * Forth
 
@@ -297,10 +297,10 @@ graphs_db_polyglot_autogen = do
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/UGen/"
   sc_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/sc/graph/"
   sc_graph_fragment_process ["/home/rohan/sw/hsc3-graphs/lib/sc/collect/help.scd"]
-  lisp_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/graph/"
-  lisp_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/ugen/"
-  lisp_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/graph/"
-  lisp_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
+  scheme_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/graph/"
+  scheme_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/ugen/"
+  scheme_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/graph/"
+  scheme_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
   fs_graph_fragment_process_dir "/home/rohan/sw/hsc3-forth/help/graph/"
   _ <- st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/graph/"
   _ <- st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/ugen/"

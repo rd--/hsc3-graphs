@@ -25,10 +25,6 @@ sec_to_ms = (* 1000)
 
 -- * UGen
 
--- | Abbreviation, equal to 'control' 'KR'.
-ctl :: String -> Double -> UGen
-ctl = control KR
-
 -- | A /pre/ (@0@) & /post/ (@1@) mix operator.  pre=dry & post=wet
 --
 -- > g = let x = soundIn 0 in pre_post_mix 0.5 x x
@@ -275,7 +271,7 @@ ringmod2 f0 f1 =
     in (*) (sinOsc AR f 0)
 
 ringmod2_p :: Treatment
-ringmod2_p = ringmod2 (ctl "freq0" 500) (ctl "freq1" 3500)
+ringmod2_p = ringmod2 (control KR "freq0" 500) (control KR "freq1" 3500)
 
 ringmod2_syn :: Synthdef
 ringmod2_syn = treatment_syn 1 "ringmod2" ringmod2_p
@@ -288,7 +284,7 @@ ringmod3 f0 f1 =
     in (*) (lfPulse AR f 0 w)
 
 ringmod3_p :: Treatment
-ringmod3_p = ringmod3 (ctl "freq0" 500) (ctl "freq1" 3500)
+ringmod3_p = ringmod3 (control KR "freq0" 500) (control KR "freq1" 3500)
 
 ringmod3_syn :: Synthdef
 ringmod3_syn = treatment_syn 1 "ringmod3" ringmod3_p
@@ -302,7 +298,7 @@ ringmod4 f0 f1 r l =
     in (*) (sinOsc AR f 0)
 
 ringmod4_p :: Treatment
-ringmod4_p = ringmod4 (ctl "freq0" 500) (ctl "freq1" 3500) (ctl "rate" 1) (ctl "lag" 0)
+ringmod4_p = ringmod4 (control KR "freq0" 500) (control KR "freq1" 3500) (control KR "rate" 1) (control KR "lag" 0)
 
 ringmod4_syn :: Synthdef
 ringmod4_syn = treatment_syn 1 "ringmod4" ringmod4_p
@@ -432,10 +428,10 @@ stereo_tremolo3 shp rt dp dv z =
 stereo_tremolo3_p :: Treatment
 stereo_tremolo3_p =
     stereo_tremolo3
-    (ctl "shape" 0.5)
-    (ctl "rate" 4)
-    (ctl "depth" 1)
-    (ctl "stdiv" 6)
+    (control KR "shape" 0.5)
+    (control KR "rate" 4)
+    (control KR "depth" 1)
+    (control KR "stdiv" 6)
 
 stereo_tremolo3_syn :: Synthdef
 stereo_tremolo3_syn = treatment_syn 1 "stereo-tremolo3" stereo_tremolo3_p
@@ -671,7 +667,7 @@ pingpong1 dt fb i =
     in mrg [a2,localOut a3]
 
 pingpong1_p :: Treatment
-pingpong1_p = pingpong1 (ctl "delay" 0.25) (ctl "feedback" 0.85)
+pingpong1_p = pingpong1 (control KR "delay" 0.25) (control KR "feedback" 0.85)
 
 pingpong1_syn :: Synthdef
 pingpong1_syn = treatment_syn 1 "pingpong1" pingpong1_p
