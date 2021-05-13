@@ -16,10 +16,6 @@ Cabal-Version:     >= 1.8
 Data-Files:        README
                    Makefile
 
-Source-Repository  head
-  Type:            darcs
-  Location:        http://rohandrape.net/sw/hsc3-graphs/
-
 Library
   Build-Depends:   base >= 4.7 && < 5,
                    hmt == 0.19.*,
@@ -34,3 +30,7 @@ Library
                    random
   GHC-Options:     -Wall -fwarn-tabs
   Exposed-modules: Sound.SC3.Graphs.Treatments
+
+Source-Repository  head
+  Type:            git
+  Location:        https://gitlab.com/rd--/hsc3-graphs
