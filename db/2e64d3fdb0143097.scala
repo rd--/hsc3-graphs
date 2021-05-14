@@ -12,4 +12,3 @@ val f = () => {
   val sig = Mix.tabulate(3)(genFunc);
   Pan2.ar(in = sig, pos = (pitch - 36) / 27 - 1, level = 1)};
 Mix.fill(n){f()}
-

@@ -289,6 +289,38 @@ st_graph_fragment_process_dir dir = do
   z_seq <- st_graph_fragment_process fn
   st_proc_hs_files z_seq graphs_db_dir
 
+-- * Scala
+
+-- | z = fragment ID, txt = fragment
+scala_graph_fragment_rw :: FilePath -> (String,String) -> [String]
+scala_graph_fragment_rw out_dir (z,txt) =
+  let pfx = [printf "val gr_%s = graph {" z]
+      sfx = ["};"
+            ,printf "val sy_%s = SynthDef(name = \"%s\") {gr_%s.result.close(in = gr_%s.peer(), fadeTime = 0.02)}" z z z z
+            ,printf "sy_%s.write(dir = \"%s\", overwrite = true);" z out_dir]
+  in concat [pfx,lines txt,sfx]
+
+scala_graph_fragment_process :: [FilePath] -> IO [String]
+scala_graph_fragment_process fn_seq = do
+  tmp <- getTemporaryDirectory
+  txt_seq <- read_file_set_fragments fn_seq
+  let z_seq = map txt_hash_str txt_seq
+      rw_seq = map (scala_graph_fragment_rw graphs_db_dir) (zip z_seq txt_seq)
+      cpy (z,txt) = writeFile (graphs_db_fn (z <.> "scala")) txt
+      rw_fn = tmp </> "rw.scala"
+      rw_text = unlines (concat rw_seq)
+  mapM_ cpy (zip z_seq txt_seq)
+  writeFile rw_fn rw_text
+  --_ <- rawSystem "scalacollider-cli.sh" [rw_fn]
+  return z_seq
+
+-- > scala_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
+scala_graph_fragment_process_dir :: FilePath -> IO ()
+scala_graph_fragment_process_dir dir = do
+  fn <- T.dir_subset [".scala"] dir
+  _ <- scala_graph_fragment_process fn
+  return ()
+
 -- * Polyglot
 
 graphs_db_polyglot_autogen :: IO ()
@@ -302,8 +334,8 @@ graphs_db_polyglot_autogen = do
   scm_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/graph/"
   scm_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
   fs_graph_fragment_process_dir "/home/rohan/sw/hsc3-forth/help/graph/"
-  _ <- st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/graph/"
-  _ <- st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/ugen/"
+  st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/graph/"
+  st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/ugen/"
   return ()
 
 -- * Main
