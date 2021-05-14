@@ -170,19 +170,19 @@ hs_graph_fragments_process_dump_ugens fn =
 
 -- * SuperCollider
 
-sc_graph_fragment_rw :: (String,String) -> [String]
-sc_graph_fragment_rw (z,txt) =
+scd_graph_fragment_rw :: (String,String) -> [String]
+scd_graph_fragment_rw (z,txt) =
   let grw = lines txt
       sfx = [printf ".asSynthDef(name:\"%s\").writeDefFile(dir:\"%s\");" z graphs_db_dir
             ,printf "\"%s %s\".postln;" z (text_prefix 48 txt)]
   in concat [grw,sfx]
 
-sc_graph_fragment_process :: [FilePath] -> IO ()
-sc_graph_fragment_process fn_seq = do
+scd_graph_fragment_process :: [FilePath] -> IO ()
+scd_graph_fragment_process fn_seq = do
   tmp <- getTemporaryDirectory
   txt_seq <- read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
-      rw_seq = map sc_graph_fragment_rw (zip z_seq txt_seq)
+      rw_seq = map scd_graph_fragment_rw (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (graphs_db_fn (z <.> "scd")) txt
       rw_fn = tmp </> "rw.scd"
   mapM_ cpy (zip z_seq txt_seq)
@@ -190,41 +190,41 @@ sc_graph_fragment_process fn_seq = do
   _ <- rawSystem "sclang" [rw_fn]
   return ()
 
-sc_graph_fragment_process_dir :: FilePath -> IO ()
-sc_graph_fragment_process_dir dir = do
+scd_graph_fragment_process_dir :: FilePath -> IO ()
+scd_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".scd"] dir
-  sc_graph_fragment_process fn
+  scd_graph_fragment_process fn
 
 -- * Scheme
 
-scheme_graph_rw_pre :: [String]
-scheme_graph_rw_pre =
+scm_graph_rw_pre :: [String]
+scm_graph_rw_pre =
   ["(import (rnrs) (rhs core) (sosc core) (rsc3 core) (rsc3 server) (rsc3 ugen) (rsc3 lang) (rsc3 arf))"]
 
-scheme_graph_fragment_rw :: (String,String) -> [String]
-scheme_graph_fragment_rw (z,txt) =
+scm_graph_fragment_rw :: (String,String) -> [String]
+scm_graph_fragment_rw (z,txt) =
   [printf "(display \"%s %s\")(newline)" z (text_prefix 48 txt)
   ,printf "(synthdef-write (synthdef \"%s\" (Out (ctl ir \"out\" 0)" z
   ,printf " %s)) \"%s\")" txt (graphs_db_fn (z <.> ".scsyndef"))]
 
-scheme_graph_fragment_process :: [FilePath] -> IO ()
-scheme_graph_fragment_process fn_seq = do
+scm_graph_fragment_process :: [FilePath] -> IO ()
+scm_graph_fragment_process fn_seq = do
   tmp <- getTemporaryDirectory
   txt_seq <- read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
-      rw_seq = map scheme_graph_fragment_rw (zip z_seq txt_seq)
+      rw_seq = map scm_graph_fragment_rw (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (graphs_db_fn (z <.> "scm")) txt
       rw_fn = tmp </> "rw.scm"
   mapM_ cpy (zip z_seq txt_seq)
-  writeFile rw_fn (unlines (scheme_graph_rw_pre ++ concat rw_seq ++ ["(exit)"]))
+  writeFile rw_fn (unlines (scm_graph_rw_pre ++ concat rw_seq ++ ["(exit)"]))
   --_ <- rawSystem "guile" ["--r6rs",rw_fn] -- "--no-auto-compile" -- this alters results...
   _ <- rawSystem "ikarus" [rw_fn]
   return ()
 
-scheme_graph_fragment_process_dir :: FilePath -> IO ()
-scheme_graph_fragment_process_dir dir = do
+scm_graph_fragment_process_dir :: FilePath -> IO ()
+scm_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".scm"] dir
-  scheme_graph_fragment_process fn
+  scm_graph_fragment_process fn
 
 -- * Forth
 
@@ -295,12 +295,12 @@ graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/Graph/"
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/UGen/"
-  sc_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/sc/graph/"
-  sc_graph_fragment_process ["/home/rohan/sw/hsc3-graphs/lib/sc/collect/help.scd"]
-  scheme_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/graph/"
-  scheme_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/ugen/"
-  scheme_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/graph/"
-  scheme_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
+  scd_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
+  scd_graph_fragment_process ["/home/rohan/sw/hsc3-graphs/lib/scd/collect/help.scd"]
+  scm_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/graph/"
+  scm_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/ugen/"
+  scm_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/graph/"
+  scm_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
   fs_graph_fragment_process_dir "/home/rohan/sw/hsc3-forth/help/graph/"
   _ <- st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/graph/"
   _ <- st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/ugen/"
