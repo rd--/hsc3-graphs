@@ -1,13 +1,5 @@
-//////////////////////////////////////////////////////////////////////////
-
-// UNTRANS - interaural time delay panning   ("Griot modeling" variant)
-
-//////////////////////////////////////////////////////////////////////////
-
-(
-// aleatoric quartet
-// mouse x controls density
-play({
+// aleatoric quartet - mouse x controls density ; jmcc
+{
 	var amp, density, dmul, dadd, signal;
 	amp = 0.07;
 	density = MouseX.kr(0.01,1); // mouse determines density of excitation
@@ -38,14 +30,12 @@ play({
 	// add some reverb via allpass delays
 	5.do({ signal = AllpassN.ar(signal, 0.05, [0.05.rand,0.05.rand], 1) });
 	LeakDC.ar( signal, 0.995);		// delays build up a lot of DC, so leak it out here.
-});
-)
+}
 
-//////////////////////////////////////////////////////////////////////////
+//---- textures
 
+// ritual hymn in praise of the god of the LS-3000 life support unit ; Klang - slow beating sines.
 (
-// ritual hymn in praise of the god of the LS-3000 life support unit.
-// Klang - slow beating sines.
 	var n, d;
 	n = 20;	// n*3 components in each channel
 	d = 5.0;	// beat freq deviation
@@ -72,11 +62,8 @@ play({
 	}, 4, 4, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
+// the church of chance ; Klang - slow beating harmonic sines.
 (
-// the church of chance
-// Klang - slow beating harmonic sines.
 	var n, d, m, x;
 	n = 8;	// number of notes
 	d = 0.4;	// beat freq deviation
@@ -109,23 +96,8 @@ play({
 	}, 6, 3, 2);
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-// UNTRANS - a variant of "analog daze" that changes the pattern occasionally
-
-//////////////////////////////////////////////////////////////////////////
-
-// UNTRANS - Berlin 1977 + bass
-
-//////////////////////////////////////////////////////////////////////////
-
-// UNTRANS - yet another "Griot modeling" variant, much more taxing on CPU: requires a G3
-
-//////////////////////////////////////////////////////////////////////////
-
+// tapping tools ; mouse x controls impulse rate
 (
-// tapping tools
-// mouse x controls impulse rate
 var e = Env.linen(1, 4, 1);
 	RTexture.spawn({
 	var rate = XLine.kr(64, 0.125, 60);
@@ -153,4 +125,12 @@ var e = Env.linen(1, 4, 1);
 	}, 2, 1, postProcess: {arg z;3.do({z = AllpassN.ar(z, 0.05, [0.05.rand,0.05.rand], 2)});z})
 )
 
-//////////////////////////////////////////////////////////////////////////
+//---- untranslated
+
+// UNTRANS - interaural time delay panning   ("Griot modeling" variant)
+
+// UNTRANS - a variant of "analog daze" that changes the pattern occasionally
+
+// UNTRANS - Berlin 1977 + bass
+
+// UNTRANS - yet another "Griot modeling" variant, much more taxing on CPU: requires a G3

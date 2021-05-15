@@ -1,7 +1,4 @@
-//////////////////////////////////////////////////////////////////////////
-
-(
-// sweepy noise - mouse controls LFO
+// sweepy noise - mouse controls LFO ; jmcc
 {
 	var lfoDepth, lfoRate, freq, filtered;
 	lfoDepth = MouseY.kr(200, 8000, 'exponential');
@@ -9,13 +6,22 @@
 	freq = LFSaw.kr(lfoRate, 0, lfoDepth, lfoDepth * 1.2);
 	filtered = RLPF.ar(WhiteNoise.ar([0.03,0.03]), freq, 0.1);
 	CombN.ar(filtered, 0.3, 0.3, 2, 1, filtered);
-}.play
-)
+}
 
-//////////////////////////////////////////////////////////////////////////
+// noise burst sweep ; jmcc
+{
+	var lfoRate, amp, cfreq, filt;
+	lfoRate = MouseX.kr(10, 60, 'exponential');
+	amp = max(0, LFSaw.kr(lfoRate, -1));
+	cfreq = MouseY.kr(400, 8000, 'exponential');
+	cfreq = SinOsc.kr(0.2, 0, cfreq, 1.05 * cfreq);
+	Resonz.ar(WhiteNoise.ar(amp), cfreq, 0.1);
+}
 
-(
+//---- textures
+
 // string wander-cluster
+(
 	var n, t, t3, note, delay;
 	n = 6;
 	t = 4;
@@ -28,10 +34,8 @@
 	}, t3, t3, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // string wander-cluster with vibrato
+(
 	var n, t, t3, note, freq, delay, decayTime;
 	n = 6;
 	t = 4;
@@ -47,10 +51,8 @@
 	}, t3, t3, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // pipe wander-cluster
+(
 	var n, t, t3, note, delay;
 	n = 6;
 	t = 4;
@@ -63,10 +65,8 @@
 	}, t3, t3, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // comb delay sweeps
+(
 	var n, t, t3, note, endNote, noteSweep;
 	n = 6;
 	t = 4;
@@ -84,10 +84,8 @@
 	}, t3, t3, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // repeating harmonic Klank
+(
 	var n, p;
 	n = 4;	// number of simultaneous events
 	p = 8;	// number of partials per channel
@@ -106,10 +104,8 @@
 	}, 8, 2, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // repeating inharmonic Klank
+(
 	var n, p;
 	n = 4;	// number of simultaneous events
 	p = 8;	// number of partials per channel
@@ -127,24 +123,8 @@
 	}, 8, 8, n, 2);
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
-// noise burst sweep
-{
-	var lfoRate, amp, cfreq, filt;
-	lfoRate = MouseX.kr(10, 60, 'exponential');
-	amp = max(0, LFSaw.kr(lfoRate, -1));
-	cfreq = MouseY.kr(400, 8000, 'exponential');
-	cfreq = SinOsc.kr(0.2, 0, cfreq, 1.05 * cfreq);
-	Resonz.ar(WhiteNoise.ar(amp), cfreq, 0.1);
-}.play
-)
-
-//////////////////////////////////////////////////////////////////////////
-
-(
 // saucer base
+(
 	var n = 4;		// number of simultaneous events
 	RTexture.overlap({
 		var a, b, c, pan;
@@ -156,10 +136,8 @@
 	}, 6, 2, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // alien meadow
+(
 	var n = 6;		// number of simultaneous events
 	RTexture.overlap({
 		var a, b, c, pan;
@@ -171,10 +149,8 @@
 	}, 6, 2, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // fast LFOs with slow beats
+(
 	var n = 4;		// number of simultaneous events
 	RTexture.overlap({
 		var a, a0, a1, b, c, pan;
@@ -187,10 +163,8 @@
 	}, 8, 4, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // birdies
+(
 	var n = 4;		// number of simultaneous events
 	RTexture.overlap({
 		Pan2.ar(SinOsc.ar(
@@ -202,12 +176,10 @@
 	}, 7, 4, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // phase modulation with slow beats
 // mouse x controls random freq of new events
 // mouse y controls modulation index
+(
 	var n;
 	n = 4;		// number of simultaneous events
 	RTexture.overlap({
@@ -223,10 +195,8 @@
 	}, 4, 4, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // hard sync sawtooth with LFO
+(
 	var a, n;
 	n = 4;	// number of simultaneous events
 	a = RTexture.overlap({
@@ -236,10 +206,8 @@
 	CombN.ar(a, 0.3, 0.3, 4, 1, a.reverse);
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // noise modulated sines
+(
 	var a, n;
 	n = 4;	// number of simultaneous events
 	a = RTexture.overlap({
@@ -249,10 +217,8 @@
 	CombN.ar(a, 0.3, 0.3, 4, 1, a.reverse);
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // noise modulated sawtooths
+(
 	var a, n;
 	n = 4;	// number of simultaneous events
 	a = RTexture.overlap({
@@ -262,12 +228,8 @@
 	CombN.ar(a, 0.5, 0.5, 4, 1, a.reverse);
 )
 
-//////////////////////////////////////////////////////////////////////////
+//---- untranslated
 
 // UNTRANS RLPF4 - 4th order resonant lowpass filter
 
-//////////////////////////////////////////////////////////////////////////
-
 // UNTRANS RLPF4 - 4th order resonant lowpass filter
-
-//////////////////////////////////////////////////////////////////////////

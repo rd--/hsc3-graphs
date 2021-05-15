@@ -1,9 +1,4 @@
-
-//////////////////////////////////////////////////////////////////////
-
-(
-    // strummable guitar
-    // use mouse to strum strings
+// strummable guitar ; use mouse to strum strings ; jmcc
 {
 	var pitch, mousex, out;
 	// e a d g b e
@@ -20,14 +15,9 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}.play;
-)
+}
 
-//////////////////////////////////////////////////////////////////////
-
-(
-    // strummable 12 string guitar
-    // use mouse to strum strings
+// strummable 12 string guitar ; use mouse to strum strings ; jmcc
 {
 	var pitch, mousex, out;
 	// e a d g b e
@@ -48,14 +38,9 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}.play;
-)
+}
 
-//////////////////////////////////////////////////////////////////////
-
-(
-    // bidirectional strummable guitar
-    // use mouse to strum strings
+// bidirectional strummable guitar ; use mouse to strum strings ; jmcc
 {
 	var pitch1, pitch2, mousex, out;
 	// e a d g b e
@@ -76,14 +61,9 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}.play;
-)
+}
 
-//////////////////////////////////////////////////////////////////////
-
-(
-    // harmonic zither
-    // use mouse to strum strings
+// harmonic zither ; use mouse to strum strings ; jmcc
 {
 	var pitch, mousex, mousey, out, triggerSpacing, panSpacing;
 	// harmonic series
@@ -103,14 +83,9 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}.play;
-)
+}
 
-//////////////////////////////////////////////////////////////////////
-
-(
-    // strummable metals
-    // use mouse to strum strings
+// strummable metals ; use mouse to strum strings ; jmcc
 {
 	var mousex, out;
 	mousex = MouseX.kr;
@@ -125,18 +100,13 @@
 				Array.fill(n, { 1.0 + 4.0.rand })	// ring times
 			];
 		metal = Klank.ar(z, pluck);
-		//metal = SinOsc.ar(800, 0, 0.1);
 		Pan2.ar(metal, i * 0.2 - 0.5);
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}.play;
-)
+}
 
-//////////////////////////////////////////////////////////////////////
-
-(
-    // strummable pipes
+// strummable pipes ; jmcc
 {
 	var mousex, out;
 	mousex = MouseX.kr;
@@ -152,20 +122,15 @@
 				Array.fill(n, { 0.2.rand })	// ring times
 			];
 		metal = Klank.ar(z, pluck);
-		//metal = SinOsc.ar(800, 0, 0.1);
 		Pan2.ar(metal, i * 0.2 - 0.5);
 	});
 	LPF.ar(out, 12000);
 	out = LeakDC.ar(out);
 	6.do({ out = AllpassN.ar(out, 0.1, [0.05.rand,0.05.rand], 4) });
 	out
-}.play;
-)
+}
 
-//////////////////////////////////////////////////////////////////////
-
-(
-    // strummable silk
+// strummable silk ; jmcc
 {
 	var mousex, out;
 	mousex = MouseX.kr;
@@ -181,15 +146,10 @@
 				Array.fill(n, { rrand(0.3,1.0) })	// ring times
 			];
 		metal = Klank.ar(z, pluck);
-		//metal = SinOsc.ar(800, 0, 0.1);
 		Pan2.ar(metal, i * 0.2 - 0.5);
 	});
 	LPF.ar(out, 12000);
 	out = LeakDC.ar(out);
 	6.do({ out = AllpassN.ar(out, 0.1, [0.05.rand,0.05.rand], 4) });
 	out
-}.play;
-)
-
-
-//////////////////////////////////////////////////////////////////////
+}

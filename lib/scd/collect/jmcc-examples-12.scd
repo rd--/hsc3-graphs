@@ -1,11 +1,11 @@
-//////////////////////////////////////////////////////////////////////
+//---- textures
 
+// arachnid espresso ; ERROR ; jmcc
 (
-// ERR arachnid espresso
 RTexture.overlap({
-		var t, c, e, f, n, r, p, pf;
         var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf)) * tr};
-        var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
+        var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf))};
+		var t, c, e, f, n, r, p, pf;
 		#p, pf = [[1,1],[1,1],[-1,2]].choose; // choose string or pipe
 		r = [8,4,2].choose;
 		c = Impulse.kr(r);
@@ -23,10 +23,8 @@ RTexture.overlap({
 	signal})
 )
 
-//////////////////////////////////////////////////////////////////////
-
+// inharmonic warbulence ; jmcc
 (
-// inharmonic warbulence
 RTexture.overlap({
 		var f, r, n, a;
 		f = rrand(24, 96).midicps;
@@ -45,10 +43,8 @@ RTexture.overlap({
 })
 )
 
-/////////////////////////////////////////////////////////////////////
-
+// clipped inharmonic warbulence ; jmcc
 (
-// clipped inharmonic warbulence
 RTexture.overlap({
 	var r = LinExp.kr(LFNoise1.kr(1/16), -1,1,0.1,20);
 		var f, n, a;
@@ -68,10 +64,8 @@ RTexture.overlap({
 })
 )
 
-//////////////////////////////////////////////////////////////////////
-
+// pulse harmonic warbulence ; jmcc
 (
-// pulse harmonic warbulence
 RTexture.overlap({
 		var f, r, n;
 		f = rrand(24, 96).midicps;
@@ -88,16 +82,10 @@ RTexture.overlap({
 })
 )
 
-//////////////////////////////////////////////////////////////////////
+//---- c.f
 
 // SEE drone + rhythm
 
-//////////////////////////////////////////////////////////////////////
-
 // SEE early space music LP, side 1
 
-//////////////////////////////////////////////////////////////////////
-
 // SEE early space music LP, side 2
-
-//////////////////////////////////////////////////////////////////////

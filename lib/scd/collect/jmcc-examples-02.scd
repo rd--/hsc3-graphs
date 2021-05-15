@@ -1,4 +1,60 @@
-//////////////////////////////////////////////////////////////////////////
+// pulsing bottles ; jmcc
+{
+    var n = 6;	// number of 'bottles'
+    Mix.arFill(n, {
+        Pan2.ar(
+            Resonz.ar(
+                WhiteNoise.ar(
+                    LFPulse.kr(4 + 10.0.rand, 0, 0.7.rand, 0.8/n)
+                ),
+                400 + 7000.0.linrand,
+                0.01
+            ),
+            SinOsc.kr(0.1 + 0.4.rand, 2pi.rand)
+        )
+    })
+}
+
+// what was I thinking? ; jmcc
+{
+	var z = RLPF.ar(
+		Pulse.ar(
+			max( SinOsc.kr(4, 0, 1, 80),
+				Decay.ar(LFPulse.ar(0.1, 0.05, Impulse.ar(8, 500)), 2)
+			),
+			LFNoise1.kr(0.157, 0.4, 0.5),
+			0.04),
+		LFNoise1.kr(0.2, 2000, 2400),
+		0.2);
+	var y = z * 0.6;
+	z +  [
+			  CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
+			+ CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
+		,
+			  CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
+			+ CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
+		]
+}
+
+// police state ; jmcc
+{
+    var n = 4;	// number of sirens
+	CombL.ar(
+		Mix.fill(n, {
+			Pan2.ar(
+				SinOsc.ar(
+					SinOsc.kr(0.1.rand + 0.02, 2pi.rand, 600.rand, 1000 + 300.rand2),
+					0,
+					LFNoise2.ar(100 + 20.0.rand2, 0.1)
+				),
+				1.0.rand2
+			)
+		})
+		+ LFNoise2.ar(LFNoise2.kr([0.4,0.4], 90, 620), LFNoise2.kr([0.3,0.3], 0.15, 0.18)),
+		0.3, 0.3, 3)
+}
+
+//---- textures
 
 (
 // rocks on rails
@@ -23,8 +79,6 @@ n = 4;	// number of overlapping events
 		)
 	}, 2, 3, n, 2)
 )
-
-//////////////////////////////////////////////////////////////////////////
 
 (
 // bouncing lightbulbs, pencils, cans, and other assorted objects
@@ -55,8 +109,6 @@ e = Env.new([1, 1, 0],[3, 0.001]); // 3 second cut off envelope to end sound
 	}, 2, { 0.6 + 0.6.rand })
 )
 
-//////////////////////////////////////////////////////////////////////////
-
 (
 // Klang - Lots-o-sines
 var n;
@@ -69,8 +121,6 @@ n = 60; // n sines in each channel (twice as many during cross-fade)
 		Klang.ar(z, 1, 0) * 0.1/n;
 	}, 4, 4, 2)
 )
-
-//////////////////////////////////////////////////////////////////////////
 
 (
 // clustered sines
@@ -91,8 +141,6 @@ n = 80;
 	}, 4, 4, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
 (
 // Klank - bank of resonators excited by impulses
 var n, p;
@@ -111,8 +159,6 @@ p = 15;	// number of partials per instrument
 		)
 	}, 6, 6, n, 2)
 )
-
-//////////////////////////////////////////////////////////////////////////
 
 (
 // Klank - excited by noise bursts
@@ -133,8 +179,6 @@ p = 8;	// number of partials per instrument
 	}, 8, 8, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
 (
 // resonators at random frequencies excited by BrownNoise
 var p;
@@ -152,8 +196,6 @@ p = 32; // number of partials per channel
 		Klank.ar(spec, noise)
 	}, 6, 6, 2)
 )
-
-//////////////////////////////////////////////////////////////////////////
 
 (
 // resonators tuned in a harmonic series with pitch ratios from a just scale
@@ -176,8 +218,6 @@ p = 12;	// number of overtones
 		Klank.ar(spec, noise)
 	}, 1, 7, 2)
 )
-
-//////////////////////////////////////////////////////////////////////////
 
 (
 // similar to above, but tuned to odd harmonics only, shorter ring times,
@@ -202,8 +242,6 @@ p = 12;	// number of overtones
 	}, 1, 7, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
 (
 // swept resonant noise band exciting a resonator bank
 var n, p;
@@ -226,8 +264,6 @@ p = 10;	// number of partials
 	}, 4, 4, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
 (
 // coolant
 var p;
@@ -246,53 +282,6 @@ p = 10;	// number of partials per channel
 	}, 4, 4, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
-(
-// pulsing bottles
-var n;
-n = 6;	// number of 'bottles'
-play({
-	Mix.arFill(n, {
-		Pan2.ar(
-			Resonz.ar(
-				WhiteNoise.ar(
-					LFPulse.kr(4 + 10.0.rand, 0, 0.7.rand, 0.8/n)
-				),
-				400 + 7000.0.linrand,
-				0.01
-			),
-			SinOsc.kr(0.1 + 0.4.rand, 2pi.rand)
-		)
-	})
-}))
-
-//////////////////////////////////////////////////////////////////////////
-
-(
-// what was I thinking?
-play({
-	z = RLPF.ar(
-		Pulse.ar(
-			max( SinOsc.kr(4, 0, 1, 80),
-				Decay.ar(LFPulse.ar(0.1, 0.05, Impulse.ar(8, 500)), 2)
-			),
-			LFNoise1.kr(0.157, 0.4, 0.5),
-			0.04),
-		LFNoise1.kr(0.2, 2000, 2400),
-		0.2);
-	y = z * 0.6;
-	z +  [
-			  CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
-			+ CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
-		,
-			  CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
-			+ CombL.ar(y, 0.06, LFNoise1.kr(0.3.rand, 0.025, 0.035), 1)
-		]
-}))
-
-//////////////////////////////////////////////////////////////////////////
-
 (
 // narrow band filtered Crackle noise
 var e;
@@ -307,8 +296,6 @@ e = Env.linen(2, 5, 2);
 	}, 2, 1)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
 (
 // resonant dust
 e = Env.linen(2, 5, 2);
@@ -321,30 +308,6 @@ e = Env.linen(2, 5, 2);
 		, 1.0.rand2)
 	}, 2, 1)
 )
-
-//////////////////////////////////////////////////////////////////////////
-
-(
-// police state
-var n;
-n = 4;	// number of sirens
-play({
-	CombL.ar(
-		Mix.fill(n, {
-			Pan2.ar(
-				SinOsc.ar(
-					SinOsc.kr(0.1.rand + 0.02, 2pi.rand, 600.rand, 1000 + 300.rand2),
-					0,
-					LFNoise2.ar(100 + 20.0.rand2, 0.1)
-				),
-				1.0.rand2
-			)
-		})
-		+ LFNoise2.ar(LFNoise2.kr([0.4,0.4], 90, 620), LFNoise2.kr([0.3,0.3], 0.15, 0.18)),
-		0.3, 0.3, 3)
-}))
-
-//////////////////////////////////////////////////////////////////////////
 
 (
 // uplink
@@ -360,8 +323,6 @@ n = 5;
 	}, 4, 1, n, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
 (
 // data space
 var n;
@@ -375,8 +336,6 @@ n = 4;
 		CombL.ar(Pan2.ar( LFPulse.ar(freq, 0, 0.5, 0.04), LFNoise0.kr(3.0.rand, 0.8)), dtime, dtime, 3)
 	}, 6, 1, n, 2)
 )
-
-//////////////////////////////////////////////////////////////////////////
 
 (
 // cymbalism
@@ -396,8 +355,6 @@ p = 15;	// number of partials per channel per 'cymbal'.
 		Klank.ar(z, Decay.ar(Impulse.ar(3.0.rand + 0.5), 0.004, WhiteNoise.ar(0.03)));
 	}, 4, 4, 2)
 )
-
-//////////////////////////////////////////////////////////////////////////
 
 (
 // cymbalism accellerando
@@ -419,8 +376,6 @@ p = 15;	// number of partials per channel per 'cymbal'.
 	}, 4, 4, 2)
 )
 
-//////////////////////////////////////////////////////////////////////////
-
 (
 // ring modulated Klank
 var n, p;
@@ -432,5 +387,3 @@ p = 8;	// number of partials
 		Pan2.ar(SinOsc.ar(LFNoise2.kr(1.0 + 0.3.rand2, 200, 350 + 50.rand), 0, a), 1.0.rand2);
 	}, 4, 4, 4, 2)
 )
-
-//////////////////////////////////////////////////////////////////////////

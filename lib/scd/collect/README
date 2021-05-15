@@ -1,0 +1,9 @@
+The jmcc-examples files here are from the original SC2 distribution
+and have been only minimally edited in order to work with the Polyglot
+graph browser code segmenter.
+
+The versions of these examples in the "graphs" directory have been
+edited to have structures closer to the haskell variants in
+"hsc3/Help/Graphs".
+
+https://www.audiosynth.com/

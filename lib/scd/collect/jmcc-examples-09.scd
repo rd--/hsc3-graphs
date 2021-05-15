@@ -1,7 +1,7 @@
-//////////////////////////////////////////////////////////////////////
+//---- textures
 
-(
 // deep trip
+(
 	RTexture.overlap( {
 		f = LFNoise1.kr(0.3.rand, 60, 70).midicps;
 		z = SinOsc.ar(f, 0,
@@ -16,14 +16,8 @@
 	}, 12, 4, 4, 2);
 )
 
-//////////////////////////////////////////////////////////////////////
-
-// SEE MRIDIGAM
-
-//////////////////////////////////////////////////////////////////////
-
-(
 // sawed cymbals
+(
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
 	RTexture.overlap({
@@ -41,10 +35,8 @@ p = 15;	// number of partials per channel per 'cymbal'.
 	}, 4, 4, 6, 2)
 )
 
-//////////////////////////////////////////////////////////////////////
-
-(
 // sidereal time
+(
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
 	RTexture.overlap({
@@ -65,11 +57,8 @@ p = 15;	// number of partials per channel per 'cymbal'.
 	}, 4, 4, 6, 2)
 )
 
-//////////////////////////////////////////////////////////////////////
-
+// pentatonic pipes ; Mouse X on right half of screen causes pulsation
 (
-// pentatonic pipes
-// Mouse X on right half of screen causes pulsation
 var n, env, set, mode, root;
 n = 5;	// number of overlapped events
 env = Env.linen(0.2, 8, 1, 20, 'sine');
@@ -95,11 +84,9 @@ RTexture.overlap({arg i;
     })
 )
 
-//////////////////////////////////////////////////////////////////////
-
-(
 // ostinoodles
-    var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
+(
+var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
 var major, root;
 root = 81 + 6.rand2;
 major = #[0, 2, 4, 5, 7, 9, 11];
@@ -121,10 +108,8 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 });
 )
 
-//////////////////////////////////////////////////////////////////////
-
-(
 // bowed garage door springs
+(
 	RTexture.overlap({
 		Pan2.ar(
 	            Klank.ar(
@@ -145,10 +130,8 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 }
 ))
 
-//////////////////////////////////////////////////////////////////////
-
-(
 // contamination zone
+(
 RTexture.overlap({
 		var f;
 		f = exprand(800, 8000);
@@ -176,10 +159,8 @@ RTexture.overlap({
 });
 )
 
-//////////////////////////////////////////////////////////////////////
-
-(
 // array manipulation of multi channel audio
+(
 	RTexture.xfade({
 		var a, b, c, d, e;
 		// 2 channels each of 3 different processes:
@@ -217,4 +198,6 @@ RTexture.overlap({
 	}, 9, 1, 2);
 )
 
-//////////////////////////////////////////////////////////////////////
+//---- c.f.
+
+// SEE ALSO MRIDIGAM

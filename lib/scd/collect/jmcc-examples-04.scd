@@ -1,8 +1,4 @@
-//////////////////////////////////////////////////////////////////////////
-
-(
-// Berlin 1977
-// mouse x controls clock rate
+// Berlin 1977 ; mouse x controls clock rate ; jmcc
 {
     var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
     var sequR = {arg s,tr; Demand.kr(tr, 0, Dshuf(s, inf))}; // sequ with random selection function
@@ -35,18 +31,12 @@
 		),
 		0.2, [0.2, 0.17], 1.5		// max delay, actual delay(s), decay time
 	)
-}.play
-// mouse x controls clock rate
-)
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
-// metal plate
-// mouse x controls damping, mouse y controls excitation
+// metal plate ;  mouse x controls damping, mouse y controls excitation ; jmcc
 {
 	var n = 4; // number of delay lines
-    var maxdt = Server.default.sampleRate * 0.03; // maximum delay time
+    var maxdt = 48000 * 0.03; // maximum delay time -- Server.default.sampleRate
 	// allocate buffers for the delay lines
 	var buffers = Array.fill(n, {LocalBuf.newFrom(Array.fill(maxdt,0))});
 	// assign random tap times
@@ -60,17 +50,11 @@
 	// write to delay lines
 	n.do({arg i; RecordBuf.ar(filteredDelays[i] + excitation,buffers[i])});	// write the mixed signal to the delay line
 	Mix.ar(filteredDelays);	// mix 5 channels to one
-}.play
-// mouse x controls damping, mouse y controls excitation
-)
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
-// Griot modeling
-// mouse x controls damping, mouse y controls excitation
+// Griot modeling ; mouse x controls damping, mouse y controls excitation ; jmcc
 {
-    var maxdt = Server.default.sampleRate * 0.03; // maximum delay time
+    var maxdt = 48000 * 0.03; // maximum delay time - Server.default.sampleRate
 	var n = 5; // number of delay lines
 	// allocate buffers for the delay lines
 	var buffers = Array.fill(n, {LocalBuf.newFrom(Array.fill(maxdt,0))});
@@ -90,15 +74,9 @@
 	// write to delay lines
 	n.do({arg i; RecordBuf.ar(filteredDelays[i] + excitation[i],buffers[i])});
 	Mix.ar(filteredDelays).dup;	// mix 5 channels to one
-}.play
-// mouse x controls damping, mouse y controls excitation
-)
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
-	// sample and hold liquidities
-	// mouse x controls clock rate, mouse y controls center frequency
+// sample and hold liquidities ; mouse x controls clock rate, mouse y controls center frequency ; jmcc
 {
 	var clockRate, clockTime, clock, centerFreq, freq, panPos, patch;
 	clockRate = MouseX.kr(1, 200, 'exponential');
@@ -119,13 +97,12 @@
 			0.3, 0.3, 2
 		);
 	patch
-}.play
-)
+}
 
-//////////////////////////////////////////////////////////////////////////
+//---- textures
 
-(
 // random panning sines
+(
 var n = 8;
 	RTexture.xfade({
 		Mix.ar(Array.fill(n, {
@@ -137,5 +114,3 @@ var n = 8;
 		})) * (0.4 / n);
 	}, 8, 8, 2);
 )
-
-//////////////////////////////////////////////////////////////////////////
