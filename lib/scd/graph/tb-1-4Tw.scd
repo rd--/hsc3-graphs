@@ -1,6 +1,11 @@
 // http://sccode.org/1-4Tw (tb)
-{var i = Impulse.ar([1,3,5].reciprocal,[0,0.133,0.5]).sum
-;var f = {|st,z| [TDuty.ar(max(0.25,Timer.ar(st.first)),0,1)] ++ st}
+{var i = Impulse.ar(freq: [1,3,5].reciprocal, phase: [0,0.133,0.5]).sum
+;var f =
+ {arg st, z
+ ;[TDuty.ar(dur: 0.25.max(Timer.ar(trig: st.first)), reset: 0, level: 1, doneAction: 0, gapFirst: 0)] ++ st}
 ;var n = (1..10).inject([i],f)
-;n = n.collect{|n,i| SinOsc.ar((4000 + (i * 500))) * Decay2.ar(n,0.01,0.2)}
-;Splay.ar(n)}
+;var g =
+  {arg x, j
+  ;SinOsc.ar(freq: (4000 + (j * 500)), phase: 0) * Decay2.ar(in: x, attackTime: 0.01, decayTime: 0.2)}
+;var m = n.collect(g)
+;Splay.ar(inArray: m)}

@@ -1,3 +1,6 @@
+// AnalogFoldOsc
+{LPF.ar(AnalogFoldOsc.ar(freq: 60 + [0, 1], amp: SinOsc.ar(LFSaw.kr(0.1) * 4).range(0.0,1.0)), 1330)}
+
 // Balance2
 {Balance2.ar(LFSaw.ar(44),Pulse.ar(33),FSinOsc.kr(0.5),0.1)}
 
