@@ -1,4 +1,4 @@
-// https://twitter.com/redFrik/status/1136928201886904320
+// f0 ; https://twitter.com/redFrik/status/1136928201886904320
 {var f =
  {arg a, i
  ;{var b = [4,2,1,3,5]
