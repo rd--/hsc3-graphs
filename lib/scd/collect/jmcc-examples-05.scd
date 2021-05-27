@@ -1,128 +1,96 @@
-//////////////////////////////////////////////////////////////////////////
-
-(
 // input thru
-scope({ AudioIn.ar([1,2]) })
-)
+{ SoundIn.ar([0,1]) }
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // distort input
-scope({
+{
 	var gain;
 	gain = MouseX.kr(1,100,'exponential');	// mouse x controls gain into distortion
-	AudioIn.ar([1,2], gain).distort * 0.4
-}))
+	SoundIn.ar([0,1], gain).distort * 0.4
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // ring modulate input
-scope({
+{
 	var input, modulator;
-	input = AudioIn.ar([1,2]);
+	input = SoundIn.ar([0,1]);
 	modulator = SinOsc.ar(
 				MouseX.kr(10,4000,'exponential'),	// mouse x controls ring mod freq
 				[0,0.5pi]						// offset phase ofone osc by 90 degrees
 			);
 	input * modulator
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // ring modulate input using ring1
-scope({
+{
 	var input, modulator;
-	input = AudioIn.ar([1,2], 0.5);
+	input = SoundIn.ar([0,1], 0.5);
 	modulator = SinOsc.ar(
 				MouseX.kr(10,4000,'exponential'),	// mouse x controls ring mod freq
 				[0,0.5pi]						// offset phase ofone osc by 90 degrees
 			);
 	input ring1: modulator
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // filter the input
-scope({
+{
 	var rQ;
 	rQ = MouseY.kr(0.01, 1, 'exponential'); // bandwidth ratio = 1/Q
 	RLPF.ar(
-		AudioIn.ar([1,2], 0.4 * rQ.sqrt),		// attenuate to offset resonance
+		SoundIn.ar([0,1], 0.4 * rQ.sqrt),		// attenuate to offset resonance
 		MouseX.kr(100, 12000, 'exponential'), 	// mouse x controls cutoff freq
 		rQ
 	)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // input limiter
-scope({
+{
 	CompanderD.ar(
-		AudioIn.ar([1,2]),
+		SoundIn.ar([0,1]),
 		MouseX.kr(0.01, 0.5), 		// threshold
 		1, 		// below threshold slope
 		0.1		// above threshold slope
 	)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // input noise gate
-scope({
+{
 	var input;
-	input = AudioIn.ar([1,2]);
+	input = SoundIn.ar([0,1]);
 	Compander.ar(
 		input, input,
 		MouseX.kr(0.01, 0.5), 		// threshold
 		10, 		// below threshold slope
 		1		// above threshold slope
 	)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // pitch shift input
-play({
+{
 	PitchShift.ar(
-		AudioIn.ar([1,2],0.5),	// stereo audio input
+		SoundIn.ar([0,1],0.5),	// stereo audio input
 		0.04, 			// grain size
 		MouseX.kr(0,2), // mouse x controls pitch shift ratio
 		0, 			// pitch dispersion
 		0.004			// time dispersion
 	)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
-// use PitchShift to granulate input
-// upper left corner is normal playback. x = pitch dispersion, y = time dispersion
-play({
+// use PitchShift to granulate input ; upper left corner is normal playback. x = pitch dispersion, y = time dispersion
+{
 	var grainSize;
 	grainSize = 0.1;
 	PitchShift.ar(
-		AudioIn.ar([1,2],0.5),
+		SoundIn.ar([0,1],0.5),
 		grainSize,
 		1,					// nominal pitch rate = 1
 		MouseX.kr(0,1), 		// pitch dispersion
 		MouseY.kr(0, grainSize)	// time dispersion
 	)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // echo input
-play({
+{
 	var in;
-	in = AudioIn.ar([1,2], 0.1);
+	in = SoundIn.ar([0,1], 0.1);
 	CombL.ar(
 		in,
 		0.5, 				// max delay time
@@ -131,15 +99,12 @@ play({
 		1, 				// scale by unity
 		in				// mix with input
 	)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // ring modulate & echo input
-play({
+{
 	var in;
-	in = AudioIn.ar([1,2], 0.4) * SinOsc.ar(MouseX.kr(10,2000,'exponential'), [0,0.5pi]);
+	in = SoundIn.ar([0,1], 0.4) * SinOsc.ar(MouseX.kr(10,2000,'exponential'), [0,0.5pi]);
 	CombL.ar(
 		in,
 		0.5,
@@ -148,15 +113,12 @@ play({
 		1, 				// scale by unity
 		in				// mix with input
 	)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // ring modulated and resonant filtered input
-scope({
+{
 	var input, modulator;
-	input = AudioIn.ar([1,2],0.2);
+	input = SoundIn.ar([0,1],0.2);
 	modulator = SinOsc.ar(
 				MouseX.kr(10,4000,'exponential'),	// mouse x controls ring mod freq
 				[0,0.5pi]						// offset phase ofone osc by 90 degrees
@@ -165,15 +127,12 @@ scope({
 		input * modulator, 					// do ring modulation
 		MouseY.kr(100, 12000, 'exponential'), 	// mouse y controls cutoff freq
 		0.1)								// bandwidth ratio = 1/Q
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
 // distort, ring modulate & echo input - a real noise fest
-scope({
+{
 	var in;
-	in = AudioIn.ar([1,2], 20).distort.ring1(
+	in = SoundIn.ar([0,1], 20).distort.ring1(
 			SinOsc.ar(MouseX.kr(10,2000,'exponential'), [0,0.5pi])
 		) * 0.02;
 	CombL.ar(
@@ -184,19 +143,12 @@ scope({
 		1,
 		in
 	)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-// UNTRANS - loop recorder - previous delay contents are ducked when there is new input
-
-//////////////////////////////////////////////////////////////////////////
-
-(
 // sweep verb
-play({
+{
 	var s, z, y;
-	s = AudioIn.ar([1,2], 0.01) ;
+	s = SoundIn.ar([0,1], 0.01) ;
 		// reverb predelay time :
 	z = DelayN.ar(Mix.ar(s), 0.048);
 		// 6 modulated comb delays in parallel :
@@ -205,18 +157,14 @@ play({
 	4.do({ y = AllpassN.ar(y, 0.050, [0.050.rand,0.050.rand], 1) });
 	// eliminate DC
 	LeakDC.ar(y)
-}))
+}
 
-//////////////////////////////////////////////////////////////////////////
-
-(
-// monastic resonance
-// mouse controls size and reverb time
-play({
+// monastic resonance ; mouse controls size and reverb time
+{
 	var s, z, y, decayTime, delayScale;
 	decayTime = MouseX.kr(0,16);
 	delayScale = MouseY.kr(0.01, 1);
-	s = AudioIn.ar([1,2], 0.005) ;
+	s = SoundIn.ar([0,1], 0.005) ;
 		// reverb predelay time :
 	z = DelayN.ar(Mix.ar(s), 0.048);
 		// 8 comb delays in parallel :
@@ -225,4 +173,6 @@ play({
 	5.do({ y = AllpassN.ar(y, 0.050, [0.050.rand,0.050.rand], 1) });
 	// eliminate DC
 	LeakDC.ar(y)
-}))
+}
+
+// UNTRANS - loop recorder - previous delay contents are ducked when there is new input

@@ -332,6 +332,7 @@ scd_collect_fn =
      ,"jmcc-examples-02.scd"
      ,"jmcc-examples-03.scd"
      ,"jmcc-examples-04.scd"
+     ,"jmcc-examples-05.scd"
      ,"jmcc-examples-06.scd"
      ,"jmcc-examples-07.scd"
      ,"jmcc-examples-08.scd"

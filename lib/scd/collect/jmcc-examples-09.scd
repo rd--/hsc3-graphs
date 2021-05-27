@@ -1,19 +1,82 @@
-//---- textures
+// deep trip ; graph re-write
+{
+	RTexture.overlapGraph( {
+        arg tr;
+        var f, z, s;
+		f = LFNoise1.kr(TRand.kr(0,0.3,tr), 60, 70).midicps;
+		z = SinOsc.ar(f, 0,
+			LFNoise2.ar(
+				f * TRand.kr(0,0.5,tr),
+				LFNoise1.kr(TRand.kr(0,8.0,tr), SinOsc.kr(TRand.kr(0,40.0,tr),0,0.1)).max(0)
+			)
+		);
+		s = Pan2.ar(z, LFNoise1.kr(TRand.kr(0,5.0,tr)));
+		s + CombN.ar(s, 0.5, [TRand.kr(0,0.2,tr) + 0.3, TRand.kr(0,0.2,tr) + 0.3], 20)
+		+ CombN.ar(s, 0.5, [TRand.kr(0,0.2,tr) + 0.3, TRand.kr(0,0.2,tr) + 0.3], 20);
+	}, 12, 4, 4, 2);
+}
+
+// sidereal time ; graph re-write
+{
+var p;
+p = 15;	// number of partials per channel per 'cymbal'.
+	RTexture.overlapGraph({
+        arg tr;
+		var z, f1, f2, f3, in, out;
+		f1 = 100;
+		f2 = 6000.0;
+		z = Array.fill(2, {
+			`[	// sine oscil bank specification :
+				y = Array.fill(p, { TExpRand.kr(f1, f2, tr) } ), // frequencies
+				nil, 							// amplitudes default to 1.0
+				Array.fill(p, { 2.0 + TRand.kr(0,4.0,tr) })	// ring times
+			]
+		});
+		f3 = LinExp.kr(Sweep.kr(tr,1/12),0,1,TExpRand.kr(40.0, 300.0, tr), TExpRand.kr(40.0, 300.0, tr));
+		in = LFPulse.ar(f3, TRand.kr(0.1, 0.9, tr), 0, 0.002 * LFNoise2.kr(TRand.kr(0,8.0,tr)).max(0));
+		out = DynKlank.ar(z, in).distort * 0.1;
+		CombN.ar(out, 0.6, TRand.kr(0,0.5,tr) + 0.1, 8, 1, out.reverse);
+	}, 4, 4, 6, 2)
+}
+
+// ostinoodles ; graph rewrite
+{
+var z = RTexture.overlapGraph({
+        arg tr;
+		var sequ, major, root, f, offset, sequence, trig;
+        sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
+        root = 81 + TRand.kr(-6,6,tr);
+        major = [0, 2, 4, 5, 7, 9, 11].as(LocalBuf);
+		offset = TRand.kr(-16,16,tr);
+		sequence = (DegreeToKey.kr(major,TScramble.kr([0, 1, 2, 3] + offset,tr)) + root).midicps;
+		trig = Impulse.kr(LinExp.kr(Sweep.kr(tr,1/12),0,1,TExpRand.kr(4.0, 24.0, tr), TExpRand.kr(4.0, 24.0, tr)));
+		f = sequ.value(sequence, trig);
+		Pan2.ar(
+			LFTri.ar(f, 0, Decay2.kr(trig, 0.004, 0.3, 0.1)),
+			TRand.kr(-1,1,tr)
+		)}, 6, 3, 6, 2);
+6.do({
+    z = AllpassN.ar(z, 0.040, [0.040.rand,0.040.rand], 16)
+});
+z
+}
+
+//---- textures ; non-graph
 
 // deep trip
 (
-	RTexture.overlap( {
-		f = LFNoise1.kr(0.3.rand, 60, 70).midicps;
-		z = SinOsc.ar(f, 0,
-			LFNoise2.ar(
-				f * 0.5.rand,
-				LFNoise1.kr(8.0.rand, SinOsc.kr(40.0.rand,0,0.1)).max(0)
-			)
-		);
-		s = Pan2.ar(z, LFNoise1.kr(5.0.rand));
-		s + CombN.ar(s, 0.5, [0.2.rand + 0.3, 0.2.rand + 0.3], 20)
-		+ CombN.ar(s, 0.5, [0.2.rand + 0.3, 0.2.rand + 0.3], 20);
-	}, 12, 4, 4, 2);
+       RTexture.overlap( {
+               f = LFNoise1.kr(0.3.rand, 60, 70).midicps;
+                z = SinOsc.ar(f, 0,
+                        LFNoise2.ar(
+                               f * 0.5.rand,
+                               LFNoise1.kr(8.0.rand, SinOsc.kr(40.0.rand,0,0.1)).max(0)
+                        )
+                );
+               s = Pan2.ar(z, LFNoise1.kr(5.0.rand));
+               s + CombN.ar(s, 0.5, [0.2.rand + 0.3, 0.2.rand + 0.3], 20)
+               + CombN.ar(s, 0.5, [0.2.rand + 0.3, 0.2.rand + 0.3], 20);
+        }, 12, 4, 4, 2);
 )
 
 // sawed cymbals
@@ -198,6 +261,4 @@ RTexture.overlap({
 	}, 9, 1, 2);
 )
 
-//---- c.f.
-
-// SEE ALSO MRIDIGAM
+//---- c.f. mridigam
