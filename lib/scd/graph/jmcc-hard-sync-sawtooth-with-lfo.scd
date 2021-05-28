@@ -1,4 +1,4 @@
-// hard sync sawtooth with lfo (jmcc) #6
+// hard sync sawtooth with lfo (jmcc) #6 ; graph-rewrite
 {var txt ={RTexture.overlapGraph(
  {arg tr
  ;var f = (30 + TRand.kr(0,50,tr)).midicps

@@ -5,7 +5,7 @@ var z = RTexture.overlapGraph({
 		var f, r, n, a, z;
 		f = TRand.kr(24, 96, tr).midicps;
 		a = min(1, (500/f));
-		r = RTXLine.kr(TExpRand.kr(0.1,20,tr),TExpRand.kr(0.1,20,tr), 25.6, tr);
+		r = TXLine.kr(TExpRand.kr(0.1,20,tr),TExpRand.kr(0.1,20,tr), 25.6, tr);
 		n = 12;
 		a * Mix.arFill(n, { arg i;
 			g = TRand.kr(0,n,tr) + 1;
