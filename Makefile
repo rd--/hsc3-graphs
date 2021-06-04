@@ -9,7 +9,6 @@ mk-cmd:
 
 clean:
 	(cd cmd ; make clean)
-	cabal clean
 
 push-gl:
 	git push $(GL_GIT)
