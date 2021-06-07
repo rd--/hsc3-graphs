@@ -228,7 +228,7 @@
 	CombN.ar(a, 0.5, 0.5, 4, 1, a.reverse);
 )
 
-//---- untranslated
+//---- ; untranslated
 
 // UNTRANS RLPF4 - 4th order resonant lowpass filter
 

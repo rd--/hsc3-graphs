@@ -125,7 +125,7 @@ var e = Env.linen(1, 4, 1);
 	}, 2, 1, postProcess: {arg z;3.do({z = AllpassN.ar(z, 0.05, [0.05.rand,0.05.rand], 2)});z})
 )
 
-//---- untranslated
+//---- ; untranslated
 
 // UNTRANS - interaural time delay panning   ("Griot modeling" variant)
 

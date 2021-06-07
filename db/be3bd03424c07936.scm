@@ -1,0 +1,7 @@
+; http://sccode.org/1-4Qy (f0)
+(let* ((z (Mul (Mul (LFTri kr (FDiv 1 (mce2 7 8)) 0) (LFTri kr (FDiv 1 9) 0)) 99))
+       (l (MIDICPS (mceFromTo 60 79)))
+       (f (Select z l))
+       (w (Mod (LFTri kr (FDiv 1 (mce2 3 4)) 0) 1))
+       (o (VarSaw ar f 0 w)))
+  (FDiv (CombN o 1 (FDiv 1 (mce2 5 6)) 8) 8))

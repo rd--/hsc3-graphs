@@ -1,0 +1,6 @@
+; http://sccode.org/1-4Qy (f0)
+(let* ((z (Mul (Mul (SinOsc kr (FDiv 1 (mce2 8 7)) 0) (SinOsc kr (FDiv 1 30) 0)) 9))
+       (l (MIDICPS (mceFromThenTo 56 62 98)))
+       (m (SinOsc ar (FDiv 1 (mce2 4 3)) 0))
+       (o (Mul (SinOsc ar (Select z l) 0) m)))
+  (Mul (tanh (CombN o 1 (FDiv 1 (mce2 6 5)) 9)) 0.1))

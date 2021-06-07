@@ -633,6 +633,9 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
 ;v=Vibrato.ar(DC.ar(400.0),n,x,1.0,1.0,y,0.1)
 ;SinOsc.ar(v)}
 
+// XFade2
+{XFade2.ar(Saw.ar(440), SinOsc.ar(440, 0), LFTri.kr(0.1, 0), 0.1)}
+
 // ---- ; drawings
 
 // MiTides ; mode=FREQUENCIES

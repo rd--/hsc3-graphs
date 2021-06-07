@@ -64,7 +64,7 @@ var e = Env.adsr(0.001, 0.01, 0.25, 0.04, 1, -4);
 	}, 4, 4, n, 2)
 )
 
-//---- untranslated
+//---- ; untranslated
 
 // UNTRANS - algorhythmic rhythms
 
