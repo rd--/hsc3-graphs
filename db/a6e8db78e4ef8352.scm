@@ -1,6 +1,0 @@
-; AmpCompA ; adjust minimum and root (flatten Out the curve for higher amplitudes)
-(let* ((x (MouseX kr 300 18000 1 0.1))
-       (y (MouseY kr 0 1 0 0.1))
-       (o (Mul (Formant ar 300 x 20) 0.1))
-       (c (AmpCompA kr o 300 0.6 0.3)))
-  (mce2 (Mul o y) (mul3 o (Sub 1 y) c)))

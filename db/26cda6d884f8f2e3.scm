@@ -1,8 +1,0 @@
-; https://twitter.com/redFrik/status/1125557217086857216 (f0)
-(let* ((scl (list 0 2.94 4.98 7.02 9.96))
-       (a LFTri)
-       (b (FDiv (Mul (Add (make-mce (enumFromTo -7 6)) 0.7) 2) 666))
-       (m (Add (DegreeToKey (as-local-buf scl) (Mod (Add (Mul (Mul (a kr b b) (a kr b 0)) 9) 9) 32) 12) 24))
-       (o (Mul (Mul (Mul (Mul (VarSaw ar (MIDICPS m) 0 (FDiv (Add (a kr b 0) 1) 2)) (AmpComp kr m 440 (FDiv 1 3))) (a kr b b)) b) 9))
-       (s (RLPF o (Mul (Lag2 m (Mod (FDiv 1 b) 1)) 3) 1)))
- (TanH (splay (AllpassN s 0.3 (Sub 0.2 b) 3) 1 1 0 #t)))

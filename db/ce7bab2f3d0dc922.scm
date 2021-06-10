@@ -1,8 +1,0 @@
-; http://sccode.org/1-Z (jl)
-(let* ((a (Lag (Impulse kr 8 0) 0.1))
-       (b (Crackle ar (Mul (Lag (Abs (LFSaw kr 3 0)) 0.1) 1.8)))
-       (c (Mul a b))
-       (d (Lag (Add (Impulse kr 2 0) (Impulse kr 4 0.5)) 0.1))
-       (e (Mul (Blip ar 4.9 7) 0.4))
-       (f (Mul d e)))
- (Mul (tanh (Add c (Mul (GVerb f 1 1 0.5 0.5 15 1 0.7 0.5 300) 5))) 0.5))

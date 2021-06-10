@@ -1,6 +1,0 @@
-; http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
-(let* ((c (InFeedback 1 0))
-       (b (ClearBuf (LocalBuf 1 90000)))
-       (g (TGrains 2 (SinOsc ar 3 0) b (Add c 3) 2 12 0 0.1 4))
-       (r (RecordBuf ar b 0 1 0 1 1 1 do-nothing c)))
-  (mrg2 (Mul (HPF (Add (FDiv (SinOsc ar 99 (Mul c 6)) 9) g) 9) 0.75) r))

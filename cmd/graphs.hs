@@ -16,7 +16,10 @@ import qualified Music.Theory.Directory as T {- hmt -}
 import qualified Sound.SC3 as SC3 {- hsc3 -}
 import qualified Sound.SC3.Server.Graphdef as Graphdef {- hsc3 -}
 import qualified Sound.SC3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
+
 import qualified Sound.SC3.UGen.Dot as Dot {- hsc3-dot -}
+
+import qualified Sound.SC3.Lisp.Haskell as Lisp {- hsc3-lisp -}
 
 -- * Util
 
@@ -207,24 +210,26 @@ scm_graph_fragment_rw (z,txt) =
   ,printf "(synthdef-write (synthdef \"%s\" (Out (ctl ir \"out\" 0)" z
   ,printf " %s)) \"%s\")" txt (graphs_db_fn (z <.> ".scsyndef"))]
 
-scm_graph_fragment_process :: [FilePath] -> IO ()
-scm_graph_fragment_process fn_seq = do
+scm_graph_fragment_process :: String -> [FilePath] -> IO ()
+scm_graph_fragment_process ext fn_seq = do
   tmp <- getTemporaryDirectory
-  txt_seq <- read_file_set_fragments fn_seq
-  let z_seq = map txt_hash_str txt_seq
-      rw_seq = map scm_graph_fragment_rw (zip z_seq txt_seq)
-      cpy (z,txt) = writeFile (graphs_db_fn (z <.> "scm")) txt
+  tbl <- Lisp.name_tbl_load "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
+  pre_txt_seq <- read_file_set_fragments fn_seq
+  let post_txt_seq = map (if ext == ".sch" then Lisp.hs_exp_to_lisp tbl else id) pre_txt_seq
+      z_seq = map txt_hash_str pre_txt_seq
+      rw_seq = map scm_graph_fragment_rw (zip z_seq post_txt_seq)
+      cpy (z,txt) = writeFile (graphs_db_fn (z ++ ext)) txt
       rw_fn = tmp </> "rw.scm"
-  mapM_ cpy (zip z_seq txt_seq)
+  mapM_ cpy (zip z_seq pre_txt_seq)
   writeFile rw_fn (unlines (scm_graph_rw_pre ++ concat rw_seq ++ ["(exit)"]))
   --_ <- rawSystem "guile" ["--r6rs",rw_fn] -- "--no-auto-compile" -- this alters results...
   _ <- rawSystem "ikarus" [rw_fn]
   return ()
 
-scm_graph_fragment_process_dir :: FilePath -> IO ()
-scm_graph_fragment_process_dir dir = do
-  fn <- T.dir_subset [".scm"] dir
-  scm_graph_fragment_process fn
+scm_graph_fragment_process_dir :: String -> FilePath -> IO ()
+scm_graph_fragment_process_dir ext dir = do
+  fn <- T.dir_subset [ext] dir
+  scm_graph_fragment_process ext fn
 
 -- * Forth
 
@@ -311,10 +316,9 @@ scala_graph_fragment_process fn_seq = do
       rw_text = unlines (concat rw_seq)
   mapM_ cpy (zip z_seq txt_seq)
   writeFile rw_fn rw_text
-  --_ <- rawSystem "scalacollider-cli.sh" [rw_fn]
+  _ <- rawSystem "scalacollider-cli.sh" [rw_fn]
   return z_seq
 
--- > scala_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
 scala_graph_fragment_process_dir :: FilePath -> IO ()
 scala_graph_fragment_process_dir dir = do
   fn <- T.dir_subset [".scala"] dir
@@ -344,13 +348,15 @@ graphs_db_polyglot_autogen = do
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/UGen/"
   scd_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
   scd_graph_fragment_process scd_collect_fn
-  scm_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/graph/"
-  scm_graph_fragment_process_dir "/home/rohan/sw/rsc3/help/ugen/"
-  scm_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/graph/"
-  scm_graph_fragment_process_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
+  scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3/help/graph/"
+  scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3/help/ugen/"
+  scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3-arf/help/graph/"
+  scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3-arf/help/ugen/"
+  scm_graph_fragment_process_dir ".sch" "/home/rohan/sw/rsc3-arf/help/graph/"
   fs_graph_fragment_process_dir "/home/rohan/sw/hsc3-forth/help/graph/"
   st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/graph/"
   st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/ugen/"
+  scala_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
   return ()
 
 -- * Main

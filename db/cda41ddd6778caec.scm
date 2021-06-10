@@ -1,6 +1,0 @@
-; http://sccode.org/1-L (jl)
-(let* ((n (make-mce (list 400 500 450 376 600)))
-       (d (/ 1 20))
-       (f (Demand (Impulse kr d (mce2 0 0.5)) 0 (Dseq dinf n)))
-       (f_ (in-range (LFPulse kr 8 0 (in-range (LFTri kr d 1) 0 1)) (mce-channel f 0) (mce-channel f 1))))
-  (Mul (LPF (Mul (Saw ar (Mul (Max 376 f_) (mce2 1 0.99))) 0.5) 8000) 0.1))
