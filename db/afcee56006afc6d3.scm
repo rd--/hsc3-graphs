@@ -17,7 +17,7 @@
        (chord (shiftRegister 5 tr1 (MIDICPS note)))
        (sig (PMOsc
              ar
-             (Vibrato ar (K2A chord) 6 0.02 0 0 0.04 0.1 0.0 0.0)
+             (Vibrato ar chord 6 0.02 0 0 0.04 0.1 0.0 0.0)
              (Mul (Add 1.01 (LFPulse kr (FDiv 1 8) 0 0.5)) chord)
              (EnvGen kr tr1 1 0 1 doNothing (env (list 3 3 0) (list 0 0.2) (list -4 -4) -1 -1))
              0))
