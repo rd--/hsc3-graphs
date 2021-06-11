@@ -352,6 +352,7 @@ graphs_db_polyglot_autogen = do
   scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3/help/ugen/"
   scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3-arf/help/graph/"
   scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3-arf/help/ugen/"
+  scm_graph_fragment_process_dir ".sch" "/home/rohan/sw/rsc3/help/graph/"
   scm_graph_fragment_process_dir ".sch" "/home/rohan/sw/rsc3-arf/help/graph/"
   fs_graph_fragment_process_dir "/home/rohan/sw/hsc3-forth/help/graph/"
   st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/graph/"
