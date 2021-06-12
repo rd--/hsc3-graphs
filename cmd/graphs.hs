@@ -207,7 +207,7 @@ scm_graph_rw_pre =
 scm_graph_fragment_rw :: (String,String) -> [String]
 scm_graph_fragment_rw (z,txt) =
   [printf "(display \"%s %s\")(newline)" z (text_prefix 48 txt)
-  ,printf "(synthdef-write (synthdef \"%s\" (Out (ctl ir \"out\" 0)" z
+  ,printf "(synthdefWrite (synthdef \"%s\" (Out (ctl ir \"out\" 0)" z
   ,printf " %s)) \"%s\")" txt (graphs_db_fn (z <.> ".scsyndef"))]
 
 scm_graph_fragment_process :: String -> [FilePath] -> IO ()
