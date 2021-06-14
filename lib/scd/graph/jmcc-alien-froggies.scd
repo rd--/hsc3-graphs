@@ -1,5 +1,5 @@
 // alien froggies (jmcc) #1
-{RTexture.overlapGraph({
+{RTexture.overlapGraph({graphFunc:
     arg tr;
     var rate = 11;
     var r = (rate * TRand.kr(-0.2,0.2,tr).exp).fold(1,30); // bilinrand

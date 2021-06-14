@@ -1,5 +1,5 @@
 // data space (jmcc) #2 ; graph rewrite
-{RTexture.overlapGraph(
+{RTexture.overlapGraph(graphFunc:
 {arg tr
 ;var dt = TRand.kr(0,0.25,tr) + 0.1
 ;var osc =
