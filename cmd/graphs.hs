@@ -90,7 +90,7 @@ graphs_db_fext = words ".fs .hs .scd .scm .st"
 -- | DB directory
 --
 -- > fn <- T.dir_subset graphs_db_fext graphs_db_dir
--- > length fn == 2373
+-- > length fn == 3062
 -- > pfx <- mapM (text_file_prefix 48) fn
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
@@ -327,27 +327,12 @@ scala_graph_fragment_process_dir dir = do
 
 -- * Polyglot
 
-scd_collect_fn :: [String]
-scd_collect_fn =
-  let dir = "/home/rohan/sw/hsc3-graphs/lib/scd/collect/"
-  in map (dir ++)
-     ["help.scd"
-     ,"jmcc-examples-01.scd"
-     ,"jmcc-examples-02.scd"
-     ,"jmcc-examples-03.scd"
-     ,"jmcc-examples-04.scd"
-     ,"jmcc-examples-05.scd"
-     ,"jmcc-examples-06.scd"
-     ,"jmcc-examples-07.scd"
-     ,"jmcc-examples-08.scd"
-     ,"jmcc-examples-11.scd"]
-
 graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/Graph/"
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/UGen/"
   scd_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
-  scd_graph_fragment_process scd_collect_fn
+  scd_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scd/collect/"
   scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3/help/graph/"
   scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3/help/ugen/"
   scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3-arf/help/graph/"
