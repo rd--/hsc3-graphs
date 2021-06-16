@@ -333,6 +333,8 @@ graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/Graph/"
   _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/UGen/"
+  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3-unsafe/help/ugen/"
+  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3-unsafe/help/graph/"
   scd_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
   scd_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scd/collect/"
   scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3/help/graph/"
