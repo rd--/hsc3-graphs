@@ -1,0 +1,31 @@
+name:              hsc3-graphs
+version:           0.20
+synopsis:          Haskell SuperCollider Graphs
+license:           GPL-3
+category:          Sound
+copyright:         (c) Rohan Drape, 2006-2021
+maintainer:        rd@rohandrape.net
+stability:         Experimental
+homepage:          http://rohandrape.net/t/hsc3-graphs
+tested-with:       GHC == 8.8.4
+build-type:        Simple
+cabal-version:     >= 1.8
+
+executable hsc3-graphs
+  main-is:         cmd/graphs.hs
+  build-depends:   base >= 4.7 && < 5,
+                   directory,
+                   filepath,
+                   hmt == 0.20.*,
+                   hosc == 0.20.*,
+                   hsc3 == 0.20.*,
+                   hsc3-dot == 0.20.*,
+                   hsc3-lisp == 0.20.*,
+                   murmur-hash,
+                   process,
+                   split
+  ghc-options:     -Wall -fwarn-tabs
+
+source-repository  head
+  type:            git
+  location:        https://gitlab.com/rd--/hsc3-graphs
