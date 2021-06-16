@@ -14,7 +14,7 @@
 ;var scale = [0, 2, 4, 5, 7, 9, 11]
 ;var octaves = [4, 5, 6, 7]
 ;var mnn = all {:n + (o * 12), n <- scale, o <- octaves}
-;var chd = 6.collect({TChoose.kr(tr, mnn)})
+;var chd = 6.collect({TChoose.kr(trig: tr, array: mnn)})
 ;Mix.fill(n: 9, function: {chrd.value(chd)})}, sustainTime: 21, transitionTime: 0, overlap: 3)}
 
 //---- ; calculations

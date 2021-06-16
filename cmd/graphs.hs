@@ -7,8 +7,6 @@ import System.FilePath {- filepath -}
 import System.Process {- process -}
 import Text.Printf {- base -}
 
-import qualified System.IO.Strict as Strict {- strict -}
-
 import qualified Data.Digest.Murmur64 as Murmur64 {- murmur-hash -}
 
 import qualified Music.Theory.Directory as T {- hmt -}
@@ -79,13 +77,17 @@ text_prefix k =
   merge_multiple_spaces .
   map newline_to_space
 
+{-
+import qualified System.IO.Strict as Strict {- strict -}
+
 text_file_prefix :: Int -> FilePath -> IO String
 text_file_prefix k = fmap (text_prefix k) . Strict.readFile
 
--- * DB
-
 graphs_db_fext :: [String]
 graphs_db_fext = words ".fs .hs .scd .scm .st"
+-}
+
+-- * DB
 
 -- | DB directory
 --
