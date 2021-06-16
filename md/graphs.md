@@ -1,5 +1,7 @@
 # hsc3-graphs
 
+To install type `cabal install` from the `hsc3-graphs` directory.
+
 ~~~~
 $ hsc3-graphs -h
 hsc3-graphs command [arguments]
