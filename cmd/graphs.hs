@@ -102,11 +102,16 @@ graphs_db_fn = (++) graphs_db_dir
 
 -- * Haskell
 
-hs_hsc3_dir :: FilePath
-hs_hsc3_dir = "/home/rohan/sw/hsc3/"
+hs_hsc3_dir :: IO FilePath
+hs_hsc3_dir = getEnv "HSC3_DIR"
+
+hs_hsc3_std_imports :: IO FilePath
+hs_hsc3_std_imports = do
+  dir <- hs_hsc3_dir
+  return (dir </> "lib/hsc3-std-imports.hs")
 
 hs_graph_rw_pre :: IO [String]
-hs_graph_rw_pre = fmap lines (readFile (hs_hsc3_dir ++ "lib/hsc3-std-imports.hs"))
+hs_graph_rw_pre = hs_hsc3_std_imports >>= fmap lines . readFile
 
 -- | sy_dir = scsyndef directory, z = fragment ID, txt = fragment
 hs_graph_fragment_rw :: FilePath -> (String,String) -> [String]
@@ -163,15 +168,19 @@ hs_graph_fragments_process_load fn = do
   mapM gr_load z
 
 hs_graph_fragments_process_play :: FilePath -> IO ()
-hs_graph_fragments_process_play fn = hs_graph_fragments_process_load fn >>= mapM_ SC3.audition
+hs_graph_fragments_process_play fn =
+  hs_graph_fragments_process_load fn >>=
+  mapM_ SC3.audition
 
 hs_graph_fragments_process_draw :: FilePath -> IO ()
 hs_graph_fragments_process_draw fn =
-  hs_graph_fragments_process_load fn >>= mapM_ (Dot.draw . snd . Graphdef.Read.graphdef_to_graph)
+  hs_graph_fragments_process_load fn >>=
+  mapM_ (Dot.draw . snd . Graphdef.Read.graphdef_to_graph)
 
 hs_graph_fragments_process_dump_ugens :: FilePath -> IO ()
 hs_graph_fragments_process_dump_ugens fn =
-  hs_graph_fragments_process_load fn >>= mapM_ Graphdef.graphdef_dump_ugens
+  hs_graph_fragments_process_load fn >>=
+  mapM_ Graphdef.graphdef_dump_ugens
 
 -- * SuperCollider
 
