@@ -2,6 +2,8 @@
 
 To install type `cabal install` from the `hsc3-graphs` directory.
 
+To use set the environment variable `HSC3_DIR` to point to a copy of the `hsc3` archive.
+
 ~~~~
 $ hsc3-graphs -h
 hsc3-graphs command [arguments]
