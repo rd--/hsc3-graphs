@@ -1,0 +1,12 @@
+; f0 <https://twitter.com/redFrik/status/1254441448327479299>
+(let* ((b (list 1 3 5 8 10))
+       (e (list 3 2/3 4 3/2 2))
+       (c 0.021)
+       (d (Mod (LFTri ar (FDiv (asMce b) 999) 0) 1))
+       (m (LFTri ar (Mul (asMce b) c) 0))
+       (l (Add (MulAdd m 7 20) (Dseq dinf (MulAdd (Mod (asMce b) m) 5 6))))
+       (j (Duty ar (FDiv (asMce e) (Pow 12 m)) 0 doNothing l))
+       (f (MidiCps (DegreeToKey (asLocalBuf 1 b) j 12)))
+       (y (Mul (Decay2 (Impulse ar (Mce5 2/3 3/2 3 3/2 3) 0) c d) d))
+       (o (Mul (SinOscFB ar f (AddDiv (LFTri ar (FDiv c (asMce b)) 0) 1 3)) y)))
+  (Mul (FreeVerb (Splay o 1 1 0 #t) 0.1 1 0.5) 0.2))
