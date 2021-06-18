@@ -1,26 +1,27 @@
-mostly:
+lots:
 
-- [jmcc](http://audiosynth.com/): James McCartney
 - [f0](http://fredrikolofsson.com/): Fredrik Olofsson
+- [jmcc](http://audiosynth.com/): James McCartney
 
 also:
 
-- [jrhb](http://www.wertlos.org/~rohrhuber/): Julian Rohrhuber
-- [adc](https://www.udk-berlin.de/en/people/detail/person/show/alberto-campo/): Alberto De Campo
-- [jl](http://kymatica.com/): Jonatan Liljedahl
-- [nv](https://twitter.com/headcube/): Nathaniel Virgo
-- [am](http://yaxu.org/): Alex McLean
-- [nc](https://www.dur.ac.uk/music/staff/profile/?id=11477/): Nick Collins
+- adc: Alberto De Campo
+- am: Alex McLean
 - av: Andrea Valle
-- jj: Jacob Joaquin
-- jp: Josh Parmenter
+- cr: Chandrasekhar Ramakrishnan
+- es: Eric Skogen
+- es: Eric Sluyter
 - jar: Juan A. Romero
+- jc: Jose Caos
+- jj: Jacob Joaquin
+- jl: Jonatan Liljedahl
+- jp: Josh Parmenter
+- jrhb: Julian Rohrhuber
 - ljp: Lance J. Putnam
+- nc: Nick Collins
+- nv: Nathaniel Virgo
 - rb: Ryan Brown
 - sp: Sam Pluta
 - tb: Till Bovermann
 - tm: Thor Magnusson
-- es: Eric Sluyter
-- jc: Jose Caos
 - wmd: William Mox Drossard
-- cr: Chandrasekhar Ramakrishnan

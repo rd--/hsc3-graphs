@@ -43,6 +43,8 @@ bac =
 main :: IO ()
 main = audition (out 0 bac)
 
+-- > nth_prime 23 == 89
+-- > chain 3 nth_prime 1 == 19
 bac' :: UGen
 bac' =
   let x = let f = c (nth_prime 23)
@@ -53,6 +55,7 @@ bac' =
           in out yn (tanh (sinOsc AR f ph))
   in mrg [inFeedback 2 xn,y,x]
 
+-- > chain 3 nth_prime 2 == 43
 bac'' :: UGen
 bac'' =
   let x = let f = c (nth_prime 23)
@@ -66,6 +69,7 @@ bac'' =
           in out zn (tanh (sinOsc AR f ph) * exp (-0.5 * pi))
   in mrg [inFeedback 2 xn,y,x,z]
 
+-- > map nth_prime [1..30] == [3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127]
 bac''' :: UGen
 bac''' =
   let x = let j = range 1 30 (lfNoise0 'ι' KR (log 2 / 2))
@@ -80,6 +84,7 @@ bac''' =
           in out zn (tanh (sinOsc AR f ph) * exp (-0.5 * pi))
   in mrg [inFeedback 2 xn,y,x,z]
 
+-- > map nth_prime (scramble 'λ' [1,3..61])
 scramble :: Enum a => a -> [t] -> [t]
 scramble j k =
     let g = mkStdGen (fromEnum j)
@@ -89,9 +94,8 @@ bac'''' :: UGen
 bac'''' =
   let x = let j = range 1 30 (lfNoise2 'κ' KR (log 2 / 2))
               ph = i zn * n' lfdNoise3 (map sqrt [1,2]) "ab"
-              f' = map (c . nth_prime) (scramble 'λ' [1,3..61])
-              o = map (\f -> mceReverse (sinOsc AR f ph)) f'
-          in out xn (mceChannel 1 (selectX j (mce o)))
+              f = map (c . nth_prime) (scramble 'λ' [1,3..61])
+          in out xn (selectX j (sinOsc AR (mce f) ph))
       y = let f = c (chain 3 nth_prime 1)
               ph = i xn * n lfdNoise1 (sqrt pi) "cd" * pi
           in out yn (tanh (sinOsc AR f ph) * exp 1)
