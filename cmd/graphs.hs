@@ -105,13 +105,13 @@ graphs_db_fn = (++) graphs_db_dir
 hs_hsc3_dir :: IO FilePath
 hs_hsc3_dir = getEnv "HSC3_DIR"
 
-hs_hsc3_std_imports :: IO FilePath
-hs_hsc3_std_imports = do
+hs_hsc3_typ_imports :: String -> IO FilePath
+hs_hsc3_typ_imports typ = do
   dir <- hs_hsc3_dir
-  return (dir </> "lib/hsc3-std-imports.hs")
+  return (dir </> "lib/hsc3-" ++ typ ++ "-imports.hs")
 
-hs_graph_rw_pre :: IO [String]
-hs_graph_rw_pre = hs_hsc3_std_imports >>= fmap lines . readFile
+hs_graph_rw_pre :: String -> IO [String]
+hs_graph_rw_pre typ = hs_hsc3_typ_imports typ >>= fmap lines . readFile
 
 -- | sy_dir = scsyndef directory, z = fragment ID, txt = fragment
 hs_graph_fragment_rw :: FilePath -> (String,String) -> [String]
@@ -134,52 +134,52 @@ hs_graph_rw_main z_seq =
   in concat [pfx,map ent z_seq]
 
 -- | ztxt is [(src-text-hash,src-text)]
-hs_graph_fragments_process_z :: [(String,String)] -> FilePath -> IO ()
-hs_graph_fragments_process_z ztxt sy_dir = do
+hs_graph_fragments_process_z :: String -> [(String,String)] -> FilePath -> IO ()
+hs_graph_fragments_process_z typ ztxt sy_dir = do
   tmp <- getTemporaryDirectory
   let z_seq = map fst ztxt
       rw_seq = map (hs_graph_fragment_rw sy_dir) ztxt
       rw_fn = tmp </> "rw.hs"
-  pre <- hs_graph_rw_pre
+  pre <- hs_graph_rw_pre typ
   writeFile rw_fn (unlines (pre ++ concat rw_seq ++ hs_graph_rw_main z_seq))
   _ <- rawSystem "runhaskell" [rw_fn]
   return ()
 
-hs_graph_fragments_process :: [FilePath] -> FilePath -> IO [String]
-hs_graph_fragments_process fn_seq out_dir = do
+hs_graph_fragments_process :: String -> [FilePath] -> FilePath -> IO [String]
+hs_graph_fragments_process typ fn_seq out_dir = do
   txt_seq <- read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       cpy (z,txt) = writeFile (out_dir </> z <.> "hs") txt
   mapM_ cpy (zip z_seq txt_seq)
-  hs_graph_fragments_process_z (zip z_seq txt_seq) out_dir
+  hs_graph_fragments_process_z typ (zip z_seq txt_seq) out_dir
   return z_seq
 
-hs_graph_fragments_process_dir :: FilePath -> IO [String]
-hs_graph_fragments_process_dir in_dir = do
+hs_graph_fragments_process_dir :: String -> FilePath -> IO [String]
+hs_graph_fragments_process_dir typ in_dir = do
   fn <- T.dir_subset [".hs"] in_dir
-  hs_graph_fragments_process fn graphs_db_dir
+  hs_graph_fragments_process typ fn graphs_db_dir
 
 -- > hs_graph_fragments_process_load "/tmp/st.hs"
-hs_graph_fragments_process_load :: FilePath -> IO [Graphdef.Graphdef]
-hs_graph_fragments_process_load fn = do
+hs_graph_fragments_process_load :: String -> FilePath -> IO [Graphdef.Graphdef]
+hs_graph_fragments_process_load typ fn = do
   tmp <- getTemporaryDirectory
-  z <- hs_graph_fragments_process [fn] tmp
+  z <- hs_graph_fragments_process typ [fn] tmp
   let gr_load k = Graphdef.read_graphdef_file (tmp </> k <.> "scsyndef")
   mapM gr_load z
 
-hs_graph_fragments_process_play :: FilePath -> IO ()
-hs_graph_fragments_process_play fn =
-  hs_graph_fragments_process_load fn >>=
+hs_graph_fragments_process_play :: String -> FilePath -> IO ()
+hs_graph_fragments_process_play typ fn =
+  hs_graph_fragments_process_load typ fn >>=
   mapM_ SC3.audition
 
-hs_graph_fragments_process_draw :: FilePath -> IO ()
-hs_graph_fragments_process_draw fn =
-  hs_graph_fragments_process_load fn >>=
+hs_graph_fragments_process_draw :: String -> FilePath -> IO ()
+hs_graph_fragments_process_draw typ fn =
+  hs_graph_fragments_process_load typ fn >>=
   mapM_ (Dot.draw . snd . Graphdef.Read.graphdef_to_graph)
 
-hs_graph_fragments_process_dump_ugens :: FilePath -> IO ()
-hs_graph_fragments_process_dump_ugens fn =
-  hs_graph_fragments_process_load fn >>=
+hs_graph_fragments_process_dump_ugens :: String -> FilePath -> IO ()
+hs_graph_fragments_process_dump_ugens typ fn =
+  hs_graph_fragments_process_load typ fn >>=
   mapM_ Graphdef.graphdef_dump_ugens
 
 -- * SuperCollider
@@ -293,17 +293,17 @@ st_graph_fragment_process fn_seq = do
   _ <- rawSystem "pharo-cli.sh" [rw_fn]
   return z_seq
 
-st_proc_hs_files :: [String] -> FilePath -> IO ()
-st_proc_hs_files z_seq sy_dir = do
+st_proc_hs_files :: String -> [String] -> FilePath -> IO ()
+st_proc_hs_files typ z_seq sy_dir = do
   tmp <- getTemporaryDirectory
   txt_seq <- mapM (\z -> readFile (tmp </> z <.> "hs")) z_seq
-  hs_graph_fragments_process_z (zip z_seq txt_seq) sy_dir
+  hs_graph_fragments_process_z typ (zip z_seq txt_seq) sy_dir
 
-st_graph_fragment_process_dir :: FilePath -> IO ()
-st_graph_fragment_process_dir dir = do
+st_graph_fragment_process_dir :: String -> FilePath -> IO ()
+st_graph_fragment_process_dir typ dir = do
   fn <- T.dir_subset [".st"] dir
   z_seq <- st_graph_fragment_process fn
-  st_proc_hs_files z_seq graphs_db_dir
+  st_proc_hs_files typ z_seq graphs_db_dir
 
 -- * Scala
 
@@ -340,10 +340,10 @@ scala_graph_fragment_process_dir dir = do
 
 graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
-  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/Graph/"
-  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3/Help/UGen/"
-  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3-unsafe/help/ugen/"
-  _ <- hs_graph_fragments_process_dir "/home/rohan/sw/hsc3-unsafe/help/graph/"
+  _ <- hs_graph_fragments_process_dir "std" "/home/rohan/sw/hsc3/Help/Graph/"
+  _ <- hs_graph_fragments_process_dir "std" "/home/rohan/sw/hsc3/Help/UGen/"
+  _ <- hs_graph_fragments_process_dir "std" "/home/rohan/sw/hsc3-unsafe/help/ugen/"
+  _ <- hs_graph_fragments_process_dir "std" "/home/rohan/sw/hsc3-unsafe/help/graph/"
   scd_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
   scd_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scd/collect/"
   scm_graph_fragment_process_dir ".scm" "/home/rohan/sw/rsc3/help/graph/"
@@ -353,8 +353,8 @@ graphs_db_polyglot_autogen = do
   scm_graph_fragment_process_dir ".sch" "/home/rohan/sw/rsc3/help/graph/"
   scm_graph_fragment_process_dir ".sch" "/home/rohan/sw/rsc3-arf/help/graph/"
   fs_graph_fragment_process_dir "/home/rohan/sw/hsc3-forth/help/graph/"
-  st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/graph/"
-  st_graph_fragment_process_dir "/home/rohan/sw/stsc3/help/ugen/"
+  st_graph_fragment_process_dir "min" "/home/rohan/sw/stsc3/help/graph/"
+  st_graph_fragment_process_dir "min" "/home/rohan/sw/stsc3/help/ugen/"
   scala_graph_fragment_process_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
   return ()
 
@@ -364,7 +364,7 @@ help :: [String]
 help =
     ["hsc3-graphs command [arguments]"
     ," db polyglot autogen"
-    ," fragments {hs} {play | draw | dump-ugens} FILE-NAME"
+    ," fragments {hs} {min | std} {play | draw | dump-ugens} FILE-NAME"
     ]
 
 main :: IO ()
@@ -372,7 +372,7 @@ main = do
   a <- getArgs
   case a of
     ["db","polyglot","autogen"] -> graphs_db_polyglot_autogen
-    ["fragments","hs","play",fn] -> hs_graph_fragments_process_play fn
-    ["fragments","hs","draw",fn] -> hs_graph_fragments_process_draw fn
-    ["fragments","hs","dump-ugens",fn] -> hs_graph_fragments_process_dump_ugens fn
+    ["fragments","hs",typ,"play",fn] -> hs_graph_fragments_process_play typ fn
+    ["fragments","hs",typ,"draw",fn] -> hs_graph_fragments_process_draw typ fn
+    ["fragments","hs",typ,"dump-ugens",fn] -> hs_graph_fragments_process_dump_ugens typ fn
     _ -> putStrLn (unlines help)
