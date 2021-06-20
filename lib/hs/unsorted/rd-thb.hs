@@ -3,8 +3,9 @@
 
 import Data.List {- base -}
 
+import qualified Music.Theory.List as T {- hmt-base -}
+
 import qualified Music.Theory.Contour.Polansky_1992 as T {- hmt -}
-import qualified Music.Theory.List as T {- hmt -}
 import qualified Music.Theory.Pitch as T {- hmt -}
 
 import Sound.SC3 {- hsc3 -}

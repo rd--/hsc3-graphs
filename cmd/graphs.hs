@@ -9,7 +9,7 @@ import Text.Printf {- base -}
 
 import qualified Data.Digest.Murmur64 as Murmur64 {- murmur-hash -}
 
-import qualified Music.Theory.Directory as T {- hmt -}
+import qualified Music.Theory.Directory as T {- hmt-base -}
 
 import qualified Sound.SC3 as SC3 {- hsc3 -}
 import qualified Sound.SC3.Server.Graphdef as Graphdef {- hsc3 -}
