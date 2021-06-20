@@ -7,6 +7,7 @@ also:
 
 - adc: Alberto De Campo
 - am: Alex McLean
+- ar: Alik Rustamoff
 - av: Andrea Valle
 - cr: Chandrasekhar Ramakrishnan
 - es: Eric Skogen
@@ -18,6 +19,7 @@ also:
 - jp: Josh Parmenter
 - jrhb: Julian Rohrhuber
 - ljp: Lance J. Putnam
+- mk: Mads Kjeldgaard
 - nc: Nick Collins
 - nv: Nathaniel Virgo
 - rb: Ryan Brown
