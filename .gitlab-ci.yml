@@ -12,15 +12,3 @@ build:8:
   artifacts:
     paths:
       - public/hsc3-graphs
-
-build:9:
-  image: haskell:9
-  stage: build
-  script:
-    - cabal update
-    - cabal install --installdir public --install-method copy
-  rules:
-    - when: manual
-  artifacts:
-    paths:
-      - public/hsc3-graphs
