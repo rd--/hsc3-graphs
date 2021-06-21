@@ -3,7 +3,7 @@
  {arg tr
  ;var f = TRand.kr(lo: 24, hi: 96, trig: tr).midicps
  ;var a = 1.min(500/f)
- ;var r = TXLine.kr(start: TExpRand.kr(lo: 0.1, hi: 20, trig: tr), end: TExpRand.kr(lo: 0.1, hi: 20, trig: tr), dur: 25.6, trig: tr)
+ ;var r = RTXLine.kr(start: TExpRand.kr(lo: 0.1, hi: 20, trig: tr), end: TExpRand.kr(lo: 0.1, hi: 20, trig: tr), dur: 25.6, trig: tr)
  ;var n = 12
  ;Mix.arFill(n,
   {arg i

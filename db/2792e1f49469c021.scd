@@ -6,7 +6,7 @@
  ;var major = [0, 2, 4, 5, 7, 9, 11].as(LocalBuf)
  ;var offset = TRand.kr(lo: -16, hi: 16, trig: tr)
  ;var sequence = DegreeToKey.kr(bufnum: major, in: RTScramble.kr(trigger: tr, inputs: [0, 1, 2, 3] + offset), octave: 12) + root
- ;var f = TXLine.kr(start: TExpRand.kr(lo: 4.0, hi: 24.0, trig: tr), end: TExpRand.kr(lo: 4.0, hi: 24.0, trig: tr), dur: 12, trig: tr)
+ ;var f = RTXLine.kr(start: TExpRand.kr(lo: 4.0, hi: 24.0, trig: tr), end: TExpRand.kr(lo: 4.0, hi: 24.0, trig: tr), dur: 12, trig: tr)
  ;var trig = Impulse.kr(freq: f)
  ;var freq = sequ.value(sequence.midicps, trig)
  ;var sig = LFTri.ar(freq: freq, iphase: 0, mul: Decay2.kr(in: trig, attackTime: 0.004, decayTime: 0.3, mul: 0.1))

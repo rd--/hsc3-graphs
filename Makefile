@@ -5,7 +5,7 @@ all:
 	echo "hsc3-graphs"
 
 mk-cmd:
-	(cd cmd ; make all)
+	(cd cmd ; make all ; make install)
 
 clean:
 	rm -Rf dist dist-newstyle *~
