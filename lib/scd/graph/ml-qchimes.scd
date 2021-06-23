@@ -26,5 +26,5 @@
  ;Pan2.ar(o * 0.1 / numPartials, e.o * 2 - 1, LagUD.kr(e.w * e.z, 0, 8))}
 ;Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc)) * 0.5}
 
-// ----
+//---- calculations
 (0 .. 60).collect({arg x; Scale.major(\just).degreeToRatio(x)}).asCompileString

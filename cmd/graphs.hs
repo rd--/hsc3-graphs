@@ -356,6 +356,7 @@ graphs_db_polyglot_autogen = do
   _ <- hs_graph_fragments_process_dir "std" graphs_db_dir "/home/rohan/sw/hsc3-unsafe/help/graph/"
   scd_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
   scd_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/collect/"
+  scd_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/sc3-rdu/help/scd/"
   scm_graph_fragment_process_dir ".scm" graphs_db_dir "/home/rohan/sw/rsc3/help/graph/"
   scm_graph_fragment_process_dir ".scm" graphs_db_dir "/home/rohan/sw/rsc3/help/ugen/"
   scm_graph_fragment_process_dir ".scm" graphs_db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
