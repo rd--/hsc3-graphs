@@ -7,8 +7,9 @@ build:8:
   script:
     - cabal update
     - cabal install --installdir public --install-method copy
+    - zip -r public/hsc3-graphs.zip public/hsc3-graphs
   rules:
     - when: manual
   artifacts:
     paths:
-      - public/hsc3-graphs
+      - public/hsc3-graphs.zip

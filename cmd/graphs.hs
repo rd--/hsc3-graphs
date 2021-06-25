@@ -93,7 +93,7 @@ graphs_db_fext = words ".fs .hs .scala .scd .sch .scm .st"
 -- | DB directory
 --
 -- > fn <- T.dir_subset graphs_db_fext graphs_db_dir
--- > length fn == 3184
+-- > length fn == 3277
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 
