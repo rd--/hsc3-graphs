@@ -78,6 +78,12 @@
 // LinXFade2
 {LinXFade2.ar(FSinOsc.ar(800, 0, 0.2), PinkNoise.ar(0.2), FSinOsc.kr(1))}
 
+// Mce
+{SinOsc.ar([440,441],0) * 0.1}
+
+// Mce
+{SinOsc.ar([[440,441]],0) * 0.1}
+
 // MiBraids ; basic example
 {MiBraids.ar(60, 0.5, 0.5, 6, mul: 0.05)!2}
 
