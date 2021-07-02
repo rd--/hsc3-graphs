@@ -93,7 +93,7 @@ graphs_db_fext = words ".fs .hs .scala .scd .sch .scm .st"
 -- | DB directory
 --
 -- > fn <- T.dir_subset graphs_db_fext graphs_db_dir
--- > length fn == 3429
+-- > length fn == 3445
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 
@@ -362,6 +362,7 @@ graphs_db_polyglot_autogen = do
   scm_graph_fragment_process_dir ".sch" graphs_db_dir "/home/rohan/sw/rsc3/help/graph/"
   scm_graph_fragment_process_dir ".sch" graphs_db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
   fs_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-forth/help/graph/"
+  fs_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-forth/help/ugen/"
   st_graph_fragment_process_dir "min" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
   st_graph_fragment_process_dir "min" graphs_db_dir "/home/rohan/sw/stsc3/help/ugen/"
   scala_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
