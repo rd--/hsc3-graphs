@@ -26,17 +26,30 @@
 // CrossoverDistortion
 {CrossoverDistortion.ar(SoundIn.ar, MouseX.kr(0, 1), MouseY.kr(0, 1))}
 
-// DynKlank
-{s=`[[800,1071,1153,1723],nil,[1,1,1,1]];DynKlank.ar(s,Impulse.ar(2,0,0.1))}
+// Dseq ; shared dseq, different patterns
+{var a = Dseq.new(list: [1,3,2,7,8], repeats: inf)
+;var t = Impulse.kr(freq: 5, phase: 0)
+;var f = Demand.kr(trig: t, reset: 0, demandUGens: [a,a]) * 30 + 340
+;SinOsc.ar(freq: f, phase:  0) * 0.1}
+
+// Dseq ; distinct dseq, equal patterns
+{var a = Dseq.new(list: [1,3,2,7,8], repeats: inf)
+;var b = Dseq.new(list: [1,3,2,7,8], repeats: inf)
+;var t = Impulse.kr(freq: 5, phase: 0)
+;var f = Demand.kr(trig: t, reset: 0, demandUGens: [a,b]) * 30 + 340
+;SinOsc.ar(freq: f, phase:  0) * 0.1}
 
 // DynKlank
-{s=`[[800,1071,1353,1723],nil,[1,1,1,1]];DynKlank.ar(s,Dust.ar(8,0.1))}
+{var s=`[[800,1071,1153,1723],nil,[1,1,1,1]]; DynKlank.ar(s,Impulse.ar(2,0,0.1))}
 
 // DynKlank
-{s=`[[800,1071,1353,1723],nil,[1,1,1,1]];DynKlank.ar(s,PinkNoise.ar(0.007))}
+{var s=`[[800,1071,1353,1723],nil,[1,1,1,1]]; DynKlank.ar(s,Dust.ar(8,0.1))}
 
 // DynKlank
-{s=`[[200,671,1153,1723],nil,[1,1,1,1]];a=[0.007,0.007];DynKlank.ar(s,PinkNoise.ar(a))}
+{var s=`[[800,1071,1353,1723],nil,[1,1,1,1]]; DynKlank.ar(s,PinkNoise.ar(0.007))}
+
+// DynKlank
+{var s=`[[200,671,1153,1723],nil,[1,1,1,1]]; var a=[0.007,0.007]; DynKlank.ar(s,PinkNoise.ar(a))}
 
 // Env.adsr
 {SinOsc.ar * EnvGen.kr(Env.adsr(0.75, 2.75, 0.1, 7.25, 1, -4, 0))}
