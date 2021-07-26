@@ -1,7 +1,7 @@
 // slow beating harmonic sines (jmcc) #7 ; texture=xfade,6,3,inf
-{var n = 8 /* number of notes */
-;var d = 0.4 /* beat frequency deviation */
-;var m = 5 /* harmonics per note */
+{var n = 8 // number of notes
+;var d = 0.4 // beat frequency deviation
+;var m = 5 // harmonics per note
 ;var p = Array.new(m * n)
 ;var q = Array.new(m * n)
 ;var k = 24 + Rand.new(lo: 0, hi: 12)
@@ -21,6 +21,6 @@
   ;q.add(freq * 4 + Rand.new(lo: d.neg,hi: d))
   ;q.add(freq * 5 + Rand.new(lo: d.neg,hi: d))
   ;q.add(freq * 6 + Rand.new(lo: d.neg,hi: d))})
-;z = [`[p, nil, RRandN(numChannels: m * n, lo: 0, hi: 2pi)],
-      `[q, nil, RRandN(numChannels: m * n, lo: 0, hi: 2pi)]]
+;z = [Ref.new([p, nil, RRandN.new(numChannels: m * n, lo: 0, hi: 2 * pi)]),
+      Ref.new([q, nil, RRandN.new(numChannels: m * n, lo: 0, hi: 2 * pi)])]
 ;Klang.ar(specificationsArrayRef: z, freqscale: 1, freqoffset: 0) * (0.1 / n)}

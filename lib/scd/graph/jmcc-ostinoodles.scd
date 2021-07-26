@@ -1,7 +1,7 @@
 // jmcc - ostinoodles
 {var z = RTexture.overlapGraph(
  {arg tr
- ;var sequ = {arg s, tr; Demand.kr(trig: tr, reset: 0, demandUGens: Dseq(s, inf))}
+ ;var sequ = {arg s, tr; Demand.kr(trig: tr, reset: 0, demandUGens: Dseq.new(s, inf))}
  ;var root = 81 + TRand.kr(lo: -6, hi: 6, trig: tr)
  ;var major = [0, 2, 4, 5, 7, 9, 11].as(LocalBuf)
  ;var offset = TRand.kr(lo: -16, hi: 16, trig: tr)

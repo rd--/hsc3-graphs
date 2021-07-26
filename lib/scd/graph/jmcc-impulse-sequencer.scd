@@ -1,5 +1,5 @@
 // impulse sequencer (jmcc) SC2
-{var isequ = {arg s, tr; tr * Demand.ar(tr, 0, Dseq(s, inf))}
+{var isequ = {arg s, tr; tr * Demand.ar(tr, 0, Dseq.new(s, inf))}
 // single sample impulse as trigger
 ;var t = Impulse.ar(8)
 // clave rhythm

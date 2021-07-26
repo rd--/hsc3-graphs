@@ -1,7 +1,7 @@
 // spe (jmcc)
 {var t = Impulse.kr(9,0)
 ;var s = [00,03,02,07,08,32,16,18,00,12,24,32]
-;var m = Dseq(s,inf)
+;var m = Dseq.new(s,inf)
 ;var f = (Demand.kr(t,0,m) + 32).midicps
 ;var e = EnvGen.kr(Env.perc, gate: t, levelScale: 0.1, doneAction: 0)
 ;var o = LFSaw.ar(f) * e

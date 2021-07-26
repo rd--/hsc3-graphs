@@ -20,7 +20,7 @@
   ;var r2 = {Rand.new(0.03,0.15)}.dup
   ;var l0 = LocalIn.ar(2) * 0.98
   ;var l1 = OnePole.ar(l0, 0.33)
-  ;var l2 = Rotate2.ar(l1[0], l1[1], 0.23)
+  ;var l2 = Rotate2.ar(l1.at(0), l1.at(1), 0.23)
   ;var l3 = AllpassN.ar(l2, 0.05, r1, 2)
   ;var l4 = DelayN.ar(l3, 0.3, [0.17,0.23])
   ;var l5 = AllpassN.ar(l4, 0.05, r2, 2)
