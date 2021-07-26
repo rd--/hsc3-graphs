@@ -1,5 +1,5 @@
 // bidirectional strummable guitar (jmcc) #11
-{var pitch1 = [52,57,62,67,71,76]
+{var pitch1 = #[52,57,62,67,71,76]
 ;var pitch2 = pitch1 + 7
 ;var mousex = MouseX.kr
 ;var out = Mix.arFill(pitch1.size,

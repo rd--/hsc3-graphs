@@ -1,6 +1,6 @@
 // analogue daze (jmcc) #3
 {
-var pattern = [55,63,60,63,57,65,62,65];
+var pattern = #[55,63,60,63,57,65,62,65];
 var f = {
     arg octave, clockRate, pwmrate, fltrate;
     var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq.new(s, inf))};

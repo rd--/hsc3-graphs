@@ -1,3 +1,4 @@
+-- | Polyglot SuperCollider
 module Sound.SC3.Graphs.Polyglot where
 
 import Data.List {- base -}

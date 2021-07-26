@@ -149,9 +149,9 @@
                   , 11.498942375183105
                   , 10.465788841247559
                   , 24.93169593811035 ] ]
-; var cf = crotale[0]
-; var ca = crotale[1]
-; var cd = crotale[2]
+; var cf = crotale.at(0)
+; var ca = crotale.at(1)
+; var cd = crotale.at(2)
 ; var ps = [-12, -5, 0, 2, 4, 5, 7, 12]
 ; var n = PinkNoise.ar
 ; var t = Dust.kr(3)
@@ -161,5 +161,5 @@
 ; var ds = TRand.kr(2, 7, t)
 ; var p = TRand.kr(-1, 1, t)
 ; var s = Decay2.kr(t, 0.06, 0.01) * n * g
-; var k = DynKlank.ar(`[cf, ca, cd.reciprocal], s, fs.midiratio, fo, ds)
+; var k = DynKlank.ar(Ref.new([cf, ca, cd.reciprocal]), s, fs.midiratio, fo, ds)
 ; Pan2.ar(k, p, 1) }

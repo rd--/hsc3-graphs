@@ -4,7 +4,7 @@
 ;var clock_rate = MouseX.kr(5,20,'exponential',0.2) // mouse x controls clock rate
 ;var clock_time = 1 / clock_rate
 ;var clock = Impulse.kr(clock_rate,0) // sequencer trigger
-;var patternList = [55,60,63,62,60,67,63,58]
+;var patternList = #[55,60,63,62,60,67,63,58]
 ;var note = sequ.value(patternList,clock) // midi note pattern sequencer
 ;var clock_16 = PulseDivider.kr(clock,16,0) // divide clock by 16
 ;var note_ = sequR.value([-12,-7,-5,0,2,5],clock_16) + note // transpose somewhat randomly

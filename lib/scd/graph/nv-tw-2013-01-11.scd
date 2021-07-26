@@ -3,5 +3,5 @@
 ;var n = (LFNoise1.kr(0.001 ! 99) + 1) / 99
 ;var j = CombL.ar(LPF.ar(i,2000),1,n,0.05)
 ;var d = Dust2.ar(0.01 ! 99)
-;var x = sin(j + d)
+;var x = (j + d).sin
 ;Splay.ar(x) ++ (0 ! 18) ++ ((x - x.rotate) / 2)}

@@ -5,5 +5,5 @@
  ;var f = 4 ** LFNoise0.kr(freq: 1 / 16) * 300
  ;RLPF.ar(in: t, freq: f, rq: 0.005).sin}
 ;var x = Splay.ar(inArray: f ! 8, spread: 1, level: 1, center: 0, levelComp: true)
-;2.do({x = FreeVerb2.ar(*x ++ [0.1,1,1])})
+;2.do({x = FreeVerb2.performList(\ar,x ++ [0.1,1,1])})
 ;x}

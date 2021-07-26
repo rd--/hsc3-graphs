@@ -1,7 +1,7 @@
 // bowed string (jmcc)
 { var root = 5
-; var scale = [0,2,4,5,7,9,11] + root
-; var oct = [24,36,48,60,72,84]
+; var scale = #[0,2,4,5,7,9,11] + root
+; var oct = #[24,36,48,60,72,84]
 ; var f = (scale.choose + oct.choose).midicps
 ; var n0 = BrownNoise.ar.dup
 ; var r0 = ExpRand.new(0.125,0.5)

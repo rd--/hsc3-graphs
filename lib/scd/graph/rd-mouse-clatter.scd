@@ -1,5 +1,5 @@
 // mouse clatter
-{var b = LocalBuf(2048,1)
+{var b = LocalBuf.new(2048,1)
 ;var x = MouseX.kr(100,12000,'linear',0.1)
 ;var y = MouseY.kr(0.01,0.15,'linear',0.1)
 ;var n1 = LFNoise0.kr([3,3.25])
@@ -11,5 +11,5 @@
 ;var n6 = TExpRand.kr(0.15,1,t)
 ;var o = {var e = Decay2.kr(t,0.01,n2)
          ;BPF.ar(n3 * e,n4,n5)}
-;var n7 = PV_RandComb(FFT(b,o),n6,t)
-;(o * 0.05) + IFFT(n7)}
+;var n7 = PV_RandComb.new(FFT.new(b,o),n6,t)
+;(o * 0.05) + IFFT.new(n7)}
