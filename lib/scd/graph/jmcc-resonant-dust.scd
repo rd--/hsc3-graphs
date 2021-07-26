@@ -5,4 +5,3 @@
 ;var d = Dust.ar(50 + Rand.new(0,800), 0.3)
 ;var s = Resonz.ar(d, XLine.kr(rf1, rf2, 9), 0.1)
 ;Pan2.ar(s, Rand.new(-1,1), EnvGen.ar(e, doneAction:2))}
-

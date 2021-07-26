@@ -7,4 +7,3 @@
 ;var o2 = SinOsc.ar(o1, 0) * c + (1.1 * c)
 ;var o3 = SinOsc.ar(o2, 0) * 0.1
 ;Pan2.ar(o3, p)}
-

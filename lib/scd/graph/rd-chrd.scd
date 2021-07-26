@@ -2,7 +2,7 @@
 {RTexture.overlapGraph(graphFunc:
 {arg tr
 ;var chrd =
-  {arg m = [60, 65, 72, 77, 79, 84]
+  {arg m
   ;var ds = 3
   ;var d = [5, 4, 5, 7, 4, 5] * ds
   ;var f = RTXLine.kr(start: m, end: m + TRand.kr(lo: 0.05, hi: 0.5, trig: tr), dur: d, trig: tr).midicps
@@ -13,10 +13,10 @@
   ;Mix.ar(Pan2.ar(in: o, pos: p, level: e))}
 ;var scale = [0, 2, 4, 5, 7, 9, 11]
 ;var octaves = [4, 5, 6, 7]
-;var mnn = all {:n + (o * 12), n <- scale, o <- octaves}
+;var mnn = [0,2,4,5,7,9,11].collect({arg n; [4,5,6,7].collect({arg o; n + (o * 12)})}).flatten
 ;var chd = 6.collect({TChoose.kr(trig: tr, array: mnn)})
 ;Mix.fill(n: 9, function: {chrd.value(chd)})}, sustainTime: 21, transitionTime: 0, overlap: 3)}
 
-//---- ; calculations
+//---- ; calculations (stsc3 does not parse list comprehensions)
 all {:n + (o * 12),n <- [0,2,4,5,7,9,11],o <- [4,5,6,7]}
 [0,2,4,5,7,9,11].collect({arg n; [4,5,6,7].collect({arg o; n + (o * 12)})}).flatten
