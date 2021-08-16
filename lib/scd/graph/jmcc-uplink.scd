@@ -6,7 +6,7 @@
   ;LFPulse.kr(freq: Rand.new(lo: 0, hi: 20), iphase: 0, width: Rand.new(lo: 0, hi: 1)) * e}
 ;freq = osc.value + osc.value
 ;sig = LFPulse.ar(freq: freq, iphase: 0, width: 0.5) * 0.04
-;Pan2.ar(in: sig, pos: Rand.new(lo: 0, hi: 0.8))}
+;Pan2.ar(in: sig, pos: Rand.new(lo: 0, hi: 0.8), level: 1)}
 
 // uplink (jmcc) #2 ; texture=overlap,4,1,5,inf
 {var osc =
