@@ -9,7 +9,7 @@
  ;var a4 = a.ar(a2,a3,i+2*999)
  ;var a5 = a.ar(1/9,1/9)
  ;a.ar(a4,a5,1/9)}
-;{sum(f!9)!2}}
+;{(f!9).sum!2}}
 
-// tw 0014 (f0) ; https://twitter.com/redFrik/status/24193534033
+//----
 {a=SinOscFB;sum({|i|a.ar(a.ar(a.ar(a.ar(i+1,1/9,999),1/9,a.ar(1/9,1,1/9)),a.ar(0.1,3),i+2*999),a.ar(1/9,1/9),1/9)}!9)!2}

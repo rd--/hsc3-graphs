@@ -5,7 +5,7 @@
 ; var w = Dwhite.new(2, 7, 1)
 ; var b = Dbrown.new(0.1, 0.2, 0.01, n)
 ; var rate = Dseq.new([w, b], inf)
-; var q = Dseq.new(1.to(10).asArray, inf)
+; var q = Dseq.new(1.series(nil,10), inf)
 ; var trig = Trig.kr(TDuty.kr(rate, 0, q), 0.09)
 ; var pat = Latch.kr(trig, trig)
 ; var x = MouseX.kr(0, 1, 'linear', 0.2)
@@ -25,4 +25,4 @@
 //---- calculations (stsc3 doesn't parse list comprehensions or enumeration ranges)
 {: [a, b], a <- (0..2), b <- (0..2) }.all
 {var x = [0,1,2]; x.collect({arg y; x.collect({arg z; [y,z]})})}.value.flatten
-(1..10) == 1.to(10).asArray
+(1..10) == 1.series(nil,10)

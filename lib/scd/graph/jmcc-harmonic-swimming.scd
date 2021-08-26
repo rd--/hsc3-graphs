@@ -8,4 +8,4 @@
          ;var n = LFNoise1.kr(r) * a + l
          ;var e = 0.max(n) // clip negative amplitudes to zero
          ;FSinOsc.ar(f * (h + 1), 0) * e}
-;0.to(p).asArray.collect(o).sum}
+;0.to(p).collect(o).sum}

@@ -14,4 +14,4 @@
  ;var o = SinOsc.ar(h, f*pi, d, b)
  ;var z = LeakDC.ar(VarSaw.ar(o, t))
  ;Pan2.ar(z, VarSaw.ar(0.02, t, 0.5), 1/n)}
-;{Mix(x!n)}}
+;{Mix.ar(x ! n)}}

@@ -32,7 +32,7 @@ var evt = REvent.voicer(numVoices: 16, voiceFunc: {
     ];
     var side = Mix.fill(n: 6, function: {
         arg n;
-        LFSaw.ar(freq: freqs[n], iphase: Rand.new(lo: 0, hi: 2))
+        LFSaw.ar(freq: freqs.at(n), iphase: Rand.new(lo: 0, hi: 2))
     });
     var sig = (center * centerGain.value(mix)) + (side * sideGain.value(mix));
     var amp = e.z * 0.2 * LagUD.kr(in: e.w, lagTimeU: 0.05, lagTimeD: 2);

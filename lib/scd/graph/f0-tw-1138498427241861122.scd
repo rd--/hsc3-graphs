@@ -1,4 +1,19 @@
 // https://twitter.com/redFrik/status/1138498427241861122 (f0)
+{var f = 9.sqrt
+;var b = [f,9.999]
+;var e = PitchShift
+;var a = SinOscFB
+;var d = 0.max(a.ar(b/99,0))
+;var t1 = (a.ar(a.ar(9/999)) > a.ar(9/99)).if(f,9/b)
+;var t2 = (a.ar(9/99) < a.ar(99/9999)).if(b/9,f)
+;var f1 = (9.9 * b * t1 * t2).lag(0.1)
+;var s1 = a.ar(f1,d) * a.ar(b/9,0) * d
+;var c = e.ar(s1,9/b,9/b.sqrt,b/999,b/99)
+;var s2 = GVerb.ar(c * d * d * d,99,9,9/999)
+;var s3 = s2/9 + e.ar(c,f/9,f/9)
+;HPF.ar(Splay.ar(s3),9) * 0.5}
+
+//----
 {var f = sqrt(9)
 ;var b = [f,9.999]
 ;var e = PitchShift

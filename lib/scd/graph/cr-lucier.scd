@@ -11,7 +11,7 @@
 ;var mk_dl = {arg i, r; LPZ1.ar(DelayC.ar(i, max_dt, r * string_dt))}
 ;var mk_ap = {arg i, r, dt; LPZ1.ar(AllpassC.ar(i, max_dt, r * string_dt, dt))}
 ;var drv = LocalIn.ar(1)
-;var r = {Rand(0.001, 0.11)}
+;var r = {Rand.new(0.001, 0.11)}
 ;var pk1_R = mk_dl.value(drv, src_p - pk1_p, 2 + r.value)
 ;var pk1_L = mk_ap.value(pk1_R * -1, pk1_p * 2, r.value)
 ;var pk2_L = mk_dl.value(pk1_L, pk2_p - pk1_p, r.value) * 0.99
