@@ -570,6 +570,10 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
  [SinOsc.ar([440,441],[0,pi]) * 0.1
  ,DelayN.ar(SinOsc.ar([440,441],[pi,0]),ControlDur.ir*2,MouseX.kr(0,ControlDur.ir*2)) * 0.1])}
 
+// NamedControl ; non-argument notation controls
+{var freq = NamedControl.ir(name: "freq", values: 220.0)
+;SinOsc.ar(freq: freq, phase: 0, mul: 0.10)}
+
 // Out ; summing ; non phase cancellation
 {[SinOsc.ar([440,441],[0,pi]) * 0.1,SinOsc.ar([440,441],[pi,0]) * 0.1]}
 
@@ -587,10 +591,12 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
 {SinOsc.ar(freq: Rand.new(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)}
 
 // Rand (UnaryOp)
-{var c = NamedControl.ir(name: "c", values: 220.0); SinOsc.ar(freq: c.rand + c, phase: 0, mul: 0.10)}
+{var c = NamedControl.ir(name: "c", values: 220.0)
+;SinOsc.ar(freq: c.rand + c, phase: 0, mul: 0.10)}
 
 // RandRange (BinaryOp)
-{var c = NamedControl.ir(name: "c", values: 220.0); SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)}
+{var c = NamedControl.ir(name: "c", values: 220.0);
+SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)}
 
 // SinOsc ; phase cancellation
 {Mix(SinOsc.ar(440,[0,pi]))}
