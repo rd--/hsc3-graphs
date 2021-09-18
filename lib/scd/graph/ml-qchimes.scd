@@ -27,4 +27,4 @@
 ;Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc)) * 0.5}
 
 //---- calculations
-(0 .. 60).collect({arg x; Scale.major(\just).degreeToRatio(x)}).asCompileString
+60.iota.collect({arg x; Scale.major(\just).degreeToRatio(x)}).asCompileString

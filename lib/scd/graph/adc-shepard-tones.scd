@@ -7,7 +7,10 @@
 ;var ratescale = 1024 / 44100 / 10
 ;var rate = 0.1
 ;var ph = Phasor.ar(0,rate * ratescale,0,1024,0)
-;var phases = 0.series(nil,9) * 0.1 * 1024 + ph
+;var phases = 10.iota * 0.1 * 1024 + ph
 ;var freqs = BufRd.ar(1,b1.bufnum,phases)
 ;var amps = BufRd.ar(1,b2.bufnum,phases)
 ;Mix.ar(SinOsc.ar(freqs) * amps) * 0.1}
+
+//---- calculations
+0.series(nil,9) == 10.iota

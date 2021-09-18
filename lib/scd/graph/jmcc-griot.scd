@@ -5,7 +5,7 @@
 ;var tapTimes = Array.series(n, 0.003, 0.0005) // assign tap times which determine the string pitches
 ;var exc = n.collect(
  {arg i
- ;var exc_env = Env.new([0,1,0], [0.01, 0.2], -2) // excitation (brownian, jmcc has melody...)
+ ;var exc_env = Env.new([0,1,0], [0.01, 0.2], -2) // excitation (brownian, jmcc has melody)
  ;var exc_trig = Impulse.kr(n,0)
  ;var exc_ch = Demand.kr(exc_trig,0,Dbrown.new(0,n - 1,1,inf))
  ;var exc_fr = MouseY.kr(10, 10000)

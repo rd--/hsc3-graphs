@@ -2,7 +2,7 @@
 {SinOsc.ar((4 ** Array.series(size: 200, start: 0, step: 0.002)) * 300).sum * 0.02}
 
 // jh ; https://scsynth.org/t/auditory-illusion-with-exponentially-spaced-frequencies/4157/3
-{SinOsc.ar((0..199).lincurve(0, 199, 300, 300 * (4 ** (199 * 0.002)), -2)).sum * 0.02}
+{SinOsc.ar(200.iota.lincurve(0, 199, 300, 300 * (4 ** (199 * 0.002)), -2)).sum * 0.02}
 
 // jh ; https://scsynth.org/t/auditory-illusion-with-exponentially-spaced-frequencies/4157 ; rd (edit) ; psuedo-doppler
 {Splay.ar(SinOsc.ar((2 ** Array.series(100, 0, 0.002)) * 120)) * 0.1}

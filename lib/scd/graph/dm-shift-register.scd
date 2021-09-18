@@ -4,7 +4,7 @@
  ;var buf = LocalBuf.new(length)
  ;var count = PulseCount.kr(trig)
  ;Demand.kr(trig, 0, Dbufwr.new(in, buf, count))
- ;Demand.kr(trig, 0, Dbufrd.new(buf, count + 1.series(nil,length))).reverse}
+ ;Demand.kr(trig, 0, Dbufrd.new(buf, count + 1 + length.iota)).reverse}
 ;var amp = 0.1
 ;var pulse = Impulse.kr(1/16)
 ;var rate = TChoose.kr(pulse, [3,5,10])
