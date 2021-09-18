@@ -5,7 +5,7 @@
 ; var w = Dwhite.new(2, 7, 1)
 ; var b = Dbrown.new(0.1, 0.2, 0.01, n)
 ; var rate = Dseq.new([w, b], inf)
-; var q = Dseq.new(10.iota(1), inf)
+; var q = Dseq.new(10.iota + 1, inf)
 ; var trig = Trig.kr(TDuty.kr(rate, 0, q), 0.09)
 ; var pat = Latch.kr(trig, trig)
 ; var x = MouseX.kr(0, 1, 'linear', 0.2)
@@ -26,3 +26,4 @@
 {: [a, b], a <- [0,1,2], b <- [0,1,2] }.all
 {var x = [0,1,2]; x.collect({arg y; x.collect({arg z; [y,z]})})}.value.flatten
 10.iota + 1 == 1.series(nil,10)
+10.iota(1) == (10.iota + 1)
