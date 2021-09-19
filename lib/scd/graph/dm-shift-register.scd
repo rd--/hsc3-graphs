@@ -11,7 +11,7 @@
 ;var trans = TChoose.kr(trig: pulse, array: [0, 2, -2, 7, -5])
 ;var trig = Trig1.kr(in: CuspL.ar(freq: rate * 3, a: 1, b: 1.9, xi: 0), dur: 0.001)
 ;var octave = Demand.kr(trig: PulseDivider.kr(trig: trig, div: 4, start: 0), reset: 0, demandUGens: Drand.new(list: [12,-12], repeats: inf))
-;var note = Demand.kr(trig: trig, reset: 0, demandUGens: Dseq.new(list: [42, 46, 51, 54, 59, 63, 66].scramble + trans, repeats: inf) + octave)
+;var note = Demand.kr(trig: trig, reset: 0, demandUGens: Dseq.new(list: [42, 46, 51, 54, 59, 63, 66].scramble + trans + octave, repeats: inf))
 ;var chord = shift_register.value(5, trig, note)
 ;var chord_cps = chord.midicps
 ;var cf = Vibrato.ar(freq: K2A.ar(in: chord_cps), rate: 6, depth: 0.02, delay: 0, onset: 0, rateVariation: 0.04, depthVariation: 0.1, iphase: 0, trig: 0)
