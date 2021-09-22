@@ -646,6 +646,11 @@ SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)}
 // UGen.linlin (note Clip UGen)
 {SinOsc.ar(freq: Sweep.kr(trig: 0, rate: 1).linlin(inMin: 0, inMax: 1, outMin: 110, outMax: 220, clip: 'minmax'), phase: 0)}
 
+// VarLag
+{var sqr = LFPulse.kr(1, 0, 0.5).range(100, 400)
+;var crv = VarLag.kr(sqr, 0.2, Line.kr(-8, 8, 15, doneAction: Done.freeSelf))
+;SinOsc.ar(crv, 0) * 0.3}
+
 // Vibrato
 {SinOsc.ar(Vibrato.ar(DC.ar(400.0),1,0.02))*0.1}
 

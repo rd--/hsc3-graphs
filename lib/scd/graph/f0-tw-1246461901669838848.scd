@@ -1,8 +1,9 @@
 // https://twitter.com/redFrik/status/1246461901669838848
-{var a = SinOscFB
-;var b = LFPulse
-;var c = ar(b,1/11,0,1/4,99,99)
-;var o = ar(b,ar(b,1/[8,9]+ar(b,0.1)).lag(ar(a,1/11)/2+1/9)*4/3+1**ar(b,1/[9,8])*c)
-;var d = ar(a,kr(Pitch,o.lag(ar(a,1/[5,4]).max/9).sum)[0],ar(b,1/[ar(b,1/9)+2,3]).lag/4+0.3)
-;var e = ar(PitchShift,d/2,2,[3,2]-ar(b,1/[18,17]).lag)
-;ar(HPF,d+e,9)/4}
+{var c = LFPulse.ar(1 / 11, 0, 1 / 4) * 99 + 99
+;var l1 = SinOscFB.ar(1 / 11, 0) / 2 + 1 / 9
+;var f1 = LFPulse.ar(1 / #[8, 9] + LFPulse.ar(0.1, 0, 0.5), 0, 0.5).lag(l1) * 4 / 3 + 1 ** LFPulse.ar(1 / #[9,8], 0, 0.5) * c
+;var l2 = SinOscFB.ar(1 / #[5,4], 0).max(0) / 9
+;var f2 = Pitch.kr(LFPulse.ar(f1, 0, 0.5).lag(l2).sum, 440, 60, 4000, 100, 16, 1, 0.01, 0.5, 1, 0)[0]
+;var d = SinOscFB.ar(f2, LFPulse.ar(1 / [LFPulse.ar(1 / 9, 0, 0.5) + 2, 3], 0, 0.5).lag(0.1) / 4 + 0.3)
+;var e = PitchShift.ar(d / 2, 2, #[3,2] - LFPulse.ar(1 / #[18, 17], 0, 0.5).lag(0.1), 0, 0)
+;HPF.ar(d + e, 9) / 4 / 4}
