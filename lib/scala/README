@@ -1,0 +1,3 @@
+The Scala graph files are fragments.
+
+To play them the fragment text `...` should be enclosed in `play { ... }`.
