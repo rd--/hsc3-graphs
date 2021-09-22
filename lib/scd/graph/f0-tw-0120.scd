@@ -1,11 +1,10 @@
 // tw 0120 (f0)
-{var a = LFTri
-;var z = a.kr(1 / [7, 8]) * a.kr(1 / 9, 0, 99)
+{var z = LFTri.kr(1 / #[7, 8], 0) * LFTri.kr(1 / 9, 0) * 99
 ;var l = (20.iota + 60).midicps
 ;var f = Select.kr(z, l)
-;var w = a.kr(1 / [3, 4]) % 1
+;var w = LFTri.kr(1 / #[3, 4], 0) % 1
 ;var o = VarSaw.ar(f, 0, w)
-;CombN.ar(o, 1, 1 / [5, 6], 8) / 8}
+;CombN.ar(o, 1, 1 / #[5, 6], 8) / 8}
 
 //---- calculations
 60.series(nil, 79) == (20.iota + 60)

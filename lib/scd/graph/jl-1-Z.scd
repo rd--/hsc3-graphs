@@ -5,4 +5,4 @@
 ;var d = (Impulse.kr(2,0) + Impulse.kr(4,0.5)).lag(0.1)
 ;var e = Blip.ar(4.9,7) * 0.4
 ;var f = d * e
-;(c + GVerb.ar(f,1,1,0.5,0.5,15,1,0.7,0.5,300) * 5).tanh * 2}
+;(c + GVerb.ar(f,1,1,0.5,0.5,15,1,0.7,0.5,300) * 5).tanh * 0.25}

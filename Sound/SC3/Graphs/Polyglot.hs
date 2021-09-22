@@ -22,6 +22,8 @@ import qualified Sound.SC3.UGen.Dot as Dot {- hsc3-dot -}
 
 import qualified Sound.SC3.Lisp.Haskell as Lisp {- hsc3-lisp -}
 
+import qualified Language.Smalltalk.SuperCollider.Translate as St {- stsc3 -}
+
 -- * Util
 
 -- | Generate the 16-character hex string of the Murmur-64 hash of the input string.
@@ -91,7 +93,7 @@ text_file_prefix k = fmap (text_prefix k) . Strict.readFile
 -- * DB
 
 graphs_db_fext :: [String]
-graphs_db_fext = words ".fs .hs .scala .scd .sch .scm .st"
+graphs_db_fext = words ".fs .hs .scala .scd .sch .scm .st .stc"
 
 -- * Haskell
 
@@ -272,16 +274,17 @@ st_graph_fragment_rw out_dir (z,txt) =
       sfx = [printf "] value writeHaskellTo: '%s/%s.hs' ." out_dir z]
   in concat [pfx,lines txt,sfx]
 
-st_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
-st_graph_fragment_process out_dir fn_seq = do
+st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
+st_graph_fragment_process ext out_dir fn_seq = do
   tmp <- getTemporaryDirectory
-  txt_seq <- read_file_set_fragments fn_seq
-  let z_seq = map txt_hash_str txt_seq
-      rw_seq = map (st_graph_fragment_rw tmp) (zip z_seq txt_seq)
+  pre_txt_seq <- read_file_set_fragments fn_seq
+  let post_txt_seq = map (if ext == ".stc" then St.stcToSt else id) pre_txt_seq
+  let z_seq = map txt_hash_str pre_txt_seq
+      rw_seq = map (st_graph_fragment_rw tmp) (zip z_seq post_txt_seq)
       cpy (z,txt) = writeFile (out_dir </> z <.> "st") txt
       rw_fn = tmp </> "rw.st"
       rw_text = unlines (concat rw_seq)
-  mapM_ cpy (zip z_seq txt_seq)
+  mapM_ cpy (zip z_seq pre_txt_seq)
   writeFile rw_fn rw_text
   _ <- rawSystem "pharo-cli.sh" [rw_fn]
   return z_seq
@@ -292,10 +295,10 @@ st_proc_hs_files typ z_seq sy_dir = do
   txt_seq <- mapM (\z -> readFile (tmp </> z <.> "hs")) z_seq
   hs_graph_fragments_process_z typ (zip z_seq txt_seq) sy_dir
 
-st_graph_fragment_process_dir :: String -> FilePath -> FilePath -> IO ()
-st_graph_fragment_process_dir typ out_dir in_dir = do
-  fn <- T.dir_subset [".st"] in_dir
-  z_seq <- st_graph_fragment_process out_dir fn
+st_graph_fragment_process_dir :: String -> String -> FilePath -> FilePath -> IO ()
+st_graph_fragment_process_dir ext typ out_dir in_dir = do
+  fn <- T.dir_subset [ext] in_dir
+  z_seq <- st_graph_fragment_process ext out_dir fn
   st_proc_hs_files typ z_seq out_dir
 
 -- * Scala
@@ -340,5 +343,6 @@ graph_fragments_process_dir sch_tbl ext =
     ".scd" -> scd_graph_fragment_process_dir
     ".sch" -> scm_graph_fragment_process_dir sch_tbl ".sch"
     ".scm" -> scm_graph_fragment_process_dir sch_tbl ".scm"
-    ".st" -> st_graph_fragment_process_dir "min"
+    ".st" -> st_graph_fragment_process_dir ".st" "min"
+    ".stc" -> st_graph_fragment_process_dir ".stc" "min"
     _ -> error "graph_fragments_process_dir"
