@@ -1,12 +1,11 @@
 // https://twitter.com/redFrik/status/1235224072579100675
-{var v = SinOsc
-;var f = Char.tab.ascii
+{var f = 9
 ;var e = (f % pi).floor
 ;var b = 9.iota + pi.tanh * pi * pi
 ;var c = b.reciprocal
-;var j = v.ar(b * f, c, v.ar(c).max) + AllpassC.ar(LocalIn.ar(f), e, v.ar(c / f) / f + e / e, e, e)
-;var o = BPF.ar(Normalizer.ar(j, e / e , c), v.ar(c).exprange(f, e ** f * f))
-;LocalOut.ar(o.rotate)
+;var j = SinOsc.ar(b * f, c) * SinOsc.ar(c, 0).max(0) + AllpassC.ar(LocalIn.ar(f, 0), e, SinOsc.ar(c / f, 0) / f + e / e, e) * e
+;var o = BPF.ar(Normalizer.ar(j, e / e , c), SinOsc.ar(c, 0).exprange(f, e ** f * f), 1)
+;LocalOut.ar(o.rotate(1))
 ;Splay.ar(o).sin}
 
 //---- https://twitter.com/redFrik/status/1235224072579100675
