@@ -242,7 +242,7 @@ scm_graph_fragment_process_dir sch_tbl ext out_dir in_dir = do
 fs_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 fs_graph_fragment_rw out_dir (z,txt) =
   let grw = lines txt
-      sfx = [printf "s\" %s\" s\" %s\" write-synthdef" z (out_dir </> z <.> "scsyndef")
+      sfx = [printf "s\" %s\" s\" %s\" writeSynthdef" z (out_dir </> z <.> "scsyndef")
             ,printf "s\" %s %s\" type" z (text_prefix 48 txt)]
   in concat [grw,sfx]
 
