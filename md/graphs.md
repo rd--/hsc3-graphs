@@ -11,7 +11,7 @@ hsc3-graphs command [arguments]
   db process ext output-directory input-directory
   fragments {hs} {play | draw | dump-ugens} FILE-NAME
 
-    ext = .fs .hs .scala .scd .sch .scm .st
+    ext = .fs .hs .scala .scd .sch .scm .st .stc
 $
 ~~~~
 

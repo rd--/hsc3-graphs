@@ -1,0 +1,6 @@
+// uplink (jmcc) #2 ; texture=overlap,4,1,5,inf
+{var osc =
+  {var e = LFPulse.kr(Rand.new(0,4), 0, Rand.new(0,1)) * Rand.new(0,8000) + Rand.new(0,2000)
+  ;LFPulse.kr(Rand.new(0,20), 0, Rand.new(0,1)) * e}
+;var freq = osc.value + osc.value
+;Pan2.ar(LFPulse.ar(freq, 0, 0.5) * 0.04, Rand.new(0,0.8))}

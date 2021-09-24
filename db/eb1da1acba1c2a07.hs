@@ -1,0 +1,4 @@
+-- rFreezer ; k-rate instance
+let b = control kr "buf" 0
+    n i j = linLin (lfNoise2 kr 0.1) (-1) 1 i j
+in X.rFreezer b (n 0.3 0.4) (n 0.5 0.6) (n 0.3 0.6) (n 0.95 1.05) (n 0.05 0.15) (n 0.05 0.15) (n 0.05 0.15) 0 0 36

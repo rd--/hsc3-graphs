@@ -6,8 +6,8 @@ import Sound.SC3.Graphs.Polyglot {- hsc3-graphs -}
 
 -- | DB directory
 --
--- > fn <- T.dir_subset graphs_db_fext graphs_db_dir
--- > length fn == 3445
+-- > fn <- Music.Theory.Directory.dir_subset graphs_db_fext graphs_db_dir
+-- > length fn == 3591
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 
@@ -29,6 +29,7 @@ graphs_db_polyglot_autogen = do
   fs_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-forth/help/ugen/"
   st_graph_fragment_process_dir ".st" "min" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
   st_graph_fragment_process_dir ".st" "min" graphs_db_dir "/home/rohan/sw/stsc3/help/ugen/"
+  st_graph_fragment_process_dir ".stc" "min" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
   scala_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
   return ()
 

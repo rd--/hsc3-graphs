@@ -1,0 +1,5 @@
+// nv 52 https://swiki.hfbk-hamburg.de/MusicTechnology/899
+{var x = [[4, 4.5], [2, 3, 5, 6]]
+;var y = (x *.x (x *.x x).allTuples * 4).flat.clump(2) ++ 0
+;var f = Duty.ar(dur: 1/5, reset: 0, level: Dseq(list: y, repeats: 1), doneAction: 0)
+;GVerb.ar(in: VarSaw.ar(freq: f, iphase: 0, width: 0.9) * LFPulse.ar(freq: 5, iphase: 0, width: 0.5), roomsize: 99, revtime: 5) / 15}
