@@ -22,7 +22,8 @@ library
                         hsc3-lisp == 0.20.*,
                         murmur-hash,
                         process,
-                        split
+                        split,
+                        stsc3 == 0.20.*
   default-language:     Haskell2010
   ghc-options:          -Wall -fwarn-tabs
   exposed-modules:      Sound.SC3.Graphs.Polyglot
