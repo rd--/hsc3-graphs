@@ -281,7 +281,7 @@ st_graph_fragment_process ext out_dir fn_seq = do
   let post_txt_seq = map (if ext == ".stc" then St.stcToSt else id) pre_txt_seq
   let z_seq = map txt_hash_str pre_txt_seq
       rw_seq = map (st_graph_fragment_rw tmp) (zip z_seq post_txt_seq)
-      cpy (z,txt) = writeFile (out_dir </> z <.> "st") txt
+      cpy (z,txt) = writeFile (out_dir </> z <.> ext) txt
       rw_fn = tmp </> "rw.st"
       rw_text = unlines (concat rw_seq)
   mapM_ cpy (zip z_seq pre_txt_seq)
