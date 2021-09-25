@@ -10,3 +10,4 @@ clean:
 
 push-all:
 	r.gitlab-push.sh hsc3-graphs
+	r.github-push.sh hsc3-graphs
