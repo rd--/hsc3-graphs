@@ -2,7 +2,6 @@
 module Sound.SC3.Graphs.Polyglot where
 
 import Data.List {- base -}
-import Data.List.Split {- split -}
 import Data.Maybe {- base -}
 import System.Directory {- directory -}
 import System.Environment {- base -}
@@ -15,6 +14,7 @@ import qualified Data.Digest.Murmur64 as Murmur64 {- murmur-hash -}
 import qualified Music.Theory.Directory as T {- hmt-base -}
 
 import qualified Sound.SC3 as SC3 {- hsc3 -}
+import qualified Sound.SC3.Common.Help as Help {- hsc3 -}
 import qualified Sound.SC3.Server.Graphdef as Graphdef {- hsc3 -}
 import qualified Sound.SC3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
 
@@ -31,30 +31,6 @@ import qualified Language.Smalltalk.SuperCollider.Translate as St {- stsc3 -}
 -- > map txt_hash_str ["Digest.Murmur64","txt_hash_str"] == ["44e386f01d5298bf","4e12a613b9e47dbe"]
 txt_hash_str :: String -> String
 txt_hash_str = printf "%016x" . Murmur64.asWord64 . Murmur64.hash64
-
--- * Fragments
-
--- | Apply line function at string.
-on_lines :: ([String] -> [[String]]) -> String -> [String]
-on_lines f = map unlines . f . lines
-
--- | Split text into fragments at empty lines.
---
--- > on_lines split_multiple_fragments ";a\nb\n\n\n;c\nd" == [";a\nb\n",";c\nd\n"]
-split_multiple_fragments :: [String] -> [[String]]
-split_multiple_fragments = filter (not . null) . splitOn [[]]
-
--- | The text ---- indicates the end of graph fragments.
-drop_post_graph_section :: [String] -> [String]
-drop_post_graph_section = takeWhile (not . isInfixOf "----")
-
--- | Read text fragments from file.
-read_file_fragments :: FilePath -> IO [String]
-read_file_fragments = fmap (on_lines (split_multiple_fragments . drop_post_graph_section)) . readFile
-
--- | Read text fragments from set of files.
-read_file_set_fragments :: [FilePath] -> IO [String]
-read_file_set_fragments = fmap concat . mapM read_file_fragments
 
 -- * Text prefix
 
@@ -142,7 +118,7 @@ hs_graph_fragments_process_z typ ztxt sy_dir = do
 
 hs_graph_fragments_process :: String -> [FilePath] -> FilePath -> IO [String]
 hs_graph_fragments_process typ fn_seq out_dir = do
-  txt_seq <- read_file_set_fragments fn_seq
+  txt_seq <- Help.read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       cpy (z,txt) = writeFile (out_dir </> z <.> "hs") txt
   mapM_ cpy (zip z_seq txt_seq)
@@ -190,7 +166,7 @@ scd_graph_fragment_rw out_dir (z,txt) =
 scd_graph_fragment_process :: FilePath -> [FilePath] -> IO ()
 scd_graph_fragment_process out_dir fn_seq = do
   tmp <- getTemporaryDirectory
-  txt_seq <- read_file_set_fragments fn_seq
+  txt_seq <- Help.read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map (scd_graph_fragment_rw out_dir) (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (out_dir </> z <.> "scd") txt
@@ -220,7 +196,7 @@ scm_graph_fragment_rw out_dir (z,txt) =
 scm_graph_fragment_process :: Lisp.Name_Table -> String -> FilePath -> [FilePath] -> IO ()
 scm_graph_fragment_process sch_tbl ext out_dir fn_seq = do
   tmp <- getTemporaryDirectory
-  pre_txt_seq <- read_file_set_fragments fn_seq
+  pre_txt_seq <- Help.read_file_set_fragments fn_seq
   let post_txt_seq = map (if ext == ".sch" then Lisp.hs_exp_to_lisp sch_tbl else id) pre_txt_seq
       z_seq = map txt_hash_str pre_txt_seq
       rw_seq = map (scm_graph_fragment_rw out_dir) (zip z_seq post_txt_seq)
@@ -249,7 +225,7 @@ fs_graph_fragment_rw out_dir (z,txt) =
 fs_graph_fragment_process :: FilePath -> [FilePath] -> IO ()
 fs_graph_fragment_process out_dir fn_seq = do
   tmp <- getTemporaryDirectory
-  txt_seq <- read_file_set_fragments fn_seq
+  txt_seq <- Help.read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map (fs_graph_fragment_rw out_dir) (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (out_dir </> z <.> "fs") txt
@@ -277,7 +253,7 @@ st_graph_fragment_rw out_dir (z,txt) =
 st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
 st_graph_fragment_process ext out_dir fn_seq = do
   tmp <- getTemporaryDirectory
-  pre_txt_seq <- read_file_set_fragments fn_seq
+  pre_txt_seq <- Help.read_file_set_fragments fn_seq
   let post_txt_seq = map (if ext == ".stc" then St.stcToSt else id) pre_txt_seq
   let z_seq = map txt_hash_str pre_txt_seq
       rw_seq = map (st_graph_fragment_rw tmp) (zip z_seq post_txt_seq)
@@ -315,7 +291,7 @@ scala_graph_fragment_rw out_dir (z,txt) =
 scala_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
 scala_graph_fragment_process out_dir fn_seq = do
   tmp <- getTemporaryDirectory
-  txt_seq <- read_file_set_fragments fn_seq
+  txt_seq <- Help.read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map (scala_graph_fragment_rw out_dir) (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (out_dir </> z <.> "scala") txt
