@@ -113,5 +113,15 @@ var env = EnvGen.ar(Env.perc(0.02, 0.2), trig, 1, 0, 1, 0);
 Pan2.ar(sound, 0.0, env)
 
 // nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
-var e = Env(#[0, 0, 1, -1, 0], MouseY.kr(0, 1) * #[0, 128, 256, 128] / SampleRate.ir, #[\lin], nil, nil, 0);
+var t = MouseY.kr(0, 1, 0, 0.2) * #[0, 128, 256, 128] / SampleRate.ir;
+var e = Env(#[0, 0, 1, -1, 0], t, #[\lin], nil, nil, 0);
 EnvGen.ar(e, Impulse.ar(MouseX.kr(10, 300, 1, 0.2), 0), 1, 0, 1, 0) * 0.2
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4 ; portamento/glide
+Saw.ar((Stepper.ar(Impulse.ar(10, 0), 0, 1, 10, 1, 1) * 200).lag(MouseX.kr(0.0, 0.2, 0, 0.2))) * 0.1
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+Ringz.ar(Saw.ar(LFNoise0.kr(5).lag(0.1).exprange(100, 2000)) * 0.2, 1000, 0.01) * 0.1
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+Ringz.ar(Saw.ar(LFNoise0.kr(5).lag(MouseX.kr(0.01, 0.3, 0, 0.2)).exprange(100, 2000).round(20)) * 0.2, 1000, 0.01) * 0.1
