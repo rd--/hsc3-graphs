@@ -87,3 +87,31 @@ var partial = {
 	Pan2.ar(SinOsc.ar(freq, 0), Rand(-1, 1), amp)
 };
 Mix(partial.dup(spectrum.size));
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+SinOsc.ar(Stepper.ar(Impulse.ar(10, 0), 0, 1, 10, 1, 1) * 100, 0) * 0.1
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+Saw.ar(Select.kr(Stepper.kr(Impulse.kr(4, 0.1),  0,  0,  7,  1,  0),  #[72, 63, 67, 72, 55, 62, 63, 60].midicps)) *  0.1
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+Saw.ar(Select.kr(Stepper.kr(Impulse.kr(MouseX.kr(1, 40, 0, 0.2), 0.1),  0,  0,  7,  1,  0),  #[72, 63, 67, 72, 55, 62, 63, 60].midicps)) *  0.1
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+SinOsc.ar(300 + (200 * Latch.ar(SinOsc.ar(13.3, 0), Impulse.ar(10, 0))), 0) * 0.2
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+SinOsc.ar(400 * (1 + EnvGen.ar(Env(#[0, 1, 0, 0.5, -0.4], #[0.1], #[\step]), Impulse.kr(2.5, 0))), 0) * 0.1
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+SinOsc.ar(EnvGen.ar(Env(#[63, 63, 60, 55, 60], #[0.125], #[\step]), Impulse.kr(2, 0)).midicps, 0) * 0.1
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+var trig = Impulse.ar(3, 0);
+var sound = Mix(LFPulse.ar(110 * [1, 5/2], 0.0, 0.5) * 0.2);
+var env = EnvGen.ar(Env.perc(0.02, 0.2), trig, 1, 0, 1, 0);
+Pan2.ar(sound, 0.0, env)
+
+// nc ; https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html 3.4
+var e = Env(#[0, 0, 1, -1, 0], MouseY.kr(0, 1) * #[0, 128, 256, 128] / SampleRate.ir, #[\lin], nil, nil, 0);
+EnvGen.ar(e, Impulse.ar(MouseX.kr(10, 300, 1, 0.2), 0), 1, 0, 1, 0) * 0.2
