@@ -1,7 +1,7 @@
 // metal plate (jmcc) #4
 {var n = 4 // number of delay lines
 ;var maxdt = 48000 * 0.03 // maximum delay time -- Server.default.sampleRate
-;var buf = Array.fill(n, {LocalBuf.new(maxdt,1).clear}) // allocate buffers for delay lines
+;var buf = Array.fill(n, {LocalBuf.ir(maxdt,1).clear}) // allocate buffers for delay lines
 ;var tap_tm = Array.rand(n, 0.015, 0.03) // assign random tap times
 ;var exc_freq = MouseY.kr(10, 8000) // excitation
 ;var exc_trig = Impulse.ar(0.5, 0, 0.2)

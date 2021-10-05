@@ -14,7 +14,7 @@ var z = RTexture.overlapGraph({
 				TRand.kr(-1,1,tr)
 			)
 		}) * 0.1}, 12.8, 6.4, 6, 2);
-Mix.arFill(5, { CombN.ar(z, 0.3, [Rand.new(0.1,0.3),Rand.new(0.1,0.3)], 8) }) * 0.3;
+Mix.arFill(5, { CombN.ar(z, 0.3, [Rand.ir(0.1,0.3),Rand.ir(0.1,0.3)], 8) }) * 0.3;
 }
 
 //---- textures

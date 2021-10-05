@@ -53,11 +53,11 @@ var e = Env.adsr(0.001, 0.01, 0.25, 0.04, 1, -4);
 	var x = MouseX.kr(100, 6000, 'exponential');
 	var y = MouseY.kr(0, 2);
 		var ph = 0;
-		var f1 = Rand(0,x);
-		var rate = ExpRand(10.0, 40.0);
+		var f1 = Rand.ir(0,x);
+		var rate = ExpRand.ir(10.0, 40.0);
 		var gate = Impulse.kr(XLine.kr(rate, [3,0.3].choose * rate, 12,doneAction:2));
 		3.do({
-			var f2 = Rand(0,x);
+			var f2 = Rand.ir(0,x);
 			ph = FSinOsc.ar([f2, f2 + 1.0.rand2], 0, y, ph);
 		});
 		EnvGen.ar(e, gate) * SinOsc.ar([f1, f1 + 1.0.rand2], ph, 0.1)

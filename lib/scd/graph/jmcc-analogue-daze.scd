@@ -3,7 +3,7 @@
 var pattern = #[55,63,60,63,57,65,62,65];
 var f = {
     arg octave, clockRate, pwmrate, fltrate;
-    var sequ = {arg s, tr; Demand.kr(trig: tr, reset: 0, demandUGens: Dseq.new(list: s, repeats: inf))};
+    var sequ = {arg s, tr; Demand.kr(trig: tr, reset: 0, demandUGens: Dseq.dr(list: s, repeats: inf))};
     var tr = Impulse.kr(freq: clockRate, phase: 0);
     var patternCps = (pattern + (12 * octave)).midicps;
     var sq = sequ.value(patternCps, tr);

@@ -1,7 +1,7 @@
 // https://scsynth.org/t/phaseshaping-osc-algorithms/3926/4 ; sp ; event control
 // https://core.ac.uk/download/pdf/297014559.pdf
 {var evt = REvent.voicer(numVoices: 16, voiceFunc:
- {arg e, c
+ {arg e
  ;{var width = e.x.clip(0.05,0.95)
   ;var freq = e.y * 800 + 200
   ;var saw = LFSaw.ar(freq: freq / 2, iphase: 1).linlin(inMin: -1, inMax: 1, outMin: width.neg, outMax: 1 - width)

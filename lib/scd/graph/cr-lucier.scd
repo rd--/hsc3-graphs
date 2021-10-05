@@ -11,7 +11,7 @@
 ;var mk_dl = {arg i, r; LPZ1.ar(DelayC.ar(i, max_dt, r * string_dt))}
 ;var mk_ap = {arg i, r, dt; LPZ1.ar(AllpassC.ar(i, max_dt, r * string_dt, dt))}
 ;var drv = LocalIn.ar(1)
-;var r = {Rand.new(0.001, 0.11)}
+;var r = {Rand.ir(0.001, 0.11)}
 ;var pk1_R = mk_dl.value(drv, src_p - pk1_p, 2 + r.value)
 ;var pk1_L = mk_ap.value(pk1_R * -1, pk1_p * 2, r.value)
 ;var pk2_L = mk_dl.value(pk1_L, pk2_p - pk1_p, r.value) * 0.99
@@ -20,8 +20,8 @@
 ;var strR = mk_dl.value(pk2_R, pk2_p - src_p, 2 + r.value)
 ;var src = {var a = Amplitude.kr(drv, mul: 11)
            ;var p = Pulse.ar(60 + a, mul: 0.1)
-           ;RLPF.ar((SinOsc.ar(220, 0) * 0.01) + p, 320, 0.05)}
+           ;RLPF.ar((SinOsc.ar(220, 0) * 0.01) + p, 320, 0.05)}.value
 ;var src_n = {var a = Amplitude.kr(drv).min(1.0)
-             ;Normalizer.ar(src, 0.7) * (1.0 - a)}
+             ;Normalizer.ar(src, 0.7) * (1.0 - a)},valu
 ;LocalOut.ar(src * 0.2 + strR)
 ;[pk1_L + pk1_R, pk2_L + pk2_R, drv, src]}

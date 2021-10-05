@@ -3,14 +3,14 @@
 Buffer.read(s,Platform.resourceDir +/+ "sounds/a11wlk01.wav",bufnum:10);
 
 {arg buf = 10
-;var r = Rand(50,100)
+;var r = Rand.ir(50,100)
 ;var pb = PlayBuf.kr(1,buf,r,1,0,1)
-;var f = (pb * Rand(100,1000)).clip(Rand(5,12),Rand(12,20))
+;var f = (pb * Rand.ir(100,1000)).clip(Rand.ir(5,12),Rand.ir(12,20))
 ;var o = Pulse.ar(f)
-;var lrf = Rand(100,5000)
-;var lrq = Rand(0.005,0.1)
-;var hrf = Rand(5000,20000)
-;var hrq = Rand(0.005,0.1)
+;var lrf = Rand.ir(100,5000)
+;var lrq = Rand.ir(0.005,0.1)
+;var hrf = Rand.ir(5000,20000)
+;var hrq = Rand.ir(0.005,0.1)
 ;var s = RHPF.ar(RLPF.ar(o,lrf,lrq),hrf,hrq)
 ;var v = FreeVerb.ar(s,0,0,0)
 ;var pk = {|i,n,k| BPeakEQ.ar(i,n,6.0,k)}

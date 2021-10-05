@@ -1,6 +1,6 @@
 // impulse sequencer (jmcc) SC2
 {var t = Impulse.ar(8, 0)
-;var isequ = {arg s; t * Demand.ar(t, 0, Dseq.new(s, inf))}
+;var isequ = {arg s; t * Demand.ar(t, 0, Dseq.dr(s, inf))}
 ;var c_sq = isequ.value(#[1,0,0,1,0,0,1,0,0,0,1,0,1,0,0,0])
 ;var c = Decay2.ar(c_sq, 0.001, 0.3) * SinOsc.ar(1700, 0) * 0.1
 ;var d_sq = isequ.value(#[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0])

@@ -1,12 +1,12 @@
 // lg timed
 { var dcons = { arg x, xs
-              ; var i = Dseq.new([0, 1], 1)
-              ; var a = Dseq.new([x, xs], 1)
-              ; Dswitch.new(a, i) }
+              ; var i = Dseq.dr([0, 1], 1)
+              ; var a = Dseq.dr([x, xs], 1)
+              ; Dswitch.dr(a, i) }
 ; var timed = { arg r, y, p
-              ; var d0 = Dser.new(p, r)
+              ; var d0 = Dser.dr(p, r)
               ; var d1 = dcons.value(0, d0)
-              ; var d2 = Dser.new(y, r)
+              ; var d2 = Dser.dr(y, r)
               ; var t = TDuty.ar(d1, 0, d2, 2, 1)
               ; Latch.ar(t, t) }
 ; var lg = { arg u

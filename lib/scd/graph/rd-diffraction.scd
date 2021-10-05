@@ -11,8 +11,8 @@
          ;CombN.ar(p.value,0.2,(n * 0.1) + 0.1,3)}
 ;var r = {var x1 = MouseX.kr(0.75,1.25,'exponential',0.1)
          ;var y1 = MouseY.kr(0.25,1,'exponential',0.1)
-         ;var f = {var fr = Rand.new(50,59) * x1
-                  ;var am = Rand.new(0.04,0.16) * y1
+         ;var f = {var fr = Rand.ir(50,59) * x1
+                  ;var am = Rand.ir(0.04,0.16) * y1
                   ;SinOsc.ar(fr,0) * am}
          ;[Mix.fill(16,f),Mix.fill(12,f)]}
 ;p.value + q.value + r.value}

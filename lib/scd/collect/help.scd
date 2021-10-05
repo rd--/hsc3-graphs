@@ -5,7 +5,7 @@
 {Balance2.ar(LFSaw.ar(44),Pulse.ar(33),FSinOsc.kr(0.5),0.1)}
 
 // Balance2
-{var o=SinOsc.ar([440,550]);Balance2.ar(o[0],o[1],LFNoise0.kr(4),0.3)}
+{var o = SinOsc.ar([440,550]);Balance2.ar(o.at(0),o.at(1),LFNoise0.kr(4),0.3)}
 
 // Balance2
 {var o=SinOsc.ar(440);Out.ar(0,0.2*Balance2.ar(o,o,SinOsc.kr(0.2)))}
@@ -27,14 +27,14 @@
 {CrossoverDistortion.ar(SoundIn.ar, MouseX.kr(0, 1), MouseY.kr(0, 1))}
 
 // Dseq ; shared dseq, different patterns
-{var a = Dseq.new(list: [1,3,2,7,8], repeats: inf)
+{var a = Dseq.dr(list: [1,3,2,7,8], repeats: inf)
 ;var t = Impulse.kr(freq: 5, phase: 0)
 ;var f = Demand.kr(trig: t, reset: 0, demandUGens: [a,a]) * 30 + 340
 ;SinOsc.ar(freq: f, phase:  0) * 0.1}
 
 // Dseq ; distinct dseq, equal patterns
-{var a = Dseq.new(list: [1,3,2,7,8], repeats: inf)
-;var b = Dseq.new(list: [1,3,2,7,8], repeats: inf)
+{var a = Dseq.dr(list: [1,3,2,7,8], repeats: inf)
+;var b = Dseq.dr(list: [1,3,2,7,8], repeats: inf)
 ;var t = Impulse.kr(freq: 5, phase: 0)
 ;var f = Demand.kr(trig: t, reset: 0, demandUGens: [a,b]) * 30 + 340
 ;SinOsc.ar(freq: f, phase:  0) * 0.1}
@@ -148,11 +148,11 @@
  MiBraids.ar(40, 0.7, 0.7, 34, trig, resamp: 2, decim: decim, bits: 3, ws: dist, mul: 0.1) ! 2}
 
 // MiClouds ; basic granulation ; requires=buf (stereo)
-{arg buf = 0;
- var nc = 2;
- var input = PlayBuf.ar(nc, buf, 1, loop: 1);
- var dens = LFNoise1.kr(0.3).range(0.3, 0.45);
- MiClouds.ar(input, 0, 0, 0, dens, 0.5, drywet: 1, mode: 0)}
+arg buf = 0;
+var nc = 2;
+var input = PlayBuf.ar(nc, buf, 1, loop: 1);
+var dens = LFNoise1.kr(0.3).range(0.3, 0.45);
+MiClouds.ar(input, 0, 0, 0, dens, 0.5, drywet: 1, mode: 0)
 
 // MiClouds
 {var imp = Dust.ar([0.8,1.1]);
@@ -167,30 +167,30 @@
  MiClouds.ar(input, pit, pos, size, dens, tex, drywet: 0.5, in_gain: 2, rvb:0.3, fb: 0.8, freeze: frez, lofi: 1, mode: 0)}
 
 // MiClouds ; using external grain trigger
-{arg buf = 0;
- var nc = 2;
- var input = PlayBuf.ar(nc, buf, 1, loop: 1);
- var dens = 0.5;
- var trig = Dust.kr(10);
- MiClouds.ar(input, -5, 0, 0.2, dens, 0.5, trig: trig, drywet: 1, mode: 0)}
+arg buf = 0;
+var nc = 2;
+var input = PlayBuf.ar(nc, buf, 1, loop: 1);
+var dens = 0.5;
+var trig = Dust.kr(10);
+MiClouds.ar(input, -5, 0, 0.2, dens, 0.5, trig: trig, drywet: 1, mode: 0)
 
 // MiClouds ; spectral mode (this mode causes high CPU peaks)
-{arg buf = 0;
- var nc = 2;
- var input = PlayBuf.ar(nc, buf, 1, loop: 1);
- var size = 0.35;
- var dens = 0.02;
- var tex = 0.3;
- MiClouds.ar(input, 0, 0, size, dens, tex, drywet: 1, rvb: 0.8, fb: 0.8, mode: 3) * 0.35}
+arg buf = 0;
+var nc = 2;
+var input = PlayBuf.ar(nc, buf, 1, loop: 1);
+var size = 0.35;
+var dens = 0.02;
+var tex = 0.3;
+MiClouds.ar(input, 0, 0, size, dens, tex, drywet: 1, rvb: 0.8, fb: 0.8, mode: 3) * 0.35
 
 // MiClouds ; more spectral stuff ; watch volume
-{arg buf = 0;
- var nc = 2;
- var input = PlayBuf.ar(nc, buf, 1, loop: 1);
- var size = LFNoise1.kr(0.2).range(0.1,0.5).squared;
- var dens = LFNoise1.kr(0.3,0.5,0.5);
- var tex = LFNoise1.kr(0.3,0.5,0.5);
- MiClouds.ar(input, 0, 0, size, dens, tex, drywet: 1, rvb: 0.6, fb: 0.6, lofi: 1, mode: 3) * 0.25}
+arg buf = 0;
+var nc = 2;
+var input = PlayBuf.ar(nc, buf, 1, loop: 1);
+var size = LFNoise1.kr(0.2).range(0.1,0.5).squared;
+var dens = LFNoise1.kr(0.3,0.5,0.5);
+var tex = LFNoise1.kr(0.3,0.5,0.5);
+MiClouds.ar(input, 0, 0, size, dens, tex, drywet: 1, rvb: 0.6, fb: 0.6, lofi: 1, mode: 3) * 0.25
 
 // MiElements ; basic
 {var input = PinkNoise.ar(0.3);
@@ -336,7 +336,7 @@
  var morph = 0.85;
  var trigger = Impulse.kr(1);
  var lev = TRand.kr(trig: trigger).squared;
- Mix.new(MiPlaits.ar(56, 12, harm, timbre, morph, trigger, lev))}
+ Mix.ar(MiPlaits.ar(56, 12, harm, timbre, morph, trigger, lev))}
 
 // MiPlaits ; snare drumsss
 {var harm = LFNoise2.kr(0.5).range(0,0.5);
@@ -578,17 +578,17 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
 {[SinOsc.ar([440,441],[0,pi]) * 0.1,SinOsc.ar([440,441],[pi,0]) * 0.1]}
 
 // PlayBuf
-{arg buf = 0
-;var scl = BufRateScale.kr(buf)
-;PlayBuf.ar(2,buf,scl,1,0,1,0)}
+arg buf = 0;
+var scl = BufRateScale.kr(buf);
+PlayBuf.ar(2,buf,scl,1,0,1,0)
 
 // PlayBuf
-{var b = MouseX.kr(32,64,0,0.2)
-;var r = BufRateScale.kr(b)
-;PlayBuf.ar(1,b,r,1,0,1,0)}
+var b = MouseX.kr(32,64,0,0.2);
+var r = BufRateScale.kr(b);
+PlayBuf.ar(1,b,r,1,0,1,0)
 
 // Rand (UGen)
-{SinOsc.ar(freq: Rand.new(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)}
+{SinOsc.ar(freq: Rand.ir(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)}
 
 // Rand (UnaryOp)
 {var c = NamedControl.ir(name: "c", values: 220.0)
@@ -629,19 +629,19 @@ SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)}
 ;SinOsc.ar(Summer.kr(trig, [0.5, 0.25], reset, 1) * 100, 0, 0.1)}
 
 // TGrains ; demand ugens as inputs ; (Warning: empty sequence in Dseq - Server 'localhost' exited with exit code 0)
-{arg buf = 0
-;var trate = MouseX.kr(1, 100, 1)
-;var d = {Dwhite(0.1, 0.2, 1)}
-;var z = {Drand([Dgeom(0.1, 1 + d.value, Diwhite(20, 40, 1))
-                ,Dgeom(1, 1 - d.value, Diwhite(20, 40, 1))], 1)}
-;TGrains.ar(2,
-        Impulse.ar(trate),
-        bufnum: buf,
-        rate: Dseq([1, 1, z.value, 0.5, 0.5, 0.2, 0.1, 0.1, 0.1, 0.1], inf) * 2 + 1,
-        centerPos: Dseq(z.dup(8), inf),
-        dur: Dseq([1, d.value, 1, z.value, 0.5, 0.5, 0.1, z.value] * 2, inf) / trate,
-        pan: Dseq([1, 1, 1, 0.5, 0.2, 0.1, 0, 0, 0], inf) * 2 - 1,
-        amp: Dseq([1, 0, z.value, 0, 2, 1.0, 1, 0.1, 0.1], inf))}
+arg buf = 0;
+var trate = MouseX.kr(1, 100, 1);
+var d = {Dwhite(0.1, 0.2, 1)};
+var z = {Drand([Dgeom(0.1, 1 + d.value, Diwhite(20, 40, 1)), Dgeom(1, 1 - d.value, Diwhite(20, 40, 1))], 1)};
+TGrains.ar(
+    numChannels: 2,
+    trigger: Impulse.ar(trate),
+    bufnum: buf,
+    rate: Dseq([1, 1, z.value, 0.5, 0.5, 0.2, 0.1, 0.1, 0.1, 0.1], inf) * 2 + 1,
+    centerPos: Dseq(z.dup(8), inf),
+    dur: Dseq([1, d.value, 1, z.value, 0.5, 0.5, 0.1, z.value] * 2, inf) / trate,
+    pan: Dseq([1, 1, 1, 0.5, 0.2, 0.1, 0, 0, 0], inf) * 2 - 1,
+    amp: Dseq([1, 0, z.value, 0, 2, 1.0, 1, 0.1, 0.1], inf))
 
 // UGen.linlin (note Clip UGen)
 {SinOsc.ar(freq: Sweep.kr(trig: 0, rate: 1).linlin(inMin: 0, inMax: 1, outMin: 110, outMax: 220, clip: 'minmax'), phase: 0)}

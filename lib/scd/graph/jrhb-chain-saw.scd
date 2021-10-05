@@ -1,6 +1,6 @@
 // chain saw (jrhb)
 { var f = { arg s1
-          ; var rate = ExpRand.new(0.1, 2).dup
+          ; var rate = ExpRand.ir(0.1, 2).dup
           ; var n1 = { LFNoise1.kr(rate).exprange(0.01, 10) }
           ; var n2 = { LFNoise1.kr(rate).exprange(10, 50) }
           ; var n3 = LFNoise1.kr(rate).exprange(2, 10)

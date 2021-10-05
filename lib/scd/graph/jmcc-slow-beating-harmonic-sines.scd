@@ -4,23 +4,23 @@
 ;var m = 5 // harmonics per note
 ;var p = Array.new(m * n)
 ;var q = Array.new(m * n)
-;var k = 24 + Rand.new(lo: 0, hi: 12)
+;var k = 24 + Rand.ir(lo: 0, hi: 12)
 ;var z = nil
 ;n.do(
-  {var freq = (TChoose.kr(trig: 1, array: [0,2,4,5,7,9]) + (Rand.new(lo: 0, hi: 7) * 12) + k).midicps
-  ;p.add(freq + Rand.new(lo: d.neg,hi: d))
-  ;p.add(freq * 2 + Rand.new(lo: d.neg,hi: d))
-  ;p.add(freq * 4 + Rand.new(lo: d.neg,hi: d))
-  ;p.add(freq * 5 + Rand.new(lo: d.neg,hi: d))
-  ;p.add(freq * 6 + Rand.new(lo: d.neg,hi: d))})
+  {var freq = (TChoose.kr(trig: 1, array: [0,2,4,5,7,9]) + (Rand.ir(lo: 0, hi: 7) * 12) + k).midicps
+  ;p.add(freq + Rand.ir(lo: d.neg,hi: d))
+  ;p.add(freq * 2 + Rand.ir(lo: d.neg,hi: d))
+  ;p.add(freq * 4 + Rand.ir(lo: d.neg,hi: d))
+  ;p.add(freq * 5 + Rand.ir(lo: d.neg,hi: d))
+  ;p.add(freq * 6 + Rand.ir(lo: d.neg,hi: d))})
 ;n.do(
   {arg i
   ;var freq = p.at(m * i)
-  ;q.add(freq + Rand.new(lo: d.neg,hi: d))
-  ;q.add(freq * 2 + Rand.new(lo: d.neg,hi: d))
-  ;q.add(freq * 4 + Rand.new(lo: d.neg,hi: d))
-  ;q.add(freq * 5 + Rand.new(lo: d.neg,hi: d))
-  ;q.add(freq * 6 + Rand.new(lo: d.neg,hi: d))})
-;z = [Ref.new([p, nil, RRandN.new(numChannels: m * n, lo: 0, hi: 2 * pi)]),
-      Ref.new([q, nil, RRandN.new(numChannels: m * n, lo: 0, hi: 2 * pi)])]
+  ;q.add(freq + Rand.ir(lo: d.neg,hi: d))
+  ;q.add(freq * 2 + Rand.ir(lo: d.neg,hi: d))
+  ;q.add(freq * 4 + Rand.ir(lo: d.neg,hi: d))
+  ;q.add(freq * 5 + Rand.ir(lo: d.neg,hi: d))
+  ;q.add(freq * 6 + Rand.ir(lo: d.neg,hi: d))})
+;z = [Ref.new([p, nil, RRandN.ir(numChannels: m * n, lo: 0, hi: 2 * pi)]),
+      Ref.new([q, nil, RRandN.ir(numChannels: m * n, lo: 0, hi: 2 * pi)])]
 ;Klang.ar(specificationsArrayRef: z, freqscale: 1, freqoffset: 0) * (0.1 / n)}

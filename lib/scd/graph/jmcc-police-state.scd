@@ -1,11 +1,11 @@
 // police state (jmcc) #2
 {var node =
-  {var r0 = Rand.new(0.02,0.12)
-  ;var r1 = Rand.new(0,2 * pi)
-  ;var r2 = Rand.new(0,600)
-  ;var r3 = 1000 + Rand.new(-300,300)
-  ;var r4 = Rand.new(-1,1)
-  ;var r5 = 100 + Rand.new(-20,20)
+  {var r0 = Rand.ir(0.02,0.12)
+  ;var r1 = Rand.ir(0,2 * pi)
+  ;var r2 = Rand.ir(0,600)
+  ;var r3 = 1000 + Rand.ir(-300,300)
+  ;var r4 = Rand.ir(-1,1)
+  ;var r5 = 100 + Rand.ir(-20,20)
   ;var n0 = LFNoise2.ar(r5)
   ;var f = SinOsc.kr(r0,r1,r2,r3)
   ;Pan2.ar(SinOsc.ar(f,0) * n0 * 0.1,r4,1)}

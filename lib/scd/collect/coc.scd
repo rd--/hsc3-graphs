@@ -1,52 +1,51 @@
 // wandering sines ; https://github.com/cianoc/supercollider_fragments
-{var o = SinOsc.ar(LFNoise1.kr(0.5, 600, LFSaw.kr(1.5, mul: 50, add: 500)).abs, 0, 0.1)
-;var d = CombN.ar(o, 3.0, [1.35, 0.7], 6)
-;Pan2.ar(o, 0) + d}
+var o = SinOsc.ar((LFNoise1.kr(0.5) * 600 + (LFSaw.kr(1.5, 0) * 50 + 500)).abs, 0) * 0.1;
+var d = CombN.ar(o, 3.0, #[1.35, 0.7], 6);
+Pan2.ar(o, 0, 1) + d
 
 // random sine waves ; https://github.com/cianoc/supercollider_fragments
-{var f = {Pan2.ar(SinOsc.ar(SinOsc.ar(1/10, 0.0.rrand(6.0), 200, 600)), 1.0.rand)}
-;Mix.ar(Array.fill(15, f)) * 0.02}
+var f = { Pan2.ar(SinOsc.ar(SinOsc.ar(1 / 10, 0.0.rrand(6.0)) * 200 + 600, 0), 1.0.rand, 0.05) };
+f.dup(15).splay
 
 // nice use of blip ; https://github.com/cianoc/supercollider_fragments
-{var t = Impulse.kr(6)
-;var o = Blip.ar(TRand.kr(48, 72, t).midicps, TRand.kr(1, 12, t), 0.max(TRand.kr(-0.5, 0.4, t)))
-;var p = Pan2.ar(o, TRand.kr(-1.0, 1.0, t)) * EnvGen.kr(Env.perc(0, 3), t)
-;var m = Mix.ar({p}.dup(6)) * 0.2
-;m + CombL.ar(m, 2.0, 4/6, 6)}
+var t = Impulse.kr(6, 0);
+var o = Blip.ar(TRand.kr(48, 72, t).midicps, TRand.kr(1, 12, t)) * 0.max(TRand.kr(-0.5, 0.4, t));
+var p = Pan2.ar(o, TRand.kr(-1.0, 1.0, t), EnvGen.kr(Env.perc(0, 3, 1, [-4]), t));
+var m = Mix.ar({ p }.dup(6)) * 0.2;
+m + CombL.ar(m, 2.0, 4/6, 6)
 
 // interesting rising sounds ; https://github.com/cianoc/supercollider_fragments
-{var f = {arg c; Pan2.ar(SinOsc.ar(LFSaw.ar((c * 0.2 + 1)/3, mul: 500, add: 700)), LFNoise0.kr(1))}
-;var k = 5
-;Mix.ar(Array.fill(k, f)) * 0.1}
+var f = {arg c; Pan2.ar(SinOsc.ar(LFSaw.ar((c * 0.2 + 1)/3, 0) * 500 + 700, 0), LFNoise0.kr(1), 0.05)};
+Mix.ar(f.dup(5))
 
 // use of dust with rising sounds ; https://github.com/cianoc/supercollider_fragments
-{var f =
- {var d = [Array.fill(3, {1000.exprand(10000)}), 1, Array.fill(15, {1.0.rrand(4.0)})]
- ;Pan2.ar(Klank.ar(Ref.new(d), Dust.ar(1/3, 0.1)), LFTri.kr(3.0.rrand(10.0)))}
-;Mix.ar(f.dup(20))}
+var f = {
+    var d = [{ 1000.exprand(10000) }.dup(3), nil, { 1.0.rrand(4.0) }.dup(15)];
+    Pan2.ar(Klank.ar(Ref.new(d), Dust.ar(1/3) * 0.1, 1, 0, 1), LFTri.kr(3.0.rrand(10.0), 0), 0.1) };
+Mix.ar(f.dup(20))
 
 // pretty ; nice, but inessential ; https://github.com/cianoc/supercollider_fragments
-{var f =
- {arg i
- ;var freq = MouseX.kr(0.1.rrand(5.0), 3.0.rrand(20.0))
- ;var amp = 0.max(LFNoise0.kr(MouseX.kr(1.rrand(6), 6.rrand(1))))
- ;var osc = SinOsc.ar(SinOsc.ar(freq, mul: MouseY.kr(10, 50), add: 200.rrand(5000)), mul: amp)
- ;Pan2.ar(osc, 1.0.rand2)}
-;Mix.fill(12, f) * 0.03}
+var f = {
+    arg i;
+    var freq = MouseX.kr(0.1.rrand(5.0), 3.0.rrand(20.0), 0, 0.2);
+    var amp = LFNoise0.kr(MouseX.kr(1.rrand(6), 6.rrand(1), 0, 0.2)).max(0);
+    var osc = SinOsc.ar(SinOsc.ar(freq, 0) * MouseY.kr(10, 50, 0.2) + 200.rrand(5000), 0) * amp;
+    Pan2.ar(osc, 1.0.rand2, 0.03) };
+Mix.fill(12, f)
 
 // random impulses ; https://github.com/cianoc/supercollider_fragments
-{var f =
- {var freq = 100.exprand(3000)
- ;var amp = EnvGen.kr(Env.perc(0, (freq ** -0.7) * 100), Dust.kr(1/5))
- ;Pan2.ar(SinOsc.ar(freq * LFNoise1.kr(1/6, 0.4, 1), mul: amp), LFNoise1.kr(1/8))}
-;Mix.fill(15, f) * 0.3}
+var f = {
+    var freq = 100.exprand(3000);
+    var amp = EnvGen.kr(Env.perc(0, (freq ** -0.7) * 100, 1, #[-4]), Dust.kr(1 / 5));
+    Pan2.ar(SinOsc.ar(freq * (LFNoise1.kr(1 / 6) * 0.4 + 1), 0) * amp, LFNoise1.kr(1 / 8), 1) };
+Mix.fill(15, f) * 0.1
 
 // angry birds ; https://github.com/cianoc/supercollider_fragments
-{var lfo = LFNoise1.ar(freq: [28, 27], mul: 400, add: 2000)
-;SinOsc.ar(freq: lfo, mul: 0.1)}
+var lfo = LFNoise1.ar(#[28, 27]) * 400 + 2000;
+SinOsc.ar(lfo, 0) * 0.1
 
 // lasers ; https://github.com/cianoc/supercollider_fragments
-{SinOsc.ar(EnvGen.kr(Env.adsr(0.1, 0.4, 0.8, 0.5), Dust.kr(1), 10000))}
+SinOsc.ar(EnvGen.kr(Env.adsr(0.1, 0.4, 0.8, 0.5, 1, #[-4], 0), Dust.kr(1), 10000, 0, 1, 0)) * 0.1
 
 // saw as an lfo ; https://github.com/cianoc/supercollider_fragments
 {var lfo = LFSaw.ar(freq: 2, mul: -100, add: 600)
@@ -100,7 +99,7 @@
 // lovely bells ; https://github.com/cianoc/supercollider_fragments
 {var t = Impulse.kr(1/3)
 ;var env = EnvGen.kr(Env.perc(0, 1), t, levelScale: 1/(1..6), timeScale: 1.0.rrand(3.0).dup)
-;Mix.ar(SinOsc.ar([60, 64, 67, 71, 74, 78].midicps, mul: env)) * [0.3, 0.3]}
+;Mix.ar(SinOsc.ar([60, 64, 67, 71, 74, 78].midicps, mul: env)) * #[0.1, 0.1]}
 
 // interesting drone ; https://github.com/cianoc/supercollider_fragments
 {var freq = [40, 42, 43, 45, 47, 48, 41, 42].midicps
@@ -110,7 +109,7 @@
 // great inharmonic spectrum ; https://github.com/cianoc/supercollider_fragments
 {var freq = [72, 135, 173, 239, 267, 306, 355, 473, 512, 572, 626]
 ;var amp = [0.25, 0.11, 0.12, 0.04, 0.1, 0.15, 0.05, 0.01, 0.03, 0.02, 0.12]
-;Mix.ar(SinOsc.ar(freq, 0, amp))}
+;Mix.ar(SinOsc.ar(freq, 0, amp * 0.1))}
 
 // random bells, let it run for a while ; https://github.com/cianoc/supercollider_fragments
 {var partials = 12
@@ -130,7 +129,7 @@
 
 // decaying gongs
 {var dur = 6
-;var base = Rand.new(40, 60)
+;var base = Rand.ir(40, 60)
 ;var trig = SinOsc.ar(1/10, pi)
 ;var f =
  {arg detune

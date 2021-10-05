@@ -1,7 +1,7 @@
 // ar ; https://github.com/alikthename/Musical-Design-in-Supercollider ; 1
 {var voiceFunc =
  {arg e
- ;var withMod = false
+ ;var withMod = true
  ;var voiceTrig = e.w
  ;var lev = e.z * LagUD.kr(in: e.w, lagTimeU: 0, lagTimeD: e.y * 4 + 0.1)
  ;var f1 = (e.x * 36 + 48).midicps
@@ -11,7 +11,7 @@
  ;var overlapA = TChoose.kr(trig: voiceTrig, array: [0.5,1.0,2.0,4.0]) * withMod.if({e.y * 2}, {1})
  ;var overlapB = TChoose.kr(trig: voiceTrig, array: [0.5,1.0,2.0]) * withMod.if({e.y * 2}, {1})
  ;var attackTime = f2.linlin(inMin: 50, inMax: 1500, outMin: 0.1, outMax: 0.02)
- ;var e0 = Env.perc(attackTime: attackTime, releaseTime: Rand.new(lo: 1, hi: 7), level: 1, curve: -4)
+ ;var e0 = Env.perc(attackTime: attackTime, releaseTime: Rand.ir(lo: 1, hi: 7), level: 1, curve: -4)
  ;var e1 = EnvGen.kr(envelope: e0, gate: voiceTrig) * PinkNoise.ar().range(lo: 0.1, hi: 1).lag(0.02)
  ;var p = e.o * 2 - 1
  ;var gtrg = Impulse.ar(freq: f1, phase: 0)

@@ -1,22 +1,22 @@
 // f0 ; https://twitter.com/redFrik/status/1395519538008141835
-{var c = Duty.ar(0.004, 0, Dseries.new(1, #[1, 2], inf) % Duty.ar(8.192, 0, Dseq.new(6.iota + 1 * 75, inf)))
+{var c = Duty.ar(0.004, 0, Dseries.dr(1, #[1, 2], inf) % Duty.ar(8.192, 0, Dseq.dr(6.iota + 1 * 75, inf)))
 ;var d = HPF.ar(MantissaMask.ar(c, 3),5)
 ;var f = {arg x; SinOscFB.ar(x, 0).max(0)}
-;var p = #[250, 200] * Duty.ar(4.096, 0, Dseq.new(#[4, 6, 5, 5, 5, 5, 3] / 4, inf)).lag(0.1)
+;var p = #[250, 200] * Duty.ar(4.096, 0, Dseq.dr(#[4, 6, 5, 5, 5, 5, 3] / 4, inf)).lag(0.1)
 ;var o = SinOscFB.ar(p, f.value(0.08)) * f.value(1 / #[99, 60]) / 3
 ;LPF.ar((d.sin + (SinOscFB.ar(63, f.value(0.8)) * d) / 9 + o).tanh / 2, 10000) * 0.1}
 
 // f0 ; subset (rd) ; https://twitter.com/redFrik/status/1395519538008141835
 {var f = {arg x; SinOscFB.ar(freq: x, feedback: 0).max(0)}
-;var p = [250, 200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq.new(list: [4, 6, 5, 5, 5, 5, 3] / 4, repeats: inf)).lag(0.1)
+;var p = [250, 200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq.dr(list: [4, 6, 5, 5, 5, 5, 3] / 4, repeats: inf)).lag(0.1)
 ;SinOscFB.ar(freq: p, feedback: f.value(0.08), mul: f.value(1 / [99, 60]) / 3) * 0.1}
 
 //---- f0 ; https://twitter.com/redFrik/status/1395519538008141835
-{var l = Dseries.new(start: 1, step: [1,2], length: inf) % Duty.ar(dur: 8.192, reset: 0, level: Dseq.new(list: 6.iota + 1 * 75, repeats: inf))
+{var l = Dseries.dr(start: 1, step: [1,2], length: inf) % Duty.ar(dur: 8.192, reset: 0, level: Dseq.dr(list: 6.iota + 1 * 75, repeats: inf))
 ;var c = Duty.ar(dur: 0.004, reset: 0, level: l)
 ;var d = HPF.ar(in: MantissaMask.ar(in: c, bits: 3), freq: 5)
 ;var f = {arg x; SinOscFB.ar(freq: x, feedback: 0).max(0)}
-;var p = [250,200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq.new(list: [4,6,5,5,5,5,3] / 4, repeats: inf)).lag(0.1)
+;var p = [250,200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq.dr(list: [4,6,5,5,5,5,3] / 4, repeats: inf)).lag(0.1)
 ;var o = SinOscFB.ar(freq: p, feedback: f.value(0.08), mul: f.value(1 / [99,60]) / 3)
 ;LPF.ar(in: (d.sin + SinOscFB.ar(freq: 63, feedback: f.value(0.8), mul: d) / 9 + o).tanh / 2, freq: 10000) * 0.1}
 
