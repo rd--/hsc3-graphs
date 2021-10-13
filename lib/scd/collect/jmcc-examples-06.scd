@@ -1,22 +1,18 @@
-// sweepy noise - mouse controls LFO ; jmcc
-{
+	// sweepy noise - mouse controls LFO ; jmcc
 	var lfoDepth, lfoRate, freq, filtered;
 	lfoDepth = MouseY.kr(200, 8000, 'exponential');
 	lfoRate = MouseX.kr(4, 60, 'exponential');
 	freq = LFSaw.kr(lfoRate, 0, lfoDepth, lfoDepth * 1.2);
 	filtered = RLPF.ar(WhiteNoise.ar([0.03,0.03]), freq, 0.1);
 	CombN.ar(filtered, 0.3, 0.3, 2, 1, filtered);
-}
 
-// noise burst sweep ; jmcc
-{
+	// noise burst sweep ; jmcc
 	var lfoRate, amp, cfreq, filt;
 	lfoRate = MouseX.kr(10, 60, 'exponential');
 	amp = max(0, LFSaw.kr(lfoRate, -1));
 	cfreq = MouseY.kr(400, 8000, 'exponential');
 	cfreq = SinOsc.kr(0.2, 0, cfreq, 1.05 * cfreq);
 	Resonz.ar(WhiteNoise.ar(amp), cfreq, 0.1);
-}
 
 //---- textures
 

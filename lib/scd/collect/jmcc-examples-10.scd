@@ -1,5 +1,4 @@
-// choip choip choip ; graph re-write
-{
+	// choip choip choip ; graph re-write
 	var t = 12;
 	var z = RTexture.overlapGraph({
         arg tr;
@@ -21,12 +20,10 @@
 	}, t-2, 1, 8, 2);
 	4.do({ z = AllpassN.ar(z, 0.1, [Rand.ir(0,0.05),Rand.ir(0,0.05)], 4) });
 	z
-}
 
 //---- textures ; non-graph
 
 // tarmac
-(
 RTexture.overlap({arg i;
         var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf)) * tr};
 		var t, d;
@@ -81,10 +78,8 @@ RTexture.overlap({
 	});
 	z
 });
-)
 
-// choip choip choip
-(
+	// choip choip choip
 	var t = 12;
 	RTexture.overlap({
 		var impulses = Impulse.ar(
@@ -102,9 +97,8 @@ RTexture.overlap({
 		)
 	}, t-2, 1, 8, 2, postProcess: {arg z;
 	4.do({ z = AllpassN.ar(z, 0.1, [0.05.rand,0.05.rand], 4) });
-	z
-})
-)
+	z})
+
 
 //---- ; untranslated
 

@@ -4,6 +4,6 @@ graph browser code segmenter.
 
 The versions of these examples in the "graphs" directory have been
 edited to have structures closer to the haskell variants in
-"hsc3/Help/Graphs".
+"hsc3/Help/Graphs", or to the C-Smalltalk variants at "stsc3/help/graphs".
 
 https://www.audiosynth.com/

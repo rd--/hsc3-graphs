@@ -1,5 +1,4 @@
-// aleatoric quartet - mouse x controls density ; jmcc
-{
+	// aleatoric quartet - mouse x controls density ; jmcc
 	var amp, density, dmul, dadd, signal;
 	amp = 0.07;
 	density = MouseX.kr(0.01,1); // mouse determines density of excitation
@@ -30,7 +29,6 @@
 	// add some reverb via allpass delays
 	5.do({ signal = AllpassN.ar(signal, 0.05, [0.05.rand,0.05.rand], 1) });
 	LeakDC.ar( signal, 0.995);		// delays build up a lot of DC, so leak it out here.
-}
 
 //---- textures
 

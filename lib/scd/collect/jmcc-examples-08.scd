@@ -1,5 +1,4 @@
-// modal space ; mouse x controls discrete pitch in dorian mode ; jmcc
-{
+	// modal space ; mouse x controls discrete pitch in dorian mode ; jmcc
 	var mix;
 	mix =
 	// lead tone
@@ -16,12 +15,10 @@
 	+ RLPF.ar(LFPulse.ar([48,55].midicps, 0, 0.15),
 		SinOsc.kr(0.1, 0, 10, 72).midicps, 0.1, 0.1);
 	CombN.ar(mix, 0.31, 0.31, 2, 1, mix)
-}
 
 //---- textures
 
 // modified from a patch by Landon Rose ; jmcc
-(
 var e,  specList, tring;
 tring = #[3, 3, 3, 3];
 specList	= [
@@ -43,10 +40,8 @@ e = Env.sine(4,1);
         2,        // two channels
         2         // nextTime
     )
-)
 
 // slight mod of "phase mod with slow beats" ;  mouse x controls random freq of new events ; mouse y controls modulation index
-(
 var e = Env.adsr(0.001, 0.01, 0.25, 0.04, 1, -4);
 	var n = 4;		// number of simultaneous events
 	RTexture.overlap({
@@ -62,7 +57,6 @@ var e = Env.adsr(0.001, 0.01, 0.25, 0.04, 1, -4);
 		});
 		EnvGen.ar(e, gate) * SinOsc.ar([f1, f1 + 1.0.rand2], ph, 0.1)
 	}, 4, 4, n, 2)
-)
 
 //---- ; untranslated
 

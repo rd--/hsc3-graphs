@@ -1,8 +1,6 @@
-// strummable guitar ; use mouse to strum strings ; jmcc
-{
+	// strummable guitar ; use mouse to strum strings ; jmcc
 	var pitch, mousex, out;
-	// e a d g b e
-	pitch = [ 52, 57, 62, 67, 71, 76 ];
+	pitch = [ 52, 57, 62, 67, 71, 76 ]; // e a d g b e
 	mousex = MouseX.kr;
 	out = Mix.arFill(pitch.size, { arg i;
 		var trigger, pluck, period, string;
@@ -15,13 +13,10 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}
 
-// strummable 12 string guitar ; use mouse to strum strings ; jmcc
-{
+	// strummable 12 string guitar ; use mouse to strum strings ; jmcc
 	var pitch, mousex, out;
-	// e a d g b e
-	pitch = [ 52, 57, 62, 67, 71, 76 ];
+	pitch = [ 52, 57, 62, 67, 71, 76 ]; // e a d g b e
 	mousex = MouseX.kr;
 	out = Mix.arFill(pitch.size, { arg i;
 		var pos, trigger1, trigger2, pluck1, pluck2, period, string1, string2;
@@ -38,13 +33,10 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}
 
-// bidirectional strummable guitar ; use mouse to strum strings ; jmcc
-{
+	// bidirectional strummable guitar ; use mouse to strum strings ; jmcc
 	var pitch1, pitch2, mousex, out;
-	// e a d g b e
-	pitch1 = [ 52, 57, 62, 67, 71, 76 ];
+	pitch1 = [ 52, 57, 62, 67, 71, 76 ]; // e a d g b e
 	pitch2 = pitch1 + 7;
 	mousex = MouseX.kr;
 	out = Mix.arFill(pitch1.size, { arg i;
@@ -61,13 +53,10 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}
 
-// harmonic zither ; use mouse to strum strings ; jmcc
-{
+	// harmonic zither ; use mouse to strum strings ; jmcc
 	var pitch, mousex, mousey, out, triggerSpacing, panSpacing;
-	// harmonic series
-	pitch = [ 50, 53.86, 57.02, 59.69, 62, 64.04, 65.86, 67.51, 69.02, 71.69, 72.88, 74 ];
+	pitch = [ 50, 53.86, 57.02, 59.69, 62, 64.04, 65.86, 67.51, 69.02, 71.69, 72.88, 74 ]; // harmonic series
 	mousex = MouseX.kr;
 	mousey = MouseY.kr;
 	triggerSpacing = 0.5 / (pitch.size - 1);
@@ -83,10 +72,8 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}
 
-// strummable metals ; use mouse to strum strings ; jmcc
-{
+	// strummable metals ; use mouse to strum strings ; jmcc
 	var mousex, out;
 	mousex = MouseX.kr;
 	out = Mix.arFill(8, { arg i;
@@ -104,10 +91,8 @@
 	});
 	LPF.ar(out, 12000);
 	LeakDC.ar(out);
-}
 
-// strummable pipes ; jmcc
-{
+	// strummable pipes ; jmcc
 	var mousex, out;
 	mousex = MouseX.kr;
 	out = Mix.arFill(8, { arg i;
@@ -128,10 +113,8 @@
 	out = LeakDC.ar(out);
 	6.do({ out = AllpassN.ar(out, 0.1, [0.05.rand,0.05.rand], 4) });
 	out
-}
 
-// strummable silk ; jmcc
-{
+	// strummable silk ; jmcc
 	var mousex, out;
 	mousex = MouseX.kr;
 	out = Mix.arFill(8, { arg i;
@@ -152,4 +135,3 @@
 	out = LeakDC.ar(out);
 	6.do({ out = AllpassN.ar(out, 0.1, [0.05.rand,0.05.rand], 4) });
 	out
-}

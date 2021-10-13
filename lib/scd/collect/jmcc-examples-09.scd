@@ -1,5 +1,4 @@
-// deep trip ; graph re-write
-{
+	// deep trip ; graph re-write
 	RTexture.overlapGraph( {
         arg tr;
         var f, z, s;
@@ -13,13 +12,10 @@
 		s = Pan2.ar(z, LFNoise1.kr(TRand.kr(0,5.0,tr)));
 		s + CombN.ar(s, 0.5, [TRand.kr(0,0.2,tr) + 0.3, TRand.kr(0,0.2,tr) + 0.3], 20)
 		+ CombN.ar(s, 0.5, [TRand.kr(0,0.2,tr) + 0.3, TRand.kr(0,0.2,tr) + 0.3], 20);
-	}, 12, 4, 4, 2);
-}
+	}, 12, 4, 4, 2)
 
-// sidereal time ; graph re-write
-{
-var p;
-p = 15;	// number of partials per channel per 'cymbal'.
+	// sidereal time ; graph re-write
+	var p = 15;	// number of partials per channel per 'cymbal'.
 	RTexture.overlapGraph({
         arg tr;
 		var z, f1, f2, f3, in, out;
@@ -27,7 +23,7 @@ p = 15;	// number of partials per channel per 'cymbal'.
 		f2 = 6000.0;
 		z = Array.fill(2, {
 			`[	// sine oscil bank specification :
-				y = Array.fill(p, { TExpRand.kr(f1, f2, tr) } ), // frequencies
+				Array.fill(p, { TExpRand.kr(f1, f2, tr) } ), // frequencies
 				nil, 							// amplitudes default to 1.0
 				Array.fill(p, { 2.0 + TRand.kr(0,4.0,tr) })	// ring times
 			]
@@ -37,10 +33,8 @@ p = 15;	// number of partials per channel per 'cymbal'.
 		out = DynKlank.ar(z, in).distort * 0.1;
 		CombN.ar(out, 0.6, TRand.kr(0,0.5,tr) + 0.1, 8, 1, out.reverse);
 	}, 4, 4, 6, 2)
-}
 
 // ostinoodles ; graph rewrite
-{
 var z = RTexture.overlapGraph({
         arg tr;
 		var sequ, major, root, f, offset, sequence, trig;
@@ -59,7 +53,6 @@ var z = RTexture.overlapGraph({
     z = AllpassN.ar(z, 0.040, [0.040.rand,0.040.rand], 16)
 });
 z
-}
 
 //---- textures ; non-graph
 
@@ -114,9 +107,9 @@ p = 15;	// number of partials per channel per 'cymbal'.
 			]
 		});
 		f3 = XLine.kr(exprand(40.0, 300.0), exprand(40.0, 300.0), 12);
-		in = LFPulse.ar(f3, rrand(0.1, 0.9), 0, 0.002 * LFNoise2.kr(8.0.rand).max(0));
+		in = LFPulse.ar(f3, rrand(0.1, 0.9), 0) * 0.002 * LFNoise2.kr(8.0.rand).max(0);
 		out = Klank.ar(z, in).distort * 0.1;
-		CombN.ar(out, 0.6, 0.5.rand + 0.1, 8, 1, out.reverse);
+		CombN.ar(out, 0.6, 0.5.rand + 0.1, 8) + out.reverse;
 	}, 4, 4, 6, 2)
 )
 
