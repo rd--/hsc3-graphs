@@ -39,7 +39,6 @@ RTexture.overlap({
 	signal})
 
 // inharmonic warbulence ; jmcc
-(
 RTexture.overlap({
 		var f, r, n, a;
 		f = rrand(24, 96).midicps;
@@ -56,12 +55,10 @@ RTexture.overlap({
 	}, 12.8, 6.4, 6, 2, postProcess: {arg signal;
 	Mix.arFill(5, { CombN.ar(signal, 0.3, [rrand(0.1,0.3),rrand(0.1,0.3)], 8) }) * 0.3;
 })
-)
 
 // clipped inharmonic warbulence ; jmcc
-(
 RTexture.overlap({
-	var r = LinExp.kr(LFNoise1.kr(1/16), -1,1,0.1,20);
+		var r = LinExp.kr(LFNoise1.kr(1/16), -1,1,0.1,20);
 		var f, n, a;
 		f = rrand(24, 96).midicps;
 		a = min(1, (500/f));
@@ -73,14 +70,13 @@ RTexture.overlap({
 				1.0.rand2
 			)
 		});
-	}, 12.8, 6.4, 6, 2, postProcess: {arg signal;
+	}, 12.8, 6.4, 6, 2, postProcess: {
+	arg signal;
 	signal = LeakDC.ar(signal);
 	signal = Mix.arFill(8, { CombN.ar(signal, 0.3, [rrand(0.1,0.3),rrand(0.1,0.3)], 20) }) * 0.3;
 })
-)
 
 // pulse harmonic warbulence ; jmcc
-(
 RTexture.overlap({
 		var f, r, n;
 		f = rrand(24, 96).midicps;
@@ -95,7 +91,6 @@ RTexture.overlap({
 	}, 12.8, 6.4, 6, 2, postProcess: {arg signal;
 	Mix.arFill(5, { CombN.ar(signal, 0.3, [rrand(0.1,0.3),rrand(0.1,0.3)], 8) }) * 0.5;
 })
-)
 
 //---- c.f
 

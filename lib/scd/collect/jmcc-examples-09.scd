@@ -73,7 +73,6 @@ z
 )
 
 // sawed cymbals
-(
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
 	RTexture.overlap({
@@ -89,10 +88,8 @@ p = 15;	// number of partials per channel per 'cymbal'.
 		});
 		Klank.ar(z, LFSaw.ar(XLine.kr(600.0.rand, 600.0.rand, 12), 0, 0.0005));
 	}, 4, 4, 6, 2)
-)
 
 // sidereal time
-(
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
 	RTexture.overlap({
@@ -111,10 +108,8 @@ p = 15;	// number of partials per channel per 'cymbal'.
 		out = Klank.ar(z, in).distort * 0.1;
 		CombN.ar(out, 0.6, 0.5.rand + 0.1, 8) + out.reverse;
 	}, 4, 4, 6, 2)
-)
 
 // pentatonic pipes ; Mouse X on right half of screen causes pulsation
-(
 var n, env, set, mode, root;
 n = 5;	// number of overlapped events
 env = Env.linen(0.2, 8, 1, 20, 'sine');
@@ -138,10 +133,8 @@ RTexture.overlap({arg i;
 	z = z * LinXFade2.kr(1.0, SinOsc.kr(5).max(0), MouseX.kr > 0.5); // pulsation
 	CombN.ar(z, 0.3, 0.3, 8, 1, z.reverse);
     })
-)
 
 // ostinoodles
-(
 var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
 var major, root;
 root = 81 + 6.rand2;
@@ -162,10 +155,8 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 	});
 	z
 });
-)
 
-// bowed garage door springs
-(
+	// bowed garage door springs
 	RTexture.overlap({
 		Pan2.ar(
 	            Klank.ar(
@@ -183,11 +174,9 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 		z = AllpassN.ar(z, 0.040, [0.040.rand,0.040.rand], 16)
 	});
 	z
-}
-))
+	})
 
 // contamination zone
-(
 RTexture.overlap({
 		var f;
 		f = exprand(800, 8000);
@@ -213,10 +202,8 @@ RTexture.overlap({
 	});
 	z
 });
-)
 
-// array manipulation of multi channel audio
-(
+	// array manipulation of multi channel audio
 	RTexture.xfade({
 		var a, b, c, d, e;
 		// 2 channels each of 3 different processes:
@@ -252,6 +239,5 @@ RTexture.overlap({
 		f = f.clump(2);			// make into groups of 2 channels
 		Mix.ar(f);				// mix stereo pairs to one pair
 	}, 9, 1, 2);
-)
 
 //---- c.f. mridigam
