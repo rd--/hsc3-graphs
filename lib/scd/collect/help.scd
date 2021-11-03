@@ -1,30 +1,26 @@
 // AnalogFoldOsc
-{LPF.ar(AnalogFoldOsc.ar(freq: 60 + [0, 1], amp: SinOsc.ar(LFSaw.kr(0.1) * 4).range(0.0,1.0)), 1330)}
+LPF.ar(AnalogFoldOsc.ar(60 + #[0, 1], SinOsc.ar(LFSaw.ar(0.1, 0) * 4, 0).range(0, 1)), 1330)
 
 // Balance2
-{Balance2.ar(LFSaw.ar(44),Pulse.ar(33),FSinOsc.kr(0.5),0.1)}
+Balance2.ar(LFSaw.ar(44, 0), Pulse.ar(33, 0.5), SinOsc.ar(0.5, 0), 0.1)
 
 // Balance2
-{var o = SinOsc.ar([440,550]);Balance2.ar(o.at(0),o.at(1),LFNoise0.kr(4),0.3)}
+var o = SinOsc.ar(#[440, 550], 0); Balance2.ar(o.first, o.second, LFNoise1.ar(4), 0.3)
 
 // Balance2
-{var o=SinOsc.ar(440);Out.ar(0,0.2*Balance2.ar(o,o,SinOsc.kr(0.2)))}
+var o = SinOsc.ar(440, 0); Balance2.ar(o, o, SinOsc.ar(0.2, 0), 0.2)
 
 // Balance2
-{var o=SinOsc.ar(440);Out.ar(0,Balance2.ar(o,o,SinOsc.kr(0.2),0.2))}
-
-// Balance2
-{var o=SinOsc.ar(440);Out.ar(0,Balance2.ar(o,o,MouseX.kr(-1,1),0.2))}
+var o = SinOsc.ar(440, 0); Balance2.ar(o, o, MouseX.kr(-1, 1, 0, 0.2), 0.2)
 
 // BlockSize (default=64)
-{var x = MouseX.kr(minval: 2, maxval: 8, warp: 0, lag: 0.2)
-;SinOsc.ar(freq: [BlockSize.ir,ControlDur.ir * SampleRate.ir] * x, phase: 0, mul: 0.05)}
+SinOsc.ar([BlockSize.ir(), ControlDur.ir() * SampleRate.ir()] * MouseX.kr(2, 8, 0, 0.2), 0) * 0.05
 
 // CrossoverDistortion
-{CrossoverDistortion.ar(SinOsc.ar([400, 404], 0, 0.2), MouseX.kr(0, 1), MouseY.kr(0, 1))}
+CrossoverDistortion.ar(SinOsc.ar(#[400, 404], 0) * 0.2, MouseX.kr(0, 1, 0, 0.2), MouseY.kr(0, 1, 0, 0.2))
 
 // CrossoverDistortion
-{CrossoverDistortion.ar(SoundIn.ar, MouseX.kr(0, 1), MouseY.kr(0, 1))}
+CrossoverDistortion.ar(SoundIn.ar(), MouseX.kr(0, 1, 0, 0.2), MouseY.kr.kr(0, 1, 0, 0.2))
 
 // Dseq ; shared dseq, different patterns
 {var a = Dseq.dr(list: [1,3,2,7,8], repeats: inf)
@@ -40,16 +36,16 @@
 ;SinOsc.ar(freq: f, phase:  0) * 0.1}
 
 // DynKlank
-{var s=`[[800,1071,1153,1723],nil,[1,1,1,1]]; DynKlank.ar(s,Impulse.ar(2,0,0.1))}
+var s = Ref.new([[800, 1071, 1153, 1723], nil, [1, 1, 1, 1]]); DynKlank.ar(s, Impulse.ar(2, 0) * 0.1, 1, 0, 1)
 
 // DynKlank
-{var s=`[[800,1071,1353,1723],nil,[1,1,1,1]]; DynKlank.ar(s,Dust.ar(8,0.1))}
+var s = Ref.new([[800, 1071, 1353, 1723], nil, [1, 1, 1, 1]]); DynKlank.ar(s, Dust.ar(8) * 0.1, 1, 0, 1)
 
 // DynKlank
-{var s=`[[800,1071,1353,1723],nil,[1,1,1,1]]; DynKlank.ar(s,PinkNoise.ar(0.007))}
+var s = Ref.new([[800, 1071, 1353, 1723], nil, [1, 1, 1, 1]]); DynKlank.ar(s, PinkNoise.ar() * 0.007, 1, 0, 1)
 
 // DynKlank
-{var s=`[[200,671,1153,1723],nil,[1,1,1,1]]; var a=[0.007,0.007]; DynKlank.ar(s,PinkNoise.ar(a))}
+var s = Ref.new([[200, 671, 1153, 1723], nil, [1, 1, 1, 1]]); DynKlank.ar(s, PinkNoise.ar() * [0.007, 0.007], 1, 0, 1)
 
 // Env.adsr
 {SinOsc.ar * EnvGen.kr(Env.adsr(0.75, 2.75, 0.1, 7.25, 1, -4, 0))}
@@ -59,46 +55,52 @@
 ;SinOsc.ar(e.kr,0) * 0.1}
 
 // FreqShift
-{var a = Blip.ar(60,4,LFGauss.ar(4,1/8))
-;var b = a / 4 + LocalIn.ar(2)
-;var c = FreqShift.ar(b,LFNoise0.kr(1/4,90))
-;LocalOut.ar(DelayC.ar(c,1,0.1,0.9))
-;c}
+var a = Blip.ar(60, 4) * LFGauss.ar(4, 1/8, 0, 1, 0);
+var b = a / 4 + LocalIn.ar(2, 0);
+var c = FreqShift.ar(b, LFNoise0.kr(1/4) * 90, 0);
+c.mrg(LocalOut.ar(DelayC.ar(c, 1, 0.1) * 0.9))
 
 // GrainSin
-{var overlap = MouseY.kr(minval: 0, maxval: 2, warp: 0, lag: 0.2)
-;var f = MouseX.kr(minval: 1, maxval: 220, warp: 0, lag: 0.2)
-;var t = Impulse.ar(freq: f, phase: 0)
-;var a = GrainSin.ar(numChannels: 2, trigger: t, dur: overlap/f, freq: 440, pan: 0, envbufnum: -1, maxGrains: 512)
-;LeakDC.ar(in: a, coef: 0.995) * 0.1}
+var overlap = MouseY.kr(0, 2, 0, 0.2);
+var f = MouseX.kr(1, 220, 0, 0.2);
+var t = Impulse.ar(f, 0);
+var a = GrainSin.ar(2, t, overlap / f, 440, 0, -1, 512);
+LeakDC.ar(a, 0.995) * 0.1
+
+// GrainSin ; keywords
+var overlap = MouseY.kr(minval: 0, maxval: 2, warp: 0, lag: 0.2);
+var f = MouseX.kr(minval: 1, maxval: 220, warp: 0, lag: 0.2);
+var t = Impulse.ar(freq: f, phase: 0);
+var a = GrainSin.ar(numChannels: 2, trigger: t, dur: overlap/f, freq: 440, pan: 0, envbufnum: -1, maxGrains: 512);
+LeakDC.ar(in: a, coef: 0.995) * 0.1
 
 // Klang
-{Klang.ar(`[[800,1000,1200],[0.3,0.3,0.3],[pi,pi,pi]],1,0)*0.4}
+Klang.ar(Ref.new([[800, 1000, 1200], [0.3, 0.3, 0.3], [pi, pi, pi]], 1, 0)) * 0.4
 
 // Klang
-{Klang.ar(`[[800,1000,1200],nil,nil],1,0)*0.25}
+Klang.ar(Ref.new([[800, 1000, 1200], nil, nil], 1, 0)) * 0.25
 
 // Klang
-{Klang.ar(`[Array.rand(12,600.0,1000.0),nil,nil],1,0)*0.05}
+Klang.ar(Ref.new([Array.rand(12, 600.0, 1000.0), nil, nil], 1, 0)) * 0.05
 
 // Line - NOTE: doneAction input is placed AFTER mul and add inputs
-{SinOsc.ar(Line.kr(200,17000,10,doneAction: 1),0) * 0.1}
+SinOsc.ar(Line.kr(200, 17000, 10, doneAction: 1), 0) * 0.1
 
 // LinExp
-{var mod = SinOsc.kr(Line.kr(1, 10, 10))
-;[SinOsc.ar(mod * 400 + 500),SinOsc.ar(LinExp.kr(mod, -1,1, 100, 900))] * 0.1}
+var mod = SinOsc.kr(Line.kr(1, 10, 10));
+[SinOsc.ar(mod * 400 + 500), SinOsc.ar(LinExp.kr(mod, -1, 1, 100, 900))] * 0.1
 
 // LinXFade2
-{LinXFade2.ar(FSinOsc.ar(800, 0, 0.2), PinkNoise.ar(0.2), FSinOsc.kr(1))}
+LinXFade2.ar(SinOsc.ar(800, 0) * 0.1, PinkNoise.ar() * 0.1, SinOsc.ar(1, 0))
 
 // Mce
-{SinOsc.ar([440,441],0) * 0.1}
+SinOsc.ar(#[440, 441], 0) * 0.1
 
 // Mce
-{SinOsc.ar([[440,441]],0) * 0.1}
+SinOsc.ar(#[[440, 441]], 0) * 0.1
 
 // MiBraids ; basic example
-{MiBraids.ar(60, 0.5, 0.5, 6, mul: 0.05)!2}
+MiBraids.ar(60, 0.5, 0.5, 6, mul: 0.05) ! 2
 
 // MiBraids ; some modulation
 {var mod = LFNoise1.kr(0.5,0.5,0.5); MiBraids.ar(40, mod, 0, 1, mul: 0.05) ! 2}
@@ -563,19 +565,19 @@ MiRipples.ar(Saw.ar(40), cf, 0.8, 4, 0.2)}
  MiVerb.ar(input, time, 0.9, damp, 0.1, mul: 0.5)}
 
 // Mix ; summing ; phase cancellation (silence)
-{Mix([SinOsc.ar([440,441],[0,pi]),SinOsc.ar([440,441],[pi,0])])}
+Mix.ar([SinOsc.ar(#[440, 441], #[0, pi]), SinOsc.ar(#[440, 441], #[pi, 0])])
 
 // Mix ; phase-shifting ; mouseX delay control
-{Mix(
- [SinOsc.ar([440,441],[0,pi]) * 0.1
- ,DelayN.ar(SinOsc.ar([440,441],[pi,0]),ControlDur.ir*2,MouseX.kr(0,ControlDur.ir*2)) * 0.1])}
+var p = SinOsc.ar(#[440, 441], #[0, pi]) * 0.1;
+var q = DelayN.ar(SinOsc.ar(#[440, 441], #[pi, 0]), ControlDur.ir() * 2, MouseX.kr(0, ControlDur.ir() * 2, 0, 0.2)) * 0.1;
+Mix.ar([p, q])
 
 // NamedControl ; non-argument notation controls
 {var freq = NamedControl.ir(name: "freq", values: 220.0)
 ;SinOsc.ar(freq: freq, phase: 0, mul: 0.10)}
 
 // Out ; summing ; non phase cancellation
-{[SinOsc.ar([440,441],[0,pi]) * 0.1,SinOsc.ar([440,441],[pi,0]) * 0.1]}
+[SinOsc.ar([440,441],[0,pi]) * 0.1, SinOsc.ar([440,441],[pi,0]) * 0.1]
 
 // PlayBuf
 arg buf = 0;
@@ -588,45 +590,55 @@ var r = BufRateScale.kr(b);
 PlayBuf.ar(1,b,r,1,0,1,0)
 
 // Rand (UGen)
-{SinOsc.ar(freq: Rand.ir(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)}
+SinOsc.ar(Rand.ir(220, 440), 0) * 0.1
 
-// Rand (UnaryOp)
-{var c = NamedControl.ir(name: "c", values: 220.0)
-;SinOsc.ar(freq: c.rand + c, phase: 0, mul: 0.10)}
+// Rand
+SinOsc.ar({ Rand.ir(220, 440) }.dup(7), 0).splay * 0.1
+
+// Rand (UGen) ; keywords
+SinOsc.ar(freq: Rand.ir(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)
+
+// Rand (UnaryOp) ; ?
+var c = NamedControl.ir(name: "c", values: 220.0);
+SinOsc.ar(freq: c.rand + c, phase: 0, mul: 0.10)
+
+// Rand2 (UnaryOp)
+var c = NamedControl.ir(name: "c", values: 220.0);
+SinOsc.ar(freq: c * 2 + c.rand2, phase: 0, mul: 0.10)
 
 // RandRange (BinaryOp)
-{var c = NamedControl.ir(name: "c", values: 220.0);
-SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)}
+var c = NamedControl.ir(name: "c", values: 220.0);
+SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)
 
 // SinOsc ; phase cancellation
-{Mix(SinOsc.ar(440,[0,pi]))}
+Mix.ar(SinOsc.ar(440, [0, pi]))
 
 // SinOscFB
-{SinOscFB.ar([400,301],MouseX.kr(0,4))*0.1}
+SinOscFB.ar([400, 301], MouseX.kr(0, 4, 0, 0.2)) * 0.1
 
 // SinOscFB
-{var y = MouseY.kr(10,1000,'exponential')
-;var x = MouseX.kr(0.5pi,pi)
-;SinOscFB.ar(y,x) * 0.1}
+var y = MouseY.kr(10, 1000, 1, 0.2);
+var x = MouseX.kr(0.5 * pi, pi, 1, 0.2);
+SinOscFB.ar(y, x) * 0.1
 
 // SinOscFB
-{var y = MouseY.kr(1,1000,'exponential')
-;var x = MouseX.kr(0.5pi,pi)
-;SinOscFB.ar(100 * SinOscFB.ar(y)+200,x) * 0.1}
+var y = MouseY.kr(1, 1000, 1, 0.2);
+var x = MouseX.kr(0.5 * pi, pi, 1, 0.2);
+SinOscFB.ar(100 * SinOscFB.ar(y, 0) + 200, x) * 0.1
 
 // SineShaper
-{SineShaper.ar(SinOsc.ar([400, 404], 0, 0.2), MouseX.kr(0, 1))}
+SineShaper.ar(SinOsc.ar([400, 404], 0) * 0.2, MouseX.kr(0, 1, 0, 0.2))
 
 // SineShaper
-{SineShaper.ar(SoundIn.ar, MouseX.kr(0, 1))}
+SineShaper.ar(SoundIn.ar, MouseX.kr(0, 1, 0, 0.2))
 
 // Summer
-{SinOsc.ar(Summer.kr(Impulse.kr(5), 1.5, 0, 0).poll * 100, 0, 0.1)}
+SinOsc.ar(Summer.kr(Impulse.kr(5, 0), 1.5, 0, 0).poll * 100, 0) * 0.1
 
 // Summer
-{var trig = Dust.kr(5)
-;var reset = Impulse.kr(0.5)
-;SinOsc.ar(Summer.kr(trig, [0.5, 0.25], reset, 1) * 100, 0, 0.1)}
+var trig = Dust.kr(5);
+var reset = Impulse.kr(0.5);
+SinOsc.ar(Summer.kr(trig, [0.5, 0.25], reset, 1) * 100, 0) * 0.1
 
 // TGrains ; demand ugens as inputs ; (Warning: empty sequence in Dseq - Server 'localhost' exited with exit code 0)
 arg buf = 0;
@@ -643,35 +655,38 @@ TGrains.ar(
     pan: Dseq([1, 1, 1, 0.5, 0.2, 0.1, 0, 0, 0], inf) * 2 - 1,
     amp: Dseq([1, 0, z.value, 0, 2, 1.0, 1, 0.1, 0.1], inf))
 
-// UGen.linlin (note Clip UGen)
-{SinOsc.ar(freq: Sweep.kr(trig: 0, rate: 1).linlin(inMin: 0, inMax: 1, outMin: 110, outMax: 220, clip: 'minmax'), phase: 0)}
+// UGen.linlin ; note Clip UGen
+SinOsc.ar(Sweep.kr(0, 1).linlin(0, 1, 110, 220, 'minmax'), 0)
 
-// VarLag
+// UGen.linlin (note Clip UGen) ; keyword
+SinOsc.ar(freq: Sweep.kr(trig: 0, rate: 1).linlin(inMin: 0, inMax: 1, outMin: 110, outMax: 220, clip: 'minmax'), phase: 0)
+
+// VarLag ; note EnvGen UGen
 {var sqr = LFPulse.kr(1, 0, 0.5).range(100, 400)
 ;var crv = VarLag.kr(sqr, 0.2, Line.kr(-8, 8, 15, doneAction: Done.freeSelf))
 ;SinOsc.ar(crv, 0) * 0.3}
 
-// Vibrato
-{SinOsc.ar(Vibrato.ar(DC.ar(400.0),1,0.02))*0.1}
+// Vibrato ; note audio rate input
+SinOsc.ar(Vibrato.ar(DC.ar(400), 1, 0.02, 0, 0, 0.04, 0.1, 0, 0), 0) * 0.1
 
 // Vibrato
-{SinOsc.ar(Vibrato.kr(400.0,1,0.02))}
+SinOsc.ar(Vibrato.kr(400, 1, 0.02, 0, 0, 0.04, 0.1, 0, 0), 0) * 0.1
 
 // Vibrato
-{x=MouseX.kr(2.0,100.0)
-;y=MouseY.kr(0.0,1.0)
-;v=Vibrato.ar(DC.ar(400.0),x,0.1,1.0,1.0,y,0.1)
-;SinOsc.ar(v)}
+x = MouseX.kr(2, 100, 0, 0.2);
+y = MouseY.kr(0, 1, 0, 0.2);
+v = Vibrato.ar(DC.ar(400), x, 0.1, 1, 1, y, 0.1, 0, 0);
+SinOsc.ar(v, 0) * 0.1
 
 // Vibrato
-{n=LFNoise1.kr(1,3,7)
-;x=MouseX.kr(0.0,1.0)
-;y=MouseY.kr(0.0,1.0)
-;v=Vibrato.ar(DC.ar(400.0),n,x,1.0,1.0,y,0.1)
-;SinOsc.ar(v)}
+var n = LFNoise1.kr(1) * 3 + 7;
+var x = MouseX.kr(0, 1, 0, 0.2);
+var y = MouseY.kr(0, 1, 0, 0.2);
+var v = Vibrato.ar(DC.ar(400), n, x, 1, 1, y, 0.1, 0, 0);
+SinOsc.ar(v, 0) * 0.1
 
 // XFade2
-{XFade2.ar(Saw.ar(440), SinOsc.ar(440, 0), LFTri.kr(0.1, 0), 0.1)}
+XFade2.ar(Saw.ar(440), SinOsc.ar(440, 0), LFTri.ar(0.1, 0), 0.1)
 
 // ---- ; drawings
 
