@@ -655,6 +655,18 @@ TGrains.ar(
     pan: Dseq([1, 1, 1, 0.5, 0.2, 0.1, 0, 0, 0], inf) * 2 - 1,
     amp: Dseq([1, 0, z.value, 0, 2, 1.0, 1, 0.1, 0.1], inf))
 
+// TwoPole
+TwoPole.ar(WhiteNoise.ar(), 2000, 0.95) * 0.005
+
+// TwoPole
+TwoPole.ar(WhiteNoise.ar(), XLine.kr(800, 8000, 8), 0.95) * 0.005
+
+// TwoPole
+TwoPole.ar(WhiteNoise.ar(), MouseX.kr(800, 8000, 1, 0.2), 0.95) * 0.005
+
+// TwoZero
+TwoZero.ar(WhiteNoise.ar(), XLine.kr(20, 20000, 8), 1) * 0.125
+
 // UGen.linlin ; note Clip UGen
 SinOsc.ar(Sweep.kr(0, 1).linlin(0, 1, 110, 220, 'minmax'), 0)
 
