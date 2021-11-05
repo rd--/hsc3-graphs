@@ -2,10 +2,12 @@
 var b = 2 * pi * #[4, 3, 1, 2, 5] / 5;
 var m = 2 ** SinOsc.ar(1 / 50, b) * 99;
 var c = m.round(50);
-var t = b / (2 * pi) + SinOsc.ar(b / 50, SinOsc.ar(SinOsc.ar(1 / 99, pi).max) ** (2 * pi)).max(0);
+var t = b / (2 * pi) + SinOsc.ar(b / 50, SinOsc.ar(SinOsc.ar(1 / 99, pi).max(0)) ** (2 * pi)).max(0);
+var f = SinOsc.ar(b / 9, b) / 3 + c;
 var h = CombC.ar(c / 50, 2, t, 5);
-var z = Blip.ar(SinOsc.ar(b / 9, b) / 3 + c, h, 50 / m * SinOsc.ar(b / 50, 0).max(0) + 0.5);
-var o = HPF.ar(Splay.ar(z, 1, 1, 0, true) * 1.5, 15).tanh;
+var a = 50 / m * SinOsc.ar(b / 50, 0).max(0) + 0.5;
+var z = Blip.ar(f, h) * a;
+var o = HPF.ar(z.splay * 1.5, 15).tanh;
 o + GVerb.ar(o.mean * Line.kr(0, 1, 1), 50, 3, 0.5, 0.5, 15, 1, 0.7, 0.5, 300) / 5
 
 //---- https://twitter.com/redFrik/status/1452318302768963589
