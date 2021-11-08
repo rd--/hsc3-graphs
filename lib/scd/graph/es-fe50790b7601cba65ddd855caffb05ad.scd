@@ -14,7 +14,7 @@ var detuneCurve = {
     (24.1878824391 * x.pow(2)) +
     (0.6717417634 * x) +
     0.0030115596};
-var evt = REvent.voicer(numVoices: 16, voiceFunc: {
+var evt = Voicer.ar(numVoices: 16, voiceFunc: {
     arg e;
     var freq = (e.x * 24 + 36).midicps;
     var mix = e.y;

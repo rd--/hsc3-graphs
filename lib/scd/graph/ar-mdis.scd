@@ -22,4 +22,4 @@
  ;var c2 = a * (lev * e1).pow(f2.linlin(inMin: 50, inMax: 1500, outMin: 1.1, outMax: 1.5))
  ;var c3 = b * (lev * e1).pow(f2.linlin(inMin: 50, inMax: 1500, outMin: 1.5, outMax: 2.5))
  ;LeakDC.ar(in: Mix.ar([c1,c2,c3]), coef: 0.995)}
-;Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc)) * 0.25}
+;Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc)) * 0.25}

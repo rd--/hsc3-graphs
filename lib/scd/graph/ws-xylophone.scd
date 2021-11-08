@@ -13,4 +13,4 @@ var voiceFunc = {
     var signal = Mix.ar(amp * SinOsc.ar(freq * harmonics, 0) * velocity / harmonics * envHarmonics);
     Pan2.ar(signal, e.o * 2 - 1, envVolume * amp * LagUD.kr(e.w, 0, 2))
 };
-Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc))
+Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))

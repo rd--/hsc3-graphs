@@ -7,5 +7,5 @@ var vc = {
     var mix = Mix.ar(carriers * modulators);
     var filterEnv = EnvGen.kr(Env.new(#[3600, 220, 3600], [e.y * 2, 16], \exp, 1, nil, 0), e.w, 1, 0, 1, 0);
     Mix.ar(Pan2.ar(LPF.ar(mix, filterEnv), e.o * 2 - 1, LagUD.kr(e.w * e.z, 0, 0.25)))};
-var pre = Mix.ar(REvent.voicer(16, vc));
+var pre = Mix.ar(Voicer.ar(16, vc));
 FreeVerb2.ar(pre.at(0), pre.at(1), 0.33, 0.5, 0.5)

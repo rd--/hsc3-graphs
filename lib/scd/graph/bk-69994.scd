@@ -9,4 +9,4 @@
  ;var freqSweep = EnvGen.ar(Env.new([freq1, freq1, freq2, freq3], [0, e.y, e.y * 2], [-1,-1,-1], 2), e.w)
  ;var sig = SinOsc.ar(0, Sweep.ar(e.w, freqSweep) % 1 * 2 * pi)
  ;Pan2.ar(sig * ampEnv, e.o * 2 - 1, 1)}
-;Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc))}
+;Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))}

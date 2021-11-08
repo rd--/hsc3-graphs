@@ -24,7 +24,7 @@ var voiceFunc = {
     var o = DynKlank.ar(specificationsArrayRef: Ref.new(a), input: sig, freqscale: 1, freqoffset: 0, decayscale: 1);
     Pan2.ar(o, e.o * 2 - 1, LagUD.kr(e.w * e.z, 0, 8) * 0.1 * numPartials.reciprocal)
 };
-Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc))
+Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
 
 //---- calculations
 60.iota.collect({ arg x; Scale.major(\just).degreeToRatio(x) }).asCompileString

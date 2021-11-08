@@ -1,6 +1,6 @@
 // https://scsynth.org/t/phaseshaping-osc-algorithms/3926/4 ; sp ; event control
 // https://core.ac.uk/download/pdf/297014559.pdf
-{var evt = REvent.voicer(numVoices: 16, voiceFunc:
+{var evt = Voicer.ar(numVoices: 16, voiceFunc:
  {arg e
  ;{var width = e.x.clip(0.05,0.95)
   ;var freq = e.y * 800 + 200
