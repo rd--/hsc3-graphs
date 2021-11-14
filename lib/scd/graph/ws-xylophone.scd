@@ -1,7 +1,7 @@
 // xylophone (wa) ; event control ; https://scsynth.org/t/4681/
 var voiceFunc = {
     arg e;
-	var freq = e.p.midicps;
+	var freq = e.p.unitCps;
     var amp = 1;
     var duration = e.y + 1 * 2 * 440 / freq;
     var scaleBy = 5;
