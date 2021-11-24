@@ -83,6 +83,19 @@ Klang.ar(Ref.new([[800, 1000, 1200], nil, nil], 1, 0)) * 0.25
 // Klang
 Klang.ar(Ref.new([Array.rand(12, 600.0, 1000.0), nil, nil], 1, 0)) * 0.05
 
+// LFPulse <https://scsynth.org/t/4877>
+var cluster = 10.collect({ 20.exprand(20 * 15 / 16) });
+var freq = 8.collect({ arg n; (30 / 16) ** n * cluster }).flat;
+Splay.ar(SinOsc.ar(freq * LFPulse.ar(0.5).range(1,0.5), 0)) * 0.02
+
+// LFSaw
+var f = {
+    arg i;
+    var o = LFSaw.ar(11.9 * (8.0625 / 4 ** i));
+    BLowPass4.ar(o * 0.01, 25 * (6.125 / 4 ** i) * 11)
+};
+Splay.ar(8.collect(f)) * 0.4
+
 // Line - NOTE: doneAction input is placed AFTER mul and add inputs
 SinOsc.ar(Line.kr(200, 17000, 10, doneAction: 1), 0) * 0.1
 
