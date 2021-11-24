@@ -592,6 +592,24 @@ var p = SinOsc.ar(#[440, 441], #[0, pi]) * 0.1;
 var q = DelayN.ar(SinOsc.ar(#[440, 441], #[pi, 0]), ControlDur.ir() * 2, MouseX.kr(0, ControlDur.ir() * 2, 0, 0.2)) * 0.1;
 Mix.ar([p, q])
 
+// MoogFF
+var voiceFunc = {
+    arg e;
+    var freq = e.x.unitCps;
+    var osc = Mix.fill(8, { Saw.ar(freq * TRand.kr(0.99, 1.01, e.w)) * 0.75 });
+    var filterEnv = EnvGen.ar(Env.adsr(0.02, 0.1, 0.05, 1, 1, -4, 0), e.w, 1, 0, 1, 0);
+    MoogFF.ar(osc, e.y * 750 + 250 * filterEnv, e.rx * 4, 0) * e.w.lagud(0.01, 4) * 2 };
+Splay.ar(Voicer.ar(16, voiceFunc))
+
+// MoogVCF
+var voiceFunc = {
+    arg e;
+    var freq = e.p.unitCps;
+    var osc = Mix.fill(8, { Saw.ar(freq * TExpRand.kr(0.99, 1.01, e.w)) });
+    var amp = e.z * 2 * e.w.lagud(0.02, 4);
+    MoogVCF.ar(osc, SinOsc.kr(e.y).exprange(freq * 2, freq * 4), e.rx) * amp };
+Splay.ar(Voicer.ar(16, voiceFunc))
+
 // NamedControl ; non-argument notation controls
 {var freq = NamedControl.ir(name: "freq", values: 220.0)
 ;SinOsc.ar(freq: freq, phase: 0, mul: 0.10)}
@@ -632,6 +650,9 @@ SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)
 
 // SinOsc ; phase cancellation
 Mix.ar(SinOsc.ar(440, [0, pi]))
+
+// SinOsc ; phase modulation
+SinOsc.ar(MouseY.kr(1, 880, 0, 0.2), SinOsc.kr(MouseX.kr(0, 10, 0, 0.2))) * 0.1
 
 // SinOscFB
 SinOscFB.ar([400, 301], MouseX.kr(0, 4, 0, 0.2)) * 0.1
