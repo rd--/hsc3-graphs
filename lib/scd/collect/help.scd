@@ -16,6 +16,15 @@ var o = SinOsc.ar(440, 0); Balance2.ar(o, o, MouseX.kr(-1, 1, 0, 0.2), 0.2)
 // BlockSize (default=64)
 SinOsc.ar([BlockSize.ir(), ControlDur.ir() * SampleRate.ir()] * MouseX.kr(2, 8, 0, 0.2), 0) * 0.05
 
+// Convolution
+var tr = Dust.ar(100);
+var vc = {
+    var freq = TRand.ar(2700, 2750, tr);
+    var amp = TRand.ar(0.1, 0.2, tr);
+    HPF.ar(amp * Convolution.ar(Saw.ar(freq), tr, 512), 10000);
+};
+vc.dup(5).splay
+
 // CrossoverDistortion
 CrossoverDistortion.ar(SinOsc.ar(#[400, 404], 0) * 0.2, MouseX.kr(0, 1, 0, 0.2), MouseY.kr(0, 1, 0, 0.2))
 
@@ -36,16 +45,28 @@ CrossoverDistortion.ar(SoundIn.ar(), MouseX.kr(0, 1, 0, 0.2), MouseY.kr.kr(0, 1,
 ;SinOsc.ar(freq: f, phase:  0) * 0.1}
 
 // DynKlank
-var s = Ref.new([[800, 1071, 1153, 1723], nil, [1, 1, 1, 1]]); DynKlank.ar(s, Impulse.ar(2, 0) * 0.1, 1, 0, 1)
+var s = Ref.new([[800, 1071, 1153, 1723], nil, [1, 1, 1, 1]]);
+DynKlank.ar(s, Impulse.ar(2, 0) * 0.1, 1, 0, 1)
 
 // DynKlank
-var s = Ref.new([[800, 1071, 1353, 1723], nil, [1, 1, 1, 1]]); DynKlank.ar(s, Dust.ar(8) * 0.1, 1, 0, 1)
+var s = Ref.new([[800, 1071, 1353, 1723], nil, [1, 1, 1, 1]]);
+DynKlank.ar(s, Dust.ar(8) * 0.1, 1, 0, 1)
 
 // DynKlank
-var s = Ref.new([[800, 1071, 1353, 1723], nil, [1, 1, 1, 1]]); DynKlank.ar(s, PinkNoise.ar() * 0.007, 1, 0, 1)
+var s = Ref.new([[800, 1071, 1353, 1723], nil, [1, 1, 1, 1]]);
+DynKlank.ar(s, PinkNoise.ar() * 0.007, 1, 0, 1)
 
 // DynKlank
-var s = Ref.new([[200, 671, 1153, 1723], nil, [1, 1, 1, 1]]); DynKlank.ar(s, PinkNoise.ar() * [0.007, 0.007], 1, 0, 1)
+var s = Ref.new([[200, 671, 1153, 1723], nil, [1, 1, 1, 1]]);
+DynKlank.ar(s, PinkNoise.ar() * [0.007, 0.007], 1, 0, 1)
+
+// DynKlank
+var tr = Dust.kr(25);
+var spec = Ref.new([(1..5) * 2700, TRand.kr(0.025, 0.04, tr.dup(5)), 0.1.dup(5)]);
+var k = DynKlank.ar(spec, Trig.ar(tr, SampleDur.ir), 1, 0, 1);
+var n = k + (BrownNoise.ar * 0.075 * Trig.kr(tr, TRand.kr(0.01, 0.03, tr)));
+var f = LPF.ar(HPF.ar(n, TRand.kr(6000, 7500, tr).lag(0.01)), TRand.kr(4000, 5500, tr).lag(0.01));
+Pan2.ar(f, TRand.kr(-0.5, 0.5, tr).lag(0.01), 1)
 
 // Env.adsr
 {SinOsc.ar * EnvGen.kr(Env.adsr(0.75, 2.75, 0.1, 7.25, 1, -4, 0))}
@@ -112,6 +133,12 @@ Mix.ar(Voicer.ar(16, {
     var f0 = e.p.unitCps;
     Pan2.ar(LPF.ar(Blip.ar(f0, 1 + e.y * 5), f0 * 0.25), e.o * 2 - 1, LagUD.kr(e.w, 0.05, 1) * e.z * 4)
 }))
+
+// MulAdd ; optimised away
+MulAdd(SinOsc.ar(440, 0) * 0.1, 1, 0)
+
+// MulAdd ; optimised away ; single Mul operator
+MulAdd(SinOsc.ar(440, 0), 0.1, 0)
 
 // Mce
 SinOsc.ar(#[440, 441], 0) * 0.1

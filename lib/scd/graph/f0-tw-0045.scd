@@ -1,6 +1,5 @@
 // tw 0045 (f0) - http://www.fredrikolofsson.com/f0blog/?q=node/537
-{var a = SinOsc
-;var f = a.ar(a.ar(0.11,0,1,0),0,1,0)
-;var p_f = a.ar(95*a.ar(0.01,0,1,1),0,a.ar(0.005,0,50,0),100)
-;var p = a.ar(p_f,a.ar([98,97],0,1,0),pi+a.ar(0.0005,0,1,0),0)
-;a.ar(f,p,1,0).tanh * 0.1}
+var f = SinOsc.ar(SinOsc.ar(0.11, 0), 0);
+var pf = SinOsc.ar(95 * (SinOsc.ar(0.01, 0) +  1), 0) * (SinOsc.ar(0.005, 0) * 50) + 100;
+var p = SinOsc.ar(pf, SinOsc.ar(#[98, 97], 0)) * (pi + SinOsc.ar(0.0005, 0));
+SinOsc.ar(f, p).tanh * 0.1
