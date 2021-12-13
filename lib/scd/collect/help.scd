@@ -68,8 +68,13 @@ var n = k + (BrownNoise.ar * 0.075 * Trig.kr(tr, TRand.kr(0.01, 0.03, tr)));
 var f = LPF.ar(HPF.ar(n, TRand.kr(6000, 7500, tr).lag(0.01)), TRand.kr(4000, 5500, tr).lag(0.01));
 Pan2.ar(f, TRand.kr(-0.5, 0.5, tr).lag(0.01), 1)
 
+// Env ; as triangle wave oscillator
+var f = MouseX.kr(110, #[220, 330], 0, 0.2);
+var e = Env.new([0, 0, 1, 0, -1],  [0.25, 0.25, 0.25, 0.25], 'lin', nil, 0, 0);
+EnvGen.ar(e, Impulse.ar(f, 0), 0.1, 0, 1 / f, 0)
+
 // Env.adsr
-{SinOsc.ar * EnvGen.kr(Env.adsr(0.75, 2.75, 0.1, 7.25, 1, -4, 0))}
+SinOsc.ar(440, 0) * EnvGen.kr(Env.adsr(0.75, 1.75, 0.35, 3.25, 1, -4, 0), MouseButton.kr(0, 1, 0.2), 0.1, 0, 1, 0)
 
 // Env.circle
 {var e = Env([6000,700,100],[1,1],['exp','lin']).circle(1,\lin)
