@@ -1,27 +1,30 @@
 // lucier (cr) - http://www.listarc.bham.ac.uk/lists/sc-users/msg47539.html
-{var blocksize = ControlRate.ir.reciprocal
-;var mk_dt = {arg f; f.reciprocal - blocksize}
-;var string_dt = mk_dt.value(60)
-;var c = 425
-;var len = 40
-;var pk1_p = 0.1
-;var src_p = 0.3
-;var pk2_p = 0.9
-;var max_dt = 1
-;var mk_dl = {arg i, r; LPZ1.ar(DelayC.ar(i, max_dt, r * string_dt))}
-;var mk_ap = {arg i, r, dt; LPZ1.ar(AllpassC.ar(i, max_dt, r * string_dt, dt))}
-;var drv = LocalIn.ar(1)
-;var r = {Rand.ir(0.001, 0.11)}
-;var pk1_R = mk_dl.value(drv, src_p - pk1_p, 2 + r.value)
-;var pk1_L = mk_ap.value(pk1_R * -1, pk1_p * 2, r.value)
-;var pk2_L = mk_dl.value(pk1_L, pk2_p - pk1_p, r.value) * 0.99
-;var strL = mk_dl.value(pk2_L, 1 - pk2_p, r.value)
-;var pk2_R = mk_ap.value(strL * -1, 1 - pk2_p, 2 + r.value) * 0.99
-;var strR = mk_dl.value(pk2_R, pk2_p - src_p, 2 + r.value)
-;var src = {var a = Amplitude.kr(drv, mul: 11)
-           ;var p = Pulse.ar(60 + a, mul: 0.1)
-           ;RLPF.ar((SinOsc.ar(220, 0) * 0.01) + p, 320, 0.05)}.value
-;var src_n = {var a = Amplitude.kr(drv).min(1.0)
-             ;Normalizer.ar(src, 0.7) * (1.0 - a)},valu
-;LocalOut.ar(src * 0.2 + strR)
-;[pk1_L + pk1_R, pk2_L + pk2_R, drv, src]}
+var freq = Rand.ir(56, 64);
+var blocksize = 1 / ControlRate.ir;
+var mk_dt = { arg f; 1 / f - blocksize };
+var string_delay = mk_dt.value(freq);
+var pk1_pos = 0.1;
+var src_pos = 0.3;
+var pk2_pos = 0.9;
+var max_delay = 1;
+var mk_delay = { arg i, r; LPZ1.ar(DelayC.ar(i, max_delay, r * string_delay)) };
+var mk_allpass = { arg i, r, dt; LPZ1.ar(AllpassC.ar(i, max_delay, r * string_delay, dt)) };
+var drv = LocalIn.ar(1, 0);
+var pk1_R = mk_delay.value(drv, src_pos - pk1_pos);
+var pk1_L = mk_allpass.value(pk1_R * -1, pk1_pos * 2, Rand.ir(0.001, 0.11));
+var pk2_L = mk_delay.value(pk1_L, pk2_pos - pk1_pos) * 0.99;
+var stringL = mk_delay.value(pk2_L, 1 - pk2_pos, r.value);
+var pk2_R = mk_allpass.value(stringL * -1, 1 - pk2_pos, 2 + Rand.ir(0.001, 0.11)) * 0.99;
+var stringR = mk_delay.value(pk2_R, pk2_pos - src_pos);
+var source = {
+    var s = SinOsc.ar(220, 0) * 0.01;
+    var a = Amplitude.kr(drv, 0.01, 0.01) * 11;
+        var p = Pulse.ar(60 + a, 0.5) * 0.1;
+        var f = RLPF.ar(s + p, 320, 0.05);
+        var e = 1 - Amplitude.kr(drv, 0.01, 0.01).min(1.0);
+        Normalizer.ar(f, 0.7, 0.01) * e
+}.value;
+var l_out = LocalOut.ar(source * 0.2 + stringR);
+var outL = pk1_L + pk1_R;
+var outR = pk2_L + pk2_R;
+[outL, outR].mrg(l_out).mrg(drv)

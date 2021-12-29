@@ -22,8 +22,10 @@ also:
 - mk: Mads Kjeldgaard
 - nc: Nick Collins
 - nv: Nathaniel Virgo
+- pj: Paul Jones
 - rb: Ryan Brown
 - sp: Sam Pluta
 - tb: Till Bovermann
 - tm: Thor Magnusson
+- tw: Tim Walters
 - wmd: William Mox Drossard
