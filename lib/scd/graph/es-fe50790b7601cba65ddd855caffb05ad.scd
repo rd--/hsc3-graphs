@@ -1,4 +1,4 @@
-// https://gist.github.com/audionerd/fe50790b7601cba65ddd855caffb05ad
+// https://gist.github.com/audionerd/fe50790b7601cba65ddd855caffb05ad (Eric Skogen)
 var detune = 0.75;
 var detuneCurve = {
     arg x;

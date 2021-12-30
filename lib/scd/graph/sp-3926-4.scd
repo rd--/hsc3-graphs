@@ -21,7 +21,7 @@
 ;Select.ar(trig, [b,a]).dup*0.2}
 
 // https://scsynth.org/t/phaseshaping-osc-algorithms/3926/7 ; sp ; mouse control
-{arg buf = 10
+{var buf = 10
 ;var width = MouseX.kr().clip(0.1,0.9)
 ;var freq = MouseY.kr(200, 1000)
 ;var sawLin = LFSaw.ar(freq/2, 1).linlin(-1,1, width.neg, 1-width)

@@ -1,9 +1,9 @@
 // sidereal time (jmcc) #9
-var z = RTexture.overlapGraph({
+var z = OverlapTexture({
     arg tr;
     var p = 15;
     var z = { [{ TExpRand.kr(100, 6000, tr) }.dup(p), nil, { TRand.kr(2, 6, tr) }.dup(p)].asRef }.dup(2);
-    var f = RTXLine.kr(TExpRand.kr(40, 300, tr), TExpRand.kr(40, 300, tr), 12, tr);
+    var f = TXLine.kr(TExpRand.kr(40, 300, tr), TExpRand.kr(40, 300, tr), 12, tr);
     var t = LFPulse.ar(f, TRand.kr(0.1, 0.9, tr), 0) * 0.002 * LFNoise2.kr(TRand.kr(0, 8, tr)).max(0);
     DynKlank.ar(z, t).distort * 0.1
 }, 4, 4, 6);
