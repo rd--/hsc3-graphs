@@ -2,7 +2,7 @@
 var z = RTexture.overlapGraph({
     arg tr;
     var f = TRand.kr(24, 96, tr).midicps;
-    var r = RTXLine.kr(TExpRand.kr(0.1, 20, tr), TExpRand.kr(0.1, 20, tr), 25.6, tr);
+    var r = TXLine.kr(TExpRand.kr(0.1, 20, tr), TExpRand.kr(0.1, 20, tr), 25.6, tr);
     var n = 12;
     var p = LFPulse.kr(TExpRand.kr(0.2, 1.2, tr), TRand.kr(0.1, 0.2, tr), 0.5);
     Mix.arFill(n, {
