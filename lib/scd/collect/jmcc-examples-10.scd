@@ -59,6 +59,7 @@ RTexture.overlap({arg i;
 	            	t), 0.004, d)
 	      )
 }, 12, 3, 6, 2);
+
 RTexture.overlap({
 		Pan2.ar(
 	            Klank.ar(
