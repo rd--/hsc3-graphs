@@ -15,6 +15,14 @@ fork{
  }
 }
 
+{
+    {
+        var h = ([33, 38, 40].choose.midicps) * (2 ** 0.to(5).choose);
+        { { SinOsc.ar(ExpRand.ir(h - (h / 256), h + (h / 256)), 0) * 0.05 }.dup(64).splay * LFGauss.ar(19, 1 / 4, 0, 0, 2) }.play;
+        4.wait
+    }.loop;
+}.fork
+
 fork{
  loop{
   h=([33,38,40].choose.midicps)*(2**((0 .. 4).choose));
