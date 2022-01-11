@@ -25,7 +25,7 @@
 
 // tarmac
 RTexture.overlap({arg i;
-        var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf)) * tr};
+        var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq.dr(s,inf)) * tr};
 		var t, d;
 		t = Impulse.kr(8);
 		d = rrand(0.05, 0.5);
@@ -33,7 +33,7 @@ RTexture.overlap({arg i;
 	            RLPF.ar(
 		            	Klank.ar(
 		                `[
-		                    Array.linrand(4, 50.0, 2000.0),
+		                    Array.linrand(4, 50.0, 4000.0),
 		                    nil,
 		                    Array.rand(4, 0.2, 12.0)
 		                ],
