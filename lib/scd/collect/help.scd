@@ -728,6 +728,11 @@ TGrains.ar(
     pan: Dseq([1, 1, 1, 0.5, 0.2, 0.1, 0, 0, 0], inf) * 2 - 1,
     amp: Dseq([1, 0, z.value, 0, 2, 1.0, 1, 0.1, 0.1], inf))
 
+// TRand
+var t = Impulse.ar(7, 0) * SinOsc.ar(331, 0);
+var e = Decay2.ar(t, { TRand.ar(0.01, 0.05, t) }.dup, { TRand.ar(0.05, 0.15, t) }.dup);
+RLPF.ar(LFSaw.ar(TRand.ar(321, 333, t), 0), (LFNoise1.ar(2) * 4 + 100).midicps, 1) * e
+
 // TwoPole
 TwoPole.ar(WhiteNoise.ar(), 2000, 0.95) * 0.005
 
