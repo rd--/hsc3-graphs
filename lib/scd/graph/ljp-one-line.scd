@@ -1,5 +1,4 @@
 // one line (lp)
-{var lfs = LFSaw.ar(#[1, 0.99], #[0, 0.6]) * 2000 + 2000
-;var lfs_t = lfs.trunc(#[400, 600]) * #[1, -1]
-;var f = OnePole.ar(Mix(lfs_t), 0.98)
-;Pan2.ar(SinOsc.ar(f, 0), 0, 0.1)}
+var lfs = LFSaw.ar(#[1, 0.99], #[0, 0.6]);
+var sft = (lfs * 2000 + 2000).trunc(#[400, 600]) * #[1, -1];
+Pan2.ar(SinOsc.ar(OnePole.ar(sft.sum, 0.98), 0), 0, 0.05)

@@ -16,6 +16,13 @@ var o = SinOsc.ar(440, 0); Balance2.ar(o, o, MouseX.kr(-1, 1, 0, 0.2), 0.2)
 // BlockSize (default=64)
 SinOsc.ar([BlockSize.ir(), ControlDur.ir() * SampleRate.ir()] * MouseX.kr(2, 8, 0, 0.2), 0) * 0.05
 
+// Clip ; https://scsynth.org/t/5208/2 (sp)
+var freq = 10;
+var osc = SinOsc.ar(freq, 0);
+var interp = (MouseX.kr(1, 0, 0, 0.2) ** 8) * 50 + 1;
+var sig = Clip.ar(osc * interp, -1, 1) * 0.5 + 0.5;
+SinOsc.ar(200 + (sig * 1000), 0) * 0.1
+
 // Convolution
 var tr = Dust.ar(100);
 var vc = {
@@ -131,6 +138,12 @@ var mod = SinOsc.kr(Line.kr(1, 10, 10));
 
 // LinXFade2
 LinXFade2.ar(SinOsc.ar(800, 0) * 0.1, PinkNoise.ar() * 0.1, SinOsc.ar(1, 0))
+
+// LPF ; https://scsynth.org/t/5208/7 ; at very low frequencies LPF acts strangely
+var impulseFreq = 3;
+var lfo = LFPulse.ar(impulseFreq, 0, 0.5);
+var freq = LinExp.kr(MouseX.kr(0, 1, 0, 0.2), 0, 1, impulseFreq, 20000);
+SinOsc.ar(200 + (LPF.ar(lfo, freq) * 200), 0) * 0.1
 
 // LPF ; event control
 Mix.ar(Voicer.ar(16, {
@@ -704,6 +717,18 @@ SineShaper.ar(SinOsc.ar([400, 404], 0) * 0.2, MouseX.kr(0, 1, 0, 0.2))
 
 // SineShaper
 SineShaper.ar(SoundIn.ar, MouseX.kr(0, 1, 0, 0.2))
+
+// Slew
+var x = MouseX.kr(200, 12000, 1, 0.2);
+var y = MouseY.kr(200, 12000, 1, 0.2);
+[Slew.ar (0 - Saw.ar(440), x, y) * 0.05, Slew.ar(LFPulse.ar(800, 0, 0.5), x, y) * 0.1]
+
+// Slew ; square to triangle ; triangle to sin-like ; https://scsynth.org/t/5208/2 (sp)
+var freq = 440;
+var square = LFPulse.ar(freq, 0, 0.5) * 2 - 1;
+var tri = Slew.ar(square, freq * 4, freq * 4);
+var sin = LinLin.ar(tri > 0, 0, 1, -1, 1) * (tri.abs ** (1 / 4));
+XFade2.ar(tri, sin, MouseX.kr(-1, 1, 0, 0.2), 0.05)
 
 // Summer
 SinOsc.ar(Summer.kr(Impulse.kr(5, 0), 1.5, 0, 0).poll * 100, 0) * 0.1
