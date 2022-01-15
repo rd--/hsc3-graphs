@@ -9,3 +9,6 @@ var f = {
     }).product
 };
 0.to(15).collect(f).sum
+
+//---- notes.md
+Note this depends on (0 ** 0) being 1.
