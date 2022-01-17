@@ -136,6 +136,11 @@ SinOsc.ar(Line.kr(200, 17000, 10, doneAction: 1), 0) * 0.1
 var mod = SinOsc.kr(Line.kr(1, 10, 10));
 [SinOsc.ar(mod * 400 + 500), SinOsc.ar(LinExp.kr(mod, -1, 1, 100, 900))] * 0.1
 
+// LinSelectX
+var f = MouseY.kr(220, 440, 1, 0.2);
+var s = [LFTri.ar(f, 0), SinOsc.ar(f, 0), LFPulse.ar(f, 0, 0.5) * 2 - 1];
+LinSelectX.ar(MouseX.kr(0, 1, 0, 0.2) * (s.size - 1), s) * 0.1
+
 // LinXFade2
 LinXFade2.ar(SinOsc.ar(800, 0) * 0.1, PinkNoise.ar() * 0.1, SinOsc.ar(1, 0))
 
