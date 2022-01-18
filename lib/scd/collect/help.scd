@@ -75,17 +75,43 @@ var n = k + (BrownNoise.ar * 0.075 * Trig.kr(tr, TRand.kr(0.01, 0.03, tr)));
 var f = LPF.ar(HPF.ar(n, TRand.kr(6000, 7500, tr).lag(0.01)), TRand.kr(4000, 5500, tr).lag(0.01));
 Pan2.ar(f, TRand.kr(-0.5, 0.5, tr).lag(0.01), 1)
 
-// Env ; as triangle wave oscillator
+// EnvGen ; as triangle wave oscillator
 var f = MouseX.kr(110, #[220, 330], 0, 0.2);
 var e = Env.new([0, 0, 1, 0, -1],  [0.25, 0.25, 0.25, 0.25], 'lin', nil, 0, 0);
 EnvGen.ar(e, Impulse.ar(f, 0), 0.1, 0, 1 / f, 0)
 
-// Env.adsr
+// Env.adsr ; mouse as gate input
 SinOsc.ar(440, 0) * EnvGen.kr(Env.adsr(0.75, 1.75, 0.35, 3.25, 1, -4, 0), MouseButton.kr(0, 1, 0.2), 0.1, 0, 1, 0)
 
+// Env.adsr ; kr
+var tr = Impulse.kr(#[1, 0.75], 0);
+var gt = Trig.kr(tr, TRand.kr(0.1, 0.2, tr));
+var o = Blip.ar(TRand.kr(48, #[60, 72], tr).midicps, TRand.kr(1, 7, tr));
+var a = EnvGen.kr(Env.adsr(TRand.kr(0.01, 0.2, tr), TRand.kr(0.3, 0.6, tr), TRand.kr(0.4, 0.6, tr), TRand.kr(0.5, 2, tr), -4), gt, 1, 0, 1, 0);
+o * a * 0.1
+
+// Env.adsr ; ar
+var tr = Impulse.ar(1, 0);
+var gt = Trig.ar(tr, TRand.ar(0.1, 0.2, tr));
+var o = Blip.ar(TRand.ar(48, #[60, 72], tr).midicps, TRand.ar(1, 7, tr));
+var a = EnvGen.ar(Env.adsr(TRand.ar(0.01, 0.2, tr), TRand.ar(0.3, 0.6, tr), TRand.ar(0.4, 0.6, tr), TRand.ar(0.5, 2, tr), -4), gt, 1, 0, 1, 0);
+o * a * 0.1
+
 // Env.circle
-{var e = Env([6000,700,100],[1,1],['exp','lin']).circle(1,\lin)
-;SinOsc.ar(e.kr,0) * 0.1}
+var e = Env.new([6000, 700, 100], [1, 1], ['exp', 'lin'], nil, nil, 0).circle(1,\lin);
+SinOsc.ar(e.kr(0, 1, 1, 1, 0), 0) * 0.1
+
+// Env.perc ; kr
+var tr = Impulse.kr(1, 0);
+var o = Blip.ar(TRand.kr(48, #[60, 72], tr).midicps, TRand.kr(1, 7, tr));
+var a = EnvGen.kr(Env.perc(TRand.kr(0.01, 0.2, tr), TRand.kr(0.2, 2, tr), 1, -4), tr, 1, 0, 1, 0);
+o * a * 0.1
+
+// Env.perc ; ar
+var tr = Impulse.ar(1, 0);
+var o = Blip.ar(TRand.ar(48, #[60, 72], tr).midicps, TRand.ar(1, 7, tr));
+var a = EnvGen.ar(Env.perc(TRand.ar(0.01, 0.2, tr), TRand.ar(0.2, 2, tr), 1, -4), tr, 1, 0, 1, 0);
+o * a * 0.1
 
 // FreqShift
 var a = Blip.ar(60, 4) * LFGauss.ar(4, 1/8, 0, 1, 0);
