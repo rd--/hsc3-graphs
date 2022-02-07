@@ -21,6 +21,7 @@ import qualified Sound.SC3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
 import qualified Sound.SC3.UGen.Dot as Dot {- hsc3-dot -}
 
 import qualified Sound.SC3.Lisp.Haskell as Lisp {- hsc3-lisp -}
+import qualified Sound.SC3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
 import qualified Language.Smalltalk.SuperCollider.Translate as St {- stsc3 -}
 
@@ -193,7 +194,7 @@ scm_graph_fragment_rw out_dir (z,txt) =
   ,printf "(synthdefWrite (synthdef \"%s\" (Out (ctl ir \"out\" 0)" z
   ,printf " %s)) \"%s\")" txt (out_dir </> z <.> ".scsyndef")]
 
-scm_graph_fragment_process :: Lisp.Name_Table -> String -> FilePath -> [FilePath] -> IO ()
+scm_graph_fragment_process :: Lisp.NameTable -> String -> FilePath -> [FilePath] -> IO ()
 scm_graph_fragment_process sch_tbl ext out_dir fn_seq = do
   tmp <- getTemporaryDirectory
   pre_txt_seq <- Help.read_file_set_fragments fn_seq
@@ -208,7 +209,7 @@ scm_graph_fragment_process sch_tbl ext out_dir fn_seq = do
   _ <- rawSystem "ikarus" [rw_fn]
   return ()
 
-scm_graph_fragment_process_dir :: Lisp.Name_Table -> String -> FilePath -> FilePath -> IO ()
+scm_graph_fragment_process_dir :: Lisp.NameTable -> String -> FilePath -> FilePath -> IO ()
 scm_graph_fragment_process_dir sch_tbl ext out_dir in_dir = do
   fn <- T.dir_subset [ext] in_dir
   scm_graph_fragment_process sch_tbl ext out_dir fn
@@ -310,7 +311,7 @@ scala_graph_fragment_process_dir out_dir in_dir = do
 
 -- * Polyglot
 
-graph_fragments_process_dir :: Lisp.Name_Table -> String -> FilePath -> FilePath -> IO ()
+graph_fragments_process_dir :: Lisp.NameTable -> String -> FilePath -> FilePath -> IO ()
 graph_fragments_process_dir sch_tbl ext =
   case ext of
     ".fs" -> fs_graph_fragment_process_dir

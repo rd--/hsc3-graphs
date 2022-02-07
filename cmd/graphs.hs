@@ -1,6 +1,6 @@
 import System.Environment {- base -}
 
-import qualified Sound.SC3.Lisp.Haskell as Lisp {- hsc3-lisp -}
+import qualified Sound.SC3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
 import Sound.SC3.Graphs.Polyglot {- hsc3-graphs -}
 
@@ -13,7 +13,7 @@ graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 
 graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
-  sch_tbl <- Lisp.name_tbl_load "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
+  sch_tbl <- Lisp.nameTableLoad "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
   _ <- hs_graph_fragments_process_dir "std" graphs_db_dir "/home/rohan/sw/hsc3/Help/Graph/"
   _ <- hs_graph_fragments_process_dir "std" graphs_db_dir "/home/rohan/sw/hsc3/Help/UGen/"
   scd_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
@@ -46,7 +46,7 @@ help =
 main :: IO ()
 main = do
   a <- getArgs
-  sch_tbl <- Lisp.name_tbl_load "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
+  sch_tbl <- Lisp.nameTableLoad "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
   case a of
     ["db","polyglot","autogen"] -> graphs_db_polyglot_autogen
     ["db","process",ext,out_dir,in_dir] -> graph_fragments_process_dir sch_tbl ext out_dir in_dir
