@@ -1,0 +1,5 @@
+- Don't show hash in viewer
+- Add filename map to db, including n/k indicating that the graph is the nth of k graphs in the file.
+- Json or Csv, (key, filename, n, k) fields
+- For files where the graphs is 1/1 just use the filename in showing the graph.
+- Implement jssc3 browser for db

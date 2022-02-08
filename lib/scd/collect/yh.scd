@@ -1,5 +1,4 @@
-// https://github.com/pangrus/hachi/blob/master/lib/engine_hachi.sc ; yh (yoshinosuke horiuchi)
-
+//---- https://github.com/pangrus/hachi/blob/master/lib/engine_hachi.sc ; yh (yoshinosuke horiuchi)
 SynthDef.new(\bd, {
 	arg decay=30, amp=2, gate=0, tone=56;
 	var fenv, env, trienv, sig, sub, punch, pfenv;
@@ -143,8 +142,6 @@ SynthDef.new(\claves, {
 	Out.ar(0, sig);
 }).add;
 
-
-
 SynthDef.new(\maracas, {
 	arg amp=1, gate=0;
 	var env, sig;
@@ -171,7 +168,6 @@ SynthDef.new(\cowbell, {
 	Out.ar(0, sig);
 }).add;
 
-
 SynthDef.new(\hat, {
 	arg decay=0.42, amp=1, pan=0;
 	var sig, sighi,siglow, sum, env, osc1, osc2, osc3, osc4, osc5, osc6;
@@ -193,7 +189,6 @@ SynthDef.new(\hat, {
     sig = Pan2.ar(sig, pan);
     Out.ar(0, sig);
 }).add;
-
 
 SynthDef.new(\openhihat, {
 	arg decay=0.5, amp=4, pan=0;
