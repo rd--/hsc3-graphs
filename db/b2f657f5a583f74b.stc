@@ -1,0 +1,5 @@
+// analog bubbles (jmcc) ; the .stc initializer definition form does not require var syntax qualifiers
+o = LFSaw([8, 7.23], 0) * 3 + 80;
+m = LFSaw(0.4, 0) * 24 + o;
+s = SinOsc(m.midiCps, 0) * 0.04;
+CombN(s, 0.2, 0.2, 4) * 0.1

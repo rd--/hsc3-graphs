@@ -21,7 +21,7 @@ OverlapTexture({
     Pan2.ar(f, LFNoise1.kr(TRand.kr(0, 1, tr)), e)
 }, 12, 3, 1) * 0.2;
 
-// tarmac ; jmcc #10
+//---- tarmac ; jmcc #10
 var a = #[
     [1, 0, 0],
     [1, 1, 0],

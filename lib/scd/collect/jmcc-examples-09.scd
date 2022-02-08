@@ -42,7 +42,7 @@ var z = RTexture.overlapGraph({
         root = 81 + TRand.kr(-6,6,tr);
         major = [0, 2, 4, 5, 7, 9, 11].as(LocalBuf);
 		offset = TRand.kr(-16,16,tr);
-		sequence = (DegreeToKey.kr(major,RTScramble.kr(tr,[0, 1, 2, 3] + offset)) + root).midicps;
+		sequence = (DegreeToKey.kr(major,TScramble.kr(tr,[0, 1, 2, 3] + offset)) + root).midicps;
 		trig = Impulse.kr(LinExp.kr(Sweep.kr(tr,1/12),0,1,TExpRand.kr(4.0, 24.0, tr), TExpRand.kr(4.0, 24.0, tr)));
 		f = sequ.value(sequence, trig);
 		Pan2.ar(

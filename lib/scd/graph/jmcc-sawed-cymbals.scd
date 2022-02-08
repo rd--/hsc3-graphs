@@ -8,7 +8,7 @@ OverlapTexture({
     { RingzBank.ar(s, { f1 + TRand.kr(0, f2, tr)}.dup(p), nil, { TRand.kr(2, 6, tr) }.dup(p)) }.dup * 0.1;
 }, 4, 4, 6, 2)
 
-// sawed cymbals (jmcc) ; #10
+//---- sawed cymbals (jmcc) ; #10
 var p = 15;
 RTexture.overlap({
     var f1 = Rand.ir(500, 2500);

@@ -834,7 +834,7 @@ SinOsc.ar(v, 0) * 0.1
 // XFade2
 XFade2.ar(Saw.ar(440), SinOsc.ar(440, 0), LFTri.ar(0.1, 0), 0.1)
 
-// ---- ; drawings
+//---- ; drawings
 
 // MiTides ; mode=FREQUENCIES
 {MiTides.ar(10, 0.2, 0.7, output_mode: 3)}.plot(1)

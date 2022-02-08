@@ -1,5 +1,0 @@
-; analog bubbles (jmcc)
-(let* ((o (muladd (lfsaw (mce2 8 7.23) 0) 3 80))
-       (f (muladd (lfsaw 0.4 0) 24 o))
-       (s (mul (sinosc (kr: (midicps f)) 0) 0.05)))
-  (combn s 0.2 0.2 4))

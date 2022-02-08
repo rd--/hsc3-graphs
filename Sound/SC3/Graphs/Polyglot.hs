@@ -9,6 +9,8 @@ import System.FilePath {- filepath -}
 import System.Process {- process -}
 import Text.Printf {- base -}
 
+import qualified Data.List.Split as Split {- split -}
+
 import qualified Data.Digest.Murmur64 as Murmur64 {- murmur-hash -}
 
 import qualified Music.Theory.Directory as T {- hmt-base -}
@@ -159,15 +161,14 @@ hs_graph_fragments_process_dump_ugens typ fn =
 
 scd_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 scd_graph_fragment_rw out_dir (z,txt) =
-  let grw = lines txt
+  let grw = "{" : lines txt ++ ["}"]
       sfx = [printf ".asSynthDef(name:\"%s\").writeDefFile(dir:\"%s\");" z out_dir
             ,printf "\"%s %s\".postln;" z (text_prefix 48 txt)]
   in concat [grw,sfx]
 
-scd_graph_fragment_process :: FilePath -> [FilePath] -> IO ()
-scd_graph_fragment_process out_dir fn_seq = do
+scd_graph_fragment_process_seq :: FilePath -> [String] -> IO ()
+scd_graph_fragment_process_seq out_dir txt_seq = do
   tmp <- getTemporaryDirectory
-  txt_seq <- Help.read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map (scd_graph_fragment_rw out_dir) (zip z_seq txt_seq)
       cpy (z,txt) = writeFile (out_dir </> z <.> "scd") txt
@@ -176,6 +177,12 @@ scd_graph_fragment_process out_dir fn_seq = do
   writeFile rw_fn (unlines (concat rw_seq ++ ["0.exit"]))
   _ <- rawSystem "sclang" [rw_fn]
   return ()
+
+-- | sclang won't process more than 255 statements in one file.
+scd_graph_fragment_process :: FilePath -> [FilePath] -> IO ()
+scd_graph_fragment_process out_dir fn_seq = do
+  txt_seq <- Help.read_file_set_fragments fn_seq
+  mapM_ (scd_graph_fragment_process_seq out_dir) (Split.chunksOf 250 txt_seq)
 
 scd_graph_fragment_process_dir :: FilePath -> FilePath -> IO ()
 scd_graph_fragment_process_dir out_dir in_dir = do
@@ -263,7 +270,8 @@ st_graph_fragment_process ext out_dir fn_seq = do
       rw_text = unlines (concat rw_seq)
   mapM_ cpy (zip z_seq pre_txt_seq)
   writeFile rw_fn rw_text
-  _ <- rawSystem "pharo-cli.sh" [rw_fn]
+  let st_cmd = "gst" -- "pharo-cli.sh"
+  _ <- rawSystem st_cmd [rw_fn]
   return z_seq
 
 st_proc_hs_files :: String -> [String] -> FilePath -> IO ()

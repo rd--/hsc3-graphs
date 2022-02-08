@@ -13,7 +13,7 @@ var z = OverlapTexture({
 6.timesRepeat({ z = AllpassC.ar(z, 0.040, { Rand.ir(0, 0.04) }.dup, 16) });
 z
 
-// contamination zone ; jmcc #9
+//---- contamination zone ; jmcc #9
 RTexture.overlap({
     var f = 800.exprand(8000);
     Pan2.ar(

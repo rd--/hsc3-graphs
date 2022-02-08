@@ -7,7 +7,7 @@ import Sound.SC3.Graphs.Polyglot {- hsc3-graphs -}
 -- | DB directory
 --
 -- > fn <- Music.Theory.Directory.dir_subset graphs_db_fext graphs_db_dir
--- > length fn == 3591
+-- > length fn == 4061
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 

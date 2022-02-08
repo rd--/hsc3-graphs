@@ -13,7 +13,7 @@ OverlapTexture({
     SinOsc.ar([f1, f1 + TRand.kr(-1, 1, tr)], a) * 0.1
 }, 4, 4, n) * 0.25
 
-// phase modulation with slow beats ; jmcc #6
+//---- phase modulation with slow beats ; jmcc #6
 var n = 4;
 RTexture.overlap({
     var x = MouseX.kr(100, 6000, 1, 0.2);
