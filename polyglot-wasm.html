@@ -1,7 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="css/polyglot.css" />
+    <script src="www/lib/osc.js/dist/osc-browser.js"></script>
+    <script src="www/lib/jssc3/js/sc3-array.js"></script>
+    <script src="www/lib/jssc3/js/sc3-dom.js"></script>
+    <script src="www/lib/jssc3/js/sc3-operators.js"></script>
+    <script src="www/lib/jssc3/js/sc3-null.js"></script>
+    <script src="www/lib/jssc3/js/sc3-number.js"></script>
+    <script src="www/lib/jssc3/js/sc3-object.js"></script>
+    <script src="www/lib/jssc3/js/sc3-string.js"></script>
+    <script src="www/lib/jssc3/js/sc3-u8.js"></script>
+    <script src="www/lib/jssc3/js/sc3.js"></script>
+    <script src="www/lib/jssc3/js/sc3-bindings.js"></script>
+    <script src="www/lib/jssc3/js/sc3-pseudo.js"></script>
+    <script src="www/lib/jssc3/js/sc3-alias.js"></script>
+    <script src="www/lib/jssc3/js/sc3-event.js"></script>
+    <script src="www/lib/jssc3/js/sc3-stc.js"></script>
+    <script src="www/lib/jssc3/js/sc3-wasm.js"></script>
+    <script src="www/lib/jssc3/js/sc3-wasm-module.js"></script>
+    <script src="www/lib/jssc3/js/sc3-ui-pte.js"></script>
+    <script src="www/lib/jssc3/js/sc3-ui-mouse.js"></script>
+    <script src="www/lib/jssc3/js/sc3-ui.js"></script>
+    <script src="js/polyglot.js"></script>
+    <script>
+window.onload = function () {
+    polyglot_init();
+    sc3_wasm_init();
+};
+    </script>
+  </head>
+  <body>
+    <h1>Polyglot SuperCollider (Web Assembly)</h1>
+    <div><select id="dbMenu" title="Db (p)" accesskey="p" size="12"></select></div>
+    <div><textarea id="textView" rows="24" cols="120"></textarea></div>
+    <div>
+      <button title="Play (,)" accesskey="," onclick="polyglot_load_syndef_and_play()">Play</button>
+      <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
+      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2, 8192)">⏻ (Boot)</button>
+      <span id="statusText"></span>
+    </div>
+    <script async src="www/lib/scsynth-wasm-builds/core/scsynth.js"></script>
+  </body>
+</html>
+
 <!--
 Load json/db.json.
 Make indexes, grouped by language.
 Text area for displaying text of selected program.
 Controls for loading and playing .scsyndef file.
 -->
-
