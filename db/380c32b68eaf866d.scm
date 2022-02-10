@@ -1,0 +1,12 @@
+; cricket (rd)
+(let* ((mt-rand
+        (lambda (l r t)
+          (Mce2 (TRand l r t) (TRand l r t))))
+       (r1 (RandN 2 10 13))
+       (r2 (RandN 2 10 13))
+       (r3 (RandN 2 4 7))
+       (t (Impulse kr 0.7 0))
+       (e (Decay2 (Impulse kr r1 0) 0.001 0.005))
+       (f (Mul3 (SinOsc kr r2 0) e r3))
+       (r4 (TRandN 2 2220 2227 t)))
+  (Mul3 (SinOsc ar r4 0) f 0.25))
