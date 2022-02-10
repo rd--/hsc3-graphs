@@ -35,3 +35,6 @@ write_json_db = do
       srcs = map (get_src db) keys
   first_lines <- mapM get_first_line srcs
   writeFile (prj_dir </> "json/db.json") ("[\n" ++ (intercalate ",\n" (zipWith fmt_json srcs first_lines)) ++ "\n]\n")
+
+main :: IO ()
+main = write_json_db
