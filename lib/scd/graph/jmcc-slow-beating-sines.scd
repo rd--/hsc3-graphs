@@ -15,6 +15,6 @@
   ;q.add(freq + Rand.ir(d.neg,d))
   ;q.add(freq + Rand.ir(d.neg,d))
   ;q.add(freq + Rand.ir(d.neg,d))})
-;z = [Ref.new([p, nil, RRandN.ir(3 * n, 0, 2 * pi)]),
-      Ref.new([q, nil, RRandN.ir(3 * n, 0, 2 * pi)])]
+;z = [Ref.new([p, nil, RandN.ir(3 * n, 0, 2 * pi)]),
+      Ref.new([q, nil, RandN.ir(3 * n, 0, 2 * pi)])]
 ;Klang.ar(z) * (0.1 / n)}

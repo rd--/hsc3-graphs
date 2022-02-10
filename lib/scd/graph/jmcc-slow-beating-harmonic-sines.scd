@@ -21,6 +21,6 @@
   ;q.add(freq * 4 + Rand.ir(lo: d.neg,hi: d))
   ;q.add(freq * 5 + Rand.ir(lo: d.neg,hi: d))
   ;q.add(freq * 6 + Rand.ir(lo: d.neg,hi: d))})
-;z = [Ref.new([p, nil, RRandN.ir(numChannels: m * n, lo: 0, hi: 2 * pi)]),
-      Ref.new([q, nil, RRandN.ir(numChannels: m * n, lo: 0, hi: 2 * pi)])]
+;z = [Ref.new([p, nil, RandN.ir(numChannels: m * n, lo: 0, hi: 2 * pi)]),
+      Ref.new([q, nil, RandN.ir(numChannels: m * n, lo: 0, hi: 2 * pi)])]
 ;Klang.ar(specificationsArrayRef: z, freqscale: 1, freqoffset: 0) * (0.1 / n)}
