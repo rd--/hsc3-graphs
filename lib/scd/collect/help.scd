@@ -113,6 +113,18 @@ var o = Blip.ar(TRand.ar(48, #[60, 72], tr).midicps, TRand.ar(1, 7, tr));
 var a = EnvGen.ar(Env.perc(TRand.ar(0.01, 0.2, tr), TRand.ar(0.2, 2, tr), 1, -4), tr, 1, 0, 1, 0);
 o * a * 0.1
 
+// Formlet
+var i = Impulse.ar(1, 0.5);
+Formlet.ar(i, TRand.ar(30, 50, i), 0.01, 2)
+
+// Formlet
+var i = Impulse.ar(20, 0.5);
+Formlet.ar(i, Rand.ir(300,1000), 0.01, Rand.ir(0.05, 0.2))
+
+// Formlet
+var i = Impulse.ar(LFNoise2.kr([0.15, 0.6]) * 15 + 15, 0.5);
+Formlet.ar(i, TRand.ar(30, [150, 600], i), TRand.ar(0.01, [0.15, 0.6], i), TRand.ar(0.05, [0.15, 0.6], i)) * 0.25
+
 // FreqShift
 var a = Blip.ar(60, 4) * LFGauss.ar(4, 1/8, 0, 1, 0);
 var b = a / 4 + LocalIn.ar(2, 0);
