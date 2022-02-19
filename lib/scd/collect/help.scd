@@ -778,6 +778,35 @@ var tri = Slew.ar(square, freq * 4, freq * 4);
 var sin = LinLin.ar(tri > 0, 0, 1, -1, 1) * (tri.abs ** (1 / 4));
 XFade2.ar(tri, sin, MouseX.kr(-1, 1, 0, 0.2), 0.05)
 
+// Squine ; sinewave
+Squine.ar(220, 0, 0, 0) * 0.1
+
+// Squine ; squarewave sweeping to pulse
+Squine.ar(220, 1, Ln.kr(0, 1, 10), 0) * 0.1
+
+// Squine ; morphing waveform
+Squine.ar(220, SinOsc.kr(0.2, 0) * 0.5 + 0.5, SinOsc.kr(0.13, 0), 0) * 0.1
+
+// Squine ; audio-rate morphing waveform
+Squine.ar(220, SinOsc.kr(0.2, 0) * 0.5 + 0.5, SinOsc.ar(130, 0), 0) * 0.1
+
+// Squine ; hardsync rising over 20 secs
+Squine.ar(100, SinOsc.kr(0.3, 0) * 0.2 + 0.5, 1, Impulse.ar(XLn.kr(5, 500, 20))) * 0.1
+
+// Squine ; compare with SinOsc
+[
+    SinOsc.ar(SinOsc.ar(XLn.kr(1, 1000, 9), 0) * 200 + 800, 0) * 0.1,
+	Squine.ar(SinOsc.ar(XLn.kr(1, 1000, 9), 0) * 200 + 800, 0.5, 0.5, 0) * 0.1
+]
+
+// Squine ; fm patch
+Squine.ar(
+    Squine.ar(100, SinOsc.ar(0.3, 0) * 0.5 + 0.5, Ln.ar(-1, 1, 20), 0) * 200 + 300,
+    SinOsc.ar(0.3, 0) * 0.5 + 0.5,
+    SinOsc.ar(1.1, 0),
+    iminsweep: 4
+) * 0.1
+
 // Summer
 SinOsc.ar(Summer.kr(Impulse.kr(5, 0), 1.5, 0, 0).poll * 100, 0) * 0.1
 
@@ -818,6 +847,11 @@ TwoPole.ar(WhiteNoise.ar(), MouseX.kr(800, 8000, 1, 0.2), 0.95) * 0.005
 // TwoZero
 TwoZero.ar(WhiteNoise.ar(), XLine.kr(20, 20000, 8), 1) * 0.125
 
+// TXLine
+var trigger = Impulse.ar(0.25, 0);
+var gainEnv = Decay2.ar(trigger, 0.01, 1);
+Pan2.ar(Saw.ar(TXLine.ar(100, 1000, 0.1, trigger)), TLine.ar(-1, 1, 0.75, trigger), gainEnv)
+
 // UGen.linlin ; note Clip UGen
 SinOsc.ar(Sweep.kr(0, 1).linlin(0, 1, 110, 220, 'minmax'), 0)
 
@@ -847,6 +881,30 @@ var x = MouseX.kr(0, 1, 0, 0.2);
 var y = MouseY.kr(0, 1, 0, 0.2);
 var v = Vibrato.ar(DC.ar(400), n, x, 1, 1, y, 0.1, 0, 0);
 SinOsc.ar(v, 0) * 0.1
+
+// VOSIM
+VOSIM.ar(Impulse.ar(100, 0), MouseX.kr(440, 880, 1, 0.2), 3, 0.99) * 0.1
+
+// VOSIM
+Splay2.ar(VOSIM.ar(Impulse.ar(110 + [-1, 0, 1], 0), MouseX.kr([110, 220, 440], 880, 1, 0.2), [3, 5, 7], [0.77, 0.88, 0.99])) * 0.1
+
+// VOSIM
+Splay2.ar(VOSIM.ar(Impulse.ar(110 + [-1, 0, 1], 0), LinExp.kr(LFNoise2.kr([0.35, 0.25, 0.15]), -1, 1, [110, 220, 440], 880), [3, 5, 7], [0.77, 0.88, 0.99])) * 0.1
+
+// VOSIM
+var p = TRand.ar(0, 1, Impulse.ar(6, 0));
+var t = Impulse.ar(9 * (1 + (p > 0.95)));
+var f = TRand.ar([40, 120, 220], [440, 990, 880], t);
+var n = TRand.ar(4, [8, 16, 32], t);
+var d = TRand.ar([0.2, 0.4, 0.6], [0.6, 0.8, 1], t);
+var a = TRand.ar(0, [0.2, 0.6, 1], t);
+var l = TRand.ar(-1, 1, t);
+var x = MouseX.kr(0.25, 2, 0, 0.2);
+var y = MouseY.kr(0.25, 0.85, 0, 0.2);
+var z = 9;
+var freq = f * x * LinLin.kr(LFNoise2.kr(z), -1, 1, 0.25, 2);
+var decay = d * y * LinLin.kr(LFNoise2.kr(z), -1, 1, 0.25, 2);
+Pan2.ar((VOSIM.ar(t, freq, n, decay) * a).sum, l, 0.75)
 
 // XFade2
 XFade2.ar(Saw.ar(440), SinOsc.ar(440, 0), LFTri.ar(0.1, 0), 0.1)
