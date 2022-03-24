@@ -200,6 +200,14 @@ Mix.ar(Voicer.ar(16, {
     Pan2.ar(LPF.ar(Blip.ar(f0, 1 + e.y * 5), f0 * 0.25), e.o * 2 - 1, LagUD.kr(e.w, 0.05, 1) * e.z * 4)
 }))
 
+// max
+SinOsc.ar(XLine.kr([100, 200], [400, 100], 2).inject(0, { arg i, j; i.max(j) }), 0) * 0.1
+
+// max
+var freq = { LFNoise2.kr(1) }.dup(3)  * 100 + 200;
+var freqMax = freq.inject(0, { arg i, j; i.max(j) });
+(LFTri.ar(freqMax, 0) * 0.05) + (SinOsc.ar(freq, 0).splay2 * 0.1)
+
 // MulAdd ; optimised away
 MulAdd(SinOsc.ar(440, 0) * 0.1, 1, 0)
 
