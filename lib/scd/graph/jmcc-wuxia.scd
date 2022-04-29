@@ -1,7 +1,7 @@
 // wuxia5 (jmcc) ; http://www.iamas.ac.jp/~aka/dspss2004/materials/
 var amp = 0.1;
-var eg = EnvGen.kr(Env.linen(0.03, 4, 2, 1, 'lin'), doneAction:2);
-var noise = WhiteNoise.ar() * 0.1 * eg;
+var eg = EnvGen.kr(Env.linen(0.03, 4, 2, 1, 'lin'), 1, 1, 0, 1, 2);
+var noise = WhiteNoise.ar * 0.1 * eg;
 var dt = XLine.kr(ExpRand.ir(12000, 10), ExpRand.ir(12000, 10), 4).reciprocal;
 6.do({
     noise = LeakDC.ar(CombC.ar(noise, 0.1, dt, dt * 6) + dt, 0.995);

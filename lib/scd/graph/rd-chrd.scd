@@ -19,7 +19,7 @@ RTexture.overlapGraph({
     Mix.fill(9, { chrd.value(chd) })
 }, 21, 0, 3)
 
-// chrd (rd) ; graph rewrite
+//---- chrd (rd) ; graph rewrite
 {RTexture.overlapGraph(graphFunc:
 {arg tr
 ;var chrd =

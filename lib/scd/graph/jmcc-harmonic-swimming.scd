@@ -2,7 +2,7 @@
 var a = 0.02; // amplitude scale
 var f = 50; // fundamental frequency
 var p = 20; // number of partials per channel
-var l = Line.kr(0, a.neg, 60, doneAction: 0); // amplitude offset, causes sound to separate and fade
+var l = Line.kr(0, a.neg, 60); // amplitude offset, causes sound to separate and fade
 var o = {
     arg h;
     var r = 6 + [4.0.rand2, 4.0.rand2]; // amplitude rate

@@ -9,7 +9,7 @@ var pling = {
 };
 var bang = {
     var d = Dust.ar(0.01);
-    var n = BrownNoise.ar();
+    var n = BrownNoise.ar;
     Pan2.ar(Decay2.ar(d, 0.04, 0.3) * n, 0, 1)
 };
 var tank = {

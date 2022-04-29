@@ -12,7 +12,7 @@ var z = RTexture.overlapGraph({
 4.do({ z = AllpassN.ar(z, 0.1, { Rand.ir(0, 0.05) }.dup, 4) });
 z
 
-// jmcc ; choip choip choip ; lineto
+//---- jmcc ; choip choip choip ; lineto
 {var dur = 12
 ;var z = RTexture.overlapGraph(
  {arg tr
