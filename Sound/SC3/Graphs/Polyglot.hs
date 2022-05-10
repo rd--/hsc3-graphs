@@ -18,6 +18,8 @@ import qualified Music.Theory.Directory as T {- hmt-base -}
 import qualified Sound.SC3 as SC3 {- hsc3 -}
 import qualified Sound.SC3.Common.Help as Help {- hsc3 -}
 import qualified Sound.SC3.Server.Graphdef as Graphdef {- hsc3 -}
+import qualified Sound.SC3.Server.Graphdef.Binary as  Graphdef.Binary {- hsc3 -}
+import qualified Sound.SC3.Server.Graphdef.IO as  Graphdef.IO {- hsc3 -}
 import qualified Sound.SC3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
 
 import qualified Sound.SC3.UGen.Dot as Dot {- hsc3-dot -}
@@ -139,7 +141,7 @@ hs_graph_fragments_process_load :: String -> FilePath -> IO [Graphdef.Graphdef]
 hs_graph_fragments_process_load typ fn = do
   tmp <- getTemporaryDirectory
   z <- hs_graph_fragments_process typ [fn] tmp
-  let gr_load k = Graphdef.read_graphdef_file (tmp </> k <.> "scsyndef")
+  let gr_load k = Graphdef.IO.read_graphdef_file (tmp </> k <.> "scsyndef")
   mapM gr_load z
 
 hs_graph_fragments_process_play :: String -> FilePath -> IO ()
@@ -255,7 +257,7 @@ fs_graph_fragment_process_dir out_dur in_dir = do
 st_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 st_graph_fragment_rw out_dir (z,txt) =
   let pfx = ["["]
-      sfx = [printf "] value writeHaskellTo: '%s/%s.hs' ." out_dir z]
+      sfx = [printf "] value writeSyndefOf: '%s/%s.scsyndef.text' ." out_dir z]
   in concat [pfx,lines txt,sfx]
 
 st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
@@ -274,17 +276,22 @@ st_graph_fragment_process ext out_dir fn_seq = do
   _ <- rawSystem st_cmd [rw_fn]
   return z_seq
 
-st_proc_hs_files :: String -> [String] -> FilePath -> IO ()
-st_proc_hs_files typ z_seq sy_dir = do
+text_scsyndef_to_scsyndef :: FilePath -> FilePath -> IO ()
+text_scsyndef_to_scsyndef txt_fn bin_fn = do
+  gr <- Graphdef.IO.read_graphdef_file txt_fn
+  Graphdef.Binary.graphdefWrite bin_fn gr
+
+st_proc_syndef_files :: String -> [String] -> FilePath -> IO ()
+st_proc_syndef_files typ z_seq sy_dir = do
   tmp <- getTemporaryDirectory
-  txt_seq <- mapM (\z -> readFile (tmp </> z <.> "hs")) z_seq
+  txt_seq <- mapM (\z -> readFile (tmp </> z <.> "scsyndef.text")) z_seq
   hs_graph_fragments_process_z typ (zip z_seq txt_seq) sy_dir
 
 st_graph_fragment_process_dir :: String -> String -> FilePath -> FilePath -> IO ()
 st_graph_fragment_process_dir ext typ out_dir in_dir = do
   fn <- T.dir_subset [ext] in_dir
   z_seq <- st_graph_fragment_process ext out_dir fn
-  st_proc_hs_files typ z_seq out_dir
+  st_proc_syndef_files typ z_seq out_dir
 
 -- * Scala
 
