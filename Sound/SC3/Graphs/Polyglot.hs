@@ -256,7 +256,7 @@ fs_graph_fragment_process_dir out_dur in_dir = do
 -- | z = fragment ID, txt = fragment.
 st_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 st_graph_fragment_rw out_dir (z,txt) =
-  let pfx = ["Sc3 writeSyndefOf: (["]
+  let pfx = [printf "'%s' printOn: stdout." z, "Sc3 writeSyndefOf: (["]
       sfx = [printf "] value) to: '%s/%s.scsyndef.text' ." out_dir z]
   in concat [pfx,lines txt,sfx]
 
@@ -288,6 +288,8 @@ st_proc_syndef_files z_seq sy_dir = do
   mapM_ f z_seq
 
 {-
+> st_graph_fragment_process_dir ".st" "/tmp/" "/home/rohan/sw/stsc3/help/ugen/"
+> st_graph_fragment_process_dir ".stc" "/tmp/" "/home/rohan/sw/stsc3/help/ugen/"
 > st_graph_fragment_process_dir ".st" "/tmp/" "/home/rohan/sw/stsc3/help/graph/"
 > st_graph_fragment_process_dir ".stc" "/tmp/" "/home/rohan/sw/stsc3/help/graph/"
 -}
