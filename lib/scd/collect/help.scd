@@ -145,6 +145,21 @@ var t = Impulse.ar(freq: f, phase: 0);
 var a = GrainSin.ar(numChannels: 2, trigger: t, dur: overlap/f, freq: 440, pan: 0, envbufnum: -1, maxGrains: 512);
 LeakDC.ar(in: a, coef: 0.995) * 0.1
 
+// GravityGrid
+Pan2.ar(0.05 * GravityGrid.ar(Impulse.kr(2, 0), MouseX.kr(0.1, 10, 1, 0.2), LFNoise0.kr(2) * 0.8, LFNoise0.kr(2) * 0.8, -1), 0, 0.25)
+
+// GravityGrid
+Pan2.ar(0.5 * GravityGrid.ar(Impulse.kr(1, 0), SinOsc.kr(0.5, 0) * 0.8 + 1,LFSaw.kr(50, 0), LFNoise0.kr(10) * 0.8, -1), 0, 0.05)
+
+// GravityGrid ; rhythmic violence
+GravityGrid.ar(Impulse.kr(LFNoise0.kr([0.25, 0.231]) * 90 + 100, 0), [100.2, 10.5], LFNoise0.kr(10) * 0.8, LFNoise0.kr(10) * 0.8, -1) * 0.025
+
+// GravityGrid ; noisy
+Pan2.ar(Resonz.ar(GravityGrid.ar(Impulse.kr(50, 0), 0.01, LFNoise0.kr(1) * 4, LFNoise0.kr(1) * 4, -1), 1000, 0.1), 0, 0.25)
+
+// GravityGrid ; 48k spectrum looping
+Pan2.ar(Resonz.ar(GravityGrid.ar(Impulse.kr(5, 0), 0.01, LFNoise0.kr(1) * 4, LFNoise0.kr(1) * 4, -1), 1000, 0.1), 0, 0.25)
+
 // Klang
 Klang.ar(Ref.new([[800, 1000, 1200], [0.3, 0.3, 0.3], [pi, pi, pi]], 1, 0)) * 0.4
 
