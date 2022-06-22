@@ -1,5 +1,5 @@
 -- | Polyglot SuperCollider
-module Sound.SC3.Graphs.Polyglot where
+module Sound.Sc3.Graphs.Polyglot where
 
 import Data.List {- base -}
 import Data.Maybe {- base -}
@@ -15,17 +15,17 @@ import qualified Data.Digest.Murmur64 as Murmur64 {- murmur-hash -}
 
 import qualified Music.Theory.Directory as T {- hmt-base -}
 
-import qualified Sound.SC3 as SC3 {- hsc3 -}
-import qualified Sound.SC3.Common.Help as Help {- hsc3 -}
-import qualified Sound.SC3.Server.Graphdef as Graphdef {- hsc3 -}
-import qualified Sound.SC3.Server.Graphdef.Binary as  Graphdef.Binary {- hsc3 -}
-import qualified Sound.SC3.Server.Graphdef.IO as  Graphdef.IO {- hsc3 -}
-import qualified Sound.SC3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
+import qualified Sound.Sc3 as Sc3 {- hsc3 -}
+import qualified Sound.Sc3.Common.Help as Help {- hsc3 -}
+import qualified Sound.Sc3.Server.Graphdef as Graphdef {- hsc3 -}
+import qualified Sound.Sc3.Server.Graphdef.Binary as  Graphdef.Binary {- hsc3 -}
+import qualified Sound.Sc3.Server.Graphdef.Io as  Graphdef.Io {- hsc3 -}
+import qualified Sound.Sc3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
 
-import qualified Sound.SC3.UGen.Dot as Dot {- hsc3-dot -}
+import qualified Sound.Sc3.Ugen.Dot as Dot {- hsc3-dot -}
 
-import qualified Sound.SC3.Lisp.Haskell as Lisp {- hsc3-lisp -}
-import qualified Sound.SC3.Lisp.NameTable as Lisp {- hsc3-lisp -}
+import qualified Sound.Sc3.Lisp.Haskell as Lisp {- hsc3-lisp -}
+import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
 import qualified Language.Smalltalk.SuperCollider.Translate as St {- stsc3 -}
 
@@ -79,7 +79,7 @@ graphs_db_fext = words ".fs .hs .scala .scd .sch .scm .st .stc"
 -- * Haskell
 
 hs_hsc3_dir :: IO FilePath
-hs_hsc3_dir = getEnv "HSC3_DIR"
+hs_hsc3_dir = getEnv "HSc3_DIR"
 
 hs_hsc3_typ_imports :: String -> IO FilePath
 hs_hsc3_typ_imports typ = do
@@ -92,7 +92,7 @@ hs_graph_rw_pre typ = hs_hsc3_typ_imports typ >>= fmap lines . readFile
 -- | sy_dir = scsyndef directory, z = fragment ID, txt = fragment
 hs_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 hs_graph_fragment_rw sy_dir (z,txt) =
-  let pfx = [printf "gr_%s :: UGen" z
+  let pfx = [printf "gr_%s :: Ugen" z
             ,printf "gr_%s =" z]
       grw = map (" " ++ ) (lines txt)
       sfx = [printf "wr_%s :: IO ()" z
@@ -141,13 +141,13 @@ hs_graph_fragments_process_load :: String -> FilePath -> IO [Graphdef.Graphdef]
 hs_graph_fragments_process_load typ fn = do
   tmp <- getTemporaryDirectory
   z <- hs_graph_fragments_process typ [fn] tmp
-  let gr_load k = Graphdef.IO.read_graphdef_file (tmp </> k <.> "scsyndef")
+  let gr_load k = Graphdef.Io.read_graphdef_file (tmp </> k <.> "scsyndef")
   mapM gr_load z
 
 hs_graph_fragments_process_play :: String -> FilePath -> IO ()
 hs_graph_fragments_process_play typ fn =
   hs_graph_fragments_process_load typ fn >>=
-  mapM_ SC3.audition
+  mapM_ Sc3.audition
 
 hs_graph_fragments_process_draw :: String -> FilePath -> IO ()
 hs_graph_fragments_process_draw typ fn =
@@ -278,7 +278,7 @@ st_graph_fragment_process ext out_dir fn_seq = do
 
 text_scsyndef_to_scsyndef :: FilePath -> FilePath -> IO ()
 text_scsyndef_to_scsyndef txt_fn bin_fn = do
-  gr <- Graphdef.IO.read_graphdef_file txt_fn
+  gr <- Graphdef.Io.read_graphdef_file txt_fn
   Graphdef.Binary.graphdefWrite bin_fn gr
 
 st_proc_syndef_files :: [String] -> FilePath -> IO ()

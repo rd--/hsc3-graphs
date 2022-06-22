@@ -25,7 +25,7 @@ library
                         stsc3 == 0.20.*
   default-language:     Haskell2010
   ghc-options:          -Wall -fwarn-tabs
-  exposed-modules:      Sound.SC3.Graphs.Polyglot
+  exposed-modules:      Sound.Sc3.Graphs.Polyglot
 
 executable hsc3-graphs
   build-depends:        base >= 4.7 && < 5,

@@ -1,8 +1,8 @@
 import System.Environment {- base -}
 
-import qualified Sound.SC3.Lisp.NameTable as Lisp {- hsc3-lisp -}
+import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
-import Sound.SC3.Graphs.Polyglot {- hsc3-graphs -}
+import Sound.Sc3.Graphs.Polyglot {- hsc3-graphs -}
 
 -- | DB directory
 --
@@ -15,7 +15,7 @@ graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
   sch_tbl <- Lisp.nameTableLoad "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
   _ <- hs_graph_fragments_process_dir "std" graphs_db_dir "/home/rohan/sw/hsc3/Help/Graph/"
-  _ <- hs_graph_fragments_process_dir "std" graphs_db_dir "/home/rohan/sw/hsc3/Help/UGen/"
+  _ <- hs_graph_fragments_process_dir "std" graphs_db_dir "/home/rohan/sw/hsc3/Help/Ugen/"
   scd_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
   scd_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/collect/"
   scd_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/sc3-rdu/help/scd/"
@@ -27,9 +27,9 @@ graphs_db_polyglot_autogen = do
   scm_graph_fragment_process_dir sch_tbl ".sch" graphs_db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
   fs_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-forth/help/graph/"
   fs_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-forth/help/ugen/"
-  st_graph_fragment_process_dir ".st" "min" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
-  st_graph_fragment_process_dir ".st" "min" graphs_db_dir "/home/rohan/sw/stsc3/help/ugen/"
-  st_graph_fragment_process_dir ".stc" "min" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
+  st_graph_fragment_process_dir ".st" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
+  st_graph_fragment_process_dir ".st" graphs_db_dir "/home/rohan/sw/stsc3/help/ugen/"
+  st_graph_fragment_process_dir ".stc" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
   scala_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
   return ()
 
