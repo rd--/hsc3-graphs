@@ -1,6 +1,7 @@
 -- | Polyglot SuperCollider
 module Sound.Sc3.Graphs.Polyglot where
 
+import Control.Monad {- base -}
 import Data.List {- base -}
 import Data.Maybe {- base -}
 import System.Directory {- directory -}
@@ -79,7 +80,7 @@ graphs_db_fext = words ".fs .hs .scala .scd .sch .scm .st .stc"
 -- * Haskell
 
 hs_hsc3_dir :: IO FilePath
-hs_hsc3_dir = getEnv "HSc3_DIR"
+hs_hsc3_dir = getEnv "HSC3_DIR"
 
 hs_hsc3_typ_imports :: String -> IO FilePath
 hs_hsc3_typ_imports typ = do
@@ -256,8 +257,8 @@ fs_graph_fragment_process_dir out_dur in_dir = do
 -- | z = fragment ID, txt = fragment.
 st_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 st_graph_fragment_rw out_dir (z,txt) =
-  let pfx = [printf "'%s' printOn: stdout." z, "Sc3 writeSyndefOf: (["]
-      sfx = [printf "] value) to: '%s/%s.scsyndef.text' ." out_dir z]
+  let pfx = [printf "'%s' printOn: stdout." z, "Sc3 writeBinarySyndefOf: (["]
+      sfx = [printf "] value) to: '%s/%s.scsyndef' ." out_dir z]
   in concat [pfx,lines txt,sfx]
 
 st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
@@ -297,7 +298,8 @@ st_graph_fragment_process_dir :: String -> FilePath -> FilePath -> IO ()
 st_graph_fragment_process_dir ext out_dir in_dir = do
   fn <- T.dir_subset [ext] in_dir
   z_seq <- st_graph_fragment_process ext out_dir fn
-  st_proc_syndef_files z_seq out_dir
+  when False (st_proc_syndef_files z_seq out_dir) -- if text
+  return ()
 
 -- * Scala
 
