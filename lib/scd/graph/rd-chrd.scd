@@ -1,5 +1,5 @@
 // chrd (rd) ; graph rewrite
-RTexture.overlapGraph({
+Texture.overlapGraph({
     arg tr;
     var chrd = {
         arg m;
@@ -20,7 +20,7 @@ RTexture.overlapGraph({
 }, 21, 0, 3)
 
 //---- chrd (rd) ; graph rewrite
-{RTexture.overlapGraph(graphFunc:
+{Texture.overlapGraph(graphFunc:
 {arg tr
 ;var chrd =
   {arg m

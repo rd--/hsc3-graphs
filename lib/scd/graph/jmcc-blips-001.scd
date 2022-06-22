@@ -1,5 +1,5 @@
 // blips 001 (jmcc) #SC3d1.5 ; graph rewrite
-var z = RTexture.overlapGraph({
+var z = Texture.overlapGraph({
     arg tr;
     var blip_f = {
         var f = TXLine.kr(TExpRand.kr(0.25, 400, tr), TExpRand.kr(0.25, 400, tr), 4, tr);

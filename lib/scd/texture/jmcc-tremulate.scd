@@ -1,5 +1,5 @@
 // tremulate (jmcc) #1
-RTexture.xfade(
+Texture.xfade(
 {var f = 500 + 400.rand
 ;var r = 30 + 60.rand
 ;var o = FSinOsc.ar(f*[1.0,1.2,1.5,1.8])

@@ -3,8 +3,8 @@ var shift_register = {
     arg length, trig, in;
     var buf = LocalBuf.ir(length, 1);
     var count = PulseCount.kr(trig, 0);
-    Demand.kr(trig, 0, Dbufwr.dr(in, buf, count));
-    Demand.kr(trig, 0, Dbufrd.dr(buf, count + 1 + length.iota)).reverse
+    Demand.kr(trig, 0, Dbufwr.dr(in, buf, count, 1));
+    Demand.kr(trig, 0, Dbufrd.dr(buf, count + 1 + length.iota, 1)).reverse
 };
 var amp = 0.1;
 var pulse = Impulse.kr(1/16);

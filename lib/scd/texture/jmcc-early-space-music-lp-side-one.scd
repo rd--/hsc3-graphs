@@ -1,5 +1,5 @@
 // early space music lp side one (jmcc) #12
-RTexture.overlap({
+Texture.overlap({
 	var scale = [0, 2, 4, 5, 7, 9, 11];
 	var octave = [24, 36, 48, 60, 72, 84, 96] - 3;
     var s1 = {

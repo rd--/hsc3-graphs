@@ -1,5 +1,5 @@
 // pm-crotale (dmc) #1.7
-RTexture.spawn(
+Texture.spawn(
 {var midi = IRand.ir(48, 72)
 ;var tone = Rand.ir(1, 6)
 ;var art = Rand.ir(2, 6)

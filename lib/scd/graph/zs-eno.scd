@@ -1,3 +1,5 @@
+// ---- VarLag is broken?
+
 // https://github.com/schollz/18000/blob/main/drone/eno.scd
 var hz = 550;
 var amp = 0.5;
@@ -31,7 +33,7 @@ notepulse = 1;
 noterate = TChoose.kr(Dust.kr(notepulse)+Impulse.kr(0), [0.02, 0.05, 1, 2, 0.5, 0.25, 2]/2)*Rand(0.78, 1.32);
 notepulse = Impulse.kr(noterate);
 seq = Demand.kr(Dust.kr(0.1)+Impulse.kr(0), 0, Dxrand(airports, inf));
-seqnote = Demand.kr(notepulse, 0, Dseq(seq, inf));
+seqnote = Demand.kr(notepulse, 0, Dseq.dr(seq, inf));
 snd = SinOsc.ar((note-24).midicps, mul:SinOsc.kr(Rand(0.001, 0.01)).range(0.05, 0.15));
 snd = snd+SinOsc.ar((note-12).midicps, mul:SinOsc.kr(Rand(0.001, 0.01)).range(0.001, 0.05));
 snd = snd+(planeenv*Mix.ar(Array.fill(8, {arg i;

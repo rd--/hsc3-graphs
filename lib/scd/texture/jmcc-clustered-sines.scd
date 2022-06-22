@@ -1,5 +1,5 @@
 // clustered sines (jmcc) #2
-RTexture.xfade(
+Texture.xfade(
 {var n = 80
 ;var f1 = 100 + 1000.0.rand
 ;var f2 = 4.0 * f1

@@ -1,5 +1,5 @@
 // birdies (jmcc) #6
-RTexture.overlapGraph({
+Texture.overlapGraph({
     arg tr;
     var p1 = LFPulse.kr(0.4 + TRand.kr(0, 1, tr), 0, TRand.kr(0, 0.8, tr) + 0.1) * (TRand.kr(0, 3, tr) + 4) + 2;
     var p2 = LFPulse.kr(0.4 + TRand.kr(0, 1, tr), 0, TRand.kr(0, 0.8, tr) + 0.1) * (TRand.kr(0, 3, tr) + 4);

@@ -83,7 +83,7 @@
 // hell is busy
 var n;
 n = 8; // number of simultaneous events
-	RTexture.overlap({
+	Texture.overlap({
 		Pan2.ar(
 			FSinOsc.ar(400+2000.0.rand, 0, LFPulse.kr(1+10.0.rand, 0, 0.7.rand, 0.04)),
 		1.0.rand2)
@@ -94,7 +94,7 @@ n = 8; // number of simultaneous events
 // pond life
 var n;
 n = 8; // number of simultaneous events
-	RTexture.overlap({
+	Texture.overlap({
 		Pan2.ar(
 			SinOsc.ar(FSinOsc.kr(20+30.0.rand, 0, 100+300.0.rand, 500 + 2000.0.linrand), 0,
 				LFPulse.kr(3/(1 + 8.0.rand), 0, 0.2+0.3.rand, 0.04)),
@@ -105,7 +105,7 @@ n = 8; // number of simultaneous events
 (
 // alien froggies
 var rate = 11.0;
-	RTexture.overlap({ arg rep;
+	Texture.overlap({ arg rep;
 		rate = (rate * (0.2.bilinrand.exp)).fold(1.0, 30.0);
 		Formant.ar(rate, exprand(200,3000.0), 9.0.rand * rate + rate, 0.05)
 	}, 0.5, 0.25, 5, 1)
@@ -116,7 +116,7 @@ var rate = 11.0;
 var n, env;
 n = 12; // number of simultaneous events
 env = Env.linen(2, 5, 2);
-	RTexture.spawn({
+	Texture.spawn({
 		Pan2.ar(
 			FSinOsc.ar(2000.0.rand, 0, EnvGen.kr(env, levelScale: 0.02, doneAction: 2)),
 			1.0.rand2)
@@ -128,7 +128,7 @@ env = Env.linen(2, 5, 2);
 var n, env;
 n = 8; // number of simultaneous events
 env = Env.linen(2, 5, 2, 0.02);
-	RTexture.spawn({
+	Texture.spawn({
 		Pan2.ar(
 			FSinOsc.ar(2000.0.rand, 0, EnvGen.kr(env,doneAction:2)).amclip(SinOsc.ar(8+80.0.linrand)),
 			SinOsc.kr(0.3+0.5.rand, 2pi.rand, 0.7))
@@ -137,7 +137,7 @@ env = Env.linen(2, 5, 2, 0.02);
 
 (
 // tremulate
-		RTexture.xfade({
+		Texture.xfade({
 			f = 500 + 400.rand;
 			r = 30 + 60.rand;
 			Mix.ar(
@@ -152,7 +152,7 @@ env = Env.linen(2, 5, 2, 0.02);
 
 (
 // reso-pulse
-RTexture.overlap({
+Texture.overlap({
 			f = #[25, 30, 34, 37, 41, 42, 46, 49, 53, 54, 58, 61, 63, 66].choose.midicps;
 			LFPulse.ar(f, 0, 0.2, 1, LFPulse.ar(2*f + 0.5.rand2, 0, 0.2, 1))
 		}, 4, 2, 4, 1, postProcess: {

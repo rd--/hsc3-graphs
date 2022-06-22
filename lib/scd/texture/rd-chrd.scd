@@ -1,5 +1,5 @@
 // chrd (rd)
-RTexture.overlap(newEventFunc:
+Texture.overlap(newEventFunc:
 {var chrd =
   {arg m
   ;var ds = 3

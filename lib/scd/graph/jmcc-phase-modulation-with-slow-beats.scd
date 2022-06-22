@@ -15,7 +15,7 @@ OverlapTexture({
 
 //---- phase modulation with slow beats ; jmcc #6
 var n = 4;
-RTexture.overlap({
+Texture.overlap({
     var x = MouseX.kr(100, 6000, 1, 0.2);
     var y = MouseY.kr(0, 2, 0, 0.2);
     var a = 0;

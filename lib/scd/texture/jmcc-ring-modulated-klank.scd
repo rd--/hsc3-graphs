@@ -1,5 +1,5 @@
 // ring modulated klank (jmcc) #2
-RTexture.overlap(
+Texture.overlap(
 {var p = 8 /* number of partials */
 ;var i = Dust.ar(20, 0.02)
 ;var a = Klank.ar(`[Array.rand(p, 100, 10000), nil, Array.rand(p, 0.2, 1.0)], i)

@@ -32,7 +32,7 @@ var a = #[
     [1, 1, 1, 1, 1, 0, 0, 0],
     [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
-RTexture.overlap({
+Texture.overlap({
     arg i;
     var imp_seq = { arg s, tr; Demand.kr(tr, 0, Dseq.dr(s, inf)) * tr };
     var t = Impulse.kr(8, 0);

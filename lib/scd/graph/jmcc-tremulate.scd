@@ -5,7 +5,7 @@ var voiceFunc = {
     var r = TRand.kr(30, 90, tr);
     var o = FSinOsc.ar(f * [1.0, 1.2, 1.5, 1.8], 0); // just minor seventh chord
     Mix.ar(Pan2.ar(o, { Rand.ir(-1, 1) }.dup(4), LFNoise2.kr([r, r, r, r]).mul(0.1).max(0))) };
-CombN.ar(RTexture.xfadeGraph(voiceFunc, 2, 0.5), 0.1, 0.1, 1)
+CombN.ar(Texture.xfadeGraph(voiceFunc, 2, 0.5), 0.1, 0.1, 1)
 
 // tremulate (jmcc) ;  event control
 var voiceFunc = {

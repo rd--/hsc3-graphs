@@ -1,5 +1,5 @@
 /* bowed garage door springs (jmcc) #9 */
-RTexture.overlap(
+Texture.overlap(
 {var spc = [Array.rand(4,50.0,2000.0),nil,Array.rand(4,0.2,12.0)]
 ;var exc = PinkNoise.ar(LFNoise1.kr(3.0.rand,0.0008,0.0022))
 ;var sig = Klank.ar(`spc,exc).abs * [-1,1].choose

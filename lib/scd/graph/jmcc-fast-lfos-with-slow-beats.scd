@@ -1,5 +1,5 @@
 // fast LFOs with slow beats
-RTexture.overlapGraph({
+Texture.overlapGraph({
     arg tr;
     var a0 = TRand.kr(40, 240, tr);
     var a1 = a0 + TRand.kr(-1, 1, tr);

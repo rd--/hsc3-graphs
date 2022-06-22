@@ -1,5 +1,5 @@
 // inharmonic warbulence (jmcc) #12
-RTexture.overlap(
+Texture.overlap(
 {var f = Rand.ir(lo: 24, hi: 96).midicps
 ;var a = 1.min(500/f)
 ;var r = XLine.kr(start: ExpRand.ir(lo: 0.1, hi: 20), end: ExpRand.ir(lo: 0.1, hi: 20), dur: 25.6, doneAction: 0)

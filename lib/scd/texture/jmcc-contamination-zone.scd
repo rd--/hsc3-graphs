@@ -1,5 +1,5 @@
 // contamination zone (jmcc) #9
-RTexture.overlap(
+Texture.overlap(
 {var f = exprand(800,8000)
 ;var pan = LFNoise1.kr(1.0.rand)
 ;var amp = LFPulse.kr(15.0.linrand,0,0.2 + 0.2.rand)

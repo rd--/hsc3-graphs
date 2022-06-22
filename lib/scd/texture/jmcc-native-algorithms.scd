@@ -1,4 +1,4 @@
-RTexture.overlap(
+Texture.overlap(
 {var imp_seq = {arg dm, tr; Demand.ar(tr, 0, dm) * tr}
 ;var d1 =
   [Dseq([2.0,0.0,2.0,0.0,1.0,0.0,1.0,1.0],1)

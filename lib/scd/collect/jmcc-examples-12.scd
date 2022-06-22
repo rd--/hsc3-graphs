@@ -1,5 +1,5 @@
 // inharmonic warbulence ; jmcc ; graph rewrite
-var z = RTexture.overlapGraph({
+var z = Texture.overlapGraph({
         arg tr;
 		var f, r, n, a, z;
 		f = TRand.kr(24, 96, tr).midicps;
@@ -18,7 +18,7 @@ Mix.arFill(5, { CombN.ar(z, 0.3, [Rand.ir(0.1,0.3),Rand.ir(0.1,0.3)], 8) }) * 0.
 //---- textures
 
 // arachnid espresso ; ERROR ; jmcc
-RTexture.overlap({
+Texture.overlap({
         var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf)) * tr};
         var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s,inf))};
 		var t, c, e, f, n, r, p, pf;
@@ -39,7 +39,7 @@ RTexture.overlap({
 	signal})
 
 // inharmonic warbulence ; jmcc
-RTexture.overlap({
+Texture.overlap({
 		var f, r, n, a;
 		f = rrand(24, 96).midicps;
 		a = min(1, (500/f));
@@ -57,7 +57,7 @@ RTexture.overlap({
 })
 
 // clipped inharmonic warbulence ; jmcc
-RTexture.overlap({
+Texture.overlap({
 		var r = LinExp.kr(LFNoise1.kr(1/16), -1,1,0.1,20);
 		var f, n, a;
 		f = rrand(24, 96).midicps;
@@ -77,7 +77,7 @@ RTexture.overlap({
 })
 
 // pulse harmonic warbulence ; jmcc
-RTexture.overlap({
+Texture.overlap({
 		var f, r, n;
 		f = rrand(24, 96).midicps;
 		r = XLine.kr(exprand(0.1,20),exprand(0.1,20), 25.6);

@@ -1,5 +1,5 @@
 // noise modulated sines (jmcc) #6
-RTexture.overlap(
+Texture.overlap(
 {var f = (60 + 40.rand).midicps
 ;FSinOsc.ar([f, f + 0.2], 0) * LFNoise2.kr(f * [0.15, 0.16], 0.1)}
 ,4, 4, 4

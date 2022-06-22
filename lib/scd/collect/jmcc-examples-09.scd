@@ -1,5 +1,5 @@
 	// deep trip ; graph re-write
-	RTexture.overlapGraph( {
+	Texture.overlapGraph( {
         arg tr;
         var f, z, s;
 		f = LFNoise1.kr(TRand.kr(0,0.3,tr), 60, 70).midicps;
@@ -16,7 +16,7 @@
 
 	// sidereal time ; graph re-write
 	var p = 15;	// number of partials per channel per 'cymbal'.
-	RTexture.overlapGraph({
+	Texture.overlapGraph({
         arg tr;
 		var z, f1, f2, f3, in, out;
 		f1 = 100;
@@ -35,7 +35,7 @@
 	}, 4, 4, 6, 2)
 
 // ostinoodles ; graph rewrite
-var z = RTexture.overlapGraph({
+var z = Texture.overlapGraph({
         arg tr;
 		var sequ, major, root, f, offset, sequence, trig;
         sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
@@ -58,7 +58,7 @@ z
 
 // deep trip
 (
-       RTexture.overlap( {
+       Texture.overlap( {
                f = LFNoise1.kr(0.3.rand, 60, 70).midicps;
                 z = SinOsc.ar(f, 0,
                         LFNoise2.ar(
@@ -75,7 +75,7 @@ z
 // sawed cymbals
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
-	RTexture.overlap({
+	Texture.overlap({
 		var z, f1, f2;
 		f1 = 500 + 2000.0.rand;
 		f2 = 8000.0.rand;
@@ -92,7 +92,7 @@ p = 15;	// number of partials per channel per 'cymbal'.
 // sidereal time
 var p;
 p = 15;	// number of partials per channel per 'cymbal'.
-	RTexture.overlap({
+	Texture.overlap({
 		var z, f1, f2, f3, in, out;
 		f1 = 100;
 		f2 = 6000.0;
@@ -115,7 +115,7 @@ n = 5;	// number of overlapped events
 env = Env.linen(0.2, 8, 1, 20, 'sine');
 mode = [0, 3, 5, 7, 10];
 root = 36 + 12.rand;
-RTexture.overlap({arg i;
+Texture.overlap({arg i;
 		var amp, f;
         if(i%20 == 0, {root = 36 + 12.rand; root.postln});
 		f = (20.rand.degreeToKey(mode, 12) + root).midicps;
@@ -139,7 +139,7 @@ var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};
 var major, root;
 root = 81 + 6.rand2;
 major = #[0, 2, 4, 5, 7, 9, 11];
-	RTexture.overlap({
+	Texture.overlap({
 		var f, offset, sequence, trig;
 		offset = 16.rand2;
 		sequence = ((#[0, 1, 2, 3] + offset).scramble.degreeToKey(major) + root).midicps;
@@ -157,7 +157,7 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 });
 
 	// bowed garage door springs
-	RTexture.overlap({
+	Texture.overlap({
 		Pan2.ar(
 	            Klank.ar(
 	                `[
@@ -177,7 +177,7 @@ major = #[0, 2, 4, 5, 7, 9, 11];
 	})
 
 // contamination zone
-RTexture.overlap({
+Texture.overlap({
 		var f;
 		f = exprand(800, 8000);
 		Pan2.ar(
@@ -204,7 +204,7 @@ RTexture.overlap({
 });
 
 	// array manipulation of multi channel audio
-	RTexture.xfade({
+	Texture.xfade({
 		var a, b, c, d, e;
 		// 2 channels each of 3 different processes:
 		a = Array.fill(2, {

@@ -168,7 +168,7 @@ z * EnvGen.kr(e,doneAction:2)
 // native algorhythms
 var imp_seq = {arg s, tr; Demand.ar(tr, 0, s) * tr};
 var n = 8; 	// n = number of partials for percussion instruments
-RTexture.overlap({ // make an overlapping texture
+Texture.overlap({ // make an overlapping texture
 // create an algorhythmic rhythm pattern
 var pat = Drand([ // choose one of the following patterns at random
 		Dseq([2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 1.0, 1.0],1),

@@ -1,6 +1,6 @@
 	// choip choip choip ; graph re-write
 	var t = 12;
-	var z = RTexture.overlapGraph({
+	var z = Texture.overlapGraph({
         arg tr;
         var tline = {arg lhs, rhs, dur, tr; LinLin.kr(in: Sweep.kr(trig: tr, rate: 1 / dur), srclo: 0, srchi: 1, dstlo: lhs, dsthi: rhs)};
         var txline = {arg lhs, rhs, dur, tr; LinExp.kr(in: Sweep.kr(trig: tr, rate: 1 / dur), srclo: 0, srchi: 1, dstlo: lhs, dsthi: rhs)};
@@ -24,7 +24,7 @@
 //---- textures ; non-graph
 
 // tarmac
-RTexture.overlap({arg i;
+Texture.overlap({arg i;
         var imp_seq = {arg s, tr; Demand.kr(tr, 0, Dseq.dr(s,inf)) * tr};
 		var t, d;
 		t = Impulse.kr(8);
@@ -60,7 +60,7 @@ RTexture.overlap({arg i;
 	      )
 }, 12, 3, 6, 2);
 
-RTexture.overlap({
+Texture.overlap({
 		Pan2.ar(
 	            Klank.ar(
 	                `[
@@ -82,7 +82,7 @@ RTexture.overlap({
 
 	// choip choip choip
 	var t = 12;
-	RTexture.overlap({
+	Texture.overlap({
 		var impulses = Impulse.ar(
 			XLine.kr(exprand(1,30), exprand(1,30), t)
 		);

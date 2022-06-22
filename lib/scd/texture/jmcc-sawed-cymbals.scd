@@ -1,5 +1,5 @@
 // sawed cymbals (jmcc) #9
-RTexture.overlap(
+Texture.overlap(
 {var p = 15 /* number of partials per channel per 'cymbal' */
 ;var f1 = 500 + 2000.0.rand
 ;var f2 = 8000.0.rand

@@ -899,11 +899,6 @@ SinOsc.ar(Sweep.kr(0, 1).linlin(0, 1, 110, 220, 'minmax'), 0)
 // UGen.linlin (note Clip UGen) ; keyword
 SinOsc.ar(freq: Sweep.kr(trig: 0, rate: 1).linlin(inMin: 0, inMax: 1, outMin: 110, outMax: 220, clip: 'minmax'), phase: 0)
 
-// VarLag ; note EnvGen UGen
-{var sqr = LFPulse.kr(1, 0, 0.5).range(100, 400)
-;var crv = VarLag.kr(sqr, 0.2, Line.kr(-8, 8, 15, doneAction: Done.freeSelf))
-;SinOsc.ar(crv, 0) * 0.3}
-
 // Vibrato ; note audio rate input
 SinOsc.ar(Vibrato.ar(DC.ar(400), 1, 0.02, 0, 0, 0.04, 0.1, 0, 0), 0) * 0.1
 
@@ -957,3 +952,14 @@ XFade2.ar(Saw.ar(440), SinOsc.ar(440, 0), LFTri.ar(0.1, 0), 0.1)
 
 // MiTides ; mode=PHASES
 {MiTides.ar(3, 0.2, output_mode: 2)}.plot(1)
+
+//----- ; broken
+
+// VarLag ; note EnvGen UGen
+var sqr = LFPulse.kr(1, 0, 0.5).range(100, 400);
+var crv = VarLag.kr(sqr, 0.2, Line.kr(-8, 8, 15, doneAction: Done.freeSelf));
+SinOsc.ar(crv, 0) * 0.3
+
+// VarLag
+PinkNoise.ar(VarLag.kr(0, 0, 0, 5) ! 2)
+

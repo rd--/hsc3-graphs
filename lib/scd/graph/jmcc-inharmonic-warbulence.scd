@@ -1,5 +1,5 @@
 // jmcc - inharmonic warbulence ; graph rewrite
-var z = RTexture.overlapGraph({
+var z = Texture.overlapGraph({
     arg tr;
     var f = TRand.kr(24, 96, tr).midicps;
     var a = 1.min(500 / f);
@@ -15,7 +15,7 @@ var z = RTexture.overlapGraph({
 Mix.arFill(5, { CombN.ar(z, 0.3, { Rand.ir(0.1, 0.3) }.dup, 8) }) * 0.3
 
 //---- jmcc - inharmonic warbulence ; graph rewrite
-{var z = RTexture.overlapGraph(graphFunc:
+{var z = Texture.overlapGraph(graphFunc:
  {arg tr
  ;var f = TRand.kr(lo: 24, hi: 96, trig: tr).midicps
  ;var a = 1.min(500/f)

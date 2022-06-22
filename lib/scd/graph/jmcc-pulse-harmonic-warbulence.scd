@@ -1,5 +1,5 @@
 // pulse harmonic warbulence (jmcc) #12
-var z = RTexture.overlapGraph({
+var z = Texture.overlapGraph({
     arg tr;
     var f = TRand.kr(24, 96, tr).midicps;
     var r = TXLine.kr(TExpRand.kr(0.1, 20, tr), TExpRand.kr(0.1, 20, tr), 25.6, tr);

@@ -1,5 +1,5 @@
 // deep trip (jmcc) #9
-RTexture.overlap(
+Texture.overlap(
 {var f = LFNoise1.kr(0.3.rand, 60, 70).midicps
 ;var a = LFNoise2.ar(f * 0.5.rand, LFNoise1.kr(8.0.rand, SinOsc.kr(40.0.rand, 0, 0.1)).max(0))
 ;var z = SinOsc.ar(f, 0) *  a

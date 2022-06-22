@@ -14,7 +14,7 @@ var z = OverlapTexture({
 z
 
 //---- contamination zone ; jmcc #9
-RTexture.overlap({
+Texture.overlap({
     var f = 800.exprand(8000);
     Pan2.ar(
         RLPF.ar(

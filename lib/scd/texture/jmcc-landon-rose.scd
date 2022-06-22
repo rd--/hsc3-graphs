@@ -7,7 +7,7 @@
  ,`[[14,23,34,45].midicps,nil,tring]
  ,`[[76,88,99,124].midicps,nil,tring]]
 ;var e = Env.sine(4,1)
-;RTexture.spawn({
+;Texture.spawn({
     arg i;
     var n = PinkNoise.ar([0.001,0.001]);
     Klank.ar(specList.wrapAt(i),n) * EnvGen.ar(e,doneAction:2);

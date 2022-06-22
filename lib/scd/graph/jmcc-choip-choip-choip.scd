@@ -1,6 +1,6 @@
 // jmcc ; choip choip choip
 var dur = 12;
-var z = RTexture.overlapGraph({
+var z = Texture.overlapGraph({
     arg tr;
     var i = Impulse.ar(TXLine.kr(TExpRand.kr(1, 30, tr), TExpRand.kr(1, 30, tr), dur, tr), 0);
     var f = TXLine.kr(TExpRand.kr(600.0, 8000.0, tr), TExpRand.kr(600.0, 8000.0, tr), dur, tr);
@@ -14,7 +14,7 @@ z
 
 //---- jmcc ; choip choip choip ; lineto
 {var dur = 12
-;var z = RTexture.overlapGraph(
+;var z = Texture.overlapGraph(
  {arg tr
  ;var i = Impulse.ar(freq: TXLineTo.kr(endFunc: {arg t; TExpRand.kr(lo: 1, hi: 30, trig: t)}, dur: dur, trig: tr), phase: 0)
  ;var f = TXLineTo.kr(endFunc: {arg t; TExpRand.kr(lo: 600.0, hi: 8000.0, trig: t)}, dur: dur, trig: tr)
@@ -27,7 +27,7 @@ z
 
 //---- jmcc ; choip choip choip
 {var dur = 12
-;var z = RTexture.overlapGraph(
+;var z = Texture.overlapGraph(
  {arg tr
  ;var i = Impulse.ar(freq: TXLine.kr(start: TExpRand.kr(lo: 1, hi: 30, trig: tr), end: TExpRand.kr(lo: 1, hi: 30, trig: tr), dur: dur, trig: tr), phase: 0)
  ;var f = TXLine.kr(start: TExpRand.kr(lo: 600.0, hi: 8000.0, trig: tr), end: TExpRand.kr(lo: 600.0, hi: 8000.0, trig: tr), dur: dur, trig: tr)

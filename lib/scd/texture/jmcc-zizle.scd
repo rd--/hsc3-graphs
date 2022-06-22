@@ -1,5 +1,5 @@
 // zizle (jmcc) #SC3d1.5
-RTexture.overlap(
+Texture.overlap(
 {var a = {arg f; Mix.ar(SinOsc.ar(f * [rrand(0.7,1.3),1], [2pi.rand,2pi.rand], 0.1))}
 ;var a1 = a.value(exprand(0.3,8)).max(0)
 ;var a2 = a.value(exprand(6,24)).abs

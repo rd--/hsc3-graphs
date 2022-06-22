@@ -1,5 +1,5 @@
 // rails (jmcc) #2
-RTexture.overlap(
+Texture.overlap(
 {var n = 20 /* resonant modes */
 ;var e = Dust.ar(100,0.04) /* excitation */
 ;var f = XLine.kr(3000,300,8) /* sweep filter down */

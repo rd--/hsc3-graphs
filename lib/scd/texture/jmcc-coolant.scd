@@ -1,5 +1,5 @@
 // coolant (jmcc) #2
-RTexture.overlap(
+Texture.overlap(
 {var p = 10
 ;var f = [`[Array.fill(p, { 40 + 2000.0.rand }),nil,nil],
           `[Array.fill(p, { 40 + 2000.0.rand }),nil,nil]]

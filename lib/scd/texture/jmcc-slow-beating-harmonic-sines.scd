@@ -1,5 +1,5 @@
 // slow beating harmonic sines (jmcc) #7
-RTexture.xfade(
+Texture.xfade(
 {var n = 8 /* number of notes */
 ;var d = 0.4 /* beat frequency deviation */
 ;var m = 5 /* harmonics per note */
