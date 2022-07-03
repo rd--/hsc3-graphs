@@ -257,9 +257,12 @@ fs_graph_fragment_process_dir out_dur in_dir = do
 -- | z = fragment ID, txt = fragment.
 st_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 st_graph_fragment_rw out_dir (z,txt) =
-  let pfx = [printf "'%s' printOn: stdout." z, "Sc3 writeBinarySyndefOf: (["]
-      sfx = [printf "] value) to: '%s/%s.scsyndef' ." out_dir z]
-  in concat [pfx,lines txt,sfx]
+  let pfx =
+        [printf "'%s' printOn: stdout." z
+        ,printf "Sc3 writeBinarySyndef: '%s' of: (WrapOut bus: 0 channelsArray:  ([" z]
+      sfx =
+        [printf "] value)) to: '%s/%s.scsyndef' ." out_dir z]
+  in concat [pfx, lines txt, sfx]
 
 st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
 st_graph_fragment_process ext out_dir fn_seq = do
@@ -267,13 +270,13 @@ st_graph_fragment_process ext out_dir fn_seq = do
   pre_txt_seq <- Help.read_file_set_fragments fn_seq
   let post_txt_seq = map (if ext == ".stc" then St.stcToSt else id) pre_txt_seq
   let z_seq = map txt_hash_str pre_txt_seq
-      rw_seq = map (st_graph_fragment_rw tmp) (zip z_seq post_txt_seq)
+      rw_seq = map (st_graph_fragment_rw out_dir) (zip z_seq post_txt_seq)
       cpy (z,txt) = writeFile (out_dir </> z <.> ext) txt
       rw_fn = tmp </> "rw.st"
       rw_text = unlines (concat rw_seq)
   mapM_ cpy (zip z_seq pre_txt_seq)
   writeFile rw_fn rw_text
-  let st_cmd = "gst" -- "pharo-cli.sh"
+  let st_cmd = "gst"
   _ <- rawSystem st_cmd [rw_fn]
   return z_seq
 

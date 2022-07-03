@@ -1,0 +1,8 @@
+// RCD  ; using 'reset'
+var clock = LFPulse(8, 0, 0.001);
+var freqs = 0.to(7).collect({ arg i; (i * 4 + 50).midiCps });
+var rotate = 4;
+var reset = CoinGate(0.05, clock);
+var pulses = RCD(clock, rotate, reset, 0, 0, 0, 0, 0, 0);
+var out = Ringz(pulses, freqs, [1, 1, 0.5, 0.2, 0.2, 0.3, 0.5, 1]) * 0.05;
+Splay2(out)

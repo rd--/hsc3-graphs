@@ -1,0 +1,6 @@
+// resonz ; pinkNoise ; event control
+var f = {
+	arg e;
+	Pan2(in: Resonz(in: PinkNoise(), freq: (e.p * 127 + e.px).midiCps, bwr: e.y * 0.25) * 24, pos: e.o * 2 - 1, level: e.z.squared * e.w)
+};
+Voicer(numVoices: 16, voiceFunc: f).sum

@@ -1,0 +1,2 @@
+// sinosc ; event control ; p-field
+Voicer(16, { arg e; SinOsc(e.p.unitCps, 0) * e.w * e.z }).splay2

@@ -31,6 +31,7 @@ graphs_db_polyglot_autogen = do
   st_graph_fragment_process_dir ".st" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
   st_graph_fragment_process_dir ".st" graphs_db_dir "/home/rohan/sw/stsc3/help/ugen/"
   st_graph_fragment_process_dir ".stc" graphs_db_dir "/home/rohan/sw/stsc3/help/graph/"
+  st_graph_fragment_process_dir ".stc" graphs_db_dir "/home/rohan/sw/stsc3/help/ugen/"
   scala_graph_fragment_process_dir graphs_db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
   return ()
 
