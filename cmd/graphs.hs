@@ -4,10 +4,11 @@ import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
 import Sound.Sc3.Graphs.Polyglot {- hsc3-graphs -}
 
--- | Db directory
---
--- > fn <- Music.Theory.Directory.dir_subset graphs_db_fext graphs_db_dir
--- > length fn == 4045
+{- | Db directory
+
+> fn <- Music.Theory.Directory.dir_subset graphs_db_fext graphs_db_dir
+> length fn == 4045
+-}
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 
