@@ -160,6 +160,18 @@ Pan2.ar(Resonz.ar(GravityGrid.ar(Impulse.kr(50, 0), 0.01, LFNoise0.kr(1) * 4, LF
 // GravityGrid ; 48k spectrum looping
 Pan2.ar(Resonz.ar(GravityGrid.ar(Impulse.kr(5, 0), 0.01, LFNoise0.kr(1) * 4, LFNoise0.kr(1) * 4, -1), 1000, 0.1), 0, 0.25)
 
+// Integrator ; https://nathan.ho.name/posts/feedback-integrator-networks/ ; blockSize=1
+var n = 8;
+var snd = Impulse.ar(0, 0);
+snd = snd + LocalIn.ar(n, 0);
+snd = Integrator.ar(snd, 0.99);
+snd = snd * ({ { Rand.ir(-1, 1) * 1000 }.dup(n) }.dup(n));
+snd = snd.sum;
+snd = LeakDC.ar(snd, 0.995);
+snd = snd.clip2;
+LocalOut.ar(snd);
+Splay.ar(snd, 1, 1, 0, true) * 0.1;
+
 // Klang
 Klang.ar(Ref.new([[800, 1000, 1200], [0.3, 0.3, 0.3], [pi, pi, pi]], 1, 0)) * 0.4
 
@@ -743,6 +755,10 @@ var b = MouseX.kr(32,64,0,0.2);
 var r = BufRateScale.kr(b);
 PlayBuf.ar(1,b,r,1,0,1,0)
 
+// Pulse ; https://nathan.ho.name/posts/integer-ring-modulation/
+var freq = 100;
+Pulse.ar(freq, 0.5) * Pulse.ar(freq * LFTri.ar(0.3, pi).linlin(-1, 1, 1, 20).round, 0.5) * 0.1;
+
 // Rand (UGen)
 SinOsc.ar(Rand.ir(220, 440), 0) * 0.1
 
@@ -787,6 +803,31 @@ Mix.ar(SinOsc.ar(440, [0, pi]))
 
 // SinOsc ; phase modulation
 SinOsc.ar(MouseY.kr(1, 880, 0, 0.2), SinOsc.kr(MouseX.kr(0, 10, 0, 0.2))) * 0.1
+
+// sin ; https://scsynth.org/t/6256/7 ; sinusoid with a variable-slope Triangular Phase
+var freq = 130;
+var width = LFTri.ar(0.1, 0).linlin(-1, 1, 0.01, 0.99);
+var phasor = Phasor.ar(0, freq * SampleDur.ir, width.neg, 1 - width, 0);
+phasor = phasor.bilin(0, width.neg, 1 - width, 0, -1, 1);
+phasor = (phasor.abs * 1.5).wrap(0,1);
+(phasor * 2 * pi).sin * 0.1
+
+// sin ; https://scsynth.org/t/6256/7 ; sinusoid with a variable-slope ramp phase
+var freq = 130;
+var width = LFTri.ar(0.1, 0).linlin(-1, 1, 0.01, 0.99);
+var phasor = Phasor.ar(0, freq * SampleDur.ir, width.neg, 1 - width, width.neg, 0);
+phasor = phasor.bilin(0, width.neg, 1 - width, 0, -0.5, 1);
+phasor = Select.ar(phasor > 0, [0.5 + phasor, phasor]);
+(phasor * 2 * pi).sin * 0.1
+
+// SinOsc ; https://llllllll.co/t/45623/25
+var freqBase = 200;
+var freqRes = MouseY.kr(100, 1200, 0, 0.2);
+var pdbase = Impulse.ar(freqBase, 0);
+var pd = Phasor.ar(pdbase, 2 * pi* freqBase / SampleRate.ir, 0, 2 * pi, 0);
+var pdres = Phasor.ar(pdbase, 2 * pi * freqRes / SampleRate.ir, 0, 2 * pi, 0);
+var pdi = LinLin.ar((2 * pi - pd).max(0), 0, 2 * pi, 0, 1);
+Lag.ar(SinOsc.ar(0, pdres) * pdi, 1 / freqBase)
 
 // SinOscFB
 SinOscFB.ar([400, 301], MouseX.kr(0, 4, 0, 0.2)) * 0.1
