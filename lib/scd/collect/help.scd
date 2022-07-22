@@ -829,6 +829,24 @@ var pdres = Phasor.ar(pdbase, 2 * pi * freqRes / SampleRate.ir, 0, 2 * pi, 0);
 var pdi = LinLin.ar((2 * pi - pd).max(0), 0, 2 * pi, 0, 1);
 Lag.ar(SinOsc.ar(0, pdres) * pdi, 1 / freqBase)
 
+// SinOsc ; https://scsynth.org/t/6264/9 (es)
+var freq = [440, 880];
+var k = 12000 * (SampleRate.ir()  / 44100) / (freq * freq.log10);
+var sinSig = SinOsc.ar(freq, 0);
+var cosSig = SinOsc.ar(freq, pi / 2);
+var sqSig = (sinSig * k).tanh;
+var sawSig = sqSig * (cosSig + 1) * 0.5;
+sawSig
+
+// SinOsc ; https://scsynth.org/t/6264/8 (fm)
+var  freq = 110;
+var indexLimit = 1.5;
+var index = LinLin.ar(SinOsc.ar(1 / 10, 3 * pi / 2), -1, 1, 1, indexLimit);
+var phase = index * LocalIn.ar(1, 1);
+var sig = SinOsc.ar(freq, phase) + SinOsc.ar(freq * 0.001, index * LocalIn.ar(1, 1)).softclip;
+LocalOut.ar(sig);
+sig * 0.1
+
 // SinOscFB
 SinOscFB.ar([400, 301], MouseX.kr(0, 4, 0, 0.2)) * 0.1
 
