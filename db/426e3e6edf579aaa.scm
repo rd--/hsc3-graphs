@@ -1,0 +1,6 @@
+; FreeVerb2 ; process input signal (feedback)
+(let* ((i (SoundIn (Mce2 0 1)))
+       (c (lambda (u n) (mceChannel u n)))
+       (x (MouseX 0 1 0 0.1))
+       (y (MouseY 0 1 0 0.1)))
+  (FreeVerb2 (c i 0) (c i 1) y x 0.5))

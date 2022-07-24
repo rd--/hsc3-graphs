@@ -1,6 +1,0 @@
-; http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
-(let* ((b (Mul (mceFromTo 1 8) 99))
-       (f (DivAdd b 2 (Mul (LFSaw kr (FDiv -8 b) 1) 99)))
-       (o (Blip ar f (DivAdd b 4 (Mul (LFSaw kr (Recip b) 1) 99))))
-       (c (CombN (Mul o (SinOsc ar (FDiv 8 b) (LFSaw ar (FDiv 99 b) 0))) 0.2 0.2 1)))
-  (Mul (Sin (Splay c 1 1 0 #t)) 0.1))

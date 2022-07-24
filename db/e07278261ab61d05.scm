@@ -1,0 +1,5 @@
+; https://twitter.com/redFrik/status/456384156159574016 (f0)
+(let* ((a (Mce6 1/3 1/12 1/4 1/1 1/6 1/2))
+       (s (Mul (Lag3 (SinOsc a 0) (Abs (SinOsc (Pow 2.67 a) 0))) 99))
+       (f (Fdiv (MulAdd (Gt (SinOsc (Div3 1 a 9) a) 0) 20 99) a)))
+  (Mul (Splay (SinOsc (HPF (Ringz s f 1) 440) 0) 1 1 0 #t) 0.25))

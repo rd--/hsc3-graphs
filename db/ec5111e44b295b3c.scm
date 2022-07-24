@@ -1,7 +1,0 @@
-; bitwise ; a0f253ff89f6b244ea29a1e431dd9e5df5571a8b (jl)
-(let* ((t (PulseCount (Impulse ar 8000.0 0) 0))
-       (s (Mod (Sub (BitOr (BitOr (BitOr (BitAnd (Mul t 15) (ShiftRight t 5))
-                                         (BitAnd (Mul t 5) (ShiftRight t (Mce2 3 4))))
-                                  (BitAnd (Mul t 2) (ShiftRight t 9)))
-                           (BitAnd (Mul t 8) (ShiftRight t 11))) 3) 256)))
-  (Mul (TanH (HPF (Mul (DivAdd s 127 -1) 3) 20)) 0.02))

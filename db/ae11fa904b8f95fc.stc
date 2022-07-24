@@ -1,0 +1,3 @@
+// LFSaw ; as phasor
+var freq = LFNoise2(3) * 110 + 220;
+[(LFSaw(freq, 0) * pi + pi).sin, SinOsc(freq, 0)] * 0.1

@@ -1,0 +1,12 @@
+; http://sccode.org/1-4Qy (f0) (requires -w 512) ; edited for packet size
+(let* ((mean (lambda (l) (Fdiv (foldl1 Add l) (length l))))
+       (a (lambda (f p) (LFSaw f p)))
+       (n 50)
+       (z (lambda (i)
+            (let* ((o1 (a (Fdiv (+ i 1) (Mce2 3 4)) 0))
+                   (o2 (Add (a (/ (+ i 1) 8) 0) 1))
+                   (f0 (MulAdd (Gt o1 o2) (/ n 2) n))
+                   (m (a (AddDiv i 1 n) (/ i (/ n 2))))
+                   (o3 (Mul (Blip f0 (Add i (Mce2 2 3))) m)))
+              (Ringz o3 (AddMul i 1 (MulAdd n 2 -1)) 0.1)))))
+  (Fdiv (mean (map z (enumFromThenTo 0 3 n))) 10))

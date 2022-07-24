@@ -1,5 +1,0 @@
-; http://www.fredrikolofsson.com/f0blog/?q=node/537 (f0)
-(let* ((s (Sweep (LocalIn 6 ar 0) 1))
-       (i (Impulse ar (Mce6 1 0.749 6 12 3 4) 0))
-       (o (SinOsc ar (Recip (RunningMax s i)) 0)))
-  (Mrg2 (Mul (TanH (Splay o 1 1 0 #t)) 0.05) (LocalOut o)))

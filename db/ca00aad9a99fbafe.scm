@@ -1,0 +1,6 @@
+; AmpCompA ; Amplitude compensation in frequency modulation (Fletscher-Munson curve)
+(let* ((x (MouseX 300 15000 1 0.1))
+       (y (MouseY (Mce2 3 17) (Mce2 200 900) 1 0.1))
+       (m (Mul x (MulAdd (SinOsc y 0) 0.5 1)))
+       (a (AmpCompA m 300 (DbAmp -10) 1)))
+  (Mul3 (SinOsc m 0) 0.1 a))

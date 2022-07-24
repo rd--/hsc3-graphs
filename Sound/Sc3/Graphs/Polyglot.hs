@@ -201,7 +201,7 @@ scm_graph_rw_pre =
 scm_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 scm_graph_fragment_rw out_dir (z,txt) =
   [printf "(display \"%s %s\")(newline)" z (text_prefix 48 txt)
-  ,printf "(synthdefWrite (synthdef \"%s\" (Out (ctl ir \"out\" 0)" z
+  ,printf "(synthdefWrite (synthdef \"%s\" (Out (ctl \"out\" 0)" z
   ,printf " %s)) \"%s\")" txt (out_dir </> z <.> ".scsyndef")]
 
 scm_graph_fragment_process :: Lisp.NameTable -> String -> FilePath -> [FilePath] -> IO ()

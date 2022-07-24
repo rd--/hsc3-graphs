@@ -1,0 +1,6 @@
+; http://sccode.org/1-L (jl)
+(let* ((n (Mce5 400 500 450 376 600))
+       (d 1/20)
+       (f (Demand (Impulse d (Mce2 0 0.5)) 0 (Dseq dinf n)))
+       (f_ (LinRange (LFPulse 8 0 (LinRange (LFTri d 1) 0 1)) (mceChannel f 0) (mceChannel f 1))))
+  (Mul (LPF (Mul (Saw (Mul (Max 376 f_) (Mce2 1 0.99))) 0.5) 8000) 0.1))

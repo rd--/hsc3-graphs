@@ -1,0 +1,2 @@
+// LFSaw ; as phasor
+(LFSaw(220, 0) * pi + pi).sin * 0.1

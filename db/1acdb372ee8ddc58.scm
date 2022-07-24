@@ -1,6 +1,0 @@
-; http://sccode.org/1-4Qx (jar)
-(let* ((f (MulAdd (LFCub kr 9.1 0) 100 (Mce4 200 300 400 500)))
-       (g (MulAdd (LFCub kr (FDiv 1 (Mce4 2 3 5 7)) 0) 0.5 (LFCub kr 9 0)))
-       (h (MulAdd (LFCub kr (FDiv 1 2) 0) 0.4 0.5))
-       (s (Mul (LFCub ar f 0) (Lag (GT g h) 0.1))))
-  (Splay s 1 0.075 0 #t))

@@ -1,5 +1,0 @@
-; one-line (lance putnam)
-(let* ((lfs (MulAdd (LFSaw ar (Mce2 1 0.99) (Mce2 0 0.6)) 2000 2000))
-       (lfs-t (Mul (Trunc lfs (Mce2 400 600)) (Mce2 1 -1)))
-       (f (OnePole (Mix lfs-t) 0.98)))
-  (Pan2 (SinOsc ar f 0) 0 0.1))

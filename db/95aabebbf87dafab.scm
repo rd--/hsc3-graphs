@@ -1,0 +1,6 @@
+; http://sccode.org/1-Z (jl)
+(let* ((a (Lag (Impulse 8 0) 0.1))
+       (b (Crackle (Mul (Lag (Abs (LFSaw 3 0)) 0.1) 1.8)))
+       (d (Lag (Add (Impulse 2 0) (Impulse 4 0.5)) 0.1))
+       (e (Mul (Blip 4.9 7) 0.4)))
+ (Mul (Tanh (MulAdd (GVerb (Mul d e) 1 1 0.5 0.5 15 1 0.7 0.5 300) 5 (Mul a b))) 0.5))
