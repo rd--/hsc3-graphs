@@ -13,6 +13,11 @@ var o = SinOsc.ar(440, 0); Balance2.ar(o, o, SinOsc.ar(0.2, 0), 0.2)
 // Balance2
 var o = SinOsc.ar(440, 0); Balance2.ar(o, o, MouseX.kr(-1, 1, 0, 0.2), 0.2)
 
+// Blip
+var ln = Ln.kr(1, 20, 60);
+var tr = Impulse.kr(ln, 0);
+Blip.ar(TRand.kr(100, 1000, tr), TRand.kr(1, 10, tr)) * Linen.kr(tr, 0, 0.5, 1 / ln, 0)
+
 // BlockSize (default=64)
 SinOsc.ar([BlockSize.ir(), ControlDur.ir() * SampleRate.ir()] * MouseX.kr(2, 8, 0, 0.2), 0) * 0.05
 
@@ -22,6 +27,10 @@ var osc = SinOsc.ar(freq, 0);
 var interp = (MouseX.kr(1, 0, 0, 0.2) ** 8) * 50 + 1;
 var sig = Clip.ar(osc * interp, -1, 1) * 0.5 + 0.5;
 SinOsc.ar(200 + (sig * 1000), 0) * 0.1
+
+// CombN
+var m = LFNoise1.ar(3) * 24 + (LFSaw.ar(#[5, 5.123], 0) * 3 + 80);
+CombN.ar(SinOsc.ar(m.midiCps, 0) * 0.4, 1, 0.3, 2)
 
 // Convolution
 var tr = Dust.ar(100);
@@ -181,10 +190,25 @@ Klang.ar(Ref.new([[800, 1000, 1200], nil, nil], 1, 0)) * 0.25
 // Klang
 Klang.ar(Ref.new([Array.rand(12, 600.0, 1000.0), nil, nil], 1, 0)) * 0.05
 
+// LFCub ; phase value = (0, 2), offset to lowest and midpoint ascending
+LFCub.ar(110, 2 * [0.75, 0]) * 0.1
+
+// LFNoise0
+SinOsc.ar(LFNoise0.kr(12) * 600 + 1000, 0) * 0.1
+
+// LFPar ; phase value = (0, 4), offset to lowest and midpoint ascending
+LFPar.ar(110, 4 * [0.5, 0.75]) * 0.1
+
+// LFPulse ; phase value = (0, 1), offset to lowest point
+LFPulse.ar(110, 1 * 0.5, 0.5) * 0.1
+
 // LFPulse <https://scsynth.org/t/4877>
 var cluster = 10.collect({ 20.exprand(20 * 15 / 16) });
 var freq = 8.collect({ arg n; (30 / 16) ** n * cluster }).flat;
 Splay.ar(SinOsc.ar(freq * LFPulse.ar(0.5).range(1,0.5), 0)) * 0.02
+
+// LFSaw ; phase value = (0, 2), offset to lowest and midpoint ascending
+LFSaw.ar(110, 2 * [0.5, 0]) * 0.1
 
 // LFSaw
 var f = {
@@ -194,8 +218,15 @@ var f = {
 };
 Splay.ar(8.collect(f)) * 0.4
 
+// LFTri ; phase value = (0, 4), offset to lowest and midpoint ascending
+LFTri.ar(110, 4 * [0.75, 0]) * 0.1
+
 // Line - NOTE: doneAction input is placed AFTER mul and add inputs
 SinOsc.ar(Line.kr(200, 17000, 10, doneAction: 1), 0) * 0.1
+
+// Linen
+var r = MouseX.kr(1/3, 10, 0, 0.2);
+SinOsc.ar(440, 0) * Linen.kr(Impulse.kr(r, 0), 0, 1, 1 / r, 0)
 
 // LinExp
 var mod = SinOsc.kr(Line.kr(1, 10, 10));
@@ -755,6 +786,20 @@ var b = MouseX.kr(32,64,0,0.2);
 var r = BufRateScale.kr(b);
 PlayBuf.ar(1,b,r,1,0,1,0)
 
+// PMOsc
+PMOsc.ar(440, MouseY.kr(1, 550, 0, 0.2), MouseX.kr(1, 15, 0, 0.2), 0) * 0.1
+
+// PMOsc ; carrier and modulator not linked
+var tr = Impulse.kr(10, 0);
+var c = TRand.kr(100, 5000, tr);
+var m = TRand.kr(100, 5000, tr);
+PMOsc.ar(c, m, 12, 0) * 0.1
+
+// PMOsc ; modulator expressed as ratio
+var carrier = LFNoise0.kr(4) * 500 + 700;
+var modRatio = MouseX.kr(1, 2, 0, 0.2);
+PMOsc.ar(carrier, carrier * modRatio, 12, 0) * 0.1
+
 // Pulse ; https://nathan.ho.name/posts/integer-ring-modulation/
 var freq = 100;
 Pulse.ar(freq, 0.5) * Pulse.ar(freq * LFTri.ar(0.3, pi).linlin(-1, 1, 1, 20).round, 0.5) * 0.1;
@@ -780,6 +825,9 @@ SinOsc.ar(freq: c * 2 + c.rand2, phase: 0, mul: 0.10)
 var c = NamedControl.ir(name: "c", values: 220.0);
 SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)
 
+// RLPF
+RLPF.ar(Dust.ar(#[12, 15]), LFNoise1.ar(1 / #[3, 4]) * 1500 + 1600, 0.02)
+
 // Sieve1
 var sieve = [10] ++ { 0.75.rand }.dup(10);
 var gap = MouseX.kr(2, 100, 0, 0.2);
@@ -797,6 +845,9 @@ var stoch = Sieve1.ar(sieve.asLocalBuf, gap, 1);
 var env = Decay2.ar(stoch.abs, 0.01, MouseY.kr(0.1, 1, 0, 0.2));
 var freq = Decay2.ar(stoch, 0.01, MouseY.kr(0.5, 1, 0, 0.2)) * 110 + 440;
 SinOsc.ar(freq, 0) * env * 0.1
+
+// SinOsc ; phase value = (0, 2 * pi), offset to lowest and midpoint ascending
+SinOsc.ar(110, 2 * pi * [0.75, 0]) * 0.1
 
 // SinOsc ; phase cancellation
 Mix.ar(SinOsc.ar(440, [0, pi]))
@@ -846,6 +897,12 @@ var phase = index * LocalIn.ar(1, 1);
 var sig = SinOsc.ar(freq, phase) + SinOsc.ar(freq * 0.001, index * LocalIn.ar(1, 1)).softclip;
 LocalOut.ar(sig);
 sig * 0.1
+
+// SinOsc
+1.to(5). collect({
+	arg n;
+	Pan2.ar(SinOsc.ar(n * 100, 0) * 0.max(LFNoise1.kr(6) + Ln.kr(1, -1, 30)), Rand.ir(-1, 1), 0.1)
+}).sum
 
 // SinOscFB
 SinOscFB.ar([400, 301], MouseX.kr(0, 4, 0, 0.2)) * 0.1
@@ -957,6 +1014,9 @@ SinOsc.ar(Sweep.kr(0, 1).linlin(0, 1, 110, 220, 'minmax'), 0)
 
 // UGen.linlin (note Clip UGen) ; keyword
 SinOsc.ar(freq: Sweep.kr(trig: 0, rate: 1).linlin(inMin: 0, inMax: 1, outMin: 110, outMax: 220, clip: 'minmax'), phase: 0)
+
+// VarSaw ; phase value = (0, 2 * pi), offset to lowest and midpoint ascending
+VarSaw.ar(110, 1 * [0, 0.25], 0.5) * 0.1
 
 // Vibrato ; note audio rate input
 SinOsc.ar(Vibrato.ar(DC.ar(400), 1, 0.02, 0, 0, 0.04, 0.1, 0, 0), 0) * 0.1
