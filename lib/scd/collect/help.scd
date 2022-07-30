@@ -47,6 +47,14 @@ CrossoverDistortion.ar(SinOsc.ar(#[400, 404], 0) * 0.2, MouseX.kr(0, 1, 0, 0.2),
 // CrossoverDistortion
 CrossoverDistortion.ar(SoundIn.ar(), MouseX.kr(0, 1, 0, 0.2), MouseY.kr.kr(0, 1, 0, 0.2))
 
+// DFM1 ; mouse control
+DFM1.ar(PinkNoise.ar() * 0.2, MouseX.kr(80, 5000, 1, 0.2), MouseY.kr(0.1, 1.2, 0, 0.2), 2, 0, 0.0003)
+
+// DFM1
+var in = Pulse.ar([100, 100.1], 0.5).sum * 0.4;
+var freq = SinOsc.kr(SinOsc.kr(0.3, 0).range(0.2, 5), 0).range(80, 2000);
+DFM1.ar(in, freq, 1.1, 2, 0, 0.0003) * 0.2
+
 // Dseq ; shared dseq, different patterns
 var a = Dseq.dr(list: [1,3,2,7,8], repeats: inf);
 var t = Impulse.kr(freq: 5, phase: 0);
@@ -827,6 +835,9 @@ PMOsc.ar(carrier, carrier * modRatio, 12, 0) * 0.1
 // Pulse ; https://nathan.ho.name/posts/integer-ring-modulation/
 var freq = 100;
 Pulse.ar(freq, 0.5) * Pulse.ar(freq * LFTri.ar(0.3, pi).linlin(-1, 1, 1, 20).round, 0.5) * 0.1;
+
+// Pulse ; interference
+Pulse.ar([100, 100.1], 0.5).sum * 0.1
 
 // Rand (UGen)
 SinOsc.ar(Rand.ir(220, 440), 0) * 0.1
