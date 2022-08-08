@@ -6,7 +6,7 @@ var e = SinOsc.ar(b / 9, 0);
 var d = SinOsc.ar(b / 999, 0).abs + 0.01;
 CombC.ar(o * e, 1.01, d, 9).tanh / 2
 
-// calculations
+//---- calculations
 9.fib == [1, 1, 2, 3, 5, 8, 13, 21, 34]
 
 //--tweet0232
