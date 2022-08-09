@@ -11,5 +11,5 @@
 	})
 }.fork
 
-//--tweet0247
+//----tweet0247
 r{inf.do{|i|j=i.div(100)+1;x={Splay.ar(Blip.ar(i*j%(99..96)+1,i*j%(98..95)+1))*5}.play(s,0,6);0.12.wait;x.release(8)}}.play

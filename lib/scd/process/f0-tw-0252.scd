@@ -10,5 +10,5 @@
 	})
 }.fork
 
-//--tweet0252
+//----tweet0252
 r{inf.do{|i|play{MoogFF.ar(SyncSaw.ar([7,8],[5,10,12,20,24]*10@@(i*2)),4e3*e=Line.ar(0,pi,10,1,0,2).sin)*e/3};1.wait}}.play
