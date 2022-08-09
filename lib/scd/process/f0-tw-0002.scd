@@ -1,11 +1,10 @@
 // https://sccode.org/1-4Qy ; f0 ; 0002
 0.to(98).do({
-	var x = {
+	{
 		var o = BPF.ar(Impulse.ar(LinRand.ir(0.5, 18.5, 0), 0), LinRand.ir(0, 9999, 0), LinRand.ir(0, 0.3, 0)) * 5;
-		Pan2.ar(o, Rand.ir(-1, 1), 1)
+		Release.ar(Pan2.ar(o, Rand.ir(-1, 1), 1), 0, 3, 9)
 	}.play;
 	3.wait;
-	x.release(9)
 })
 
 //---- https://sccode.org/1-4Qy ; tweet0002

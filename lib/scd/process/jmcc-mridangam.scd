@@ -1,5 +1,5 @@
-// mridangam (jmcc) #SPE3
-(var m = {
+// mridangam (jmcc) ; #Spe3
+var m = {
     arg t_amp = 1;
     var n = WhiteNoise.ar(70) * Decay2.kr(t_amp, 0.002, 0.1);
     Out.ar(0,Resonz.ar(n, 60.midicps, 0.02, 4).distort * 0.4)};
@@ -41,4 +41,4 @@ var p =
     Pseq(#[0.0], 1)]);
 d.play;
 SynthDef(\m,m).add;
-Pbind(\instrument,\m,\amp,p,\dur,1/8).play)
+Pbind(\instrument,\m,\amp,p,\dur,1/8).play

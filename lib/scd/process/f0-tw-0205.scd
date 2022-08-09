@@ -3,8 +3,7 @@ var a = [1, 3, 5, 7, 9] * 99;
 {
 	a = (a * 9).wrap(99, 8000);
 	{
-		var e = Line.ar(0.2, 0, 9, doneAction: 2);
-		SinOsc.ar(Duty.ar(1 / [8, 9], 0, Dseq.dr(a, 99)), 0) * e
+		Release.ar(SinOsc.ar(Duty.ar(1 / [8, 9], 0, Dseq.dr(a, 99)), 0) * 0.2, 0, 0, 9)
 	}.play;
 	2.wait
 }.loop

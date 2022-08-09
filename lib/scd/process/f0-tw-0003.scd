@@ -1,11 +1,11 @@
 // https://sccode.org/1-4Qy ; f0 ; 0003
 {
-	var x = {
+	var d = (9.rand + 1);
+	{
 		var t = SinOsc.ar(999.rand, 0).abs;
-		Formlet.ar(TDuty.ar(t, 0, t, 0, 0), 4000.linrand, t, 1 - t).dup(2)
+		Release.ar(Formlet.ar(TDuty.ar(t, 0, t, 0, 0), 4000.linrand, t, 1 - t).dup(2), 0, d, 39);
 	}.play;
-	(9.rand + 1).wait;
-	x.release(39)
+	d.wait;
 }.loop
 
 //----tweet0003

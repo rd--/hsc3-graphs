@@ -6,7 +6,7 @@ var f = {
 		var i = a[0];
 		var b = Saw.kr(i);
 		d = 1 / i;
-		Pan2.ar(SinOscFB.ar(Duty.kr(d, 0, Dseq.dr(a * 99 / 2), 2), b) / 5, b)
+		Pan2.ar(SinOscFB.ar(Duty.kr(d, 0, Dseq.dr(a * 99 / 2, 1), 2), b) / 5, b)
 	}.play;
 	2.wait;
 	f.value(a + 3 / d % 9)

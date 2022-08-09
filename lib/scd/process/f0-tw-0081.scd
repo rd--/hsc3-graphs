@@ -3,7 +3,7 @@
 	var t = 3.0.linrand;
 	{
 		var e = { XLine.ar(1.0.rand, 0.5.rand, t) }.dup(2);
-		e * SinOsc.ar(XLine.ar(999.rand + 99, 999.rand, t, 1, 0, 2), 0)
+		e * SinOsc.ar(XLine.ar(999.rand + 99, 999.rand, t, 1, 0, doneAction: 2), 0)
 	}.play;
 	t.wait
 }.loop

@@ -1,12 +1,12 @@
 // https://sccode.org/1-4Qy ; f0 ; 0004
 {
 	var z = 20.rand + 6;
-	var x = {
+	var d = 26 - z;
+	{
 		var y = LFTri.ar(z, 0).abs / 9 / z;
-		(RLPF.ar(TDuty.ar(y, 0, y, 0, 0), z * 600, 0.06) * 9).dup(2)
-	}.play(fadeTime: z);
-	(26 - z).wait;
-	x.release
+		Release.ar(Pan2.ar(RLPF.ar(TDuty.ar(y, 0, y, 0, 0), z * 600, 0.06), 0, 9) * 0.5, d, 0, z)
+	}.play;
+	d.wait;
 }.loop
 
 //---- https://sccode.org/1-4Qy ; tweet0004

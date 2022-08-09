@@ -2,10 +2,9 @@
 {
 	var z = {
 		#b, c, d, e, f, g, h, i = 1.to(50).scramble;
-		GVerb.ar(GVerb.ar(GVerb.ar(GVerb.ar(Dust.ar(1), b, c), d, e), f, g), h, i) / 20
+		Release.ar(GVerb.ar(GVerb.ar(GVerb.ar(GVerb.ar(Dust.ar(1), b, c), d, e), f, g), h, i) / 20, 0, 6, 5)
 	}.play;
 	6.wait;
-	z.release(5)
 }.loop
 
 //----tweet0057

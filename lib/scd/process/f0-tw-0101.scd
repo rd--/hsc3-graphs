@@ -1,13 +1,12 @@
 // https://sccode.org/1-4Qy ; f0 ; 0101
 var c = 1;
 {
-	var x = {
+	{
 		var a = DelayN.ar(InFeedback.ar(0, 2), 1, 1);
 		c = c % 8 + 1;
-		SinOsc.ar(c * 99 + [0, 2], a.reverse) / 4
+		Release.ar(SinOsc.ar(c * 99 + [0, 2], a.reverse) / 4, 0, 9 - c, 16)
 	}.play;
 	(9 - c).wait;
-	x.release(16)
 }.loop
 
 //----tweet0101
