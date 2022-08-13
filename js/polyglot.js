@@ -13,7 +13,8 @@ function polyglot_init() {
         var select = document.getElementById('dbMenu');
         db.forEach(e => select_add_option_to(select, e.hash + e.format, e.header));
     });
-    select_on_change('dbMenu', function(value) {
+    select_on_change('dbMenu', function(element, value) {
+		console.log(value);
         current_hash = value.split('.')[0];
         console.log(current_hash);
         load_utf8_and_then('db/' + value, function(text) {

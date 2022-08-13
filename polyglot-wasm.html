@@ -5,40 +5,11 @@
     <link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
     <link rel="stylesheet" type="text/css" media="all" href="css/polyglot.css" />
-    <script src="www/lib/osc.js/dist/osc-browser.js"></script>
-    <script src="www/lib/jssc3/js/sc3-array.js"></script>
-    <script src="www/lib/jssc3/js/sc3-dom.js"></script>
-    <script src="www/lib/jssc3/js/sc3-encode.js"></script>
-    <script src="www/lib/jssc3/js/sc3-error.js"></script>
-    <script src="www/lib/jssc3/js/sc3-io.js"></script>
-    <script src="www/lib/jssc3/js/sc3-localstorage.js"></script>
-    <script src="www/lib/jssc3/js/sc3-operators.js"></script>
-    <script src="www/lib/jssc3/js/sc3-null.js"></script>
-    <script src="www/lib/jssc3/js/sc3-number.js"></script>
-    <script src="www/lib/jssc3/js/sc3-object.js"></script>
-    <script src="www/lib/jssc3/js/sc3-opensoundcontrol.js"></script>
-    <script src="www/lib/jssc3/js/sc3-rate.js"></script>
-    <script src="www/lib/jssc3/js/sc3-soundfile.js"></script>
-    <script src="www/lib/jssc3/js/sc3-string.js"></script>
-    <script src="www/lib/jssc3/js/sc3-u8.js"></script>
-    <script src="www/lib/jssc3/js/sc3.js"></script>
-    <script src="www/lib/jssc3/js/sc3-alias.js"></script>
-    <script src="www/lib/jssc3/js/sc3-bindings.js"></script>
-    <script src="www/lib/jssc3/js/sc3-buffer.js"></script>
-    <script src="www/lib/jssc3/js/sc3-buffer-cache.js"></script>
-    <script src="www/lib/jssc3/js/sc3-envelope.js"></script>
-    <script src="www/lib/jssc3/js/sc3-event.js"></script>
-    <script src="www/lib/jssc3/js/sc3-graph.js"></script>
-    <script src="www/lib/jssc3/js/sc3-pointer.js"></script>
-    <script src="www/lib/jssc3/js/sc3-pseudo.js"></script>
-    <script src="www/lib/jssc3/js/sc3-servercommand.js"></script>
-    <script src="www/lib/jssc3/js/sc3-smalltalk.js"></script>
-    <script src="www/lib/jssc3/js/sc3-stc.js"></script>
+    <script src="www/lib/jssc3/lib/osc.js/dist/osc-browser.js"></script>
+    <script src="www/lib/jssc3/js/jssc3-base.js"></script>
+    <script src="www/lib/jssc3/js/sc3-pointer-rebind.js"></script>
     <script src="www/lib/jssc3/js/sc3-wasm.js"></script>
     <script src="www/lib/jssc3/js/sc3-wasm-module.js"></script>
-    <script src="www/lib/jssc3/js/sc3-ui.js"></script>
-    <script src="www/lib/jssc3/js/sc3-ui-mouse.js"></script>
-    <script src="www/lib/jssc3/js/sc3-ui-pte.js"></script>
     <script src="js/polyglot.js"></script>
     <script>
 window.onload = function () {
@@ -54,7 +25,7 @@ window.onload = function () {
     <div>
       <button title="Play (,)" accesskey="," onclick="polyglot_load_syndef_and_play()">Play</button>
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
-      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2, 8192)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="bootScsynth(scsynthDefaultOptions)">⏻ (Boot)</button>
       <span id="statusText"></span>
     </div>
     <script async src="www/lib/scsynth-wasm-builds/ext/scsynth.js"></script>
