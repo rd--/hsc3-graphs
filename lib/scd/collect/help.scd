@@ -18,6 +18,9 @@ var ln = Ln.kr(1, 20, 60);
 var tr = Impulse.kr(ln, 0);
 Blip.ar(TRand.kr(100, 1000, tr), TRand.kr(1, 10, tr)) * Linen.kr(tr, 0, 0.5, 1 / ln, 0)
 
+// Blip
+Blip.ar(MouseX.kr([3, 12], 1, 0, 0.2), MouseY.kr([100, 1000], 1, 0, 0.2)) * 0.1
+
 // BlockSize (default=64)
 SinOsc.ar([BlockSize.ir(), ControlDur.ir() * SampleRate.ir()] * MouseX.kr(2, 8, 0, 0.2), 0) * 0.05
 
