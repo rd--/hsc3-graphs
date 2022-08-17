@@ -159,6 +159,14 @@ Formlet.ar(i, Rand.ir(300,1000), 0.01, Rand.ir(0.05, 0.2))
 var i = Impulse.ar(LFNoise2.kr([0.15, 0.6]) * 15 + 15, 0.5);
 Formlet.ar(i, TRand.ar(30, [150, 600], i), TRand.ar(0.01, [0.15, 0.6], i), TRand.ar(0.05, [0.15, 0.6], i)) * 0.25
 
+// Formlet
+var amp = LFPulse.kr(0.5, 0, 0.5);
+var my = MouseY.kr(400, 3200, 0, 0.2);
+Mix.ar({
+	var x = Formlet.ar({ Dust.ar(12) }.dup(2) * 0.05 * amp, my * 0.5.exprand(2), 0.005, 0.1);
+	AllpassN.ar(x, 0.05, 0.05.rand, 8);
+}.dup(8))
+
 // FreqShift
 var a = Blip.ar(60, 4) * LFGauss.ar(4, 1/8, 0, 1, 0);
 var b = a / 4 + LocalIn.ar(2, 0);
@@ -194,6 +202,11 @@ Pan2.ar(Resonz.ar(GravityGrid.ar(Impulse.kr(50, 0), 0.01, LFNoise0.kr(1) * 4, LF
 // GravityGrid ; 48k spectrum looping
 Pan2.ar(Resonz.ar(GravityGrid.ar(Impulse.kr(5, 0), 0.01, LFNoise0.kr(1) * 4, LFNoise0.kr(1) * 4, -1), 1000, 0.1), 0, 0.25)
 
+// GrayNoise
+var amp = LFPulse.kr(4, 0, 0.1) * 0.002;
+var exc = LPZ1.ar({ GrayNoise.ar }.dup(2) * amp);
+RingzBank.ar(exc, { Rand.ir(80, 400) }.dup(4), nil, nil)
+
 // Integrator ; https://nathan.ho.name/posts/feedback-integrator-networks/ ; blockSize=1
 var n = 8;
 var snd = Impulse.ar(0, 0);
@@ -220,6 +233,14 @@ LFCub.ar(110, 2 * [0.75, 0]) * 0.1
 
 // LFNoise0
 SinOsc.ar(LFNoise0.kr(12) * 600 + 1000, 0) * 0.1
+
+// LFNoise0
+CombN.ar(
+	LPF.ar(LFNoise0.ar(MouseX.kr(300, 2200, 0, 0.2) * [1, 1.1], LFPulse.kr(1, 0, 0.3) * 0.1), 800).abs,
+	0.2,
+	[0.2, 0.17],
+	5
+)
 
 // LFPar ; phase value = (0, 4), offset to lowest and midpoint ascending
 LFPar.ar(110, 4 * [0.5, 0.75]) * 0.1
@@ -865,6 +886,14 @@ SinOsc.ar(freq: c.rrand(c * 2), phase: 0, mul: 0.10)
 
 // RLPF
 RLPF.ar(Dust.ar(#[12, 15]), LFNoise1.ar(1 / #[3, 4]) * 1500 + 1600, 0.02)
+
+// RLPF
+var freq = Demand.kr(
+	Impulse.kr(0.25, 0),
+	0,
+	Dseq.dr([27, 24, 22, 24] + 2, inf)
+).midicps + [0, 0.3];
+RLPF.ar(LFPulse.ar(freq, 0, 0.2) * 0.4 - 0.2, 300, 0.5)
 
 // Sieve1
 var sieve = [10] ++ { 0.75.rand }.dup(10);
