@@ -196,7 +196,7 @@ scd_graph_fragment_process_dir out_dir in_dir = do
 
 scm_graph_rw_pre :: [String]
 scm_graph_rw_pre =
-  ["(import (rnrs) (rhs core) (sosc core) (rsc3 core) (rsc3 server) (rsc3 ugen) (rsc3 lang) (rsc3 arf))"]
+  ["(import (rnrs) (rhs core) (sosc core) (rsc3 core) (rsc3 server) (rsc3 ugen) (rsc3 lang))"]
 
 scm_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 scm_graph_fragment_rw out_dir (z,txt) =

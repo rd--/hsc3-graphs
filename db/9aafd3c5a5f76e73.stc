@@ -1,0 +1,6 @@
+// MiBraids ; 34=kick
+var trig =  Impulse(4, 0);
+var pitch = LinLin(Latch(PinkNoise(), trig), -1, 1, 30, 50).rounded;
+var timbre = LFNoise1(0.4) * 0.5 + 0.5;
+var color = LFNoise1(0.3) * 0.5 + 0.5;
+MiBraids(pitch: pitch, timbre: timbre, color: color, model: 34, trig: trig, resamp: 0, decim: 0, bits: 0, ws: 0).dup(2) * 0.2

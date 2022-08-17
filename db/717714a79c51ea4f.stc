@@ -1,0 +1,16 @@
+// police state ; jmcc
+var n = 4; // number of sirens
+CombL(
+	{
+		Pan2(
+			SinOsc(
+				MulAdd(SinOsc(0.1.rand + 0.02, 2 * pi.rand), 600.rand, 1000 + 300.rand2),
+				0
+			),
+			1.0.rand2,
+			LFNoise2(100 + 20.0.rand2) * 0.1
+		)
+	}.dup(4).sum
+	+ MulAdd(LFNoise2(MulAdd(LFNoise2([0.4, 0.4]), 90, 620)), MulAdd(LFNoise2([0.3, 0.3]), 0.15, 0.18), 0),
+	0.3, 0.3, 3
+) * 0.5

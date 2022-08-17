@@ -1,0 +1,6 @@
+; DetectIndex ; MouseX gives Index of Pitch scalar In buffer (0->3 1->4 2->0 3->1 4->2 5->5)
+(let* ((b (asLocalBuf (list 2 3 4 0 1 5)))
+       (n (BufFrames b))
+       (x (Floor (MouseX 0 n linear 0.1)))
+       (i (DetectIndex b x)))
+  (Mul (SinOsc (LinExp i 0 n 200 700) 0) 0.1))

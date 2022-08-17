@@ -1,0 +1,26 @@
+; chain saw (jrhb)
+(let* ((chain
+        (lambda (n fn)
+          (foldl1 compose (replicate n fn))))
+       (clipu
+        (lambda (s) (Clip2 s 1)))
+       (cpy
+        (lambda (a) (list a a)))
+       (mk-f
+        (lambda (s1)
+          (let* ((xr (dup (lambda () (ExpRand 0.1 2)) 2))
+                 (n1 (LFNoise1 xr))
+                 (n2 (LFNoise1 xr))
+                 (n3 (LFNoise1 xr))
+                 (f1 (if (coin 0.6) (ExpRange n1 0.01 10) (ExpRange n2 10 50)))
+                 (s2 (if (coin 0.5) (Sub 1 s1) (reverse s1)))
+                 (f2 (LinExp s1 -1 1 f1 (Mul f1 (ExpRange n3 2 10))))
+                 (u1 (LFSaw f2 0))
+                 (u2 (MulAdd (LFSaw (Mul f1 0.1) 0) 0.1 1)))
+            (clipu (if (coin 0.5) (Mul u1 s2) (Mul u1 u2))))))
+       (inp (LFSaw (Mul 0.2 (list 1 1.1)) 0))
+       (b-frEq (list 70 800 9000 5242))
+       (ff ((chain 8 mk-f) inp))
+       (c-Saw (Product (Saw (ExpRange ff 6 11000))))
+       (b-Saw (cpy (Mix (BPF c-Saw b-frEq 0.2)))))
+  (Mul b-Saw 0.3))

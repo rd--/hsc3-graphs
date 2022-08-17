@@ -1,0 +1,2 @@
+// SinOsc ; mce ; two out ; each single channel ; hence mono
+SinOsc([[440], [441]], 0).sum * 0.1

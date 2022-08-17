@@ -1,0 +1,2 @@
+// Release ; keywords
+Release(in: SinOsc(freq: 440, phase: 0) * 0.1, attackTime: 0.01, dur: 3, releaseTime: 7)

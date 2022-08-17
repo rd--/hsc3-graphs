@@ -1,0 +1,2 @@
+// LFSaw ; as phase input to sin ; scale using LinLin
+LinLin(LFSaw(440, 0), -1, 1, 0, 2 * pi).sin * 0.1

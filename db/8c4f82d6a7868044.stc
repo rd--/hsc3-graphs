@@ -1,0 +1,2 @@
+// LFSaw ; used as both oscillator and lfo
+LFSaw(LFSaw(4, 0) * 400 + 400, 0) * 0.05

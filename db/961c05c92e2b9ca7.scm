@@ -1,7 +1,0 @@
-; RDelayMap ; simple delay (static)
-(let* ((a (asMce (list -1 0 0 0.5 1 -1 1 1)))
-       (b (ClearBuf (LocalBuf 1 88200)))
-       (x (MouseX 110 440 0 0.1))
-       (y (MouseY 0.0 0.2 0 0.1))
-       (s (Mul (SinOsc x 0) y)))
-  (Mce2 (RDelayMap b s 0 a) s))

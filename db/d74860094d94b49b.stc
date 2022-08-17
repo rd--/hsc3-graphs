@@ -1,0 +1,4 @@
+// http://earslap.com/article/sctweeting.html
+var a = LocalIn(1, 0);
+var x = SinOsc((Decay(Impulse([4, 4.005], 0), 1000 * a.abs) * 50), a).distort;
+x.mrg(LocalOut(x.sum))

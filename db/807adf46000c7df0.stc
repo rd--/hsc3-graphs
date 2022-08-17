@@ -1,0 +1,2 @@
+// coolant (jmcc) ; Rand->rand
+{ RingzBank(OnePole(BrownNoise() * 0.002, 0.95), { 40 + 2000.0.rand }.dup(10), [0.1], [1]) }.dup(2)

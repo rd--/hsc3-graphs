@@ -1,4 +1,0 @@
-// Changed ; fixed number of sample impulses ; https://fredrikolofsson.com/f0blog/impulse-train/
-var dur = 1;
-var num = 8;
-Changed(Sweep(DC(0), num / dur).min(num).ceil, 0)

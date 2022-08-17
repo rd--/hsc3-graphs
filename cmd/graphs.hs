@@ -1,3 +1,4 @@
+import Control.Monad {- base -}
 import System.Environment {- base -}
 
 import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
@@ -7,7 +8,7 @@ import Sound.Sc3.Graphs.Polyglot {- hsc3-graphs -}
 {- | Db directory
 
 > fn <- Music.Theory.Directory.dir_subset graphs_db_fext graphs_db_dir
-> length fn == 4360
+> length fn == 4871
 -}
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
@@ -24,16 +25,21 @@ graphs_db_polyglot_autogen = do
   scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3/help/graph/"
   scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3/help/ugen/"
   scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3/help/graph/"
-  scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
-  scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
-  scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
+  when False (
+    do
+      scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
+      scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
+      scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
+    )
   fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/graph/"
   fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/ugen/"
   st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/graph/"
   st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/ugen/"
   st_graph_fragment_process_dir ".stc" db_dir "/home/rohan/sw/stsc3/help/graph/"
   st_graph_fragment_process_dir ".stc" db_dir "/home/rohan/sw/stsc3/help/ugen/"
-  scala_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
+  when False (
+    scala_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
+    )
   return ()
 
 help :: [String]
