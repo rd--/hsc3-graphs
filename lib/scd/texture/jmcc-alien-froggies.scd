@@ -1,6 +1,21 @@
 // alien froggies (jmcc) #1
-Texture.overlap({
-    var rate = 11;
-    var r = (rate * (0.2.bilinrand.exp)).fold(1.0,30.0);
-    Formant.ar(r,exprand(200,3000.0),9.0.rand * r + r,0.05);
-},sustainTime:0.5,transitionTime:0.25,overlap:5)
+{
+	var r = (11 * 0.2.bilinrand.exp).fold(1, 30);
+	Formant.ar(r, 200.exprand(3000), 9.0.rand * r + r) * 0.05;
+}.overlap(0.5, 0.25, 5)
+
+// alien froggies (jmcc) #1 ; language random ; keywords
+Texture.overlapRoutine(
+	newEventFunc: {
+		var rate = 11;
+		var r = (rate * 0.2.bilinrand.exp).fold(1, 30);
+		Formant.ar(
+			fundfreq: r,
+			formfreq: 200.exprand(3000),
+			bwfreq: 9.0.rand * r + r
+		) * 0.05;
+	},
+	sustainTime: 0.5,
+	transitionTime: 0.25,
+	overlap: 5
+)

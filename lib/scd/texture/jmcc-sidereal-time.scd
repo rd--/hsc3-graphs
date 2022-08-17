@@ -1,5 +1,5 @@
 // sidereal time (jmcc) #9 ; rand at server
-Texture.overlap({
+Texture.overlapRoutine({
     var p = 15;
     var h = { Ref.new([{ ExpRand.ir(100, 6000) }.dup(p), nil, { Rand.ir(2, 6) }.dup(p)]) };
     var z = h.dup(2);
@@ -9,7 +9,7 @@ Texture.overlap({
 }, 4, 4, 6, 2, inf, { arg z; CombN.ar(z, 0.6, 0.5.rand + 0.1, 8) + z.reverse })
 
 // sidereal time (jmcc) #9 ; rand at language
-Texture.overlap({
+Texture.overlapRoutine({
     var p = 15;
     var h = { Ref.new([{ 100.0.exprand(6000.0) }.dup(p), nil, { 2.0 + 4.0.rand }.dup(p)]) };
     var z = h.dup(2);

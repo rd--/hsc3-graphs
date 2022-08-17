@@ -1,7 +1,11 @@
 // lots-o-sins (jmcc) #2
-Texture.xfade(
-{var n = 60 // n sines in each channel (twice as many during cross-fade)
-;var z = [`[Array.fill(n, { 40 + 10000.0.linrand} ), nil, nil],
-          `[Array.fill(n, { 40 + 10000.0.linrand} ), nil, nil]]
-;Klang.ar(z, 1, 0) * (0.1/n)
-}, 4, 4)
+{
+	var n = 60;
+	{
+		SinOscBank.ar(
+			{ 40 + 10000.0.linRand}.dup(n),
+			nil,
+			nil
+		)
+	}.dup * (0.1 / n)
+}.overlap(4, 4, 2)
