@@ -1,4 +1,4 @@
-// chrd (rd)
+// 20060914 ; rd
 {
 	var chrd = {
 		arg m;
@@ -17,7 +17,7 @@
 	{ chrd.value(chd) }.dup(9).sum
 }.overlap(21, 0, 3, 2)
 
-// chrd (rd) ; keywords ; list comprehension
+// 20060914 ; rd ; keywords ; list comprehension
 Texture.overlapRoutine(
 	newEventFunc: {
 		var chrd = {
