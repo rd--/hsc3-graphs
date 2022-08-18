@@ -1,13 +1,11 @@
 // random panning sines (jmcc) #4
-Texture.xfade(
 {
     var n = 8;
-    Mix.ar(Array.fill(n, {
+    {
         Pan2.ar(
-            FSinOsc.ar(80 + 2000.0.linrand),
+            SinOsc.ar(80 + 2000.0.linrand, 0),
             LFNoise1.kr(0.4 + 0.8.rand),
-            LFNoise1.kr(0.4 + 0.8.rand, 0.4, 0.5)
+            LFNoise1.kr(0.4 + 0.8.rand) * 0.4 + 0.5
         )
-        })) * (0.4 / n);
-}
-,8,8)
+    }.dup(n).sum * (0.4 / n);
+}.xfade(8, 8)
