@@ -66,7 +66,6 @@ var funcs = [
 var count = 0;
 {
 	var reps, flist;
-	count.postln;
 	#reps, flist = funcs.wrapAt(count);
 	root = 3.rrand(6);
 	Texture.overlapRoutine({
@@ -74,5 +73,5 @@ var count = 0;
 		[DelayN.ar(snd.first, 0.04, 0.04.rand), snd.second].scramble;
 	}, 32, 4, 10, 2, maxRepeats: reps);
 	count = count + 1;
-	2.seconds.wait
-}.fork
+	(reps * 3).seconds.wait
+}.loop
