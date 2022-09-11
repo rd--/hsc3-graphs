@@ -4,7 +4,7 @@
 		var o = Pluck.ar(Crackle.ar([1.9, 1.8]), Impulse.ar(5.rand + 1, 0), 0.05, 0.05.linrand, 1, 0.5);
 		Release.ar(BPF.ar(o, 1200.rand, 1), 9, 0, 69)
 	}.play;
-	9.wait;
+	9.seconds.wait;
 }.loop
 
 // https://sccode.org/1-4S6 ; f0 ; 'm'

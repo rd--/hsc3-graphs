@@ -8,7 +8,7 @@ var f = {
 		d = 1 / i;
 		Pan2.ar(SinOscFB.ar(Duty.kr(d, 0, Dseq.dr(a * 99 / 2, 1), 2), b) / 5, b)
 	}.play;
-	2.wait;
+	2.seconds.wait;
 	f.value(a + 3 / d % 9)
 };
 f.value(4.to(12))

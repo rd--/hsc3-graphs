@@ -4,7 +4,7 @@
 		var o = BPF.ar(Impulse.ar(LinRand.ir(0.5, 18.5, 0), 0), LinRand.ir(0, 9999, 0), LinRand.ir(0, 0.3, 0)) * 5;
 		Release.ar(Pan2.ar(o, Rand.ir(-1, 1), 1), 0, 3, 9)
 	}.play;
-	3.wait;
+	3.seconds.wait;
 })
 
 //---- https://sccode.org/1-4Qy ; tweet0002

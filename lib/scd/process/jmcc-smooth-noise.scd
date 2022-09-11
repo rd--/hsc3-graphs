@@ -1,5 +1,5 @@
 // smooth noise ; jmcc
-Texture.overlap({
+{
 	[
 		{
 			Pan2.ar(
@@ -10,4 +10,4 @@ Texture.overlap({
 		},
 		0
 	].choose.value;
-}, 0.2, 3.8, 2, 2)
+}.overlap(0.2, 3.8, 2, 2)

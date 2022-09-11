@@ -6,7 +6,7 @@ inf.do({
 		var p = SinOsc.ar(Duty.ar(b, 0, Dseq([0, i % 9, 2, 3, 4, 0, 2, 1] * 150, 9)), 0);
 		Pan2.ar(SinOsc.ar(i, p, b), i % 3 - 1, 1)
 	}.play;
-	(i % 5 + 1).wait
+	(i % 5 + 1).seconds.wait
 })
 
 //----tweet0202

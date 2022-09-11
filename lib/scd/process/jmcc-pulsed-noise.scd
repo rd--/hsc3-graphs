@@ -1,5 +1,5 @@
 // pulsed noise ; jmcc
-Texture.overlap({
+{
 	[
 		{
 			var amp = (SinOsc.ar(8, 0) * 4).max(0);
@@ -11,4 +11,4 @@ Texture.overlap({
 		},
 		0
 	].choose.value;
-}, 0.2, 3.8, 2, 2)
+}.overlap(0.2, 3.8, 2)

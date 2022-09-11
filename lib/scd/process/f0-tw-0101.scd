@@ -6,7 +6,7 @@ var c = 1;
 		c = c % 8 + 1;
 		Release.ar(SinOsc.ar(c * 99 + [0, 2], a.reverse) / 4, 0, 9 - c, 16)
 	}.play;
-	(9 - c).wait;
+	(9 - c).seconds.wait;
 }.loop
 
 //----tweet0101

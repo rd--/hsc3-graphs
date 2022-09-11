@@ -4,7 +4,7 @@
 		#b, c, d, e, f, g, h, i = 1.to(50).scramble;
 		Release.ar(GVerb.ar(GVerb.ar(GVerb.ar(GVerb.ar(Dust.ar(1), b, c), d, e), f, g), h, i) / 20, 0, 6, 5)
 	}.play;
-	6.wait;
+	6.seconds.wait;
 }.loop
 
 //----tweet0057

@@ -5,7 +5,7 @@ inf.do({
 		var e = Line.ar(0, pi, 10, doneAction: 2).sin;
 		MoogFF.ar(SyncSaw.ar([7, 8], ([5, 10, 12, 20, 24] * 10).wrapAt((i * 2))), 4000 * e, 2, 0) * e / 3
 	}.play;
-	1.wait
+	1.seconds.wait
 })
 
 //----tweet0252

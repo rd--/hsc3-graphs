@@ -5,7 +5,7 @@
 		var a = DelayN.ar(LPF.ar(InFeedback.ar(0, 2), z), 0.2, 0.2);
 		Release.ar(SinOsc.ar(z + [0, 3], a * pi) / 2, 0, 6, 9)
 	}.play;
-	6.wait;
+	6.seconds.wait;
 }.loop
 
 //----tweet0100

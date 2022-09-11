@@ -12,7 +12,7 @@ inf.do({
 		}.dup(d).sum;
 		Release.ar(CombN.ar(z, 0.2, 0.2, 1).tanh * 0.1, w, 0, 12)
 	}.play;
-	w.wait;
+	w.seconds.wait
 })
 
 //---- calculations

@@ -6,7 +6,7 @@
 		var y = LFTri.ar(z, 0).abs / 9 / z;
 		Release.ar(Pan2.ar(RLPF.ar(TDuty.ar(y, 0, y, 0, 0), z * 600, 0.06), 0, 9) * 0.5, d, 0, z)
 	}.play;
-	d.wait;
+	d.seconds.wait;
 }.loop
 
 //---- https://sccode.org/1-4Qy ; tweet0004

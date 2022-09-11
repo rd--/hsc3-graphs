@@ -9,7 +9,7 @@
 		var o = Duty.ar(1 / 50, 0, Dseq.dr(f.dup(8).flat, 4), doneAction: 2);
 		Pan2.ar(Decay.ar(o, j + 1 * 0.008).sin, 0, 0.5)
 	}.play;
-	5.12.wait
+	5.12.seconds.wait
 })
 
 //----tweet0021
