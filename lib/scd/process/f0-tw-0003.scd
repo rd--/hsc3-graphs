@@ -3,7 +3,7 @@
 	var d = (9.rand + 1);
 	{
 		var t = SinOsc.ar(999.rand, 0).abs;
-		Release.ar(Formlet.ar(TDuty.ar(t, 0, t, 0, 0), 4000.linrand, t, 1 - t).dup(2), 0, d, 39);
+		Release.ar(Formlet.ar(TDuty.ar(t, 0, t, 0, 0), LinRand.ir(0, 4000, 0), t, 1 - t).dup(2), 0, d, 39);
 	}.play;
 	d.seconds.wait;
 }.loop

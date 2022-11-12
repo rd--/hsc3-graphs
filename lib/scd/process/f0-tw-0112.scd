@@ -6,7 +6,7 @@ inf.do({
 			VarSaw.ar(Duty.ar(1 / 12, 0, Dseq((12..0) * (i % 63 + 99)), doneAction: 2) * [1, 1.01], 0, i / 9 % 9 / 9) / 9
 		}.play
 	}.dup(2);
-	(1 / 3).wait
+	(1 / 3).seconds.wait
 })
 
 //---- calculations

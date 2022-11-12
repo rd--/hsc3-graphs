@@ -3,10 +3,10 @@ var f = {
 	arg a;
 	var d;
 	{
-		var i = a[0];
+		var i = a.first;
 		var b = Saw.kr(i);
 		d = 1 / i;
-		Pan2.ar(SinOscFB.ar(Duty.kr(d, 0, Dseq.dr(a * 99 / 2, 1), 2), b) / 5, b)
+		Pan2.ar(SinOscFB.ar(Duty.kr(d, 0, Dseq.dr(a * 99 / 2, 1), doneAction: 2), b) / 5, b)
 	}.play;
 	2.seconds.wait;
 	f.value(a + 3 / d % 9)
