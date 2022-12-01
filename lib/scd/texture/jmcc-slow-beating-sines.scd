@@ -21,5 +21,5 @@
 	[p, q].collect({
 		arg f;
 		SinOscBank.ar(f, nil, { 2 * pi.rand }.dup(3 * n))
-	}) / n / 2
+	}) / n / 4
 }.xfade(4, 4)
