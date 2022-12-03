@@ -1,6 +1,6 @@
 cabal-version:     2.4
 name:              hsc3-graphs
-version:           0.20
+version:           0.21
 synopsis:          Haskell SuperCollider Graphs
 license:           GPL-3.0-only
 category:          Sound
@@ -8,29 +8,30 @@ copyright:         (c) Rohan Drape, 2006-2022
 maintainer:        rd@rohandrape.net
 stability:         Experimental
 homepage:          http://rohandrape.net/t/hsc3-graphs
-tested-with:       GHC == 9.4.2
+tested-with:       GHC == 9.4.3
 build-type:        Simple
 
 library
   build-depends:        base >= 4.7 && < 5,
                         directory,
                         filepath,
-                        hmt-base == 0.20.*,
-                        hsc3 == 0.20.*,
-                        hsc3-dot == 0.20.*,
-                        hsc3-lisp == 0.20.*,
+                        hmt-base == 0.21.*,
+                        hsc3 == 0.21.*,
+                        hsc3-dot == 0.21.*,
+                        hsc3-lisp == 0.21.*,
                         murmur-hash,
                         process,
                         split,
-                        stsc3 == 0.20.*
+                        stsc3 == 0.21.*
   default-language:     Haskell2010
   ghc-options:          -Wall -fwarn-tabs
-  exposed-modules:      Sound.Sc3.Graphs.Polyglot
+  exposed-modules:      Sound.Sc3.Graphs.Db
+                        Sound.Sc3.Graphs.Polyglot
 
 executable hsc3-graphs
   build-depends:        base >= 4.7 && < 5,
                         hsc3-graphs,
-                        hsc3-lisp == 0.20.*
+                        hsc3-lisp == 0.21.*
   hs-source-dirs:       cmd
   main-is:              graphs.hs
   default-language:     Haskell2010
