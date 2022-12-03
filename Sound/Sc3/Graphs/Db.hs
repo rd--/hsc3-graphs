@@ -1,6 +1,7 @@
+-- | Graph & Texture Dbs
+module Sound.Sc3.Graphs.Db where
+
 import Data.Char {- base -}
-import Data.Either {- base -}
-import Data.List {- base -}
 import Data.Maybe {- base -}
 import Text.Printf {- base -}
 
