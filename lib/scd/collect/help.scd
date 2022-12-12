@@ -24,6 +24,19 @@ Blip.ar(MouseX.kr([3, 12], 1, 0, 0.2), MouseY.kr([100, 1000], 1, 0, 0.2)) * 0.1
 // BlockSize (default=64)
 SinOsc.ar([BlockSize.ir(), ControlDur.ir() * SampleRate.ir()] * MouseX.kr(2, 8, 0, 0.2), 0) * 0.05
 
+// BLowPass4 ; rq should compensate for 2 biquad sections
+BLowPass4.ar(
+        WhiteNoise.ar(),
+        MouseX.kr(10, 20000, 1, 0.2),
+        MouseY.(0.1, 1, 0, 0.2)
+) * 0.25
+
+// BLowPass4 ; compare to nested BLowPass
+var n = WhiteNoise.ar();
+var x = MouseX.kr(10, 20000, 1, 0.2);
+var y = MouseY.kr(0.1, 1, 0, 0.2);
+[BLowPass4.ar(n, x, y), BLowPass.ar(BLowPass.ar(n, x, y.sqrt), x, y.sqrt)] * 0.25
+
 // Clip ; https://scsynth.org/t/5208/2 (sp)
 var freq = 10;
 var osc = SinOsc.ar(freq, 0);
