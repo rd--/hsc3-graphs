@@ -935,6 +935,9 @@ Mix.ar(SinOsc.ar(440, [0, pi]))
 // SinOsc ; phase modulation
 SinOsc.ar(MouseY.kr(1, 880, 0, 0.2), SinOsc.kr(MouseX.kr(0, 10, 0, 0.2))) * 0.1
 
+// SinOsc ; random stereo
+{ SinOsc.ar(IRand.ir(48, 72).midicps, 0) * Rand.ir(0.05, 0.1) } ! 2
+
 // sin ; https://scsynth.org/t/6256/7 ; sinusoid with a variable-slope Triangular Phase
 var freq = 130;
 var width = LFTri.ar(0.1, 0).linlin(-1, 1, 0.01, 0.99);
@@ -1140,6 +1143,9 @@ var z = 9;
 var freq = f * x * LinLin.kr(LFNoise2.kr(z), -1, 1, 0.25, 2);
 var decay = d * y * LinLin.kr(LFNoise2.kr(z), -1, 1, 0.25, 2);
 Pan2.ar((VOSIM.ar(t, freq, n, decay) * a).sum, l, 0.75)
+
+// wrap2
+SinOsc.ar(1000, 0).wrap2(Line.kr(0, 1.01, 8)) * 0.1
 
 // XFade2
 XFade2.ar(Saw.ar(440), SinOsc.ar(440, 0), LFTri.ar(0.1, 0), 0.1)
