@@ -4,7 +4,7 @@ version:           0.21
 synopsis:          Haskell SuperCollider Graphs
 license:           GPL-3.0-only
 category:          Sound
-copyright:         (c) Rohan Drape, 2006-2022
+copyright:         (c) Rohan Drape, 2006-2023
 maintainer:        rd@rohandrape.net
 stability:         Experimental
 homepage:          http://rohandrape.net/t/hsc3-graphs

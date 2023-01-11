@@ -1,23 +1,27 @@
-'use strict';
+import * as sc from '../www/lib/jssc3/dist/jssc3.js'
 
-var current_hash;
+let current_hash;
 
-function polyglot_load_syndef_and_play() {
-    var fileName = 'db/' + current_hash + '.scsyndef';
-    console.log('load_syndef_and_play: filename', current_hash);
-    load_arraybuffer_and_then(fileName, syndefData => playSyndef(current_hash, syndefData));
+export function load_syndef_and_play() {
+    const fileName = `db/${current_hash}.scsyndef`;
+    console.log(`load_syndef_and_play: ${fileName}`);
+    sc.load_arraybuffer_and_then(fileName, function(syndefData) {
+		sc.scsynthEnsure(globalScsynth, function() {
+				 sc.playSyndef(globalScsynth, current_hash, syndefData, 1);
+		});
+	});
 }
 
-function polyglot_init() {
-    load_json_and_then("json/db.json", function(db) {
-        var select = document.getElementById('dbMenu');
-        db.forEach(e => select_add_option_to(select, e.hash + e.format, e.header));
+export function initialise() {
+    sc.load_json_and_then("json/db.json", function(db) {
+        const select = document.getElementById('dbMenu');
+        db.forEach(e => sc.select_add_option_to(select, e.hash + e.format, e.header));
     });
-    select_on_change('dbMenu', function(element, value) {
-		console.log(value);
+    sc.select_on_change('dbMenu', function(element, value) {
+		console.log(`initialise: ${value}`);
         current_hash = value.split('.')[0];
         console.log(current_hash);
-        load_utf8_and_then('db/' + value, function(text) {
+        sc.load_utf8_and_then('db/' + value, function(text) {
             document.getElementById('textView').value = text;
         });
     });

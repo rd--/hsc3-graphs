@@ -1,36 +1,40 @@
 body {
-  margin: 1em 1em;
-  background-color: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
+	margin: 1em 1em;
+	background-color: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
 }
 
 h1 {
-    font-size: 1.15em;
+	font-size: 1.15em;
+}
+
+p {
+	width: 45em;
 }
 
 body, textarea, select, button, span {
-    font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif;
-    font-size: 11pt;
+	font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif;
+	font-size: 11pt;
 }
 
 textarea, select, button, span {
-  background-color: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
-  color: #424242;
+	background-color: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0 */
+	color: #424242;
 }
 
 select {
-    width: 860px;
-    margin-bottom: 4px;
+	width: 860px;
+	margin-bottom: 4px;
 }
 
 textarea {
-    width: 854px;
-    /* overflow-y: scroll; */
+	width: 854px;
+	/* overflow-y: scroll; */
 }
 
 #statusText {
-  background-color: #ffffe8;
-  display: inline-block;
-  border: 1px dotted black;
-  padding: 2px;
-  width: 75px;
+	background-color: #ffffe8;
+	display: inline-block;
+	border: 1px dotted black;
+	padding: 2px;
+	width: 75px;
 }

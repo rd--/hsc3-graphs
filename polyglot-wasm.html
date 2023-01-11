@@ -1,35 +1,39 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="css/polyglot.css" />
-    <script src="www/lib/jssc3/lib/osc.js/dist/osc-browser.js"></script>
-    <script src="www/lib/jssc3/js/jssc3-base.js"></script>
-    <script src="www/lib/jssc3/js/sc3-pointer-rebind.js"></script>
-    <script src="www/lib/jssc3/js/sc3-wasm.js"></script>
-    <script src="www/lib/jssc3/js/sc3-wasm-module.js"></script>
-    <script src="js/polyglot.js"></script>
-    <script>
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="css/polyglot.css" />
+		<script src="www/lib/jssc3/lib/osc.js/dist/osc-browser.js"></script>
+		<script type="module">
+import * as sc from './www/lib/jssc3/dist/jssc3.js'
+import * as polyglot from './js/polyglot.js'
+globalThis.sc = sc;
+globalThis.polyglot = polyglot;
 window.onload = function () {
-    polyglot_init();
-    sc3_wasm_init();
+	sc.sc3_wasm_init(sc.setter_for_inner_html_of('statusText'));
+	sc.sc3_mouse_init(globalScsynth);
+	polyglot.initialise();
 };
-    </script>
-  </head>
-  <body>
-    <h1>Polyglot SuperCollider (Web Assembly)</h1>
-    <div><select id="dbMenu" title="Db (p)" accesskey="p" size="12"></select></div>
-    <div><textarea id="textView" rows="24" cols="120"></textarea></div>
-    <div>
-      <button title="Play (,)" accesskey="," onclick="polyglot_load_syndef_and_play()">Play</button>
-      <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
-      <button title="Boot" accesskey="b" onclick="bootScsynth(scsynthDefaultOptions)">⏻ (Boot)</button>
-      <span id="statusText"></span>
-    </div>
-    <script async src="www/lib/scsynth-wasm-builds/ext/scsynth.js"></script>
-  </body>
+	</script>
+	</head>
+	<body>
+		<h1>Polyglot SuperCollider (Web Assembly)</h1>
+		<div><select id="dbMenu" title="Db (p)" accesskey="p" size="12"></select></div>
+		<div><textarea id="textView" rows="24" cols="120"></textarea></div>
+		<div>
+			<button title="Play (,)" accesskey="," onclick="polyglot.load_syndef_and_play()">Play</button>
+			<button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
+			<button title="Boot" accesskey="b" onclick="globalScsynth.boot()">⏻ (Boot)</button>
+			<span id="statusText">---</span>
+		</div>
+		<p>
+			Note: <em>.scsyndef</em> files that refer to Ugens that do not exist in the Wasm build will crash the synthesiser.
+			In particular the Mouse Ugens are not implemented.
+		</p>
+		<script async src="www/lib/scsynth-wasm-builds/ext/scsynth.js"></script>
+	</body>
 </html>
 
 <!--
