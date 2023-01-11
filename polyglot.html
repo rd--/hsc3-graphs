@@ -25,12 +25,15 @@ window.onload = function () {
 		<div>
 			<button title="Play (,)" accesskey="," onclick="polyglot.load_syndef_and_play()">Play</button>
 			<button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
-			<button title="Boot" accesskey="b" onclick="globalScsynth.boot()">⏻ (Boot)</button>
+			<button title="Begin (b)" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
 			<span id="statusText">---</span>
 		</div>
 		<p>
 			Note: <em>.scsyndef</em> files that refer to Ugens that do not exist in the Wasm build will crash the synthesiser.
 			In particular the Mouse Ugens are not implemented.
+		</p>
+		<p>
+			Brief <a href="http://rohandrape.net/?t=hsc3-graphs&e=md/polyglot-browser.md" target="_blank">introductory notes</a>.
 		</p>
 		<script async src="www/lib/scsynth-wasm-builds/ext/scsynth.js"></script>
 	</body>
