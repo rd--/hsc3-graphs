@@ -1,6 +1,6 @@
 	// choip choip choip ; graph re-write
 	var t = 12;
-	var z = Texture.overlapGraph({
+	var z = OverlapTexture({
         arg tr;
         var tline = {arg lhs, rhs, dur, tr; LinLin.kr(in: Sweep.kr(trig: tr, rate: 1 / dur), srclo: 0, srchi: 1, dstlo: lhs, dsthi: rhs)};
         var txline = {arg lhs, rhs, dur, tr; LinExp.kr(in: Sweep.kr(trig: tr, rate: 1 / dur), srclo: 0, srchi: 1, dstlo: lhs, dsthi: rhs)};

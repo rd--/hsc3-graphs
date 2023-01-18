@@ -1,5 +1,5 @@
 // random panning sines (jmcc) #4
-Texture.overlapGraph({
+OverlapTexture({
     arg tr;
     var n = 8;
     Mix.fill(n, {

@@ -1,5 +1,5 @@
 	// deep trip ; graph re-write
-	Texture.overlapGraph( {
+	OverlapTexture( {
         arg tr;
         var f, z, s;
 		f = LFNoise1.kr(TRand.kr(0,0.3,tr), 60, 70).midicps;
@@ -16,7 +16,7 @@
 
 	// sidereal time ; graph re-write
 	var p = 15;	// number of partials per channel per 'cymbal'.
-	Texture.overlapGraph({
+	OverlapTexture({
         arg tr;
 		var z, f1, f2, f3, in, out;
 		f1 = 100;
@@ -35,7 +35,7 @@
 	}, 4, 4, 6, 2)
 
 // ostinoodles ; graph rewrite
-var z = Texture.overlapGraph({
+var z = OverlapTexture({
         arg tr;
 		var sequ, major, root, f, offset, sequence, trig;
         sequ = {arg s, tr; Demand.kr(tr, 0, Dseq(s, inf))};

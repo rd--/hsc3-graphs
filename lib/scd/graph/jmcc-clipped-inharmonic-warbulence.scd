@@ -1,5 +1,5 @@
 // clipped inharmonic warbulence ; jmcc
-var z = Texture.overlapGraph({
+var z = OverlapTexture({
     arg tr;
     var r = LinExp.kr(LFNoise1.kr(1 / 16), -1, 1, 0.1, 20);
     var f = TRand.kr(24, 96, tr).midicps;

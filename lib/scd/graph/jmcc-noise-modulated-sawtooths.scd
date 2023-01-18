@@ -1,5 +1,5 @@
 // noise modulated sawtooths (jmcc) #6
-var a = Texture.overlapGraph({
+var a = OverlapTexture({
     arg tr;
     var f = TRand.kr(60, 100, tr).midicps;
     LFSaw.ar([f, f + 0.2], 0) * LFNoise2.kr(f * [0.15, 0.16]) * 0.05

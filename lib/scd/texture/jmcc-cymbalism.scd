@@ -1,5 +1,5 @@
 // cymbalism (jmcc) #2
-Texture.xfadeRoutine({
+{
 	var p = 15;
 	var f1 = Rand.ir(500, 2500);
 	var f2 = Rand.ir(0, 8000);
@@ -13,4 +13,4 @@ Texture.xfadeRoutine({
 	var n = WhiteNoise.ar * 0.03;
 	var s = Decay.ar(t, 0.004) * n;
 	Klank.ar(z, s)
-}, 4, 4)
+}.xfade(4, 4)

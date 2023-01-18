@@ -3,7 +3,7 @@ var n = 5;
 var env = Env.linen(0.2, 8, 1, 20, 'sine');
 var mode = #[0, 3, 5, 7, 10].as(LocalBuf);
 var root = 36 + 12.rand;
-var z = Texture.overlapGraph({
+var z = OverlapTexture({
     arg tr;
     var f = (DegreeToKey.kr(mode, TRand.kr(0, 20, tr), 12) + root).midicps;
     var amp = EnvGen.kr(env, tr, 1, 0, 1, 0);

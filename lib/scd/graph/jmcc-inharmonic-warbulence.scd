@@ -1,9 +1,9 @@
 // jmcc - inharmonic warbulence ; graph rewrite
-var z = Texture.overlapGraph({
+var z = OverlapTexture({
     arg tr;
     var f = TRand.kr(24, 96, tr).midicps;
     var a = 1.min(500 / f);
-    var r = TXLine.kr(TExpRand.kr(0.1, 20, tr), TExpRand.kr(0.1, 20, tr), 25.6, tr);
+    var r = TxLine.kr(TExpRand.kr(0.1, 20, tr), TExpRand.kr(0.1, 20, tr), 25.6, tr);
     var n = 12;
     Mix.arFill(n, {
         arg i;
@@ -15,11 +15,11 @@ var z = Texture.overlapGraph({
 Mix.arFill(5, { CombN.ar(z, 0.3, { Rand.ir(0.1, 0.3) }.dup, 8) }) * 0.3
 
 //---- jmcc - inharmonic warbulence ; graph rewrite
-{var z = Texture.overlapGraph(graphFunc:
+{var z = OverlapTexture(graphFunc:
  {arg tr
  ;var f = TRand.kr(lo: 24, hi: 96, trig: tr).midicps
  ;var a = 1.min(500/f)
- ;var r = TXLine.kr(start: TExpRand.kr(lo: 0.1, hi: 20, trig: tr), end: TExpRand.kr(lo: 0.1, hi: 20, trig: tr), dur: 25.6, trig: tr)
+ ;var r = TxLine.kr(start: TExpRand.kr(lo: 0.1, hi: 20, trig: tr), end: TExpRand.kr(lo: 0.1, hi: 20, trig: tr), dur: 25.6, trig: tr)
  ;var n = 12
  ;Mix.arFill(n,
   {arg i
