@@ -15,25 +15,13 @@ var f = {
 					hi: 2040,
 					trig: tr) * 1 + 40,
 				decaytime: 1,
-				mul: 0.2,
+				mul: 0.5,
 				add: 0
 			)
 		} ! 10,
 	)
 };
-var xFadeTexture = {
-	arg graphFunc, sustainTime = 4.0, transitionTime = 4.0;
-	var mk = {
-		arg ph;
-		var trg = Impulse.kr(freq: 1 / (sustainTime + (transitionTime * 2)), phase: ph);
-		var snd = graphFunc.value(trg);
-		var env = Env.new(levels: [0, 1, 1, 0], times: [transitionTime, sustainTime, transitionTime], curve: \sin);
-		snd * EnvGen.kr(envelope: env, gate: trg, levelScale: 1, levelBias: 0, timeScale: 1, doneAction: 0);
-	};
-	var xfadePhase = (sustainTime + transitionTime) / (sustainTime + (transitionTime * 2));
-	mk.value(0) + mk.value(xfadePhase);
-};
-xFadeTexture.value(
+XFadeTexture(
 	graphFunc: f,
 	sustainTime: 4,
 	transitionTime: 4,
