@@ -28,7 +28,7 @@ SinOsc.ar([BlockSize.ir(), ControlDur.ir() * SampleRate.ir()] * MouseX.kr(2, 8, 
 BLowPass4.ar(
         WhiteNoise.ar(),
         MouseX.kr(10, 20000, 1, 0.2),
-        MouseY.(0.1, 1, 0, 0.2)
+        MouseY.kr(0.1, 1, 0, 0.2)
 ) * 0.25
 
 // BLowPass4 ; compare to nested BLowPass
@@ -1087,10 +1087,10 @@ TwoPole.ar(WhiteNoise.ar(), MouseX.kr(800, 8000, 1, 0.2), 0.95) * 0.005
 // TwoZero
 TwoZero.ar(WhiteNoise.ar(), XLine.kr(20, 20000, 8), 1) * 0.125
 
-// TXLine
+// TxLine
 var trigger = Impulse.ar(0.25, 0);
 var gainEnv = Decay2.ar(trigger, 0.01, 1);
-Pan2.ar(Saw.ar(TXLine.ar(100, 1000, 0.1, trigger)), TLine.ar(-1, 1, 0.75, trigger), gainEnv)
+Pan2.ar(Saw.ar(TxLine.ar(100, 1000, 0.1, trigger)), TLine.ar(-1, 1, 0.75, trigger), gainEnv)
 
 // UGen.linlin ; note Clip UGen
 SinOsc.ar(Sweep.kr(0, 1).linlin(0, 1, 110, 220, 'minmax'), 0)

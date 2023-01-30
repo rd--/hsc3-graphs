@@ -13,8 +13,8 @@ var voiceFunc = {
     var decay = 0;
 	var decays = [1, 0.7 * (-1 * decay).exp, 0.5 * (-1 * decay).exp, 0.4 * (-1 * decay).exp];
     var zero = 0.000001;
-	var soundMain = TXLine.kr(zero, 1, 1 / freqs, e.w) * TXLine.kr(1, zero, decays * 4, e.w) * sound * mod;
-	var soundHigh = TXLine.kr(0.3 * (velocity + zero), zero, 0.02, e.w) * SinOsc.ar(hifreqs); // hi frequency onset
+	var soundMain = TxLine.kr(zero, 1, 1 / freqs, e.w) * TxLine.kr(1, zero, decays * 4, e.w) * sound * mod;
+	var soundHigh = TxLine.kr(0.3 * (velocity + zero), zero, 0.02, e.w) * SinOsc.ar(hifreqs); // hi frequency onset
     var pan = e.o * 2 - 1;
 	Pan2.ar(soundMain.sum + soundHigh.sum, pan, e.w.lagud(0.01, 4))};
 Mix.ar(Voicer.ar(16, voiceFunc))

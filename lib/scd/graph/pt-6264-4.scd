@@ -5,7 +5,7 @@ var det = 0.2;
 var voiceFunc = {
 	arg e;
 	var detunes = (LFNoise1.kr(0.2).dup(n) * det).midiRatio;
-	var fenv = TXLine.kr(1 - e.y * 2, 1, partials.pow(0.7) / 10, e.w);
+	var fenv = TxLine.kr(1 - e.y * 2, 1, partials.pow(0.7) / 10, e.w);
 	var freq0 = e.p.unitCps;
 	var freqs = freq0 * partials * detunes * fenv;
 	var osc = SinOsc.ar(freqs, { TRand.kr(0, 2 * pi, e.w) }.dup(n));

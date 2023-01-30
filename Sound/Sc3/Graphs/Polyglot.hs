@@ -72,10 +72,10 @@ text_file_prefix :: Int -> FilePath -> IO String
 text_file_prefix k = fmap (text_prefix k) . Strict.readFile
 -}
 
--- * DB
+-- * Db
 
 graphs_db_fext :: [String]
-graphs_db_fext = words ".fs .hs .scala .scd .sch .scm .st .stc"
+graphs_db_fext = words ".fs .hs .scala .scd .sch .scm .sl .st"
 
 -- * Haskell
 
@@ -254,7 +254,7 @@ fs_graph_fragment_process_dir out_dur in_dir = do
 
 -- * Smalltalk
 
--- | z = fragment ID, txt = fragment.
+-- | z = fragment id, txt = fragment
 st_graph_fragment_rw :: FilePath -> (String,String) -> [String]
 st_graph_fragment_rw out_dir (z,txt) =
   let pfx =
@@ -268,7 +268,8 @@ st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
 st_graph_fragment_process ext out_dir fn_seq = do
   tmp <- getTemporaryDirectory
   pre_txt_seq <- Help.read_file_set_fragments fn_seq
-  let post_txt_seq = map (if ext == ".stc" then St.stcToSt else id) pre_txt_seq
+  putStrLn (printf "st_graph_fragment_process: ext=%s" ext)
+  let post_txt_seq = map (if ext == ".sl" then St.stcToSt else id) pre_txt_seq
   let z_seq = map txt_hash_str pre_txt_seq
       rw_seq = map (st_graph_fragment_rw out_dir) (zip z_seq post_txt_seq)
       cpy (z,txt) = writeFile (out_dir </> z <.> ext) txt
@@ -293,9 +294,9 @@ st_proc_syndef_files z_seq sy_dir = do
 
 {-
 > st_graph_fragment_process_dir ".st" "/tmp/" "/home/rohan/sw/stsc3/help/ugen/"
-> st_graph_fragment_process_dir ".stc" "/tmp/" "/home/rohan/sw/stsc3/help/ugen/"
+> st_graph_fragment_process_dir ".sl" "/tmp/" "/home/rohan/sw/stsc3/help/ugen/"
 > st_graph_fragment_process_dir ".st" "/tmp/" "/home/rohan/sw/stsc3/help/graph/"
-> st_graph_fragment_process_dir ".stc" "/tmp/" "/home/rohan/sw/stsc3/help/graph/"
+> st_graph_fragment_process_dir ".sl" "/tmp/" "/home/rohan/sw/stsc3/help/graph/"
 -}
 st_graph_fragment_process_dir :: String -> FilePath -> FilePath -> IO ()
 st_graph_fragment_process_dir ext out_dir in_dir = do
@@ -347,5 +348,5 @@ graph_fragments_process_dir sch_tbl ext =
     ".sch" -> scm_graph_fragment_process_dir sch_tbl ".sch"
     ".scm" -> scm_graph_fragment_process_dir sch_tbl ".scm"
     ".st" -> st_graph_fragment_process_dir ".st"
-    ".stc" -> st_graph_fragment_process_dir ".stc"
+    ".sl" -> st_graph_fragment_process_dir ".sl"
     _ -> error "graph_fragments_process_dir"

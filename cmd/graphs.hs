@@ -17,26 +17,26 @@ graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
   let db_dir = if True then graphs_db_dir else "/tmp/"
   sch_tbl <- Lisp.nameTableLoad "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
-  _ <- hs_graph_fragments_process_dir "std" db_dir "/home/rohan/sw/hsc3/Help/Graph/"
+  _ <- hs_graph_fragments_process_dir "std" db_dir "/home/rohan/sw/hsc3/Help/Graph/" -- .
   _ <- hs_graph_fragments_process_dir "std" db_dir "/home/rohan/sw/hsc3/Help/Ugen/"
-  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/"
-  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/collect/"
-  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/sc3-rdu/help/scd/"
-  scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3/help/graph/"
-  scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3/help/ugen/"
-  scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3/help/graph/"
+  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/" -- .
+  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/collect/" -- .
+  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/sc3-rdu/help/scd/" -- .
+  scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3/help/graph/" -- .
+  scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3/help/ugen/" -- .
+  scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3/help/graph/" -- .
   when False (
     do
       scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
       scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
       scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
     )
-  fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/graph/"
-  fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/ugen/"
-  st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/graph/"
-  st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/ugen/"
-  st_graph_fragment_process_dir ".stc" db_dir "/home/rohan/sw/stsc3/help/graph/"
-  st_graph_fragment_process_dir ".stc" db_dir "/home/rohan/sw/stsc3/help/ugen/"
+  fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/graph/" -- .
+  fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/ugen/" -- .
+  st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/graph/" -- .
+  st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/ugen/" -- .
+  st_graph_fragment_process_dir ".sl" db_dir "/home/rohan/sw/stsc3/help/graph/"
+  st_graph_fragment_process_dir ".sl" db_dir "/home/rohan/sw/stsc3/help/ugen/"
   when False (
     scala_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
     )
