@@ -1,0 +1,30 @@
+;; police state ; jmcc ; keywords
+var n = 4; (* number of sirens *)
+var node = {
+	Pan2(
+		in: SinOsc(
+			freq: SinOsc(
+				freq: 0.1.Rand + 0.02,
+				phase: 2 * pi.Rand
+			) * 600.Rand + 1000 + 300.Rand2,
+			phase: 0
+		),
+		pos: 1.Rand2,
+		level: LfNoise2(freq: 100 + 20.Rand2) * 0.1
+	)
+};
+var e = LfNoise2(
+	freq: LfNoise2(
+		freq: [0.4, 0.4]
+	) * 90 + 620
+) * (
+	LfNoise2(
+		freq: [0.3, 0.3]
+	) * 0.15 + 0.18
+);
+CombL(
+	in: node !+ 4 + e,
+	maxdelaytime: 0.3,
+	delaytime: 0.3,
+	decaytime: 3
+) * 0.5

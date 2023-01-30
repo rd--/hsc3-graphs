@@ -35,6 +35,7 @@ graphs_db_polyglot_autogen = do
   fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/ugen/" -- .
   st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/graph/" -- .
   st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/ugen/" -- .
+  st_graph_fragment_process_dir ".sl" db_dir "/home/rohan/sw/stsc3/help/collect/" -- .
   st_graph_fragment_process_dir ".sl" db_dir "/home/rohan/sw/stsc3/help/graph/" -- .
   st_graph_fragment_process_dir ".sl" db_dir "/home/rohan/sw/stsc3/help/ugen/" -- .
   when False (
