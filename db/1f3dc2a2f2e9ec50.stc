@@ -1,2 +1,0 @@
-// LFNoise0
-SinOsc(LFNoise0(12) * 600 + 1000, 0) * 0.1

@@ -1,2 +1,0 @@
-// LFPulse ; as envelope
-SinOsc(230, 0) * Lag(LFPulse(MouseX(2.3, 23, 1, 0.2), 0, 0.5).max(0), 0.01) * 0.2

@@ -1,2 +1,0 @@
-// LFNoise2 ; fixed frequency
-LFNoise2(1000) * 0.05

@@ -1,2 +1,0 @@
-// analog bubbles (jmcc) ; applicative order
-CombN(MulAdd(SinOsc(MulAdd(LFSaw(0.4, 0), 24, MulAdd(LFSaw([8, 7.23], 0), 3, 80)).midiCps, 0), 0.04, 0), 0.2, 0.2, 4)

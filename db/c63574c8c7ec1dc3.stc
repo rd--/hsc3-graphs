@@ -1,2 +1,0 @@
-// http://earslap.com/weblog/music-release-laconicism.html
-(HPF(LFNoise1(2), [10, 10.1]) * 100).tanh

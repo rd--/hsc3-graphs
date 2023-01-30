@@ -1,3 +1,0 @@
-// RLPF
-var f = SinOsc(0.5, 0) * 40 + 220;
-RLPF(WhiteNoise(), f, 0.1)

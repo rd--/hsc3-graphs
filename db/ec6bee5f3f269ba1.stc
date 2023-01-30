@@ -1,2 +1,0 @@
-// uncorrelated channels ; jmcc
-{ PinkNoise() }.dup(2) * 0.1

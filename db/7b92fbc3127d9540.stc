@@ -1,3 +1,0 @@
-// Resonz ; modulate bandwidth
-var bw = XLn(1, 0.001, 8);
-Resonz(WhiteNoise() * 0.5, 2000, bw)

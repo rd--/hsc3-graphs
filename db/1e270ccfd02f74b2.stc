@@ -1,4 +1,0 @@
-// http://earslap.com/weblog/music-release-laconicism.html
-var i = { arg freq; Impulse(freq, 0) };
-var ph = Integrator(Integrator(i.value(64).lag(LFNoise1(2.dup(2))  * 2 + 2) * 99, 0.9), 0.99).fold2(pi);
-SinOsc(LagUD(i.value(2), 0, 0.4) * 360, ph)

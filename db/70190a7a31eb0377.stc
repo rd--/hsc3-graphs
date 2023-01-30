@@ -1,3 +1,0 @@
-// http://earslap.com/weblog/music-release-laconicism.html
-var k = DmdFor(6.4, 0, Seq(inf, [0.05, Choose(1, [0.04, 0.08])]));
-Splay(Integrator((LFNoise0(5.dup(3)) * k).roundTo(k / 10), 1).sin.sqrt.tanh, 0.3, 1, 0, true)

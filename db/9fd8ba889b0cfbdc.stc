@@ -1,2 +1,0 @@
-// midiCps ; step ; keywords
-Saw(Ln(24, 108, 10).rounded.midiCps) * 0.05

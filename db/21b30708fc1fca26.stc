@@ -1,2 +1,0 @@
-// LPF
-LPF(WhiteNoise(), 500) * 0.1

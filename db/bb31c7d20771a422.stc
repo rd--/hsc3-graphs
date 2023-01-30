@@ -1,3 +1,0 @@
-// blip ; event control ; shared parameter
-var nh = 1;
-Voicer(16, { arg e; Blip(e.p.unitCps, nh) * e.w * e.z }).splay2

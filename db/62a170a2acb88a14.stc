@@ -1,2 +1,0 @@
-// midiCps
-Saw(Ln(24, 108, 10).midiCps) * 0.05

@@ -1,2 +1,0 @@
-// Klang
-Klang(1, 0, [{ 600.0.rand(1000.0) }.dup(8), nil, nil].asKlangSpec) * 0.05

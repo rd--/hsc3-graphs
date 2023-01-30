@@ -1,2 +1,0 @@
-// LFPulse ; 50 Hz wave
-LFPulse(50, 0, 0.5) * 0.05

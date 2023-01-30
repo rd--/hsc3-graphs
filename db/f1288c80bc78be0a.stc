@@ -1,2 +1,0 @@
-// LFPulse ; amplitude modulation
-LFPulse(XLn(1, 200, 10), 0, 0.2) * SinOsc(440, 0) * 0.1
