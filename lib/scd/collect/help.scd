@@ -194,11 +194,28 @@ var a = GrainSin.ar(2, t, overlap / f, 440, 0, -1, 512);
 LeakDC.ar(a, 0.995) * 0.1
 
 // GrainSin ; keywords
+var envBuf = -1;
 var overlap = MouseY.kr(minval: 0, maxval: 2, warp: 0, lag: 0.2);
 var f = MouseX.kr(minval: 1, maxval: 220, warp: 0, lag: 0.2);
 var t = Impulse.ar(freq: f, phase: 0);
-var a = GrainSin.ar(numChannels: 2, trigger: t, dur: overlap/f, freq: 440, pan: 0, envbufnum: -1, maxGrains: 512);
+var a = GrainSin.ar(
+	numChannels: 2,
+	trigger: t,
+	dur: overlap / f,
+	freq: 440,
+	pan: 0,
+	envbufnum: envBuf,
+	maxGrains: 512
+);
 LeakDC.ar(in: a, coef: 0.995) * 0.1
+
+// GrainSin ; LocalBuf (fails)
+var envBuf = Env.perc(0.01, 1, 1, -4).discretize(2048).asLocalBuf;
+var overlap = MouseY.kr(0, 2, 0, 0.2);
+var f = MouseX.kr(1, 220, 0, 0.2);
+var t = Impulse.ar(f, 0);
+var a = GrainSin.ar(2, t, overlap / f, 440, 0, envBuf, 512);
+LeakDC.ar(a, 0.995) * 0.1
 
 // GravityGrid
 Pan2.ar(0.05 * GravityGrid.ar(Impulse.kr(2, 0), MouseX.kr(0.1, 10, 1, 0.2), LFNoise0.kr(2) * 0.8, LFNoise0.kr(2) * 0.8, -1), 0, 0.25)
