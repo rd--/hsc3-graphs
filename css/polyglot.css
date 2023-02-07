@@ -1,34 +1,58 @@
+:root {
+	--font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
+	--body-colour: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
+	--paper-colour: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
+	--text-colour: #424242;
+	--program-colour: #fddde6;
+}
+
 body {
 	margin: 1em 1em;
-	background-color: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
+	background-color: var(--body-colour);
 }
 
 h1 {
-	font-size: 1.15em;
+	font-size: 1.05em;
 }
 
 p {
 	width: 45em;
 }
 
+div#menuContainer {
+	margin-bottom: 1em;
+}
+
+div#polyglotBrowser {
+	display: flex;
+	flex-direction: column;
+	resize: both;
+	overflow: auto;
+	background-color: var(--body-colour);
+	width: 40em;
+}
+
 body, textarea, select, button, span {
-	font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif;
+	font-family: var(--font-family);
 	font-size: 11pt;
 }
 
 textarea, select, button, span {
-	background-color: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0 */
-	color: #424242;
+	background-color: var(--paper-colour);
+	color: var(--text-colour);
 }
 
-select {
-	width: 860px;
+select, textarea {
 	margin-bottom: 4px;
 }
 
 textarea {
-	width: 854px;
-	/* overflow-y: scroll; */
+	resize: none;
+	height: 100%;
+}
+
+button {
+	border: 0px;
 }
 
 #statusText {
@@ -37,4 +61,8 @@ textarea {
 	border: 1px dotted black;
 	padding: 2px;
 	width: 75px;
+}
+
+:focus {
+	outline: 1px solid #999;
 }

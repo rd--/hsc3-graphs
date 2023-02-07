@@ -3,7 +3,7 @@
 A simple interface to the _hsc3-graphs_ database.
 The database has programs written in various languages, each with the _.scsyndef_ the program evaluates to.
 
-![](https://rohandrape.net/sw/hsc3-graphs/png/polyglot-browser.png)
+![](https://rohandrape.net/sw/hsc3-graphs/png/polyglot-browser.2.png)
 
 The first pane is a list of all programs in the database.
 The focus can be sent to the list pane by typing _Mod-P_.
