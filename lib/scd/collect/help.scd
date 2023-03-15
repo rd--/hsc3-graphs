@@ -250,6 +250,12 @@ var amp = LFPulse.kr(4, 0, 0.1) * 0.002;
 var exc = LPZ1.ar({ GrayNoise.ar }.dup(2) * amp);
 RingzBank.ar(exc, { Rand.ir(80, 400) }.dup(4), nil, nil)
 
+// In ; one two channel In, delayed by one second
+DelayN.ar(In.ar(NumOutputBuses.ir, 2), 1, 1)
+
+// In ; two single channel Ins, each delayed by one second
+DelayN.ar(In.ar(NumOutputBuses.ir + [0, 1], 1), 1, 1)
+
 // Integrator ; https://nathan.ho.name/posts/feedback-integrator-networks/ ; blockSize=1
 var n = 8;
 var snd = Impulse.ar(0, 0);
@@ -873,7 +879,25 @@ var freq = NamedControl.ir(name: "freq", values: 220.0);
 SinOsc.ar(freq: freq, phase: 0, mul: 0.10)
 
 // Out ; summing ; non phase cancellation
-[SinOsc.ar([440,441],[0,pi]) * 0.1, SinOsc.ar([440,441],[pi,0]) * 0.1]
+[
+	SinOsc.ar([440, 441], [0, pi]) * 0.1,
+	SinOsc.ar([440, 441], [pi, 0]) * 0.1
+]
+
+// Out ; one Out summing to two buses
+Out.ar(0, SinOsc.ar(440, 0) * 0.1 ! 2)
+
+// Out ; two Outs summing to one bus each
+Out.ar([0, 1], SinOsc.ar(440, 0) * 0.1)
+
+// Out ; one Out Ugen summing to two buses
+Out.ar(0, SinOsc.ar([440, 443], 0) * 0.1)
+
+// Out ; two Out Ugens summing to one bus each
+Out.ar(0, SinOsc.ar(440, 0) * 0.1) <! Out.ar(1, SinOsc.ar(443, 0) * 0.1)
+
+// Out ; two Out Ugens summing to one bus each
+[0, 1].collect { arg i; Out.ar(i, SinOsc.ar([440, 443][i], 0) * 0.1) }
 
 // PlayBuf ; requires=buf
 arg buf = 0;
@@ -1047,6 +1071,12 @@ var square = LFPulse.ar(freq, 0, 0.5) * 2 - 1;
 var tri = Slew.ar(square, freq * 4, freq * 4);
 var sin = LinLin.ar(tri > 0, 0, 1, -1, 1) * (tri.abs ** (1 / 4));
 XFade2.ar(tri, sin, MouseX.kr(-1, 1, 0, 0.2), 0.05)
+
+// SoundIn ; one two channel In, delayed by one second
+DelayN.ar(SoundIn.ar([0, 1]), 1, 1)
+
+// SoundIn ; two single channel Ins, delayed by one second
+DelayN.ar(SoundIn.ar([1, 0]), 1, 1)
 
 // Squine ; sinewave
 Squine.ar(220, 0, 0, 0) * 0.1

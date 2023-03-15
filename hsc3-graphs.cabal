@@ -8,7 +8,7 @@ copyright:         (c) Rohan Drape, 2006-2023
 maintainer:        rd@rohandrape.net
 stability:         Experimental
 homepage:          http://rohandrape.net/t/hsc3-graphs
-tested-with:       GHC == 9.4.3
+tested-with:       GHC == 9.6.1
 build-type:        Simple
 
 library
