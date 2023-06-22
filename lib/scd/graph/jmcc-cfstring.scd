@@ -10,5 +10,5 @@ OverlapTexture({
     var osc = { LFSaw.ar(freq * [TRand.kr(0.99, 1.01, tr), TRand.kr(0.99, 1.01, tr)], 0, amp) }.dup(8).sum.distort * 0.2;
     var eg = Decay2.kr(tr, 0.5, 1);
     var out = eg * RLPF.ar(osc, fc, 0.1);
-    PanAz.ar(nc, out, [pan, pan + 0.3]).sum
+    PanAz.ar(nc, out, [pan, pan + 0.3], 1, 2, 0.5).sum
 }, 2, 0, 10)
