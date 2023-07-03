@@ -13,7 +13,7 @@ Voicer(16, {
     var cfreq = e.x * 2300 + 120;
     var rq = samp + TRand.kr(0.1, 0.15, tr);
     var rate = TExpRand.kr(0.1, 3, tr);
-    var index = LinLin(LFSaw.kr(samp, 0), -1, 1, bottom, top) * BufFrames.kr(buf);
+    var index = LinLin.kr(LFSaw.kr(samp, 0), -1, 1, bottom, top) * BufFrames.kr(buf);
     var tonic = DegreeToKey.kr(buf, index, 12) + root;
     var env = Decay2.kr(tr, atk, decay) * 0.35;
     var sig = BPF.ar(SyncSaw.ar(root.midicps, tonic.midiCps) * env, cfreq, rq) * amp;

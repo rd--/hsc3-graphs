@@ -61,7 +61,7 @@ vc.dup(5).splay
 CrossoverDistortion.ar(SinOsc.ar(#[400, 404], 0) * 0.2, MouseX.kr(0, 1, 0, 0.2), MouseY.kr(0, 1, 0, 0.2))
 
 // CrossoverDistortion
-CrossoverDistortion.ar(SoundIn.ar(), MouseX.kr(0, 1, 0, 0.2), MouseY.kr.kr(0, 1, 0, 0.2))
+CrossoverDistortion.ar(SoundIn.ar(), MouseX.kr(0, 1, 0, 0.2), MouseY.kr(0, 1, 0, 0.2))
 
 // DFM1 ; mouse control
 DFM1.ar(PinkNoise.ar() * 0.2, MouseX.kr(80, 5000, 1, 0.2), MouseY.kr(0.1, 1.2, 0, 0.2), 2, 0, 0.0003)
@@ -171,7 +171,7 @@ var ctls = [
 ];
 var x = MouseX.kr(0, 3, 0, 0.2);
 var mods = { { LFNoise1.kr(0.5).max(0) }.dup(6) * x }.dup(6);
-FM7.ar(ctls, mods).keep(2) * -12.dbAmp
+FM7.ar(ctls, mods).keep(2) * -12.dbamp
 
 // Formlet
 var i = Impulse.ar(1, 0.5);
