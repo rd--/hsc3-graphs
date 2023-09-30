@@ -12,6 +12,6 @@ Voicer(16, {
     var pdi = LinLin.ar((twoPi - pd).max(0), 0, twoPi, 0, 1);
     var snd = Lag.ar(SinOsc.ar(0, pdres) * pdi, 1 / freqBase);
     var env = Decay2.kr(Trig.kr(e.w, 0.001), 0.005, 10);
-    Pan2.ar(snd, e.o * 2 - 1, env * amp)
+    Pan2.ar(snd, e.i * 2 - 1, env * amp)
 }).sum
 

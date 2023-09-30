@@ -11,6 +11,6 @@ var voiceFunc = {
     var hDur = (duration / ((1 - scaleBy) + (harmonics * scaleBy))) * velocity;
     var envHarmonics = TxLine.kr(1, 0.01, hDur, e.w) - 0.01;
     var signal = Mix.ar(amp * SinOsc.ar(freq * harmonics, 0) * velocity / harmonics * envHarmonics);
-    Pan2.ar(signal, e.o * 2 - 1, envVolume * amp * LagUD.kr(e.w, 0, 2))
+    Pan2.ar(signal, e.i * 2 - 1, envVolume * amp * LagUD.kr(e.w, 0, 2))
 };
 Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))

@@ -35,6 +35,6 @@ var evt = Voicer.ar(numVoices: 16, voiceFunc: {
     });
     var sig = (center * centerGain.value(mix)) + (side * sideGain.value(mix));
     var amp = e.z * 0.2 * LagUD.kr(in: e.w, lagTimeU: 0.05, lagTimeD: 2);
-    Pan2.ar(HPF.ar(in: sig, freq: freq), e.o * 2 - 1, amp);
+    Pan2.ar(HPF.ar(in: sig, freq: freq), e.i * 2 - 1, amp);
 });
 Mix.ar(evt)

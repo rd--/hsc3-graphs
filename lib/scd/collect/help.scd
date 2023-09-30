@@ -350,7 +350,7 @@ SinOsc.ar(200 + (LPF.ar(lfo, freq) * 200), 0) * 0.1
 Mix.ar(Voicer.ar(16, {
     arg e;
     var f0 = e.p.unitCps;
-    Pan2.ar(LPF.ar(Blip.ar(f0, 1 + e.y * 5), f0 * 0.25), e.o * 2 - 1, LagUD.kr(e.w, 0.05, 1) * e.z * 4)
+    Pan2.ar(LPF.ar(Blip.ar(f0, 1 + e.y * 5), f0 * 0.25), e.i * 2 - 1, LagUD.kr(e.w, 0.05, 1) * e.z * 4)
 }))
 
 // max
@@ -862,7 +862,7 @@ var voiceFunc = {
     var freq = e.x.unitCps;
     var osc = Mix.fill(8, { Saw.ar(freq * TRand.kr(0.99, 1.01, e.w)) * 0.75 });
     var filterEnv = EnvGen.ar(Env.adsr(0.02, 0.1, 0.05, 1, 1, -4, 0), e.w, 1, 0, 1, 0);
-    MoogFF.ar(osc, e.y * 750 + 250 * filterEnv, e.rx * 4, 0) * e.w.lagud(0.01, 4) * 2 };
+    MoogFF.ar(osc, e.y * 750 + 250 * filterEnv, e.j * 4, 0) * e.w.lagud(0.01, 4) * 2 };
 Splay.ar(Voicer.ar(16, voiceFunc))
 
 // MoogVCF
@@ -871,7 +871,7 @@ var voiceFunc = {
     var freq = e.p.unitCps;
     var osc = Mix.fill(8, { Saw.ar(freq * TExpRand.kr(0.99, 1.01, e.w)) });
     var amp = e.z * 2 * e.w.lagud(0.02, 4);
-    MoogVCF.ar(osc, SinOsc.kr(e.y).exprange(freq * 2, freq * 4), e.rx) * amp };
+    MoogVCF.ar(osc, SinOsc.kr(e.y).exprange(freq * 2, freq * 4), e.j) * amp };
 Splay.ar(Voicer.ar(16, voiceFunc))
 
 // NamedControl ; non-argument notation controls
