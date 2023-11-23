@@ -41,7 +41,132 @@ Splay.ar(
 	true
 )
 
-({ar(Splay,ar(DelayC,ar(FreeVerb,ar(o=SinOsc,f=ar(DegreeToKey,
-	Scale.aeolian.as(LocalBuf),ar(StandardN,[8,4,6,2]).range(12,48).ceil).midicps,
-ar(o,3*f)*(e=perc(Env,0s1,1/8).ar(0,(m=ar(o,[8,4,1/2,1]))))**2*ar(o,1s**(..3)/16,0,2,3))*e,m.abs/2,
-1-m**2*2,1-m.exprange),0.2,m.abs/2048),m@3/2)}.play)
+// Using ChaosGen.subclasses to write melodies ; https://github.com/lukiss/Losers-Union-SC-Research
+var f = DegreeToKey.ar(
+	[0, 2, 3, 5, 7, 8, 10].as(LocalBuf),
+	StandardN.ar([8, 4, 6, 2], 1, 0.5, 0).range(12, 48).ceil,
+	12
+).midicps;
+var m = SinOsc.ar([8, 4, 1 / 2, 1], 0);
+var e = Env.perc(0.001, 1 / 8, 1, -4).ar(0, m, 1, 1, 0);
+Splay.ar(
+	DelayC.ar(
+		FreeVerb.ar(
+			SinOsc.ar(
+				f,
+				SinOsc.ar(3 * f, 0) * e ** 2 * (SinOsc.ar(1.1 ** (0 .. 3) / 16, 0) * 2 + 3)
+			) * e,
+			m.abs / 2,
+			1 - m ** 2 * 2,
+			1 - m.exprange(0.01, 1)
+		),
+		0.2,
+		m.abs / 2048
+	),
+	m[3] / 2,
+	1,
+	0,
+	true
+)
+
+// Stretching again ; https://github.com/lukiss/Losers-Union-SC-Research
+var c = 16;
+var f = 41;
+var t = { | n | PulseDivider.ar(Impulse.ar(f, 0), c, 15 - n) } ! c;
+Splay.ar(
+	PlayBuf.ar(
+		1,
+		Buffer.read(s, Platform.resourceDir ++ "/sounds/a11wlk01.wav", 0, -1),
+		LFNoise2.ar(1 ! c) * 0.1 / c + 1,
+		t,
+		Sweep.ar(0, MouseX.kr(0.001, 1 / 5, 1, 0.2)) % 1 * 180000,
+		0,
+		0
+	) * Env.sine(c / f, 1).ar(0, t),
+	1 / 8
+)
+
+// KaosSprinkler ; https://github.com/lukiss/Losers-Union-SC-Research
+var c = 1.5 ** (0, 4 .. 12);
+var e = StandardN.ar(c, 1, 0.5, 0).exprange(0.01, 1);
+Splay.ar(
+	LeakDC.ar(
+		-12.dbamp * StandardN.ar(
+			e * c * 220,
+			LFDNoise3.ar(1 ! 4) * 0.1 + 0.97215,
+			1 / 4,
+			1 / 4
+		) *	e.reverse
+	),
+	StandardN.ar(e.last * 14, 1, 0.5, 0)
+)
+
+// Phasing Patterns ; https://github.com/lukiss/Losers-Union-SC-Research
+var f = (48 + ({ | n | [0, -5, 15, 10] + (n * 12)} ! 3).flat).midicps;
+Splay.ar(
+	SinOsc.ar(
+		f,
+		SinOsc.ar(f * 2, 0) * (SinOsc.ar(1 / f.acosh / (SinOsc.ar(1 / f, 0) * f), 0) * 8 + 8)
+	) * (SinOsc.ar(1.2 ** f.normalizeSum, 0) ** 1.5 * SinOsc.ar(f.atan, 0)),
+	SinOsc.ar(1 / 8, 0)
+)
+
+// Mistakes were made ; https://github.com/lukiss/Losers-Union-SC-Research
+var p = 9 / 7 ** (0 .. 16);
+var c = { | freq | LinCongC.ar(freq, 1.1, 0.13, 1, 0) };
+var d = (c.(c.(p.atan) ** 2 * 4) ** 4 * 8).abs;
+var t = c.(c.(d / p.atan).round(1 / d) ** 4 * d * 8).sin;
+var f = TRand.ar(0, 64, t).ceil.midicps;
+Splay.ar(
+	LeakDC.ar(
+		Pluck.ar(
+			(SinOsc.ar(
+				f * p * p.log,
+				0
+			) *	SinOsc.ar(f * p * p.log / 2, 0) * 2 * d).sin,
+			t,
+			0.1,
+			t.exprange(0.01, 1) / d / p,
+			(t ** 1.5 * f) * (d / p.scramble),
+			(p * (1 - t.exprange(0.01, 1))).sin.exprange(0.9999,0.5)
+		),
+		0.995
+	),
+	SinOsc.ar(f / d[0], 0)
+).tanh * 0.8
+
+// Grains, Daily
+var m = { | lo hi |
+	StandardL.ar(LFDNoise1.ar(1).exprange(0.01, 1) * 8 + 0.1, 2, 0.5, 0).exprange(lo, hi)
+};
+var f = {
+	StandardL.ar(m.(1, 128), m.(1, 3), 0.5, 0).exprange(40, 5000)
+};
+LeakDC.ar(
+	GrainFM.ar(
+		2,
+		Impulse.ar(f / m.(0.5, 8), 0),
+		m.(0.1, 4) / f,
+		f,
+		m.(1 / 4, 4) * f,
+		m.(1 / 4, 4),
+		StandardL.ar(f / 2) / 2,
+		Buffer.sendCollection(s, Env.perc(0.001, 1).discretize),
+		1024
+	)
+).softclip
+
+// Phase Modulation Washer
+var p = (1, 3 .. 64);
+var n = 110;
+var f = p / pi * p.degrad * n;
+Splay.ar(
+	PMOsc.ar(
+		f,
+		f * 2,
+		SinOsc.ar(f / n, 0) * SinOsc.ar(n / f, 0) * 2,
+		SinOsc.ar(3 / p, 0) * pi,
+		SinOsc.ar(1 / p, 0)
+	),
+	SinOsc.ar(SinOsc.ar(0.1 / n, 0) * 8, 0) / SinOsc.ar(1 / n, 0) / 2
+)
