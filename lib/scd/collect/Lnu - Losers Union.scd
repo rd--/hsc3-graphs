@@ -13,6 +13,26 @@ var o = Splay.ar(
 LocalOut.ar(o);
 1 / 5 * LPF.ar(o, 5000)
 
+// Broken Saws ; https://github.com/lukiss/Losers-Union-SC-Research
+var c = [49, 175, 98, 147, 65, 233];
+var r = 3 / 4 / (1 .. c.size);
+Splay.ar(
+	BPF.ar(
+		VarSaw.ar(
+			VarSaw.ar(r + 6, 0, 1 / 2) * 2 + c,
+			0,
+			VarSaw.ar(1 / r, 0, 0.5) ** 2
+		) ** (VarSaw.ar(0.001 / r + 8, 0, VarSaw.ar(1 / 3, 0, 0.5).abs) * 12 + 13),
+		VarSaw.ar(
+			0.003 / r,
+			0,
+			VarSaw.ar(r * 8, 0, 0.5)
+		).lag3(0.1).abs * 4000 + 80,
+		1.1 - VarSaw.ar(8 * r, 0, 0.5) ** 2
+	) * VarSaw.ar(r / c, 0, 0.5) / 2,
+	VarSaw.ar(1, 0, VarSaw.ar(1, 0, 0.5))
+) * Line.kr(0, 1, 20)
+
 // Using ChaosGen.subclasses to write melodies ; https://github.com/lukiss/Losers-Union-SC-Research
 var f = DegreeToKey.ar(
 	[0, 2, 3, 5, 7, 8, 10].as(LocalBuf),
@@ -135,7 +155,7 @@ Splay.ar(
 	SinOsc.ar(f / d[0], 0)
 ).tanh * 0.8
 
-// Grains, Daily
+// Grains, Daily ; https://github.com/lukiss/Losers-Union-SC-Research
 var m = { | lo hi |
 	StandardL.ar(LFDNoise1.ar(1).exprange(0.01, 1) * 8 + 0.1, 2, 0.5, 0).exprange(lo, hi)
 };
@@ -150,13 +170,58 @@ LeakDC.ar(
 		f,
 		m.(1 / 4, 4) * f,
 		m.(1 / 4, 4),
-		StandardL.ar(f / 2) / 2,
+		StandardL.ar(f / 2, 1, 0.5, 0) / 2,
 		Buffer.sendCollection(s, Env.perc(0.001, 1).discretize),
 		1024
-	)
+	),
+	0.995
 ).softclip
 
-// Phase Modulation Washer
+// Spa Saw Shower Wash
+var c = Signal.sineFill(4096, 1 / (1 .. 128), [0]).normalize.asWavetable.as(LocalBuf);
+var w = { | freq |
+	LFDNoise3.ar(freq).lincurve(-1, 1, 80, 6880, LFDNoise3.kr(1) * 6)
+};
+var f = SinOsc.ar(
+	{ Rand.ir(3.3, 4.4) } ! 6,
+	0
+) * 0.01 + 1 * [82, 123, 196, 147, 41, 55];
+var o = Splay.ar(
+	Osc.ar(
+		c,
+		f,
+		Osc.ar(
+			c,
+			f * 3,
+			0
+		) * SinOsc.ar(1 / Rand.ir(33, 45), 0) * pi
+	) / 5,
+	SinOsc.ar(1 / pi, 0)
+);
+o = BHiPass4.ar(o, w.(1 / 7), 1) + BPF.ar(o, w.(1 / 5), 1) + MoogFF.ar(o, w.(1 / 3), 2, 0);
+4.do {
+	o = AllpassC.ar(o, 1, { Rand.ir(1 / 16, 1 / 32) } ! 2, 1)
+};
+o
+
+// Suspect jazz ; https://github.com/lukiss/Losers-Union-SC-Research
+var x = HenonL.ar(1 + LFDNoise1.kr(3).exprange(0.01, 1) * 8, 1.4, 0.3, 0, 0).fold2(1);
+var t = { | n | PulseDivider.ar(x, 8, 7 - n) } ! 8;
+var d = 1.5 + x.exprange(0.01, 1);
+var e = { | c | Env.perc(0.004, d, 1, c).ar(0, t) };
+var c = [0, 3, 7, -2];
+var f = Demand.ar(
+	t,
+	0,
+	Drand(c, inf) + Dxrand(48 + ({ | o | o * 12 + c } ! 3).flat, inf)
+).midicps;
+var o = SinOsc.ar(
+	(BrownNoise.ar() * 0.015 + 1) * f,
+	(BrownNoise.ar() / 4 * SinOsc.ar([3.25, 0.5, 2] * f, 0) * e.(-28)).sum
+) * e.(-6) * (SinOsc.ar(d + 2, 0) * 0.25 + 0.5);
+Splay.ar(o, 1 / 4)
+
+// Phase Modulation Washer ; https://github.com/lukiss/Losers-Union-SC-Research
 var p = (1, 3 .. 64);
 var n = 110;
 var f = p / pi * p.degrad * n;
@@ -165,8 +230,35 @@ Splay.ar(
 		f,
 		f * 2,
 		SinOsc.ar(f / n, 0) * SinOsc.ar(n / f, 0) * 2,
-		SinOsc.ar(3 / p, 0) * pi,
-		SinOsc.ar(1 / p, 0)
-	),
+		SinOsc.ar(3 / p, 0) * pi
+	) * SinOsc.ar(1 / p, 0),
 	SinOsc.ar(SinOsc.ar(0.1 / n, 0) * 8, 0) / SinOsc.ar(1 / n, 0) / 2
+)
+
+// Something awfully old ; https://github.com/lukiss/Losers-Union-SC-Research
+var a = LocalBuf(8 * 2048, 1);
+var f = { LFDNoise3.kr(0.001 ! 7).tan.abs };
+RecordBuf.ar(LFDNoise3.ar(500) + (PinkNoise.ar() * 8), a, 0, 1, 0, 1, 0, 1, 0);
+Splay.ar(
+	LeakDC.ar(
+		CombC.ar(
+			Warp1.ar(1, a, f, f * 0.03, Array.series(4, 1 / 7, 1 / 7) * 0.12, -1, 4, 0, 4),
+			0.4,
+			0.4,
+			2
+		).softclip,
+		0.995
+	)
+)
+
+// Drone for the Evening ; https://github.com/lukiss/Losers-Union-SC-Research
+var p = (1, 3 .. 64);
+var f = { (LFDNoise1.ar(8) / 16 + 33).midicps };
+var c = p ** (p / p.sum).atan * f * p;
+Splay.ar(
+	SinOsc.ar(
+		c,
+		SinOsc.ar(c * 3, 0) * SinOsc.ar((SinOsc.ar(p / c, 0) * 8 + 8) / c, 0) * pi
+	) *	SinOsc.ar(p / c, 0),
+	SinOsc.ar(1 / 3, 0) * SinOsc.ar(1 / 32, 0)
 )
