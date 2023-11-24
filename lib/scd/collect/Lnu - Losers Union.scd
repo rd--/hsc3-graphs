@@ -344,3 +344,224 @@ Splay.ar(
 		0.995
 	)
 ) / 13
+
+// 22 Maj 2021 ; https://github.com/lukiss/Losers-Union-SC-Research
+var n = 4;
+var l = { | mul |
+	(LFDNoise3.kr(0.05 ! n) * mul).abs
+};
+var d = {
+	Demand.ar(
+		Impulse.ar(1 / (30 .. 53).choose, 0),
+		0,
+		Dxrand((7 .. 53).degreeToKey([0, 1, 4, 5, 7, 9, 10], 12).midicps, inf)
+	)
+};
+Splay.ar(
+	HPF.ar(
+		CombC.ar(
+			PMOsc.ar(
+				d ! n,
+				d ! n,
+				l.(2),
+				l.(0.5)
+			) * (l.(0.25) + 1 / 4),
+			1 / 4,
+			1 / 4 - l.(1 / 16),
+			7
+		),
+		110,
+	) * -12.dbamp
+)
+
+// 30 Apr. 2020 ; https://github.com/lukiss/Losers-Union-SC-Research
+var t = {
+	TDuty.kr(Drand((1 .. 8) / 16, inf), 0, 1)
+};
+var r = { | lo hi |
+	TRand.kr(lo, hi, t);
+};
+Normalizer.ar(
+	CompanderD.ar(
+		LeakDC.ar(
+			LorenzL.ar(
+				22050,
+				r.(19, 11),
+				r.(1, 18),
+				r.(0.1, 5),
+				r.(0.01, 0.06 ! 2),
+				0.1,
+				0,
+				0
+			),
+			0.995
+		),
+		0.8,
+		r.(0.01, 0.5),
+		r.(0.01, 0.5),
+		0.01,
+		0.075
+	),
+	-2.dbamp,
+	0.02
+).fold2(0.8)
+
+// 22 Nov. 2021 ; https://github.com/lukiss/Losers-Union-SC-Research
+var n = {
+	1 + ((0.00001 * (1 .. 7))).scramble
+};
+Splay.ar(
+	VarSaw.ar(
+		33 * n.(),
+		0,
+		LFSaw.ar(1 / 3 * n.(), 0) * LFSaw.ar(n.() / 3, 0)
+	) * (LFSaw.ar(5 / 3, 0) * (LFSaw.ar(7 / 3 * n.().neg, 0).tan)).abs
+).tanh
+
+// 12 Juli 2019 ; https://github.com/lukiss/Losers-Union-SC-Research
+var f = { | freq mul |
+	var z = LFDNoise3.kr(freq) * mul;
+	z.ring1(z % 0.01).hypot(z)
+};
+var o = Formant.ar(
+	f.(f.(3, 13), 220),
+	f.(f.(2, 10), f.(f.(3, 13), 2320)),
+	f.(f.(3, 5), 2500)
+);
+var a = {
+	f.(f.(2, 12), 1).excess(f.(f.(1, 14), f.(4.4, 0.5) + 0.3))
+} ! 2;
+(o * a).softclip
+
+// 5 Sep. 2020 ; https://github.com/lukiss/Losers-Union-SC-Research
+var l = {
+	LFDNoise3.kr(1).abs
+};
+var r = { | freq mul |
+	(Gendy3.kr(6, 6, l, l, freq, l, l, 5, l * 5) * mul).abs
+};
+-12.dbamp * Splay.ar(
+	(0 .. 5).collect { | n |
+		CombC.ar(
+			LeakDC.ar(
+				FM7.ar(
+					{
+						[
+							80.rand.midicps,
+							0,
+							Blip.kr(r.(l, 24), r.(l, 228)).abs
+						]
+					} ! 6,
+					r.(0.02,0.5) ! 6 ! 6
+				)[n],
+				0.995
+			),
+			0.5,
+			0.05 + r.(0.04,l),
+			1
+		)
+	}
+)
+
+// Ambient Ligeti inspired soundscape ; https://github.com/lukiss/Losers-Union-SC-Research
+var r = { | n |
+	{ LFDNoise3.ar(1 / 86).abs } ! n
+};
+Splay.ar(
+	LeakDC.ar(
+		FreeVerb.ar(
+			Warp1.ar(
+				1,
+				Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav"),
+				r.(9),
+				[-36, -9, -14, 0, -19, -5, 3, -2, -24, -7].midiratio,
+				8 * r.(9) + 8 / 86,
+				-1,
+				12,
+				1 / 4 * r.(9),
+				4
+			) * r.(9),
+			r.(9),
+			0.5 + r.(9)
+		) *	r.(9),
+		0.995
+	),
+	2 / 4
+).tanh * Line.kr(0, 1, 12)
+
+// 27 Jan 2023 ; https://github.com/lukiss/Losers-Union-SC-Research
+var d = Dust.kr(1);
+var m = {
+	TRand.kr(0.5, 2.5, d).lag3(1 / 16)
+};
+var c = (0 .. 9).collect { | n |
+	m.() ** n
+};
+var n = c / c.sum;
+var e = TChoose.kr(
+	Dust.kr(1 + m.()),
+	[
+		c.sum,
+		n,
+		c.round(32),
+		n.atan2(m.()),
+		c.sin,
+		c.tan,
+		n.hypot(c)
+	]
+);
+var a = ((LFSaw.ar(c.tan / m.(), 0).abs ** e.max(0)).log10.sin.abs ** 10).tanh;
+Splay.ar(
+	SinOsc.ar(c.log10 * c, 0) * a,
+	SinOsc.ar(m.() * m.(), 0) * 0.5
+)
+
+// 27 Oktober 2022 ; https://github.com/lukiss/Losers-Union-SC-Research
+var a = [41, 73, 123, 196];
+var f = SinOsc.ar(440, 0);
+(0 .. 8).do { | i |
+	a = a * 5.midiratio;
+	f = SinOsc.ar(f * a.rotate(i + 3), 0) * SinOsc.ar(f, 0).tanh
+};
+Splay.ar(
+	LeakDC.ar(
+		f.tanh
+	),
+	SinOsc.kr(f.sum.abs, 0)
+)
+
+// 23 Mars ; https://github.com/lukiss/Losers-Union-SC-Research
+var d = { | n |
+	{
+		Gendy3.kr(1, 1, 1, 1, LFNoise1.kr(2) + 1, 0.5, 0.5, 12, 12).abs.round(1 / 16)
+	} ! n
+};
+var t = Dust.kr(d.(5) / 2);
+Splay.ar(
+	FreeVerb.ar(
+		LeakDC.ar(
+			IFFT.ar(
+				PV_BinScramble(
+					FFT(
+						{ LocalBuf(4096, 1) } ! 2,
+						StandardL.ar(d.(2) * 5000, 1, 0.5, 0),
+						0.5,
+						0,
+						1,
+						0
+					),
+					d.(1),
+					d.(1),
+					t
+				),
+				0,
+				0
+			) * t.lag3ud(0.01, d.(5)),
+			0.995
+		),
+		d.(1) / 3,
+		d.(1),
+		d.(1) / 2
+	),
+	0.5
+)
