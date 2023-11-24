@@ -262,3 +262,85 @@ Splay.ar(
 	) *	SinOsc.ar(p / c, 0),
 	SinOsc.ar(1 / 3, 0) * SinOsc.ar(1 / 32, 0)
 )
+
+// Tw 14 Nov 2022 Ballad ; https://github.com/lukiss/Losers-Union-SC-Research
+var d = Dseq((1, 3 .. 21), inf);
+var f = Ddup(
+	LFPar.ar(0.05, 0) * d / [3, 7, 5, 1],
+	Dseq((9 .. 42).degreeToKey(Scale.phrygian, 12), inf).midicps
+);
+Splay.ar(
+	LeakDC.ar(
+		GrainFM.ar(
+			2,
+			TDuty.ar(1 / d, 0, 1, 0, 0),
+			2 + LFPar.ar(0.3, 0) / d * 2,
+			[2, 3],
+			f,
+			f % d / 12,
+			LFPar.ar(440, 0) / 2,
+			Buffer.sendCollection(s, Env.perc.discretize(1024)),
+			512
+		) * 0.23,
+		0.995
+	)
+).sum
+
+// 12 May 2020 ; https://github.com/lukiss/Losers-Union-SC-Research
+var l = { | freq mul |
+	(LFDNoise3.kr(freq) * mul).abs
+};
+var i = 1 / 16;
+var t = Impulse.kr(l.(pi, pi), 0);
+CombC.ar(
+	Splay.ar(
+		{
+			SinOsc.ar(
+				Demand.kr(
+					t,
+					0,
+					Drand((9 .. 42).degreeToKey([0, 2, 4, 7, 9], pi * pi),inf)
+				).midicps,
+				0
+			) * (t.lag3ud(0, i) + (t.lag3ud(i + l.(9, i * 4), l.(pi, pi)) / pi))
+		} ! 5
+	),
+	i,
+	i,
+	pi
+)
+
+// 9 Jan 2019 ; https://github.com/lukiss/Losers-Union-SC-Research
+var a = 40;
+var f = { | b |
+	LFNoise1.kr(1).exprange(10, b)
+};
+Splay.ar(
+	LeakDC.ar(
+		Formant.ar(
+			({ a = a + 5 } ! 6).midicps * ({ f.(29).round(7) } ! 6).midiratio,
+			{ f.(1000) } ! 6,
+			{ f.(500) } ! 6
+		),
+		0.995
+	)
+) / 13
+
+// 3 Nov 2018 ; https://github.com/lukiss/Losers-Union-SC-Research
+var a = 9;
+var f = { | b |
+	LFNoise2.kr(b.sign).exprange(9, b)
+};
+Splay.ar(
+	LeakDC.ar(
+		Formant.ar(
+			({ a = a + 7 } ! 6).midicps * ({ f.(99).round(12) } ! 6).midiratio,
+			{ f.(2200) } ! 6,
+			{ f.(300) } ! 6
+		) * SinOscFB.kr(
+			f.(0.05),
+			{ f.(0.5) } ! 6
+		),
+		0.995
+	)
+) / 13
