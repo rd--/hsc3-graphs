@@ -11,7 +11,7 @@ var o = Splay.ar(
 	).tanh
 );
 LocalOut.ar(o);
-1 / 5 * LPF.ar(o, 5000)
+LPF.ar(o, 5000) / 5
 
 // Broken Saws ; https://github.com/lukiss/Losers-Union-SC-Research
 var c = [49, 175, 98, 147, 65, 233];

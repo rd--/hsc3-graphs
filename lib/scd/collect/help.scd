@@ -899,6 +899,9 @@ Out.ar(0, SinOsc.ar(440, 0) * 0.1) <! Out.ar(1, SinOsc.ar(443, 0) * 0.1)
 // Out ; two Out Ugens summing to one bus each
 [0, 1].collect { arg i; Out.ar(i, SinOsc.ar([440, 443][i], 0) * 0.1) }
 
+// PanAz ; Mce (ie. at numChans)
+PanAz.ar([8, 4], SinOsc.ar([333, 555], 0) * 0.1, LFSaw.kr(1 / 9, 0), 1, 2, [0, 0.5]).flat
+
 // PlayBuf ; requires=buf
 arg buf = 0;
 var scl = BufRateScale.kr(buf);
