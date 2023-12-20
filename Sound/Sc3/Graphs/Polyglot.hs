@@ -282,12 +282,13 @@ st_graph_fragment_rw out_dir (z, txt) =
 
 graph_fragment_process :: (String -> String)
                        -> (FilePath -> (String, String) -> [String])
+                       -> [String]
                        -> String
-                       -> String
+                       -> (String, [String])
                        -> FilePath
                        -> [FilePath]
                        -> IO [String]
-graph_fragment_process txt_f rw_f ext cmd out_dir fn_seq = do
+graph_fragment_process txt_f rw_f end ext (cmd, arg) out_dir fn_seq = do
   tmp <- getTemporaryDirectory
   pre_txt_seq <- Help.read_file_set_fragments fn_seq
   let post_txt_seq = map txt_f pre_txt_seq
@@ -297,8 +298,8 @@ graph_fragment_process txt_f rw_f ext cmd out_dir fn_seq = do
       rw_fn = tmp </> "rw" <.> ext
       rw_text = unlines (concat rw_seq)
   mapM_ cpy (zip z_seq pre_txt_seq)
-  writeFile rw_fn rw_text
-  _ <- rawSystem cmd [rw_fn]
+  writeFile rw_fn (rw_text ++ unlines end)
+  _ <- rawSystem cmd (arg ++ [rw_fn])
   return z_seq
 
 st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
@@ -306,7 +307,7 @@ st_graph_fragment_process ext out_dir fn_seq = do
   let txt_f = if ext == ".sl" then St.stcToSt else id
       rw_f = st_graph_fragment_rw
   putStrLn (printf "st_graph_fragment_process: ext=%s" ext)
-  graph_fragment_process txt_f rw_f ".st" "gst" out_dir fn_seq
+  graph_fragment_process txt_f rw_f [] ".st" ("gst", []) out_dir fn_seq
 
 text_scsyndef_to_scsyndef :: FilePath -> FilePath -> IO ()
 text_scsyndef_to_scsyndef txt_fn bin_fn = do
@@ -343,22 +344,25 @@ sl_graph_fragment_rw out_dir (z, txt) =
       suffix = printf "}.writeScSynDefFile('%s', '%s/%s.scsyndef');" z out_dir z
   in concat [prefix, lines txt, [suffix]]
 
+{-
+spl --lib=StandardLibrary --lib=SuperColliderLibrary runFile /tmp/rw.sl
+-}
 sl_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
 sl_graph_fragment_process out_dir fn_seq = do
   let txt_f = id
       rw_f = sl_graph_fragment_rw
-  graph_fragment_process txt_f rw_f ".sl" "cat" out_dir fn_seq
+      cmd = ("spl",["--lib=StandardLibrary","--lib=SuperColliderLibrary","runFile"])
+  graph_fragment_process txt_f rw_f ["'end'.postLine;","system.exit(0)"] ".sl" cmd out_dir fn_seq
 
 {- | Sl graph fragments, process directory
 
-> sl_graph_fragment_process_dir "/tmp" "/home/rohan/sw/stsc3/help/ugen/"
-> sl_graph_fragment_process_dir "/tmp" "/home/rohan/sw/stsc3/help/graph/"
-> sl_graph_fragment_process_dir "/tmp" "/home/rohan/sw/stsc3/help/collect/"
+> let q x = "/home/rohan/sw/stsc3/help/" ++ x
+> sl_graph_fragment_process_dir_set "/tmp" (map q ["ugen","graph", "collect"])
 -}
-sl_graph_fragment_process_dir :: FilePath -> FilePath -> IO ()
-sl_graph_fragment_process_dir out_dir in_dir = do
-  fn <- T.dir_subset [".sl"] in_dir
-  _ <- sl_graph_fragment_process out_dir fn
+sl_graph_fragment_process_dir_set :: FilePath -> [FilePath] -> IO ()
+sl_graph_fragment_process_dir_set out_dir in_dir = do
+  fn <- mapM (T.dir_subset [".sl"]) in_dir
+  _ <- sl_graph_fragment_process out_dir (concat fn)
   return ()
 
 -- * Scala
