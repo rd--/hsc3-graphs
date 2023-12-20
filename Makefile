@@ -19,3 +19,9 @@ remote-setup:
 
 remote-update:
 	ssh rd@rohandrape.net "(cd rohandrape.net/pub/hsc3-graphs ; git pull ; make remote-setup)"
+
+indent:
+	fourmolu -i Sound cmd
+
+doctest:
+	doctest -Wno-x-partial -Wno-incomplete-uni-patterns Sound

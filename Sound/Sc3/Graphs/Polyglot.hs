@@ -19,8 +19,8 @@ import qualified Music.Theory.Directory as T {- hmt-base -}
 import qualified Sound.Sc3 as Sc3 {- hsc3 -}
 import qualified Sound.Sc3.Common.Help as Help {- hsc3 -}
 import qualified Sound.Sc3.Server.Graphdef as Graphdef {- hsc3 -}
-import qualified Sound.Sc3.Server.Graphdef.Binary as  Graphdef.Binary {- hsc3 -}
-import qualified Sound.Sc3.Server.Graphdef.Io as  Graphdef.Io {- hsc3 -}
+import qualified Sound.Sc3.Server.Graphdef.Binary as Graphdef.Binary {- hsc3 -}
+import qualified Sound.Sc3.Server.Graphdef.Io as Graphdef.Io {- hsc3 -}
 import qualified Sound.Sc3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
 
 import qualified Sound.Sc3.Ugen.Dot as Dot {- hsc3-dot -}
@@ -32,9 +32,11 @@ import qualified Language.Smalltalk.SuperCollider.Translate as St {- stsc3 -}
 
 -- * Util
 
--- | Generate the 16-character hex string of the Murmur-64 hash of the input string.
---
--- > map txt_hash_str ["Digest.Murmur64","txt_hash_str"] == ["44e386f01d5298bf","4e12a613b9e47dbe"]
+{- | Generate the 16-character hex string of the Murmur-64 hash of the input string.
+
+>>> map txt_hash_str ["Digest.Murmur64","txt_hash_str"]
+["44e386f01d5298bf","4e12a613b9e47dbe"]
+-}
 txt_hash_str :: String -> String
 txt_hash_str = printf "%016x" . Murmur64.asWord64 . Murmur64.hash64
 
@@ -44,12 +46,14 @@ txt_hash_str = printf "%016x" . Murmur64.asWord64 . Murmur64.hash64
 newline_to_space :: Char -> Char
 newline_to_space x = if x == '\n' then ' ' else x
 
--- | Replace sequences of consecutive spaces with single spaces.
---
--- > merge_multiple_spaces "x  y   z" == "x y z"
+{- | Replace sequences of consecutive spaces with single spaces.
+
+>>> merge_multiple_spaces "x  y   z"
+"x y z"
+-}
 merge_multiple_spaces :: String -> String
 merge_multiple_spaces =
-  let f st x = (x,if x == ' ' && st == ' ' then Nothing else Just x)
+  let f st x = (x, if x == ' ' && st == ' ' then Nothing else Just x)
   in catMaybes . snd . mapAccumL f '.'
 
 -- | Replace special characers with '?'
@@ -59,10 +63,10 @@ question_mark_special_chars x = if x `elem` "\"\\" then '?' else x
 -- | Make prefix summary string of text file.
 text_prefix :: Int -> String -> String
 text_prefix k =
-  take k .
-  map question_mark_special_chars .
-  merge_multiple_spaces .
-  map newline_to_space
+  take k
+    . map question_mark_special_chars
+    . merge_multiple_spaces
+    . map newline_to_space
 
 {-
 import qualified System.IO.Strict as Strict {- strict -}
@@ -91,27 +95,33 @@ hs_graph_rw_pre :: String -> IO [String]
 hs_graph_rw_pre typ = hs_hsc3_typ_imports typ >>= fmap lines . readFile
 
 -- | sy_dir = scsyndef directory, z = fragment ID, txt = fragment
-hs_graph_fragment_rw :: FilePath -> (String,String) -> [String]
-hs_graph_fragment_rw sy_dir (z,txt) =
-  let pfx = [printf "gr_%s :: Ugen" z
-            ,printf "gr_%s =" z]
-      grw = map (" " ++ ) (lines txt)
-      sfx = [printf "wr_%s :: IO ()" z
-            ,printf "wr_%s = do" z
-            ,printf "  putStrLn \"%s %s\"" z (text_prefix 48 txt)
-            ,printf "  let sy = synthdef \"%s\" (wrapOut Nothing gr_%s)" z z
-            ,printf "  synthdefWrite \"%s\" sy" (sy_dir </> z <.> ".scsyndef")]
-  in concat [pfx,grw,sfx]
+hs_graph_fragment_rw :: FilePath -> (String, String) -> [String]
+hs_graph_fragment_rw sy_dir (z, txt) =
+  let prefix =
+        [ printf "gr_%s :: Ugen" z
+        , printf "gr_%s =" z
+        ]
+      grw = map (" " ++) (lines txt)
+      suffix =
+        [ printf "wr_%s :: IO ()" z
+        , printf "wr_%s = do" z
+        , printf "  putStrLn \"%s %s\"" z (text_prefix 48 txt)
+        , printf "  let sy = synthdef \"%s\" (wrapOut Nothing gr_%s)" z z
+        , printf "  synthdefWrite \"%s\" sy" (sy_dir </> z <.> ".scsyndef")
+        ]
+  in concat [prefix, grw, suffix]
 
 hs_graph_rw_main :: [String] -> [String]
 hs_graph_rw_main z_seq =
-  let pfx = ["main :: IO ()"
-            ,"main = do"]
+  let prefix =
+        [ "main :: IO ()"
+        , "main = do"
+        ]
       ent z = printf "  wr_%s" z
-  in concat [pfx,map ent z_seq]
+  in concat [prefix, map ent z_seq]
 
 -- | ztxt is [(src-text-hash,src-text)]
-hs_graph_fragments_process_z :: String -> [(String,String)] -> FilePath -> IO ()
+hs_graph_fragments_process_z :: String -> [(String, String)] -> FilePath -> IO ()
 hs_graph_fragments_process_z typ ztxt sy_dir = do
   tmp <- getTemporaryDirectory
   let z_seq = map fst ztxt
@@ -126,7 +136,7 @@ hs_graph_fragments_process :: String -> [FilePath] -> FilePath -> IO [String]
 hs_graph_fragments_process typ fn_seq out_dir = do
   txt_seq <- Help.read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
-      cpy (z,txt) = writeFile (out_dir </> z <.> "hs") txt
+      cpy (z, txt) = writeFile (out_dir </> z <.> "hs") txt
   mapM_ cpy (zip z_seq txt_seq)
   hs_graph_fragments_process_z typ (zip z_seq txt_seq) out_dir
   return z_seq
@@ -147,34 +157,36 @@ hs_graph_fragments_process_load typ fn = do
 
 hs_graph_fragments_process_play :: String -> FilePath -> IO ()
 hs_graph_fragments_process_play typ fn =
-  hs_graph_fragments_process_load typ fn >>=
-  mapM_ Sc3.audition
+  hs_graph_fragments_process_load typ fn
+    >>= mapM_ Sc3.audition
 
 hs_graph_fragments_process_draw :: String -> FilePath -> IO ()
 hs_graph_fragments_process_draw typ fn =
-  hs_graph_fragments_process_load typ fn >>=
-  mapM_ (Dot.draw . snd . Graphdef.Read.graphdef_to_graph)
+  hs_graph_fragments_process_load typ fn
+    >>= mapM_ (Dot.draw . snd . Graphdef.Read.graphdef_to_graph)
 
 hs_graph_fragments_process_dump_ugens :: String -> FilePath -> IO ()
 hs_graph_fragments_process_dump_ugens typ fn =
-  hs_graph_fragments_process_load typ fn >>=
-  mapM_ Graphdef.graphdef_dump_ugens
+  hs_graph_fragments_process_load typ fn
+    >>= mapM_ Graphdef.graphdef_dump_ugens
 
 -- * SuperCollider
 
-scd_graph_fragment_rw :: FilePath -> (String,String) -> [String]
-scd_graph_fragment_rw out_dir (z,txt) =
+scd_graph_fragment_rw :: FilePath -> (String, String) -> [String]
+scd_graph_fragment_rw out_dir (z, txt) =
   let grw = "{" : lines txt ++ ["}"]
-      sfx = [printf ".asSynthDef(name:\"%s\").writeDefFile(dir:\"%s\");" z out_dir
-            ,printf "\"%s %s\".postln;" z (text_prefix 48 txt)]
-  in concat [grw,sfx]
+      suffix =
+        [ printf ".asSynthDef(name:\"%s\").writeDefFile(dir:\"%s\");" z out_dir
+        , printf "\"%s %s\".postln;" z (text_prefix 48 txt)
+        ]
+  in concat [grw, suffix]
 
 scd_graph_fragment_process_seq :: FilePath -> [String] -> IO ()
 scd_graph_fragment_process_seq out_dir txt_seq = do
   tmp <- getTemporaryDirectory
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map (scd_graph_fragment_rw out_dir) (zip z_seq txt_seq)
-      cpy (z,txt) = writeFile (out_dir </> z <.> "scd") txt
+      cpy (z, txt) = writeFile (out_dir </> z <.> "scd") txt
       rw_fn = tmp </> "rw.scd"
   mapM_ cpy (zip z_seq txt_seq)
   writeFile rw_fn (unlines (concat rw_seq ++ ["0.exit"]))
@@ -198,11 +210,12 @@ scm_graph_rw_pre :: [String]
 scm_graph_rw_pre =
   ["(import (rnrs) (rhs core) (sosc core) (rsc3 core) (rsc3 server) (rsc3 ugen) (rsc3 lang))"]
 
-scm_graph_fragment_rw :: FilePath -> (String,String) -> [String]
-scm_graph_fragment_rw out_dir (z,txt) =
-  [printf "(display \"%s %s\")(newline)" z (text_prefix 48 txt)
-  ,printf "(synthdefWrite (synthdef \"%s\" (Out (ctl \"out\" 0)" z
-  ,printf " %s)) \"%s\")" txt (out_dir </> z <.> ".scsyndef")]
+scm_graph_fragment_rw :: FilePath -> (String, String) -> [String]
+scm_graph_fragment_rw out_dir (z, txt) =
+  [ printf "(display \"%s %s\")(newline)" z (text_prefix 48 txt)
+  , printf "(synthdefWrite (synthdef \"%s\" (Out (ctl \"out\" 0)" z
+  , printf " %s)) \"%s\")" txt (out_dir </> z <.> ".scsyndef")
+  ]
 
 scm_graph_fragment_process :: Lisp.NameTable -> String -> FilePath -> [FilePath] -> IO ()
 scm_graph_fragment_process sch_tbl ext out_dir fn_seq = do
@@ -211,11 +224,11 @@ scm_graph_fragment_process sch_tbl ext out_dir fn_seq = do
   let post_txt_seq = map (if ext == ".sch" then Lisp.hs_exp_to_lisp sch_tbl else id) pre_txt_seq
       z_seq = map txt_hash_str pre_txt_seq
       rw_seq = map (scm_graph_fragment_rw out_dir) (zip z_seq post_txt_seq)
-      cpy (z,txt) = writeFile (out_dir </> z <.> ext) txt
+      cpy (z, txt) = writeFile (out_dir </> z <.> ext) txt
       rw_fn = tmp </> "rw.scm"
   mapM_ cpy (zip z_seq pre_txt_seq)
   writeFile rw_fn (unlines (scm_graph_rw_pre ++ concat rw_seq ++ ["(exit)"]))
-  --_ <- rawSystem "guile" ["--r6rs",rw_fn] -- "--no-auto-compile" -- this alters results...
+  -- _ <- rawSystem "guile" ["--r6rs",rw_fn] -- "--no-auto-compile" -- this alters results...
   _ <- rawSystem "ikarus" [rw_fn]
   return ()
 
@@ -226,12 +239,14 @@ scm_graph_fragment_process_dir sch_tbl ext out_dir in_dir = do
 
 -- * Forth
 
-fs_graph_fragment_rw :: FilePath -> (String,String) -> [String]
-fs_graph_fragment_rw out_dir (z,txt) =
+fs_graph_fragment_rw :: FilePath -> (String, String) -> [String]
+fs_graph_fragment_rw out_dir (z, txt) =
   let grw = lines txt
-      sfx = [printf "s\" %s\" s\" %s\" writeSynthdef" z (out_dir </> z <.> "scsyndef")
-            ,printf "s\" %s %s\" type" z (text_prefix 48 txt)]
-  in concat [grw,sfx]
+      suffix =
+        [ printf "s\" %s\" s\" %s\" writeSynthdef" z (out_dir </> z <.> "scsyndef")
+        , printf "s\" %s %s\" type" z (text_prefix 48 txt)
+        ]
+  in concat [grw, suffix]
 
 fs_graph_fragment_process :: FilePath -> [FilePath] -> IO ()
 fs_graph_fragment_process out_dir fn_seq = do
@@ -239,7 +254,7 @@ fs_graph_fragment_process out_dir fn_seq = do
   txt_seq <- Help.read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map (fs_graph_fragment_rw out_dir) (zip z_seq txt_seq)
-      cpy (z,txt) = writeFile (out_dir </> z <.> "fs") txt
+      cpy (z, txt) = writeFile (out_dir </> z <.> "fs") txt
       rw_fn = tmp </> "rw.fs"
       rw_text = unlines (concat rw_seq ++ ["bye"])
   mapM_ cpy (zip z_seq txt_seq)
@@ -255,31 +270,43 @@ fs_graph_fragment_process_dir out_dur in_dir = do
 -- * Smalltalk
 
 -- | z = fragment id, txt = fragment
-st_graph_fragment_rw :: FilePath -> (String,String) -> [String]
-st_graph_fragment_rw out_dir (z,txt) =
-  let pfx =
-        [printf "'%s' printOn: stdout." z
-        ,printf "Sc3 writeBinarySyndef: '%s' of: (WrapOut bus: 0 channelsArray:  ([" z]
-      sfx =
+st_graph_fragment_rw :: FilePath -> (String, String) -> [String]
+st_graph_fragment_rw out_dir (z, txt) =
+  let prefix =
+        [ printf "'%s' printOn: stdout." z
+        , printf "Sc3 writeBinarySyndef: '%s' of: (WrapOut bus: 0 channelsArray:  ([" z
+        ]
+      suffix =
         [printf "] value)) to: '%s/%s.scsyndef' ." out_dir z]
-  in concat [pfx, lines txt, sfx]
+  in concat [prefix, lines txt, suffix]
 
-st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
-st_graph_fragment_process ext out_dir fn_seq = do
+graph_fragment_process :: (String -> String)
+                       -> (FilePath -> (String, String) -> [String])
+                       -> String
+                       -> String
+                       -> FilePath
+                       -> [FilePath]
+                       -> IO [String]
+graph_fragment_process txt_f rw_f ext cmd out_dir fn_seq = do
   tmp <- getTemporaryDirectory
   pre_txt_seq <- Help.read_file_set_fragments fn_seq
-  putStrLn (printf "st_graph_fragment_process: ext=%s" ext)
-  let post_txt_seq = map (if ext == ".sl" then St.stcToSt else id) pre_txt_seq
+  let post_txt_seq = map txt_f pre_txt_seq
   let z_seq = map txt_hash_str pre_txt_seq
-      rw_seq = map (st_graph_fragment_rw out_dir) (zip z_seq post_txt_seq)
-      cpy (z,txt) = writeFile (out_dir </> z <.> ext) txt
-      rw_fn = tmp </> "rw.st"
+      rw_seq = map (rw_f out_dir) (zip z_seq post_txt_seq)
+      cpy (z, txt) = writeFile (out_dir </> z <.> ext) txt
+      rw_fn = tmp </> "rw" <.> ext
       rw_text = unlines (concat rw_seq)
   mapM_ cpy (zip z_seq pre_txt_seq)
   writeFile rw_fn rw_text
-  let st_cmd = "gst"
-  _ <- rawSystem st_cmd [rw_fn]
+  _ <- rawSystem cmd [rw_fn]
   return z_seq
+
+st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
+st_graph_fragment_process ext out_dir fn_seq = do
+  let txt_f = if ext == ".sl" then St.stcToSt else id
+      rw_f = st_graph_fragment_rw
+  putStrLn (printf "st_graph_fragment_process: ext=%s" ext)
+  graph_fragment_process txt_f rw_f ".st" "gst" out_dir fn_seq
 
 text_scsyndef_to_scsyndef :: FilePath -> FilePath -> IO ()
 text_scsyndef_to_scsyndef txt_fn bin_fn = do
@@ -292,11 +319,13 @@ st_proc_syndef_files z_seq sy_dir = do
   let f z = text_scsyndef_to_scsyndef (tmp_dir </> z <.> "scsyndef.text") (sy_dir </> z <.> "scsyndef")
   mapM_ f z_seq
 
-{-
-> st_graph_fragment_process_dir ".st" "/tmp/" "/home/rohan/sw/stsc3/help/ugen/"
-> st_graph_fragment_process_dir ".sl" "/tmp/" "/home/rohan/sw/stsc3/help/ugen/"
-> st_graph_fragment_process_dir ".st" "/tmp/" "/home/rohan/sw/stsc3/help/graph/"
-> st_graph_fragment_process_dir ".sl" "/tmp/" "/home/rohan/sw/stsc3/help/graph/"
+{- | St graph fragments, process directory
+
+> st_graph_fragment_process_dir ".st" "/tmp" "/home/rohan/sw/stsc3/help/ugen/"
+> st_graph_fragment_process_dir ".st" "/tmp" "/home/rohan/sw/stsc3/help/graph/"
+
+> st_graph_fragment_process_dir ".sl" "/tmp" "/home/rohan/sw/stsc3/help/ugen/"
+> st_graph_fragment_process_dir ".sl" "/tmp" "/home/rohan/sw/stsc3/help/graph/"
 -}
 st_graph_fragment_process_dir :: String -> FilePath -> FilePath -> IO ()
 st_graph_fragment_process_dir ext out_dir in_dir = do
@@ -305,16 +334,45 @@ st_graph_fragment_process_dir ext out_dir in_dir = do
   when False (st_proc_syndef_files z_seq out_dir) -- if text
   return ()
 
+-- * Spl
+
+-- | z = fragment id, txt = fragment
+sl_graph_fragment_rw :: FilePath -> (String, String) -> [String]
+sl_graph_fragment_rw out_dir (z, txt) =
+  let prefix = [printf "'%s'.postLine;" z, "{"]
+      suffix = printf "}.writeScSynDefFile('%s', '%s/%s.scsyndef');" z out_dir z
+  in concat [prefix, lines txt, [suffix]]
+
+sl_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
+sl_graph_fragment_process out_dir fn_seq = do
+  let txt_f = id
+      rw_f = sl_graph_fragment_rw
+  graph_fragment_process txt_f rw_f ".sl" "cat" out_dir fn_seq
+
+{- | Sl graph fragments, process directory
+
+> sl_graph_fragment_process_dir "/tmp" "/home/rohan/sw/stsc3/help/ugen/"
+> sl_graph_fragment_process_dir "/tmp" "/home/rohan/sw/stsc3/help/graph/"
+> sl_graph_fragment_process_dir "/tmp" "/home/rohan/sw/stsc3/help/collect/"
+-}
+sl_graph_fragment_process_dir :: FilePath -> FilePath -> IO ()
+sl_graph_fragment_process_dir out_dir in_dir = do
+  fn <- T.dir_subset [".sl"] in_dir
+  _ <- sl_graph_fragment_process out_dir fn
+  return ()
+
 -- * Scala
 
 -- | z = fragment ID, txt = fragment
-scala_graph_fragment_rw :: FilePath -> (String,String) -> [String]
-scala_graph_fragment_rw out_dir (z,txt) =
-  let pfx = [printf "val gr_%s = graph {" z]
-      sfx = ["};"
-            ,printf "val sy_%s = SynthDef(name = \"%s\") {gr_%s.result.close(in = gr_%s.peer(), fadeTime = 0.02)}" z z z z
-            ,printf "sy_%s.write(dir = \"%s\", overwrite = true);" z out_dir]
-  in concat [pfx,lines txt,sfx]
+scala_graph_fragment_rw :: FilePath -> (String, String) -> [String]
+scala_graph_fragment_rw out_dir (z, txt) =
+  let prefix = [printf "val gr_%s = graph {" z]
+      suffix =
+        [ "};"
+        , printf "val sy_%s = SynthDef(name = \"%s\") {gr_%s.result.close(in = gr_%s.peer(), fadeTime = 0.02)}" z z z z
+        , printf "sy_%s.write(dir = \"%s\", overwrite = true);" z out_dir
+        ]
+  in concat [prefix, lines txt, suffix]
 
 scala_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
 scala_graph_fragment_process out_dir fn_seq = do
@@ -322,7 +380,7 @@ scala_graph_fragment_process out_dir fn_seq = do
   txt_seq <- Help.read_file_set_fragments fn_seq
   let z_seq = map txt_hash_str txt_seq
       rw_seq = map (scala_graph_fragment_rw out_dir) (zip z_seq txt_seq)
-      cpy (z,txt) = writeFile (out_dir </> z <.> "scala") txt
+      cpy (z, txt) = writeFile (out_dir </> z <.> "scala") txt
       rw_fn = tmp </> "rw.scala"
       rw_text = unlines (concat rw_seq)
   mapM_ cpy (zip z_seq txt_seq)
