@@ -1,0 +1,12 @@
+; https://twitter.com/redFrik/status/1138498427241861122 (f0)
+(let* ((f 3)
+       (b (List f 9.999)) ; f
+       (d (Max (SinOscFb (Div b 99) 0) 0))
+       (t1 (Select2 (Gt (SinOscFb (SinOscFb 9/999 0) 0) (SinOscFb 9/99 0)) f (Div 9 b)))
+       (t2 (Select2 (Lt (SinOscFb 9/99 0) (SinOscFb 99/9999 0)) (Div b 9) f))
+       (f1 (Lag (Mul4 9.9 b t1 t2) 0.1))
+       (s1 (Mul3 (SinOscFb f1 d) (SinOscFb (Div b 9) 0) d))
+       (c (PitchShift s1 (Div 9 b) (Div 9 (Sqrt b)) (Div b 999) (Div b 99)))
+       (s2 (GVerb (Mul4 c d d d) 99 9 9/999 0.5 15 1 0.7 0.5 300))
+       (s3 (Add (Div s2 9) (PitchShift c (Div f 9) (Div f 9) 0 0))))
+  (Mix (Transpose (Div (Hpf (Splay2 s3) 9) 9))))

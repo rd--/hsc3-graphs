@@ -1,4 +1,4 @@
-import Control.Monad {- base -}
+--import Control.Monad {- base -}
 import System.Environment {- base -}
 
 import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
@@ -17,27 +17,26 @@ graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
   let db_dir = if True then graphs_db_dir else "/tmp/"
+  let hs_q x = "/home/rohan/sw/hsc3/Help/" ++ x
+  hs_graph_fragments_process_dir_set "std" db_dir (map hs_q ["Graph", "Ugen"])
+  let sc_q x = "/home/rohan/sw/hsc3-graphs/lib/scd/" ++ x
+  scd_graph_fragment_process_dir_set db_dir (map sc_q ["graph", "collect"])
+  scd_graph_fragment_process_dir_set db_dir ["/home/rohan/sw/sc3-rdu/help/scd/"]
   sch_tbl <- Lisp.nameTableLoad "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
-  _ <- hs_graph_fragments_process_dir "std" db_dir "/home/rohan/sw/hsc3/Help/Graph/" -- .
-  _ <- hs_graph_fragments_process_dir "std" db_dir "/home/rohan/sw/hsc3/Help/Ugen/" -- .
-  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/graph/" -- .
-  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scd/collect/" -- .
-  scd_graph_fragment_process_dir db_dir "/home/rohan/sw/sc3-rdu/help/scd/" -- .
-  scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3/help/graph/" -- .
-  scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3/help/ugen/" -- .
-  scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3/help/graph/" -- .
+  let scm_q x = "/home/rohan/sw/rsc3/help/" ++ x
+  scm_graph_fragment_process_dir_set sch_tbl ".scm" db_dir (map scm_q ["graph", "ugen"])
+  scm_graph_fragment_process_dir_set sch_tbl ".sch" db_dir ["/home/rohan/sw/rsc3/help/graph"]
   {-
     scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
     scm_graph_fragment_process_dir sch_tbl ".scm" db_dir "/home/rohan/sw/rsc3-arf/help/ugen/"
     scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
   -}
-  fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/graph/" -- .
-  fs_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-forth/help/ugen/" -- .
-  st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/graph/" -- .
-  st_graph_fragment_process_dir ".st" db_dir "/home/rohan/sw/stsc3/help/ugen/" -- .
-  st_graph_fragment_process_dir ".sl" db_dir "/home/rohan/sw/stsc3/help/collect/" -- .
-  st_graph_fragment_process_dir ".sl" db_dir "/home/rohan/sw/stsc3/help/graph/" -- .
-  st_graph_fragment_process_dir ".sl" db_dir "/home/rohan/sw/stsc3/help/ugen/" -- .
+  let fs_q x = "/home/rohan/sw/hsc3-forth/help/" ++ x
+  fs_graph_fragment_process_dir_set db_dir (map fs_q ["graph","ugen"])
+  let st_q x = "/home/rohan/sw/stsc3/help/" ++ x
+  st_graph_fragment_process_dir_set ".st" db_dir (map st_q ["ugen","graph"])
+  let sl_q x = "/home/rohan/sw/spl/help/SuperCollider/" ++ x
+  sl_graph_fragment_process_dir_set db_dir (map sl_q ["Ugen","Graph", "Collect"])
   {-
     scala_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
   -}

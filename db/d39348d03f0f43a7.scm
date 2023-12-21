@@ -1,0 +1,10 @@
+; bit reduction (adc)
+(let* ((downSample
+        (let* ((f (LfNoise2 8))
+               (nh (LfNoise2 3))
+               (src (Blip (MulAdd f 200 300) (MulAdd nh 10 20)))
+               (sr (MouseX 1000 (Mul (SampleRate) 0.1) 1 0.2)))
+          (Mul (Latch src (Impulse sr 0)) 0.1)))
+       (bitSz (MouseY 1 24 1 0.2))
+       (bitRedux (RoundTo downSample (Pow 0.5 bitSz))))
+  (Mce2 downSample bitRedux))

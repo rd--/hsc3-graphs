@@ -1,0 +1,2 @@
+(* tutorial 3.4 *)
+SinOsc(300 + (200 * Latch(SinOsc(13.3, 0), Impulse(10, 0))), 0) * 0.2

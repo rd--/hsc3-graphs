@@ -1,0 +1,12 @@
+; impulse sequencer (jmcc) sc2
+(let* ((isequ (lambda (s tr) (Mul tr (Demand tr 0 (Dseq inf s)))))
+       (t (Impulse 8 0))
+       (c-sq (isequ (list 1 0 0 1 0 0 1 0 0 0 1 0 1 0 0 0) t))
+       (c (Mul3 (Decay2 c-sq 0.001 0.3) (FSinOsc 1700 0) 0.1))
+       (d-sq (isequ (list 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0) t))
+       (d (Mul3 (Decay2 d-sq 0.001 0.3) (FSinOsc 2400 0) 0.04))
+       (n-sq (isequ (list 1.0 0.1 0.1 1.0 0.1 1.0 0.1 0.1) t))
+       (n (Mul3 (Decay2 n-sq 0.001 0.25) (BrownNoise) 0.1))
+       (b-sq (isequ (list 1 0 0.2 0 0.2 0 0.2 0) t))
+       (b (Mul3 (Decay2 b-sq 0.001 0.5) (FSinOsc 100 0) 0.2)))
+  (Sum4 c d n b))

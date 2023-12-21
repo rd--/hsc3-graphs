@@ -1,0 +1,7 @@
+; https://twitter.com/redFrik/status/454598285861617665 (f0)
+(let* ((b (to 9 1))
+       (c (LfTri (Pow 3 (LfTri (Div 1 b) (Div b 9))) 0))
+       (d (DivAdd (Mod (LfTri (Recip b) 0) 1) 9 0.01))
+       (f (Mul3 (Pow 2 (RoundTo (LfTri (Div b 99) 0) 1)) 99 b))
+       (o (GrainSin 2 c d f 0 -1 512)))
+  (Tanh (Mul (Mix o) 0.25)))

@@ -1,0 +1,6 @@
+; http://www.fredrikolofsson.com/f0blog/?q=node/617 (f0)
+(let* ((b (Mul (to 1 8) 99))
+       (f (DivAdd b 2 (Mul (LfSaw (Div -8 b) 1) 99)))
+       (o (Blip f (DivAdd b 4 (Mul (LfSaw (Recip b) 1) 99))))
+       (c (CombN (Mul o (SinOsc (Div 8 b) (LfSaw (Div 99 b) 0))) 0.2 0.2 1)))
+  (Mul (Sin (Splay2 c)) 0.1))

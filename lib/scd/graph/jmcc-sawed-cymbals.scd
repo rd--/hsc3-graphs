@@ -10,7 +10,7 @@ OverlapTexture({
 
 //---- sawed cymbals (jmcc) ; #10
 var p = 15;
-Texture.overlap({
+Texture.overlapRoutine({
     var f1 = Rand.ir(500, 2500);
     var f2 = Rand.ir(0, 8000);
     var s = LFSaw.ar(XLine.kr(Rand.ir(0, 600), Rand.ir(0, 600), 12), 0, 0.0005);

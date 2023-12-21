@@ -1,0 +1,12 @@
+; f0 ; https://twitter.com/redFrik/status/1105496695637454848 ; edited for packet size
+(let* ((b (map (lambda (x) (/ x 151)) (to 1 13)))
+       (w (Ceil (Add (VarSaw b b (/ 1 5.15)) 1.5)))
+       (s (kr: (Select (AddDiv (Ceil (Mul (VarSaw 1/15 1/5 b) 5)) 5 5) (Mce3 (* 51 1.5) 51 151))))
+       (x (Lag s b))
+       (y (VarSaw (Add 5 b) 0 0.5))
+       (z (MulAdd (VarSaw b b b) (Div b 5) (Mce3 1.5 5 1)))
+       (m (MulAdd (VarSaw (Sub 5 b) b b) 5 5))
+       (o (Mul (VarSaw (Mul (MulAdd w x y) z) b (AddDiv (VarSaw b 0 0.5) 5 15)) (Gt m 1.515)))
+       (f (Pow 1515 (Add3 (Div (VarSaw (Div (Sub 1 b) 5) 0 0.5) 15) 1 b)))
+       (rq (Div (Pow 1.5 (VarSaw b 0 0.5)) 5)))
+  (Div (Splay2 (BLowPass o f rq)) 5))

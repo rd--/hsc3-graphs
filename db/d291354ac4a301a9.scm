@@ -1,0 +1,6 @@
+; half-life (jrhb)
+(let* ((t-half 3.92)
+       (n-atoms 1e5)
+       (n (Max 0 (Sub n-atoms (PulseCount (LocalIn 2 (Mce2 0 0)) 0))))
+       (activity (Dust (Mul n (Div (Log 2) t-half)))))
+  (Mrg2 (Mul activity 0.1) (LocalOut activity)))

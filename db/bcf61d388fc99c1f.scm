@@ -1,0 +1,17 @@
+; police state (jmcc) #2
+(let* ((mkNode
+        (lambda ()
+          (let* ((r0 (Rand 0.02 0.1))
+                 (r1 (Rand 0 (* pi 2)))
+                 (r2 (Rand 0 600))
+                 (r3 (Rand 700 1300))
+                 (r4 (Rand -1 1))
+                 (r5 (Rand 80 120))
+                 (n0 (LfNoise2 r5))
+                 (f (MulAdd (SinOsc r0 r1) r2 r3)))
+            (Pan2 (Mul (SinOsc f 0) n0) r4 0.1))))
+       (n0 (LfNoise2 (Mce2 0.4 0.4)))
+       (n1 (LfNoise2 (MulAdd n0 90 620)))
+       (n2 (LfNoise2 (Mce2 0.3 0.3)))
+       (e (Mul n1 (MulAdd n2 0.15 0.18))))
+  (CombL (Add (!+ mkNode 4) e) 0.3 0.3 3))

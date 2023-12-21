@@ -1,0 +1,12 @@
+; 20061007 (rd)
+(let* ((lwr 48)
+       (flwr (midiCps 48))
+       (spart
+        (lambda (t)
+          (let* ((n (LinLin (LfNoise2 0.1) -1 1 lwr 72))
+                 (e (Decay2 t 0.01 (TRand 0.05 0.75 t)))
+                 (x (Mul (WhiteNoise) e))
+                 (f (Lag (MidiCps n) 0.25)))
+            (CombC x (Recip flwr) (Recip f) (LinLin (LfNoise2 0.1) -1 1 1 8)))))
+       (t (Dust (Mce2 0.9 0.8))))
+  (Mul (!+ (lambda () (Mul (spart t) 0.1)) 7) 0.1))

@@ -1,0 +1,47 @@
+; 20061025 (rd)
+(let*
+    ((m-wrp
+      (lambda (i l r)
+        (LinLin i -1 1 (MidiCps l) (MidiCps r))))
+     (m-wrp1
+      (lambda (i m)
+        (m-wrp i m (Add m 1))))
+     (m-wrp-n
+      (lambda (i m n)
+        (m-wrp i m (Add m n))))
+     (o1
+      (let* ((f 5)
+             (d 3)
+             (s (EnvSine d 0.1))
+             (e (EnvGen 1 1 0 1 doNothing s))
+             (n 65)
+             (m (SinOsc f 0)))
+        (Pan2 (SinOsc (m-wrp1 m n) 0) m e)))
+     (o2
+      (let* ((f (IRand 5 9))
+             (d (IRand 5 9))
+             (s (EnvSine d (Rand 0.1 0.2)))
+             (e (EnvGen 1 1 0 1 doNothing s))
+             (n (IRand 69 72))
+             (m (SinOsc f 0)))
+        (Pan2 (SinOsc (m-wrp1 m n) 0) m e)))
+     (o3
+      (let* ((f (IRand 5 9))
+             (d (IRand 9 12))
+             (s (EnvSine d (Rand 0.1 0.2)))
+             (e (EnvGen 1 1 0 1 doNothing s))
+             (n (IRand 69 72))
+             (m (SinOsc f 0))
+             (l (Line 0 (IRand 1 5) d doNothing)))
+        (Pan2 (Blip (m-wrp1 m (Add n l)) (LinLin m -1 1 1 2)) m e)))
+     (o4
+      (let* ((f (IRand 5 18))
+             (d (IRand 12 15))
+             (s (EnvSine d (Rand 0.1 0.2)))
+             (e (EnvGen 1 0.05 0 1 doNothing s))
+             (n (IRand 69 72))
+             (m (SinOsc f 0))
+             (l (Line 0 (IRand 1 5) d removeSynth))
+             (fr (m-wrp-n m (Add n l) (IRand 1 5))))
+        (Pan2 (Blip fr (LinLin m -1 1 1 (IRand 2 24))) m e))))
+  (Sum4 o1 o2 o3 o4))

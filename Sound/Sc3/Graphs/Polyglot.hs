@@ -141,10 +141,15 @@ hs_graph_fragments_process typ fn_seq out_dir = do
   hs_graph_fragments_process_z typ (zip z_seq txt_seq) out_dir
   return z_seq
 
-hs_graph_fragments_process_dir :: String -> FilePath -> FilePath -> IO ()
-hs_graph_fragments_process_dir typ out_dir in_dir = do
-  fn <- T.dir_subset [".hs"] in_dir
-  _ <- hs_graph_fragments_process typ fn out_dir
+{- | Hs
+
+> let hs_q x = "/home/rohan/sw/hsc3/Help/" ++ x
+> hs_graph_fragments_process_dir_set "std" "/tmp" (map hs_q ["Graph", "Ugen"])
+-}
+hs_graph_fragments_process_dir_set :: String -> FilePath -> [FilePath] -> IO ()
+hs_graph_fragments_process_dir_set typ out_dir in_dir = do
+  fn <- mapM (T.dir_subset [".hs"]) in_dir
+  _ <- hs_graph_fragments_process typ (concat fn) out_dir
   return ()
 
 -- > hs_graph_fragments_process_load "/tmp/st.hs"
@@ -199,10 +204,16 @@ scd_graph_fragment_process out_dir fn_seq = do
   txt_seq <- Help.read_file_set_fragments fn_seq
   mapM_ (scd_graph_fragment_process_seq out_dir) (Split.chunksOf 250 txt_seq)
 
-scd_graph_fragment_process_dir :: FilePath -> FilePath -> IO ()
-scd_graph_fragment_process_dir out_dir in_dir = do
-  fn <- T.dir_subset [".scd"] in_dir
-  scd_graph_fragment_process out_dir fn
+{- | Scd
+
+> let sc_q x = "/home/rohan/sw/hsc3-graphs/lib/scd/" ++ x
+> scd_graph_fragment_process_dir_set "/tmp" (map sc_q ["graph", "collect"])
+> scd_graph_fragment_process_dir_set "/tmp" ["/home/rohan/sw/sc3-rdu/help/scd/"]
+-}
+scd_graph_fragment_process_dir_set :: FilePath -> [FilePath] -> IO ()
+scd_graph_fragment_process_dir_set out_dir in_dir = do
+  fn <- mapM (T.dir_subset [".scd"]) in_dir
+  scd_graph_fragment_process out_dir (concat fn)
 
 -- * Scheme
 
@@ -232,10 +243,17 @@ scm_graph_fragment_process sch_tbl ext out_dir fn_seq = do
   _ <- rawSystem "ikarus" [rw_fn]
   return ()
 
-scm_graph_fragment_process_dir :: Lisp.NameTable -> String -> FilePath -> FilePath -> IO ()
-scm_graph_fragment_process_dir sch_tbl ext out_dir in_dir = do
-  fn <- T.dir_subset [ext] in_dir
-  scm_graph_fragment_process sch_tbl ext out_dir fn
+{- | Scm
+
+> let scm_q x = "/home/rohan/sw/rsc3/help/" ++ x
+> sch_tbl <- Lisp.nameTableLoad "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
+> scm_graph_fragment_process_dir_set sch_tbl ".scm" "/tmp" (map scm_q ["graph", "ugen"])
+> scm_graph_fragment_process_dir_set sch_tbl ".sch" "/tmp" ["/home/rohan/sw/rsc3/help/graph"]
+-}
+scm_graph_fragment_process_dir_set :: Lisp.NameTable -> String -> FilePath -> [FilePath] -> IO ()
+scm_graph_fragment_process_dir_set sch_tbl ext out_dir in_dir = do
+  fn <- mapM (T.dir_subset [ext]) in_dir
+  scm_graph_fragment_process sch_tbl ext out_dir (concat fn)
 
 -- * Forth
 
@@ -262,10 +280,15 @@ fs_graph_fragment_process out_dir fn_seq = do
   _ <- readCreateProcess (proc "hsc3-forth" []) rw_text
   return ()
 
-fs_graph_fragment_process_dir :: FilePath -> FilePath -> IO ()
-fs_graph_fragment_process_dir out_dur in_dir = do
-  fn <- T.dir_subset [".fs"] in_dir
-  fs_graph_fragment_process out_dur fn
+{- | Fs process
+
+> let fs_q x = "/home/rohan/sw/hsc3-forth/help/" ++ x
+> fs_graph_fragment_process_dir_set "/tmp" (map fs_q ["graph","ugen"])
+-}
+fs_graph_fragment_process_dir_set :: FilePath -> [FilePath] -> IO ()
+fs_graph_fragment_process_dir_set out_dur in_dir = do
+  fn <- mapM (T.dir_subset [".fs"]) in_dir
+  fs_graph_fragment_process out_dur (concat fn)
 
 -- * Smalltalk
 
@@ -273,7 +296,7 @@ fs_graph_fragment_process_dir out_dur in_dir = do
 st_graph_fragment_rw :: FilePath -> (String, String) -> [String]
 st_graph_fragment_rw out_dir (z, txt) =
   let prefix =
-        [ printf "'%s' printOn: stdout." z
+        [ printf "'%s' postln." z
         , printf "Sc3 writeBinarySyndef: '%s' of: (WrapOut bus: 0 channelsArray:  ([" z
         ]
       suffix =
@@ -322,16 +345,13 @@ st_proc_syndef_files z_seq sy_dir = do
 
 {- | St graph fragments, process directory
 
-> st_graph_fragment_process_dir ".st" "/tmp" "/home/rohan/sw/stsc3/help/ugen/"
-> st_graph_fragment_process_dir ".st" "/tmp" "/home/rohan/sw/stsc3/help/graph/"
-
-> st_graph_fragment_process_dir ".sl" "/tmp" "/home/rohan/sw/stsc3/help/ugen/"
-> st_graph_fragment_process_dir ".sl" "/tmp" "/home/rohan/sw/stsc3/help/graph/"
+> let st_q x = "/home/rohan/sw/stsc3/help/" ++ x
+> st_graph_fragment_process_dir_set ".st" "/tmp" (map st_q ["ugen","graph"])
 -}
-st_graph_fragment_process_dir :: String -> FilePath -> FilePath -> IO ()
-st_graph_fragment_process_dir ext out_dir in_dir = do
-  fn <- T.dir_subset [ext] in_dir
-  z_seq <- st_graph_fragment_process ext out_dir fn
+st_graph_fragment_process_dir_set :: String -> FilePath -> [FilePath] -> IO ()
+st_graph_fragment_process_dir_set ext out_dir in_dir = do
+  fn <- mapM (T.dir_subset [ext]) in_dir
+  z_seq <- st_graph_fragment_process ext out_dir (concat fn)
   when False (st_proc_syndef_files z_seq out_dir) -- if text
   return ()
 
@@ -344,9 +364,6 @@ sl_graph_fragment_rw out_dir (z, txt) =
       suffix = printf "}.writeScSynDefFile('%s', '%s/%s.scsyndef');" z out_dir z
   in concat [prefix, lines txt, [suffix]]
 
-{-
-spl --lib=StandardLibrary --lib=SuperColliderLibrary runFile /tmp/rw.sl
--}
 sl_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
 sl_graph_fragment_process out_dir fn_seq = do
   let txt_f = id
@@ -356,8 +373,8 @@ sl_graph_fragment_process out_dir fn_seq = do
 
 {- | Sl graph fragments, process directory
 
-> let q x = "/home/rohan/sw/stsc3/help/" ++ x
-> sl_graph_fragment_process_dir_set "/tmp" (map q ["ugen","graph", "collect"])
+> let sl_q x = "/home/rohan/sw/spl/help/SuperCollider/" ++ x
+> sl_graph_fragment_process_dir_set "/tmp" (map sl_q ["Ugen","Graph", "Collect"])
 -}
 sl_graph_fragment_process_dir_set :: FilePath -> [FilePath] -> IO ()
 sl_graph_fragment_process_dir_set out_dir in_dir = do
@@ -401,14 +418,14 @@ scala_graph_fragment_process_dir out_dir in_dir = do
 -- * Polyglot
 
 graph_fragments_process_dir :: Lisp.NameTable -> String -> FilePath -> FilePath -> IO ()
-graph_fragments_process_dir sch_tbl ext =
+graph_fragments_process_dir _sch_tbl ext =
   case ext of
-    ".fs" -> fs_graph_fragment_process_dir
-    ".hs" -> hs_graph_fragments_process_dir "std"
+    --".fs" -> fs_graph_fragment_process_dir
+    --".hs" -> hs_graph_fragments_process_dir "std"
     ".scala" -> scala_graph_fragment_process_dir
-    ".scd" -> scd_graph_fragment_process_dir
-    ".sch" -> scm_graph_fragment_process_dir sch_tbl ".sch"
-    ".scm" -> scm_graph_fragment_process_dir sch_tbl ".scm"
-    ".st" -> st_graph_fragment_process_dir ".st"
-    ".sl" -> st_graph_fragment_process_dir ".sl"
+    --".scd" -> scd_graph_fragment_process_dir
+    --".sch" -> scm_graph_fragment_process_dir sch_tbl ".sch"
+    --".scm" -> scm_graph_fragment_process_dir sch_tbl ".scm"
+    -- ".st" -> st_graph_fragment_process_dir_set ".st" . return
+    -- ".sl" -> st_graph_fragment_process_dir_set ".sl" . return
     _ -> error "graph_fragments_process_dir"

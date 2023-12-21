@@ -579,39 +579,6 @@ var e = EnvGen.ar(Env(a, a / a.sum, a.neg * 9).circle(0, 'lin'), 1, 1, 0, 1 / f,
 var g = EnvGen.ar(Env.perc(0.005, 0.9 / f), e > 0.1, 1, 0, 1, 0);
 Splay.ar((e.blend((e * f).sin, 1 - g) + g).tanh)
 
-// Tennis ; https://github.com/lukiss/Losers-Union-SC-Research
-var nf = s.sampleRate;
-var b = Buffer.alloc(s, nf, 1, nil, 1000); // var b = LocalBuf(nf, 1);
-var n = LeakDC.ar(
-		StandardL.ar(22050, LFNoise1.ar(1).range(0.72, 1.40), 0.5, 0),
-		0.995
-);
-var z = Sweep.ar(0, 1 - n.exprange(0.01, 1)) % 1 * nf;
-var t = (n.lag3(0.1) > 0);
-var p = PlayBuf.ar(
-	1,
-	b,
-	(1 - n.round(1 / 16)) / TRand.ar(1 , z / 100, t).lag3(0.001),
-	t,
-	z,
-	1,
-	0
-);
-RecordBuf.ar(n, b, z, t, 1 - t, t, 1, t, 0);
-Pan2.ar(
-	LeakDC.ar(
-		MoogFF.ar(
-			p,
-			p.exprange(0.01, 1) * 11025,
-			2,
-			0
-		),
-		0.995
-	).softclip,
-	TRand.ar(-1, 1, t),
-	1
-)
-
 // Cheap Singing Synth ; simpler (rd) ; https://github.com/lukiss/Losers-Union-SC-Research
 var tab = [
 	[[600,1040,2250,2450,2750], [60,70,110,120,130], [0,-7,-9,-9,-20]],
@@ -650,4 +617,37 @@ Splay.ar(
 		env - Env.perc(0, 1 / (2 ** (0 .. 5)) / 8, 0.5, -4).kr(0, trg) * voc[0] + 30,
 		(voc[1] / voc[0])
 	).softclip * voc[2].dbamp * env
+)
+
+// ---- Tennis ; https://github.com/lukiss/Losers-Union-SC-Research
+var nf = s.sampleRate;
+var b = Buffer.alloc(s, nf, 1, nil, 1000); // var b = LocalBuf(nf, 1);
+var n = LeakDC.ar(
+		StandardL.ar(22050, LFNoise1.ar(1).range(0.72, 1.40), 0.5, 0),
+		0.995
+);
+var z = Sweep.ar(0, 1 - n.exprange(0.01, 1)) % 1 * nf;
+var t = (n.lag3(0.1) > 0);
+var p = PlayBuf.ar(
+	1,
+	b,
+	(1 - n.round(1 / 16)) / TRand.ar(1 , z / 100, t).lag3(0.001),
+	t,
+	z,
+	1,
+	0
+);
+RecordBuf.ar(n, b, z, t, 1 - t, t, 1, t, 0);
+Pan2.ar(
+	LeakDC.ar(
+		MoogFF.ar(
+			p,
+			p.exprange(0.01, 1) * 11025,
+			2,
+			0
+		),
+		0.995
+	).softclip,
+	TRand.ar(-1, 1, t),
+	1
 )

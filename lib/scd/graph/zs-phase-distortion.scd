@@ -1,6 +1,5 @@
 // https://schollz.com/blog/phasedistortion/
-Voicer(16, {
-    arg e;
+Voicer(16) { | e |
     var freq = (e.x * 36 + 48).midiCps; // e.p.unitCps;
     var amp = e.z;
     var freqBase = freq;
@@ -13,5 +12,5 @@ Voicer(16, {
     var snd = Lag.ar(SinOsc.ar(0, pdres) * pdi, 1 / freqBase);
     var env = Decay2.kr(Trig.kr(e.w, 0.001), 0.005, 10);
     Pan2.ar(snd, e.i * 2 - 1, env * amp)
-}).sum
+}.sum
 
