@@ -12,7 +12,7 @@ var z = OverlapTexture({
 4.do({ z = AllpassN.ar(z, 0.1, { Rand.ir(0, 0.05) }.dup, 4) });
 z
 
-//---- jmcc ; choip choip choip ; lineto
+// ---- jmcc ; choip choip choip ; lineto
 {var dur = 12
 ;var z = OverlapTexture(
  {arg tr
@@ -25,7 +25,7 @@ z
 ;4.do({z = AllpassN.ar(in: z, maxdelaytime: 0.1, delaytime: [0.05.rand, 0.05.rand], decaytime: 4)})
 ;z}
 
-//---- jmcc ; choip choip choip
+// ---- jmcc ; choip choip choip
 {var dur = 12
 ;var z = OverlapTexture(
  {arg tr

@@ -12,10 +12,12 @@ var f = {
     var sig = LFTri.ar(freq, 0) * Decay2.kr(trig, 0.004, 0.3) * 0.1;
     Pan2.ar(sig, TRand.kr(-1, 1, tr), 1) };
 var z = OverlapTexture(f, 6, 3, 6);
-6.do({ z = AllpassN.ar(z, 0.040, { Rand.ir(0, 0.040) }.dup, 16) });
+6.do {
+	z = AllpassN.ar(z, 0.040, { Rand.ir(0, 0.040) }.dup, 16)
+};
 z
 
-//---- jmcc - ostinoodles ; keywords
+// ---- jmcc - ostinoodles ; keywords
 var z = OverlapTexture({
     arg tr;
     var sequ = { arg s, tr; Demand.kr(trig: tr, reset: 0, demandUGens: Dseq.dr(s, inf)) };

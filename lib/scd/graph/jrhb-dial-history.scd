@@ -22,7 +22,7 @@
 ; var hiss = g1 * 0.01 + HPF.ar(g2 * 0.02, 3000)
 ; [z, dsig + hiss] }
 
-//---- calculations (stsc3 doesn't parse list comprehensions or enumeration ranges)
+// ---- calculations (stsc3 doesn't parse list comprehensions or enumeration ranges)
 {: [a, b], a <- [0,1,2], b <- [0,1,2] }.all
 {var x = [0,1,2]; x.collect({arg y; x.collect({arg z; [y,z]})})}.value.flatten
 10.iota + 1 == 1.series(nil,10)

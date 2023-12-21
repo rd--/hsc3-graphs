@@ -417,15 +417,15 @@ scala_graph_fragment_process_dir out_dir in_dir = do
 
 -- * Polyglot
 
-graph_fragments_process_dir :: Lisp.NameTable -> String -> FilePath -> FilePath -> IO ()
-graph_fragments_process_dir _sch_tbl ext =
+graph_fragments_process_dir_set :: Lisp.NameTable -> String -> FilePath -> [FilePath] -> IO ()
+graph_fragments_process_dir_set sch_tbl ext =
   case ext of
-    --".fs" -> fs_graph_fragment_process_dir
-    --".hs" -> hs_graph_fragments_process_dir "std"
-    ".scala" -> scala_graph_fragment_process_dir
-    --".scd" -> scd_graph_fragment_process_dir
-    --".sch" -> scm_graph_fragment_process_dir sch_tbl ".sch"
-    --".scm" -> scm_graph_fragment_process_dir sch_tbl ".scm"
-    -- ".st" -> st_graph_fragment_process_dir_set ".st" . return
-    -- ".sl" -> st_graph_fragment_process_dir_set ".sl" . return
+    ".fs" -> fs_graph_fragment_process_dir_set
+    ".hs" -> hs_graph_fragments_process_dir_set "std"
+    --".scala" -> scala_graph_fragment_process_dir
+    ".scd" -> scd_graph_fragment_process_dir_set
+    ".sch" -> scm_graph_fragment_process_dir_set sch_tbl ".sch"
+    ".scm" -> scm_graph_fragment_process_dir_set sch_tbl ".scm"
+    ".st" -> st_graph_fragment_process_dir_set ".st"
+    ".sl" -> st_graph_fragment_process_dir_set ".sl"
     _ -> error "graph_fragments_process_dir"

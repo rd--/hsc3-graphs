@@ -10,5 +10,5 @@ var z = [
 var o = z.sum.splay;
 o + GVerb.ar(o.mix / 9, 50, 3, 0.5, 0.5, 15, 1, 0.7, 0.5, 300)
 
-//---- <https://twitter.com/redFrik/status/1454150378241548296> f0
+// ---- <https://twitter.com/redFrik/status/1454150378241548296> f0
 a={|r,i,n,q,p=0|ar(RLPF,ar(Impulse,r,p),kr(Select,i%5,[0,3,5,7,10]+n).midicps,q)};o=ar(Splay,[a.(2,ar(l=LFSaw,x=1e-3)*88,51,x*9),a.(1,0,70,x*5,b=(1..8)/8),a.(ar(l,1/9)+1,5**ar(l,b/9),82,x*3,b*3)/8,a.(3,ar(l,x*2,0.5)*88,63,x*7)/4].sum);o+ar(GVerb,o.sum/9,50)

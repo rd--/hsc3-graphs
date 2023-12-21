@@ -17,7 +17,7 @@ var z = CombN.ar(g, 0.375, 0.375, 5) + g.reverse * 0.4;
 var e = Env.linen(2, 56, 2, 1, 'lin');
 z * EnvGen.kr(e, 2)
 
-//---- analogue daze (jmcc) #3
+// ---- analogue daze (jmcc) #3
 var pattern = #[55,63,60,63,57,65,62,65];
 var f = {
     arg octave, clockRate, pwmrate, fltrate;

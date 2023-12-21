@@ -1,4 +1,4 @@
-// f0 ; https://sccode.org/1-5eN
+// f0 ; https://sccode.org/1-5eN ; requires=GlitchRHPF
 var s = GbmanN.ar(freq: [2300,1150], xi: 1.2, yi: 2.1);
 var f0 = Pulse.ar(
 	freq: 4,

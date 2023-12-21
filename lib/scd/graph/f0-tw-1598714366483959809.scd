@@ -10,8 +10,7 @@ var v = 0.9 ** 9;
 	o = o + CombC.ar(p, 0.9, SinOsc.ar(1 / b / 9, 0).range(b ** i / (99 + 9), b ** i / 99), i + 1)
 } ! 3;
 o = HPF.ar(o * l.max(0) * v, 9).tanh;
-LocalOut.ar(o);
-Splay.ar(o * v)
+Splay.ar(o * v) <! LocalOut.ar(o)
 
-//----
+// ----
 play{l=ar(a=SinOsc,9**ar(a,1/99)/b=(1..9));t=1-ar(Amplitude,p=ar(LocalIn,9)).lag(1/99);o=ar(a,99+l,l-t**ar(a,t**9*999/b)*9,t);{|i|o=o+ar(CombC,p=p.rotate,0.9,ar(a,1/b/9).range(*b**i/[99+9,99]),i+1)}!3;ar(LocalOut,o=tanh(ar(HPF,o*l.max*v=0.9**9,9)));ar(Splay,o*v)}

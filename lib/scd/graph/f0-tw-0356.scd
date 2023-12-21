@@ -5,5 +5,5 @@ var f1 = 8 ** LFTri.ar(b / 50, 0).roundTo(1) * 99;
 var f2 = 3 ** LFTri.ar(1 / b, 0) * 99;
 Splay2(BHiPass4.ar(BLowPass4.ar(o, f1, 1), f2, 0.1).sin)
 
-//----tweet0356
+// ----tweet0356
 a=LFTri;Splay ar:BHiPass4.ar(BLowPass4.ar(a.ar(b=[4,16,3])*a.ar(b*b),8**a.ar(b/50).round*99),3**a.ar(1/b)*99,0.1).sin

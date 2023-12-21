@@ -26,5 +26,5 @@ Pan2.ar(
 	pan
 )
 
-//---- GrainSin does not allow LocalBuf
+// ---- GrainSin does not allow LocalBuf
 var envBuf = Env.perc(0.01, 1, 1, -4).discretize(2048).asLocalBuf;

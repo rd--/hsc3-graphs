@@ -31,5 +31,5 @@ var voiceFunc = { | e |
 };
 Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
 
-//---- calculations
+// ---- calculations
 60.iota.collect({ arg x; Scale.major(\just).degreeToRatio(x) }).asCompileString

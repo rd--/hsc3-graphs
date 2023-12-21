@@ -21,7 +21,7 @@ var sig = PMOsc.ar(cf, mf, Env.new([3, 3, 0], [0, 0.2], -4).kr(0, trig));
 var cmp = (sig * AmpCompA.kr(chord_cps) * amp).sum;
 XFade2.ar(cmp ! 2, GVerb.ar(BPF.ar(cmp, 90.midicps), 50, 8, 0.5, 0.5, 15, 0, 0.7, 0.5, 300), 0.2)
 
-//---- shift register (dm) - https://sccode.org/1-590
+// ---- shift register (dm) - https://sccode.org/1-590
 {var shift_register =
  {arg length, trig, in
  ;var buf = LocalBuf.ir(numFrames: length, numChannels: 1)

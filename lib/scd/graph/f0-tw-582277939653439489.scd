@@ -12,5 +12,5 @@ Splay.ar(
 	) / 3
 )
 
-//---- https://twitter.com/redFrik/status/582277939653439489
+// ---- https://twitter.com/redFrik/status/582277939653439489
 a=LFSaw;Splay ar:HPF.ar(MoogFF.ar(a.ar(50*b=(0.999..9))-Blip.ar(a.ar(b)+9,b*99,9),a.ar(b/8)+1*999,a.ar(b/9)+1*2),9)/3

@@ -9,7 +9,7 @@ var nd = {
 };
 nd.dup(3).sum
 
-//---- xy interference ; keyword
+// ---- xy interference ; keyword
 var x = MouseX.kr(minval: 20, maxval: 22000, warp: 'linear', lag: #[0.005, 0.025]);
 var y = MouseY.kr(minval: 20, maxval: 22000, warp: 'linear', lag: #[0.005, 0.075]);
 var nd = {
