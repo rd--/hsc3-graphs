@@ -46,7 +46,7 @@ help :: [String]
 help =
   [ "hsc3-graphs command [arguments]"
   , "  db polyglot autogen"
-  , "  db process ext output-directory input-directory"
+  , "  db process ext output-directory input-directories..."
   , "  fragments {hs} {min | std} {play | draw | dump-ugens} FILE-NAME"
   , ""
   , "    ext = " ++ unwords graphs_db_fext
@@ -58,7 +58,7 @@ main = do
   sch_tbl <- Lisp.nameTableLoad "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
   case a of
     ["db", "polyglot", "autogen"] -> graphs_db_polyglot_autogen
-    ["db", "process", ext, out_dir, in_dir] -> graph_fragments_process_dir sch_tbl ext out_dir in_dir
+    "db" : "process" : ext : out_dir : in_dir -> graph_fragments_process_dir_set sch_tbl ext out_dir in_dir
     ["fragments", "hs", typ, "play", fn] -> hs_graph_fragments_process_play typ fn
     ["fragments", "hs", typ, "draw", fn] -> hs_graph_fragments_process_draw typ fn
     ["fragments", "hs", typ, "dump-ugens", fn] -> hs_graph_fragments_process_dump_ugens typ fn
