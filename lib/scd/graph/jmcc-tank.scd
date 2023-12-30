@@ -24,9 +24,10 @@ var tank = {
     var l5 = AllpassN.ar(l4, 0.05, r2, 2);
     var l6 = LeakDC.ar(l5, 0.995);
     var l7 = l6 + i;
-    LocalOut.ar(l7);
-    l7
+    l7 <! LocalOut.ar(l7)
 };
 var z = Mix.fill(12, pling) + bang.value;
-4.do({ z = AllpassN.ar(z, 0.03, { Rand.ir(0.005, 0.02) }.dup, 1) });
+4.do {
+	z = AllpassN.ar(z, 0.03, { Rand.ir(0.005, 0.02) } ! 2, 1)
+};
 tank.value(z)

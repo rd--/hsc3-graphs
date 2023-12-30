@@ -197,7 +197,7 @@ Mix.ar({
 var a = Blip.ar(60, 4) * LFGauss.ar(4, 1/8, 0, 1, 0);
 var b = a / 4 + LocalIn.ar(2, 0);
 var c = FreqShift.ar(b, LFNoise0.kr(1/4) * 90, 0);
-c.mrg(LocalOut.ar(DelayC.ar(c, 1, 0.1) * 0.9))
+c <! LocalOut.ar(DelayC.ar(c, 1, 0.1) * 0.9)
 
 // GrainSin
 var overlap = MouseY.kr(0, 2, 0, 0.2);
@@ -265,8 +265,7 @@ snd = snd * ({ { Rand.ir(-1, 1) * 1000 }.dup(n) }.dup(n));
 snd = snd.sum;
 snd = LeakDC.ar(snd, 0.995);
 snd = snd.clip2;
-LocalOut.ar(snd);
-Splay.ar(snd, 1, 1, 0, true) * 0.1;
+Splay.ar(snd <! LocalOut.ar(snd), 1, 1, 0, true) * 0.1
 
 // Klang
 Klang.ar(Ref.new([[800, 1000, 1200], [0.3, 0.3, 0.3], [pi, pi, pi]], 1, 0)) * 0.4

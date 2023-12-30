@@ -53,8 +53,7 @@ SynthDef(\glitch, {
 	snd = HPF.ar(snd, 300);
 	snd = PitchShift.ar(snd, 0.5, 2);
 	snd = LPF.ar(snd, 3000);
-	LocalOut.ar(snd);
-	snd = snd + dry;
+	snd = snd <! LocalOut.ar(snd) + dry;
 	snd = snd * Env.linen(0.001, \dur.kr(1), 0.001).ar(Done.freeSelf);
 	snd = Pan2.ar(snd, LFNoise2.kr(0.3));
 	snd = snd * \amp.kr(0.3);

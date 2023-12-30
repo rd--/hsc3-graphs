@@ -1,20 +1,17 @@
 // http://earslap.com/article/sctweeting.html
 var a = LocalIn.ar(1, 0);
 var x = SinOsc.ar((Decay.ar(Impulse.ar([4, 4.005], 0), 1000 * a.abs) * 50), a).distort;
-LocalOut.ar(Mix.ar(x));
-x
+x <! LocalOut.ar(Mix.ar(x))
 
 // http://earslap.com/article/sctweeting.html ; wait start
 var f = LocalIn.ar(2, 0).tanh;
 var k = Latch.kr(f[0].abs, Impulse.kr(0.5, 0));
-LocalOut.ar(f + AllpassN.ar(Pulse.ar([2, 3], k * 0.01 + 0.000001) * 0.9, 1, k * 0.3, 100 * k));
-f
+f <! LocalOut.ar(f + AllpassN.ar(Pulse.ar([2, 3], k * 0.01 + 0.000001) * 0.9, 1, k * 0.3, 100 * k))
 
 // http://earslap.com/article/sctweeting.html
 var f = LocalIn.ar(2, 0).tanh;
 var k = Latch.kr(f[0].abs, Impulse.kr(1 / 4, 0));
-LocalOut.ar(f + CombC.ar(Blip.ar([4, 6], 100 * k + 50) * 0.9, 1, k * 0.3, 50 * f));
-f
+f <! LocalOut.ar(f + CombC.ar(Blip.ar([4, 6], 100 * k + 50) * 0.9, 1, k * 0.3, 50 * f))
 
 // http://earslap.com/article/sctweeting.html
 var f = {

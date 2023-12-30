@@ -10,8 +10,7 @@ var o = Splay.ar(
 		0.995
 	).tanh
 );
-LocalOut.ar(o);
-LPF.ar(o, 5000) / 5
+LPF.ar(o <! LocalOut.ar(o), 5000) / 5
 
 // Broken Saws ; https://github.com/lukiss/Losers-Union-SC-Research
 var c = [49, 175, 98, 147, 65, 233];
@@ -238,11 +237,11 @@ Splay.ar(
 // Something awfully old ; https://github.com/lukiss/Losers-Union-SC-Research
 var a = LocalBuf(8 * 2048, 1);
 var f = { LFDNoise3.kr(0.001 ! 7).tan.abs };
-RecordBuf.ar(LFDNoise3.ar(500) + (PinkNoise.ar() * 8), a, 0, 1, 0, 1, 0, 1, 0);
+var w = RecordBuf.ar(LFDNoise3.ar(500) + (PinkNoise.ar() * 8), a, 0, 1, 0, 1, 0, 1, 0);
 Splay.ar(
 	LeakDC.ar(
 		CombC.ar(
-			Warp1.ar(1, a, f, f * 0.03, Array.series(4, 1 / 7, 1 / 7) * 0.12, -1, 4, 0, 4),
+			Warp1.ar(1, a, f, f * 0.03, Array.series(4, 1 / 7, 1 / 7) * 0.12, -1, 4, 0, 4) <! w,
 			0.4,
 			0.4,
 			2
@@ -628,6 +627,7 @@ var n = LeakDC.ar(
 );
 var z = Sweep.ar(0, 1 - n.exprange(0.01, 1)) % 1 * nf;
 var t = (n.lag3(0.1) > 0);
+var w = RecordBuf.ar(n, b, z, t, 1 - t, t, 1, t, 0);
 var p = PlayBuf.ar(
 	1,
 	b,
@@ -636,8 +636,7 @@ var p = PlayBuf.ar(
 	z,
 	1,
 	0
-);
-RecordBuf.ar(n, b, z, t, 1 - t, t, 1, t, 0);
+) <! w;
 Pan2.ar(
 	LeakDC.ar(
 		MoogFF.ar(

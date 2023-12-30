@@ -14,8 +14,7 @@ snd = Sanitize.ar(snd, 0);
 4.do({
 	snd = snd + SinOsc.ar(ExpRand.ir(10, 800) * freq + LPF.ar(snd * index, 100), 0);
 });
-LocalOut.ar(snd);
-snd = Splay.ar(snd);
+snd = Splay.ar(snd) <! LocalOut.ar(snd);
 snd.clip2(1) * -5.dbamp
 
 // https://gist.github.com/nhthn/8f0dcc1c85e662fe5bf7d0132155c0af (nh)
