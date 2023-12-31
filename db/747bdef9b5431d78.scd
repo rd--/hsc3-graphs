@@ -1,0 +1,12 @@
+// shepard-tones (adc) ; requires=LocalBuf
+var ampTable = Signal.hanningWindow(1024).squared.asLocalBuf;
+var freqTable = (0 .. 1023).collect { | i |
+	0.5 ** (i / 1024 * 10) * 20000
+}.asLocalBuf;
+var rateScale = 1024 / 44100 / 10;
+var rate = 0.1;
+var ph = Phasor.ar(0, rate * rateScale, 0, 1024, 0);
+var phases = (0 .. 9) * 0.1 * 1024 + ph;
+var freqs = BufRd.ar(1, freqTable, phases, 1, 2);
+var amps = BufRd.ar(1, ampTable, phases, 1, 2);
+Mix.ar(SinOsc.ar(freqs, 0) * amps) * 0.1
