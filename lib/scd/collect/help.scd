@@ -1146,6 +1146,17 @@ var t = Impulse.ar(7, 0) * SinOsc.ar(331, 0);
 var e = Decay2.ar(t, { TRand.ar(0.01, 0.05, t) }.dup, { TRand.ar(0.05, 0.15, t) }.dup);
 RLPF.ar(LFSaw.ar(TRand.ar(321, 333, t), 0), (LFNoise1.ar(2) * 4 + 100).midicps, 1) * e
 
+// TRand ; Jmcc/Rd
+var clock = Impulse.kr(16, 0);
+var x = SinOsc.ar(TRand.kr(2000, 12000, clock), 0) * Decay2.kr(clock, 0.002, 0.04);
+CombN.ar(x, 0.2, { Rand(0.04, 0.2) } ! 2, 2) * Line.kr(0.2, 0, 4)
+
+// TRand ; Jmcc/Rd
+var clock = Impulse.kr(XLine.kr(24, 1, 12), 0);
+var x = SinOsc.ar(TRand.kr(2000, 12000, clock), 0) * Decay2.kr(clock, 0.002, 0.04);
+var c = { CombN.ar(x, 0.1, { ExpRand(0.02, 0.05) } ! 2, 2) * Line.kr(0.2, 0, 12) } ! 2;
+c.sum
+
 // TwoPole
 TwoPole.ar(WhiteNoise.ar(), 2000, 0.95) * 0.005
 
