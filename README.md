@@ -15,3 +15,15 @@ tested with: [ghc](https://www.haskell.org/ghc/)-`9.4.3`
 © [rd](http://rohandrape.net/) and others,
   2006-2023,
   [gpl](http://gnu.org/copyleft/)
+
+* * *
+
+```
+ls ~/sw/hsc3-graphs/db/*.fs | wc -l # => 102
+ls ~/sw/hsc3-graphs/db/*.hs | wc -l # => 1894
+ls ~/sw/hsc3-graphs/db/*.scd | wc -l # => 1080
+ls ~/sw/hsc3-graphs/db/*.sch | wc -l # => 75
+ls ~/sw/hsc3-graphs/db/*.scm | wc -l # => 849
+ls ~/sw/hsc3-graphs/db/*.sl | wc -l # => 1635
+ls ~/sw/hsc3-graphs/db/*.st | wc -l # => 208
+```

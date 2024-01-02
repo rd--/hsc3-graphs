@@ -1,31 +1,31 @@
 lots:
 
-- [f0](http://fredrikolofsson.com/): Fredrik Olofsson
-- [jmcc](http://audiosynth.com/): James McCartney
+- [F0](http://fredrikolofsson.com/): Fredrik Olofsson
+- [Jmcc](http://audiosynth.com/): James McCartney
 
 also:
 
-- adc: Alberto De Campo
-- am: Alex McLean
-- ar: Alik Rustamoff
-- av: Andrea Valle
-- cr: Chandrasekhar Ramakrishnan
-- es: Eric Skogen
-- es: Eric Sluyter
-- jar: Juan A. Romero
-- jc: Jose Caos
-- jj: Jacob Joaquin
-- jl: Jonatan Liljedahl
-- jp: Josh Parmenter
-- jrhb: Julian Rohrhuber
-- ljp: Lance J. Putnam
-- mk: Mads Kjeldgaard
-- nc: Nick Collins
-- nv: Nathaniel Virgo
-- pj: Paul Jones
-- rb: Ryan Brown
-- sp: Sam Pluta
-- tb: Till Bovermann
-- tm: Thor Magnusson
-- tw: Tim Walters
-- wmd: William Mox Drossard
+- Adc: Alberto De Campo
+- Am: Alex McLean
+- Ar: Alik Rustamoff
+- Av: Andrea Valle
+- Cr: Chandrasekhar Ramakrishnan
+- Es: Eric Skogen
+- Es: Eric Sluyter
+- Jar: Juan A. Romero
+- Jc: Jose Caos
+- Jj: Jacob Joaquin
+- Jl: Jonatan Liljedahl
+- Jp: Josh Parmenter
+- Jrhb: Julian Rohrhuber
+- Ljp: Lance J. Putnam
+- Mk: Mads Kjeldgaard
+- Nc: Nick Collins
+- Nv: Nathaniel Virgo
+- Pj: Paul Jones
+- Rb: Ryan Brown
+- Sp: Sam Pluta
+- Tb: Till Bovermann
+- Tm: Thor Magnusson
+- Tw: Tim Walters
+- Wmd: William Mox Drossard
