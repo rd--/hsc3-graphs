@@ -16,5 +16,5 @@ var vc = { | e |
 	);
     Mix.ar(Pan2.ar(LPF.ar(mix, filterEnv), e.i * 2 - 1, LagUD.kr(e.w * e.z, 0, 0.25)))
 };
-var pre = Mix.ar(Voicer.ar(16, vc));
+var pre = Mix.ar(Voicer.ar(0, 16, vc));
 FreeVerb2.ar(pre.at(0), pre.at(1), 0.33, 0.5, 0.5)

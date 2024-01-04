@@ -9,4 +9,4 @@ var voiceFunc = { | e |
 	var sig = SinOsc.ar(0, Sweep.ar(e.w, freqSweep) % 1 * 2 * pi);
 	Pan2.ar(sig * ampEnv, e.i * 2 - 1, 1)
 };
-Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
+Mix.ar(Voicer.ar(part: 0, numVoices: 16, voiceFunc: voiceFunc))

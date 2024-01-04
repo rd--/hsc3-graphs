@@ -11,4 +11,4 @@ var voiceFunc = { | e |
 	var flt = BHiShelf.ar(snd, 1200, 1, 3) * env;
 	Pan2.ar(flt, 0, amp.lag(0.1))
 };
-Voicer(16, voiceFunc).sum
+Voicer(0, 16, voiceFunc).sum

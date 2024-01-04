@@ -16,5 +16,5 @@ var voiceFunc = { | e |
 	var soundHigh = TxLine.kr(0.3 * (velocity + zero), zero, 0.02, e.w) * SinOsc.ar(hifreqs); // hi frequency onset
     var pan = e.i * 2 - 1;
 	Pan2.ar(soundMain.sum + soundHigh.sum, pan, e.w.lagud(0.01, 4))};
-Mix.ar(Voicer.ar(16, voiceFunc))
+Mix.ar(Voicer.ar(0, 16, voiceFunc))
 

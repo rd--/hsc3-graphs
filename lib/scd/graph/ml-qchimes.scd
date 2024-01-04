@@ -29,7 +29,7 @@ var voiceFunc = { | e |
 	);
     Pan2.ar(o, e.i * 2 - 1, LagUD.kr(e.w * e.z, 0, 8) * 0.1 * numPartials.reciprocal)
 };
-Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
+Mix.ar(Voicer.ar(part: 0, numVoices: 16, voiceFunc: voiceFunc))
 
 // ---- calculations
 60.iota.collect({ arg x; Scale.major(\just).degreeToRatio(x) }).asCompileString

@@ -347,7 +347,7 @@ SinOsc.ar(200 + (LPF.ar(lfo, freq) * 200), 0) * 0.1
 
 // LPF ; event control
 Mix.ar(
-	Voicer.ar(16) { | e |
+	Voicer.ar(0, 16) { | e |
 		var f0 = e.p.unitCps;
 		Pan2.ar(
 			LPF.ar(Blip.ar(f0, 1 + e.y * 5), f0 * 0.25),
@@ -869,7 +869,7 @@ var voiceFunc = { | e |
     var filterEnv = EnvGen.ar(Env.adsr(0.02, 0.1, 0.05, 1, 1, -4, 0), e.w, 1, 0, 1, 0);
     MoogFF.ar(osc, e.y * 750 + 250 * filterEnv, e.j * 4, 0) * e.w.lagud(0.01, 4) * 2
 };
-Splay.ar(Voicer.ar(16, voiceFunc))
+Splay.ar(Voicer.ar(0, 16, voiceFunc))
 
 // MoogVCF
 var voiceFunc = { | e |
@@ -880,7 +880,7 @@ var voiceFunc = { | e |
     var amp = e.z * 2 * e.w.lagud(0.02, 4);
     MoogVCF.ar(osc, SinOsc.kr(e.y).exprange(freq * 2, freq * 4), e.j) * amp
 };
-Splay.ar(Voicer.ar(16, voiceFunc))
+Splay.ar(Voicer.ar(0, 16, voiceFunc))
 
 // NamedControl ; non-argument notation controls
 var freq = NamedControl.ir(name: "freq", values: 220.0);

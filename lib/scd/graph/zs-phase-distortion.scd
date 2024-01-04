@@ -1,5 +1,5 @@
 // https://schollz.com/blog/phasedistortion/
-Voicer(16) { | e |
+Voicer(0, 16) { |e|
     var freq = (e.x * 36 + 48).midiCps; // e.p.unitCps;
     var amp = e.z;
     var freqBase = freq;

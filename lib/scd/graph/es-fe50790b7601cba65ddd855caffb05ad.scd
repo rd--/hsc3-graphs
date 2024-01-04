@@ -1,6 +1,6 @@
 // https://gist.github.com/audionerd/fe50790b7601cba65ddd855caffb05ad (Eric Skogen)
-var detune = 0.75;
-var detuneCurve = { | x |
+var detune = MouseX.kr(0.5, 2, 0, 0.2);
+var detuneCurve = { |x|
     (10028.7312891634 * x.pow(11)) -
     (50818.8652045924 * x.pow(10)) +
     (111363.4808729368 * x.pow(9)) -
@@ -15,12 +15,17 @@ var detuneCurve = { | x |
     0.0030115596
 };
 var evt = Voicer.ar(
+	part: 0,
 	numVoices: 16,
-	voiceFunc: { | e |
+	voiceFunc: { |e|
 		var freq = (e.x * 24 + 36).midicps;
 		var mix = e.y;
-		var centerGain = {arg x; (-0.55366 * x) + 0.99785};
-		var sideGain = {arg x; (-0.73764 * x.pow(2)) + (1.2841 * x) + 0.044372};
+		var centerGain = { |x|
+			(-0.55366 * x) + 0.99785
+		};
+		var sideGain = { |x|
+			(-0.73764 * x.pow(2)) + (1.2841 * x) + 0.044372
+		};
 		var center = LFSaw.ar(freq: freq, iphase: Rand.ir(lo: 0, hi: 1));
 		var freqs = [
 			(freq - (freq * (detuneCurve.value(detune)) * 0.11002313)),
@@ -30,8 +35,7 @@ var evt = Voicer.ar(
 			(freq + (freq * (detuneCurve.value(detune)) * 0.06216538)),
 			(freq + (freq * (detuneCurve.value(detune)) * 0.10745242))
 		];
-		var side = Mix.fill(n: 6, function: {
-			arg n;
+		var side = Mix.fill(n: 6, function: { |n|
 			LFSaw.ar(freq: freqs.at(n), iphase: Rand.ir(lo: 0, hi: 2))
 		});
 		var sig = (center * centerGain.value(mix)) + (side * sideGain.value(mix));

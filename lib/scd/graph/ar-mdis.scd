@@ -22,4 +22,4 @@ var voiceFunc = { | e |
 	var c3 = b * (lev * e1).pow(f2.linlin(inMin: 50, inMax: 1500, outMin: 1.5, outMax: 2.5));
 	LeakDC.ar(in: Mix.ar([c1,c2,c3]), coef: 0.995)
 };
-Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc)) * 0.25
+Mix.ar(Voicer.ar(part: 0, numVoices: 16, voiceFunc: voiceFunc)) * 0.25

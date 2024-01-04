@@ -11,7 +11,7 @@ var voiceFunc =  { | e |
 	var b = saw.linlin(inMin: 0, inMax: 1 - width, outMin: 0, outMax: 2 * pi).sin;
 	Select.ar(which: trig, array: [b, a]).dup * e.w * e.z
 };
-Voicer.ar(numVoices: 16, voiceFunc: voiceFunc).sum * 0.2
+Voicer.ar(part: 0, numVoices: 16, voiceFunc: voiceFunc).sum * 0.2
 
 // https://scsynth.org/t/phaseshaping-osc-algorithms/3926/4 ; sp ; mouse control
 var width = MouseX.kr().clip(0.05,0.95);
