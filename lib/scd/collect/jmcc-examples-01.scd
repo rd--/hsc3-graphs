@@ -25,7 +25,7 @@ var f = 50; // fundamental frequency
 var p = 20; // number of partials per channel
 var z = 0.0; // start of oscil daisy chain
 var offset = Line.kr(0, -0.02, 60); // causes sound to separate and fade
-p.do({ arg i;
+p.do { |i|
 	z = FSinOsc.ar(
 		f * (i+1), 0,  // freq of partial
 		max(0, // clip negative amplitudes to zero
@@ -37,7 +37,7 @@ p.do({ arg i;
 		),
 		z
 	)
-});
+};
 z
 
 // harmonic tumbling ; jmcc
@@ -45,7 +45,7 @@ var f = 80; // fundamental frequency
 var p = 10; // number of partials per channel
 var z = 0.0; // start of oscil daisy chain
 var trig = XLine.kr([10,10], 0.1, 60); // trigger probability decreases over time
-p.do({ arg i;
+p.do { |i|
 	z = FSinOsc.ar(
 		f * (i+1), 0, // freq of partial
 		Decay2.kr(
@@ -58,7 +58,7 @@ p.do({ arg i;
 		),
 		z
 	)
-});
+};
 z
 
 //---- textures
@@ -89,22 +89,22 @@ Texture.overlap({
 (
 // alien froggies
 var rate = 11.0;
-Texture.overlap({ arg rep;
+{ |rep|
 	rate = (rate * (0.2.bilinrand.exp)).fold(1.0, 30.0);
 	Formant.ar(rate, exprand(200,3000.0), 9.0.rand * rate + rate, 0.05)
-}, 0.5, 0.25, 5, 1)
+}.overlap(0.5, 0.25, 5, 1)
 )
 
 (
 // random sine waves
 var n, env;
 n = 12; // number of simultaneous events
-env = Env.linen(2, 5, 2);
-Texture.spawn({
+env = Env.linen(2, 5, 2, 1, 'lin');
+{
 	Pan2.ar(
 		FSinOsc.ar(2000.0.rand, 0, EnvGen.kr(env, levelScale: 0.02, doneAction: 2)),
 		1.0.rand2)
-}, 2, 9/n)
+}.spawn(9 / n)
 )
 
 (
@@ -112,18 +112,18 @@ Texture.spawn({
 var n, env;
 n = 8; // number of simultaneous events
 env = Env.linen(2, 5, 2, 0.02);
-Texture.spawn({
+{
 	Pan2.ar(
 		FSinOsc.ar(2000.0.rand, 0, EnvGen.kr(env,doneAction:2)).amclip(SinOsc.ar(8+80.0.linrand)),
 		SinOsc.kr(0.3+0.5.rand, 2pi.rand, 0.7))
-}, 2, 9/n)
+}.spawn(9 / n)
 )
 
 (
 // tremulate
-Texture.xfade({
-	f = 500 + 400.rand;
-	r = 30 + 60.rand;
+Texture.xfadeRoutine({
+	var f = 500 + 400.rand;
+	var r = 30 + 60.rand;
 	Mix.ar(
 		Pan2.ar(
 			// just minor seventh chord
@@ -136,12 +136,12 @@ Texture.xfade({
 
 (
 // reso-pulse
-Texture.overlap({
-	f = #[25, 30, 34, 37, 41, 42, 46, 49, 53, 54, 58, 61, 63, 66].choose.midicps;
-	LFPulse.ar(f, 0, 0.2, 1, LFPulse.ar(2*f + 0.5.rand2, 0, 0.2, 1))
+Texture.overlapRoutine({
+	var f = #[25, 30, 34, 37, 41, 42, 46, 49, 53, 54, 58, 61, 63, 66].choose.midicps;
+	LFPulse.ar(f, 0, 0.2) + LFPulse.ar(2 * f + 0.5.rand2, 0, 0.2)
 }, 4, 2, 4, 1, postProcess: {
 	arg z;
-	var lfo, lfoFreq, delayTime, left, right;
+	var lfo, lfoFreq, left, delayTime, right;
 	lfoFreq = 6;
 	lfo = LFNoise0.kr(lfoFreq, 1000, 1200);
 	left = RLPF.ar(
