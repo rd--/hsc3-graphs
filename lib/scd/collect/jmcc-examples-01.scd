@@ -61,10 +61,7 @@ p.do { |i|
 };
 z
 
-//---- textures
-
-(
-// hell is busy
+// ---- hell is busy
 var n;
 n = 8; // number of simultaneous events
 Texture.overlap({
@@ -72,9 +69,7 @@ Texture.overlap({
 		FSinOsc.ar(400+2000.0.rand, 0, LFPulse.kr(1+10.0.rand, 0, 0.7.rand, 0.04)),
 		1.0.rand2)
 }, 4, 4, n, numChannels: 2)
-)
 
-(
 // pond life
 var n;
 n = 8; // number of simultaneous events
@@ -84,18 +79,14 @@ Texture.overlap({
 			LFPulse.kr(3/(1 + 8.0.rand), 0, 0.2+0.3.rand, 0.04)),
 		1.0.rand2)
 }, 8, 4, n, 2)
-)
 
-(
 // alien froggies
 var rate = 11.0;
 { |rep|
 	rate = (rate * (0.2.bilinrand.exp)).fold(1.0, 30.0);
 	Formant.ar(rate, exprand(200,3000.0), 9.0.rand * rate + rate, 0.05)
 }.overlap(0.5, 0.25, 5, 1)
-)
 
-(
 // random sine waves
 var n, env;
 n = 12; // number of simultaneous events
@@ -105,9 +96,7 @@ env = Env.linen(2, 5, 2, 1, 'lin');
 		FSinOsc.ar(2000.0.rand, 0, EnvGen.kr(env, levelScale: 0.02, doneAction: 2)),
 		1.0.rand2)
 }.spawn(9 / n)
-)
 
-(
 // random pulsations
 var n, env;
 n = 8; // number of simultaneous events
@@ -117,9 +106,7 @@ env = Env.linen(2, 5, 2, 0.02);
 		FSinOsc.ar(2000.0.rand, 0, EnvGen.kr(env,doneAction:2)).amclip(SinOsc.ar(8+80.0.linrand)),
 		SinOsc.kr(0.3+0.5.rand, 2pi.rand, 0.7))
 }.spawn(9 / n)
-)
 
-(
 // tremulate
 Texture.xfadeRoutine({
 	var f = 500 + 400.rand;
@@ -132,9 +119,7 @@ Texture.xfadeRoutine({
 		)
 	)
 }, 2, 0.5, 2, postProcess: {arg z; CombN.ar(z,0.1,0.1,1)})
-)
 
-(
 // reso-pulse
 Texture.overlapRoutine({
 	var f = #[25, 30, 34, 37, 41, 42, 46, 49, 53, 54, 58, 61, 63, 66].choose.midicps;

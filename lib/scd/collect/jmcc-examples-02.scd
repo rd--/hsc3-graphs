@@ -48,12 +48,10 @@ CombL.ar(
 	+ LFNoise2.ar(LFNoise2.kr([0.4,0.4], 90, 620), LFNoise2.kr([0.3,0.3], 0.15, 0.18)),
 	0.3, 0.3, 3)
 
-//---- textures
-
-// rocks on rails
+// ---- Rocks on rails ; Jmcc
 var p = 20; // number of partials
 var n = 4; // number of overlapping events
-Texture.overlap({
+Texture.overlapRoutine({
 	Pan2.ar(
 		Klank.ar( // p resonant modes
 			`[ // filter bank specification array:
@@ -71,9 +69,9 @@ Texture.overlap({
 	)
 }, 2, 3, n, 2)
 
-// bouncing lightbulbs, pencils, cans, and other assorted objects
+// ---- bouncing lightbulbs, pencils, cans, and other assorted objects ; jmcc
 var e = Env.new([1, 1, 0],[3, 0.001]); // 3 second cut off envelope to end sound
-Texture.spawn({
+Texture.spawnRoutine({
 	Pan2.ar(
 		Klank.ar( // resonant filter bank simulates resonant modes of bouncing objects
 			`[
@@ -95,18 +93,18 @@ Texture.spawn({
 	EnvGen.kr(e,doneAction:2)
 }, 2, { 0.6 + 0.6.rand })
 
-// Klang - Lots-o-sines
+// --- Klang - Lots-o-sines ; jmcc
 var n = 60; // n sines in each channel (twice as many during cross-fade)
-Texture.xfade({
+Texture.xfadeRoutine({
 	var z = [`[Array.fill(n, { 40 + 10000.0.linrand} ), nil, nil],
 		`[Array.fill(n, { 40 + 10000.0.linrand} ), nil, nil]
 	];
 	Klang.ar(z, 1, 0) * 0.1/n;
 }, 4, 4, 2)
 
-// clustered sines
+// ---- clustered sines ; jmcc
 var n = 80;
-Texture.xfade({
+Texture.xfadeRoutine({
 	var f1 = 100 + 1000.0.rand;
 	var f2 = 4.0 * f1;
 	var z = Array.fill(2, {
@@ -120,10 +118,10 @@ Texture.xfade({
 	Klang.ar(z, 1, 0) * (0.3/n);
 }, 4, 4, 2)
 
-// Klank - bank of resonators excited by impulses
+// ---- Klank - bank of resonators excited by impulses ; jmcc
 var n = 5; // number of simultaneous instruments
 var p = 15; // number of partials per instrument
-Texture.overlap({
+Texture.overlapRoutine({
 	var z = `[ // filter bank specification :
 		Array.fill(p, { 80 + 10000.0.linrand} ),// frequencies
 		Array.fill(p, { 1.0.rand2 }), // amplitudes
@@ -135,10 +133,10 @@ Texture.overlap({
 	)
 }, 6, 6, n, 2)
 
-// Klank - excited by noise bursts
+// ---- Klank - excited by noise bursts ; jmcc
 var n = 5; // number of simultaneous instruments
 var p = 8; // number of partials per instrument
-Texture.overlap({
+Texture.overlapRoutine({
 	var exciter = Decay.ar(Dust.ar(0.6, 0.001), 3.1, WhiteNoise.ar);
 	var spec = Array.fill(2, {
 		`[
@@ -150,9 +148,9 @@ Texture.overlap({
 	Klank.ar(spec, exciter)
 }, 8, 8, n, 2)
 
-// resonators at random frequencies excited by BrownNoise
+// ---- resonators at random frequencies excited by BrownNoise
 var p = 32; // number of partials per channel
-Texture.xfade({
+Texture.xfadeRoutine({
 	var noise = BrownNoise.ar(0.001);
 	var spec = Array.fill(2, {
 		`[
@@ -164,9 +162,9 @@ Texture.xfade({
 	Klank.ar(spec, noise)
 }, 6, 6, 2)
 
-// resonators tuned in a harmonic series with pitch ratios from a just scale
+// ---- resonators tuned in a harmonic series with pitch ratios from a just scale
 var p = 12; // number of overtones
-Texture.xfade({
+Texture.xfadeRoutine({
 	var noise = BrownNoise.ar(0.001);
 	var freq = #[ 1.0, 1.125, 1.25, 1.333, 1.5, 1.667, 1.875, 2.0, // a list representing a just diatonic scale expressed as ratios.
 		2.25, 2.5, 2.667, 3.0, 3.333, 3.75, 4.0 ].choose * 120.0; // one value is chosen at random and multiplied by a 120 Hz fundamental
@@ -180,10 +178,10 @@ Texture.xfade({
 	Klank.ar(spec, noise)
 }, 1, 7, 2)
 
-// similar to above, but tuned to odd harmonics only, shorter ring times,
+// ---- similar to above, but tuned to odd harmonics only, shorter ring times,
 // and using a different noise source
 var p = 12; // number of overtones
-Texture.xfade({
+Texture.xfadeRoutine({
 	var noise = LFNoise2.ar(8000, 0.004);
 	var freq = #[ 1.0, 1.125, 1.25, 1.333, 1.5, 1.667, 1.875, 2.0, // a list representing a just diatonic scale expressed as ratios.
 		2.25, 2.5, 2.667, 3.0, 3.333, 3.75, 4.0 ].choose * 120.0; // one value is chosen at random and multiplied by a 120 Hz fundamental
@@ -197,10 +195,10 @@ Texture.xfade({
 	Klank.ar(spec, noise)
 }, 1, 7, 2)
 
-// swept resonant noise band exciting a resonator bank
+// ---- swept resonant noise band exciting a resonator bank ; jmcc
 var n = 5; // number of sweepers
 var p = 10; // number of partials
-Texture.overlap({
+Texture.overlapRoutine({
 	var sweep = Resonz.ar(
 		WhiteNoise.ar(0.007),
 		FSinOsc.kr(0.1 + 0.2.rand, 0, 12 + 12.rand2, 60 + 24.rand2).midicps,
@@ -215,9 +213,9 @@ Texture.overlap({
 	Klank.ar(spec, sweep)
 }, 4, 4, n, 2)
 
-// coolant
+// ---- coolant ; jmcc
 var p = 10; // number of partials per channel
-Texture.xfade({
+Texture.xfadeRoutine({
 	Klank.ar(
 		[
 			`[Array.fill(p, { 40 + 2000.0.rand }),nil,nil],
@@ -230,9 +228,9 @@ Texture.xfade({
 	)
 }, 4, 4, 2)
 
-// narrow band filtered Crackle noise
+// ---- narrow band filtered Crackle noise ; jmcc
 var e = Env.linen(2, 5, 2);
-Texture.spawn({
+Texture.spawnRoutine({
 	var rf = 2000.0.rand + 80;
 	var rf2 = rf + (0.2.rand2 * rf);
 	Pan2.ar(
@@ -240,9 +238,9 @@ Texture.spawn({
 		), 1.0.rand2, EnvGen.ar(e,doneAction:2))
 }, 2, 1)
 
-// resonant dust
+// ---- resonant dust ; jmcc
 var e = Env.linen(2, 5, 2);
-Texture.spawn({
+Texture.spawnRoutine({
 	var rf = 2000.0.rand + 80;
 	var rf2 = rf + (0.5.rand2 * rf);
 	Pan2.ar(EnvGen.ar(e,doneAction:2) *
@@ -250,9 +248,9 @@ Texture.spawn({
 		, 1.0.rand2)
 }, 2, 1)
 
-// uplink
+// ---- uplink ; jmcc
 var n = 5;
-Texture.overlap({
+Texture.overlapRoutine({
 	var freq = LFPulse.kr(20.0.rand, 0, 1.0.rand,
 		LFPulse.kr(4.0.rand, 0, 1.0.rand, 8000.rand, 2000.rand));
 	freq = freq + LFPulse.kr(20.0.rand, 0, 1.0.rand,
@@ -260,9 +258,9 @@ Texture.overlap({
 	Pan2.ar(LFPulse.ar(freq, 0, 0.5, 0.04), 0.8.rand2)
 }, 4, 1, n, 2)
 
-// data space
+// ---- data space ; jmcc
 var n = 4;
-Texture.overlap({
+Texture.overlapRoutine({
 	var freq = [
 		LFPulse.kr(200.0.rand, 0, 1.0.rand, LFPulse.kr(40.0.rand, 0, 1.0.rand, 8000.rand, 2000.rand)),
 		LFPulse.kr(20.0.rand, 0, 1.0.rand, LFPulse.kr(4.0.rand, 0, 1.0.rand, 8000.rand, 2000.rand)),
@@ -272,9 +270,9 @@ Texture.overlap({
 	CombL.ar(Pan2.ar(LFPulse.ar(freq, 0, 0.5, 0.04), LFNoise0.kr(3.0.rand, 0.8)), dtime, dtime, 3)
 }, 6, 1, n, 2)
 
-// cymbalism
+// ---- cymbalism ; jmcc
 var p = 15; // number of partials per channel per 'cymbal'.
-Texture.xfade({
+Texture.xfadeRoutine({
 	var f1 = 500 + 2000.0.rand;
 	var f2 = 8000.0.rand;
 	var z = Array.fill(2, {
@@ -287,9 +285,9 @@ Texture.xfade({
 	Klank.ar(z, Decay.ar(Impulse.ar(3.0.rand + 0.5), 0.004, WhiteNoise.ar(0.03)));
 }, 4, 4, 2)
 
-// cymbalism accellerando
+// ---- cymbalism accellerando ; jmcc
 var p = 15; // number of partials per channel per 'cymbal'.
-Texture.xfade({
+Texture.xfadeRoutine({
 	var f1 = 500 + 2000.0.rand;
 	var f2 = 8000.0.rand;
 	var z = Array.fill(2, {
@@ -303,10 +301,10 @@ Texture.xfade({
 		WhiteNoise.ar(0.03)));
 }, 4, 4, 2)
 
-// ring modulated Klank
+// ---- ring modulated Klank ; jmcc
 var n = 4; // overlap
 var p = 8; // number of partials
-Texture.overlap({
+Texture.overlapRoutine({
 	var a = Klank.ar(`[Array.rand(p, 100, 10000), nil, Array.rand(p, 0.2, 1.0)],
 		Dust.ar(20, 0.02));
 	Pan2.ar(SinOsc.ar(LFNoise2.kr(1.0 + 0.3.rand2, 200, 350 + 50.rand), 0, a), 1.0.rand2);
