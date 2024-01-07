@@ -28,7 +28,7 @@ import qualified Sound.Sc3.Ugen.Dot as Dot {- hsc3-dot -}
 import qualified Sound.Sc3.Lisp.Haskell as Lisp {- hsc3-lisp -}
 import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
-import qualified Language.Smalltalk.SuperCollider.Translate as St {- stsc3 -}
+import qualified Language.Smalltalk.Spl.Translate as St {- stsc3 -}
 
 -- * Util
 
@@ -361,7 +361,7 @@ st_graph_fragment_process_dir_set ext out_dir in_dir = do
 sl_graph_fragment_rw :: FilePath -> (String, String) -> [String]
 sl_graph_fragment_rw out_dir (z, txt) =
   let prefix = [printf "'%s'.postLine;" z, "{"]
-      suffix = printf "}.writeScSynDefFile('%s', '%s/%s.scsyndef');" z out_dir z
+      suffix = printf "}.value.writeScSynDefFile('%s', '%s/%s.scsyndef');" z out_dir z
   in concat [prefix, lines txt, [suffix]]
 
 sl_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
