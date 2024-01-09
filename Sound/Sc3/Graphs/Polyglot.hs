@@ -28,7 +28,7 @@ import qualified Sound.Sc3.Ugen.Dot as Dot {- hsc3-dot -}
 import qualified Sound.Sc3.Lisp.Haskell as Lisp {- hsc3-lisp -}
 import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
-import qualified Language.Smalltalk.Spl.Translate as St {- stsc3 -}
+import qualified Language.Smalltalk.SuperCollider.Translate as St {- stsc3 -}
 
 -- * Util
 
@@ -327,7 +327,7 @@ graph_fragment_process txt_f rw_f end ext (cmd, arg) out_dir fn_seq = do
 
 st_graph_fragment_process :: String -> FilePath -> [FilePath] -> IO [String]
 st_graph_fragment_process ext out_dir fn_seq = do
-  let txt_f = if ext == ".sl" then St.stcToSt else id
+  let txt_f = if ext == ".sl" then St.splToSt else id
       rw_f = st_graph_fragment_rw
   putStrLn (printf "st_graph_fragment_process: ext=%s" ext)
   graph_fragment_process txt_f rw_f [] ".st" ("gst", []) out_dir fn_seq
