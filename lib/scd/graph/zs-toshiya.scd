@@ -17,7 +17,7 @@ snd = snd + (LinLin.kr(Lag.kr(LFNoise0.kr(1 / 10), 10), -1, 1, 0.01, 0.06) * y);
 snd = snd  +  [
 	Amplitude.kr(snd, 0.01, 0.01),
 	LinLin.kr(Lag.kr(LFNoise0.kr(1 / 1), 1), -1, 1, 0, 1),
-	RingzBank.ar({ PinkNoise.ar() * 0.007 }.dup(2), [hz,  hz * 2 + 23,  hz * 4 + 53,  hz * 8 + 23],  nil,  [1,  1,  1,  1])
+	RingzBank.ar({ PinkNoise.ar * 0.007 }.dup(2), [hz,  hz * 2 + 23,  hz * 4 + 53,  hz * 8 + 23],  nil,  [1,  1,  1,  1])
 ].product;
 snd = LPF.ar(snd, 10000);
 snd = HPF.ar(snd.tanh, 20);

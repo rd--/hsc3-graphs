@@ -42,7 +42,7 @@ var tendencyMask = [
 			) + [0, Rand.ir(-1, 1)]
 		} ! 2;
 		var tr = Impulse.ar(triggerRate[i], 0);
-		GrainFM.ar(2, tr, dur[i], freq[0], freq[1], 1, WhiteNoise.ar() * 0.6, -1, 512) * 0.1
+		GrainFM.ar(2, tr, dur[i], freq[0], freq[1], 1, WhiteNoise.ar * 0.6, -1, 512) * 0.1
 	}).sum;
 	var rev = FreeVerb.ar(dry, 0.33, 0.5, 0.5);
 	var del = CombC.ar(dry, 0.2, 0.2, 1);

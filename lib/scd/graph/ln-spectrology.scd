@@ -26,7 +26,7 @@ Saw.ar(TRand.ar(50, XLine.ar(50,5000,20), trig)) * EnvGen.ar(Env.perc(0,0.1), tr
 Wrap.ar(SinOsc.ar(SinOsc.ar(40.reciprocal)*100+20000), XLine.ar(-1.0, -0.01, 20), 1) * 0.1
 
 // ln 2021-04-14 https://lukasnowok.github.io/spectrology/
-Saw.ar(SinOsc.ar(5.reciprocal, Array.series(10, 0, 2pi/10)).range(100,1500)).sum * 5.reciprocal * 0.1
+Saw.ar(SinOsc.ar(5.reciprocal, Array.series(10, 0, 2*pi/10)).range(100,1500)).sum * 5.reciprocal * 0.1
 
 // ln 2021-04-13 https://lukasnowok.github.io/spectrology/
 SinGrain.ar(Impulse.ar(SinOsc.ar(6.reciprocal).range(8, 4000)), 0.005, 10000)

@@ -1,4 +1,4 @@
-// crotale (rd)
+// Crotale (rd)
 var crotale = [
 	[
 		35.45676040649414,
@@ -159,9 +159,9 @@ var t = Dust.kr(3);
 var freqScale = Select.kr(TIRand.kr(0, 7, t), [-12, -5, 0, 2, 4, 5, 7, 12]);
 var freqOffset = TRand.kr(0, 1, t);
 var snd = DynRingzBank.ar(
-	input: Decay2.kr(t, 0.06, 0.01) * PinkNoise.ar * TRand.kr(0, 1, t),
-	freq: crotale.first * freqScale.midiRatio + freqOffset ,
-	amp: crotale.second,
-	time: crotale.third.reciprocal * TRand.kr(2, 7, t)
+	Decay2.kr(t, 0.06, 0.01) * PinkNoise.ar * TRand.kr(0, 1, t),
+	crotale.first * freqScale.midiRatio + freqOffset ,
+	crotale.second,
+	crotale.third.reciprocal * TRand.kr(2, 7, t)
 );
 Pan2.ar(snd, TRand.kr(-1, 1, t), 1)

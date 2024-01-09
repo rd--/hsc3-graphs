@@ -1,6 +1,5 @@
 // https://sccode.org/1-4Qy ; f0 ; 0301
-var b = {
-	arg i;
+var b = { |i|
 	Duty.kr(i + 1 / 9, 0, In.kr(i + 1 % 4, 1) + Dseq(8.fib, inf) % 9)
 }.dup(4);
 Out.kr(0, b);

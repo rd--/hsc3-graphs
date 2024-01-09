@@ -10,7 +10,7 @@ var ctl = (
 ).localControls;
 var input = AudioIn.ar([1, 2]);
 var numChans = 2;
-var localIn = LocalIn.ar(numChannels: numChans, default: 0.0);
+var localIn = LocalIn.ar(numChans, 0);
 var output = (1 .. numChans).collect { | cNum |
 	// random scalar to add variation
 	var randScale = Rand.ir(0.95, 1.0);
@@ -23,7 +23,7 @@ var output = (1 .. numChans).collect { | cNum |
 	// final, scaled delay value
 	var delayVal = (delayScale * randScale * ctl.delay.linlin(0.0, 1.0, 0.0001, 2.0)).lag3(0.1);
 	// delaytime modulator
-	var phase = cNum.linlin(1, numChans, -8pi, 8pi);
+	var phase = cNum.linlin(1, numChans, -8 * pi, 8 * pi);
 	var lfoFreq = (randScale * ctl.modFreq.linexp(0.0, 1.0, 0.0001, 10.0)).lag3(0.1);
 	var minModAmount = ctl.modAmount.linlin(0.0, 1.0, 1.0, 0.001).lag(0.1) * delayVal;
 	var delayValSig = LFTri.kr(

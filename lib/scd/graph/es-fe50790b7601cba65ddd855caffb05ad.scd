@@ -15,9 +15,9 @@ var detuneCurve = { |x|
     0.0030115596
 };
 var evt = Voicer.ar(
-	part: 0,
-	numVoices: 16,
-	voiceFunc: { |e|
+	0,
+	16,
+	{ |e|
 		var freq = (e.x * 24 + 36).midicps;
 		var mix = e.y;
 		var centerGain = { |x|
@@ -26,7 +26,7 @@ var evt = Voicer.ar(
 		var sideGain = { |x|
 			(-0.73764 * x.pow(2)) + (1.2841 * x) + 0.044372
 		};
-		var center = LFSaw.ar(freq: freq, iphase: Rand.ir(lo: 0, hi: 1));
+		var center = LFSaw.ar(freq, Rand.ir(0, 1));
 		var freqs = [
 			(freq - (freq * (detuneCurve.value(detune)) * 0.11002313)),
 			(freq - (freq * (detuneCurve.value(detune)) * 0.06288439)),
@@ -35,12 +35,12 @@ var evt = Voicer.ar(
 			(freq + (freq * (detuneCurve.value(detune)) * 0.06216538)),
 			(freq + (freq * (detuneCurve.value(detune)) * 0.10745242))
 		];
-		var side = Mix.fill(n: 6, function: { |n|
-			LFSaw.ar(freq: freqs.at(n), iphase: Rand.ir(lo: 0, hi: 2))
+		var side = Mix.fill(6, { |n|
+			LFSaw.ar(freqs.at(n), Rand.ir(0, 2))
 		});
 		var sig = (center * centerGain.value(mix)) + (side * sideGain.value(mix));
-		var amp = e.z * 0.2 * LagUD.kr(in: e.w, lagTimeU: 0.05, lagTimeD: 2);
-		Pan2.ar(HPF.ar(in: sig, freq: freq), e.i * 2 - 1, amp)
+		var amp = e.z * 0.2 * LagUD.kr(e.w, 0.05, 2);
+		Pan2.ar(HPF.ar(sig, freq), e.i * 2 - 1, amp)
 	}
 );
 Mix.ar(evt)

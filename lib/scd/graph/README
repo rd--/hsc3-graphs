@@ -1,0 +1,3 @@
+All fragments can be parsed using the StSc3 parser:
+
+    $ stsc3 stc cat fragment [a-z]*.scd

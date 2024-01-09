@@ -12,4 +12,4 @@ var voiceFunc = { | e |
     var signal = Mix.ar(amp * SinOsc.ar(freq * harmonics, 0) * velocity / harmonics * envHarmonics);
     Pan2.ar(signal, e.i * 2 - 1, envVolume * amp * LagUD.kr(e.w, 0, 2))
 };
-Mix.ar(Voicer.ar(part: 0, numVoices: 16, voiceFunc: voiceFunc))
+Mix.ar(Voicer.ar(0, 16, voiceFunc))

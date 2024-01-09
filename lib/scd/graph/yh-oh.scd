@@ -2,9 +2,9 @@
 var decay = 0.5;
 var amp = 1;
 var  pan = 0;
-var tr = Impulse.kr(LFNoise2(1) + 1.5, 0);
-var env1 = Env.perc(0.1, decay, 1, -3).kr(gate: tr);
-var env2 = Env.new([0, 1, 0], [0, decay * 5], -150).kr(gate: tr);
+var tr = Impulse.kr(LFNoise2.kr(1) + 1.5, 0);
+var env1 = Env.perc(0.1, decay, 1, -3).kr(0, tr);
+var env2 = Env.new([0, 1, 0], [0, decay * 5], -150).kr(0, tr);
 var osc1 = LFPulse.ar(203.52) * 0.6;
 var osc2 = LFPulse.ar(366.31) * 0.6;
 var osc3 = LFPulse.ar(301.77) * 0.6;

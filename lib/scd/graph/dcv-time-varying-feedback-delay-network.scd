@@ -23,7 +23,7 @@ var rotatableMatrix = { | angle |
 };
 var matrix = { | trig rotateFreq rotateAmount |
 	var rotate = SinOsc.ar(rotateFreq, 0).linlin(-1, 1, 0, rotateAmount);
-	var angle = Phasor.ar(trig, rotate * SampleDur.ir(), 0, 1, 0) * 2 * pi;
+	var angle = Phasor.ar(trig, rotate * SampleDur.ir, 0, 1, 0) * 2 * pi;
 	rotatableMatrix.value(angle);
 };
 var trig = 'trig'.kr(1);

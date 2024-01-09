@@ -1,6 +1,6 @@
 // drummer (tm)
 var tempo = 4;
-var n = WhiteNoise.ar();
+var n = WhiteNoise.ar;
 var tr1 = Impulse.ar(tempo, 0);
 var tr2 = PulseDivider.ar(tr1, 4, 2);
 var tr4 = PulseDivider.ar(tr1, 4, 0);

@@ -16,12 +16,12 @@ var overlap = 1;
 var pan = 0;
 Pan2.ar(
 	GrainSin.ar(
-		numChannels: 1,
-		trigger: trig,
-		dur: overlap / tFreq,
-		freq: freqArray,
-		envbufnum: envBuf,
-		mul: ampArray
+		1,
+		trig,
+		overlap / tFreq,
+		freqArray,
+		envBuf,
+		ampArray
 	).sum * amp,
 	pan
 )
