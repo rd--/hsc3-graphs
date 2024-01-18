@@ -25,7 +25,7 @@ w.drawFunc = {
 		// scale the rotated y axis in a sine pattern
 		Pen.scale(x: 1, y: 0.3 * (phase * 1.0.rand2 + (2 * pi.rand)).sin + 0.5);
 		// create a random number of annular wedges
-		6.rrand(24).timesRepeat({
+		6.rrand(24).do({
 			var a = 60.rrand(300);
 			Pen.color_(Color.rand(lo: 0.0, hi: 1.0).alpha_(0.1.rrand(0.7)));
 			Pen.beginPath;
@@ -62,7 +62,7 @@ w.drawFunc = {
 		(0.02.coin).ifTrue({ seed = Date.seed });
 		thisThread.randSeed_(seed);
 		Pen.strokeColor_(Color.white);
-		200.timesRepeat({
+		200.do({
 			var a = 4.rand;
 			var b = 24.rand;
 			var r1 = 230 + (50 * a);
@@ -76,7 +76,7 @@ w.drawFunc = {
 			Pen.stroke;
 		});
 		thisThread.randSeed_(Date.seed);
-		40.timesRepeat({
+		40.do({
 			var a = 4.rand;
 			var b = 24.rand;
 			var r1 = 230 + (50 * a);
@@ -108,7 +108,7 @@ w.front;
 w.drawFunc = {
 	Pen.use({
 		Pen.width_(0.2);
-		400.timesRepeat({
+		400.do({
 			Pen.beginPath;
 			Pen.moveTo(Point(x: 10.rand * 80 + 40, y: 10.rand * 80 + 40));
 			Pen.lineTo(Point(x: 10.rand * 80 + 40, y: 10.rand * 80 + 40));
@@ -129,15 +129,15 @@ var w = Window(name: "", bounds: Rect(128, 64, 800, 500), resizable: false);
 w.onClose = { run = false; };
 w.front;
 w.drawFunc = {
-	Pen.use({
-		80.timesRepeat({
+	Pen.use {
+		80.do {
 			Pen.width_(0.rrand(4) + 0.5);
 			Pen.beginPath;
 			Pen.moveTo(Point(800.rand, 500.rand));
 			Pen.lineTo(Point(800.rand, 500.rand));
 			Pen.stroke;
-		})
-	})
+		}
+	}
 };
 {
 	{ run }.whileTrue({
@@ -184,16 +184,15 @@ w.drawFunc = {
         xlates = xlates ++ xlates.neg;
         ylates = ylates ++ xlates.neg;
         rots = rots ++ rots.neg;
-        xform = 0.to(3).collect({
-		arg i;
-		(rot: rots[i], xlate: xlates[i], ylate: ylates[i], xscale: xscales[i], yscale: yscales[i])
-	});
+        xform = (0 .. 3).collect{ |i|
+			(rot: rots[i], xlate: xlates[i], ylate: ylates[i], xscale: xscales[i], yscale: yscales[i])
+		};
         Pen.strokeColor_(Color.grey(grey: 1, alpha: 0.5));
         Pen.width = 8.linrand + 1;
         Pen.translate(400, 400);
         Pen.scale(zoom, zoom);
         Pen.translate(-400, -400);
-        1200.timesRepeat({
+        1200.do({
 		var t = xform.choose;
 		Pen.width = 8.linrand + 1;
 		Pen.beginPath;

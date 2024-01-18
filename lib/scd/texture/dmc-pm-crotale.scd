@@ -2,7 +2,7 @@
 {
 	var tone = Rand.ir(1, 6);
 	var art = Rand.ir(2, 6);
-	var freq = IRand.ir(48, 72).midiCps;
+	var freq = IRand.ir(48, 72).midicps;
 	var env = Env.perc(0, art, 1, -4);
 	var mod = 5 + (1 / IRand.ir(2, 6));
 	var amp1 = EnvGen.kr(env, 1, Rand.ir(0.1, 0.3), 0, art, 0);
@@ -20,7 +20,7 @@
 {
 	var tone = Rand.ir(lo: 1, hi: 6);
 	var art = Rand.ir(lo: 2, hi: 6);
-	var freq = IRand.ir(48, 72).midiCps;
+	var freq = IRand.ir(48, 72).midicps;
 	var env = Env.perc(attackTime: 0, releaseTime: art, level: 1, curve: -4);
 	var mod = 5 + (1 / IRand.ir(2, 6));
 	var amp1 = EnvGen.kr(envelope: env, gate: 1, levelScale: Rand.ir(0.1, 0.3), levelBias: 0, timeScale: art, doneAction: 0);

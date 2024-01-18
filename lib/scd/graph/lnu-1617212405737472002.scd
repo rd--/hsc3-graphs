@@ -43,7 +43,7 @@ Splay.ar(
 		].product,
 		0.995
 	),
-	SinOsc.ar(1 / c.first, 0),
+	SinOsc.ar(1 / c[0], 0),
 	1,
 	0,
 	true

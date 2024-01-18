@@ -1,0 +1,8 @@
+Requires:
+
+- AnnotatedRate.quark
+- ContinuousEvent.quark
+- GraphTexture.quark
+- RewriteRate.quark
+- SfAcquire.quark
+- sc3-rdu

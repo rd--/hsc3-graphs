@@ -3,7 +3,7 @@
 	[
 		{
 			Pan2.ar(
-				Resonz.ar(WhiteNoise.ar * 4, ([27, 24, 22, 29, 31] + 62).choose.midiCps, 0.01),
+				Resonz.ar(WhiteNoise.ar * 4, ([27, 24, 22, 29, 31] + 62).choose.midicps, 0.01),
 				1.0.rand2,
 				1
 			)

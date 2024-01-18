@@ -9,5 +9,5 @@ var k = Klank.ar(d, x, 1, 0, 1);
 (k * 0.1).softclip
 
 // ---- calculations
-Array.series(12, 2, 3) == 12.iota(2, 3)
-Array.series(12, 2, 3) == (12.iota * 3 + 2)
+Array.series(12, 2, 3) == 12.iota(2, 3) // iota
+Array.series(12, 2, 3) == (12.iota * 3 + 2) // iota

@@ -6,7 +6,7 @@
 	var q = OrderedCollection.new;
 	var z = nil;
 	n.do({
-		var freq = (24 + 60.rand).midiCps;
+		var freq = (24 + 60.rand).midicps;
 		p.add(freq);
 		p.add(freq + d.rand2);
 		p.add(freq + d.rand2)

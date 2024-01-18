@@ -19,8 +19,8 @@ var diffused = grains.collect {	| item |
 	IFFT.ar(c2, -1, 0)
 };
 var enveloped = diffused * PlayBuf.ar(1, envBufNum, 1 / trigPeriod, 1, 0, 1, 0);
-var delayed = DelayC.ar(enveloped.second, trigPeriod / 2, trigPeriod / 2);
-Pan2.ar(enveloped.first + delayed, pan, 1)
+var delayed = DelayC.ar(enveloped[1], trigPeriod / 2, trigPeriod / 2);
+Pan2.ar(enveloped[0] + delayed, pan, 1)
 
 //---- allocate buffers
 var buffer = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav", 0, -1, nil, 10);

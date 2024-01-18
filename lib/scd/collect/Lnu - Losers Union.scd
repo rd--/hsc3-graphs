@@ -600,7 +600,7 @@ var env = Env.adsr(dur / 48, 1 / 4, 1, dur / 2, 1.2, -4, 0.01).kr(
 	Trig.kr(trg, dur * LFNoise2.ar(4).range(0.5, 1))
 );
 var voc = SelectXFocus.kr(
-	mnn.linlin(mel.first, mel.last, 0, tab.size),
+	mnn.linlin(mel[0], mel.last, 0, tab.size),
 	tab,
 	0.9,
 	true

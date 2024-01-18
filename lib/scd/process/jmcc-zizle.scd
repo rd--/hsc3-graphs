@@ -1,7 +1,7 @@
 // zizle (jmcc) #SC3d1.5
 Texture.overlap({
 	Pan2.ar(
-		SinOsc.ar(24.rrand(108).midiCps, 2 * pi.rand)
+		SinOsc.ar(24.rrand(108).midicps, 2 * pi.rand)
 		* Mix.ar(SinOsc.ar(0.3.exprand(8) * [0.7.rrand(1.3), 1], [2 * pi.rand, 2 * pi.rand]) * 0.1).max(0)
 		* Mix.ar(SinOsc.ar(6.exprand(24) * [0.7.rrand(1.3), 1], [2 * pi.rand, 2 * pi.rand]) * 0.1).abs,
 		1.0.rand2,
@@ -13,7 +13,7 @@ Texture.overlap({
 Texture.overlap({
 	Pan2.ar(
 		HPZ1.ar(
-			LFTri.ar(24.rrand(128).midiCps, 2 * pi.rand)
+			LFTri.ar(24.rrand(128).midicps, 2 * pi.rand)
 			* Mix.ar(SinOsc.ar(0.3.exprand(8) * [0.7.rrand(1.3), 1], [2 * pi.rand, 2 * pi.rand]) * 0.04).max(0)
 			* Mix.ar(SinOsc.ar(6.exprand(24) * [0.7.rrand(1.3), 1], [2 * pi.rand, 2 * pi.rand])).abs
 		),
@@ -33,7 +33,7 @@ Texture.overlap({
 		1.0.rand2,
 		1
 	);
-	2.timesRepeat({
+	2.do({
 		x = AllpassN.ar(x, 0.05, [0.05.rand, 0.05.rand], 3.0.rand)
 	});
 	x

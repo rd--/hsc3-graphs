@@ -5,7 +5,7 @@ var y = MouseY.kr(0, 2, 0, 0.2);
 OverlapTexture({ arg tr;
     var a = 0;
     var f1 = TRand.kr(0, x, tr);
-    3.timesRepeat({
+    3.do({
         var f2 = TRand.kr(0, x, tr);
         a = SinOsc.ar([f2, f2 + TRand.kr(-1, 1, tr)], 0) * y + a;
     });
@@ -19,7 +19,7 @@ Texture.overlapRoutine({
     var y = MouseY.kr(0, 2, 0, 0.2);
     var a = 0;
     var f1 = Rand.ir(0, x);
-    3.timesRepeat({
+    3.do({
         var f2 = Rand.ir(0, x);
         a = SinOsc.ar([f2, f2 + Rand.ir(-1, 1)], 0) * y + a;
     });

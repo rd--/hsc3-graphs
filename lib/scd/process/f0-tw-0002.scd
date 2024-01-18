@@ -1,5 +1,5 @@
 // https://sccode.org/1-4Qy ; f0 ; 0002
-0.to(98).do({
+(0 .. 98).do({
 	{
 		var o = BPF.ar(Impulse.ar(LinRand.ir(0.5, 18.5, 0), 0), LinRand.ir(0, 9999, 0), LinRand.ir(0, 0.3, 0)) * 5;
 		Release.ar(Pan2.ar(o, Rand.ir(-1, 1), 1), 0, 3, 9)

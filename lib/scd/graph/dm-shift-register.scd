@@ -1,10 +1,9 @@
 // shift register (dm) - https://sccode.org/1-590
-var shift_register = {
-    arg length, trig, in;
+var shift_register = { |length trig in|
     var buf = LocalBuf.ir(length, 1);
     var count = PulseCount.kr(trig, 0);
     Demand.kr(trig, 0, Dbufwr.dr(in, buf, count, 1));
-    Demand.kr(trig, 0, Dbufrd.dr(buf, count + 1 + length.iota, 1)).reverse
+    Demand.kr(trig, 0, Dbufrd.dr(buf, count + 1 + (0 .. length - 1), 1)).reverse
 };
 var amp = 0.1;
 var pulse = Impulse.kr(1/16);
@@ -27,7 +26,7 @@ XFade2.ar(cmp ! 2, GVerb.ar(BPF.ar(cmp, 90.midicps), 50, 8, 0.5, 0.5, 15, 0, 0.7
  ;var buf = LocalBuf.ir(numFrames: length, numChannels: 1)
  ;var count = PulseCount.kr(trig: trig, reset: 0)
  ;Demand.kr(trig: trig, reset: 0, demandUGens: Dbufwr.dr(input: in, bufnum: buf, phase: count, loop: 1))
- ;Demand.kr(trig: trig, reset: 0, demandUGens: Dbufrd.dr(bufnum: buf, phase: count + 1 + length.iota, loop: 1)).reverse}
+ ;Demand.kr(trig: trig, reset: 0, demandUGens: Dbufrd.dr(bufnum: buf, phase: count + (1 .. length), loop: 1)).reverse}
 ;var amp = 0.1
 ;var pulse = Impulse.kr(freq: 1/16, phase: 0)
 ;var rate = TChoose.kr(trig: pulse, array: [3, 5, 10])

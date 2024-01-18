@@ -2,7 +2,7 @@
 var scale = [0, 2, 4, 5, 7, 9, 11];
 var root = 3;
 var funca = { // struck string
-	var freq = (scale.choose + [24, 36, 48, 60, 72, 84].choose + root).midiCps;
+	var freq = (scale.choose + [24, 36, 48, 60, 72, 84].choose + root).midicps;
 	var env = Decay2.kr(Impulse.kr([0.125, 0.25, 0.375, 0.5, 0.75, 1, 1.5, 2, 3, 4].choose, 0) * 0.05, 0.005, 0.05);
 	var exc = { BrownNoise.ar * env }.dup(2);
 	var res = RingzBank.ar(
@@ -20,13 +20,13 @@ var funcb = { // metallic
 	(RingzBank.ar(exc, { 8000.0.linrand + 60 }.dup(16), nil, { 0.1.rrand(2) }.dup(16)) * 0.1).softClip
 };
 var funcc = { // whistle
-	var freq = (scale.choose + #[84, 96].choose + root).midiCps;
+	var freq = (scale.choose + #[84, 96].choose + root).midicps;
 	var env = 0.05 * 0.max(SinOsc.kr(0.125.exprand(0.5), 2 * pi.rand));
 	var exc = { BrownNoise.ar * env }.dup(2);
 	(RingzBank.ar(exc, [freq], nil, [0.3]) * 0.1).softClip
 };
 var funcd = { // bowed string
-	var freq = (scale.choose + #[24, 36, 48, 60, 72, 84].choose + root).midiCps;
+	var freq = (scale.choose + #[24, 36, 48, 60, 72, 84].choose + root).midicps;
 	var env = 0.007 * 0.max(LFNoise1.kr(0.125.exprand(0.5)) * 0.6 + 0.4);
 	var exc = { BrownNoise.ar * env }.dup(2);
 	(RingzBank.ar(
@@ -50,7 +50,7 @@ var funcf = { // wind chords
 	var exc = { BrownNoise.ar * env }.dup(2);
 	(RingzBank.ar(
 		exc,
-		{(scale.choose + [36, 48, 60, 72, 84].choose + root).midiCps}.dup(n),
+		{(scale.choose + [36, 48, 60, 72, 84].choose + root).midicps}.dup(n),
 		nil,
 		{ 0.1.rrand(2) }.dup(n)
 	) * 0.1).softClip
@@ -70,7 +70,7 @@ var count = 0;
 	root = 3.rrand(6);
 	Texture.overlapRoutine({
 		var snd = flist.choose.value;
-		[DelayN.ar(snd.first, 0.04, 0.04.rand), snd.second].scramble;
+		[DelayN.ar(snd[0], 0.04, 0.04.rand), snd[1]].scramble;
 	}, 32, 4, 10, 2, maxRepeats: reps);
 	count = count + 1;
 	(reps * 3).seconds.wait

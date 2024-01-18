@@ -32,4 +32,4 @@ var voiceFunc = { | e |
 Mix.ar(Voicer.ar(0, 16, voiceFunc))
 
 // ---- calculations
-60.iota.collect({ arg x; Scale.major(\just).degreeToRatio(x) }).asCompileString
+60.iota.collect({ arg x; Scale.major(\just).degreeToRatio(x) }).asCompileString // iota

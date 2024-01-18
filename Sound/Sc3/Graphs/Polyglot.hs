@@ -25,10 +25,10 @@ import qualified Sound.Sc3.Server.Graphdef.Read as Graphdef.Read {- hsc3 -}
 
 import qualified Sound.Sc3.Ugen.Dot as Dot {- hsc3-dot -}
 
-import qualified Sound.Sc3.Lisp.Haskell as Lisp {- hsc3-lisp -}
-import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
+import qualified Language.Sc3.Lisp.Haskell as Lisp {- hsc3-lisp -}
+import qualified Language.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
-import qualified Language.Smalltalk.SuperCollider.Translate as St {- stsc3 -}
+import qualified Language.Smalltalk.Stc.Translate as St {- stsc3 -}
 
 -- * Util
 

@@ -13,7 +13,7 @@ var o = GrainFM.ar(
 	trigger: LFSaw.ar([0.5, 0.6], 0),
 	dur: 16,
 	carfreq: LFSaw.ar(5, 0) * LFSaw.ar(0.015, 0) + 1 * 98,
-	modfreq: (2 ** LFSaw.ar(4, 0)).roundTo(0.5) * 99,
+	modfreq: (2 ** LFSaw.ar(4, 0)).round(0.5) * 99,
 	index: 2 ** LFSaw.ar(1 / [8, 9], 0) * 8,
 	pan: 0,
 	envbufnum: -1,
@@ -22,7 +22,7 @@ var o = GrainFM.ar(
 (o / 2).tanh
 
 // https://twitter.com/redFrik/status/454598285861617665 ; requires=keywords
-var b = 9.iota.neg + 9;
+var b = (8 .. 0);
 var c = LFTri.ar(freq: 3 ** LFTri.ar(freq: 1 / b, iphase: b / 9), iphase: 0);
 var d = LFTri.ar(freq: 1 / b, iphase: 0) % 1 / 9 + 0.01;
 var f = 2 ** LFTri.ar(freq: b / 99, iphase: 0).round * 99 * b;
@@ -44,7 +44,7 @@ var g = GrainFM.ar(numChannels: 1, trigger: t, dur: 16, carfreq: f, modfreq: m, 
 (g/2).tanh * 0.25
 
 // f0 ; https://twitter.com/redFrik/status/1105496695637454848
-{var b = 15.iota + 1 / 151
+{var b = (1 .. 15) / 151
 ;var w = VarSaw.kr(freq: b, iphase: b, width: 1 / 5.15, mul: 1, add: 1.5).ceil
 ;var s = Select.kr(which: VarSaw.kr(freq: 1/15, iphase: 1/5, width: b, mul: 5).ceil + 5 / 5, array: [51 * 1.5, 51, 151])
 ;var x = Lag.kr(in: s, lagTime: b)
@@ -66,7 +66,7 @@ var r=ar(Splay,(ar(a,f,3,_+3!3).reduce('*').tanh*[3,333*ar(a,3/3333),33])).sin+q
 r+sum({|i|ar(b,r,3/33,3/3+i*3,3/33,3/33)}!3)/6
 
 // f0  https://twitter.com/redFrik/status/1210118661022867458 ; requires=keywords
-var b = (6.iota + 2).reciprocal;
+var b = (2 .. 7).reciprocal;
 var d = $0.ascii.reciprocal;
 var g = 0.cos.cos;
 var f = Duty.ar(dur: b, reset: 0, level: Dseq.dr(list: "0 0 00 0 0 000  _0 0 0 00 00 00000+  !".ascii, repeats: inf), doneAction: 0);
@@ -81,15 +81,15 @@ var e = [3, 2/3, 4, 3/2, 2];
 var c = 0.021;
 var d = LFTri.ar(b / 999, 0) % 1;
 var m = LFTri.ar(b * c, 0);
-var l = m * 7 + 20 + Dseq.dr(b % m * 5 + 6, inf);
+var l = m * 7 + 20 + Dseq(b % m * 5 + 6, inf);
 var j = Duty.ar(e / (12 ** m), 0, l);
-var k = DegreeToKey.ar(b.asLocalBuf, j);
+var k = DegreeToKey.ar(LocalBuf.newFrom(b), j);
 var o = SinOscFB.ar(k.midicps, LFTri.ar(c / b + 1 / 3, Decay2.ar(Impulse.ar(e.wrapAt(b), 0), c, d)) * d);
 Out.kr(bus: 90, channelsArray: A2K.kr(k));
 FreeVerb.ar(Splay.ar(o, 1, 1, 0, true), 0.1, 1, 0.5) * 0.2
 
 // f0 ; https://twitter.com/redFrik/status/1374517800048291847
-{var b = 9.iota + 1
+{var b = (1 .. 9)
 ;var f0 = Lag.ar(in: VarSaw.ar(freq: 0.003, iphase: b / 9, width: 0.5).round(1/3), lagTime: 1.9, mul: 91, add: 252)
 ;var w0 = VarSaw.ar(freq: b / 9 / 99, iphase: 0, width: 0.5) % 1
 ;var f1 = 63 * b + VarSaw.ar(freq: 0.49, iphase: b / 9, width: 0.5)
@@ -97,7 +97,7 @@ FreeVerb.ar(Splay.ar(o, 1, 1, 0, true), 0.1, 1, 0.5) * 0.2
 ;Splay.ar(VarSaw.ar(freq: f0, iphase: b / 9, width: w0, mul: 1/3, add: VarSaw.ar(freq: f1, iphase: 0, width: w1, mul: VarSaw.ar(freq: 6, iphase: b / 9 / 3, width: 0).max(VarSaw.ar(freq: 0.2, iphase: b / 9, width: 0.5) / 9 + VarSaw.ar(freq: 0.009, iphase: 0, width: 0.5, mul: 0.3, add: 0.4)), add: VarSaw.ar(freq: 60, iphase: 0, width: 0.5) * VarSaw.ar(freq: 3, iphase: 0, width: 0).max(0) ** 3)) / 5)}
 
 // https://twitter.com/redFrik/status/1374517800048291847
-{var b = 9.iota + 1
+{var b = (1 .. 9)
 ;var a = VarSaw
 ;var c = b / 9
 ;var d = a.ar(0.003, c).round(1 / 3).lag(1.9) * 91 + 252
@@ -109,7 +109,7 @@ FreeVerb.ar(Splay.ar(o, 1, 1, 0, true), 0.1, 1, 0.5) * 0.2
 // f0  https://twitter.com/redFrik/status/1395040511795372038;
 var b = [2, 6, 3, 1];
 var c = 500;
-var l = Dseq.dr(list: (SinOscFB.ar(freq: b / 24, feedback: 0).round + 10.iota * 7 + 29.17).midicps, repeats: inf);
+var l = Dseq.dr(list: (SinOscFB.ar(freq: b / 24, feedback: 0).round + (0 .. 9) * 7 + 29.17).midicps, repeats: inf);
 var f = Duty.ar(dur: b, reset: SinOscFB.ar(freq: b / 9, feedback: 0), level: l, doneAction: 0);
 var o = SinOscFB.ar(freq: f, feedback: SinOscFB.ar(freq: b / 13, feedback: 0).max(0) / 3 * 2);
 var p = AllpassN.ar(in: o / 8, maxdelaytime: 1, delaytime: 0.51, decaytime: 8);
@@ -124,7 +124,7 @@ var p = [250, 200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq.dr(list: [4, 6, 5
 SinOscFB.ar(freq: p, feedback: f.value(0.08), mul: f.value(1 / [99, 60]) / 3) * 0.1
 
 // f0 ; https://twitter.com/redFrik/status/1395519538008141835
-var l = Dseries.dr(start: 1, step: [1,2], length: inf) % Duty.ar(dur: 8.192, reset: 0, level: Dseq.dr(list: 6.iota + 1 * 75, repeats: inf));
+var l = Dseries.dr(start: 1, step: [1,2], length: inf) % Duty.ar(dur: 8.192, reset: 0, level: Dseq.dr(list: (1 .. 6) * 75, repeats: inf));
 var c = Duty.ar(dur: 0.004, reset: 0, level: l);
 var d = HPF.ar(in: MantissaMask.ar(in: c, bits: 3), freq: 5);
 var f = { arg x; SinOscFB.ar(freq: x, feedback: 0).max(0) };

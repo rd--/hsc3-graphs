@@ -7,7 +7,7 @@
 	var sig = RingzBank.ar(exc, { 50.0.rrand(2000) }.dup(4), nil, { 0.2.rrand(4) }.dup(4)).abs * #[-1, 1].choose;
 	var flt = RLPF.ar(sig, SinOsc.kr(1.0.linRand0, 0) * 0.7 * f + f, 0.1);
 	var z = Pan2.ar(flt, pan, amp);
-	6.timesRepeat({ z = AllpassN.ar(z, 0.1, { 0.05.rand0 }.dup(2), 4) });
+	6.do({ z = AllpassN.ar(z, 0.1, { 0.05.rand0 }.dup(2), 4) });
 	z
 }.overlap(8, 3, 4)
 
@@ -22,6 +22,6 @@ Texture.overlapRoutine({
 	Pan2.ar(flt, pan, amp)
 }, 8, 3, 4, postProcess: {
 	arg z;
-	6.timesRepeat({ z = AllpassN.ar(z, 0.1, { 0.05.rand0 }.dup(2), 4) });
+	6.do({ z = AllpassN.ar(z, 0.1, { 0.05.rand0 }.dup(2), 4) });
 	z
 })

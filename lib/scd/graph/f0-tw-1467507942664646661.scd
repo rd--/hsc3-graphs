@@ -18,8 +18,11 @@ var q = FBSineC.ar(
     c / 2,
     2,
     2,
-    0.1);
-(3 ** fb1.value(1 / b) / 5 * p + (q / 12) + (HPF.ar(fb1.value(32) < 0, 3) * fb1.value(b * 70 / d) * fb1.value(1 / 2))).splay / 2
+    0.1
+);
+Splay.ar(
+	3 ** fb1.value(1 / b) / 5 * p + (q / 12) + (HPF.ar(fb1.value(32) < 0, 3) * fb1.value(b * 70 / d) * fb1.value(1 / 2))
+) / 2
 
 //---- https://twitter.com/redFrik/status/1467507942664646661
 var b = (1..8).rotate(6);

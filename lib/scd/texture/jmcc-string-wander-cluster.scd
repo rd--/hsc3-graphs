@@ -2,7 +2,7 @@
 {
 	var note1 = 50 + 50.rand;
 	var note2 = Fold(note1 + 15.rand - 7, 50, 120);
-	var delay = 1 / note2.midiCps;
+	var delay = 1 / note2.midicps;
 	Pan2.ar(CombC.ar(WhiteNoise.ar * 0.008, 0.01, delay, delay * 1000), 1.0.rand2, 1)
 }.overlap(4 / 3, 4 / 3, 6)
 

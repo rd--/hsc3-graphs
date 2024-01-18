@@ -4,7 +4,7 @@ Pspawn(
 		\method,\par,
 		\delta, 1 / 8,
 		\pattern, {
-			var a = Pseq(1.to(9).sputter, 1, 0);
+			var a = Pseq((1 .. 9).sputter, 1, 0);
 			Pbind(
 				\dur, a,
 				\sustain, 1 / 8 / a,
@@ -28,7 +28,7 @@ Pspawn(
 		\method,\par,
 		\delta, 1 / 8,
 		\pattern, {
-			var a = Pseq(1.to(9).sputter, 1, 0);
+			var a = Pseq((1 .. 9).sputter, 1, 0);
 			Pbind(
 				\instrument, \p,
 				\dur, a,

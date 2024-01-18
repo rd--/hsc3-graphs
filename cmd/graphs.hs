@@ -1,7 +1,7 @@
 --import Control.Monad {- base -}
 import System.Environment {- base -}
 
-import qualified Sound.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
+import qualified Language.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
 import Sound.Sc3.Graphs.Polyglot {- hsc3-graphs -}
 
@@ -9,7 +9,7 @@ import Sound.Sc3.Graphs.Polyglot {- hsc3-graphs -}
 
 >>> fn <- Music.Theory.Directory.dir_subset graphs_db_fext graphs_db_dir
 >>> length fn
-5944
+6061
 -}
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"

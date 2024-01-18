@@ -16,7 +16,7 @@ var o = Pan2.ar(u2, pan, amp * 10);
 var f1 = BPF.ar(o * 5, 700, 0.1);
 var f2 = CombL.ar(LPF.ar(f1 * LFNoise1.kr(0.1).max(0), 800), 0.5, 0.5, 1) + f1.reverse;
 var f3 = f2;
-5.timesRepeat({ f3 = AllpassN.ar(f3, 0.18, { Rand.ir(0, 0.06) }.dup(2) + 0.06, 8) });
+5.do({ f3 = AllpassN.ar(f3, 0.18, { Rand.ir(0, 0.06) }.dup(2) + 0.06, 8) });
 LPF.ar(f2 + f3, 400) + (LFNoise1.kr(0.2) * f2)
 
 //---- deep sea (jrhb)

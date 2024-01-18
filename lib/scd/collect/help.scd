@@ -5,7 +5,7 @@ LPF.ar(AnalogFoldOsc.ar(60 + #[0, 1], SinOsc.ar(LFSaw.ar(0.1, 0) * 4, 0).range(0
 Balance2.ar(LFSaw.ar(44, 0), Pulse.ar(33, 0.5), SinOsc.ar(0.5, 0), 0.1)
 
 // Balance2
-var o = SinOsc.ar(#[440, 550], 0); Balance2.ar(o.first, o.second, LFNoise1.ar(4), 0.3)
+var o = SinOsc.ar(#[440, 550], 0); Balance2.ar(o[0], o[1], LFNoise1.ar(4), 0.3)
 
 // Balance2
 var o = SinOsc.ar(440, 0); Balance2.ar(o, o, SinOsc.ar(0.2, 0), 0.2)
@@ -46,7 +46,7 @@ SinOsc.ar(200 + (sig * 1000), 0) * 0.1
 
 // CombN
 var m = LFNoise1.ar(3) * 24 + (LFSaw.ar(#[5, 5.123], 0) * 3 + 80);
-CombN.ar(SinOsc.ar(m.midiCps, 0) * 0.4, 1, 0.3, 2)
+CombN.ar(SinOsc.ar(m.midicps, 0) * 0.4, 1, 0.3, 2)
 
 // Convolution
 var tr = Dust.ar(100);
@@ -55,7 +55,7 @@ var vc = {
     var amp = TRand.ar(0.1, 0.2, tr);
     HPF.ar(amp * Convolution.ar(Saw.ar(freq), tr, 512), 10000);
 };
-vc.dup(5).splay
+Splay.ar(vc ! 5)
 
 // CrossoverDistortion
 CrossoverDistortion.ar(SinOsc.ar(#[400, 404], 0) * 0.2, MouseX.kr(0, 1, 0, 0.2), MouseY.kr(0, 1, 0, 0.2))
@@ -160,14 +160,14 @@ var a = EnvGen.ar(Env.perc(TRand.ar(0.01, 0.2, tr), TRand.ar(0.2, 2, tr), 1, -4)
 o * a * 0.1
 
 // FM7
-var freq = LFNoise0.kr(3).linExpFrom(200, to: 310);
+var freq = LFNoise0.kr(3).exprange(200, 310);
 var ctls = [
 	[freq, 0, 1],
 	[freq, 0, 1],
-	[LFNoise2.kr(0.5).linExpFrom(3, to: 80), 0, 1],
-	[LFNoise2.kr(0.5).linExpFrom(3, to: 800), 0, 1],
-	[LFNoise2.kr(0.5).linExpFrom(3, to: 800), 0, 1],
-	[LFNoise2.kr(0.5).linExpFrom(0.3, to: 10), 0, 1]
+	[LFNoise2.kr(0.5).exprange(3, 80), 0, 1],
+	[LFNoise2.kr(0.5).exprange(3, 800), 0, 1],
+	[LFNoise2.kr(0.5).exprange(3, 800), 0, 1],
+	[LFNoise2.kr(0.5).exprange(0.3, 10), 0, 1]
 ];
 var x = MouseX.kr(0, 3, 0, 0.2);
 var mods = { { LFNoise1.kr(0.5).max(0) }.dup(6) * x }.dup(6);
@@ -363,7 +363,7 @@ SinOsc.ar(XLine.kr([100, 200], [400, 100], 2).inject(0, { arg i, j; i.max(j) }),
 // max
 var freq = { LFNoise2.kr(1) }.dup(3)  * 100 + 200;
 var freqMax = freq.inject(0, { arg i, j; i.max(j) });
-(LFTri.ar(freqMax, 0) * 0.05) + (SinOsc.ar(freq, 0).splay2 * 0.1)
+(LFTri.ar(freqMax, 0) * 0.05) + (Splay.ar(SinOsc.ar(freq, 0)) * 0.1)
 
 // MulAdd ; optimised away
 MulAdd(SinOsc.ar(440, 0) * 0.1, 1, 0)
@@ -410,14 +410,14 @@ MiBraids.ar(pitch: 38, timbre: timbre, color: color, model: 40, trig: 0, resamp:
 
 // MiBraids ; trigger ; 28=plucked
 var trig = Dust.kr(0.6);
-var pitch = TRand.kr(45, 72, trig).rounded;
+var pitch = TRand.kr(45, 72, trig).round;
 var timbre = 0.5;
 var color = LFNoise1.kr(0.3) * 0.5 + 0.5;
 MiBraids.ar(pitch: pitch, timbre: timbre, color: color, model: 28, trig: trig, resamp: 0, decim: 0, bits: 0, ws: 0).dup(2) * 0.1
 
 // MiBraids ; 34=kick
 var trig =  Impulse.kr(4, 0);
-var pitch = LinLin.kr(Latch.kr(PinkNoise.kr(), trig), -1, 1, 30, 50).rounded;
+var pitch = LinLin.kr(Latch.kr(PinkNoise.kr(), trig), -1, 1, 30, 50).round;
 var timbre = LFNoise1.kr(0.4) * 0.5 + 0.5;
 var color = LFNoise1.kr(0.3) * 0.5 + 0.5;
 MiBraids.ar(pitch: pitch, timbre: timbre, color: color, model: 34, trig: trig, resamp: 0, decim: 0, bits: 0, ws: 0).dup(2) * 0.2
@@ -437,7 +437,7 @@ MiClouds.ar(input, 0, 0, 0, dens, 0.5, drywet: 1, mode: 0)
 
 // MiClouds
 var imp = Dust.ar([0.8, 1.1]);
-var freq = Latch.ar(PinkNoise.ar() * 24 + 80,  imp).midiCps;
+var freq = Latch.ar(PinkNoise.ar() * 24 + 80,  imp).midicps;
 var inputArray = RLPF.ar(imp,  freq,  0.002) * 4;
 var pit = LFNoise1.kr(0.3) * 12;
 var pos = LFNoise2.kr(0.4) * 0.5 + 0.5;
@@ -945,7 +945,7 @@ Pulse.ar([100, 100.1], 0.5).sum * 0.1
 SinOsc.ar(Rand.ir(220, 440), 0) * 0.1
 
 // Rand
-SinOsc.ar({ Rand.ir(220, 440) }.dup(7), 0).splay * 0.1
+Splay.ar(SinOsc.ar({ Rand.ir(220, 440) }.dup(7), 0)) * 0.1
 
 // Rand (UGen) ; keywords
 SinOsc.ar(freq: Rand.ir(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)
@@ -1047,7 +1047,7 @@ LocalOut.ar(sig);
 sig * 0.1
 
 // SinOsc
-1.to(5). collect({
+(1 .. 5). collect({
 	arg n;
 	Pan2.ar(SinOsc.ar(n * 100, 0) * 0.max(LFNoise1.kr(6) + Ln.kr(1, -1, 30)), Rand.ir(-1, 1), 0.1)
 }).sum
@@ -1206,10 +1206,10 @@ SinOsc.ar(v, 0) * 0.1
 VOSIM.ar(Impulse.ar(100, 0), MouseX.kr(440, 880, 1, 0.2), 3, 0.99) * 0.1
 
 // VOSIM
-Splay2.ar(VOSIM.ar(Impulse.ar(110 + [-1, 0, 1], 0), MouseX.kr([110, 220, 440], 880, 1, 0.2), [3, 5, 7], [0.77, 0.88, 0.99])) * 0.1
+Splay.ar(VOSIM.ar(Impulse.ar(110 + [-1, 0, 1], 0), MouseX.kr([110, 220, 440], 880, 1, 0.2), [3, 5, 7], [0.77, 0.88, 0.99])) * 0.1
 
 // VOSIM
-Splay2.ar(VOSIM.ar(Impulse.ar(110 + [-1, 0, 1], 0), LinExp.kr(LFNoise2.kr([0.35, 0.25, 0.15]), -1, 1, [110, 220, 440], 880), [3, 5, 7], [0.77, 0.88, 0.99])) * 0.1
+Splay.ar(VOSIM.ar(Impulse.ar(110 + [-1, 0, 1], 0), LinExp.kr(LFNoise2.kr([0.35, 0.25, 0.15]), -1, 1, [110, 220, 440], 880), [3, 5, 7], [0.77, 0.88, 0.99])) * 0.1
 
 // VOSIM
 var p = TRand.ar(0, 1, Impulse.ar(6, 0));

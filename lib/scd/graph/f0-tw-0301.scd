@@ -3,7 +3,7 @@ var b = { |i|
 	Duty.kr(i + 1 / 9, 0, In.kr(i + 1 % 4, 1) + Dseq(8.fib, inf) % 9)
 }.dup(4);
 Out.kr(0, b);
-Splay2.ar(CombN.ar(SinOsc.ar(b * 99, b * 2), 1, 1 / 3, 1) / 2)
+Splay.ar(CombN.ar(SinOsc.ar(b * 99, b * 2), 1, 1 / 3, 1) / 2)
 
 // ---- tweet0301
 a=SinOsc;Splay ar:CombN.ar(a.ar(Out.kr(0,b={|i|Duty.kr(i+1/9,0,In.kr(i+1%4)+Dseq(8.fib,inf)%9)}!4);b*99,b*2),1,1/3)/2

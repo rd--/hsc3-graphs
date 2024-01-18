@@ -10,7 +10,7 @@ var z = OverlapTexture({
         LFPulse.kr(TRand.kr(0, 15, tr), 0, TRand.kr(0.2, 0.4, tr))
     )
 }, 8, 3, 4);
-6.timesRepeat({ z = AllpassC.ar(z, 0.040, { Rand.ir(0, 0.04) }.dup, 16) });
+6.do({ z = AllpassC.ar(z, 0.040, { Rand.ir(0, 0.04) }.dup, 16) });
 z
 
 //---- contamination zone ; jmcc #9

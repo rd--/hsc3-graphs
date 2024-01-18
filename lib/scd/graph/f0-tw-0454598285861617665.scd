@@ -10,5 +10,5 @@ Splay.ar(o.tanh) / 2
 a=LFTri;c=a.ar(3**a.ar(1/b=(9..1),b/9));Splay.ar(GrainSin.ar(2,c,a.ar(1/b)%1/9+0.01,2**a.ar(b/99).round*99*b).tanh)/2
 
 //---- calculations
-(9..1) == (9.iota.neg + 9)
+(9..1) == (9.iota.neg + 9) // iota
 (9..1) == 9.series(8, 1)

@@ -7,7 +7,7 @@ var f = {
     var s = o * 0.max(osc.ar(1 / b * osc.ar(b / 99, ix), 0)) * osc.ar(0.01, ix);
     var x = AllpassC.ar(s, 1, c.wrap(0.5, 1), 2);
     var y = BPF.ar(x, ix * 99 + 400, 0.001) * (osc.ar(0.04, ix) + 1 * 9);
-    Splay2.ar(x + y) / 3
+    Splay.ar(x + y) / 3
 };
 Mix.ar([LFTri, LFSaw, LFPar].collect(f))
 

@@ -28,7 +28,7 @@ var root = 36;
 // global triple super gverb
 {
 	var in = In.ar(0, 2);
-	3.timesRepeat {
+	3.do {
 		in = (in * 0.2) + (GVerb.ar(in, 220, 12) * 0.6)
 	};
 	ReplaceOut.ar(0, Limiter.ar(LeakDC.ar(in)))

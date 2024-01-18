@@ -1,5 +1,5 @@
 // f0  https://twitter.com/redFrik/status/1210118661022867458
-var b = (6.iota + 2).reciprocal;
+var b = (2 .. 7).reciprocal;
 var d = $0.ascii.reciprocal;
 var g = 0.cos.cos;
 var f = Duty.ar(b, 0, Dseq.dr("0 0 00 0 0 000  _0 0 0 00 00 00000+  !".ascii, inf), 0);
@@ -13,6 +13,6 @@ LeakDC.ar(Splay.ar(c + p), 0.995) * g
 
 // ---- calculations
 ("00".size.."0000000".size) == (2..7)
-(6.iota + 2) == (2 .. 7)
+(6.iota + 2) == (2 .. 7) // iota
 $0.ascii == 48
 "0 0 00 0 0 000  _0 0 0 00 00 00000+  !".ascii

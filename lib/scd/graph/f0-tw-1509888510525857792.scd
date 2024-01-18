@@ -6,8 +6,8 @@ var x = l.value(LorenzL.ar(7, 13, 10, 2.1, 0.1, 0.1, 0.1, 0) + 3 * (4 ** l.value
 var m = LorenzL.ar(
     d / 4 * b,
     2 ** l.value(2 ** l.value(1)) / 12 + 10,
-    Lag2(l.value(b / 3).roundTo(0.5), 0.1) * 12 + 35,
-    Lag2(l.value(1 / 11).roundTo(1 / 3), 0.1) / 12 + 0.153,
+    Lag2(l.value(b / 3).round(0.5), 0.1) * 12 + 35,
+    Lag2(l.value(1 / 11).round(1 / 3), 0.1) / 12 + 0.153,
     0.1,
     0.1,
     0,

@@ -5,7 +5,7 @@ Pan2.ar(o, 0, 1) + d
 
 // random sine waves ; https://github.com/cianoc/supercollider_fragments
 var f = { Pan2.ar(SinOsc.ar(SinOsc.ar(1 / 10, 0.0.rrand(6.0)) * 200 + 600, 0), 1.0.rand, 0.05) };
-f.dup(15).splay
+Splay.ar(f ! 15)
 
 // nice use of blip ; https://github.com/cianoc/supercollider_fragments
 var t = Impulse.kr(6, 0);
@@ -84,7 +84,7 @@ var speed = 14;
 var f = SinOsc.ar(1000, 0) * 150 + 300;
 var t = Impulse.kr(1 / 3, 0);
 var v = { arg n; SinOsc.ar(f * n, 0) * (LFNoise1.kr(Rand.ir(speed, speed * 2)) * 0.5 + 0.5) / n };
-1.to(12).collect(v).sum * 0.1
+(1 .. 12).collect(v).sum * 0.1
 
 // additive saw
 var f = 100;
@@ -107,8 +107,8 @@ Mix.ar([
 var f = 100;
 var t = Impulse.kr(1 / 3, 0);
 var dt = [1.4, 1.1, 2, 1, 1.8, 2.9, 4, 0.3, 1, 3.6, 2.3, 1.1];
-var v = { arg n; SinOsc.ar(f * n, 0) * Decay2.kr(t, 0.01, dt.nth(n)) / n };
-1.to(12).collect(v).sum * 0.1
+var v = { arg n; SinOsc.ar(f * n, 0) * Decay2.kr(t, 0.01, dt[n - 1]) / n };
+(1 .. 12).collect(v).sum * 0.1
 
 // lovely bells ; https://github.com/cianoc/supercollider_fragments
 var t = Impulse.kr(1 / 3, 0);
@@ -140,7 +140,7 @@ var f = {
     var amp = 0.max(FSinOsc.kr((1/3).rrand(1/6), 0) * 0.1.rrand(0.9));
     Pan2.ar(FSinOsc.ar(100.exprand(2000), mul: amp), 1.0.rand2)
 };
-f.dup(harmonics).mix / (2 * harmonics)
+f.dup(harmonics).sum / (2 * harmonics)
 
 // decaying gongs ; https://github.com/cianoc/supercollider_fragments
 {var dur = 6

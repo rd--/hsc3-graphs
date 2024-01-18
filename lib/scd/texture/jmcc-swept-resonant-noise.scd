@@ -2,7 +2,7 @@
 {
 	var p = 10; // number of partials
 	var n = WhiteNoise.ar * 0.007;
-	var f = (SinOsc.kr(0.1 + 0.2.rand, 0) * (12 + 12.rand2) + 60 + 24.rand2).midiCps;
+	var f = (SinOsc.kr(0.1 + 0.2.rand, 0) * (12 + 12.rand2) + 60 + 24.rand2).midicps;
 	var sweep = Resonz.ar(n, f, 0.1);
 	{ RingzBank.ar(
 		sweep,

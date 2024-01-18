@@ -1,6 +1,6 @@
 // https://schollz.com/blog/phasedistortion/
 Voicer(0, 16) { |e|
-    var freq = (e.x * 36 + 48).midiCps; // e.p.unitCps;
+    var freq = (e.x * 36 + 48).midicps; // e.p.unitCps;
     var amp = e.z;
     var freqBase = freq;
     var freqRes = LinLin.ar(SinOsc.kr(Rand.ir(0, 0.2), 0), -1, 1, freqBase / 2, freqBase * 2);

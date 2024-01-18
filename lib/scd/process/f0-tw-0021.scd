@@ -1,5 +1,5 @@
 // https://sccode.org/1-4Qy ; f0 ; 0021
-0.to(255).do({
+(0 .. 255).do({
 	arg j;
 	{
 		var f = {

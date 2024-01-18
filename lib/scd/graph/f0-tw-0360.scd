@@ -8,7 +8,7 @@ var f = [0, 1].collect({
 		Dseq.dr('@LEGJLEG'.ascii, 120),
 		Dseq.dr('EGJL'.ascii, 60)
 	];
-	Demand.ar(t[i], 0, Dseq.dr(q, 1)).midiCps
+	Demand.ar(t[i], 0, Dseq.dr(q, 1)).midicps
 });
 var x = SinOsc.ar(f, SinOsc.ar(1 / [12, 9], 0) / 4 + 1 * SinOsc.ar(f, e * pi)) * e / 2;
 FreeVerb2.ar(x[0], x[1], 0.1, 1, 0)

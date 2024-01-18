@@ -1,5 +1,5 @@
 // james tenney - for ann (rising)
-240.timesRepeat({
+240.do({
 	{
 		var d = 33.6;
 		var f0 = 40;

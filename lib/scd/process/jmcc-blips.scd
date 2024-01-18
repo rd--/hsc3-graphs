@@ -19,7 +19,7 @@ Texture.overlap({
 }, 2, 1, 12, 2, postProcess: {
 	arg snd;
 	var out = snd.distort;
-	6.timesRepeat({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 4) });
+	6.do({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 4) });
 	out
 })
 
@@ -44,7 +44,7 @@ Texture.overlap({
 }, 2, 1, 12, 2, postProcess: {
 	arg snd;
 	var out = snd.distort;
-	6.timesRepeat({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 4) });
+	6.do({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 4) });
 	out
 })
 
@@ -70,7 +70,7 @@ Texture.overlap({
 }, dur * 0.6, dur * 0.2, 12, 2, postProcess: {
 	arg snd;
 	var out = LPZ2.ar(snd).distort;
-	6.timesRepeat({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 3) });
+	6.do({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 3) });
 	out
 })
 
@@ -104,7 +104,7 @@ Texture.overlap({
 }, 2, 1, 12, 2, postProcess: {
 	arg snd;
 	var out = snd.distort;
-	6.timesRepeat({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 2) });
+	6.do({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 2) });
 	out
 })
 
@@ -139,7 +139,7 @@ Texture.overlap({
 }, dur * 0.6, dur * 0.2, 12, 2, postProcess: {
 	arg snd;
 	var out = snd.distort;
-	6.timesRepeat({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 2) });
+	6.do({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 2) });
 	out
 })
 
@@ -147,7 +147,7 @@ Texture.overlap({
 var n = 8;
 Texture.overlap({
 	var out = { LFNoise0.ar(80) * 0.1 }.dup(2);
-	6.timesRepeat({
+	6.do({
 		out = LeakDC.ar(BRZ2.ar(CombL.ar(out, 0.1, [0.1.rand, 0.1.rand], 2)).distort, 0.995)
 	});
 	out * 0.3
@@ -157,7 +157,7 @@ Texture.overlap({
 var n = 8;
 Texture.overlap({
 	var out = { LFNoise0.ar(80) * 0.1 }.dup(2);
-	6.timesRepeat({
+	6.do({
 		out = LeakDC.ar(
 			BRZ2.ar(
 				CombL.ar(

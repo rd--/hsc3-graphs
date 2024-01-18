@@ -7,7 +7,7 @@
 	var q = OrderedCollection.new;
 	var k = 24 + 12.rand;
 	n.do {
-		var freq = (#[0, 2, 4, 5, 7, 9].choose + (7.rand * 12) + k).midiCps;
+		var freq = (#[0, 2, 4, 5, 7, 9].choose + (7.rand * 12) + k).midicps;
 		[p, q].do {
 			arg each;
 			[1, 2, 4, 5, 6].do {
@@ -31,7 +31,7 @@
 	var q = OrderedCollection.new;
 	var k = 24 + 12.rand;
 	n.do({
-		var freq = (#[0, 2, 4, 5, 7, 9].choose + (7.rand * 12) + k).midiCps;
+		var freq = (#[0, 2, 4, 5, 7, 9].choose + (7.rand * 12) + k).midicps;
 		p.add(freq + d.rand2);
 		p.add(freq * 2 + d.rand2);
 		p.add(freq * 4 + d.rand2);

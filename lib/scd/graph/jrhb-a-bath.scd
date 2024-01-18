@@ -1,5 +1,5 @@
 // a bath (jrhb)
-var above = MouseY.kr(0, 2, 0, 0.2).roundTo(1);
+var above = MouseY.kr(0, 2, 0, 0.2).round(1);
 var aside = MouseX.kr(1, 1.6, 0, 0.2);
 var sources = [{ WhiteNoise.ar }.dup * 0.3, { PinkNoise.ar }.dup, LFDNoise3.ar(10000) * 0.1];
 var u1 = SelectX.ar(LFDNoise1.kr(4).range(0, sources.size), sources) * 0.1;

@@ -9,7 +9,7 @@
 }
 
 // https://sccode.org/1-4Qy ; f0 ; 0001
-0.to(98).do({
+(0 .. 98).do({
 	arg i = 0;
 	var x = {
 		var ph = SinOsc.ar((i % 9).div(3) * 100 + (i % 9) + 500, 0);

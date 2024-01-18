@@ -4,7 +4,7 @@
 	var y = MouseY.kr(0, 2, 0, 0.2); /* modulation index */
 	var f1 = Rand.ir(0, x);
 	var ph = 0;
-	3.timesRepeat({
+	3.do({
 		var f2 = Rand.ir(0, x);
 		ph = SinOsc.ar([f2, f2 + 1.0.rand2], 0) * y + ph
 	});

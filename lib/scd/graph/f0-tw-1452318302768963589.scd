@@ -7,7 +7,7 @@ var f = SinOsc.ar(b / 9, b) / 3 + c;
 var h = CombC.ar(c / 50, 2, t, 5);
 var a = 50 / m * SinOsc.ar(b / 50, 0).max(0) + 0.5;
 var z = Blip.ar(f, h) * a;
-var o = HPF.ar(z.splay * 1.5, 15).tanh;
+var o = HPF.ar(Splay.ar(z) * 1.5, 15).tanh;
 o + GVerb.ar(o.mean * Line.kr(0, 1, 1), 50, 3, 0.5, 0.5, 15, 1, 0.7, 0.5, 300) / 5
 
 //---- https://twitter.com/redFrik/status/1452318302768963589

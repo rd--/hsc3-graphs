@@ -5,7 +5,9 @@ var x = ch[0];
 var f = {
 	var h = [40, 45, 52].choose.midicps;
 	var o = { SinOsc.ar(ExpRand.ir(h, h + (h / 64)), 0) * a };
-	{ o.dup(16).splay * LFGauss.ar(9, 1 / 4, 0, 0, 2) }.play;
+	{
+		Splay.ar(o !16) * LFGauss.ar(9, 1 / 4, 0, 0, 2)
+	}.play;
 	4.wait
 };
 var g = {
@@ -17,7 +19,7 @@ var g = {
 var b = { f.loop }.fork;
 var c = { g.loop }.fork;
 var main = {
-	5.timesRepeat {
+	5.do {
 		".".postln;
 		ch.do { arg i; x = i; x.postln; 10.wait }
 	};
