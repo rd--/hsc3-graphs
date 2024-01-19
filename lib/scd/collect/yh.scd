@@ -179,15 +179,15 @@ SynthDef.new(\hat, {
 	osc5 = LFPulse.ar(811.16);
 	osc6 = LFPulse.ar(538.75);
 	sighi = (osc1 + osc2 + osc3 + osc4 + osc5 + osc6);
-    siglow = (osc1 + osc2 + osc3 + osc4 + osc5 + osc6);
-    sighi = BPF.ar(sighi, 8900, 1);
-    sighi = HPF.ar(sighi, 9000);
-    siglow = BBandPass.ar(siglow, 8900, 0.8);
-    siglow = BHiPass.ar(siglow, 9000, 0.3);
-    sig = BPeakEQ.ar((siglow+sighi), 9700, 0.8, 0.7);
-    sig = sig * env * amp;
-    sig = Pan2.ar(sig, pan);
-    Out.ar(0, sig);
+	siglow = (osc1 + osc2 + osc3 + osc4 + osc5 + osc6);
+	sighi = BPF.ar(sighi, 8900, 1);
+	sighi = HPF.ar(sighi, 9000);
+	siglow = BBandPass.ar(siglow, 8900, 0.8);
+	siglow = BHiPass.ar(siglow, 9000, 0.3);
+	sig = BPeakEQ.ar((siglow+sighi), 9700, 0.8, 0.7);
+	sig = sig * env * amp;
+	sig = Pan2.ar(sig, pan);
+	Out.ar(0, sig);
 }).add;
 
 SynthDef.new(\openhihat, {

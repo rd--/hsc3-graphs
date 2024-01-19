@@ -622,8 +622,8 @@ Splay.ar(
 var nf = s.sampleRate;
 var b = Buffer.alloc(s, nf, 1, nil, 1000); // var b = LocalBuf(nf, 1);
 var n = LeakDC.ar(
-		StandardL.ar(22050, LFNoise1.ar(1).range(0.72, 1.40), 0.5, 0),
-		0.995
+	StandardL.ar(22050, LFNoise1.ar(1).range(0.72, 1.40), 0.5, 0),
+	0.995
 );
 var z = Sweep.ar(0, 1 - n.exprange(0.01, 1)) % 1 * nf;
 var t = (n.lag3(0.1) > 0);

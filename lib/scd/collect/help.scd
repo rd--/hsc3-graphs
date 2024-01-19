@@ -26,9 +26,9 @@ SinOsc.ar([BlockSize.ir(), ControlDur.ir() * SampleRate.ir()] * MouseX.kr(2, 8, 
 
 // BLowPass4 ; rq should compensate for 2 biquad sections
 BLowPass4.ar(
-        WhiteNoise.ar(),
-        MouseX.kr(10, 20000, 1, 0.2),
-        MouseY.kr(0.1, 1, 0, 0.2)
+	WhiteNoise.ar(),
+	MouseX.kr(10, 20000, 1, 0.2),
+	MouseY.kr(0.1, 1, 0, 0.2)
 ) * 0.25
 
 // BLowPass4 ; compare to nested BLowPass
@@ -51,9 +51,9 @@ CombN.ar(SinOsc.ar(m.midicps, 0) * 0.4, 1, 0.3, 2)
 // Convolution
 var tr = Dust.ar(100);
 var vc = {
-    var freq = TRand.ar(2700, 2750, tr);
-    var amp = TRand.ar(0.1, 0.2, tr);
-    HPF.ar(amp * Convolution.ar(Saw.ar(freq), tr, 512), 10000);
+	var freq = TRand.ar(2700, 2750, tr);
+	var amp = TRand.ar(0.1, 0.2, tr);
+	HPF.ar(amp * Convolution.ar(Saw.ar(freq), tr, 512), 10000);
 };
 Splay.ar(vc ! 5)
 
@@ -298,17 +298,16 @@ LFPulse.ar(110, 1 * 0.5, 0.5) * 0.1
 
 // LFPulse <https://scsynth.org/t/4877>
 var cluster = 10.collect({ 20.exprand(20 * 15 / 16) });
-var freq = 8.collect({ arg n; (30 / 16) ** n * cluster }).flat;
+var freq = 8.collect { |n| (30 / 16) ** n * cluster }.flat;
 Splay.ar(SinOsc.ar(freq * LFPulse.ar(0.5).range(1,0.5), 0)) * 0.02
 
 // LFSaw ; phase value = (0, 2), offset to lowest and midpoint ascending
 LFSaw.ar(110, 2 * [0.5, 0]) * 0.1
 
 // LFSaw
-var f = {
-    arg i;
-    var o = LFSaw.ar(11.9 * (8.0625 / 4 ** i));
-    BLowPass4.ar(o * 0.01, 25 * (6.125 / 4 ** i) * 11)
+var f = { |i|
+	var o = LFSaw.ar(11.9 * (8.0625 / 4 ** i));
+	BLowPass4.ar(o * 0.01, 25 * (6.125 / 4 ** i) * 11)
 };
 Splay.ar(8.collect(f)) * 0.4
 
@@ -358,11 +357,11 @@ Mix.ar(
 )
 
 // max
-SinOsc.ar(XLine.kr([100, 200], [400, 100], 2).inject(0, { arg i, j; i.max(j) }), 0) * 0.1
+SinOsc.ar(XLine.kr([100, 200], [400, 100], 2).inject(0, { |i j| i.max(j) }), 0) * 0.1
 
 // max
 var freq = { LFNoise2.kr(1) }.dup(3)  * 100 + 200;
-var freqMax = freq.inject(0, { arg i, j; i.max(j) });
+var freqMax = freq.inject(0, { |i j| i.max(j) });
 (LFTri.ar(freqMax, 0) * 0.05) + (Splay.ar(SinOsc.ar(freq, 0)) * 0.1)
 
 // MulAdd ; optimised away
@@ -429,7 +428,7 @@ var ws = LinLin.kr(LFTri.kr(0.2, 0), -1, 1, 0,1);
 MiBraids.ar(pitch: 40, timbre: 0.7, color: 0.7, model: 34, trig: trig, resamp: 2, decim: decim, bits: 3, ws: ws).dup(2) * 0.1
 
 // MiClouds ; basic granulation ; requires=buf (stereo)
-arg buf = 0;
+arg bus = 0;
 var nc = 2;
 var input = PlayBuf.ar(nc, buf, 1, loop: 1);
 var dens = LFNoise1.kr(0.3).range(0.3, 0.45);
@@ -862,23 +861,23 @@ Mix.ar([p, q])
 
 // MoogFF
 var voiceFunc = { | e |
-    var freq = e.x.unitCps;
-    var osc = Mix.fill(8) {
+	var freq = e.x.unitCps;
+	var osc = Mix.fill(8) {
 		Saw.ar(freq * TRand.kr(0.99, 1.01, e.w)) * 0.75
 	};
-    var filterEnv = EnvGen.ar(Env.adsr(0.02, 0.1, 0.05, 1, 1, -4, 0), e.w, 1, 0, 1, 0);
-    MoogFF.ar(osc, e.y * 750 + 250 * filterEnv, e.j * 4, 0) * e.w.lagud(0.01, 4) * 2
+	var filterEnv = EnvGen.ar(Env.adsr(0.02, 0.1, 0.05, 1, 1, -4, 0), e.w, 1, 0, 1, 0);
+	MoogFF.ar(osc, e.y * 750 + 250 * filterEnv, e.j * 4, 0) * e.w.lagud(0.01, 4) * 2
 };
 Splay.ar(Voicer.ar(0, 16, voiceFunc))
 
 // MoogVCF
 var voiceFunc = { | e |
-    var freq = e.p.unitCps;
-    var osc = Mix.fill(8) {
+	var freq = e.p.unitCps;
+	var osc = Mix.fill(8) {
 		Saw.ar(freq * TExpRand.kr(0.99, 1.01, e.w))
 	};
-    var amp = e.z * 2 * e.w.lagud(0.02, 4);
-    MoogVCF.ar(osc, SinOsc.kr(e.y).exprange(freq * 2, freq * 4), e.j) * amp
+	var amp = e.z * 2 * e.w.lagud(0.02, 4);
+	MoogVCF.ar(osc, SinOsc.kr(e.y).exprange(freq * 2, freq * 4), e.j) * amp
 };
 Splay.ar(Voicer.ar(0, 16, voiceFunc))
 
@@ -905,7 +904,7 @@ Out.ar(0, SinOsc.ar([440, 443], 0) * 0.1)
 Out.ar(0, SinOsc.ar(440, 0) * 0.1) <! Out.ar(1, SinOsc.ar(443, 0) * 0.1)
 
 // Out ; two Out Ugens summing to one bus each
-[0, 1].collect { arg i; Out.ar(i, SinOsc.ar([440, 443][i], 0) * 0.1) }
+[0, 1].collect { |i| Out.ar(i, SinOsc.ar([440, 443][i], 0) * 0.1) }
 
 // PanAz ; Mce (ie. at numChans)
 PanAz.ar([8, 4], SinOsc.ar([333, 555], 0) * 0.1, LFSaw.kr(1 / 9, 0), 1, 2, [0, 0.5]).flat
@@ -1047,10 +1046,9 @@ LocalOut.ar(sig);
 sig * 0.1
 
 // SinOsc
-(1 .. 5). collect({
-	arg n;
+(1 .. 5). collect { |n|
 	Pan2.ar(SinOsc.ar(n * 100, 0) * 0.max(LFNoise1.kr(6) + Ln.kr(1, -1, 30)), Rand.ir(-1, 1), 0.1)
-}).sum
+}.sum
 
 // SinOscFB
 SinOscFB.ar([400, 301], MouseX.kr(0, 4, 0, 0.2)) * 0.1
@@ -1106,16 +1104,16 @@ Squine.ar(100, SinOsc.kr(0.3, 0) * 0.2 + 0.5, 1, Impulse.ar(XLn.kr(5, 500, 20)))
 
 // Squine ; compare with SinOsc
 [
-    SinOsc.ar(SinOsc.ar(XLn.kr(1, 1000, 9), 0) * 200 + 800, 0) * 0.1,
+	SinOsc.ar(SinOsc.ar(XLn.kr(1, 1000, 9), 0) * 200 + 800, 0) * 0.1,
 	Squine.ar(SinOsc.ar(XLn.kr(1, 1000, 9), 0) * 200 + 800, 0.5, 0.5, 0) * 0.1
 ]
 
 // Squine ; fm patch
 Squine.ar(
-    Squine.ar(100, SinOsc.ar(0.3, 0) * 0.5 + 0.5, Ln.ar(-1, 1, 20), 0) * 200 + 300,
-    SinOsc.ar(0.3, 0) * 0.5 + 0.5,
-    SinOsc.ar(1.1, 0),
-    iminsweep: 4
+	Squine.ar(100, SinOsc.ar(0.3, 0) * 0.5 + 0.5, Ln.ar(-1, 1, 20), 0) * 200 + 300,
+	SinOsc.ar(0.3, 0) * 0.5 + 0.5,
+	SinOsc.ar(1.1, 0),
+	iminsweep: 4
 ) * 0.1
 
 // Summer
@@ -1132,14 +1130,15 @@ var trate = MouseX.kr(1, 100, 1);
 var d = { Dwhite(0.1, 0.2, 1) };
 var z = { Drand([Dgeom(0.1, 1 + d.value, Diwhite(20, 40, 1)), Dgeom(1, 1 - d.value, Diwhite(20, 40, 1))], 1) };
 TGrains.ar(
-    numChannels: 2,
-    trigger: Impulse.ar(trate),
-    bufnum: buf,
-    rate: Dseq([1, 1, z.value, 0.5, 0.5, 0.2, 0.1, 0.1, 0.1, 0.1], inf) * 2 + 1,
-    centerPos: Dseq(z.dup(8), inf),
-    dur: Dseq([1, d.value, 1, z.value, 0.5, 0.5, 0.1, z.value] * 2, inf) / trate,
-    pan: Dseq([1, 1, 1, 0.5, 0.2, 0.1, 0, 0, 0], inf) * 2 - 1,
-    amp: Dseq([1, 0, z.value, 0, 2, 1.0, 1, 0.1, 0.1], inf))
+	numChannels: 2,
+	trigger: Impulse.ar(trate),
+	bufnum: buf,
+	rate: Dseq([1, 1, z.value, 0.5, 0.5, 0.2, 0.1, 0.1, 0.1, 0.1], inf) * 2 + 1,
+	centerPos: Dseq(z.dup(8), inf),
+	dur: Dseq([1, d.value, 1, z.value, 0.5, 0.5, 0.1, z.value] * 2, inf) / trate,
+	pan: Dseq([1, 1, 1, 0.5, 0.2, 0.1, 0, 0, 0], inf) * 2 - 1,
+	amp: Dseq([1, 0, z.value, 0, 2, 1.0, 1, 0.1, 0.1], inf)
+)
 
 // TRand
 var t = Impulse.ar(7, 0) * SinOsc.ar(331, 0);
