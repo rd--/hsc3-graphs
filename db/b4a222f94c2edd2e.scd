@@ -1,0 +1,17 @@
+// https://sccode.org/1-4Q6 ; f0 ; risset
+OverlapTexture({ |tr|
+	var pan = TRand.kr(-1, 1, tr);
+	var freq = TRand.kr(90, 2000, tr);
+	var amp = TRand.kr(0.1, 0.2, tr);
+	var dur = TLinRand.kr(0.5, 9, 1, tr);
+	var ampArray = #[1, 0.67, 1, 1.8, 2.67, 1.67, 1.46, 1.33, 1.33, 1, 1.33];
+	var durArray = #[1, 0.9, 0.65, 0.55, 0.325, 0.35, 0.25, 0.2, 0.15, 0.1, 0.075];
+	var freqArray = #[0.56, 0.56, 0.92, 0.92, 1.19, 1.7, 2, 2.74, 3, 3.76, 4.07];
+	var detuneArray = #[0, 1, 0, 1.7, 0, 0, 0, 0, 0, 0, 0];
+	var src = (0 .. 10).collect({
+		arg i;
+		var env = Env.perc(0.005, dur * durArray.at(i), ampArray.at(i), -4.5).asEnvGen(tr);
+		SinOsc.ar(freq * freqArray.at(i) + detuneArray.at(i), 0) * amp * env;
+	}).sum;
+	Pan2.ar(src, pan, 0.1)
+}, 9, 0, 7)
