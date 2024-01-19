@@ -6,7 +6,7 @@ var h0 = {
 	var f = 40;
 	var h = HenonN.ar([f, f * 0.5], a, b, 0, 0);
 	Saw.ar(h * 3200 + 1600) * 0.35
- };
+};
 var h1 = {
 	var n0 = LFNoise0.kr(32);
 	var n1 = LFNoise0.kr(2);
@@ -19,5 +19,5 @@ var h1 = {
 	var f = 40;
 	var o = Blip.ar(HenonN.ar(f, a, b, 0, 0).range(p, p * 2), h);
 	Pan2.ar(o, l, g) * 0.35
- };
+};
 h0.value + h1.value

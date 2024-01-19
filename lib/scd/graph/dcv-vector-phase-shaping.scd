@@ -1,19 +1,19 @@
 // vector phase shaping ; https://scsynth.org/t/5169/5 (dietcv)
 var nearestEven = {
-    arg val;
-    var val_floor = val.floor;
-    var val_ceil = val.ceil;
-    var res = Select.ar(val % 2, [val_floor, val_ceil]);
-    var distance = (val - res).abs;
-    [res, distance];
+	arg val;
+	var val_floor = val.floor;
+	var val_ceil = val.ceil;
+	var res = Select.ar(val % 2, [val_floor, val_ceil]);
+	var distance = (val - res).abs;
+	[res, distance];
 };
 var nearestOdd = {
-    arg val;
-    var val_floor = val.floor;
-    var val_ceil = val.ceil;
-    var res = Select.ar(val + 1 % 2, [val_floor, val_ceil]);
-    var distance = (val - res).abs;
-    [res, distance];
+	arg val;
+	var val_floor = val.floor;
+	var val_ceil = val.ceil;
+	var res = Select.ar(val + 1 % 2, [val_floor, val_ceil]);
+	var distance = (val - res).abs;
+	[res, distance];
 };
 var freq = 110;
 var horizontal = MouseX.kr(0.01, 0.99, 0, 0.2);

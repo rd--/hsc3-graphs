@@ -22,6 +22,7 @@ remote-update:
 
 indent:
 	fourmolu -i Sound cmd
+	spl-indent lib/scd/graph/*.scd
 
 doctest:
 	doctest -Wno-x-partial -Wno-incomplete-uni-patterns Sound

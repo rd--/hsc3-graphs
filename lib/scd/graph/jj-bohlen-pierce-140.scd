@@ -1,5 +1,5 @@
 // jj ; bohlen-pierce ; texture graph variant
-OverlapTexture({ arg tr;
+OverlapTexture({ |tr|
 	var f = { arg x;
 		x * 3.pow(TRand.kr(0, 17, tr) / 13)
 	};

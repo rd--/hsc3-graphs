@@ -1,5 +1,5 @@
 // https://scsynth.org/t/7052 ; tmm881 ; rewrite
-XFadeTexture({ arg tr;
+XFadeTexture({ |tr|
 	var freqMul = TRand.kr(0.5, 2, tr);
 	var trigMul = TRand.kr(0.5, 2, tr);
 	var env = {

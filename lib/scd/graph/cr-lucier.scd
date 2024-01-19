@@ -17,12 +17,12 @@ var stringL = mk_delay.value(pk2_L, 1 - pk2_pos, r.value);
 var pk2_R = mk_allpass.value(stringL * -1, 1 - pk2_pos, 2 + Rand.ir(0.001, 0.11)) * 0.99;
 var stringR = mk_delay.value(pk2_R, pk2_pos - src_pos);
 var source = {
-    var s = SinOsc.ar(220, 0) * 0.01;
-    var a = Amplitude.kr(drv, 0.01, 0.01) * 11;
-        var p = Pulse.ar(60 + a, 0.5) * 0.1;
-        var f = RLPF.ar(s + p, 320, 0.05);
-        var e = 1 - Amplitude.kr(drv, 0.01, 0.01).min(1.0);
-        Normalizer.ar(f, 0.7, 0.01) * e
+	var s = SinOsc.ar(220, 0) * 0.01;
+	var a = Amplitude.kr(drv, 0.01, 0.01) * 11;
+	var p = Pulse.ar(60 + a, 0.5) * 0.1;
+	var f = RLPF.ar(s + p, 320, 0.05);
+	var e = 1 - Amplitude.kr(drv, 0.01, 0.01).min(1.0);
+	Normalizer.ar(f, 0.7, 0.01) * e
 }.value;
 var l_out = LocalOut.ar(source * 0.2 + stringR);
 var outL = pk1_L + pk1_R;

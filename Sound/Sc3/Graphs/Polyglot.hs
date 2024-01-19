@@ -303,14 +303,15 @@ st_graph_fragment_rw out_dir (z, txt) =
         [printf "] value)) to: '%s/%s.scsyndef' ." out_dir z]
   in concat [prefix, lines txt, suffix]
 
-graph_fragment_process :: (String -> String)
-                       -> (FilePath -> (String, String) -> [String])
-                       -> [String]
-                       -> String
-                       -> (String, [String])
-                       -> FilePath
-                       -> [FilePath]
-                       -> IO [String]
+graph_fragment_process ::
+  (String -> String) ->
+  (FilePath -> (String, String) -> [String]) ->
+  [String] ->
+  String ->
+  (String, [String]) ->
+  FilePath ->
+  [FilePath] ->
+  IO [String]
 graph_fragment_process txt_f rw_f end ext (cmd, arg) out_dir fn_seq = do
   tmp <- getTemporaryDirectory
   pre_txt_seq <- Help.read_file_set_fragments fn_seq
@@ -368,8 +369,8 @@ sl_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
 sl_graph_fragment_process out_dir fn_seq = do
   let txt_f = id
       rw_f = sl_graph_fragment_rw
-      cmd = ("spl",["--lib=StandardLibrary","--lib=SuperColliderLibrary","runFile"])
-  graph_fragment_process txt_f rw_f ["'end'.postLine;","system.exit(0)"] ".sl" cmd out_dir fn_seq
+      cmd = ("spl", ["--lib=StandardLibrary", "--lib=SuperColliderLibrary", "runFile"])
+  graph_fragment_process txt_f rw_f ["'end'.postLine;", "system.exit(0)"] ".sl" cmd out_dir fn_seq
 
 {- | Sl graph fragments, process directory
 
@@ -422,7 +423,7 @@ graph_fragments_process_dir_set sch_tbl ext =
   case ext of
     ".fs" -> fs_graph_fragment_process_dir_set
     ".hs" -> hs_graph_fragments_process_dir_set "std"
-    --".scala" -> scala_graph_fragment_process_dir
+    -- ".scala" -> scala_graph_fragment_process_dir
     ".scd" -> scd_graph_fragment_process_dir_set
     ".sch" -> scm_graph_fragment_process_dir_set sch_tbl ".sch"
     ".scm" -> scm_graph_fragment_process_dir_set sch_tbl ".scm"

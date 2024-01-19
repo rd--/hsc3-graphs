@@ -2,8 +2,7 @@
 var c = 4; // number of combs
 var a = 4;	// number of allpasses
 var v = 3; // number of overlapped voices
-OverlapTexture({
-	arg tr;
+OverlapTexture({ |tr|
 	var y;
 	y = Dust.ar(MouseX.kr(0.1, 4, 1, 0.2)) * 0.4;
 	y = Resonz.ar(y, 400, 0.4);

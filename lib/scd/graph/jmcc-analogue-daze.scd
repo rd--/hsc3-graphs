@@ -1,14 +1,14 @@
 // analogue daze (jmcc) #3
 var pattern = #[55, 63, 60, 63, 57, 65, 62, 65];
 var f = {
-    arg octave, clockRate, pwmrate, fltrate;
-    var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq.dr(s, inf))};
-    var tr = Impulse.kr(clockRate, 0);
-    var patternCps = (pattern + (12 * octave)).midicps;
-    var sq = sequ.value(patternCps, tr);
-    var pwm = SinOsc.kr(pwmrate, (2 * pi).rand) * 0.4 + 0.5;
-    var cf = SinOsc.kr(fltrate, (2 * pi).rand) * 1400 + 2000;
-    RLPF.ar(LFPulse.ar(Lag.kr(sq, 0.05), 0, pwm) * 0.1, cf, 1/15);
+	arg octave, clockRate, pwmrate, fltrate;
+	var sequ = {arg s, tr; Demand.kr(tr, 0, Dseq.dr(s, inf))};
+	var tr = Impulse.kr(clockRate, 0);
+	var patternCps = (pattern + (12 * octave)).midicps;
+	var sq = sequ.value(patternCps, tr);
+	var pwm = SinOsc.kr(pwmrate, (2 * pi).rand) * 0.4 + 0.5;
+	var cf = SinOsc.kr(fltrate, (2 * pi).rand) * 1400 + 2000;
+	RLPF.ar(LFPulse.ar(Lag.kr(sq, 0.05), 0, pwm) * 0.1, cf, 1/15);
 };
 var a = { LFNoise0.ar(LFNoise1.kr(0.3) * 6000 + 8000) }.dup * 0.07;
 var x = Decay.ar(Impulse.ar(2, 0), 0.15) * a;
@@ -20,14 +20,14 @@ z * EnvGen.kr(e, 2)
 // ---- analogue daze (jmcc) #3
 var pattern = #[55,63,60,63,57,65,62,65];
 var f = {
-    arg octave, clockRate, pwmrate, fltrate;
-    var sequ = {arg s, tr; Demand.kr(trig: tr, reset: 0, demandUGens: Dseq.dr(list: s, repeats: inf))};
-    var tr = Impulse.kr(freq: clockRate, phase: 0);
-    var patternCps = (pattern + (12 * octave)).midicps;
-    var sq = sequ.value(patternCps, tr);
-    var pwm = SinOsc.kr(freq: pwmrate, phase: (2 * pi).rand, mul: 0.4, add: 0.5);
-    var cf = SinOsc.kr(freq: fltrate, phase: (2 * pi).rand, mul: 1400, add: 2000);
-    RLPF.ar(in: LFPulse.ar(freq: Lag.kr(in: sq, lagTime: 0.05), iphase: 0, width: pwm, mul: 0.1), freq: cf, rq: 1/15);
+	arg octave, clockRate, pwmrate, fltrate;
+	var sequ = {arg s, tr; Demand.kr(trig: tr, reset: 0, demandUGens: Dseq.dr(list: s, repeats: inf))};
+	var tr = Impulse.kr(freq: clockRate, phase: 0);
+	var patternCps = (pattern + (12 * octave)).midicps;
+	var sq = sequ.value(patternCps, tr);
+	var pwm = SinOsc.kr(freq: pwmrate, phase: (2 * pi).rand, mul: 0.4, add: 0.5);
+	var cf = SinOsc.kr(freq: fltrate, phase: (2 * pi).rand, mul: 1400, add: 2000);
+	RLPF.ar(in: LFPulse.ar(freq: Lag.kr(in: sq, lagTime: 0.05), iphase: 0, width: pwm, mul: 0.1), freq: cf, rq: 1/15);
 };
 var a = LFNoise0.ar(freq: LFNoise1.kr(freq: 0.3, mul: 6000, add: 8000), mul: [0.07,0.07]);
 var x = Decay.ar(in: Impulse.ar(freq: 2, phase: 0), decayTime: 0.15, mul: a);

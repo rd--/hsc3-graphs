@@ -1,6 +1,5 @@
 // https://twitter.com/HernaniVillase/status/517517924236795905 ; rewrite (rd)
-OverlapTexture({
-	arg tr;
+OverlapTexture({ |tr|
 	var f = TRand.kr(97, 101, tr);
 	var o = LFTri.ar(
 		{ TRand.kr(0, 200, tr) + 216 } ! 8 + f,

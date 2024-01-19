@@ -13,7 +13,7 @@ Splay.ar(Saw.ar((2 ** Array.series(100, 0, 0.002)) * 120)) * 0.1
 // jh ; https://scsynth.org/t/auditory-illusion-with-exponentially-spaced-frequencies/4157 ; rd (edit)
 var t = Impulse.ar(0.1, 0);
 var sinOsc = { |freq|
-    (Phasor.ar(t, freq * SampleDur.ir, 0, 1, 0) * 2 * pi).sin
+	(Phasor.ar(t, freq * SampleDur.ir, 0, 1, 0) * 2 * pi).sin
 };
 var k = 160;
 var b = TRand.ar(2, 2.25, t);
@@ -34,7 +34,7 @@ Splay.ar(SinOsc.ar(freq: f * f0, phase: 0), spread: 1, level: 0.1, center: 0, le
 // ---- jh ; https://scsynth.org/t/auditory-illusion-with-exponentially-spaced-frequencies/4157 ; rd (edit)
 var t = Impulse.ar(freq: 0.1, phase: 0);
 var sinOsc = { |freq|
-    (Phasor.ar(trig: t, rate: (freq * SampleDur.ir), start: 0, end: 1, resetPos: 0) * 2 * pi).sin
+	(Phasor.ar(trig: t, rate: (freq * SampleDur.ir), start: 0, end: 1, resetPos: 0) * 2 * pi).sin
 };
 var k = 160;
 var b = TRand.ar(lo: 2, hi: 2.25, trig: t);

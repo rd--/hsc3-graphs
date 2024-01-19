@@ -1,6 +1,5 @@
 // https://sccode.org/1-4Q6 ; f0 ; risset
-OverlapTexture({
-	arg tr;
+OverlapTexture({ |tr|
 	var pan = TRand.kr(-1, 1, tr);
 	var freq = TRand.kr(90, 2000, tr);
 	var amp = TRand.kr(0.1, 0.2, tr);

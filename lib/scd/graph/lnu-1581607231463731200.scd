@@ -24,7 +24,7 @@ var w = Warp1.ar(
 	envbufnum: -1,
 	overlaps: 12,
 	windowRandRatio: 1 / 4 * r.dup(k),
-	interp: 4) * r.dup(k);
+interp: 4) * r.dup(k);
 Splay.ar(
 	inArray: LeakDC.ar(in: FreeVerb.ar(in: w, mix: r.dup(k), room: 0.5 + r.dup(k), damp: r.dup(k)), coef: 0.995),
 	spread: 1 / 2,

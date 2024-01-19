@@ -1,4 +1,4 @@
---import Control.Monad {- base -}
+-- import Control.Monad {- base -}
 import System.Environment {- base -}
 
 import qualified Language.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
@@ -32,11 +32,11 @@ graphs_db_polyglot_autogen = do
     scm_graph_fragment_process_dir sch_tbl ".sch" db_dir "/home/rohan/sw/rsc3-arf/help/graph/"
   -}
   let fs_q x = "/home/rohan/sw/hsc3-forth/help/" ++ x
-  fs_graph_fragment_process_dir_set db_dir (map fs_q ["graph","ugen"])
+  fs_graph_fragment_process_dir_set db_dir (map fs_q ["graph", "ugen"])
   let st_q x = "/home/rohan/sw/stsc3/help/" ++ x
-  st_graph_fragment_process_dir_set ".st" db_dir (map st_q ["ugen","graph"])
+  st_graph_fragment_process_dir_set ".st" db_dir (map st_q ["ugen", "graph"])
   let sl_q x = "/home/rohan/sw/spl/help/SuperCollider/" ++ x
-  sl_graph_fragment_process_dir_set db_dir (map sl_q ["Ugen","Graph", "Graph Collection", "Reference"])
+  sl_graph_fragment_process_dir_set db_dir (map sl_q ["Ugen", "Graph", "Graph Collection", "Reference"])
   {-
     scala_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
   -}
