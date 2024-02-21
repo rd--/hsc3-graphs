@@ -2,6 +2,7 @@
 module Sound.Sc3.Graphs.Polyglot where
 
 import Control.Monad {- base -}
+import Data.Char {- base -}
 import Data.List {- base -}
 import Data.Maybe {- base -}
 import System.Directory {- directory -}
@@ -365,6 +366,10 @@ sl_graph_fragment_rw out_dir (z, txt) =
       suffix = printf "}.value.writeScSynDefFile('%s', '%s/%s.scsyndef');" z out_dir z
   in concat [prefix, lines txt, [suffix]]
 
+{- | Sl Graph Fragment Process
+
+> sl_graph_fragment_process "/tmp" ["/tmp/rw.sl"]
+-}
 sl_graph_fragment_process :: FilePath -> [FilePath] -> IO [String]
 sl_graph_fragment_process out_dir fn_seq = do
   let txt_f = id
@@ -372,15 +377,20 @@ sl_graph_fragment_process out_dir fn_seq = do
       cmd = ("spl", ["--lib=StandardLibrary", "--lib=SuperColliderLibrary", "runFile"])
   graph_fragment_process txt_f rw_f ["'end'.postLine;", "system.exit(0)"] ".sl" cmd out_dir fn_seq
 
+sl_is_upper_case :: FilePath -> Bool
+sl_is_upper_case = isUpper . head . takeFileName
+
 {- | Sl graph fragments, process directory
 
 > let sl_q x = "/home/rohan/sw/spl/help/SuperCollider/" ++ x
-> sl_graph_fragment_process_dir_set "/tmp" (map sl_q ["Ugen","Graph", "Collect"])
+> sl_graph_fragment_process_dir_set (const True) "/tmp" (map sl_q ["Ugen","Graph", "Collect"])
+
+> sl_graph_fragment_process_dir_set sl_is_upper_case "/tmp" ["/home/rohan/sw/spl/help/Reference/"]
 -}
-sl_graph_fragment_process_dir_set :: FilePath -> [FilePath] -> IO ()
-sl_graph_fragment_process_dir_set out_dir in_dir = do
+sl_graph_fragment_process_dir_set :: (FilePath -> Bool) -> FilePath -> [FilePath] -> IO ()
+sl_graph_fragment_process_dir_set which out_dir in_dir = do
   fn <- mapM (T.dir_subset [".sl"]) in_dir
-  _ <- sl_graph_fragment_process out_dir (concat fn)
+  _ <- sl_graph_fragment_process out_dir (filter which (concat fn))
   return ()
 
 -- * Scala

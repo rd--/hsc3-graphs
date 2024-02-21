@@ -36,7 +36,9 @@ graphs_db_polyglot_autogen = do
   let st_q x = "/home/rohan/sw/stsc3/help/" ++ x
   st_graph_fragment_process_dir_set ".st" db_dir (map st_q ["ugen", "graph"])
   let sl_q x = "/home/rohan/sw/spl/help/SuperCollider/" ++ x
-  sl_graph_fragment_process_dir_set db_dir (map sl_q ["Ugen", "Graph", "Graph Collection", "Reference"])
+  sl_graph_fragment_process_dir_set (const True) db_dir (map sl_q ["Ugen", "Graph", "Graph Collection"])
+  let sl_r x = "/home/rohan/sw/spl/help/" ++ x
+  sl_graph_fragment_process_dir_set sl_is_upper_case db_dir ["/home/rohan/sw/spl/help/Reference"]
   {-
     scala_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"
   -}
