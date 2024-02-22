@@ -1,5 +1,5 @@
 // http://earslap.com/weblog/music-release-laconicism.html
-var k = Duty.ar(6.4, 0, Dseq.dr([0.05, Drand.dr([0.04, 0.08], 1)], inf));
+var k = Duty.ar(6.4, 0, Dseq([0.05, Drand([0.04, 0.08], 1)], inf));
 Splay.ar(Integrator.ar((LFNoise0.ar(5.dup(3)) * k).round(k / 10), 1).sin.sqrt.tanh, 0.3, 1, 0, true)
 
 // http://earslap.com/weblog/music-release-laconicism.html ; wait
@@ -21,7 +21,7 @@ PitchShift.ar(
 // http://earslap.com/weblog/music-release-laconicism.html ; wait
 var q = [0, 3, 5, 7, 10];
 var t = Impulse.kr(4, 0) * LFNoise0.kr(500) > 0;
-var f = Demand.kr(t, 0, Drand.dr((q + 12 ++ q + 33).midicps, inf));
+var f = Demand.kr(t, 0, Drand((q + 12 ++ q + 33).midicps, inf));
 PitchShift.ar(Saw.ar(f) * Decay.kr(t, 3), 7, 2, 0, 0).dup(2)
 
 // http://earslap.com/weblog/music-release-laconicism.html
@@ -56,7 +56,7 @@ var l = n.value(6);
 
 // http://earslap.com/weblog/music-release-laconicism.html
 var t = [0, 0, 0, 1, 5, 7, 10, 12, 12, 12] + 30;
-var a = Duty.kr(1/8, 0, Dxrand.dr(t + 24 ++ t ++ t, inf));
+var a = Duty.kr(1/8, 0, Dxrand(t + 24 ++ t ++ t, inf));
 (BHiPass.ar(LFNoise1.ar(8) ** 6, [a, a + 7].midicps, a / 3000) * (67 - a)).tanh
 
 // http://earslap.com/weblog/music-release-laconicism.html
@@ -69,7 +69,7 @@ SinOsc.ar(LagUD.ar(i.value(2), 0, 0.4) * 360, ph)
 
 // http://earslap.com/weblog/music-release-laconicism.html
 var t = [0, 3, 5, 7, 10, 12] + 40;
-var p = Duty.ar(1/4, 0, Drand.dr((t + 12 ++ t).midicps, inf));
+var p = Duty.ar(1/4, 0, Drand((t + 12 ++ t).midicps, inf));
 var b = TRand.ar(1500, 2000, Impulse.ar(16, 0)).lag;
 Blip.ar([b, b + p], 1).mean.dup(2) ** 2
 
@@ -92,7 +92,7 @@ var v = Blip.ar([20000, 20000 - 9], 1) * (n.value(16) * 0.5 + 0.5 ** 9);
 (HPF.ar(LFNoise1.ar(2), [10, 10.1]) * 100).tanh
 
 // http://earslap.com/weblog/music-release-laconicism.html
-var x = Duty.kr(1/8, 0, Drand.dr([0, Drand.dr([0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], 1)], inf));
+var x = Duty.kr(1/8, 0, Drand([0, Drand([0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], 1)], inf));
 LeakDC.ar(BRF.ar(Saw.ar(8) * Decay2.kr(x, 0.01, 0.3) ** 1.5, x * 20 + [45.1, 45], 0.1), 0.995).tanh
 
 // http://earslap.com/weblog/music-release-laconicism.html ; wait

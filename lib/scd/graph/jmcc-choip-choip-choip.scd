@@ -8,7 +8,7 @@ var z = OverlapTexture({ |tr|
 	var s = Decay2.ar(i * l, 0.01, 0.2) * o;
 	Pan2.ar(s, TLine.kr(TRand.kr(-1, 1, tr), TRand.kr(-1, 1, tr), dur, tr), 1)
 }, dur - 2, 1, 8, 2);
-4.do({ z = AllpassN.ar(z, 0.1, { Rand.ir(0, 0.05) }.dup, 4) });
+4.do({ z = AllpassN.ar(z, 0.1, { Rand(0, 0.05) }.dup, 4) });
 z
 
 // ---- jmcc ; choip choip choip ; lineto

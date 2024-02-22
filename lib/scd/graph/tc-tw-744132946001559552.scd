@@ -2,8 +2,8 @@
 var n= 40.rrand(70);
 var d = Lag.kr(Dust.kr(n.pow(3) ! 2).exprange(1, 10), 0.4);
 var p = Pulse.ar(
-	{ { Rand.ir(0.2, n) } ! 2 } ! n * d,
-	{ Rand.ir(0, pi) } ! n
+	{ { Rand(0.2, n) } ! 2 } ! n * d,
+	{ Rand(0, pi) } ! n
 ) * n.reciprocal;
 p.sum
 

@@ -1,6 +1,6 @@
 // pulse harmonic warbulence (jmcc) #12
 Texture.overlapRoutine({
-	var f = Rand.ir(24, 96).midicps;
+	var f = Rand(24, 96).midicps;
 	var r = XLine.kr(ExpRand.ir(0.1, 20), ExpRand.ir(0.1, 20), 25.6);
 	var n = 12;
 	var p = LFPulse.kr(ExpRand.ir(0.2, 1.2), Rand.ir(0.1, 0.2), 0.5);

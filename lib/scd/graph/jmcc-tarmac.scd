@@ -11,7 +11,7 @@ var a = [
 ];
 OverlapTexture({ |tr|
 	var t = Impulse.kr(8, 0);
-	var i = Demand.kr(t, 0, Dseq.dr(TScramble.kr(tr, TChoose.kr(tr, a)), inf)) * t;
+	var i = Demand.kr(t, 0, Dseq(TScramble.kr(tr, TChoose.kr(tr, a)), inf)) * t;
 	var d = TRand.kr(0.05, 0.5, tr);
 	var z = PinkNoise.ar * (LFNoise1.kr(TRand.kr(0, 3, tr)) * 0.0008 + 0.0022);
 	var s = { Ringz.ar(z, TRand.kr(50, 4000, tr), TRand.kr(0.2, 12, tr)) }.dup(4).sum.max(0) * TChoose.kr(tr, #[-1, 1]);
@@ -33,12 +33,12 @@ var a = #[
 ];
 Texture.overlapRoutine({
 	arg i;
-	var imp_seq = { arg s, tr; Demand.kr(tr, 0, Dseq.dr(s, inf)) * tr };
+	var imp_seq = { arg s, tr; Demand.kr(tr, 0, Dseq(s, inf)) * tr };
 	var t = Impulse.kr(8, 0);
-	var d = Rand.ir(0.05, 0.5);
-	var z = PinkNoise.ar * (LFNoise1.kr(Rand.ir(0, 3)) * 0.0008 + 0.0022);
+	var d = Rand(0.05, 0.5);
+	var z = PinkNoise.ar * (LFNoise1.kr(Rand(0, 3)) * 0.0008 + 0.0022);
 	var s = Klank.ar(Ref.new([Array.linrand(4, 50.0, 4000.0), nil, Array.rand(4, 0.2, 12.0)]), z).max(0) * #[-1, 1].choose;
-	var f = RLPF.ar(s, Decay2.kr(t, 0.004, d, Rand.ir(0, 5000), Rand.ir(0, 100) + 100),  0.2);
+	var f = RLPF.ar(s, Decay2.kr(t, 0.004, d, Rand(0, 5000), Rand(0, 100) + 100),  0.2);
 	var e = Decay2.kr(imp_seq.value(a.choose.scramble, t), 0.004, d);
-	Pan2.ar(f, LFNoise1.kr(Rand.ir(0, 1)), e);
+	Pan2.ar(f, LFNoise1.kr(Rand(0, 1)), e);
 }, 12, 3, 6, 2);

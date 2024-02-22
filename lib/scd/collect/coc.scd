@@ -90,7 +90,7 @@ Mix.ar([
 var speed = 14;
 var f = SinOsc.ar(1000, 0) * 150 + 300;
 var t = Impulse.kr(1 / 3, 0);
-var v = { |n| SinOsc.ar(f * n, 0) * (LFNoise1.kr(Rand.ir(speed, speed * 2)) * 0.5 + 0.5) / n };
+var v = { |n| SinOsc.ar(f * n, 0) * (LFNoise1.kr(Rand(speed, speed * 2)) * 0.5 + 0.5) / n };
 (1 .. 12).collect(v).sum * 0.1
 
 // additive saw
@@ -152,7 +152,7 @@ f.dup(harmonics).sum / (2 * harmonics)
 
 // decaying gongs ; https://github.com/cianoc/supercollider_fragments
 var dur = 6;
-var base = Rand.ir(40, 60);
+var base = Rand(40, 60);
 var trig = SinOsc.ar(1/10, pi);
 var f = { |detune|
 	{ |count|

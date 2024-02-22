@@ -72,14 +72,14 @@ var freq = SinOsc.kr(SinOsc.kr(0.3, 0).range(0.2, 5), 0).range(80, 2000);
 DFM1.ar(in, freq, 1.1, 2, 0, 0.0003) * 0.2
 
 // Dseq ; shared dseq, different patterns
-var a = Dseq.dr(list: [1,3,2,7,8], repeats: inf);
+var a = Dseq(list: [1,3,2,7,8], repeats: inf);
 var t = Impulse.kr(freq: 5, phase: 0);
 var f = Demand.kr(trig: t, reset: 0, demandUGens: [a,a]) * 30 + 340;
 SinOsc.ar(freq: f, phase:  0) * 0.1
 
 // Dseq ; distinct dseq, equal patterns
-var a = Dseq.dr(list: [1,3,2,7,8], repeats: inf);
-var b = Dseq.dr(list: [1,3,2,7,8], repeats: inf);
+var a = Dseq(list: [1,3,2,7,8], repeats: inf);
+var b = Dseq(list: [1,3,2,7,8], repeats: inf);
 var t = Impulse.kr(freq: 5, phase: 0);
 var f = Demand.kr(trig: t, reset: 0, demandUGens: [a,b]) * 30 + 340;
 SinOsc.ar(freq: f, phase:  0) * 0.1
@@ -179,7 +179,7 @@ Formlet.ar(i, TRand.ar(30, 50, i), 0.01, 2)
 
 // Formlet
 var i = Impulse.ar(20, 0.5);
-Formlet.ar(i, Rand.ir(300,1000), 0.01, Rand.ir(0.05, 0.2))
+Formlet.ar(i, Rand(300,1000), 0.01, Rand(0.05, 0.2))
 
 // Formlet
 var i = Impulse.ar(LFNoise2.kr([0.15, 0.6]) * 15 + 15, 0.5);
@@ -248,7 +248,7 @@ Pan2.ar(Resonz.ar(GravityGrid.ar(Impulse.kr(5, 0), 0.01, LFNoise0.kr(1) * 4, LFN
 // GrayNoise
 var amp = LFPulse.kr(4, 0, 0.1) * 0.002;
 var exc = LPZ1.ar({ GrayNoise.ar }.dup(2) * amp);
-RingzBank.ar(exc, { Rand.ir(80, 400) }.dup(4), nil, nil)
+RingzBank.ar(exc, { Rand(80, 400) }.dup(4), nil, nil)
 
 // In ; one two channel In, delayed by one second
 DelayN.ar(In.ar(NumOutputBuses.ir, 2), 1, 1)
@@ -261,7 +261,7 @@ var n = 8;
 var snd = Impulse.ar(0, 0);
 snd = snd + LocalIn.ar(n, 0);
 snd = Integrator.ar(snd, 0.99);
-snd = snd * ({ { Rand.ir(-1, 1) * 1000 }.dup(n) }.dup(n));
+snd = snd * ({ { Rand(-1, 1) * 1000 }.dup(n) }.dup(n));
 snd = snd.sum;
 snd = LeakDC.ar(snd, 0.995);
 snd = snd.clip2;
@@ -428,7 +428,7 @@ var ws = LinLin.kr(LFTri.kr(0.2, 0), -1, 1, 0,1);
 MiBraids.ar(pitch: 40, timbre: 0.7, color: 0.7, model: 34, trig: trig, resamp: 2, decim: decim, bits: 3, ws: ws).dup(2) * 0.1
 
 // MiClouds ; basic granulation ; requires=buf (stereo)
-arg bus = 0;
+arg buf = 0;
 var nc = 2;
 var input = PlayBuf.ar(nc, buf, 1, loop: 1);
 var dens = LFNoise1.kr(0.3).range(0.3, 0.45);
@@ -941,13 +941,13 @@ Pulse.ar(freq, 0.5) * Pulse.ar(freq * LFTri.ar(0.3, pi).linlin(-1, 1, 1, 20).rou
 Pulse.ar([100, 100.1], 0.5).sum * 0.1
 
 // Rand (UGen)
-SinOsc.ar(Rand.ir(220, 440), 0) * 0.1
+SinOsc.ar(Rand(220, 440), 0) * 0.1
 
 // Rand
-Splay.ar(SinOsc.ar({ Rand.ir(220, 440) }.dup(7), 0)) * 0.1
+Splay.ar(SinOsc.ar({ Rand(220, 440) }.dup(7), 0)) * 0.1
 
 // Rand (UGen) ; keywords
-SinOsc.ar(freq: Rand.ir(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)
+SinOsc.ar(freq: Rand(lo: 220.0, hi: 440.0), phase: 0, mul: 0.10)
 
 // Rand (UnaryOp) ; ?
 var c = NamedControl.ir(name: "c", values: 220.0);
@@ -968,7 +968,7 @@ RLPF.ar(Dust.ar(#[12, 15]), LFNoise1.ar(1 / #[3, 4]) * 1500 + 1600, 0.02)
 var freq = Demand.kr(
 	Impulse.kr(0.25, 0),
 	0,
-	Dseq.dr([27, 24, 22, 24] + 2, inf)
+	Dseq([27, 24, 22, 24] + 2, inf)
 ).midicps + [0, 0.3];
 RLPF.ar(LFPulse.ar(freq, 0, 0.2) * 0.4 - 0.2, 300, 0.5)
 
@@ -1000,7 +1000,7 @@ Mix.ar(SinOsc.ar(440, [0, pi]))
 SinOsc.ar(MouseY.kr(1, 880, 0, 0.2), SinOsc.kr(MouseX.kr(0, 10, 0, 0.2))) * 0.1
 
 // SinOsc ; random stereo
-{ SinOsc.ar(IRand.ir(48, 72).midicps, 0) * Rand.ir(0.05, 0.1) } ! 2
+{ SinOsc.ar(IRand(48, 72).midicps, 0) * Rand(0.05, 0.1) } ! 2
 
 // sin ; https://scsynth.org/t/6256/7 ; sinusoid with a variable-slope Triangular Phase
 var freq = 130;
@@ -1047,7 +1047,7 @@ sig * 0.1
 
 // SinOsc
 (1 .. 5). collect { |n|
-	Pan2.ar(SinOsc.ar(n * 100, 0) * 0.max(LFNoise1.kr(6) + Ln.kr(1, -1, 30)), Rand.ir(-1, 1), 0.1)
+	Pan2.ar(SinOsc.ar(n * 100, 0) * 0.max(LFNoise1.kr(6) + Ln.kr(1, -1, 30)), Rand(-1, 1), 0.1)
 }.sum
 
 // SinOscFB
@@ -1248,4 +1248,3 @@ SinOsc.ar(crv, 0) * 0.3
 
 // VarLag
 PinkNoise.ar(VarLag.kr(0, 0, 0, 5).dup(2))
-

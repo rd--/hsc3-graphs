@@ -57,7 +57,7 @@ var z = OverlapTexture({ |tr|
 		level: 1)
 }, 6, 3, 6);
 6.do {
-	z = AllpassN.ar(in: z, maxdelaytime: 0.040, delaytime: [Rand.ir(lo: 0, hi: 0.040),Rand.ir(lo: 0, hi: 0.040)], decaytime: 16)
+	z = AllpassN.ar(in: z, maxdelaytime: 0.040, delaytime: [Rand(lo: 0, hi: 0.040),Rand(lo: 0, hi: 0.040)], decaytime: 16)
 };
 z
 

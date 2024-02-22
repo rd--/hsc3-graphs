@@ -44,7 +44,7 @@ var z = OverlapTexture({ |tr|
     Pan2.ar(sig, TRand.kr(-1, 1, tr), 1)
 }, 6, 3, 6);
 6.do {
-	z = AllpassN.ar(z, 0.04, { Rand.ir(0, 0.04) }.dup, 16)
+	z = AllpassN.ar(z, 0.04, { Rand(0, 0.04) }.dup, 16)
 };
 z
 

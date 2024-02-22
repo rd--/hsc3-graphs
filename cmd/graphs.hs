@@ -14,6 +14,10 @@ import Sound.Sc3.Graphs.Polyglot {- hsc3-graphs -}
 graphs_db_dir :: FilePath
 graphs_db_dir = "/home/rohan/sw/hsc3-graphs/db/"
 
+{- | Rebuild Polglot Db
+
+Sc requires ContinuousEvent, GraphTexture & SfAcquire.
+-}
 graphs_db_polyglot_autogen :: IO ()
 graphs_db_polyglot_autogen = do
   let db_dir = if True then graphs_db_dir else "/tmp/"
@@ -37,7 +41,6 @@ graphs_db_polyglot_autogen = do
   st_graph_fragment_process_dir_set ".st" db_dir (map st_q ["ugen", "graph"])
   let sl_q x = "/home/rohan/sw/spl/help/SuperCollider/" ++ x
   sl_graph_fragment_process_dir_set (const True) db_dir (map sl_q ["Ugen", "Graph", "Graph Collection"])
-  let sl_r x = "/home/rohan/sw/spl/help/" ++ x
   sl_graph_fragment_process_dir_set sl_is_upper_case db_dir ["/home/rohan/sw/spl/help/Reference"]
   {-
     scala_graph_fragment_process_dir db_dir "/home/rohan/sw/hsc3-graphs/lib/scala/graph/"

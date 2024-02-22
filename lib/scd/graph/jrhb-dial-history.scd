@@ -8,11 +8,11 @@ var numbers = [[3, 1]] ++ {
 		}
 	}
 }.value.flatten;
-var n = Dwhite.dr(7, 12, inf);
-var w = Dwhite.dr(2, 7, 1);
-var b = Dbrown.dr(0.1, 0.2, 0.01, n);
-var rate = Dseq.dr([w, b], inf);
-var q = Dseq.dr((1 .. 10), inf);
+var n = Dwhite(7, 12, inf);
+var w = Dwhite(2, 7, 1);
+var b = Dbrown(0.1, 0.2, 0.01, n);
+var rate = Dseq([w, b], inf);
+var q = Dseq((1 .. 10), inf);
 var trig = Trig.kr(TDuty.kr(rate, 0, q), 0.09);
 var pat = Latch.kr(trig, trig);
 var x = MouseX.kr(0, 1, 'linear', 0.2);

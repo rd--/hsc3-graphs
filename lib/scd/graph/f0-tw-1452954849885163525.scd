@@ -1,5 +1,5 @@
 // <https://twitter.com/redFrik/status/1452954849885163525> f0
-var i = Rand.ir(1, 64);
+var i = Rand(1, 64);
 var x = (SinOsc.kr(i % 9.33, 0) * 5 + 5).ceil;
 var t = SinOsc.ar(2 ** (i % 11) * 150 / x, 0);
 var y = Changed.kr(x, 0);

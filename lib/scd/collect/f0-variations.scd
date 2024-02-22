@@ -69,7 +69,7 @@ r+sum({|i|ar(b,r,3/33,3/3+i*3,3/33,3/33)}!3)/6
 var b = (2 .. 7).reciprocal;
 var d = $0.ascii.reciprocal;
 var g = 0.cos.cos;
-var f = Duty.ar(dur: b, reset: 0, level: Dseq.dr(list: "0 0 00 0 0 000  _0 0 0 00 00 00000+  !".ascii, repeats: inf), doneAction: 0);
+var f = Duty.ar(dur: b, reset: 0, level: Dseq(list: "0 0 00 0 0 000  _0 0 0 00 00 00000+  !".ascii, repeats: inf), doneAction: 0);
 var o = SinOscFB.ar(freq: f, feedback: SinOsc.ar(freq: d, phase: 0).max(0) * 0.cos.sin);
 var c = SinOsc.ar(freq: 0, phase: pi ** o);
 var p = PitchShift.ar(in: c, windowSize: g, pitchRatio: b.reciprocal, pitchDispersion: d, timeDispersion: d, mul: b);
@@ -189,7 +189,7 @@ Splay.ar(x + y + z / 5)
 // f0  https://twitter.com/redFrik/status/1395040511795372038;
 var b = [2, 6, 3, 1];
 var c = 500;
-var l = Dseq.dr(list: (SinOscFB.ar(freq: b / 24, feedback: 0).round + (0 .. 9) * 7 + 29.17).midicps, repeats: inf);
+var l = Dseq(list: (SinOscFB.ar(freq: b / 24, feedback: 0).round + (0 .. 9) * 7 + 29.17).midicps, repeats: inf);
 var f = Duty.ar(dur: b, reset: SinOscFB.ar(freq: b / 9, feedback: 0), level: l, doneAction: 0);
 var o = SinOscFB.ar(freq: f, feedback: SinOscFB.ar(freq: b / 13, feedback: 0).max(0) / 3 * 2);
 var p = AllpassN.ar(in: o / 8, maxdelaytime: 1, delaytime: 0.51, decaytime: 8);
@@ -200,15 +200,15 @@ HPF.ar(in: p + GVerb.ar(in: q, roomsize: 99, revtime: 9, damping: 0.2), freq: 50
 
 // f0 ; subset (rd) ; https://twitter.com/redFrik/status/1395519538008141835
 var f = { arg x; SinOscFB.ar(freq: x, feedback: 0).max(0) };
-var p = [250, 200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq.dr(list: [4, 6, 5, 5, 5, 5, 3] / 4, repeats: inf)).lag(0.1);
+var p = [250, 200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq(list: [4, 6, 5, 5, 5, 5, 3] / 4, repeats: inf)).lag(0.1);
 SinOscFB.ar(freq: p, feedback: f.value(0.08), mul: f.value(1 / [99, 60]) / 3) * 0.1
 
 // f0 ; https://twitter.com/redFrik/status/1395519538008141835
-var l = Dseries.dr(start: 1, step: [1,2], length: inf) % Duty.ar(dur: 8.192, reset: 0, level: Dseq.dr(list: (1 .. 6) * 75, repeats: inf));
+var l = Dseries(start: 1, step: [1,2], length: inf) % Duty.ar(dur: 8.192, reset: 0, level: Dseq(list: (1 .. 6) * 75, repeats: inf));
 var c = Duty.ar(dur: 0.004, reset: 0, level: l);
 var d = HPF.ar(in: MantissaMask.ar(in: c, bits: 3), freq: 5);
 var f = { arg x; SinOscFB.ar(freq: x, feedback: 0).max(0) };
-var p = [250,200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq.dr(list: [4,6,5,5,5,5,3] / 4, repeats: inf)).lag(0.1);
+var p = [250,200] * Duty.ar(dur: 4.096, reset: 0, level: Dseq(list: [4,6,5,5,5,5,3] / 4, repeats: inf)).lag(0.1);
 var o = SinOscFB.ar(freq: p, feedback: f.value(0.08), mul: f.value(1 / [99,60]) / 3);
 LPF.ar(in: (d.sin + SinOscFB.ar(freq: 63, feedback: f.value(0.8), mul: d) / 9 + o).tanh / 2, freq: 10000) * 0.1
 

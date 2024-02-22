@@ -1,7 +1,7 @@
 // https://sccode.org/1-50L (mk)
 var z = PinkNoise.ar();
 16.do{
-	z = BRF.ar(z, Rand.ir(100, 15000) ! 2, 1)
+	z = BRF.ar(z, Rand(100, 15000) ! 2, 1)
 };
 z
 
@@ -11,8 +11,8 @@ var lfo = { arg rt;	LFNoise1.ar(rt ! 2) };
 16.do{
 	z = BRF.ar(
 		z,
-		Rand.ir(100, 15000) * (0.75 + (lfo.value(Rand.ir(0, 8)) * 0.25)),
-		lfo.value(Rand.ir(0, 8)).range(0.05, 1)
+		Rand(100, 15000) * (0.75 + (lfo.value(Rand(0, 8)) * 0.25)),
+		lfo.value(Rand(0, 8)).range(0.05, 1)
 	)
 };
 z
@@ -23,8 +23,8 @@ var lfo = { arg rt; LFPulse.ar(rt ! 2, 0, 0.5) };
 16.do{
 	z = BRF.ar(
 		z,
-		Rand.ir(100, 15000) * (0.75 + (lfo.value(Rand.ir(0, 0.5)) * 0.25)),
-		lfo.value(Rand.ir(0, 0.5)).range(0.05, 1)
+		Rand(100, 15000) * (0.75 + (lfo.value(Rand(0, 0.5)) * 0.25)),
+		lfo.value(Rand(0, 0.5)).range(0.05, 1)
 	)
 };
 z
@@ -37,7 +37,7 @@ var rw = { arg f1, f2, q;
 	4.do {
 		z = BRF.ar(
 			z,
-			Rand.ir(f1, f2).round(10) + (freq * LFNoise1.ar(Rand.ir(0, rt) ! 2)),
+			Rand(f1, f2).round(10) + (freq * LFNoise1.ar(Rand(0, rt) ! 2)),
 			q
 		)
 	}
@@ -52,4 +52,4 @@ z = FreqShift.ar(
 	0
 ) * 0.25 + z;
 z = CombC.ar(z, 1, 1, 8);
-LPF.ar(z, LFNoise1.ar(Rand.ir(0, rt) ! 2) * 1250 + 2500)
+LPF.ar(z, LFNoise1.ar(Rand(0, rt) ! 2) * 1250 + 2500)

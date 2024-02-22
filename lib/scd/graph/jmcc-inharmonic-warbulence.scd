@@ -11,7 +11,7 @@ var z = OverlapTexture({ |tr|
 		Pan2.ar(SinOsc.ar(f * g, 0), TRand.kr(-1, 1, tr), m * (2 / g))
 	}) * 0.1
 }, 12.8, 6.4, 6);
-Mix.arFill(5, { CombN.ar(z, 0.3, { Rand.ir(0.1, 0.3) }.dup, 8) }) * 0.3
+Mix.arFill(5, { CombN.ar(z, 0.3, { Rand(0.1, 0.3) }.dup, 8) }) * 0.3
 
 //---- jmcc - inharmonic warbulence ; graph rewrite
 var z = OverlapTexture(graphFunc: { |tr|

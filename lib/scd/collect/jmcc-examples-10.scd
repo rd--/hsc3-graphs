@@ -15,7 +15,7 @@ var z = OverlapTexture({ |tr|
 		TLine.kr(TRand.kr(-1,1,tr), TRand.kr(-1,1,tr), t, tr)
 	);
 }, t - 2, 1, 8, 2);
-4.do { z = AllpassN.ar(z, 0.1, [Rand.ir(0,0.05),Rand.ir(0,0.05)], 4) };
+4.do { z = AllpassN.ar(z, 0.1, [Rand(0,0.05),Rand(0,0.05)], 4) };
 z
 
 // ---- Tarmac ; Jmcc

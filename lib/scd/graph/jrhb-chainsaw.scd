@@ -1,6 +1,6 @@
 // chainsaw (jrhb)
 var f = { |saw|
-	var rate = ExpRand.ir(0.1, 2);
+	var rate = ExpRand(0.1, 2);
 	var freq = 0.6.coin.if({ LFNoise1.kr(rate.dup).exprange(0.01, 10)}, { LFNoise1.kr(rate.dup).exprange(10, 50) });
 	var u1 = LFSaw.kr(LinExp.kr(saw, -1, 1, freq, freq * LFNoise1.kr(rate.dup).exprange(2, 10)));
 	var u2 = 0.5.coin.if({ u1 * [1 - saw, saw.reverse].choose }, { u1 * LFSaw.kr(freq * 0.1, 0, 0.1, 1)	});
@@ -15,7 +15,7 @@ BPF.ar(Saw.ar(freq).product, [70, 800, 9000, 5242], 0.2).sum.dup * 0.3
 
 //---- chainsaw (jrhb)
 var f = { |s1|
-	var rate = ExpRand.ir(0.1, 2).dup;
+	var rate = ExpRand(0.1, 2).dup;
 	var n1 = { LFNoise1.kr(rate).exprange(0.01, 10) };
 	var n2 = { LFNoise1.kr(rate).exprange(10, 50) };
 	var n3 = LFNoise1.kr(rate).exprange(2, 10);

@@ -18,12 +18,12 @@ Texture.overlapRoutine({
 	var x = MouseX.kr(100, 6000, 1, 0.2);
 	var y = MouseY.kr(0, 2, 0, 0.2);
 	var a = 0;
-	var f1 = Rand.ir(0, x);
+	var f1 = Rand(0, x);
 	3.do({
-		var f2 = Rand.ir(0, x);
-		a = SinOsc.ar([f2, f2 + Rand.ir(-1, 1)], 0) * y + a;
+		var f2 = Rand(0, x);
+		a = SinOsc.ar([f2, f2 + Rand(-1, 1)], 0) * y + a;
 	});
-	SinOsc.ar([f1, f1 + Rand.ir(-1, 1)], a) * 0.1
+	SinOsc.ar([f1, f1 + Rand(-1, 1)], a) * 0.1
 }, 4, 4, n, 2)
 
 // ---- notes.md

@@ -3,7 +3,7 @@ Voicer(0, 16) { |e|
 	var freq = (e.x * 36 + 48).midicps; // e.p.unitCps;
 	var amp = e.z;
 	var freqBase = freq;
-	var freqRes = LinLin.ar(SinOsc.kr(Rand.ir(0, 0.2), 0), -1, 1, freqBase / 2, freqBase * 2);
+	var freqRes = LinLin.ar(SinOsc.kr(Rand(0, 0.2), 0), -1, 1, freqBase / 2, freqBase * 2);
 	var pdbase = Impulse.ar(freqBase, 0);
 	var twoPi = 2 * pi;
 	var pd = Phasor.ar(pdbase, twoPi * freqBase / SampleRate.ir, twoPi, 0);

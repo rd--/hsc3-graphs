@@ -1,16 +1,16 @@
 // ln 2021-05-25 https://lukasnowok.github.io/spectrology/
 var o = (SinOsc.ar(Array.series(20, 100, 900), 0) * 0.1).sum;
-IFFT.ar(PV_BinScramble(FFT.kr(LocalBuf.ir(4096, 1), o, 0.5, 0, 1, 0), Line.ar(0, 1, 20), 0.8, Impulse.ar(0.25)))
+IFFT.ar(PV_BinScramble(FFT(LocalBuf(4096, 1), o, 0.5, 0, 1, 0), Line.ar(0, 1, 20), 0.8, Impulse.ar(0.25)))
 
 // ln 2021-04-20 https://lukasnowok.github.io/spectrology/
 LFTri.ar(EnvGen.ar(Env.new([0,0,22000,0],[7,1,0]),1))
 
 // ln 2021-04-19 https://lukasnowok.github.io/spectrology/
-IFFT.ar(PV_BrickWall(FFT.kr(LocalBuf.ir(1024, 1), (SinOsc.ar(Array.geom(100,20000,1.1) * Line.ar(1,0,20))*0.1).sum, 0.5, 0, 1, 0),LFSaw.ar(XLine.ar(4,0.1,20))))
+IFFT.ar(PV_BrickWall(FFT(LocalBuf(1024, 1), (SinOsc.ar(Array.geom(100,20000,1.1) * Line.ar(1,0,20))*0.1).sum, 0.5, 0, 1, 0),LFSaw.ar(XLine.ar(4,0.1,20))))
 
 // ln 2021-04-18 https://lukasnowok.github.io/spectrology/
-IFFT.ar(PV_BrickWall(FFT.kr(LocalBuf.ir(1024, 1), WhiteNoise.ar * EnvGen.ar(Env.perc(0,1.2), Impulse.kr(1.1)), 0.5, 0, 1, 0),0.601)) +
-IFFT.ar(PV_BrickWall(FFT.kr(LocalBuf.ir(1024, 1), WhiteNoise.ar * EnvGen.ar(Env.perc(1,0), Impulse.kr(0.7))*XLine.ar(0.01,1,20), 0.5, 0, 1, 0),-0.5)) +
+IFFT.ar(PV_BrickWall(FFT(LocalBuf(1024, 1), WhiteNoise.ar * EnvGen.ar(Env.perc(0,1.2), Impulse.kr(1.1)), 0.5, 0, 1, 0),0.601)) +
+IFFT.ar(PV_BrickWall(FFT(LocalBuf(1024, 1), WhiteNoise.ar * EnvGen.ar(Env.perc(1,0), Impulse.kr(0.7))*XLine.ar(0.01,1,20), 0.5, 0, 1, 0),-0.5)) +
 LFTri.ar(12000)
 
 // ln 2021-04-17 https://lukasnowok.github.io/spectrology/
@@ -32,8 +32,8 @@ Saw.ar(SinOsc.ar(5.reciprocal, Array.series(10, 0, 2*pi/10)).range(100,1500)).su
 SinGrain.ar(Impulse.ar(SinOsc.ar(6.reciprocal).range(8, 4000)), 0.005, 10000)
 
 // ln 2021-04-12 https://lukasnowok.github.io/spectrology/
-var chain = LocalBuf.ir(1024, 1);
-chain = FFT.kr(chain, WhiteNoise.ar, 0.5, 0, 1, 0);
+var chain = LocalBuf(1024, 1);
+chain = FFT(chain, WhiteNoise.ar, 0.5, 0, 1, 0);
 chain = PV_BrickWall(chain, Line.ar(-1, 1, 20));
 IFFT.ar(chain) * 0.1
 
@@ -50,10 +50,10 @@ SinGrain.ar(Impulse.ar(XLine.ar(10, 0.1, 20)), 0.01, 10000) * 0.1
 SinOsc.ar(1000 + LFSaw.ar(LFSaw.ar(Array.geom(4, 0.1, 1.5), mul: 5000), mul:500)).sum * 4.reciprocal * 0.1
 
 // ln 2021-04-07 https://lukasnowok.github.io/spectrology/
-var chain = LocalBuf.ir(1024, 1);
+var chain = LocalBuf(1024, 1);
 var trig = Impulse.kr(7);
 var env = EnvGen.kr(Env([0,1,1,0], [0, 0.1, 0]), trig);
-chain = FFT.kr(chain, WhiteNoise.ar, 0.5, 0, 1, 0);
+chain = FFT(chain, WhiteNoise.ar, 0.5, 0, 1, 0);
 chain = PV_RandComb(chain, Line.kr(0.6, 1, 20), trig);
 chain = PV_BrickWall(chain, 0.05);
 (IFFT.ar(chain) * env + SinOsc.ar(1000, 0, 0.2)) * 0.1

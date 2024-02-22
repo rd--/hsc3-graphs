@@ -10,8 +10,8 @@ OverlapTexture({ |tr|
 //---- sawed cymbals (jmcc) ; #10
 var p = 15;
 Texture.overlapRoutine({
-	var f1 = Rand.ir(500, 2500);
-	var f2 = Rand.ir(0, 8000);
-	var s = LFSaw.ar(XLine.kr(Rand.ir(0, 600), Rand.ir(0, 600), 12), 0, 0.0005);
-	{ RingzBank.ar(s, { f1 + Rand.ir(0, f2)}.dup(p), nil, { Rand.ir(2, 6) }.dup(p)) }.dup * 0.1;
+	var f1 = Rand(500, 2500);
+	var f2 = Rand(0, 8000);
+	var s = LFSaw.ar(XLine.kr(Rand(0, 600), Rand(0, 600), 12), 0, 0.0005);
+	{ RingzBank.ar(s, { f1 + Rand(0, f2)}.dup(p), nil, { Rand(2, 6) }.dup(p)) }.dup * 0.1;
 }, 4, 4, 6, 2)

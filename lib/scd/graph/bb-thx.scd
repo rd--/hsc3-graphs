@@ -1,11 +1,11 @@
 // http://earslap.com/article/recreating-the-thx-deep-note.html ; 30 oscillators together, distributed across the stereo field
 var numVoices = 30;
-var fundamentals = { Rand.ir(200, 400) }.dup(numVoices);
+var fundamentals = { Rand(200, 400) }.dup(numVoices);
 fundamentals.collect({
 	arg freq;
 	Pan2.ar(
 		Saw.ar(freq),
-		Rand.ir(-0.5, 0.5),
+		Rand(-0.5, 0.5),
 		numVoices.reciprocal
 	)
 }).sum
@@ -17,7 +17,7 @@ fundamentals.collect { |freq0 index|
 	var freq = freq0 + (LFNoise2.kr(0.5) * 3 * index);
 	Pan2.ar(
 		BLowPass.ar(Saw.ar(freq), freq * 5, 0.5),
-		Rand.ir(-0.5, 0.5),
+		Rand(-0.5, 0.5),
 		numVoices.reciprocal
 	)
 }.sum
@@ -32,7 +32,7 @@ var voiceFunc = {
 	arg numTone;
 	var initRandomFreq = fundamentals[numTone] + (LFNoise2.kr(0.5) * 6 * (numVoices - (numTone + 1)));
 	var destinationFreq = finalPitches[numTone] + (LFNoise2.kr(0.1) * numTone / 3);
-	var sweepEnv = CurveGen.kr(1, [0, Rand.ir(0.1, 0.2), 1], [Rand.ir(5.5, 6), Rand.ir(8.5, 9)], [Rand.ir(2, 3), Rand.ir(4, 5)]);
+	var sweepEnv = CurveGen.kr(1, [0, Rand(0.1, 0.2), 1], [Rand(5.5, 6), Rand(8.5, 9)], [Rand(2, 3), Rand(4, 5)]);
 	var freq = ((1 - sweepEnv) * initRandomFreq) + (sweepEnv * destinationFreq);
 	Pan2.ar(
 		BLowPass.ar(Saw.ar(freq), freq * 6, 0.6),
