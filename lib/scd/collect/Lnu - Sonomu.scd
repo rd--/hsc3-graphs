@@ -212,3 +212,60 @@ Splay.ar(
 	) * 0.25,
 	l.value
 )
+
+// https://sonomu.club/@lukiss/109875835273563824
+var f = { | rt | Sweep.ar(0, rt) };
+var t = f.value(4E4);
+var c = f.value(1);
+var r = (1 .. 5);
+var b = (-1 * [24, 5, 0, 10, 8, 15].midiratio * t) & ((r + c).wrap(1, 3333)) & (t >> 105);
+var e = b.lincurve(0, 127, -1, 1, -8).fold2(1) / 2;
+Splay.ar(
+	FreeVerb.ar(
+		LFSaw.ar(-1 * r, 2).max(0).lag3(0.1) * LeakDC.ar(e, 0.999),
+		1 / 3,
+		c.sin.max(0),
+		LFSaw.ar(c.cos, 0)
+	),
+	c.sin
+)
+
+// https://sonomu.club/@lukiss/109733997253009229 ; Jan 23, 2023
+var c = (9, 12 .. 61).degreeToKey(Scale.choose);
+var o = c.midicps.collect { | f | SinOsc.ar(f, 0) };
+var e = SinOsc.ar(2 / c.log10, 0) * LFSaw.ar(11 / c.neg, 0).max(0).lag3(0.1);
+Splay.ar(
+	LeakDC.ar(o * e, 0.995),
+	SinOsc.ar(1 / c @ 0, 0)
+)
+
+// https://sonomu.club/@lukiss/110281639162399169
+var m = Impulse.kr(8, 0);
+var c = { | a |
+	var z = [];
+	a.collect { | each |
+		z = z.add(each.asBinaryDigits).flatten
+	};
+	Demand.kr(m, 0, Dseq(z, inf))
+};
+var p = m * [
+	c.value([136, 138]),
+	c.value([8, 9, 8, 72, 8, 72, 9]),
+	c.value([140, 148, 34]),
+	c.value([178, 58]),
+	c.value([34])
+];
+var e = { | g |
+	Linen.kr(g, 0.01, 1, 1, 0)
+};
+var h = HenonC.ar(1 / (1 .. 5), 1.4, 0.3, 0, 0) < 0.9;
+Splay.ar(
+	h * [
+		LFTri.ar(e.value(p @ 0) ** 18 * 133 + 80, 0) * (e.value(p @ 0) ** 24),
+		HenonC.ar(e.value(p @ 1) ** 8 * 800 + 4E3, 1.4, 0.3, 0, 0) * (e.value(p @ 1) ** 38),
+		LFTri.ar(2E3, 0) * HenonC.ar(1E4, 1.4, 0.3, 0, 0) * (e.value(p @ 2) ** 5 ** 16),
+		LFTri.ar(110, 0) * LFTri.ar((ToggleFF.kr(p @ 3) * 7).midiratio * 220, 0) * (e.value(p @ 3) ** 5 ** 8),
+		0.3 * HenonC.ar(22050, 1.4, 0.3, 0, 0) * (e.value(p @ 4) ** 68 + (0.5 * e.value(p @ 4) ** 3))
+	],
+	0.25
+)
