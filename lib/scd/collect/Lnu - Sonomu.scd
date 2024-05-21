@@ -191,7 +191,7 @@ CombC.ar(
 // https://sonomu.club/@lukiss/111534001937293189
 var t = TDuty.kr(1 / (2 ** Diwhite(0, 8, inf)), 0, 1, 0, 0);
 var l = {
-	var z;
+	var z = nil;
 	TChoose.kr(
 		t,
 		(0 .. 7).collect { | n |
@@ -269,3 +269,153 @@ Splay.ar(
 	],
 	0.25
 )
+
+// https://sonomu.club/@lukiss/111422385501420073
+var x = CuspL.ar(CuspL.ar(3, 1, 1.9, 0).exp * 12 + 1, 1, 1.9, 0).fold2(1);
+var t = (0 .. 7).collect { | n | PulseDivider.ar(x, 8, 7 - n) };
+var d = x.linlin(-1, 1, 1 / 2, 2);
+var e = { | c |
+	Env.perc(0.001, d, 1, c).ar(0, t)
+};
+var c = [0, 3, 7, -2];
+var f = Demand.ar(
+	t,
+	0,
+	Dseq(c, inf) + Dxrand(48 + (0 .. 2).collect { | o | o * 12 + c }.flat, inf)
+).midicps;
+Splay.ar(
+	SinOsc.ar(
+		BrownNoise.ar() * 0.0125 + 1 * f,
+		(BrownNoise.ar() * 0.4 * (SinOsc.ar([3.25, 1 / 2, 2] * f, 0) * e.value(-58))).sum
+	) * e.value(-6) * (SinOsc.ar(d + 2, 0) / 4 + 0.5),
+	1/4
+)
+
+// https://sonomu.club/@lukiss/111455666847951601
+var t = {
+	TDuty.kr(Dseq([3, 4, 2, 1, 2, 4] / 8, inf), 0, 1, 0, 0)
+};
+var r = { | l h |
+	TExpRand.kr(l, h, t.value).lag3(1 / 48, 1 / 16)
+};
+var e = Env.perc(r.value(1 / 128, 2 / 8), 1 / 6, 1, -4).kr(0, t.value);
+var o = (Blip.ar(r.value(11, 111), r.value(1 / 3, 333)) * e).tanh;
+3.do {
+	o = LeakDC.ar(
+		CombC.ar(
+			o,
+			3 / 4,
+			r.value(1 / 512, 3 / 4) * (LFDNoise1.kr(6 ! 2) * 0.001 + 1),
+			r.value(1 / 2, 1 / 64) * TChoose.kr(t.value, [-1, 1])
+		).tanh,
+		0.995
+	).sanitize
+};
+o.softclip
+
+// https://sonomu.club/@lukiss/110533029814503247
+var p = (1, 2 .. 14).degreeToKey([0, 2, 4, 7, 9], 12).midiratio;
+var f = SinOsc.ar(p.sin * 8, 0) * 0.005 + 1 * p * 52;
+var h = SinOsc.ar(f * 2, 0) * SinOsc.ar(1 / 4 / p, 0) * SinOsc.ar(pi / p, 0).linexp(-1, 1, 0.01, 1) * 8 * pi;
+var m = LFSaw.ar(-1 * [7, 3.5, 7 / 10] * (SinOsc.ar(f.sin.linexp(-1, 1, 0.01, 1), 0) * 0.001 + 1), 1) * 0.5 + 0.5;
+var e = m ** (SinOsc.ar(8 / p / f.atan, 0) * 30 + 32);
+var o = SinOsc.ar(f, h) * e;
+Splay.ar(0.5 * o, SinOsc.ar(pi, 0))
+
+// https://sonomu.club/@lukiss/110538742878262809
+var c = (12 .. 38).scramble.degreeToKey([0, 2, 4, 7, 9], 12);
+var w = LFSaw.ar(8, 0) * 0.012 + 1;
+var t = [6, 3 / 2, 3, 3 / 4, 1 / 4];
+var d = Demand.ar(
+	TDuty.ar(1 / t, 0, 1, 0, 0),
+	0,
+	Dseq((0 .. 23).collect { | n | Dseq(c[0, n + 1 .. c.size - 1], 1) }, inf)
+).lag3(0.001);
+var e = LFSaw.ar(-1 * t, 1) * 1 + 1 / 2;
+var o = (LFSaw.ar(w * d.midicps, 0) * e).fold2(1) * (LFSaw.ar(d % t.log, 0) > 0);
+var f = e.lag3(0.005) ** (LFSaw.ar(pi / t, 1) * 8 + 9) * (LFSaw.ar(0.1 / t, 1) + 1 * 5E3 + 200);
+Splay.ar(
+	CombC.ar(MoogFF.ar(o, f, 2, 0), 0.2, 0.2, 1) * 0.8,
+	LFSaw.ar(pi, 0)
+)
+
+// https://sonomu.club/@lukiss/111518889311136686 ; Dec 04, 2023
+var t = TDuty.kr(1 / (2 ** Diwhite(0, 6, inf)), 0, 1, 0, 0);
+var r = { | lo hi |
+	TRand.kr(lo, hi, t)
+};
+var l = {
+	var z = nil;
+	TChoose.kr(
+		t,
+		(0 .. 3).collect { | n |
+			z = (LFNoise2.kr(4) * 2 + 3 ** n) / 4;
+			SinOsc.ar(z, 0).sin
+		}
+	).lag(1 / 8 / z)
+};
+var e = LFSaw.kr(l.value * r.value(1, 8), 1) + 1 / 2;
+var f = r.value(24,48).ceil.midicps;
+var p = (1 .. 32);
+var q = SinOsc.ar(
+	f * p * p.midiratio,
+	SinOsc.ar(p.midiratio ** 2, 0) * (l.value * 2 - e * 2 * pi)
+) * ((e * p.midiratio).log.sin.abs ** r.value(4, 128));
+var a = Splay.ar(q.scramble, SinOsc.ar(r.value(0.5,8), 0));
+var h = SinOsc.ar(
+	SinOsc.ar([6, 7], 0) * (1 / 6) + 2 * f,
+	0
+) * (1 - e ** 8) * r.value(1, 32);
+var b = SinOsc.ar(f, h) * (1.1 - e ** 2) * 0.5;
+(a + b).sanitize
+
+// https://sonomu.club/@lukiss/111749211970689312 ; Jan 14, 2024
+var p = (1, 5 .. 96);
+var c = { | a b c |
+	StandardL.ar(a / pi, 1, 0.5, 0).sin.linlin(-1, 1, b, c)
+};
+var t = 2 ** (c.value(5, 0, 4)).floor;
+var d = Latch.ar((c.value(13, 1, 5)).floor / t, TDuty.ar(1 / t, 0, 1, 0, 0));
+var l = {
+	TChoose.kr(
+		TDuty.kr(c.value(pi, 1 / t, 5) * d, 0, 1, 0, 0),
+		[
+			p * p.degrad,
+			p.difsqr(p.scramble),
+			p * p.log2,
+			p.midiratio
+		]
+	)
+};
+var e = Env.perc(d / t, d, 1, 0).ar(0, TDuty.ar(d, 0, 1, 0, 0));
+var a = (e.lincurve(0, 1, 1, 0, c.value(3, 2, -8)) * p).log.sin ** c.value(13, 4, 36);
+var b = (e > c.value(9, 0.003, 0.9)).lag3(0.003);
+LPF.ar(
+	Splay.ar(
+		SinOsc.ar(
+			d * 55 * l.value,
+			SinOsc.ar(l.value, 0) * e * c.value(2pi, 0, 2pi)
+		) * a * b,
+		SinOsc.ar(2pi, 0) * e
+	).sanitize,
+	9E3
+)
+
+// https://sonomu.club/@lukiss/112090171577198222 ; Mar 14, 2024
+var m = {
+	QuadL.ar(LFDNoise1.ar(1) + 1 ** 2, 1, -1, -0.75, 0)
+};
+var i = BPF.ar(LocalIn.ar(2, 0), 440, 1);
+var u = Splay.ar(
+	VarSaw.ar(
+		m ! 12 / 4 + 111 * (0 .. 2).collect { | n |
+			n * 12 + [0, 2, 5, 9]
+		}.flat.midiratio,
+		0,
+		m.value.sin + 1 / 2 ** 2
+	) * LFSaw.ar(-2 * m.value ** 2 * 2, 0).max(0),
+	m.value
+);
+var d = DelayC.ar(i, 1, 1 / 3);
+var o = (d * (m.value + 1 / 2) + u).tanh;
+o * -6.dbamp <! LocalOut.ar(o)
