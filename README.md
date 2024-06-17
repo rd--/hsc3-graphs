@@ -10,10 +10,10 @@ a polyglot database of illustrative supercollider unit generator graphs.
 
 cli: [graphs](?t=hsc3-graphs&e=md/graphs.md)
 
-tested with: [ghc](https://www.haskell.org/ghc/)-`9.4.3`
+tested with: [ghc](https://www.haskell.org/ghc/)-`9.10.1`
 
 © [rd](http://rohandrape.net/) and others,
-  2006-2023,
+  2006-2024,
   [gpl](http://gnu.org/copyleft/)
 
 * * *
