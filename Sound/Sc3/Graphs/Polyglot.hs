@@ -438,5 +438,5 @@ graph_fragments_process_dir_set sch_tbl ext =
     ".sch" -> scm_graph_fragment_process_dir_set sch_tbl ".sch"
     ".scm" -> scm_graph_fragment_process_dir_set sch_tbl ".scm"
     ".st" -> st_graph_fragment_process_dir_set ".st"
-    ".sl" -> st_graph_fragment_process_dir_set ".sl"
+    ".sl" -> sl_graph_fragment_process_dir_set (const True)
     _ -> error "graph_fragments_process_dir"
