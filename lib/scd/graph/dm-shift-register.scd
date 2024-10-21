@@ -20,7 +20,7 @@ var sig = PMOsc.ar(cf, mf, Env.new([3, 3, 0], [0, 0.2], -4).kr(0, trig));
 var cmp = (sig * AmpCompA.kr(chordCps) * amp).sum;
 XFade2.ar(cmp ! 2, GVerb.ar(BPF.ar(cmp, 90.midicps), 50, 8, 0.5, 0.5, 15, 0, 0.7, 0.5, 300), 0.2)
 
-// shift register (dm) - https://sccode.org/1-590 ; keywords
+// shift register (dm) - https://sccode.org/1-590 ; requires=keywords
 var shiftRegister = { |length trig in|
 	var buf = LocalBuf(numFrames: length, numChannels: 1);
 	var count = PulseCount.kr(trig: trig, reset: 0);

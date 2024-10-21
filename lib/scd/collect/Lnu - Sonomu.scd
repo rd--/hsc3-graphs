@@ -438,3 +438,115 @@ Splay.ar(
 	LeakDC.ar(StandardN.ar(StandardN.ar(k, 1, 0.5, 0).max(0) * 22050, k.sin, 0.5, 0) / 4, 0.995),
 	StandardN.ar(k.sum, 1, 0.5, 0)
 )
+
+// https://sonomu.club/@lukiss/113199362402063463 ; Sep 26, 2024, 03:26
+var t = {
+	CuspL.ar(LFDNoise1.ar(1 ! 2).max(0) ** 2 * 32, 1, 1.9, 0)
+};
+var r = { |x y|
+	TRand.kr(x, y, t.value)
+};
+Sanitize.ar(
+	Splay.ar(
+		CompanderD.ar(
+			LeakDC.ar(
+				LorenzL.ar(
+					t.value * SampleRate.ir(),
+					r.value(1, r.value(1, 11)),
+					r.value(1, r.value(2, 30)),
+					r.value(0.001 / 77, 1 / 17),
+					0.05,
+					0.1, 0, 0
+				).softclip,
+				0.995
+			),
+			1 / 2,
+			1 / 2,
+			1 / 2,
+			0.005,
+			0.1
+		),
+		t.value()[0]
+	),
+	0
+)
+
+// https://sonomu.club/@lukiss/113293650390466946 ; Oct 12, 2024, 08:05 PM
+var p = (1, 5 .. 96);
+var c = { |a b c|
+	StandardL.ar(a / pi, 1, 0.5, 0).sin.range(b, c)
+};
+var t = 2 ** (c.value(5, 0, 4)).floor;
+var d = Latch.ar(
+	c.value(13, 1, 5).floor / t,
+	TDuty.ar(1 / t, 0, 1, 0, 0)
+);
+var l = {
+	TChoose.kr(
+		TDuty.kr(c.value(pi, 1 / t, 5) * d, 0, 1, 0, 0),
+		[
+			p * p.degrad,
+			p.difsqr(p.scramble),
+			p * p.log2,
+			p.midiratio
+		]
+	)
+};
+var e = Env.perc(d / t, d, 1 , 0).ar(0, TDuty.ar(d, 0, 1, 0, 0));
+var m = (e.lincurve(0, 1, 1, 0, c.value(3, 2, -8)) * p).log.sin ** c.value(13, 4, 36);
+LPF.ar(
+	Splay.ar(
+		SinOsc.ar(
+			d * 55 * l,
+			SinOsc.ar(l, 0) * e * c.value(2 * pi, 0 , 2 * pi),
+		) * m * Lag3.ar(e > c.value(9, 0.003, 0.9), 0.003),
+		SinOsc.ar(2 * pi) * e
+	).sanitize,
+	9E3
+)
+
+// https://sonomu.club/@lukiss/113301936019342699 ; Oct 14, 2024, 07:12 AM
+var d = 4 ** (0 .. 4);
+var o = VarSaw.ar(
+	d * 55,
+	1,
+	CuspN.ar(d.atan / 8, 1, 1.9, 0) + 1 / 2
+);
+Splay.ar(
+	Compander.ar(
+		DelayC.ar(
+			o * Env.perc(
+				0,
+				1 / (VarSaw.ar(1 / d, 0, 0.5) + 1 * d + d),
+				1,
+				-4
+			).ar(
+				0,
+				CuspN.ar(8, 1, 1.9, 1 / d),
+				1,
+				1,
+				0
+			) + (CuspN.ar(22050, 1, 1.9, 0) * 2E-4),
+			1,
+			0.005
+		),
+		o.rotate(1),
+		1 / 2,
+		1 / 2,
+		1 / 4,
+		0.004,
+		1 / 6
+	).sin / 2,
+	CuspN.ar(8, 1, 1.9, 0)
+)
+
+// https://sonomu.club/@lukiss/113333974470037868 ; Oct 19, 2024, 11:00 PM
+var f = 110;
+var o = SinOsc.ar(f, 0);
+5.do {
+	o = SinOsc.ar(
+		f * o.degrad,
+		SinOsc.ar(1 + o.ceil * f, 0) * pi
+	)
+};
+o ! 2 / 4
