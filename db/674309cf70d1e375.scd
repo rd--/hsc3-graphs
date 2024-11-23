@@ -1,0 +1,2 @@
+// Plot "b"
+b.plot

@@ -1,0 +1,10 @@
+/* GrayNoise */
+{ :tr |
+	let amp = LfPulse(4, 0, 0.1) * 0.002;
+	let exc = Lpz1(GrayNoise(amp # 2, 0));
+	Ringz(
+		exc,
+		{ TRand(80, 400, tr) } ! 4,
+		1
+	)
+}.OverlapTexture(4, 4, 2).Mix
