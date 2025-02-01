@@ -382,15 +382,15 @@ sl_is_upper_case = isUpper . head . takeFileName
 
 {- | Sl graph fragments, process directory
 
-> let sl_q x = "/home/rohan/sw/spl/Play/SuperCollider/" ++ x
-> let x = "Ugen" -- "Ugen" "Graph" "Graph Collection"
+> let sl_q x = "/home/rohan/sw/spl/Program/SuperCollider/" ++ x
+> let x = "Graph Collection" -- "Ugen" "Graph" "Graph Collection"
 > sl_graph_fragment_process_dir_set (const True) "/tmp" [sl_q x]
 
 > sl_graph_fragment_process_dir_set sl_is_upper_case "/tmp" ["/home/rohan/sw/spl/Help/Reference/"]
 -}
 sl_graph_fragment_process_dir_set :: (FilePath -> Bool) -> FilePath -> [FilePath] -> IO ()
 sl_graph_fragment_process_dir_set which out_dir in_dir = do
-  fn <- mapM (T.dir_subset [".help.sl", ".play.sl"]) in_dir
+  fn <- mapM (T.dir_subset [".help.sl", ".sp"]) in_dir
   _ <- sl_graph_fragment_process out_dir (filter which (concat fn))
   return ()
 

@@ -581,3 +581,96 @@ Splay.ar(
 	),
 	z.value(1)
 )
+
+/* https://sonomu.club/@lukiss/113817432455425855 ; Jan 13, 2025, 08:09 AM */
+var p = (0 .. 13).nthPrime;
+var o = SinOsc.ar(p, 0);
+var e = 1 / 8;
+var z = 0.1 * e;
+var f = p.log2 * p.midicps + o;
+var q = SinOsc.ar(1 + o / p ** 2, 0);
+var g = FBSineN.ar(
+		z * o / p + 8,
+		1,
+		1 / p,
+		o + (pi / p).degrad,
+		0.5,
+		0.1,
+		0.1
+	).sin
+	>
+	(o.reverse % q).lag(q.max(0)).round(q ** e);
+var x = SinOsc.ar(
+	f,
+	SinOsc.ar(
+		2 * f + o + p.sin.degrad,
+		o * pi
+	) * q  * pi
+) * Env.adsr(
+	z, e, e / 2, 2 * e, 1, -4, 0
+).ar(
+	0,
+	g
+);
+Splay.ar(
+	x,
+	x.sum.sin,
+	1,
+	0,
+	true
+) / 2
+
+/* https://sonomu.club/@lukiss/113821046696857368 ; Jan 13, 2025, 11:29 PM */
+var t = LFSaw.kr(-8, 1);
+Splay.ar(
+	MoogFF.ar(
+		LFSaw.ar(
+			(
+				12 + Latch.ar(
+					(
+						LFSaw.ar(
+							(0 .. 3).nthPrime * (
+									LFSaw.ar(
+										(1..3).degrad,
+										0
+									)
+							),
+							0
+						) + 1 * 17
+					).round(
+						3
+					),
+					t
+				)
+			).midicps * [2, 1, 4],
+			0
+		).sign * t.max(0) ** 0.1,
+		(
+			1 + t - (
+				LFSaw.ar(
+					1 / 32 * (1..3),
+					0
+				) * 1.9
+			).abs
+		) * 5000 + 40,
+		2,
+		0
+	).tanh,
+	t
+)
+
+/* https://sonomu.club/@lukiss/113824279417719761 ; Jan 14, 2025, 01:11 PM */
+var u = ChaosGen.subclasses.rotate(6);
+var c = u.collect{ | each |
+	each.ar(freq: 8).sin
+};
+var f = 4 * [55, 41, 73] * u.size.fib.midiratio;
+var g = c > (SinOsc.ar(c + 2 / f, 1) + 1 / 2 ** 2);
+CombC.ar(
+	Splay.ar(
+		SinOsc.ar(f, 0) * Env.perc(0.001, 1 / 4).ar(0, g),
+		sin(c.sum)/2
+	),
+	1,
+	1 / 4 + (0.001 * c).lag(0.1)
+)
