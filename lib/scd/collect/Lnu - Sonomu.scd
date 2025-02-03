@@ -582,6 +582,26 @@ Splay.ar(
 	z.value(1)
 )
 
+/* https://sonomu.club/@lukiss/113793194275567844 (Lnu) ; Jan 09, 2025 */
+var f = 443;
+var s = [0, 2, 4, 6, 7, 9, 11];
+var m = (-14, -12 .. 14).degreeToKey(s, 12);
+var p = m.midiratio;
+Splay.ar(
+	SinOsc.ar(
+		f / 2 * p,
+		(
+			SinOsc.ar(
+				f * p * (SinOsc.ar(p, 0) * 0.01 + 1),
+				0
+			) * SinOsc.ar(
+				p / p.raddeg,
+				0
+			)
+		).max(0) ** 2 * pi
+	) * SinOsc.ar(p.degrad, 0).max(0) / 3
+)
+
 /* https://sonomu.club/@lukiss/113817432455425855 ; Jan 13, 2025, 08:09 AM */
 var p = (0 .. 13).nthPrime;
 var o = SinOsc.ar(p, 0);

@@ -13,7 +13,7 @@ cli: [graphs](?t=hsc3-graphs&e=md/graphs.md)
 tested with: [ghc](https://www.haskell.org/ghc/)-`9.10.1`
 
 © [rd](http://rohandrape.net/) and others,
-  2006-2024,
+  2006-2025,
   [gpl](http://gnu.org/copyleft/)
 
 * * *
