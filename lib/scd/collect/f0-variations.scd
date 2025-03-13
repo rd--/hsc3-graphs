@@ -222,3 +222,42 @@ var f0 = Pulse.ar(
 );
 var f1 = LFSaw.ar(freq: f0, iphase: 0) + 2;
 GlitchRHPF.ar(in: s, freq: f1, rq: 1) * 0.05
+
+// tw 0045 (f0) - http://www.fredrikolofsson.com/f0blog/?q=node/537
+var a;a=SinOsc;a.ar(a.ar(a.ar(0.11)),a.ar(a.ar(95*a.ar(0.01,0,1,1),0,a.ar(5e-3,0,50),100),a.ar([98,97]),pi+a.ar(5e-4))).tanh
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0062
+var a=SinOsc;var b=(1..9);Splay.ar(a.ar(b*55).clip(a.ar(2/b,0,0.5),a.ar(3/b,0,0.5,1))*a.ar(b*55+(4/b),0,a.ar(1/b,0,6)).tanh)/5
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0071
+var a=LFTri;var b=(2..5);Splay.ar(a.ar(abs(a.ar(b/9/9/9).round(a.ar(9-b*99,9-b/9,a.ar(b/9,b/99)))*a.ar(9,0,9-b*99,99*b)/*,b/9*/)))
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0086
+var a=LFNoise2.kr(1/(9..17));Splay.ar(Ringz.ar(BPF.ar(Dust2.ar(a.abs*1e4),a.exprange(99,1e4),1.1-a),(9..1)*99,a+1.1,a)/5)
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0170
+var a, b, c;a=SinOsc;c=a.ar(0,a.ar(b=[2,3])*400,a.ar(b/4.1));c+a.ar(b*99*Amplitude.ar(c,0,1/7))+GrayNoise.ar(CombN.ar(c,1,b/3))/2
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0183
+var a, c; c=SinOsc;mean({|i|Splay.ar({|j|CombC.ar(c.ar(j+1*99),1,c.ar(a=i*2+j/12)/2+0.5)*c.ar(i+j*99+99)*c.ar(a/3)}!8)}!8).tanh
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0185
+var a, c;a=LFSaw;c=(1..32);Splay.ar(SinOsc.ar(0,BPF.ar(a.ar(pi/c)*8pi*a.ar(c*a.ar(2/c,1/c,8.16,16)),c*99,a.ar(3/c)/3+0.34))/2)
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0186
+var a=LFTri; var b=(1..11).rotate(4)*1.011;LeakDC.ar(Splay.ar(Sweep.ar(0,b+999).fold(a.ar(11.11/b)/2-0.5,a.ar(11.1/b)/2+0.5)))
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0198
+var a, b; a=LFSaw;Splay.ar(Ringz.ar(CombN.ar(ClipNoise.ar(a.ar(b=(1..5)/8)>a.ar(0.1,0,1,0.5)),1,b,2),[261,311,349,391,466]))/90
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0227
+var a,f,b,c,d; a=LFPulse;f=SinOsc;b=a.ar(a.ar(4/3)*4).lag2(0.01);Splay.ar(f.ar(d=lag(99**b*a.ar(c=2/(6..9))))+f.ar(d*b/c,b*d,1-c))/4
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0284
+var a,c; a=LFTri;RHPF.ar(Splay ar:SinOsc.ar(a.ar(c=[6,14,4])%a.ar(c),a.ar(c-1)+1**a.ar(c/9)*4,a.ar(1/c)>0*99),99,0.3).tanh*0.6
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0327
+var a=SinOsc;a.ar(0,a.ar(99,9**a.ar(1/8,lagud(a.ar(1/[2,12])<0*2**a.ar(a.ar(3)>0*150),1/50,1/5)*5))+a.ar(1/[6,7]),3).tanh
+
+// https://fredrikolofsson.com/f0blog/sapf-sctweets/ 0428
+var a,b,c,d,e,f,g; ar(Splay,7**ar(a=SinOsc,g=1/(b=(1..9))/99)/9*ar(a,999*b.scramble/ar(f=RLPF,ar(c=Latch,round(ar(d=WhiteNoise),0.5)+2,ar(e=BrownNoise)+1.4>ar(a,b/999)),9**ar(a,g*9)*999,ar(a,b/77)/2+0.6))*ar(f,ar(c,ar(d),ar(e)+1.3>ar(a,b/99)),9**ar(a,g)*999,ar(a,b/88)/2+0.6))
