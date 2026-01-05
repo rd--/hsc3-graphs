@@ -1,12 +1,15 @@
 all:
 	echo "hsc3-graphs"
 
-mk-cmd:
-	(cd cmd ; make all ; make install)
+install:
+	cabal v1-install --allow-newer
 
 clean:
 	rm -Rf dist dist-newstyle *~
 	(cd cmd ; make clean)
+
+mk-cmd:
+	(cd cmd ; make all ; make install)
 
 push-all:
 	r.gitlab-push.sh hsc3-graphs
