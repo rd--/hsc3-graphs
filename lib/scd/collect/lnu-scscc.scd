@@ -1,5 +1,44 @@
+// SCSCC-12 "Emergency Sauce" 223 bytes
+var z = { | x | LFSaw.ar(x, 0) };
+var m = { 1 << (LFNoise2.kr(2) + 1 * 2.2) };
+var x = 36;
+var f = 3 * (0 .. x - 1) + 16;
+var a = sin(z.value(m.value / 32) + 2 * 2pi * z.value(midicps(f)));
+var b = sin(log2(z.value(m.value) + 1 / 2 * (1.1 + z.value(m.value / x) * f)).sin ** 8);
+var c = z.value({ -1 * m.value } ! x / (m.value * x)).max(0);
+FreeVerb.ar(
+	Splay.ar(
+		LPZ2.ar(a * b * c),
+		z.value(m.value / 4)
+	),
+	m.value.sin + 1 / 3,
+	m.value / x,
+	x / m.value
+)
+
+// SCSCC-13 "Waiting for Something Good to Happen" 204 bytes
+var a = [0, 8, 10, 15, 18];
+var p = 1 << (0 .. 4);
+var f = 82 * if(
+	LFSaw.ar(1 / 5, 0) > 0,
+	a,
+	3 ! 4 ++ [4] + a
+).midiratio;
+Splay.ar(
+	{ | n |
+		var q = f[n] * p;
+		(
+			SinOsc.ar(
+				q,
+				SinOsc.ar(p / 5 + 3, 0) * SinOsc.ar(7 / q[0], 0)
+			) *	neg(SinOsc.ar(rotate(p, n) / q, 0) + 3 ** 2 * p).dbamp
+		).sum / 4
+	} ! 5,
+	SinOsc.ar(1 / 3, 0)
+)
+
 // SCSCC-14 "Quad Melody" 252 bytes
-var z = { |x|
+var z = { | x |
 	LFSaw.ar(x, 0)
 };
 var l = QuadN.ar(
@@ -52,11 +91,38 @@ Splay.ar(
 	PMOsc.ar(3, pi, 0, 0)
 )
 
+// SCSCC-25 "Feeling Melancholy at the Spa, In A minor"
+var r = midiratio(12 * (0 .. 4) +.x (5 * (0 .. 4) ++ [19]));
+var z = { | x | LFSaw.ar(x, 0) };
+var h = 1 / 2;
+var w = CuspL.ar(h, 1, 1.9, 0) + 1 / 2 ** h * 4;
+var t = LFSaw.kr(2 ** w / 8, (0 .. 7) / 4 - 1);
+GVerb.ar(
+	HPF.ar(
+		{ | n |
+			var a = TChoose.kr(
+				t[n] ! 4,
+				110 * r
+			);
+			Pluck.ar(
+				CuspL.ar(22050, 1, 1.9, 0) / 4,
+				t[n],
+				h,
+				z.value(n % w) / 77 + 1 / a,
+				z.value(w + n % h) + 2.1 * 4,
+				1 - z.value(w % h).abs ** 2 * h + h
+			).sum
+		} ! 8,
+		50
+	).sum / 4,
+	10, 3, 0.5, 0.5, 15, 1, 0.7, 0.5, 300
+)
+
 // SCSCC-26
 var c = midiratio(12 * (0 .. 2) +.x (5 * (0 .. 3) ++ [19]));
 var m = { LFDNoise3.ar(0.1 ! 5) + 1 / 2 };
 Splay.ar(
-	{ |n|
+	{ | n |
 		var q = LFPulse.ar(
 			(4..8).nthPrime * m.value,
 			0,
@@ -74,6 +140,33 @@ Splay.ar(
 			0.995
 		) / 12
 	} ! 11
+)
+
+// SCSCC #32 Baum 219
+var f = Index.ar(
+	(12 * (0 .. 5) +.x (5 * (0 .. 3) ++ [19])).as(LocalBuf),
+	round(
+		QuadC.ar(1, 1, -1, -0.75, 0) + 1 / 2 * 30,
+		ceil(QuadC.ar(0.9, 1, -1, -0.75, 0) + 1 * 12)
+	)
+);
+var z = Formlet.ar(
+	HPZ1.ar(f).abs * QuadC.ar(22050, 1, -1, -0.75, 0),
+	55 * f.midiratio,
+	0.002,
+	1
+).sin;
+var o = PitchShift.ar(
+	z,
+	1,
+	(8 + f).log,
+	0.1,
+	0.1
+) + z;
+Pan2.ar(
+	CombC.ar(o, 0.2, 0.2, 1) / 6 + o / 4,
+	0,
+	1
 )
 
 // SCSCC-38 "Index" ; https://github.com/lukiss/SCSCC/
@@ -149,3 +242,20 @@ Splay.ar(
 		0
 	) / 5
 )
+
+// SCSCC-51 #UntzUntz
+var f = 98;
+var a = SinOsc.ar(2, 0).max(0);
+var b = SinOsc.ar(3 / (2 * f), 0) + 1.001 / 11;
+var c = SinOsc.ar(2, 4).max(0);
+var d = SinOsc.ar(1.9 / f, 0) + 4 * 4;
+var e = SinOsc.ar(SinOsc.ar(4 / f, 0) ** pi * f + f * SinOsc.ar(f, 0), 0);
+var g = SinOsc.ar(1 / 2, 1.9) ** (SinOsc.ar(0.992 / 7, 0) + 6 * 66);
+var h = sum(SinOsc.ar(15.fib[13..14], 0)) * SinOsc.ar(4 / f, 0) / 2;
+LeakDC.ar(
+	SinOsc.ar(
+		log(a ** b * 11).sin ** 5 * 4 * f,
+		c ** d * e + (g * h)
+	) / 3,
+	0.995
+) ! 2
