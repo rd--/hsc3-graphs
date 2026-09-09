@@ -1,9 +1,9 @@
 -- | Graph & Texture Dbs
 module Sound.Sc3.Graphs.Db where
 
-import Data.Char {- base -}
-import Data.Maybe {- base -}
-import Text.Printf {- base -}
+import qualified Data.Char {- base -}
+import qualified Data.Maybe {- base -}
+import qualified Text.Printf {- base -}
 
 type Author = String
 type Title = String
@@ -442,10 +442,13 @@ filename_rewriter :: (Char -> Char) -> String -> String
 filename_rewriter caseFunc =
   map caseFunc
     . map (\c -> if c == ' ' then '-' else c)
-    . mapMaybe (\c -> if c `elem` "()?," then Nothing else Just c)
+    . Data.Maybe.mapMaybe (\c -> if c `elem` "()?," then Nothing else Just c)
 
 au_title_filename :: String -> String -> String
-au_title_filename au nm = printf "%s-%s" (map toLower au) (filename_rewriter toLower nm)
+au_title_filename au nm =
+  Text.Printf.printf
+  "%s-%s"
+  (map Data.Char.toLower au) (filename_rewriter Data.Char.toLower nm)
 
 {- | Db file names
 

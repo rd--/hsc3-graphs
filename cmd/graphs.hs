@@ -1,5 +1,5 @@
 -- import Control.Monad {- base -}
-import System.Environment {- base -}
+import qualified System.Environment {- base -}
 
 import qualified Language.Sc3.Lisp.NameTable as Lisp {- hsc3-lisp -}
 
@@ -39,7 +39,7 @@ graphs_db_polyglot_autogen = do
   Polyglot.fs_graph_fragment_process_dir_set db_dir (map fs_q ["graph", "ugen"])
   let st_q x = "/home/rohan/sw/stsc3/help/" ++ x
   Polyglot.st_graph_fragment_process_dir_set ".st" db_dir (map st_q ["ugen", "graph"])
-  let sl_q x = "/home/rohan/sw/spl/Play/SuperCollider/" ++ x
+  let sl_q x = "/home/rohan/sw/spl/Program/SuperCollider/" ++ x
   Polyglot.sl_graph_fragment_process_dir_set (const True) db_dir (map sl_q ["Ugen", "Graph", "Graph Collection"])
   Polyglot.sl_graph_fragment_process_dir_set Polyglot.sl_is_upper_case db_dir ["/home/rohan/sw/spl/Help/Reference"]
   {-
@@ -59,7 +59,7 @@ help =
 
 main :: IO ()
 main = do
-  a <- getArgs
+  a <- System.Environment.getArgs
   sch_tbl <- Lisp.nameTableLoad "/home/rohan/sw/hsc3-lisp/lib/sch-name-tbl.text"
   case a of
     ["db", "polyglot", "autogen"] -> graphs_db_polyglot_autogen
