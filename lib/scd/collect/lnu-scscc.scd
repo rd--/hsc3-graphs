@@ -169,6 +169,29 @@ Pan2.ar(
 	1
 )
 
+// SCSCC #33 "Nudge"
+var m = { LFDNoise3.ar(1 / 3) + 1 / 2 };
+var b = { | x | Blip.ar(x, m ** pi * 16) };
+var r = midiratio(
+	(2 * (0 .. 1) +.x (5 * (0 .. 3) ++ [19])) +.x (24 * (0 .. 2))
+);
+var c = m ! 2 / 33 + 1 * 29 * r.iter;
+Splay.ar(
+	{
+		var p = b.value(m / 9 + 4).fold(m / 9, 1);
+		var q = b.value(c.next).fold(b.value(c.next),b.value(c.next));
+		LeakDC.ar(
+			BPF.ar(
+				p ** 5 * q,
+				b.value(m * 8) + 1.1 * 2000 + 100,
+				1 / 3 + m
+			) / 2,
+			0.995
+		)
+	} ! 10,
+	b.(m)
+) / 2
+
 // SCSCC-38 "Index" ; https://github.com/lukiss/SCSCC/
 var t = LFSaw.ar(-7, 0);
 var c = Index.ar(
@@ -232,6 +255,27 @@ Splay.ar(
 	1 / 2
 )
 
+// SCSCC-45 "Lullaby"
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// Sub 140 version 136 bytes
+
+play{ar(b=Blip,Select.kr(QuadN.ar(r=1<<_!3*1s,(..2)/9+1)+1*18,(12*_!3)+.x[0,2,3,5,7,10]+.x[19,0]).midiratio*49,2+e=b.ar(r,3),e).sum!2/9}
+
+// SCSCC-45 "Lullaby" ; Sub 256 version 194 bytes
+var r = 1 << (0 .. 2) * 1.1;
+var a = LFSaw.ar(-1 * r, 1).max(0).lag(0.005);
+var m = Select.kr(
+	A2K.kr(QuadN.ar(r, (0 .. 2) / 9 + 1, -1, -0.75, 0) + 1 * 18),
+	(12 * (0 .. 2)) +.x [0, 2, 3, 5, 7, 10] +.x [19, 0]
+).midiratio * 49;
+Splay.ar(
+	Blip.ar(
+		Blip.ar(3.1, 33) / 3 + 1 * m,
+		a + 3
+	) * (a ** 3 + (a ** 0.3) + 0.1)
+) / 8
+
 // SCSCC-49 Lydia ; https://github.com/lukiss/SCSCC/
 Splay.ar(
 	LFSaw.ar(
@@ -259,3 +303,19 @@ LeakDC.ar(
 	) / 3,
 	0.995
 ) ! 2
+
+// SCSCC-53 Into the abyss
+var o = LPZ2.ar(
+	Splay.ar(
+		LeakDC.ar(
+			DelayC.ar(
+				LocalIn.ar(2, 0) + 1 * 2,
+				1,
+				SinOsc.ar(0.009 / (1 .. 8), 0).exprange(0.01, 1)
+			),
+			0.995
+		).sin
+	)
+);
+LocalOut.ar(o);
+o / 5
