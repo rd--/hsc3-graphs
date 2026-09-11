@@ -64,6 +64,25 @@ CombC.ar(
 	l[6 .. 7] * 4
 ) * (1 / 8) + o
 
+// SCSCC-22 "Siv" 238
+var h = 1 / 2;
+var e = 1 / 4 > LFSaw.ar(h, 0);
+BRF.ar(
+	Splay.ar(
+		LFSaw.ar(
+			e / 2 + 1 * [82, 146, 195, 246] * (LFSaw.ar(0.1 + (0 .. 3) * 3, 0).abs / 24 + 1),
+			0
+		),
+		LFSaw.ar(h, 0)
+	),
+	LFSaw.ar(h / (9 / 7 + LFSaw.ar(h / 34, 0) ** 2 * 4), 0).abs * 4000 + 82,
+	4
+) * (
+	LFSaw.ar(-8, 1) + 1 / 2 ** (LFSaw.ar(h / 27, 0).abs * 8 + h) / 2
+	+
+	(slew(e, 1000, 1) ** (LFSaw.ar(h / 46, 0).abs * 3 + h))
+) / 5 * Line.kr(0, 1, 9)
+
 // SCSCC-24 "Loading…" 221 bytes ; https://github.com/lukiss/SCSCC/
 var r = (12 * (0 .. 4) +.x [0, 10, 15, 19]).midiratio;
 Splay.ar(
@@ -141,6 +160,62 @@ Splay.ar(
 		) / 12
 	} ! 11
 )
+
+// SCSCC-28 256b Dub
+var f = 53;
+var h = 1 / 3;
+var r = midiratio(12 * (0 .. 3) +.x (5 * (0 .. 4) ++ [19]));
+var l = nil;
+var a = nil;
+var o = Splay.ar(
+	{ | n |
+		var p = n.nthPrime;
+		var x = 1 / 2 < (l = LFSaw.ar(1 / (2 ** n % f), 0).abs) * 1 / 2 + 1 * 66 * r;
+		var y = x.wrapAt([n, p]);
+		var z = lag(
+			LFSaw.ar(
+				-2 << (0 .. 2) / (2 ** (p % 15) % f) * h,
+				0
+			) + 1 / 2 ** (5 * (a = 4 + l)) * (3 - a ** n % a * 2),
+			0.002
+		);
+		PMOsc.ar(y[0], y[1], z[0], z[1]) * z[2] / 7
+	} ! 13,
+	h
+);
+CombC.ar(
+	o,
+	h,
+	PMOsc.ar(h, [7, 9], l, 0) * 0.007 + 1 / 4,
+	a
+) / 9 + o
+
+// SCSCC #29 Dystopian B-Movie Sauce 199b
+var m = { LFNoise2.ar(0.003) + 1 / 2 };
+var b = { | x |
+	VarSaw.ar(
+		x,
+		0,
+		VarSaw.ar(m ! 2 / 33, 0, 0.5) + 1 / 2
+	)
+};
+var f = m.value / 2 + 69;
+var o = b.value(f);
+{
+	o = LeakDC.ar(
+		b.value(
+			f = LFNoise2.kr(33 ! 2) / 222 + 1 * f * 1.189
+		).fold(
+			b.value(2 / 3 * f),
+			b.value(3 / 2 * f)
+		).blend(
+			o,
+			b.value(m.value ** pi / 9).abs
+		),
+		0.995
+	)
+} ! 9;
+o / 5 * Line.kr(0, 1, 14)
 
 // SCSCC #32 Baum 219
 var f = Index.ar(
@@ -240,6 +315,30 @@ Splay.ar(
 	) ** e / 5
 )
 
+// SCSCC-41 "fifs"
+var t = LFSaw.ar(
+	-8 / (LFSaw.ar(1 / 2, 1) < 0.5 + 2),
+	-1
+) + 1 / 2;
+var o = Splay.ar(
+		t ** 2 * LFSaw.ar(
+			131 * midiratio(
+				floor(
+					LFSaw.ar(1 / 32, 0) * 8
+				) * 5 + round(
+					3.1 * LFSaw.ar(1 / 8, 1 / 16).max(0), 2
+				) + [9, 4, 7, 0] % 12 +.x [19, 0]
+			),
+			0
+		) ** (2.1 - t)
+) / 3;
+CombC.ar(
+	o,
+	1 / 4,
+	1 / 4,
+	1
+) / 4 + o
+
 // SCSCC-42 The Universe is 99.9999999999999999999958% Empty
 var n = LFNoise2.ar((0 .. 4));
 var m = Select.kr(
@@ -254,13 +353,6 @@ Splay.ar(
 	) * (n / 2 + 0.5 / 3),
 	1 / 2
 )
-
-// SCSCC-45 "Lullaby"
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-// Sub 140 version 136 bytes
-
-play{ar(b=Blip,Select.kr(QuadN.ar(r=1<<_!3*1s,(..2)/9+1)+1*18,(12*_!3)+.x[0,2,3,5,7,10]+.x[19,0]).midiratio*49,2+e=b.ar(r,3),e).sum!2/9}
 
 // SCSCC-45 "Lullaby" ; Sub 256 version 194 bytes
 var r = 1 << (0 .. 2) * 1.1;
@@ -286,6 +378,24 @@ Splay.ar(
 		0
 	) / 5
 )
+
+// SCSCC-50 WIP Ba Be Bi Ba
+var a = ("R[jln-/457Kcjlm+-144Bckno!/144".ascii - 6).clump(10);
+var t = CuspN.ar(CuspN.ar(4, 1, 1.9, 0) + 1.1 * 3, 1, 1.9, 0);
+var u = HPZ2.ar(t).abs > 0;
+var b = midicps(
+	CuspN.ar(2 + t * 99, 1, 1.9, 0) / 99 + 1 * TChoose.ar(
+		u,
+		a + DC.ar(0)
+	).clump(5)
+) * lag3(Trig1.ar(u, t + 1.1 / 7), 1 / 77, 1 / 23);
+sum(
+	Formant.ar(
+		midicps(t + 1 * 6 + 42),
+		b[0],
+		b[1]
+	) * (1 / [1, 4, 12, 17, 23])
+) / 8 ! 2
 
 // SCSCC-51 #UntzUntz
 var f = 98;
