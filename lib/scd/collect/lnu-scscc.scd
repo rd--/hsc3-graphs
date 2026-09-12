@@ -1,3 +1,20 @@
+// SCSCC-5 "Printer Gone Mad" 138 bytes
+var r = 9000;
+var t = Sweep.ar(0, r) % r;
+var d = { TRand.ar(0, 256, t < 1) };
+var o = d.value;
+{
+	o = (
+		o
+		| ((t / d.value / 4)
+			& d.value
+			| ((t / d.value) % o & d.value)
+			| (( o > d.value * (t * 2 & d.value | d.value))
+				& (t * d.value & (t / d.value))))
+	)
+} ! 5;
+LeakDC.ar(o, 0.995).fold2 / 9 ! 2
+
 // SCSCC-12 "Emergency Sauce" 223 bytes
 var z = { | x | LFSaw.ar(x, 0) };
 var m = { 1 << (LFNoise2.kr(2) + 1 * 2.2) };
