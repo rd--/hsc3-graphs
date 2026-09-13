@@ -15,6 +15,19 @@ var o = d.value;
 } ! 5;
 LeakDC.ar(o, 0.995).fold2 / 9 ! 2
 
+// SCSCC-9 "1991" 234 bytes
+var x = LFNoise2.kr(1) + 1.002;
+var t = LFPulse.kr(x * 4, 0, 0.9);
+var g = { Env([-8, 8, 0], [0.1, 0.9]).ar(0, t, 1.1 - x).midiratio };
+var d = { LFTri.ar({ rrand(1, pi) } ! 4, 0) * (0 .. 3) / 66 + 1 };
+Splay.ar(
+	[
+		LFPulse.ar(147 * g.value * d.value, 0, d.value / 4) / 1.3,
+		LFSaw.ar(588 * g.value * d.value, 0) / 4,
+		LFTri.ar(73 * g.value * d.value, 0)
+	].sum * lag(t, 0.001, x / 2)
+) / 8
+
 // SCSCC-12 "Emergency Sauce" 223 bytes
 var z = { | x | LFSaw.ar(x, 0) };
 var m = { 1 << (LFNoise2.kr(2) + 1 * 2.2) };
@@ -80,6 +93,16 @@ CombC.ar(
 	l.lag[3, 7] / 9 + [3, 2] / 8,
 	l[6 .. 7] * 4
 ) * (1 / 8) + o
+
+// SCSCC-19 "Nervous Arpeggios" 138 bytes
+var c = [7 / 3, 1.78, 3 / 2,1] *.x [1, 2];
+var t = Sweep.ar(0, 1) * 8000;
+var a = CuspL.ar(c, 1, 1.9, 0).reverse;
+var b = CuspL.ar(c, 1, 1.9, 0) + 1 * 64;
+var d = (t * c & b) | (t >> ( 2 * (0 .. 2) + 4)) % 256;
+sum(
+	1 / 8 < a * fold(LeakDC.ar(d, 0.995) / 8, -1, 1)
+) / 8 ! 2
 
 // SCSCC-22 "Siv" 238
 var h = 1 / 2;
@@ -177,6 +200,35 @@ Splay.ar(
 		) / 12
 	} ! 11
 )
+
+// SCSCC-27 The Schmidt Trigger Ugen (223 bytes)
+var t = 0.1;
+var r = midiratio(12 * (0 .. 2) +.x (5 * (0 .. 4) ++ [19])) * 98;
+var f = {
+	TChoose.kr(
+		Dust.kr(t),
+		r
+	).lag(0.1) * (LFNoise2.kr([t, t]) * 0.003 + 1)
+};
+Splay.ar(
+	{ | n |
+		var a = {
+				SinOsc.ar(
+					f.value,
+					SinOsc.ar(
+						1 << n * f.value / 2,
+						0
+					) * max(LFNoise2.kr(t), 0)
+				) * SinOsc.ar(f.value % pi * t, 0)
+		} ! 3;
+		LeakDC.ar(
+			LPZ2.ar(
+				Schmidt.ar(a[0], a[1], a[2])
+			),
+			0.995
+		)
+	} ! 5
+) * t * Line.kr(0, 1, 9)
 
 // SCSCC-28 256b Dub
 var f = 53;
