@@ -1,3 +1,41 @@
+//  SCSCC-2 "Crispy Rubber" 138 bytes.
+var m = SinOsc.ar(QuadC.ar(1, 1, -1, -0.75, 0) ** 2 * 8, 0);
+var f = QuadC.ar(m ** m ** m, 1, -1, -0.75, 0).linexp(-1, 1, 0.01, 1) * 99 + 12;
+Pan2.ar(
+	BPF.ar(
+		SinOsc.ar(
+			f,
+			SinOsc.ar(m ** f * 2, 0) * m * 2pi).sign,
+		(m * m).linexp(-1, 1, 0.01, 1) * 5000 + (m * 99),
+		1
+	),
+	0,
+	1 / 3
+)
+
+// SCSCC-4 "HandClap Special" 121 bytes
+var l = 0 ! 9 + [0, 1];
+var e = Env(
+	l,
+	l[0 .. 6] ++ [66] / 99,
+	-4 ! 7 ++ [-17]
+);
+var t = TDuty.ar(
+	Dseq(168044.asDigits(3) / 5, inf),
+	0,
+	1,
+	0,
+	0
+);
+BPF.ar(
+	e.ar(
+		0,
+		t
+	) * CuspL.ar(22050, 1, 1.9, 0),
+	444 * [4, 7],
+	1
+)
+
 // SCSCC-5 "Printer Gone Mad" 138 bytes
 var r = 9000;
 var t = Sweep.ar(0, r) % r;
@@ -93,6 +131,18 @@ CombC.ar(
 	l.lag[3, 7] / 9 + [3, 2] / 8,
 	l[6 .. 7] * 4
 ) * (1 / 8) + o
+
+// SCSCC-15 "Bitwise Bird Calls" 93 bytes
+var r = TRand.ar(1, 255, Dust.ar(2));
+var t = Sweep.ar(0, 1) * r.sin * 999 % r;
+var b = t & r;
+Pan2.ar(
+	Saw.ar(
+		13 * b | (t >> r)
+	) * (b > 66) / 3,
+	0,
+	1
+)
 
 // SCSCC-19 "Nervous Arpeggios" 138 bytes
 var c = [7 / 3, 1.78, 3 / 2,1] *.x [1, 2];
