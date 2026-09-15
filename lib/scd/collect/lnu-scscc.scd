@@ -144,6 +144,22 @@ Pan2.ar(
 	1
 )
 
+// SCSCC-18 "Bone Spurs" 165 bytes
+var b = [BLowShelf, BPeakEQ, BHiShelf, BLowPass, BHiPass, BBandPass, BBandStop, BAllPass];
+var q = { | x | QuadN.ar(x, 1, -1, -0.75, 0).sin };
+var o = LocalIn.ar(1, 0) + 0.1;
+{ | n |
+	var f = 1.1 ** n;
+	var c = b[n].ar(
+		o,
+		q.value(f ** 2 * f) + 1.1 / 2 ** 4 * 4444 + 33,
+		q.value(0.1 * f) + 1.005
+	);
+	o = (3 * c).tanh
+} ! 8;
+LocalOut.ar(CombC.ar(o, 0.2, 0.2, 1));
+Pan2.ar(o, 0, 1 / 11)
+
 // SCSCC-19 "Nervous Arpeggios" 138 bytes
 var c = [7 / 3, 1.78, 3 / 2,1] *.x [1, 2];
 var t = Sweep.ar(0, 1) * 8000;
@@ -153,6 +169,17 @@ var d = (t * c & b) | (t >> ( 2 * (0 .. 2) + 4)) % 256;
 sum(
 	1 / 8 < a * fold(LeakDC.ar(d, 0.995) / 8, -1, 1)
 ) / 8 ! 2
+
+// SCSCC-21 "Byte Beat Business" 104b
+var e = 256;
+var t = Sweep.ar(0, 8000);
+var a = ((t >> 8 % e) | (t / 5 & (t / 2816 % e)));
+var b = (t >> 9 % e | (t * 2 & (t / 1792 % 16)));
+Pan2.ar(
+	LeakDC.ar(a | b, 0.995).clip(-1, 1),
+	0,
+	1 / 22
+)
 
 // SCSCC-22 "Siv" 238
 var h = 1 / 2;
@@ -172,6 +199,24 @@ BRF.ar(
 	+
 	(slew(e, 1000, 1) ** (LFSaw.ar(h / 46, 0).abs * 3 + h))
 ) / 5 * Line.kr(0, 1, 9)
+
+// SCSCC-23 "Back to 1991" 228bytes (updated 20250327)
+var t = TDuty.ar(Dseq(3 ! 4 ++ (2 ! 2) / 8, inf), 0, 1, 0, 0);
+var e = Env.perc(0.01, 1, 1, -4).ar(0, t) ** 1.9;
+var r = Demand.ar(t, 0, Dseq("HHHJKHHHJJKK".ascii - 66 / 6, inf));
+var f = PMOsc.ar((0 .. 3) + 5, 0, 0, 0) / 87 + 1 * 247 * r * [1 / 8, 1, 6 / 5, 3 / 4];
+var o = e * PMOsc.ar(
+	f,
+	f * [2, 3, 3, 3],
+	1.1 + PMOsc.ar(0.1, 0.9, 1, 0) * e + 1,
+	3 + e
+).sum / 9;
+CombC.ar(
+	o,
+	0.2,
+	0.2,
+	1
+) / 9 + o ! 2
 
 // SCSCC-24 "Loading…" 221 bytes ; https://github.com/lukiss/SCSCC/
 var r = (12 * (0 .. 4) +.x [0, 10, 15, 19]).midiratio;
@@ -386,6 +431,29 @@ Splay.ar(
 	b.(m)
 ) / 2
 
+// SCSCC #35 "Fitba"
+Splay.ar(
+	lag(
+		StandardL.ar(
+			5555,
+			{ | x | x.degrad } ! 20 / 60 + 1.1,
+			0.5,
+			0
+		) / 7,
+		0.002
+	)
+)
+
+// SCSCC #36 "LFSausy Hats"
+var z = { | a | LFSaw.ar(-1 * a, 1) };
+var f = 7777;
+var n = z.value(42 * (0 .. 6) + (0.1 * f)).sum;
+var m = (z.value(8) + 1 / 2 ** (z.value(2) > 0 ** 6 * 6 + 0.9) / 3);
+var a = m * HPF.ar(APF.ar(n, f / 2, z.value(1 / 18).abs ** 0.1), f).clip(-1, 1) / 8;
+var b = sin(pi * z.value(z.value(2) + 1 / 2 ** 32 * 110 + 55)) * lag(z.value(2) + 1 / 2, 0.001) / 3;
+var c = sum(z.value(n / 4 + 1 * [540, 800]).sum / 88 * (z.value(8 / [7, 13, 11]).max(0) ** 8));
+Pan2.ar(a + b + c, 0, 1)
+
 // SCSCC-38 "Index" ; https://github.com/lukiss/SCSCC/
 var t = LFSaw.ar(-7, 0);
 var c = Index.ar(
@@ -411,6 +479,26 @@ Splay.ar(
 	),
 	sin(c.sum)
 )
+
+// SCSCC-39 "SUPA!."
+var t = TDuty.ar(Dseq([1, 11, 0.9, 11] / 11, inf), 0, 1, 0, 0);
+var b = 11;
+Buffer.read(
+	s,
+	Platform.resourceDir +/+ "sounds" +/+ "a11wlk01.wav",
+	bufnum: b
+);
+Warp1.ar(
+	1,
+	b,
+	Demand.ar(t, 0, Dseq([100, 19, 155.9, 140] * 1000, inf) / 188893),
+	TIRand.ar(-3, 3, t).midiratio,
+	1 / 7,
+	-1,
+	5,
+	0.2 ! 2,
+	4
+) / 3
 
 // SCSCC-40 "Bonus Level" ; https://github.com/lukiss/SCSCC/
 var a = { LFNoise0.kr(1 / 2) };
@@ -473,6 +561,23 @@ Splay.ar(
 	1 / 2
 )
 
+// SCSCC-43 The Universe is 0.0000000000000000000042% Full
+var n = LFNoise2.ar((0 .. 9));
+var m = Select.kr(
+	Sweep.kr(0, 1) % 4,
+	[7, 12, 19, 24]
+);
+var r = (wrap(m + [0, 16, 7, 11, -3], -12, 12) +.x [0, 7]).midiratio;
+Splay.ar(
+	Blip.ar(
+		n / 99 + 1 * 147 * r,
+		Blip.ar(
+			[4, 1 / 3, 2],
+			n + 1 * 8
+		) * n + 1 * 4
+	) * Blip.ar(2, n + 1 * 5)
+)
+
 // SCSCC-45 "Lullaby" ; Sub 256 version 194 bytes
 var r = 1 << (0 .. 2) * 1.1;
 var a = LFSaw.ar(-1 * r, 1).max(0).lag(0.005);
@@ -486,6 +591,32 @@ Splay.ar(
 		a + 3
 	) * (a ** 3 + (a ** 0.3) + 0.1)
 ) / 8
+
+// SCSCC-47 "Toggle bits and wrap them" 213 bytes ; Interactive!!!
+var i = ToggleFF.ar(
+	CoinGate.ar(
+		MouseY.kr(0, 1, 0, 0.2) ! 8 / 3,
+		LFSaw.ar(
+			LocalIn.ar(1, 0) + 1 * MouseX.kr(0, 23 * pi, 0, 0.2),
+			0
+		)
+	)
+) * (128 >> (0 .. 7));
+var f = i.sum.tan;
+var o = LPZ2.ar(
+	LeakDC.ar(
+		Select.ar(
+			LFSaw.ar(
+				sum(i) + f,
+				0
+			) + 1 * 4.3 - 1,
+			i
+		) / 2,
+		LFSaw.ar(-1 * f, 0) * 0.005 + 0.995
+	).wrap(-1, 1)
+);
+LocalOut.ar(o);
+Pan2.ar(o, 0, 1 / 8)
 
 // SCSCC-49 Lydia ; https://github.com/lukiss/SCSCC/
 Splay.ar(
